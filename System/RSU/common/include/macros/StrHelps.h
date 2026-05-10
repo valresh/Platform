@@ -1,0 +1,225 @@
+#pragma once
+
+#include "CommProc.h"
+
+#define strncpy_s strncpy
+
+class TStringTerminator
+{
+  char *m_pEnd;
+  char m_ch;
+public:
+  TStringTerminator( char &end )
+    : m_pEnd( &end )
+  {
+    m_ch = *m_pEnd;
+    *m_pEnd = '\0';
+  }
+  TStringTerminator( LPSTR pChar )
+    : m_pEnd( pChar )
+  {
+    if( !m_pEnd )
+      return;
+    m_ch = *m_pEnd;
+    *m_pEnd = '\0';
+  }
+  ~TStringTerminator()
+  {
+    if( m_pEnd )
+      *m_pEnd = m_ch;
+  }
+};
+
+template<size_t X, size_t Y>
+int SplitString( LPCSTR pRef, char (&Split)[X][Y], char sep, bool bIncludeSeparator = true )
+{
+  if( !pRef || 0==pRef[0] )
+    return 0;
+  int K = 0;
+  for( int n = 0; n < X; n++ )
+  {
+    LPCSTR Pn = NULL;
+    int nCom = 0;
+    do
+    {
+      LPCSTR pFrom = pRef+1;
+      if( Pn )
+        pFrom = Pn+1;
+      Pn = strchr( pFrom, sep );
+      if( Pn )
+      {
+        for( LPCSTR p = pFrom-1; p<Pn; ++p )
+        {
+          if( '"'==*p )
+            ++nCom;
+        }
+      }
+    }while( nCom%2 );
+    if( bIncludeSeparator )
+    {
+      if( Pn )
+        strncpy_s( Split[n], pRef, Pn-pRef );
+      else
+        strcpy_s( Split[n], pRef );
+    }
+    else
+    {
+      LPCSTR p = pRef;
+      if( sep==*p )
+        ++p;
+      if( Pn )
+        strncpy_s( Split[n], p, Pn-p );
+      else
+        strcpy_s( Split[n], p );
+    }
+    K++;
+    if( Pn == NULL )
+      break;
+    pRef = Pn;
+  }
+  return K;
+}
+
+template<size_t X, size_t Y>
+int SplitString( LPSTR pRef, char (&Split)[X][Y], LPCSTR pszSeps )
+{
+  int K = 0;
+  LPSTR next_token;
+  for( LPSTR pVal = strtok_r( pRef, pszSeps, &next_token ); pVal && K<X; pVal = strtok_r( NULL, pszSeps, &next_token ), ++K )
+  {
+    strcpy_s( Split[K], pVal );
+  }
+
+  return K;
+}
+
+
+template<int X, int Y>
+int SplitString2( LPCSTR pLine, char (&res)[X][Y], char sep = ' ', bool skipEmpty = true )
+{
+  ZeroMemory( res, sizeof(res) );
+  int C = 0;
+  int pos = 0;
+  bool bNewC = false;
+  bool bInline = false;
+  LPCSTR p = pLine;
+  if( skipEmpty )
+  {
+    while( *p==sep )
+      ++p;
+  }
+  for( p; *p; ++p )
+  {
+    if( *p==sep )
+    {
+      if( !bInline )
+      {
+        pos = 0;
+        if( skipEmpty )
+          bNewC = true;
+        else
+        {
+          ++C;
+          if( C == X )
+            break;
+        }
+        continue;
+      }
+    }
+    if( skipEmpty )
+    {
+      if( bNewC )
+      {
+        ++C;
+        bNewC = false;
+        if( C == X )
+          break;
+      }
+    }
+    if( '"'==*p )
+      bInline = !bInline;
+    res[C][pos] = *p;
+    ++pos;
+    if( pos == Y )
+      break;
+  }
+  return C;
+}
+
+namespace n_RSUs
+{
+  template<typename T>
+  T TrimLeft( T &psz, char trS = ' ' )
+  {
+    while( *psz )
+    {
+      if( trS!=*psz )
+        break;
+      ++psz;
+    }
+    return psz;
+  }
+  template<typename T>
+  T TrimRightToLeft( T psz, char trS = ' ' )
+  {
+    while( trS==*psz && *psz )
+    {
+      *psz = 0;
+      --psz;
+    }
+    return psz;
+  }
+
+  //взято из FormatScn.h Functions.cpp
+  // Копирует текст, одновременно определяя количество строк в тексте.
+  inline int Multiline( char* dst, const char* src, int size)
+  {
+    int str = 0;
+    int n = 0;
+    if ( src == NULL )
+    {
+      if ( dst != 0 ) *dst = 0;
+    }
+    else
+    {
+      if ( dst == NULL )
+      {
+        while ( *src )
+        {
+          if ( src[0] == '\\' && src[1] == 'n' )
+          {
+            src++;
+            str++;
+          }
+          else
+            if ( src[0] == '\n' )
+              str++;
+          src++;
+          n++;
+          if ( (n+1) == size ) break;
+        }
+      }
+      else
+      {
+        while ( *src )
+        {
+          dst[n] = *src;
+          if ( src[0] == '\\' && src[1] == 'n' )
+          {
+            dst[n] = '\n';
+            src++;
+            str++;
+          }
+          else
+            if ( src[0] == '\n' )
+              str++;
+          src++;
+          n++;
+          if ( (n+1) == size ) break;
+        }
+        dst[n] = '\0';
+      }
+    }
+    return str;
+  }
+}

@@ -1,0 +1,2 @@
+SharedAnalog32Savebale(PV)
+SharedDigital32(STATUS)

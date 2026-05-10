@@ -1,0 +1,27 @@
+#pragma once
+#include "resource.h"
+#include "IFscStorage.h"
+
+
+// KSafetyManagerApp
+
+class KSafetyManagerApp : public CWinApp
+{
+	DECLARE_DYNCREATE(KSafetyManagerApp)
+
+public:
+	KSafetyManagerApp();           // protected constructor used by dynamic creation
+	virtual ~KSafetyManagerApp();
+
+  void Open( LPCSTR pszPrj, IFscStorage *pOwner );
+public:
+	virtual BOOL InitInstance();
+	virtual int ExitInstance();
+
+protected:
+  CDocManager* m_pDocManager;
+protected:
+	DECLARE_MESSAGE_MAP()
+};
+
+extern KSafetyManagerApp theApp;

@@ -1,0 +1,181 @@
+#include "stdafx.h"
+#include "GridCtrl.h"
+
+IMPLEMENT_DYNAMIC(KGridCtrl, CListCtrl)
+
+KGridCtrl::KGridCtrl()
+: m_iColumnIndex( -1 )
+, m_iRowIndex( -1 )
+{
+  m_dwEditCtrlStyle = ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_LEFT | ES_NOHIDESEL;
+  m_dwDropDownCtrlStyle = WS_BORDER | WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | CBS_DROPDOWNLIST | CBS_DISABLENOSCROLL;
+  m_strValidEditCtrlChars = "0123456789.-";
+}
+
+KGridCtrl::~KGridCtrl()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(KGridCtrl, CListCtrl)
+  //{{AFX_MSG_MAP(KGridCtrl)
+  ON_WM_LBUTTONDOWN()
+  //}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+
+
+// KGridCtrl message handlers
+
+bool KGridCtrl::HitTestEx(CPoint &obPoint, int* pRowIndex, int* pColumnIndex) const
+{
+  if (!pRowIndex || !pColumnIndex)
+  {
+    return false;
+  }
+
+  // Get the row index
+  *pRowIndex = HitTest(obPoint, NULL);
+
+  if (pColumnIndex)
+  {
+    *pColumnIndex = 0;
+  }
+
+  // Make sure that the ListView is in LVS_REPORT
+  if ((GetWindowLong(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT)
+  {
+    return false;
+  }
+
+  // Get the number of columns
+  CHeaderCtrl* pHeader = (CHeaderCtrl*)GetDlgItem(0);
+
+  int iColumnCount = pHeader->GetItemCount();
+
+  // Get bounding rect of item and check whether obPoint falls in it.
+  CRect obCellRect;
+  GetItemRect(*pRowIndex, &obCellRect, LVIR_BOUNDS);
+
+  if (obCellRect.PtInRect(obPoint))
+  {
+    // Now find the column
+    for (*pColumnIndex = 0; *pColumnIndex < iColumnCount; (*pColumnIndex)++)
+    {
+      int iColWidth = GetColumnWidth(*pColumnIndex);
+
+      if (obPoint.x >= obCellRect.left && obPoint.x <= (obCellRect.left + iColWidth))
+      {
+        return true;
+      }
+      obCellRect.left += iColWidth;
+    }
+  }
+  return false;
+}
+
+void KGridCtrl::OnLButtonDown(UINT nFlags, CPoint point)
+{
+  m_iColumnIndex = -1;
+  m_iRowIndex = -1;
+
+  if (!HitTestEx(point, &m_iRowIndex, &m_iColumnIndex))
+    return;
+
+  CListCtrl::OnLButtonDown(nFlags, point);
+}
+
+void KGridCtrl::CalculateCellRect(int iColumnIndex, int iRowIndex, CRect& robCellRect)
+{
+  GetItemRect(iRowIndex, &robCellRect, LVIR_BOUNDS);
+
+  CRect rcClient;
+  GetClientRect(&rcClient);
+
+  if (robCellRect.right > rcClient.right) 
+  {
+    robCellRect.right = rcClient.right;
+  }
+
+  ScrollToView(iColumnIndex, robCellRect); 
+}
+
+void KGridCtrl::ScrollToView(int iColumnIndex, /*int iOffSet, */CRect& robCellRect)
+{
+  // Now scroll if we need to expose the column
+  CRect rcClient;
+  GetClientRect(&rcClient);
+
+  int iColumnWidth = GetColumnWidth(iColumnIndex);
+
+  // Get the column iOffset
+  int iOffSet = 0;
+  for (int iIndex_ = 0; iIndex_ < iColumnIndex; iIndex_++)
+  {
+    iOffSet += GetColumnWidth(iIndex_);
+  }
+
+  // If x1 of cell rect is < x1 of ctrl rect or
+  // If x1 of cell rect is > x1 of ctrl rect or **Should not ideally happen**
+  // If the width of the cell extends beyond x2 of ctrl rect then
+  // Scroll
+
+  CSize obScrollSize(0, 0);
+
+  if (((iOffSet + robCellRect.left) < rcClient.left) || 
+    ((iOffSet + robCellRect.left) > rcClient.right))
+  {
+    obScrollSize.cx = iOffSet + robCellRect.left;
+  }
+  else if ((iOffSet + robCellRect.left + iColumnWidth) > rcClient.right)
+  {
+    obScrollSize.cx = iOffSet + robCellRect.left + iColumnWidth - rcClient.right;
+  }
+
+  Scroll(obScrollSize);
+  robCellRect.left -= obScrollSize.cx;
+
+  // Set the width to the column width
+  robCellRect.left += iOffSet;
+  robCellRect.right = robCellRect.left + iColumnWidth;
+}
+
+CInPlaceCombo* KGridCtrl::ShowInPlaceList(int iRowIndex, int iColumnIndex, size_t items )
+{
+  if( !EnsureVisible(iRowIndex, TRUE) )
+    return NULL;
+
+  CHeaderCtrl* pHeader = static_cast<CHeaderCtrl*>( GetDlgItem(0) );
+  int iColumnCount = pHeader->GetItemCount();
+
+  if (iColumnIndex >= iColumnCount || GetColumnWidth(iColumnIndex) < 10) 
+  {
+    return NULL;
+  }
+
+  CRect obCellRect(0, 0, 0, 0);
+  CalculateCellRect(iColumnIndex, iRowIndex, obCellRect);
+
+  int iHeight = obCellRect.Height();
+
+  obCellRect.bottom += iHeight * ((LONG)items+1); 
+
+  CInPlaceCombo* pInPlaceCombo = CInPlaceCombo::GetInstance();
+  pInPlaceCombo->ShowComboCtrl( m_dwDropDownCtrlStyle, obCellRect, this, 0, iRowIndex, iColumnIndex );
+
+  return pInPlaceCombo;
+}
+
+CInPlaceEdit* KGridCtrl::ShowInPlaceEdit(int iRowIndex, int iColumnIndex, CString &rstrCurSelection)
+{
+  CInPlaceEdit* pInPlaceEdit = CInPlaceEdit::GetInstance();
+
+  CRect obCellRect(0, 0, 0, 0);
+  CalculateCellRect(iColumnIndex, iRowIndex, obCellRect);
+
+  pInPlaceEdit->ShowEditCtrl(m_dwEditCtrlStyle, obCellRect, this, 0, 
+    iRowIndex, iColumnIndex,
+    m_strValidEditCtrlChars, rstrCurSelection);
+
+  return pInPlaceEdit;
+}

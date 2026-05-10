@@ -1,0 +1,11 @@
+//
+YPARM_D(SH,0,"")//*
+YPARM_D(SL,0,"")//*
+YPARM_D(MSH,0,"")//*
+YPARM_D(MSL,0,"")//*
+//
+YPARM_D(SVH,0,"")
+YPARM_D(SVL,0,"")
+//
+YPARM_D(MH,0,"")
+YPARM_D(ML,0,"")

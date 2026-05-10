@@ -1,0 +1,4 @@
+#pragma once
+
+#include "./QbBaseType_.h"
+#include <QuickBuilderStruct.h>

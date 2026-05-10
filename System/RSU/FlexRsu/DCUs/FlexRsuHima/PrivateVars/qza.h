@@ -1,0 +1,5 @@
+PrivateDigital32Savebale( Pre_Al )
+PrivateDigital32Savebale( Pre_Al_o )
+PrivateDigital32Savebale( Pre_Flt )
+PrivateDigital32Savebale( Pre_Flt_o )
+PrivateDigital32Savebale( Reset )

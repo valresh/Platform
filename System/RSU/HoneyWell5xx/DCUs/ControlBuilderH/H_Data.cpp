@@ -1,0 +1,138 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+SH_Module::SH_Module()
+{
+  ZeroMemory( this, sizeof(*this) );
+}
+
+KBmBase* SH_Module::FindObj( LPCSTR pObj )
+{
+  KBmBase* pThis = KBmBase::FindObj( pObj );
+  if( pThis )
+    return pThis;
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    pThis = ppSubModules[i]->FindObj( pObj );
+    if( pThis )
+      return pThis;
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    pThis = ppBlocks[i]->FindObj( pObj );
+    if( pThis )
+      return pThis;
+  }
+
+  return NULL;
+}
+
+KBmBase* SH_Module::FindObj( typeHASH32_ *pCrcs, int nCrcs, int nAlgFind )
+{
+  KBmBase* pThis = KBmBase::FindObj( pCrcs, nCrcs, nAlgFind );
+  if( pThis )
+    return pThis;
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    pThis = ppSubModules[i]->FindObj( pCrcs, nCrcs, nAlgFind );
+    if( pThis )
+      return pThis;
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    pThis = ppBlocks[i]->FindObj( pCrcs, nCrcs, nAlgFind );
+    if( pThis )
+      return pThis;
+  }
+
+  return NULL;
+}
+
+void SH_Module::OnReadProject( KBmBase *pRoot, KBmBase *pModule )
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    ppSubModules[i]->OnReadProject( pRoot, this );
+  }
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    ppBlocks[i]->OnReadProject( pRoot, this );
+  }
+}
+
+void SH_Module::StepBeforeRestoreState( LPCSTR pSystemName, KBmBase *pRoot, KBmBase *pModule )
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    ppSubModules[i]->StepBeforeRestoreState( pSystemName, pRoot, this );
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    ppBlocks[i]->StepBeforeRestoreState( pSystemName, pRoot, this );
+  }
+}
+
+void SH_Module::StepAfterRestoreState()
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    ppSubModules[i]->StepAfterRestoreState();
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    ppBlocks[i]->StepAfterRestoreState();
+  }
+}
+
+void SH_Module::StepT( SStepCalcParams &dt )
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    ppSubModules[i]->StepT( dt );
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    ppBlocks[i]->StepT( dt );
+  }
+}
+
+void SH_Module::GetParams( KHBridge2SysParam &params )
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    ppSubModules[i]->GetParams( params );
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    ppBlocks[i]->GetParams( params );
+  }
+}
+
+BOOL SH_Module::IsBlock()
+{
+  return FALSE;
+}
+
+KBmBase* SH_Module::WhoHasConnection( LPCSTR pszObj, LPCSTR pszFld, bool bOutput, LPCSTR *ppFld )
+{
+  for( size_t i=0; i < nSubModules; ++i )
+  {
+    KBmBase* pB = ppSubModules[i]->WhoHasConnection( pszObj, pszFld, bOutput, ppFld );
+    if( pB )
+      return pB;
+  }
+
+  for( size_t i=0; i < nBlocks; ++i )
+  {
+    KBmBase* pB = ppBlocks[i]->WhoHasConnection( pszObj, pszFld, bOutput, ppFld );
+    if( pB )
+      return pB;
+  }
+  return NULL;
+}

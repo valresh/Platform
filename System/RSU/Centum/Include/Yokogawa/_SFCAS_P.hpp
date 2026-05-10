@@ -1,0 +1,9 @@
+YPARM_D(MSH,DBL_MAX,"----")
+YPARM_D(MSL,DBL_MAX,"----")
+YPARM_D(MH,W->MSH,"----")
+YPARM_D(ML,W->MSL,"----")
+
+YPARM_D(SVH,W->SH,"----")
+YPARM_D(SVL,W->SL,"----")
+
+YPARM_DD(SH,SL,DBL_MAX,DBL_MAX,"ESCL","%D:%D") 

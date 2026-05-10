@@ -1,0 +1,16 @@
+Boolean(BADPVFL,"Bad PV Flag",false)// - Flag that indicates that an error response was received for the last request sent by this request block. Note that this flag is set to TRUE for both local errors (communication errors that prevented the request from being sent out on the network, for example) and remote errors (the target device could not process the request and so sent an explicit failure status). For alarming on errors, connect the ERRFL to a Flag Block and configure the Flag Block to send an Alarm when ERRFL is TRUE.
+Enumeration(CHANSTS,"Channel Status",NotUsed,NoData,Idle,CEEIdle,Simulate,Fail,Run,Def=NotUsed)
+Boolean(DONEFL,"Flag indicating a successful response",false)// was received for the last request sent by this request block.
+Enumeration16(ERRCODE,"Error Status on the last request operation",OK,Def=OK)
+Boolean(ERRFL,"",false);//Flag that indicates that an error response was received for the last request sent by this request block. Note that this flag is set to TRUE for both local errors (communication errors that prevented the request from being sent out on the network, for example) and remote errors (the target device could not process the request and so sent an explicit failure status). For alarming on errors, connect the ERRFL to a Flag Block and configure the Flag Block to send an Alarm when ERRFL is TRUE.
+Enumeration(IOCSTATE,"PCDI Channel State",INACTIVE,OK,UNAVAIL,INITREQLATCH,NOSOURCE,BADSOURCE,Def=INACTIVE)
+Time_A(LASTERRTIME,"Time of Last Error",1,0)
+Integer(MASTERID,"Connected Master Block Key",0)
+Real_A(PV,"Process Variable",120,0)//- Contains the current value of the PV, after it has been selected from one of the following sources: a field device, another function block, an operator, or a program.
+Real_A(PVRAW,"Process Variable (PV) Raw Value",120,0)//Shows the raw input value of the PV before or after initial processing has been applied, depending on the type of I/O Module that is involved. See the Remarks below for more information. 
+Boolean(PVSTS,"",false)
+Boolean(RDYFL,"Ready Flag",false)
+Enumeration(REQSTATE,"Current Request State",Idle,ReqAlloc,Adding,AddFail,Ready,Sending,Sent,Freeing,Complete,Failed,Cancel,Def=Idle)
+Boolean(SENDFL,"",false)//The flag used as a trigger for the request block to send a request to the target. A request is sent tothe target when this flag transitions from False to True if the READYFL parameter was previously True. For periodic reads or writes, the READYFL must be connected to the SENDFL.
+Real_A(SIMVALUE,"Simulation Value",120,0)
+Enumeration(IOMCONN,"Currently Assigned Channel",INCONN,OUTCONN,PCONN,Def=INCONN)

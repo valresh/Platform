@@ -1,0 +1,71 @@
+EnumerationDecl(DACALMTYPE,None,BadPv,PvHiHi,PvLoLo,PvHi,PvLo,PosROC,NegROC,Def=None)//Highest Alarm Detected
+EnumerationDecl(DEVHIALM,None,BadPv,OffNormal,CmdDisagree,CommandFail,UnCommanded,SafetyIlock,Oride0Ilock,Oride1Ilock,Oride2Ilock,Def=None)
+EnumerationDecl(HIALMFLAG,None,OffNormal,Def=None)
+EnumerationDecl(DIGACQALMTYPE,None,BadPv,PvHiHi,PvLoLo,PvHi,PvLo,PosROC,NegROC,Def=None)//Highest Alarm Detected
+EnumerationDecl(ALPRIOR,None,Journal,Low,High,Urgent,Def=None)
+EnumerationDecl(ALMPR,None,Journal,Low,High,Urgent,Def=None)
+EnumerationDecl(ALMDBU,Percent,EU,Def=Percent)
+EnumerationDecl(ALMALL,NONE,JOURNAL,LOW,HIGH,URGENT,Def=NONE)
+EnumerationDecl(MODE_MAI,NONE,NORMAL,OOS,IMAN,LO,MAN,AUTO,CAS,RCAS,ROUT,Def=NORMAL)//MAI
+EnumerationDecl(STATUS_MAI,Bad,Good,Alm_U_Block,Def=Bad)
+EnumerationDecl(UNITS_INDEX_MAI,degK,degC,degF,degR,r,deg,Def=degC)
+EnumerationDecl(STATUS_MDO,Bad,LowLimit,HiLimit,Constant,Config,L,H,C,NotCon,DevFail,DvFail,SensFail,SnFail,LUValue,LUV,Good,Def=Bad)
+EnumerationDecl(PIDALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+
+EnumerationDecl(ALGID,None,On,Off,Connect,Not,Or,Nor,And,Nand,Xor,Def=None)//SCM:TRANSITION "Gate Algorithm Id"
+EnumerationDecl(GATEASGN,GateS,GateP1,GateP2,GateP3,Def=GateP1)//SCM:TRANSITION "Cond Gate Assignment"
+EnumerationDecl(BYPREQ,ToOff,ToOn,None,Def=None)//SCM:TRANSITION "Cond Bypass Request"
+EnumerationDecl(ACQSTATE,NONE,ACQUIRING,ACQUIRED,RELEASING,Error,WARNING,Def=NONE)//SCM:STEP "Acqisition state"
+EnumerationDecl(INSTRUCTTYPE,None,Info,Confirm,Def=None)//SCM:STEP "Output Instruction Type"
+EnumerationDecl(STATE,Edit,Inactive,ProcDelay,Processing,CompleteBypassed,Complete,IEC_Init,IEC_Wait,Cancelled,IEC_Exit,Def=Edit)//SCM:STEP "Output State"
+EnumerationDecl(EXECSTS,Ok,Bypass,Info,Warning,Fail,Error,OkPaused,BypassPaused,InfoPaused,WarnPaused,FailPaused,ErrorPaused,Disabled,NoTransition,Def=Ok)//"Output Execution Status"
+EnumerationDecl(TYPE,Null,Set,NotStored,DEFAULT,N_IEC,R_IEC,S_IEC,Def=Null)//SCM:STEP "Output Expression Type"
+
+EnumerationDecl(ENHREGCALCALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(OVRDSELALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(RATIOCTLALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(REGCALCALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(REGSUMMERALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(SWITCHALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=)
+STRUCT_END(HIALM)*/
+
+EnumerationDecl(RATIOBIASALMTYPE,None,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,Def=None)
+/*STRUCT(HIALM)
+  ENUM_S(HIALM,PR,"High Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT,Def=)
+  INTEGER_S(HIALM,SV,"High Alarm Severity")
+  ENUM_S(HIALM,TYPE,"High Alarm Flag",NONE,BadCtl,SafetyIlock,DevHi,DevLo,AdvDev,OpHi,OpLo,PredHi,PredLo,UnCmdChg,Def=)
+STRUCT_END(HIALM)*/

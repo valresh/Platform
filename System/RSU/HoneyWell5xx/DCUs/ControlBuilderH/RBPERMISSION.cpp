@@ -1,0 +1,34 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate RBPERMISSION( "RBPERMISSION", SH_RBPERMISSION::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_RBPERMISSION,W_RBPERMISSION,50)
+
+void SH_RBPERMISSION::InitParm()
+{
+#include "Blocks/RBPERMISSION.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/RBPERMISSION_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class RBPERMISSION_IMPL : public W_RBPERMISSION
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_RBPERMISSION::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  RBPERMISSION_IMPL *impl = reinterpret_cast<RBPERMISSION_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void RBPERMISSION_IMPL::StepT( SStepCalcParams &dt )
+{
+}

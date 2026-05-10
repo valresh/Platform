@@ -1,0 +1,154 @@
+#include "Queue.h"
+#include "../Lang.h"
+#ifdef _WIN32
+#include "shlwapi.h"
+#else
+#include "crossplatform.h"
+#endif
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+struct SIntStr { int m; char* n; };
+static int Find( char* text, SIntStr* str )
+  {
+  int n = 0;
+  while ( str[n].m != -1 )
+    {
+    if ( StrCmpI( text, str[n].n ) == 0 )
+      break;
+    n++;
+    };
+  return str[n].m;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Наличие железа у клапана
+static bool MessKlapan( CLang& def, int nMess )
+  {
+  //int nActive = def.GetActiveObj();
+  //CShKlapan& sh = (CShKlapan&)def.m_queue.m_pPipe->SH( nActive );
+  int nActive= def.GetActiveObjSocket();
+  CShKlapan& sh = (CShKlapan&)def.m_queue.m_pSocket->SH( nActive );
+  if ( !IsTypeOK )
+    return ( 1 <= nMess && nMess <= 3 || nMess == 14 );
+  bool bReturn = false;
+  switch( nMess )
+    {
+    case  0: bReturn = true; break;
+    case  1: bReturn = FLG( CKlapan::IN_ZADV   );break;
+    case  2: bReturn = FLG( CKlapan::OUT_ZADV  );break;
+    case  3: bReturn = FLG( CKlapan::BP_ZADV   );break;
+    case 14: bReturn = FLG( CKlapan::BP1_ZADV );break;
+    case 15: bReturn = FLG( CKlapan::DRAINAGE_IN  );break;
+    case 16: bReturn = FLG( CKlapan::DRAINAGE_OUT );break;
+    case 12: case 13:
+      {
+      int nTeg = def.GetMnemoTags( nActive );
+      if ( nTeg >= 0 )
+        {
+        double dValMin = TegValueD( nTeg, "manMin" );
+        double dValMax = TegValueD( nTeg, "manMax" );
+        bReturn = ( dValMin < dValMax );
+        }
+      }
+    break;
+    // Для шаровых задвижек
+    case 101: bReturn = FLG( CKlapan::BALL_IN  );break;
+    case 102: bReturn = FLG( CKlapan::BALL_OUT );break;
+    case 103: bReturn = FLG( CKlapan::BALL_BP  );break;
+    case 114: bReturn = FLG( CKlapan::BALL_BP2 );break;
+    }
+  return bReturn;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int nLastKlapan = -1;
+bool ParamKlapan(CLang& def,char* text)
+  {
+  static SIntStr szName[] =
+    {
+    {  0,"Задание"            },
+    {  1,"Входная задвижка"   },
+    {  2,"Выходная задвижка"  },
+    {  3,"Байпасная задвижка" },
+    {  4,"Дублёр"             },
+    {  5,"Байпас по воздуху"  },
+    {  6,"Байпас по маслу"    },
+    { 12,"Входное давление"   },
+    { 13,"Выходное давление"  },
+    { 14,"Пусковой байпас"    },
+    { 15,"Входной дренаж"     },
+    { 16,"Выходной дренаж"    },
+    {100,"Шаровая задвижка"   },
+    {-1}
+    };
+  int nMess = Find( text, szName );
+  if ( nMess == 100 ) // Для шаровых задвижек
+    return MessKlapan( def, nLastKlapan+nMess );
+  nLastKlapan = nMess;
+  return MessKlapan( def, nMess );
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Наличие железа у КВО
+static bool MessKVO( CLang& def, int nMess )
+  {
+  int nActive = def.GetActiveObj();
+  CShKVO& sh = (CShKVO&)def.m_queue.m_pPipe->SH( nActive );
+  if ( !IsTypeOK )
+    return ( 0 == nMess );
+  bool bReturn = false;
+  switch( nMess )
+    {
+    case  0: bReturn = true ;break;
+    case  1: bReturn = FLG( CKVO::DRAIN_IN  );break;
+    case  2: bReturn = FLG( CKVO::DRAIN_OUT );break;
+    }
+  return bReturn;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int nLastKVO = -1;
+bool ParamKVO(CLang& def,char* text)
+  {
+  static SIntStr szName[] =
+    {
+    {  0,"Включение"  },
+    {  1,"Входной дренаж" },
+    {  2,"Выходной дренаж" },
+    {-1}
+    };
+  int nMess = Find( text, szName );
+  nLastKVO = nMess;
+  return MessKVO( def, nMess );
+  }
+
+static bool MessSensor( CLang& def, int nMess )
+  {
+  int nActive = def.GetActiveObj();
+  CShSensor& sh = (CShSensor&)def.m_queue.m_pPipe->SH( nActive );
+  if ( !IsTypeOK )
+    return ( 0 == nMess );
+  bool bReturn = false;
+  switch( nMess )
+    {
+		case  0: bReturn = FLG( CSensor::IS_HH  );break;
+		case  1: bReturn = FLG( CSensor::IS_H  );break;
+		case  2: bReturn = FLG( CSensor::IS_L );break;
+		case  3: bReturn = FLG( CSensor::IS_LL);break;
+		case  4: bReturn = FLG( CSensor::IS_Ventil );break;
+    }
+  return bReturn;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int nLastSensor = -1;
+bool ParamSensor(CLang& def,char* text)
+  {
+  static SIntStr szName[] =
+    {
+    {  0,"HHСерая"  },
+    {  1,"HСерая" },
+    {  2,"LСерая" },
+	{  3,"LLСерая" },
+	{  4,"Вентиль" },
+    {-1}
+    };
+  int nMess = Find( text, szName );
+  nLastSensor = nMess;
+  return MessSensor( def, nMess );
+  }

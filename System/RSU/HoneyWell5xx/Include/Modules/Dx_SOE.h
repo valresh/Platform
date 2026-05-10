@@ -1,0 +1,46 @@
+Boolean_A(PV,"Process Value",32,0)
+Byte_A(BADPVFL,"Bad Process Value Flag",32,1)
+Boolean(DBVALIDCMD,"Validate I/O Processor Database",1)//On (0) Validate IOP database has been initiated.
+                                                        //Off (1) No command.
+Boolean(DBVALID,"Database Valid",1)// - Indicates whether the IOM database configuration has been validated or not.
+Boolean(FTAPRESA,"IOP (IOM) FTA Present",0)//When asserted, indicates the IOP is connected to a FTA.
+Boolean(FTAPRESB,"IOP (IOM) FTA Present",0)//When asserted, indicates the IOP is connected to a FTA. FTAPRESB does not apply to non-redundant IOP configurations.
+Boolean(FTAREVERSEDA,"FTA Connections Reversed flag",0)//When asserted, indicates that the actual FTA connection does not match the configured connection.
+                                                        //0 OFF Okay
+                                                        //1 ON  FTA connections are reversed
+Boolean(FTAREVERSEDB,"FTA Connections Reversed flag",0)//When asserted, indicates that the actual FTA connection does not match the configured connection.
+                                                        //0 OFF Okay
+                                                        //1 ON  FTA connections are reversed
+Boolean(FWINVALIDA,"IOM Firmware Not IOLINK Compatible flag",0)//When asserted, indicates that the IOM firmware is incompatible with the IOLINK. The IOM cannot be commanded to RUN from Experion.
+                                                                //0 OFF Okay
+                                                                //1 ON  IOM firmware is not IOLINK compatible
+Boolean(FWINVALIDB,"IOM Firmware Not IOLINK Compatible flag",0)//When asserted, indicates that the IOM firmware is incompatible with the IOLINK. The IOM cannot be commanded to RUN from Experion.
+                                                                //0 OFF Okay
+                                                                //1 ON  IOM firmware is not IOLINK compatible
+
+Enumeration( IOMLHFSTA, "Input/Output Module (IOM) Last Hard Fail Status", Unknown, PowerDown, Def=Unknown)//есть ещё и другие
+Enumeration( IOMLHFSTB, "Input/Output Module (IOM) Last Hard Fail Status", Unknown, PowerDown, Def=Unknown)//есть ещё и другие
+Enumeration( IOMOPERA, "I/O Module Operation Channel A", PRIMARY, SECONDARY, Def=PRIMARY )
+Enumeration( IOMOPERB, "I/O Module Operation Channel B", PRIMARY, SECONDARY, Def=PRIMARY )
+Enumeration( IOMSTATE, "I/O Module State", INACTIVE, OK, FAIL, STBY, START, STUB, Def=INACTIVE)//Defines the current execution state of the associated peer device module
+Enumeration( IOMSTSA, "I/O Module Status", ALIVE, IDLE, OK, NO_RESP, IDLE_SF, SOFT_FAIL, COMM_ERR, CONFIG_MIS, NO_CONFIG, ___, Def=___ )
+Enumeration( IOMSTSB, "I/O Module Status", ALIVE, IDLE, OK, NO_RESP, IDLE_SF, SOFT_FAIL, COMM_ERR, CONFIG_MIS, NO_CONFIG, ___, Def=___ )
+Boolean( NONREDFTABA, "Non-Redundant IOP on FTA A", 0 ) //0 OFF Okay
+                                                        //1 ON Non-Redundant IOM is on FTA A.
+Boolean( NONREDFTABB, "Non-Redundant IOP on FTA B", 0 ) //0 OFF Okay
+                                                        //1 ON Non-Redundant IOM is on FTA B.
+Boolean( NOTREDCNFGA, "IOP Not Redundantly Configurable", 0 )//0 OFF Okay
+                                                            //1 ON IOM is not redundantly configurable
+Boolean( NOTREDCNFGB, "IOP Not Redundantly Configurable", 0 )//0 OFF Okay
+                                                            //1 ON IOM is not redundantly configurable
+Boolean( NOTSAMEFTAA, "Redundant IOPs not on same FTA", 0 )//0 OFF Okay
+                                                            //1 ON Redundant IOM pair not on same FTA.
+Boolean( NOTSAMEFTAB, "Redundant IOPs not on same FTA", 0 )//0 OFF Okay
+                                                            //1 ON Redundant IOM pair not on same FTA.
+Enumeration_A( PTEXECST, "Point Execution State",32, Inactive, Active, Def=Inactive )//When PTEXECST is Inactive, the point processing does not occur for the channel in Monitoring mode.
+Enumeration(IOMCOMMAND,"Command", None,Select_Cable_A,Select_Cable_B,Reset_Errors,Swap_Primary,___,Disable_Sync,Enable_Sync,Shutdown_IOM_A,Restart_IOM_A,Shutdown_IOM_B,Restart_IOM_B,Def=None)
+Enumeration(REDDATAA,"Redundancy Status", ___,NotSyncd,DumpFailed,FreezeNotAccepted,SyncFailed,IolTimeOut,Syncd,DumpComplete,FreezePermitted,FreezeAccepted,FoInProgess,FoComplete,SwapInProgress,SwapComplete,Frozen,DumpSeqBegin,DumpSeq_02,DumpSeq_03,DumpSeq_04,DumpSeq_05,DumpSeq_06,DumpSeq_07,DumpSeq_08,DumpSeq_09,DumpSeq_10,DumpSeq_11,DumpSeq_12,DumpSeq_13,DumpSeq_14,DumpSeq_15,DumpSeq_16,DumpSeq_17,DumpSeq_18,DumpSeq_19,DumpSeq_20,DumpSeqMax,Def=___)
+Enumeration(REDDATAB,"Redundancy Status", ___,NotSyncd,DumpFailed,FreezeNotAccepted,SyncFailed,IolTimeOut,Syncd,DumpComplete,FreezePermitted,FreezeAccepted,FoInProgess,FoComplete,SwapInProgress,SwapComplete,Frozen,DumpSeqBegin,DumpSeq_02,DumpSeq_03,DumpSeq_04,DumpSeq_05,DumpSeq_06,DumpSeq_07,DumpSeq_08,DumpSeq_09,DumpSeq_10,DumpSeq_11,DumpSeq_12,DumpSeq_13,DumpSeq_14,DumpSeq_15,DumpSeq_16,DumpSeq_17,DumpSeq_18,DumpSeq_19,DumpSeq_20,DumpSeqMax,Def=___)
+Boolean(RESETERRORSCMD,"Reset Errors Command",1)//Used to reset the IOM’s error counts. Unlike the Link block’s COMMAND parameter that affects the entire I/O Link, the scope of this command is limited to the redundant IOM pair (or single IOM if non-redundant).
+                                                //0 ON Button is activated to initiate reset
+                                                //1 OFF Button is in idle state

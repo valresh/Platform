@@ -1,0 +1,71 @@
+#pragma once
+
+enum AS_VARENUM
+{
+  eAS_EMPTY	= 0,
+	//eAS_NULL	= 1,
+	eAS_I2	= 2,
+	eAS_I4	= 3,
+	eAS_R4	= 4,
+	eAS_R8	= 5,
+	//eAS_CY	= 6,
+	//eAS_DATE	= 7,
+	eAS_STR	= 8,
+	//eAS_DISPATCH	= 9,
+	//eAS_ERROR	= 10,
+	eAS_BOOL	= 11,
+	//eAS_VARIANT	= 12,
+	//eAS_UNKNOWN	= 13,
+	//eAS_DECIMAL	= 14,
+	eAS_I1	= 16,
+	eAS_UI1	= 17,
+	eAS_UI2	= 18,
+	eAS_UI4	= 19,
+	//eAS_I8	= 20,
+	eAS_UI8	= 21,
+	//eAS_INT	= 22,
+	//eAS_UINT	= 23,
+	//eAS_VOID	= 24,
+	//eAS_HRESULT	= 25,
+	//eAS_PTR	= 26,
+	//eAS_SAFEARRAY	= 27,
+	//eAS_CARRAY	= 28,
+	//eAS_USERDEFINED	= 29,
+	//eAS_LPSTR	= 30,
+	//eAS_LPWSTR	= 31,
+	//eAS_RECORD	= 36,
+	//eAS_INT_PTR	= 37,
+	//eAS_UINT_PTR	= 38,
+	//eAS_FILETIME	= 64,
+  eAS_TIME = 64,
+	//eAS_BLOB	= 65,
+	//eAS_STREAM	= 66,
+	//eAS_STORAGE	= 67,
+	//eAS_STREAMED_OBJECT	= 68,
+	//eAS_STORED_OBJECT	= 69,
+	//eAS_BLOB_OBJECT	= 70,
+	//eAS_CF	= 71,
+	//eAS_CLSID	= 72,
+	//eAS_VERSIONED_STREAM	= 73,
+	//eAS_BSTR_BLOB	= 0xfff,
+	//eAS_VECTOR	= 0x1000,
+	//eAS_ARRAY	= 0x2000,
+	//eAS_BYREF	= 0x4000,
+	//eAS_RESERVED	= 0x8000,
+	//eAS_ILLEGAL	= 0xffff,
+	//eAS_ILLEGALMASKED	= 0xfff,
+	//eAS_TYPEMASK	= 0xfff
+};
+
+typedef bool asBOOL;
+typedef short asI2;
+typedef WORD asUI2;
+typedef char asI1;
+typedef BYTE asUI1;
+typedef int asI4;
+typedef DWORD asUI4;
+typedef UINT64 asUI8;
+typedef UINT64 asTIME;
+typedef float asR4;
+typedef double asR8;
+typedef char asSTR[255];

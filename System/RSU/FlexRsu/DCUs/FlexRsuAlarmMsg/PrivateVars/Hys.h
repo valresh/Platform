@@ -1,0 +1,5 @@
+PrivateAnalog32Savebale( in )
+PrivateDigital32Savebale( out )
+PrivateConstString( MODE )
+PrivateAnalog32( REFVAL )
+PrivateAnalog32( DELTA )

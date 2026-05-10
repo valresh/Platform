@@ -1,0 +1,153 @@
+#ifdef _WIN32
+#include "StdAfx.h"
+#endif
+#include "BlkDraw.h"
+#include <InlineGDI.h>
+
+KBlkDraw::KBlkDraw(void)
+: m_pntName( 0, 0 )
+, m_pntClass( 0, 0 )
+{
+}
+
+KBlkDraw::~KBlkDraw(void)
+{
+}
+
+void KBlkDraw::Prepare0( IControlBuilder *pcb, LPCSTR moduleName )
+{
+  char fullName[64*4];
+  sprintf_s( fullName, "%s.%s", moduleName, m_ShowName.c_str() );
+  for( int i=0; i<KBlkDraw::count; ++i )
+  {
+    for( KBlkDraw::tPinsCont_::iterator itp=Pins[i].begin(), endp(Pins[i].end()); itp!=endp; ++itp )
+    {
+      KBlkDraw::SPin &pin = *itp;
+      pin.valueInfo.ManualInit( pcb, fullName, pin.name );
+      switch( i )
+      {
+      case left:
+        pin.alignName = TA_RIGHT | TA_BOTTOM;
+        pin.alignValue = TA_RIGHT | TA_TOP;
+        pin.pntName = pin.coord.BottomRight();
+        pin.pntName.x -= 10;
+        if( pin.bInverse )
+        {
+          pin.notCoord.BottomRight() = pin.coord.BottomRight();
+          pin.notCoord.TopLeft() = pin.coord.BottomRight();
+          pin.notCoord.InflateRect( 4, 4);
+        }
+        break;
+      case right:
+        pin.alignName = TA_LEFT | TA_BOTTOM;
+        pin.alignValue = TA_LEFT | TA_TOP;
+        pin.pntName = pin.coord.TopLeft();
+        pin.pntName.x += 10;
+        break;
+      case top:
+        pin.alignName = TA_LEFT | TA_BOTTOM;
+        pin.alignValue = TA_LEFT | TA_TOP;
+        pin.pntName = pin.coord.TopLeft();
+        pin.pntName.y -= 20;
+        pin.pntName.x += 1;
+        if( pin.bInverse )
+        {
+          pin.notCoord.BottomRight() = pin.coord.TopLeft();
+          pin.notCoord.TopLeft() = pin.coord.TopLeft();
+          pin.notCoord.InflateRect( 4, 4);
+        }
+        break;
+      case bottom:
+        pin.alignValue = TA_LEFT | TA_TOP;
+        pin.alignName = TA_LEFT | TA_BOTTOM;
+        pin.pntName = pin.coord.TopLeft();
+        pin.pntName.y += 15;
+        pin.pntName.x += 1;
+        break;
+      }
+    }
+  }
+}
+
+void KBlkDraw::DrawArrow( CDC *pdc,CPoint m_One, CPoint m_Two )
+{
+  double slopy , cosy , siny;
+  double Par = 10.0;  //length of Arrow (>)
+  slopy = atan2( float( m_One.y - m_Two.y ), float( m_One.x - m_Two.x ) );
+  cosy = cos( slopy );
+  siny = sin( slopy ); //need math.h for these functions
+
+  //draw a line between the 2 endpoint
+  /*pdc->MoveTo( m_One );
+  pdc->LineTo( m_Two );*/
+
+  //here is the tough part - actually drawing the arrows
+  //a total of 6 lines drawn to make the arrow shape
+  /*pdc->MoveTo( m_One);
+  pdc->LineTo( m_One.x + int( - Par * cosy - ( Par / 2.0 * siny ) ),
+    m_One.y + int( - Par * siny + ( Par / 2.0 * cosy ) ) );
+  pdc->LineTo( m_One.x + int( - Par * cosy + ( Par / 2.0 * siny ) ),
+    m_One.y - int( Par / 2.0 * cosy + Par * siny ) );
+  pdc->LineTo( m_One );*/
+  /*/-------------similarly the the other end-------------/*/
+  pdc->MoveTo( m_Two );
+  pdc->LineTo( m_Two.x + int( Par * cosy - ( Par / 2.0 * siny ) ),
+    m_Two.y + int( Par * siny + ( Par / 2.0 * cosy ) ) );
+  pdc->LineTo( m_Two.x + int( Par * cosy + Par / 2.0 * siny ),
+    m_Two.y - int( Par / 2.0 * cosy - Par * siny ) );
+  pdc->LineTo( m_Two );
+
+}
+
+void KBlkDraw::DrawPins( CDC &dc, CFont &font, COLORREF cr )
+{
+  CMyPen pen( dc, cr, 1 );
+  CMyFont ft( dc, font, cr );
+
+  for( int i=0; i<KBlkDraw::count; ++i )
+  {
+    for( KBlkDraw::tPinsCont_::iterator itp=Pins[i].begin(), endp(Pins[i].end()); itp!=endp; ++itp )
+    {
+      KBlkDraw::SPin &pin = *itp;
+      dc.MoveTo( pin.coord.TopLeft() );
+      dc.LineTo( pin.coord.BottomRight() );
+      switch( i )
+      {
+      case left:
+      case right:
+        DrawArrow( &dc, pin.coord.TopLeft(), pin.coord.BottomRight() );
+        break;
+      case top:
+        DrawArrow( &dc, pin.coord.BottomRight(), pin.coord.TopLeft() );
+        break;
+      case bottom:
+        DrawArrow( &dc, pin.coord.TopLeft(), pin.coord.BottomRight() );
+        break;
+      }
+      if( pin.bInverse )
+        dc.Ellipse( pin.notCoord );
+      dc.SetTextAlign( pin.alignName );
+      ft.Text( pin.pntName.x, pin.pntName.y, pin.name );
+      dc.SetTextAlign( pin.alignValue );
+      pin.valueInfo.FillVal( pin.value );
+      ft.Text( pin.pntName.x, pin.pntName.y, pin.value );
+    }
+  }
+}
+
+void KBlkDraw::DrawReferences( CDC &dc, CFont &font, COLORREF cr )
+{
+  COLORREF clr = cr;
+  {
+    CMyFont fparm( dc, font, clr );
+    CMyPen pen( dc, clr, 1);
+    for( tRefsCont_::iterator it=references.begin(), end(references.end()); it!=end; ++it )
+    {
+      SRefToOtherBlock &ref = *it;
+      if( !ref.bDark )
+        continue;
+      dc.Rectangle( ref.rect );
+      fparm.Draw( ref.rect, ref.text.c_str() );
+    }
+  }
+}

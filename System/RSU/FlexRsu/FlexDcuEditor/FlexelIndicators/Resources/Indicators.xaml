@@ -1,0 +1,124 @@
+﻿<Expander IsExpanded="True" Header="Индикаторы" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="60,60" Header="Индикаторы">
+    <ItemsControl.Items>
+      <Grid Width="50" Height="70" Background="LightBlue" x:Name="A2oo3" FlexDesigner:DesignerItem.ShowItemName="True">
+        <Grid.ToolTip>
+          <TextBlock Text="аналоговый 2 из 3"/>
+        </Grid.ToolTip>
+        <Border Width="40" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="A2oo3"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,35 5,35"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,60 5,60"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,15 50,15"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,30 50,30"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,45 50,45"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,60 50,60"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN1" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-25,10"/>
+              <FlexDesigner:Connector x:Name="IN2" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-25,35"/>
+              <FlexDesigner:Connector x:Name="IN3" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-25,60"/>
+              <FlexDesigner:Connector x:Name="PV" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,15"/>
+              <FlexDesigner:Connector x:Name="BAD1CH" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,30"/>
+              <FlexDesigner:Connector x:Name="BAD2CH" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,45"/>
+              <FlexDesigner:Connector x:Name="BADALL" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,60"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="EU" Value="???"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="50" Height="125" Background="LightBlue" x:Name="COT" FlexDesigner:DesignerItem.ShowItemName="True">
+        <Grid.ToolTip>
+          <TextBlock Text="Счетчик времени"/>
+        </Grid.ToolTip>
+        <Border Width="40" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="COT"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,35 5,35"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,10 50,10"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,30 50,30"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,50 50,50"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,65 50,65"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,80 50,80"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,95 50,95"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,110 50,110"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="RESET" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-25,10"/>
+              <FlexDesigner:Connector x:Name="CONTINUE" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-25,35"/>
+              <FlexDesigner:Connector x:Name="INWORK" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,10"/>
+              <FlexDesigner:Connector x:Name="STARTCOUNTER" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,30"/>
+              <FlexDesigner:Connector x:Name="DAY" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,50"/>
+              <FlexDesigner:Connector x:Name="HOUR" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,65"/>
+              <FlexDesigner:Connector x:Name="MINUTE" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,80"/>
+              <FlexDesigner:Connector x:Name="SECOND" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,95"/>
+              <FlexDesigner:Connector x:Name="AHOUR" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,110"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="50" Height="60" Background="LightBlue" x:Name="SYSDATE" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Текущая дата"/>
+        </Grid.ToolTip>
+        <Border Width="40" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" Text="SYS"/>
+            <TextBlock HorizontalAlignment="Center" Text="DATE"/>
+          </StackPanel>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,15 50,15"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,30 50,30"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,45 50,45"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="YEAR" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,15"/>
+              <FlexDesigner:Connector x:Name="MONTH" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,30"/>
+              <FlexDesigner:Connector x:Name="DAY" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,45"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="50" Height="60" Background="LightBlue" x:Name="SYSTIME" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Текущее время"/>
+        </Grid.ToolTip>
+        <Border Width="40" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" Text="SYS"/>
+            <TextBlock HorizontalAlignment="Center" Text="TIME"/>
+          </StackPanel>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,15 50,15"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,30 50,30"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M45,45 50,45"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="HOURS" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,15"/>
+              <FlexDesigner:Connector x:Name="MINUTES" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,30"/>
+              <FlexDesigner:Connector x:Name="SECONDS" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="25,45"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+    </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>
+  

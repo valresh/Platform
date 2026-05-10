@@ -1,0 +1,450 @@
+#include "stdafx.h"
+#include "Include/HoneyMnemoExtend.h"
+#include <BaseType_.h>
+#include <DataTypes_.h>
+
+
+#include <ShData.h>
+
+#include <QbBaseType_.h>
+#include <QbDataTypes_.h>
+#include <QbShData.h>
+
+#include <SmBaseType_.h>
+#include <SmDataTypes_.h>
+#include <SmShData.h>
+
+#include <ShData.h>
+#include <assert.h>
+#include <CommonH.h>
+#include <map>
+
+
+
+
+CShBase* GetShFromHoney( UINT eType )
+{
+    return KHoneyPipeClient::GetShHoney( eType );
+}
+
+class KExternerAssignerHoney
+{
+public:
+    KExternerAssignerHoney()
+    {
+        for( int i=0; i<_countof(g_pExtenders); i++ )
+        {
+            if( g_pExtenders[i] )
+                continue;
+            //g_pExtenders[i] = GetShFromHoney; MERGE_???
+            break;
+        }
+    }
+}_______Honey;
+
+struct  DampingData
+{
+    DWORD dwLastWriteTime;
+    UINT nNumber;
+    bool bMessage;
+    bool bWaitToSend;
+    SSendToModel send;
+};
+
+KHoneyPipeClient::KHoneyPipeClient(const char *server, const char *operatorName, bool bMainPipe, KTcpTransport *pTcpTransport)
+    : CPipeClient( server, operatorName,  bMainPipe, pTcpTransport  )
+    , m_LocalSystem( -1 )
+    //, m_dwDelay(dwDelay)
+    , m_pDampingBuffer(NULL)
+{
+    if( m_dwDelay != 0)
+        m_pDampingBuffer = new std::map<std::string, DampingData>();
+}
+
+KHoneyPipeClient::~KHoneyPipeClient()
+{
+    if(m_pDampingBuffer)
+        delete (std::map<std::string, DampingData>*)m_pDampingBuffer;
+}
+
+int KHoneyPipeClient::AddMnemo( LPCTSTR pszName )
+{
+    return FindObj( id_OneMnemoHoney, pszName, NULL );
+}
+
+int KHoneyPipeClient::AddAlmGr( LPCTSTR pszName )
+{
+  return FindObj( id_OneAlmGrHoney, pszName, NULL );
+}
+
+int KHoneyPipeClient::AddLocalSytem()
+{
+    // if( -1 == m_LocalSystem )
+    //   m_LocalSystem = AddSxema( GetNameControlBuilderHoneywell(), CShHoneywellSystem::TypeID );
+    return m_LocalSystem;
+}
+
+CShHoneywellSystem* KHoneyPipeClient::GetLocalSystem()
+{
+    if( -1 == m_LocalSystem )
+        return NULL;
+    return (CShHoneywellSystem*)Sh(m_LocalSystem);
+}
+
+CShBase* KHoneyPipeClient::GetShHoney(UINT eType)
+{
+    switch ( eType )
+    {
+    case CShOneMnemoHoney::TypeID  : {static CShOneMnemoHoney hs; return &hs;} break;
+	case CShOneAlmGrHoney::TypeID  : {static CShOneAlmGrHoney hs; return &hs;} break;
+    case CShHoneywellSystem::TypeID  : {static CShHoneywellSystem hs; return &hs;} break;
+#undef  HONEY_TYPE
+#define HONEY_TYPE( a, b, c ) case id_##b: {static CSh##b hs; return &hs;} break;
+
+
+
+
+#include <HoneywellType.hpp>
+#undef  QB_TYPE
+#define QB_TYPE( a, b, c ) case id_##b: {static CSh##b hs; return &hs;} break;
+
+        QB_TYPE( 24998, QBSTATUS, "QBS")
+//#include <QuickBuilderType.hpp>
+#undef  SM_TYPE
+#define SM_TYPE( a, b, c ) case id_##b: {static CSh##b hs; return &hs;} break;
+#include "SafetyManagerType.hpp"
+    } //switch
+    return NULL;
+}
+
+#include <map>
+#include <string>
+typedef struct
+{
+    UINT nType;
+    char szHoney[64];
+    char szParam[32];
+}
+HoneyData;
+std::map<std::string, HoneyData> HoneyBuffer;
+
+// UINT KHoneyPipeClient::FindHoney( LPCTSTR name, LPTSTR szHoney, LPTSTR szParam )
+//   {
+//   if ( !IsConnected() )
+//     return -2;
+//   struct SLocal { UINT nType; CharMP szName; };
+//   //
+//   int ll = (int)strlen(name);
+//   if( (ll>sizeof(".ITEMNAME")) && (strcmp(name+ll-sizeof(".ITEMNAME")+1, ".ITEMNAME")==0) )
+//       lstrcpy((char*)name+ll-sizeof(".ITEMNAME")+1, ".NAME");
+//   else
+//   if( (ll>sizeof(".TAGNAME")) && (strcmp(name+ll-sizeof(".TAGNAME")+1, ".TAGNAME")==0) )
+//       lstrcpy((char*)name+ll-sizeof(".TAGNAME")+1, ".NAME");
+//   SLocal loc;
+//   loc.nType = szParam ? id_Unknown : id_Alien;
+//   lstrcpy( loc.szName, name );
+//   ::CharUpper(loc.szName);
+//   //для кеширования  -----(
+//   std::map<std::string, HoneyData>::iterator it;
+//   if( (it = HoneyBuffer.find(name)) != HoneyBuffer.end())
+//     {
+//       if(szHoney)
+// 		lstrcpy(szHoney, it->second.szHoney);
+// 	  if(szParam)
+// 		lstrcpy(szParam, it->second.szParam);
+// 	  return it->second.nType;
+//     }
+//   //-----------------------)
+//   CMemBuffer buf(qFindHoney);
+// 	buf.Write( &loc.nType, sizeof(loc.nType));
+// 	buf.Write( loc.szName, lstrlen(name) + 1);
+//   memset( &loc, 0, sizeof(loc) );
+//   //
+// 	DWORD size = SendAndReply(buf);
+//   if ( 4 <= size && size <= sizeof(loc) )
+// 	  GetReply(size,&loc);
+//   else
+//     {
+//     KKK();
+//     }
+
+//   //
+//   //для кеширования  -----(
+//   HoneyData honeyData = {loc.nType};
+//   lstrcpy(honeyData.szHoney, loc.szName);
+//   lstrcpy(honeyData.szParam, loc.szName + lstrlen(loc.szName)+1);
+//   HoneyBuffer[name] = honeyData;
+//   //-----------------------)
+//   //
+//   if ( szHoney )
+//     {
+//     lstrcpy( szHoney, loc.szName );
+//     if ( szParam )
+//       lstrcpy( szParam, loc.szName + lstrlen(szHoney)+1 );
+//     }
+//   return loc.nType;
+//   }
+
+CAlarmBase* KHoneyPipeClient::Alarm( UINT nNumber )
+{
+    //MIHAIL пока вызовы из АРМа не приходят
+    // Нас интересует только CAlarmBase
+    // А все Honeywell-объекты выходят из него
+    // CShAICHANNEL* sh = (CShAICHANNEL*)Base( nNumber );
+    // if ( sh == NULL ) return NULL;
+    // if ( !IsTypeOk  ) return NULL;
+    // CAlarmBase* al = dynamic_cast<CAlarmBase*>(sh);
+    // return al;
+    return  nullptr;
+}
+
+void* KHoneyPipeClient::ParamValue_H(  cross::SParamValueH& var )
+{
+    if(var.pMulti)
+    {
+        SParamValueHMulti *pMulti = var.pMulti;
+        std::map<std::string, std::string>::iterator it;
+        if( (it = pMulti->dataRepository.find(pMulti->key)) != pMulti->dataRepository.end())
+        {
+            if( _stricmp(pMulti->key, it->second.c_str()) != 0)
+            {
+                std::map<std::string, std::string>::iterator it2;
+                if ( (it2 = pMulti->dataRepository.find(it->second)) != pMulti->dataRepository.end() )
+                {
+                    it = it2;
+                }
+            }
+            if( _stricmp(pMulti->curkeyval, it->second.c_str()) != 0)
+            { //поменялся ключевой параметр
+                strcpy_s(pMulti->curkeyval, it->second.c_str());
+                std::map<std::string, std::pair<int, SValueDef*>>::iterator it = pMulti->mDefs.find(pMulti->curkeyval);
+                if(it != pMulti->mDefs.end())
+                {
+                    var.nNumber = it->second.first;
+                    var.def = it->second.second;
+                }
+            }
+        }
+    }
+
+    if ( var.def )
+    {
+        CShBase* sh = Sh( var.nNumber );
+        if ( IsTypeOk  )
+        {
+            char* ch = ((char*)sh)+var.def->dwShiftSh;
+			
+			if(var.nUDType==0 || pnType==NULL)
+				return ch;
+			else
+			{//обработка userDefinition  
+          static union {double ddbl; int nint;} forReturn[16];
+          static int indexForReturn = 0; 
+          switch(var.nUDType)
+          {
+          case id_QBPSA:
+              {
+                CShQBPSA* pp = (CShQBPSA*)NULL;
+                size_t offset = (char*)&(pp->userDefined[0]) - (char*)&(pp->DESC[0]);
+                SUserDef* puserDefined = (SUserDef*)(ch + offset);
+                for(int ii=0; ii<_countof(pp->userDefined); ii++)
+                {
+                    if(_stricmp(puserDefined[ii].paramName, var.userDefinition) == 0)
+                    {                       
+                       switch(puserDefined[ii].dataType)
+                        {
+                        case  evtInt2:
+                             *pnType = enumValueInt;
+                             indexForReturn = (++indexForReturn)%_countof(forReturn);
+                             forReturn[indexForReturn].nint = (int)puserDefined[ii].i2;
+                             return &forReturn[indexForReturn];
+                             break;
+                        case  evtInt4:
+                             *pnType = enumValueInt;
+                             return &puserDefined[ii].i4;
+                             break;
+                        case evtDouble:
+                             *pnType = enumValueDbl;
+                             return &puserDefined[ii].dbl;
+                             break;
+                        case evtFloat:
+                             *pnType = enumValueDbl;
+                             indexForReturn = (++indexForReturn)%_countof(forReturn);
+                             forReturn[indexForReturn].ddbl = (double)puserDefined[ii].flt;
+                             return &forReturn[indexForReturn];
+                             break;
+                        case evtString:
+                             *pnType = enumValueStr;
+                             return &puserDefined[ii].chr;
+                        default:
+                             return NULL;
+                             break;
+                        }
+                       break;
+                    }
+                }
+              }
+              break;
+          }
+        }
+        }
+        else
+        {
+            const char* name = this->GetMnemoName(var.nNumber);
+            int yy = 90;
+        }
+    }
+    return NULL;
+}
+
+// // Чтобы не получать вязанку ASSERT-ов
+// inline void KHoneyPipeClient::Assert_H( SParamValueH& var, EValueType a2 )
+//   {
+//   if ( var.def->eVal == a2 ) return;
+//   const char* name = GetMnemoName(var.nNumber);
+//   static bool init;
+//   if ( init ) return;
+//   init = true;
+//   assert( 0 );
+//   }
+
+BYTE KHoneyPipeClient::ValueB_H(  cross::SParamValueH& var, BYTE bDef )
+{
+    void* val = ParamValue_H( var );
+    if ( val )
+    {
+        Assert_H( var, enumValueChr );
+        return *(BYTE*)val;
+    }
+    return bDef;
+}
+
+// bool KHoneyPipeClient::ValueBOOL_H( SParamValueH& var, bool bDef )
+//   {
+//   void* val = ParamValue_H( var );
+//   if ( val )
+//     {
+//     Assert_H( var, enumValueBol );
+//     return *(bool*)val;
+//     }
+//   return bDef;
+//   }
+
+
+// char* KHoneyPipeClient::ValueS_H( SParamValueH& var, char* sDef )
+//   {
+//   void* val = ParamValue_H( var );
+//   if ( val )
+//     {
+//     Assert_H( var, enumValueStr );
+//     return (char*)val;
+//     }
+//   return sDef;
+//   }
+
+// double KHoneyPipeClient::ValueF_H( SParamValueH& var, double dDef )
+//   {
+//   void* val = ParamValue_H( var );
+//   if ( val )
+//     {
+//     if ( var.def->eVal == enumValueChr )
+//       return (double)*(BYTE*)val;
+//     if ( var.def->eVal == enumValueInt )
+//       return (double)*(int*)val;
+//     Assert_H( var, enumValueDbl );
+//     return *(double*)val;
+//     }
+//   return dDef;
+//   }
+
+// int KHoneyPipeClient::ValueI_H( SParamValueH& var, int nDef )
+//   {
+//   void* val = ParamValue_H( var );
+//   if ( val )
+//     {
+//     Assert_H( var, enumValueInt );
+//     return *(int*)val;
+//     }
+//   return nDef;
+//   }
+
+// bool KHoneyPipeClient::SendDataEx( UINT nNumber, struct SSendToModel& send, bool bMessage )
+// {
+//     if(m_pDampingBuffer && nNumber>=0)
+//       {
+//           std::map<std::string, DampingData> *pDampingBuffer = (std::map<std::string, DampingData>*)(m_pDampingBuffer);
+//           char key[256];
+//           sprintf_s(key, "%d.%s", nNumber, send.szValue);
+//           std::map<std::string, DampingData>::iterator it = pDampingBuffer->find(key);
+//           DWORD time = ::GetTickCount();
+//           if(it!=pDampingBuffer->end())
+//             {//есть - проверяем время
+//                 if ((time - it->second.dwLastWriteTime) <  m_dwDelay)
+//                 {   //рано - сохраняем новое значение
+//                     DampingData dd = {time, nNumber, bMessage, true, send};
+//                     (*pDampingBuffer)[key] = dd;
+//                     return true;
+//                 }
+//                 pDampingBuffer->erase(it);
+//             }
+//           else
+//             {//нет - добавляем с временем, чтобы его проверить для следующих посылок
+//                 DampingData dd = {time, nNumber, bMessage, false, send};
+//                 (*pDampingBuffer)[key] = dd;
+//             }
+//       }
+// #ifdef _DEBUG
+//   char buf[512]="";
+//   if(send.eType == enumValueBol || send.eType == enumValueInt || send.eType == enumValueChr)
+//     {
+//     DWORD time = ::GetTickCount();
+//     sprintf_s(buf, "%d) %s.%s -> %d\n", time, GetModelName(nNumber), send.szValue, send.nNew);
+//     OutputDebugString(buf);
+//     }
+//   else
+//   if(send.eType == enumValueDbl)
+//     {
+//     DWORD time = ::GetTickCount();
+//     sprintf_s(buf, "%d) %s.%s -> %0.3f\n", time, GetModelName(nNumber), send.szValue, send.dNew);
+//     OutputDebugString(buf);
+//     }
+// #endif
+//     return SendData( nNumber, send, bMessage );
+// }
+
+// bool KHoneyPipeClient::RefreshEx()
+// {
+//     if(m_pDampingBuffer)
+//       {
+//       std::map<std::string, DampingData> *pDampingBuffer = (std::map<std::string, DampingData>*)(m_pDampingBuffer);
+//       DWORD time = ::GetTickCount();
+//       for(std::map<std::string, DampingData>::iterator it = pDampingBuffer->begin(); it != pDampingBuffer->end(); )
+//         {
+//           if ((time - it->second.dwLastWriteTime) >=  m_dwDelay)
+//           {
+//              DampingData dd(it->second);
+//              it = pDampingBuffer->erase(it);
+//              if(dd.bWaitToSend)
+//              {
+// #ifdef _DEBUG
+//   char buf[512]="";
+//   if(dd.send.eType == enumValueBol || dd.send.eType == enumValueInt || dd.send.eType == enumValueChr)
+//     {
+//     sprintf_s(buf, "%d) %s.%s -> %d\n", time, GetModelName(dd.nNumber), dd.send.szValue, dd.send.nNew);
+//     OutputDebugString(buf);
+//     }
+//   else
+//   if(dd.send.eType == enumValueDbl)
+//     {
+//     sprintf_s(buf, "%d) %s.%s -> %0.3f\n", time, GetModelName(dd.nNumber), dd.send.szValue, dd.send.dNew);
+//     OutputDebugString(buf);
+//     }
+// #endif
+//                SendData( dd.nNumber, dd.send, dd.bMessage );
+//              }
+//           }
+//           else it++;
+//         }
+//       }
+//     return Refresh();
+// }

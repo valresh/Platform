@@ -1,0 +1,7 @@
+
+#include <DataTypes_.h>
+#include <HoneywellStruct.h>
+
+#undef  HONEY_TYPE
+#define HONEY_TYPE( a, b, c ) LPCSTR W_##b::ClassName = c;
+#include "HoneywellType.hpp"

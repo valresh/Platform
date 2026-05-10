@@ -1,0 +1,15 @@
+PrivateAnalog32Savebale(IN_OLD)
+PrivateAnalog32(END_VALUE)
+PrivateAnalog32Savebale(END_VALUE_OLD)
+PrivateDigital32(ENABLE)
+PrivateDigital32Savebale(ENABLE_OLD)
+PrivateDigital32Savebale(PAUSE)
+PrivateDigital32(RAMP_TYPE)
+
+PrivateDigital32(RAMP_TYPE_OLD)
+PrivateAnalog32(RAMP_RATE_OLD)
+PrivateAnalog32(RAMP_TIME_OLD)
+
+PrivateDigital32Savebale( Restart )
+PrivateDigital32Savebale( Is_Work )
+PrivateAnalog32Savebale( V_dt )

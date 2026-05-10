@@ -1,0 +1,16 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+FLAG(CALI,"")
+//
+DOUBLE(SH,"")//*
+DOUBLE(SL,"")//*
+DOUBLE(CPV,"")
+DOUBLE(GAIN,"")
+DOUBLE(SECT,"")
+DOUBLE(RV,"")//*
+//
+MASSIW_D(X,15,"")
+MASSIW_D(Y,15,"")

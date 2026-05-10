@@ -1,0 +1,8 @@
+UMODE
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+//
+INTEGER(SW,"")
+//
+DOUBLE_A(DT,16,"")

@@ -1,0 +1,4 @@
+Real_A(PV,"Process Value",32,NaN)
+Enumeration_A(PVSTS,"Process Value Status",32,BAD,UNCERTN,NORMAL,MANUAL,INITACK,INITREQ,INITBAD,Def=BAD)
+String_K(QUALSTATE,"Qualification State",100*4)
+PADDING(6) // cross-platform

@@ -1,0 +1,39 @@
+#pragma once
+#include <SmBaseType_.h>
+#include <QuickBuilderStruct.h>
+
+template<typename T>
+SValueDef* UserDefName( T *pQB, LPCSTR pszParam, SValueDef &localVD )
+{
+  memset( &localVD, 0, sizeof(localVD) );
+  DWORD nCount = _countof(pQB->userDefined);
+  SUserDef *pdef0 = pQB->userDefined;
+  SUserDef *pUD = NULL;
+  localVD.dwShift = offsetof( T, T::userDefined );
+  for( DWORD i=0; i<nCount; ++i )
+  {
+    if( _stricmp( pszParam, pdef0[i].paramName) )
+      continue;
+    pUD = &pdef0[i];
+    localVD.dwShift += ( sizeof(*pUD) * i );
+    localVD.dwShift += offsetof( SUserDef, SUserDef::i2 );
+    localVD.dwSize = pUD->GetSize();
+    switch( pUD->dataType )
+    {
+    case evtInt2:
+    case evtInt4:
+      localVD.eVal = enumValueInt;
+      break;
+    case evtFloat:
+      localVD.eVal = enumValueFlt;
+      break;
+    case evtDouble:
+      localVD.eVal = enumValueDbl;
+      break;
+    }
+    break;
+  }
+  if( !pUD )
+    return NULL;
+  return &localVD;
+}

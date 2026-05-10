@@ -1,0 +1,11 @@
+#include "QB_Server.h"
+
+int KServer::ParamsSave( LPCSTR pszPath )
+{
+  return 0;
+}
+
+int KServer::ParamsRestore( LPCSTR pszPath )
+{
+  return 0;
+}

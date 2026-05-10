@@ -1,0 +1,5 @@
+﻿DOUBLE(SolidHeatCapacityA)
+DOUBLE(SolidHeatCapacityB)
+DOUBLE(SolidHeatCapacityC)
+DOUBLE(SolidHeatCapacityTmin)
+DOUBLE(SolidHeatCapacityTmax)

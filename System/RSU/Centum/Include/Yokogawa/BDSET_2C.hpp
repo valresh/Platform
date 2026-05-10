@@ -1,0 +1,13 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+//
+INTEGER(SW,"")
+//
+INTEGER(NXBS,"")
+//
+STRING_A(DT,16,16,"")
+//
+STRING_A(NX,16,16,"")

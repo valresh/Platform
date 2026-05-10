@@ -1,0 +1,42 @@
+#pragma once
+#include <map>
+#include <string>
+#include "./csvrow.h"
+
+class KNamedCsv
+{
+  typedef std::map<std::string,int> tNamedPosCon_;
+  tNamedPosCon_ m_Indexes;
+public:
+  KNamedCsv( aCSVRow_::tDataCont_ &names )
+  {
+    int i = 0;
+    for( aCSVRow_::tDataCont_::iterator it=names.begin(), end(names.end()); it!=end; ++it, ++i )
+    {
+      m_Indexes[*it] = i;
+    }
+  }
+  int GetIndex( LPCSTR pName )
+  {
+    tNamedPosCon_::iterator it = m_Indexes.find( pName );
+    if( m_Indexes.end()!=it )
+      return it->second;
+    return -1;
+  }
+  int GetCountNames()
+  {
+    return (int)m_Indexes.size();
+  }
+  LPCSTR GetName4( int index )
+  {
+    int i = 0;
+    for( tNamedPosCon_::iterator it=m_Indexes.begin(), end(m_Indexes.end()); it!=end; ++it, ++i )
+    {
+      if( i<index )
+        continue;
+      if( i==index )
+        return it->first.c_str();
+    }
+    return NULL;
+  }
+};

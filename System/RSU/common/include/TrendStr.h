@@ -1,0 +1,48 @@
+#pragma once
+
+enum
+{
+  MAX_TREND = 32
+};
+//
+// Структура запроса графической информации у сервера
+struct SToTrend
+{
+  DWORD  askKind;       // Код запроса
+	__time64_t nStartTime;// Время начала моделирования (признак перетасовки имен)
+  __time64_t nBeginTime;// Начальная точка графика
+  __time64_t nLastTime ;// Конечная  точка графика
+  int  nPoint;//Количество точек на графике
+  //
+  int  nCount;    //Количество запрашиваемых тэгов (мах-MAX_TREND)
+  int  nIndex[MAX_TREND]; //Порядковый номер тэга в файле трендов
+  char szName[MAX_TREND][512];//Список имен тэгов
+};
+//
+// Графические точки
+struct _Sxy {int x;float y;};
+//
+// Буфер ответа на запрос SToTrend (askKind = 5)
+// Размер ( sizeof(SFromTrend)+MAX_TREND*2*(nPoint+1)*sizeof(_Sxy) )
+struct SFromTrend
+{
+  DWORD askKind;   // Код ответа == коду запроса
+	time_t nTimeS;   // Время начала моделирования
+  int nCount[MAX_TREND];   // Количество точек на графике
+  int nIndex[MAX_TREND];   // Порядковый номер тэга в файле трендов
+  _Sxy  data[1];   // Буфер информации ( MAX_TREND*2*(nPoint+1)*sizeof(_Sxy) )
+};
+//
+
+//
+// Буфер ответа на запрос SToTrend (askKind = 5)
+// Размер ( sizeof(SFromTrend)+MAX_TREND*2*(nPoint+1)*sizeof(_Sxy) )
+struct SFromTrend5
+  {
+  DWORD askKind;   // Код ответа == коду запроса
+	time_t nTimeS;   // Время начала моделирования
+  int nCount[MAX_TREND];   // Количество точек на графике
+  int nIndex[MAX_TREND];   // Порядковый номер тэга в файле трендов
+  _Sxy  data[1];   // Буфер информации ( MAX_TREND*2*(nPoint+1)*sizeof(_Sxy) )
+  };
+//

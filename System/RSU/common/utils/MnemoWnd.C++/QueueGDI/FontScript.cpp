@@ -1,0 +1,140 @@
+#include "Queue.h"
+#include "../Lang.h"
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// Определение типов шрифтов
+//struct STypeFont
+//  {
+//  char name[64];// Имя
+//  LOGFONT lf;
+//  //
+//  COLORREF color;
+//  HFONT    hFont;
+//  };
+////
+//class CTypeFont : public SUniBuffer
+//  {
+//  public:
+//	  CTypeFont();
+//	  virtual ~CTypeFont();
+//    void AddFontScript(STypeFont& font);
+//    //
+//    HFONT GetFont( char* font, COLORREF* color = NULL );
+//    //
+//  };
+//CTypeFont theFont;
+////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//CTypeFont::CTypeFont()
+//: SUniBuffer(sizeof(CTypeFont))
+//  {
+//  }
+//
+//CTypeFont::~CTypeFont()
+//  {
+//  }
+////
+//void CTypeFont::AddFontScript(STypeFont& font)
+//  {
+//  //
+//  UINT nCnt   = Count();
+//  STypeFont* obj = (STypeFont*)Obj(0);
+//  for ( UINT n = 0; n < nCnt; n++)
+//    if ( !lstrcmpi(font.name,obj[n].name) )
+//      {
+//      if ( font.name == obj[n].name )
+//        if ( memcmp( &font.lf, &obj[n].lf, sizeof(LOGFONT) ) == 0 )
+//          return;
+//      //
+//      if ( obj[n].hFont != NULL )
+//        ::DeleteObject( obj[n].hFont );
+//      if ( font.lf.lfHeight  )
+//        font.hFont = ::CreateFontIndirect( &font.lf );
+//      obj[n] = font;
+//      return;
+//      }
+//  //
+//  if ( font.lf.lfHeight  )
+//    font.hFont = ::CreateFontIndirect( &font.lf );
+//  //
+//  AddObj(&font);
+//  }
+////
+////
+//HFONT CTypeFont::GetFont( char* font, COLORREF* color )
+//  {
+//  char Q = *font;
+//  if ( Q == '@' ) font++;
+//  UINT nCnt   = Count();
+//  STypeFont* obj = (STypeFont*)Obj(0);
+//  for ( UINT n = 0; n < nCnt; n++)
+//    if ( !lstrcmpi( font, obj[n].name ) )
+//      {
+//      if ( color )
+//        *color = obj[n].color;
+//      if ( Q == '@' ) lstrcpy( font-1, obj[n].lf.lfFaceName );
+//      return obj[n].hFont;
+//      }
+//  if ( color ) *color = 0xffffffff;
+//  return NULL;
+//  }
+//
+//HFONT GetFont( char* font, COLORREF* color )
+//  {
+//  return theFont.GetFont( font, color );
+//  }
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void TegFont( LOGFONT& lf, STegScn* teg, COLORREF& color )
+  {
+  color = 0xffffffff;
+  //
+  memset( &lf, 0, sizeof( lf ) );
+  //
+  lf.lfCharSet        = RUSSIAN_CHARSET;
+  lf.lfOutPrecision   = OUT_TT_PRECIS; 
+  lf.lfClipPrecision  = CLIP_LH_ANGLES;
+  lf.lfQuality        = ANTIALIASED_QUALITY;
+  lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
+  int boldY = 0;
+  //
+  STegObj obj[] =
+    {
+    { 'S', "font"     ,  lf.lfFaceName,31 },
+    { 'I', "height"   , &lf.lfHeight      },
+    { 'I', "h"        , &lf.lfHeight      },
+    { 'I', "bold"     , &lf.lfWeight      },
+    { 'I', "angle"    , &lf.lfEscapement  },
+    { 'I', "orient"   , &lf.lfOrientation },
+    { 'B', "italic"   , &lf.lfItalic      },
+    { 'B', "underline", &lf.lfUnderline   },
+    { 'A', "color"    , &color            },
+    { 'B', "quality"  , &lf.lfQuality     },
+    { 'I', "boldY"    , &boldY            },
+    };
+  ::ParserObjScn( teg, obj, sizeof(obj)/sizeof(STegObj) );
+  //
+  
+  // vladexl Это какой-то костыль, отключаю
+  //if ( 0 < boldY && boldY >= ::GetSystemMetrics(SM_CYSCREEN) )
+  //  lf.lfWeight = 0;
+
+  // Фамилия шрифта должна быть обязательно!!!
+  if ( !*lf.lfFaceName ) return;
+  if ((lstrcmp(lf.lfFaceName,"a")==0)||(lstrcmp(lf.lfFaceName,"A")==0))
+		  lstrcpy(lf.lfFaceName,"Arial");
+  //
+ // vladexl lf.lfHeight = -lf.lfHeight;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//void AddFontScript (DefineTegs)
+//  {
+//  STypeFont font;
+//  lstrcpy( font.name, teg[0].value );
+//  font.hFont = NULL;
+//  //
+//  TegFont( font.lf, teg, font.color );
+//  //
+//  theFont.AddFontScript(font);
+//  }
+////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

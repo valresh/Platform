@@ -1,0 +1,295 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+#include <math.h>
+
+static SBlockCreate OVRDSEL("OVRDSEL", SH_OVRDSEL::Create);
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_OVRDSEL, W_OVRDSEL, 285)
+
+void SH_OVRDSEL::InitParm()
+{
+#include "Blocks/OVRDSEL.h" 
+	s_defFlag = SVarInfo::efParam;
+#include "Blocks/OVRDSEL_P.h"
+	qsort(VarInfo, kVarInfo, sizeof(SVarInfo), CompVarInfo);
+}
+
+class OVRDSEL_IMPL : public W_OVRDSEL
+{
+public:
+	void StepT(SStepCalcParams& dt, bool bInputs[5]);
+protected:
+	void Modefl();
+};
+
+void SH_OVRDSEL::StepT(SStepCalcParams& dt)
+{
+	bool bInputs[] = { false, false, false, false, false };
+	for (size_t i = 0; i < inConsC; ++i)
+	{
+		if ('X' == pInConns[i].szInFld[0] && '[' == pInConns[i].szInFld[1])
+		{
+			pInConns[i].enabledTrasfer = W->MODE.V == W->MODE.CAS ? true : false;
+		}
+	}
+
+	char OLDMode = W->MODE.V;
+	InputConnectionsTransfer();
+	if (W->MODE.V > 6)
+		W->MODE.V = OLDMode;
+
+	for (size_t i = 0; i < inConsC; ++i)
+	{
+		if ('X' != pInConns[i].szInFld[0] || '[' != pInConns[i].szInFld[1])
+			continue;
+		int index = pInConns[i].szInFld[2] - '0';
+		bInputs[index] = true;
+		if (!('O' == pInConns[i].szOutFld[0] && 'P' == pInConns[i].szOutFld[1]))
+			continue;
+		if (!('[' == pInConns[i].szOutFld[2] || 0 == pInConns[i].szOutFld[2]))
+			continue;
+		W->X[index] = (W->XEUHI - W->XEULO) * 0.01 * W->X[index] + W->XEULO;
+		if (W->X[index] < W->XEULO)
+			W->X[index] = W->XEULO;
+		if (W->X[index] > W->XEUHI)
+			W->X[index] = W->XEUHI;
+	}
+
+	OVRDSEL_IMPL* impl = reinterpret_cast<OVRDSEL_IMPL*>(W);
+	impl->StepT(dt, bInputs);
+
+	OutputConnectionsTransfer();
+	/*if(W_OVRDSEL::_MODE::CAS!=W->MODE.V || !W->OROPT )
+	  return;
+	for( size_t i=0; i<inConsC; ++i )
+	{
+	  if( 'X'!=pInConns[i].szInFld[0] || '['!=pInConns[i].szInFld[1] )
+		continue;
+	  pInConns[i].FeedBack2Output( W->CV );
+	}*/
+
+	ActualizeConnectionActives();
+	if (pINITREQ1_Master)
+	{
+		if (W->MODE.CAS == W->MODE.V)
+			*pINITREQ1_Master = false;
+		else
+		{
+			*pINITREQ1_Master = true;
+		}
+	}
+	if (pINITREQ2_Master)
+	{
+		if (W->MODE.CAS == W->MODE.V)
+			*pINITREQ2_Master = false;
+		else
+		{
+			*pINITREQ2_Master = true;
+		}
+	}
+	if (pINITREQ3_Master)
+	{
+		if (W->MODE.CAS == W->MODE.V)
+			*pINITREQ3_Master = false;
+		else
+		{
+			*pINITREQ3_Master = true;
+		}
+	}
+	if (pINITREQ4_Master)
+	{
+		if (W->MODE.CAS == W->MODE.V)
+			*pINITREQ4_Master = false;
+		else
+		{
+			*pINITREQ4_Master = true;
+		}
+	}
+}
+
+void SH_OVRDSEL::StepAfterRestoreState()
+{
+	W->HIALM.PR = __ALPRIOR::None;
+	W->HIALM.TYPE = __DACALMTYPE::None;
+	W->HIALM.SV = 0;
+	for (size_t i = 0; i < inConsC; ++i)
+	{
+		SConnectionMB& con = pInConns[i];
+		if (!strncmp(con.szInFld, "X[", 2) && !strncmp(con.szOutFld, "OP", 2) && (!strncmp(con.szTypeObjOut, "PID", 3) || !strncmp(con.szTypeObjOut, "FANOUT", 6) || !strncmp(con.szTypeObjOut, "SWITCH", 6) || !strncmp(con.szTypeObjOut, "REGCALC", 7) || !strncmp(con.szTypeObjOut, "OVRDSEL", 7)) && con.objO)
+		{
+			int index = atoi(pInConns[i].szInFld + 2);
+			ASSD(index > 0 && index <= 4);
+			eVarType vt = evtHZ;
+			if (!strcmp(con.szOutFld, "OP[1]") || !strcmp(con.szOutFld, "OPEU[1]"))
+			{
+				con.objO->GetVar("INITREQ[1]", &pINITREQ1_Master, &vt, NULL);
+				if (!strncmp(con.szOutFld, "OPEU", 4))
+					con.objO->GetVar("OP[1]", (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+				else
+					con.objO->GetVar(con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+			}
+			else if (!strcmp(con.szOutFld, "OP[2]") || !strcmp(con.szOutFld, "OPEU[2]"))
+			{
+				con.objO->GetVar("INITREQ[2]", &pINITREQ2_Master, &vt, NULL);
+				if (!strncmp(con.szOutFld, "OPEU", 4))
+					con.objO->GetVar("OP[2]", (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+				else
+					con.objO->GetVar(con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+			}
+			else if (!strcmp(con.szOutFld, "OP[3]") || !strcmp(con.szOutFld, "OPEU[3]"))
+			{
+				con.objO->GetVar("INITREQ[3]", &pINITREQ3_Master, &vt, NULL);
+				if (!strncmp(con.szOutFld, "OPEU", 4))
+					con.objO->GetVar("OP[3]", (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+				else
+					con.objO->GetVar(con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+			}
+			else if (!strcmp(con.szOutFld, "OP[4]") || !strcmp(con.szOutFld, "OPEU[4]"))
+			{
+				con.objO->GetVar("INITREQ[4]", &pINITREQ4_Master, &vt, NULL);
+				if (!strncmp(con.szOutFld, "OPEU", 4))
+					con.objO->GetVar("OP[1]", (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+				else
+					con.objO->GetVar(con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+			}
+			else
+			{
+				if (!strncmp(con.szOutFld, "OPEU", 4))
+					con.objO->GetVar("OP", (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+				else
+					con.objO->GetVar(con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL);
+			}
+			con.objO->GetVar("INITMAN", &Pids[index].pINITMAN_Master, &vt, NULL);
+			//con.objO->GetVar( con.szOutFld, (BYTE**)&Pids[index].pOP_Master, &vt, NULL );
+		}
+	}
+	ActualizeConnectionActives();
+}
+
+void SH_OVRDSEL::ActualizeConnectionActives()
+{
+	for (int i = 1; i < _countof(Pids); ++i)
+	{
+		SRegOpInit& pid = Pids[i];
+		if (!pid.pINITMAN_Master)
+			continue;
+		if (W->MODE.CAS == W->MODE.V && !W->INITMAN)
+			*pid.pINITMAN_Master = false;
+		else
+		{
+			*pid.pINITMAN_Master = true;
+			*pid.pOP_Master = W->OP;
+		}
+	}
+}
+//////////////////////////////////////////////////////////////////////////
+void OVRDSEL_IMPL::StepT(SStepCalcParams& dt, bool bInputs[5])
+{
+	if (SIFL)
+	{
+		switch (SIOPT.V)
+		{
+		case SIOPT.NO_SHED:
+			break;
+		case SIOPT.SHEDHOLD:
+			MODE.V = MODE.MAN;
+			MODEATTR = MODEATTR.OPERATOR;
+			break;
+		case SIOPT.SHEDLOW:
+			MODE.V = MODE.MAN;
+			MODEATTR = MODEATTR.OPERATOR;
+			OP = OPEXLOLM;
+			break;
+		case SIOPT.SHEDHIGH:
+			MODE.V = MODE.MAN;
+			MODEATTR = MODEATTR.OPERATOR;
+			OP = OPEXHILM;
+			break;
+		case SIOPT.SHEDSAFE:
+			MODE.V = MODE.MAN;
+			MODEATTR = MODEATTR.OPERATOR;
+			if (finite(SAFEOP))
+				OP = SAFEOP;
+			break;
+		}
+	}
+	else
+	{
+		if (ESWENB.ENABLE == ESWENB.V)
+		{
+			if (ESWFL.AUTO)
+				MODE.V = MODE.AUTO;
+			else if (ESWFL.BCAS)
+				MODE.V = MODE.BCAS;
+			else if (ESWFL.CAS)
+				MODE.V = MODE.CAS;
+			else if (ESWFL.MAN)
+				MODE.V = MODE.MAN;
+		}
+	}
+
+	Modefl();
+
+	bool bInValid[_countof(X)] = {};
+	int nValid = 0;
+	int nSelected = 0;
+	double selVal = NaN;
+	switch (CTLEQN.V)
+	{
+	case _CTLEQN::EQA:
+		for (int i = 0; i < _countof(X); ++i)
+		{
+			if (!bInputs[i])
+				continue;
+			if ((IsNaN(X[i]) && _BADINPTOPT::IGNOREBAD == BADINPTOPT[i].V) || ORBYPASSFL[i])
+				continue;
+			bInValid[i] = true;
+			++nValid;
+			if (IsNaN(selVal) || X[i] > selVal)
+			{
+				selVal = X[i];
+				nSelected = i;
+			}
+		}
+		break;
+	case _CTLEQN::EQB:
+		for (int i = 0; i < _countof(X); ++i)
+		{
+			if (!bInputs[i])
+				continue;
+			if ((IsNaN(X[i]) && _BADINPTOPT::IGNOREBAD == BADINPTOPT[i].V) || ORBYPASSFL[i])
+				continue;
+			bInValid[i] = true;
+			++nValid;
+			if (IsNaN(selVal) || X[i] < selVal)
+			{
+				selVal = X[i];
+				nSelected = i;
+			}
+		}
+		break;
+	}
+	SELXINP = nSelected;
+	strcpy_s(SELXDESC, XDESC[nSelected]);
+	if (!nValid)
+		return;
+	if (MODE.V != MODE.CAS || INITMAN)
+		return;
+	CV = selVal;
+	OP = (CV - CVEULO) / (CVEUHI - CVEULO) * 100.;
+	double A = OP * 0.01;
+	OPEU = (1. - A) * CVEULO + A * CVEUHI;
+}
+
+void OVRDSEL_IMPL::Modefl()
+{
+	MODEFL.MAN = MODE.V == MODE.MAN;
+	MODEFL.AUTO = MODE.V == MODE.AUTO;
+	MODEFL.CAS = MODE.V == MODE.CAS;
+	MODEATTRFL.OPER = MODEATTR.V == MODEATTR.OPERATOR;
+	MODEATTRFL.PROG = MODEATTR.V == MODEATTR.PROGRAM;
+	MODEFL.NORM = MODE.V == NORMMODE.V;
+	MODEATTRFL.NORM = MODEATTR.V == NORMMODEATTR.V;
+}

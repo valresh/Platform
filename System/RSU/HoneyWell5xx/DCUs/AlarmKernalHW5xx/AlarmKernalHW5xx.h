@@ -1,0 +1,40 @@
+#pragma once
+#include "AlarmsW.h"
+#include "AlarmsFile.h"
+#include <crossplatform.h>
+
+#ifdef ALARMKERNALHW5XX_EXPORTS
+#define ALARMKERNALHW5XX_API _EXP
+#else
+#define ALARMKERNALHW5XX_API _IMP
+#endif
+
+class ALARMKERNALHW5XX_API KAlarmKernalHW5xx : public SAlarmsW
+{
+protected:
+  bool m_bChangeFile;
+  CCBHSystem* m_pCBSystem;
+  CAlarmsFile file0,file1;
+  std::recursive_mutex m_csOnContour;
+public:
+  KAlarmKernalHW5xx();
+  ~KAlarmKernalHW5xx();
+  void WriteAlarms( LPCTSTR pszPoint, CAlarmEntry& rAlarm );
+protected:
+  int InitL();
+  void Reset();
+  int StepTL(double dtS);
+private:
+  /////////////////////////////////////////////////
+  int Analiz( CAlarmsFile& file, int& nAlarm, int nCount, CAlarmEntry* data );
+  void AlarmOn  ( CAlarmEntry& rAlarm, THoneyWell& rHoney );
+  void AlarmOff ( CAlarmEntry& rAlarm, THoneyWell& rHoney );
+  void FindMnemo( CAlarmEntry& rAlarm, THoneyWell& rHoney );
+  void FindAlmGr( CAlarmEntry& rAlarm, THoneyWell& rHoney );
+  //
+  THoneyWell& Tagss(int n) 
+  { 
+    THoneyWell* list = (THoneyWell*)mHoney.m_szBuffer;
+    return list[n];
+  }
+};

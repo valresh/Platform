@@ -1,0 +1,113 @@
+#include <macros/AutoCloser.h>
+#include "DbfFiles.h"
+#include <fstream>
+#include "Get2Buffer.h"
+#include <UniBuffer.h>
+
+using namespace std;
+
+static const int s_chVer = 1;
+
+CDbfFiles::CDbfFiles(void)
+: mData(mName)
+, mCols(mName)
+, mName(mChar,0)
+{
+}
+
+CDbfFiles::~CDbfFiles(void)
+{
+}
+
+bool CDbfFiles::BuildList( LPCSTR pszCsv, LPCSTR pszBin )
+{
+  bool bLoad = true;
+  DWORD dwSize = 0;
+
+  FILETIME attrDbf;
+  if ( !GetAttr( pszCsv, attrDbf ) )
+    return false;
+
+  //KKKK
+#ifndef _DEBUG1
+  KAutoCloser<char*> szBuffer( (char*)Get2Buffer( pszBin, dwSize ), ClearBuffer );
+  if ( szBuffer )
+  {
+    char* ptr = szBuffer;
+    if( *(int*)ptr == s_chVer )//Версия
+    {
+      ptr += sizeof(s_chVer);
+      FILETIME* F = (FILETIME*)ptr;ptr += sizeof(FILETIME);
+      if ( EqAttr(attrDbf,F[0]) )
+      {
+        mData.Read( ptr );
+        mCols.Read( ptr );
+        mName.Read( ptr );
+        mChar.Read( ptr );
+        bLoad = false;
+      }
+    }
+  }
+#endif
+
+  if ( bLoad )
+  {
+    char* Q = setlocale( LC_ALL, "Russian" );
+    ifstream file;
+    file.open( pszCsv );
+    if( !file.is_open() )
+      return false;
+    aCSVRow_ row(';');
+
+    char* ptr = szBuffer;
+    mChar.Realloc(1);
+    mChar.AddCurr(1);
+    mName.Add("");
+    file >> row;
+    LoadCols( row );
+    LoadData( row, file );
+    //
+    std::ofstream hFile(pszBin, std::ios::out | std::ios::binary | std::ios::trunc);
+    //KAutoCloser<HFILE> hFile( _lcreat( pszBin, 0 ), _lclose );
+    if( hFile.is_open() )
+    {
+      hFile.write( (char*)&s_chVer, sizeof(s_chVer) );
+      hFile.write((char*)&attrDbf, sizeof(FILETIME) );
+      mData.Write( hFile );
+      mCols.Write( hFile );
+      mName.Write( hFile );
+      mChar.Write( hFile );
+    }
+  }
+
+  return true;
+}
+void CDbfFiles::LoadCols( aCSVRow_ &row )
+{
+  for( aCSVRow_::tDataCont_::iterator it=row.m_data.begin(), end(row.m_data.end()); it!=end; ++it )
+  {
+    SFormatHdr hdr;
+    strcpy_s( hdr.name, it->c_str() );
+    mCols.Add( &hdr );
+  }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void CDbfFiles::LoadData( aCSVRow_ &row, std::istream &file )
+{
+  int t = 0;
+  while( file>>row )
+  {
+    if ( !mData.Realloc(1) )
+      break;
+    int nCurr = mData.AddCurr();
+    int n = 0;
+    for( aCSVRow_::tDataCont_::iterator it=row.m_data.begin(), end(row.m_data.end()); it!=end; ++it, ++n )
+    {
+      LPSTR a = (LPSTR)it->c_str();
+      if( !n )
+        a = "";
+      mData.Add( nCurr, n, a );
+    }
+    t++;
+  }
+}

@@ -1,0 +1,35 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate SP_SPEED( "SP_SPEED", SH_SP_SPEED::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_SP_SPEED,W_SP_SPEED,100)
+
+void SH_SP_SPEED::InitParm()
+{
+#include "Blocks/SP_SPEED.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/SP_SPEED_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class SP_SPEED_IMPL : public W_SP_SPEED
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_SP_SPEED::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  SP_SPEED_IMPL *impl = reinterpret_cast<SP_SPEED_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void SP_SPEED_IMPL::StepT( SStepCalcParams &dt )
+{
+  PV = PVRAW;
+}

@@ -1,0 +1,68 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate BOOL2NUM( "BOOL2NUM", SH_BOOL2NUM::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_BOOL2NUM,W_BOOL2NUM,76)
+
+void SH_BOOL2NUM::InitParm()
+{
+#include "Blocks/BOOL2NUM.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/BOOL2NUM_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class BOOL2NUM_IMPL : public W_BOOL2NUM
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_BOOL2NUM::StepT( SStepCalcParams &dt )
+{
+    SH_Block::StepT( dt );
+  BOOL2NUM_IMPL *impl = reinterpret_cast<BOOL2NUM_IMPL*>(W);
+  impl->StepT( dt );
+}
+//////////////////////////////////////////////////////////////////////////
+void BOOL2NUM_IMPL::StepT( SStepCalcParams &dt )
+{
+  UINT64 val = 0;
+  UINT64 mask = 1;
+  BYTE *pI = &IN[0];
+  for( int i=0; i<64; ++i, ++pI )
+  {
+    if( *pI )
+      val |= mask;
+    mask = mask << 1;
+    if( 22==i )
+    {
+      memcpy( &OUT.FLOAT32, &val, sizeof(OUT.FLOAT32) );
+      OUT.FLOAT64x32 = OUT.FLOAT32;
+    }
+    if( 31==i )
+    {
+      memcpy( &OUT.FLOAT32, &val, sizeof(OUT.FLOAT32) );
+      int v = 0;
+      memcpy( &v, &val, sizeof(v) );
+      if( OUT.Int32 != v )
+        NEWLOWDATA = 1;
+      else
+        NEWLOWDATA = 0;
+      OUT.Int32 = v;
+    }
+  }
+  UINT64 c = OUT.Uint64;
+  OUT.Uint64 = val;
+
+  c = c >> 32;
+  val = val >> 32;
+  
+  if( c != val )
+    NEWHIGHDATA = 1;
+  else
+    NEWHIGHDATA = 0;
+}

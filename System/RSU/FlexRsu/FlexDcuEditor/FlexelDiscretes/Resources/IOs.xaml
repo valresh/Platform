@@ -1,0 +1,191 @@
+﻿<Expander IsExpanded="True" Header="Ввод/Вывод" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="60,30" Header="ВВ">
+    <ItemsControl.Items>
+
+      <Grid Width="60" Height="20" Background="LightBlue" x:Name="DI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Цифровой вход"/>
+        </Grid.ToolTip>
+        <Border Width="50" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="DI"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M55,10 60,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="30,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="60" Height="20" Background="LightBlue" x:Name="DO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Цифровой выход"/>
+        </Grid.ToolTip>
+        <Border Width="50" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="DO"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-30,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="60" Height="20" Background="LightBlue" x:Name="AI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Аналоговый вход"/>
+        </Grid.ToolTip>
+        <Border Width="50" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center" CornerRadius="10">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AI"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M55,10 60,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="30,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="60" Height="20" Background="LightBlue" x:Name="AO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Аналоговый выход"/>
+        </Grid.ToolTip>
+        <Border Width="50" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center" CornerRadius="10">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AO"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-30,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+      </Grid>
+
+      <Grid Width="60" Height="30" Background="LightBlue" x:Name="SCLR" FlexDesigner:DesignerItem.ShowItemName="True">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="масштабирование" FontWeight="Bold"/>
+            <TextBlock Text="выход EinP в 1 означает, что in больше IN100"/>
+            <TextBlock Text="выход EinM в 1 означает, что in меньше IN0"/>
+            <TextBlock Text="одновременно EinP и EinM в 1 означает невозможность вычисления"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="SCLR"/>
+        <Path Stroke="Orange" StrokeThickness="2" Data="M5,10 55,0 55,30 5,20 5,10"/>
+        <Path Stroke="Orange" StrokeThickness="2" Data="M0,15 5,15"/>
+        <Path Stroke="Orange" StrokeThickness="2" Data="M55,5 60,5"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M55,15 60,15"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M55,25 60,25"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-30,15"/>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="30,5"/>
+              <FlexDesigner:Connector x:Name="EinP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="30,15"/>
+              <FlexDesigner:Connector x:Name="EinM" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="30,25"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="IN100" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="IN0" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="OUT100" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="OUT0" Value="0"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+        
+      <Grid Width="110" Background="LightBlue" x:Name="SGCR" FlexDesigner:DesignerItem.ShowItemName="False" FlexDesigner:DesignerItem.ShowExecOrder="True">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock><![CDATA[Аппроксимация по 10]]></TextBlock>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border MinWidth="100" BorderThickness="1" HorizontalAlignment="Center" BorderBrush="Black">
+          <Grid Margin="4,0,4,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="SG" HorizontalAlignment="Right" />
+              <TextBlock Text="IN" HorizontalAlignment="Left" />
+              <TextBlock x:Name="txtx1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X1, Path=Value}"/>
+              <TextBlock x:Name="txtx2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X2, Path=Value}"/>
+              <TextBlock x:Name="txtx3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X3, Path=Value}"/>
+              <TextBlock x:Name="txtx4" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X4, Path=Value}"/>
+              <TextBlock x:Name="txtx5" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X5, Path=Value}"/>
+              <TextBlock x:Name="txtx6" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X6, Path=Value}"/>
+              <TextBlock x:Name="txtx7" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X7, Path=Value}"/>
+              <TextBlock x:Name="txtx8" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X8, Path=Value}"/>
+              <TextBlock x:Name="txtx9" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X9, Path=Value}"/>
+              <TextBlock x:Name="txtx10" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ElementName=X10, Path=Value}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="CR" HorizontalAlignment="Left" />
+              <TextBlock Text="OUT" HorizontalAlignment="Right" />
+              <TextBlock x:Name="txty1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y1, Path=Value}"/>
+              <TextBlock x:Name="txty2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y2, Path=Value}"/>
+              <TextBlock x:Name="txty3" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y3, Path=Value}"/>
+              <TextBlock x:Name="txty4" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y4, Path=Value}"/>
+              <TextBlock x:Name="txty5" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y5, Path=Value}"/>
+              <TextBlock x:Name="txty6" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y6, Path=Value}"/>
+              <TextBlock x:Name="txty7" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y7, Path=Value}"/>
+              <TextBlock x:Name="txty8" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y8, Path=Value}"/>
+              <TextBlock x:Name="txty9" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y9, Path=Value}"/>
+              <TextBlock x:Name="txty10" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding ElementName=Y10, Path=Value}"/>
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,25 110,25"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,25"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="X1" x:Name="X1" PropName="x1" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="X2" x:Name="X2" PropName="x2" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="X3" x:Name="X3" PropName="x3" Value="3"/>
+            <FlexDesigner:HiddenProperty Key="X4" x:Name="X4" PropName="x4" Value="4"/>
+            <FlexDesigner:HiddenProperty Key="X5" x:Name="X5" PropName="x5" Value="5"/>
+            <FlexDesigner:HiddenProperty Key="X6" x:Name="X6" PropName="x6" Value="6"/>
+            <FlexDesigner:HiddenProperty Key="X7" x:Name="X7" PropName="x7" Value="7"/>
+            <FlexDesigner:HiddenProperty Key="X8" x:Name="X8" PropName="x8" Value="8"/>
+            <FlexDesigner:HiddenProperty Key="X9" x:Name="X9" PropName="x9" Value="9"/>
+            <FlexDesigner:HiddenProperty Key="X10" x:Name="X10" PropName="x10" Value="10"/>
+            <FlexDesigner:HiddenProperty Key="Y1" x:Name="Y1" PropName="y1" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="Y2" x:Name="Y2" PropName="y2" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="Y3" x:Name="Y3" PropName="y3" Value="3"/>
+            <FlexDesigner:HiddenProperty Key="Y4" x:Name="Y4" PropName="y4" Value="4"/>
+            <FlexDesigner:HiddenProperty Key="Y5" x:Name="Y5" PropName="y5" Value="5"/>
+            <FlexDesigner:HiddenProperty Key="Y6" x:Name="Y6" PropName="y6" Value="6"/>
+            <FlexDesigner:HiddenProperty Key="Y7" x:Name="Y7" PropName="y7" Value="7"/>
+            <FlexDesigner:HiddenProperty Key="Y8" x:Name="Y8" PropName="y8" Value="8"/>
+            <FlexDesigner:HiddenProperty Key="Y9" x:Name="Y9" PropName="y9" Value="9"/>
+            <FlexDesigner:HiddenProperty Key="Y10" x:Name="Y10" PropName="y10" Value="10"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+    </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>
+  

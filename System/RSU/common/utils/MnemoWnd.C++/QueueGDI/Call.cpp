@@ -1,0 +1,275 @@
+#include "Queue.h"
+#include "../Lang.h"
+//
+// Обработка вызовов диалогов
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Структура
+struct Queue_Call : public SPROLOZ
+{
+	char szFunc[64];
+	int  rType;
+	POINT pt;// Для типа 1
+	bool bGoto;
+	bool bFacepalte;
+	bool bClose;
+	bool bPassword;
+	bool bEnter;
+	char szCommonParam[4][256];
+};
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//HWND SnsKbd( HWND hWnd )
+//  {
+//  hWnd = ::GetParent( hWnd );
+//  if ( ::IsWindow( hWnd ) )
+//    {
+//    char szText[256];
+//    ::GetClassName( hWnd, szText, sizeof(szText) );
+//    if ( lstrcmpi( szText, CLASS_MNEMO ) == 0 )
+//      {
+//      ::GetWindowText( hWnd, szText, sizeof(szText) );
+//      if ( lstrcmpi( szText, "Установка" ) == 0 )
+//        {
+//        return hWnd;
+//        }
+//      }
+//    }
+//  return NULL;
+//  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//LPLoadPult fnLoadPult = NULL;
+////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//int PressCall(DefinePress)
+//{
+//	if (nCode == 0)
+//	{
+//		return 0;
+//	}
+//	//
+//	if (nCode == 1)
+//	{
+//		return 0;
+//	}
+//	//
+//	Queue_Call* p = (Queue_Call*)s;
+//	//
+//	if (!::PtInRect(&p->mRect, point))
+//	{
+//		return 0;
+//	}
+//
+//	if (p->bGoto)
+//	{
+//		static char  szFunc[256];
+//		strcpy_s(szFunc, p->szFunc);
+//		if (SnsKbd(q.hWnd)/*q.m_bSensorKeyb*/)
+//		{
+//			::SendMessage(q.hWnd, nBuildQueue, BUILD_MNEMO_TSW, (LPARAM)(LPCTSTR)szFunc);
+//		}
+//		else
+//		{
+//			::SendMessage(q.hWnd, nBuildQueue, BUILD_MNEMO, (LPARAM)(LPCTSTR)szFunc);
+//		}
+//
+//		if (!SnsKbd(q.hWnd))
+//		{
+//			::PostMsg(q.hWnd, QUEUE_GOTO, (LPARAM)szFunc);
+//		}
+//		else
+//		{
+//			::ShowWindow(q.hWnd, SW_SHOW);
+//			::PostMessage(q.hWnd, nPressQueue, QUEUE_GOTO, (LPARAM)szFunc);
+//		}
+//
+//		return 0;
+//	}
+//
+//	if (p->bClose)
+//	{
+//		::PostMessage(q.hWnd, WM_CLOSE, 0, 0);
+//		return 0;
+//	}
+//
+//	if (p->bEnter)
+//	{
+//		::PostMessage(q.hWnd, WM_KEYDOWN, VK_RETURN, 0);
+//		return 0;
+//	}
+//	//
+//	HWND hWnd = q.hWnd, hParent = ::GetParent(q.hWnd);
+//	if (!::IsWindow(hParent))
+//	{
+//		while (::IsWindow(hWnd))
+//		{
+//			hParent = hWnd;
+//			hWnd = ::GetParent(hWnd);
+//		}
+//	}
+//	//
+//	if (!p->bFacepalte)
+//	{
+//		::ShowWindow(q.hWnd, SW_HIDE);
+//	}
+//
+//	if (p->rType == 0)
+//	{
+//		HWND hParUSB = SnsKbd(q.hWnd);
+//		HWND hParent = q.hWnd;
+//		BOOL bChild = ::IsWindow(hParUSB);
+//		if (bChild)
+//		{
+//			hParent = hParUSB;
+//		}
+//		//
+//		HWND hOld = (bChild) ? ::GetWindow(hParUSB, GW_CHILD) : NULL;
+//		HWND hWnd = NULL;
+//		//mwr-----------------------((
+//		if (IsCommonParamVersions()) // ((AOP_TOBOLSK == Version) || (MK2_YAR == Version)||(Version==UPV20_UNPZ)||(Version==UPV_NOVOIL))
+//		{
+//			for (int ii = 0; ii < _countof(p->szCommonParam); ii++)
+//			{
+//				_tcscpy_s(CLang::szCommonParam[ii], p->szCommonParam[ii]);
+//			}
+//		}
+//		//mwr-----------------------))
+//
+//		if (fnLoadPult)
+//		{
+//			if ((p->bPassword) && (Version == УПВ_МСК) && (p->bFacepalte))
+//			{
+//				BOOL bPasswordEntered = (BOOL)::SendMsg(q.hWnd, QUEUE_PASSWORD_ENTERED, 0);
+//				if (bPasswordEntered)
+//				{
+//					(*fnLoadPult)(hParent, bChild ? NULL : q.hWnd, p->szFunc, !bChild);
+//				}
+//				else
+//				{
+//					(*fnLoadPult)(hParent, bChild ? NULL : q.hWnd, "\\SiemensB501\\Faceplate\\Password", !bChild);
+//				}
+//			}
+//			else
+//			{
+//				//mwr-----------------------((
+//				if ((IsCommonParamVersions()) && p->szCommonParam[0][0])
+//				{
+//					char tmpstr[512];
+//					size_t len = strlen(p->szFunc);
+//					if (p->szFunc[len - 1] == '\\') //если имя фейсплейта не указано
+//					{
+//						if (p->szCommonParam[2][0] != '&')
+//						{
+//							sprintf_s(tmpstr, "%s%s*^@%s", p->szFunc, p->szCommonParam[0], p->szCommonParam[0]); //параметр как имя фейсплейта
+//						}
+//						else //в szCommonParam[2] список: &имя*имяфейсплейта;имя*имяфейсплейта ..;
+//						{
+//							char* refs = p->szCommonParam[2] + 1;
+//							char* refe = strchr(refs + 1, '*');
+//							char name[256] = "";
+//							char faceplate[256] = "";
+//							while (refe)
+//							{
+//								strncpy_s(name, refs, refe - refs);
+//								refs = strchr(refe + 1, ';');
+//								if (_stricmp(name, p->szCommonParam[0]) == 0)
+//								{
+//									if (refs)
+//									{
+//										strncpy_s(faceplate, refe + 1, refs - refe - 1);
+//									}
+//									else
+//									{
+//										strcpy_s(faceplate, refe + 1);
+//									}
+//
+//									break;
+//								}
+//
+//								if (!refs)
+//								{
+//									break;
+//								}
+//
+//								refe = strchr(++refs, '*');
+//							}
+//
+//							sprintf_s(tmpstr, "%s%s", p->szFunc, faceplate);
+//						}
+//					}
+//					else
+//					{
+//						sprintf_s(tmpstr, "%s*^@%s", p->szFunc, p->szCommonParam[0]);
+//					}
+//
+//					(*fnLoadPult)(hParent, bChild ? NULL : q.hWnd, tmpstr, !bChild);
+//				}
+//				else//mwr-----------------------))					
+//				{
+//					(*fnLoadPult)(hParent, bChild ? NULL : q.hWnd, p->szFunc, !bChild);
+//				}
+//			}
+//		}
+//
+//		if (bChild && ::IsWindow(hOld))
+//		{
+//			::SendMessage(hParUSB, nPressQueue, QUEUE_CHILD_NXT, (LPARAM)hOld);
+//		}
+//	}
+//	else
+//	{
+//		if (p->rType == 1)
+//		{
+//		}
+//	}
+//
+//	return 0;
+//}
+////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//// Функция отображения
+//int PaintCall(DefinePaint)
+//  {
+//  QueueP(Queue_Call);
+////  CMyPen pen( hDC, 0x00ffff, 2 );
+////  pen.Rect( p->mRect );
+//  return 1;
+//  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddCall(DefineTegs)
+{
+	//
+	AddQueueEx(Queue_Call);
+	// Код, посылаемый в АРМ
+	p->btSendType = QUEUE_BUTTON;
+	// Определение функции вывода
+	//p->paint = &PaintCall;
+	//p->press = &PressCall;
+	p->bGoto = false;
+	p->bFacepalte = false;
+	p->bClose = false;
+	p->bPassword = false;
+	p->bEnter = false;
+	// Имя функции
+	StrCPY(p->szFunc, teg[0].value, sizeof(p->szFunc));
+	//
+	memset(p->szCommonParam, 0, sizeof p->szCommonParam);
+	//
+	STegObj obj[] =
+	{
+	{ 'R', "rect", &p->mRect },// Регион вызова диалога
+	{ 'E', "rc"  , &p->mRect },
+	{ 'I', "r"   , &p->rType },
+	{ 'P', "pt"  , &p->pt    },
+	{ 'B', "goto",  &p->bGoto },
+	{ 'L', "faceplate",  &p->bFacepalte },
+	{ 'L', "password",  &p->bPassword },
+	{ 'L', "close",  &p->bClose },
+	{ 'L', "enter",  &p->bEnter },
+	{ 'S', "$common0", p->szCommonParam[0], _countof(p->szCommonParam[0]) - 1 },
+	{ 'S', "$common1", p->szCommonParam[1], _countof(p->szCommonParam[1]) - 1 },
+	{ 'S', "$common2", p->szCommonParam[2], _countof(p->szCommonParam[2]) - 1 },
+	{ 'S', "$common3", p->szCommonParam[3], _countof(p->szCommonParam[3]) - 1 },
+	};
+	//
+	::ParserObjScn(teg, obj, sizeof(obj) / sizeof(STegObj));
+	//
+	managed::RegisterElement(teg->name, p);
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

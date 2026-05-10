@@ -1,0 +1,38 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate MUXREAL( "MUXREAL", SH_MUXREAL::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_MUXREAL,W_MUXREAL,51)
+
+void SH_MUXREAL::InitParm()
+{
+#include "Blocks/MUXREAL.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/MUXREAL_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class MUXREAL_IMPL : public W_MUXREAL
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_MUXREAL::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  MUXREAL_IMPL *impl = reinterpret_cast<MUXREAL_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void MUXREAL_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( K < 0 || K>=(_countof(IN)-1) )
+    OUT = NaN;
+  else
+    OUT = IN[K+1];
+}

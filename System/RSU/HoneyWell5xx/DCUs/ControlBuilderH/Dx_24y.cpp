@@ -1,0 +1,17 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate DI_24( "DI-24", S_Dx_24y::Create );
+static SModuleCreate DO_24B( "DO-24B", S_Dx_24y::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_Dx_24y,W_Dx_24y,50)
+
+void S_Dx_24y::InitParm()
+{
+#include "Modules/Dx_24y.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Modules/Dx_24y_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}

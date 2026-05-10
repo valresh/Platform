@@ -1,0 +1,70 @@
+#pragma once
+#include <RSUBaseType_.h>
+
+namespace ns_CALCU
+{
+  enum eType
+  { 
+    None, 
+    Const, 
+    Var,
+    ReferenceToField,
+  };
+}
+
+struct SVarRetainedPart
+{
+  ns_CALCU::eType m_Type;
+  eVarType m_TypeVar;
+  char m_NameValue[64*4];
+  char szValue[32*4];
+  union
+  {
+    bool bValue;
+    int iValue;
+    double dValue;
+    BYTE btValue;
+  };
+  SVarRetainedPart()
+  : m_Type( ns_CALCU::None )
+  , m_TypeVar( evtHZ )
+  , dValue( 0 )
+  {}
+};
+
+class KCalcVar : public SVarRetainedPart
+{
+public:
+  KCalcVar();
+  bool Init( class KBmBase *pRoot );
+  bool InitManual( class KBmBase *pRoot, LPCSTR pField );
+  bool Numb();
+
+protected:
+  union 
+  {
+    int    *piValue;
+    double *pdValue;
+    bool   *pbValue;
+    BYTE   *pbtValue;
+    char   *pszValue;
+  };
+  int m_bitOffset;
+  USHORT varSize;
+protected:
+  KBmBase *m_pObj;
+  char m_szField[32*4];
+};
+
+struct SLocalVar
+{
+  char NameVar[32*4];
+  int nInVars;
+  eVarType m_TypeVar;
+  union
+  {
+    bool bValue;
+    int iValue;
+    double dValue;
+  };
+};

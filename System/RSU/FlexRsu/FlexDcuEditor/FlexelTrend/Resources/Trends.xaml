@@ -1,0 +1,34 @@
+﻿<Expander IsExpanded="True" Header="Построитель графиков" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="60,30" Header="Построитель графиков">
+    <ItemsControl.Items>
+      <Grid Width="70" Height="20" Background="LightBlue" x:Name="ANATREND" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="График аналоговой величины"/>
+        </Grid.ToolTip>
+        <Path Stroke="Black" StrokeThickness="2" Data="M5,0 5,20 70,20 70,0"/>
+        <Path Stroke="Green" StrokeThickness="1" Data="M5,5 15,0 A 25,10 180 0 0 50,3 M50,3 70,0"/>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="ANATREND"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-35,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="EU" Value="%"/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+            <FlexDesigner:HiddenProperty Key="VALUE_FORMAT" Value="#.##"/>
+            <FlexDesigner:HiddenProperty Key="MAXIMUM" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="MINIMUM" Value="0"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+    </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>
+  

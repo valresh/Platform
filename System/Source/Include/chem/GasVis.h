@@ -1,0 +1,5 @@
+﻿DOUBLE(GasViscosityA)
+DOUBLE(GasViscosityB)
+DOUBLE(GasViscosityC)
+DOUBLE(GasViscosityTmin)
+DOUBLE(GasViscosityTmax)

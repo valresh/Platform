@@ -1,0 +1,198 @@
+#include <crossplatform.h>
+#include "ServerThreadBase.h"
+#include "SysDataTypes.h"
+#include "EventLogTypes.h"
+#include "Common.h"
+#include "ServerThreadBase.h"
+//
+#undef DC
+#define DC( Class ) \
+  {/*Local Stack*/ \
+  Class* src = (Class*)obj; \
+  Class* dst = (Class*)This;\
+  memcpy( dst, src, sizeof(Class) ); \
+  }
+//
+/*static*/ void CShForsunka::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CForsunka* obj = (CForsunka*)pBase;
+  CShForsunka* This = (CShForsunka*)pShBase;
+  This->Busy    = obj->Busy;
+  This->dKPD    = obj->dKPD;
+  //
+  DC(CFlags);
+  DC(CForsunkaW);
+  };
+//
+/*static*/ void CShSystem::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CSystem* obj = (CSystem*)pBase;
+  CShSystem* This = (CShSystem*)pShBase;
+  //
+  This->Model      = NUMBER_MODEL    ;//obj->Model;
+  This->bNoPCYWork = obj->bNoPCYWork ;
+  //
+  DC(CSystemA);
+  DC(CSystemB);
+  }
+//
+/*static*/ void CShKlapan::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CKlapan* obj = (CKlapan*)pBase;
+  CShKlapan* This = (CShKlapan*)pShBase;
+  This->Busy    = obj->Busy;
+//This->dPin    = obj->dPin ;
+//This->dPout   = obj->dPout;
+  //
+  DC(CFlags);
+  DC(CKlapanW);
+  }
+//
+/*static*/ void CShGasAnalyz::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CGasAnalyz* obj = (CGasAnalyz*)pBase;
+  CShGasAnalyz* This = (CShGasAnalyz*)pShBase;
+  This->RetCode = rcOK;
+  This->bNewStructIsUsed=obj->bNewStructIsUsed;
+  if (This->bNewStructIsUsed)
+  {
+	  memcpy( This->Table, obj->Table, sizeof(This->Table) );
+	  memcpy( This->Main_Curve, obj->Main_Curve, sizeof(This->Main_Curve) );
+	  memcpy( This->Save_Curve, obj->Save_Curve, sizeof(This->Save_Curve) );
+      This->CalcData=obj->CalcData;
+      This->UseTable=obj->UseTable; 
+      This->UseCurve=obj->UseCurve;
+      This->SaveData=obj->SaveData;
+      This->UseSave=obj->UseSave;
+      This->ClearSave=obj->ClearSave;
+  }
+  else
+  {
+	    memcpy( This->CC, obj->C, sizeof(This->CC) );
+		memcpy(This->DecimalPlace, obj->DecimalPlace,sizeof(This->DecimalPlace) );
+		for (int i=0;i<40;i++)
+		lstrcpy( This->Name[ i], obj->Name[ i] );
+  }
+
+  };
+//
+/*static*/void CShZadv::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CZadv* obj = (CZadv*)pBase;
+  CShZadv* This = (CShZadv*)pShBase;
+  This->Busy    = obj->Busy;
+  //
+  DC(CFlags);
+  DC(CZadvW);
+  }
+//
+/*static*/ void CShSensor::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CSensor* obj = (CSensor*)pBase;
+  CShSensor* This = (CShSensor*)pShBase;
+//This->Busy    = obj->Busy;
+  //
+  DC(CFlags);
+  DC(CSensorW);
+//DC(CAlarmBase);
+  //
+  This->SensValue = obj->SensValue;
+  This->ShowValue = obj->ShowValue;
+  This->HH = obj->HH;
+  This->H = obj->H;
+  This->L = obj->L;
+  This->LL = obj->LL;
+  This->Ventil = obj->Ventil;
+  }
+//
+/*static*/ void CShPump::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CPumpData* obj = (CPumpData*)pBase;
+  CShPump* This = (CShPump*)pShBase;
+  This->Busy    = obj->Busy;
+  //
+  This->Pmanom = obj->Pmanom;
+  This->dAmper = obj->dAmper;
+  This->eDrain = obj->TypeDrain;
+  //
+  DC(CFlags);
+  DC(CPumpDataW);
+  }
+//
+/*static*/ void CShKVO::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CKVO* obj = (CKVO*)pBase;
+  CShKVO* This = (CShKVO*)pShBase;
+  This->Busy    = obj->Busy;
+  //
+  This->TypeDrainIn  = obj->TypeDrainIn ;
+  This->TypeDrainOut = obj->TypeDrainOut;
+  //
+  DC(CFlags);
+  DC(CKVOW);
+  }
+//
+/*static*/ void CShHS::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CHs* obj = (CHs*)pBase;
+  CShHS* This = (CShHS*)pShBase;
+  This->Busy    = obj->Busy;
+  //
+  DC(CFlags);
+  DC(CHsW);
+  };
+//
+/*static*/ void CShPolyHS::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CPolyHs* obj = (CPolyHs*)pBase;
+  CShPolyHS* This = (CShPolyHS*)pShBase;
+  This->m_nSize = sizeof(CShPolyHS);
+  This->RetCode = rcOK;
+  //
+  This->Busy = obj->Busy;
+  //
+  {//Local Stack
+  CFlags* src = (CFlags*)obj;
+  CFlags* dst = (CFlags*)This;
+  memcpy( dst, src, sizeof(CFlags) );
+  }
+  {//Local Stack
+  CPolyHsW* src = (CPolyHsW*)obj;
+  CPolyHsW* dst = (CPolyHsW*)This;
+  memcpy( dst, src, sizeof(CPolyHsW) );
+  }
+  };
+
+/*static*/ void CShEdg::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CEdg* obj = (CEdg*)pBase;
+  CShEdg* This = (CShEdg*)pShBase;
+  This->m_nSize = sizeof(CShEdg);
+  This->RetCode = rcOK;
+  //
+  This->Busy   = obj->Busy;
+  This->setEnable = obj->setEnable;
+  //
+  {//Local Stack
+  CFlags* src = (CFlags*)obj;
+  CFlags* dst = (CFlags*)This;
+  memcpy( dst, src, sizeof(CFlags) );
+  }
+  {//Local Stack
+  CEdgW* src = (CEdgW*)obj;
+  CEdgW* dst = (CEdgW*)This;
+  memcpy( dst, src, sizeof(CEdgW) );
+  }
+  //
+  }
+//
+/*static*/ void CShValue::GetModelData(CBase* pBase,CShBase* pShBase)
+  {
+  CValue* obj = (CValue*)pBase;
+  CShValue* This = (CShValue*)pShBase;
+  This->Busy = obj->Busy;
+  This->Flags=obj->Flags;
+  //
+  DC(CValueW);
+  };
+//

@@ -1,0 +1,77 @@
+#include "SMsPool.h"
+#include <rsuErr.h>
+#include <basemodel.h>
+
+
+KSMsPool::KSMsPool()
+: m_Count(0)
+, m_ActiveI( 0 )
+{
+  ZeroMemory( m_Ctrls, sizeof(m_Ctrls) );
+}
+
+void KSMsPool::RegisterSM( ISMsPool *pSM )
+{
+  ASS( m_Count<_countof(m_Ctrls) );
+  if( m_Count==_countof(m_Ctrls) )
+    return;
+  m_Ctrls[m_Count].pSM = pSM;
+  m_Ctrls[m_Count].pName = pSM->GetName();
+  ++m_Count;
+}
+
+bool KSMsPool::GetFirstACSObject()
+{
+  m_ActiveI = 0;
+  m_nAcsFindObjStep = 0;
+  m_nAcsFindIOStep = 0;
+  if( !m_Count )
+    return false;
+  return m_Ctrls[m_ActiveI].pSM->GetFirstACSObject();
+}
+
+bool KSMsPool::GetNextACSObject( void ** pData, char *Name, size_t sn, char *Data, size_t sd )
+{
+  CBase *pBase = NULL;
+  LPCSTR pszName = NULL;
+  int nFcsNumb = 0;
+
+  if( !m_Count )
+    return false;
+
+  if( !m_nAcsFindObjStep )
+  {
+    bool r = m_Ctrls[m_ActiveI].pSM->GetNextACSObject( pData, Name, sn, Data, sd );
+    if( !r )
+    {
+      while( 1 )
+      {
+        ++m_ActiveI;
+        if( m_ActiveI>=m_Count )
+          break;
+        r = m_Ctrls[m_ActiveI].pSM->GetFirstACSObject();
+        if( !r )
+          continue;
+        r = m_Ctrls[m_ActiveI].pSM->GetNextACSObject( pData, Name, sn, Data, sd );
+        if( !r )
+          continue;
+        break;
+      }
+    }
+    if( r )
+      return true;
+  }
+  m_nAcsFindObjStep = 1;
+  return false;
+}
+
+#ifdef _WIN32
+bool KSMsPool::ShowACSObject( void * pInfo, HWND hMainWnd, char * Name, void * pData )
+{
+  for( int i=0; i<m_Count; ++i )
+  {
+    m_Ctrls[i].pSM->ShowACSObject( hMainWnd, Name, pInfo );
+  }
+  return true;
+}
+#endif

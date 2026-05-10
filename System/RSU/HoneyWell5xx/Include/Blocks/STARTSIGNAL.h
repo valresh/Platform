@@ -1,0 +1,6 @@
+Boolean(ANYRESTARTFL,"Any Restart Flag",false)
+Boolean(CEECOLDFL,"CEE Cold Restart Flag",false)
+Boolean(CEESWITCHFL,"CEE Redundant Switchover Flag",false)
+Boolean(CEEWARMFL,"CEE Warm Restart Flag",false)
+Boolean(CMACTIVEFL,"CM Active Flag",false)
+Boolean(CMLOADFL,"CM Load Flag",false)

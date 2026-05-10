@@ -1,0 +1,10 @@
+Real( IN, "Input", NaN)
+Real( OUT, "Output", NaN)
+Boolean(ROLLAVGRST,"Trigger RollAvg algo reset",1)//Used to reset the number of samples in the buffer to “0” and restart the next rolling average sample collection without inactivating the CM.
+                                                  //On – Remains “ON” until the next rolling average CM execution.
+                                                  //Off –“OFF” if the rolling average values are reset.
+                                                  //The values that are stored are ROLLAVGOK and ROLLAVGBAD are set to 0 and ROLLAVGRST set to OFF.
+Integer(ROLLMULTIPLE,"# times CM runs per sample get",0)
+Integer(ROLLINDEX,"internal pointer to next sample",0)
+Integer(ROLLAVGBAD,"# IN items not used in RollAvg",0)
+Integer(ROLLAVGOK,"# IN items included in RollAvg",0)

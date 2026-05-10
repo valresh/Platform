@@ -1,0 +1,32 @@
+#include "QuickBuilder.h"
+#include "QB_Class.h"
+
+LPCSTR g_szPntsFilePrefix = "РСУ_QB_";
+
+extern KQuickBuilder *g_pQuickBuilder;
+
+KQuickBuilder::KQuickBuilder( LPCSTR ObjName )
+: m_FieldHandler( NULL )
+, m_ppPoints( NULL )
+, m_nPoints( 0 )
+, m_fAI( NULL )
+, m_bCreateData( false )
+{
+  m_bStep1 = false;
+  LPCSTR pszRealName = ObjName;
+  size_t prefixLen = strlen(g_szPntsFilePrefix);
+  if( !_strnicmp(pszRealName, g_szPntsFilePrefix, prefixLen) )
+    pszRealName += prefixLen;
+
+  strcpy_s( m_szObjName, pszRealName );
+  g_pQuickBuilder = this;
+}
+
+KQuickBuilder::~KQuickBuilder()
+{
+}
+
+LPCSTR KQuickBuilder::GetCsvPrefix()
+{
+  return g_szPntsFilePrefix;
+}

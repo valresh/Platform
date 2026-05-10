@@ -1,0 +1,40 @@
+#pragma once
+#include "FlexDoc.h"
+#include <macros/INotifier.h>
+#include <string.h>
+
+// KListOfBlocksView view
+
+class KListOfBlocksView : public CListView
+{
+  std::string m_szCurDR;
+  CListCtrl* m_pCtrl;
+  std::vector<INotifier::CONNECTION> m_connections;
+  INotifier* m_NotifiereSelectedBlock;
+
+	DECLARE_DYNCREATE(KListOfBlocksView)
+
+protected:
+	KListOfBlocksView();           // protected constructor used by dynamic creation
+	virtual ~KListOfBlocksView();
+  KFlexDoc* GetDocument();
+
+public:
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+#ifndef _WIN32_WCE
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+#endif
+
+protected:
+  void OnSelectedDR( LPSTR pszFileName );
+  void OnScrollToBlock( LPCSTR pszBlock );
+	DECLARE_MESSAGE_MAP()
+  virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
+  afx_msg LRESULT OnWmUser( WPARAM wParam, LPARAM lParam );
+  afx_msg void OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult);
+  afx_msg void OnHeaderClicked(NMHDR* pNMHDR, LRESULT* pResult);
+};
+
+

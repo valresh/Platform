@@ -1,0 +1,12 @@
+//ID=192
+String_K(NAME,"Имя",32*4)
+//Integer_A(ASSOCBLOCK,"Associated Block",1000)
+//String_K(BLCKCOMMENT1,"Block Comment 1",40*4)
+//String_K(BLOCKTYPNAME,"Block Type Name",101*4)
+//Integer(CBBLOCKPROP,"Block Property")
+/*Integer(NUMBLOBS,"Number of Dynamic State Blobs")
+Integer(ORDERINCM,"Execution Order in CM")
+String_K(QUALSTATE,"Qualification State",100*4)
+Boolean(X_ALLOWEXECBB,"Allow executing Basic Block",false)
+Integer(X_BLOCKMEM,"Currently used memory (bytes)")
+*/

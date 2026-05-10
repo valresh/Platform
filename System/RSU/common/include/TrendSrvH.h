@@ -1,0 +1,32 @@
+// Структуры для работы с файлом трендов
+#pragma once
+//
+// Структура заголовка файла трендов
+struct CTrendHeader
+{
+  enum
+  {
+    vInfiniteTrends = 0x342861A5
+  };
+  DWORD  dwName;   //Изменения имени MAP-файла
+  DWORD  kBlk;     //Количество заполненных блоков
+  DWORD  StepTc;   //Шаг по времени (в секундах)
+  DWORD  kVar;     //Общее количество тэгов
+  time_t StartTime;//Время начала моделирования
+  time_t trendsStartTime;//начальный момент актуальности трендов
+  DWORD  nVersion;//
+  DWORD  kActualBlks[2];
+  char __padding[4];
+};
+//
+struct STrendId 
+{
+  DWORD nId;
+  char name[512];
+  char  __padding[4];
+};
+
+struct CTrendHeaderEx : public CTrendHeader
+{
+  STrendId nId[1];// Список идентификаторов
+};

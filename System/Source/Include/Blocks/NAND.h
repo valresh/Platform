@@ -1,0 +1,2 @@
+Boolean_A(IN,"Input",8,true)
+Boolean(OUT,"Output",false)

@@ -1,0 +1,15 @@
+Struct_BxIx(ACCDEV,FL,4,TP,4)
+Boolean(ACCTVFL,"",false)
+Enumeration(COMMAND,"Allows the operator to control the operation of a Totalizer",None,Start,Stop,Reset,Def=None)
+Real(LASTGOOD,"Last Good Value",NaN)//This is the last good accumulated value, before the input went bad
+Real(OLDAV,"Old Accumulated Value",0.)
+Real(P1,"PV1",NaN)//The current value of the process input to a Data Acquisition function block
+Enumeration(P1STS,"Process Variable (PV) Status",BAD,UNCERTAIN,NORMAL,MANUAL,Def=BAD)
+Real(PV,"Function Block Output",0)
+Enumeration(PVSTS,"Process Variable (PV) Status",Bad,Uncertain,Normal,Manual,Def=Bad)
+Struct3B(PVSTSFL,"",BAD,NORM,UNCER)
+StructRE(PVVALSTS,"",PV,PVSTS)
+Boolean(RESETFL,"Reset Totalizer Command Flag",false)//When this flag changes from Off to On, the Totalizer function block resets the PV to equal the value of the RESETVAL variable
+Boolean(STARTFL,"Start Totalizer Command Flag",false)// - When this flag changes from Off to On, the Totalizer function block starts the accumulator
+Enumeration(STATE,"",Stopped,Running,Def=Stopped)//Indicates the current state of the Totalizer function block.
+Boolean(STOPFL,"",false)//When this flag changes form Off to On, the Totalizer function block stops the accumulator.

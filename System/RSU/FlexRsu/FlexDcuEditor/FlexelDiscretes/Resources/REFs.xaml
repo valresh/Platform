@@ -1,0 +1,105 @@
+﻿<Expander IsExpanded="True" Header="Переходы" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="90,30" Header="REF">
+    <ItemsControl.Items>
+
+      <Grid Height="20" Background="LightBlue" x:Name="IREF" FlexDesigner:DesignerItem.ShowItemName="False" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Получатель данных с поля тэга" FontWeight="Bold"/>
+            <TextBlock Text="Указывается имя_тэга.имя_поля"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border MinWidth="140" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Center">
+          <TextBlock x:Name="txtIREF" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=iRefProp, Path=Value}"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M145,10 150,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="75,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="REF" x:Name="iRefProp" Value="IREF" PropName="txtIREF"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Height="20" Background="LightBlue" x:Name="OREF" FlexDesigner:DesignerItem.ShowItemName="False" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Присвоение данных в поле тэга" FontWeight="Bold"/>
+            <TextBlock Text="Указывается имя_тэга.имя_поля"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border MinWidth="140" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Center">
+          <TextBlock x:Name="txtOREF" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=oRefProp, Path=Value}"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M-5,10 0,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-75,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="REF" x:Name="oRefProp" Value="OREF" PropName="txtOREF"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Height="20" Background="LightBlue" x:Name="ISINK" FlexDesigner:DesignerItem.ShowItemName="False" FlexDesigner:DesignerItem.ShowExecOrder="False" FlexDesigner:DesignerItem.Vendor="PageConnector">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Получатель данных в пределах проекта" FontWeight="Bold"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Path Stroke="Black" StrokeThickness="2" Data="M5,0 120,0 145,10 120,20 5,20 5,0 "/>
+        <TextBlock x:Name="txtISINK" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=iSinkProp, Path=Value}"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M145,10 150,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="75,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="REF" x:Name="iSinkProp" Value="ISINK" PropName="txtISINK"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Height="20" Background="LightBlue" x:Name="OSRC" FlexDesigner:DesignerItem.ShowItemName="False" FlexDesigner:DesignerItem.ShowExecOrder="False" FlexDesigner:DesignerItem.Vendor="PageConnector">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Источник данных в пределах проекта" FontWeight="Bold"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Path Stroke="Black" StrokeThickness="2" Data="M5,10 25,0 145,0 145,20 25,20, 5,10 "/>
+          <TextBlock x:Name="txtOSRC" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=oSrcProp, Path=Value}"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-75,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="REF" x:Name="oSrcProp" Value="OSRC" PropName="txtOSRC"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+    </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>

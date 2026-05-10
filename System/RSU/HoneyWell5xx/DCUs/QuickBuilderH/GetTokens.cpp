@@ -1,0 +1,310 @@
+#include "QbTranslator.h"
+#include <rsuStr.h>
+
+eToken_value KQbTranslator::GetToken( std::istream &input )
+{
+  m_Value.clear();
+  eToken_value tok = etUnknown;
+  eToken_value prevTok = etUnknown;
+  if( !m_tokenTrain.empty() )
+    prevTok = m_tokenTrain.back().tok;
+
+  char ch = 0;
+  do 
+  {
+    if(!input.get(ch)) 
+      return etEndInData;
+  }while( ch==' ' || ch=='\t' );
+
+  switch( ch )
+  {
+  case '\'':
+    while( input.get(ch) )
+    {
+    }
+    KKK();
+  case '\n':
+    tok = etEndLine;
+    break;
+  case etNE:
+    m_Value = ch;
+    tok = eToken_value(ch);
+    input.get(ch);
+    if( etEQ==ch )
+    {
+      m_Value += ch;
+    }
+    else
+    {
+      tok = etNOT;
+      input.unget();
+    }
+    break;
+  case etASSIGN:
+    m_Value = ch;
+    tok = eToken_value(ch);
+    input.get(ch);
+    if( etASSIGN==ch )
+    {
+      tok = etEQ;
+      m_Value += ch;
+    }
+    else
+    {
+      input.unget();
+    }
+    break;
+  case etMINUS:
+    m_Value = ch;
+    switch( prevTok )
+    {
+    case etOR:
+    case etLP:
+    case etASSIGN:
+      {
+        std::string v;
+        v = ch;
+        eToken_value n = GetToken( input );
+        if( etNUMBER==n )
+        {
+          tok = n;
+          v += m_Value;
+          m_Value = v;
+          return tok;
+        }
+        if( etTEXT==n )
+        {
+          tok = etNEGATIVE;
+          for( int i=(int)m_Value.size(); i>0; i-- )
+            m_pLineStream->putback( m_Value.at(i-1) );
+          m_Value = "-";
+          return tok;
+        }
+        ASSD(0);
+        KKK();
+      }
+      break;
+    }
+  case etPLUS:
+  case etMUL:
+  case etDIV:
+  case etCOMMA://,
+  case etLP:
+  case etRP:
+  //case etEndExpr://;
+  case etDblPoint:
+    m_Value = ch;
+    tok = eToken_value(ch);
+    break;
+  case etBITOR:
+  case etBITAND:
+    m_Value = ch;
+    tok = eToken_value(ch);
+    {
+      char chN = 0;
+      input.get(chN);
+      if( ch!=chN )
+        input.unget();
+      else
+      {
+        m_Value += chN;
+        if( ch==etBITAND )
+          tok =etAND;
+        else if( ch==etBITOR )
+          tok =etOR;
+      }
+    }
+    break;
+  case etGT:
+  case etLT:
+    m_Value = ch;
+    tok = eToken_value(ch);
+    input.get(ch);
+    if( '='==ch )
+    {
+      switch(tok)
+      {
+      case etGT:
+        tok = etGE;
+        m_Value += ch;
+        break;
+      case etLT:
+        tok = etLE;
+        m_Value += ch;
+        break;
+      default:
+        ASSD(0);
+        input.unget();
+      }
+    }
+    else if( etLT==ch && etLT==tok)
+    {
+      /*tok = etShiftLeft;
+      m_Value += ch;*/
+    }
+    else if( etGT==ch && etGT==tok)
+    {
+      /*tok = etShiftRight;
+      m_Value += ch;*/
+    }
+    else
+    {
+      input.unget();
+    }
+    break;
+  case '"':
+    //m_Value += ch;
+    while( input.get(ch) )
+    {
+      if( '"'==ch )
+        break;
+      ch = std::toupper( ch );
+      m_Value += ch;
+    }
+    tok = etVarFieldAsTxt;
+    break;
+  default:
+    if( isalpha(ch) || '_'==ch )
+    {
+      m_Value += ch;
+      while( input.get(ch) )
+      {
+        if( isalpha(ch) || isdigit(ch) || '.'==ch || '_'==ch )
+        {}
+        else
+          break;
+        m_Value += ch;
+      }
+      tok = etTEXT;
+    }
+    else if( isdigit(ch) )
+    {
+      tok = etNUMBER;
+      m_Value += ch;
+      while( input.get(ch) )
+      {
+        if( isdigit(ch) || '.'==ch )
+        {
+          m_Value += ch;
+          continue;
+        }
+        break;
+      }
+    }
+    else
+    {
+      ASS(0);
+    }
+    input.unget();
+    break;
+  }
+  if( etTEXT==tok )
+  {
+    if( !IsSys( tok, m_Value ) )
+      IsConst( tok, m_Value );
+    if( etEND_IF==tok )
+    {
+      std::string s = m_Value;
+      eToken_value t = GetToken( input );
+      if( etIF==t )
+      {
+        s += m_Value;
+        m_Value = s;
+      }
+      else if( etSelect==t )
+      {
+        s += m_Value;
+        m_Value = s;
+        tok = etEnd_Select;
+      }
+      else
+      {
+        ASSD(0);
+      }
+    }
+  }
+
+  return tok;
+}
+
+struct CSysID
+{
+  LPSTR Name;
+  eToken_value ID;
+};
+
+static CSysID SysID[] = 
+{
+  {"IF", etIF}, 
+  {"ELSE", etELSE},
+  {"THEN", etTHEN},
+  /*"OR", etOR,
+  "AND", etAND,
+  "NOT", etNOT,*/
+  {"END", etEND_IF},
+  {"SELECT", etSelect},
+  {"CASE", etCase},
+};
+
+bool KQbTranslator::IsSys( eToken_value &tok, std::string &szVal )
+{
+  for( int i=0; i<_countof(SysID); i++ )
+  {
+    if( !_stricmp(szVal.c_str(), SysID[i].Name) )
+    {
+      tok = SysID[i].ID;
+      return true;
+    }
+  }
+  return false;
+}
+
+static CSysID BadID[] = 
+{
+  {"POINTID", etPOINTID },
+  {"CALL", etCALL},
+  {"PMMCMDTOCM", etPmmCmdToCM },
+  {"PMMCMDTOSM", etPmmCmdToSM },
+  {"PMMCMDTOSMPMP", etPmmCmdToSMPmp },
+  {"SET", etSet},
+};
+
+bool KQbTranslator::IsNotSupported( eToken_value &tok, std::string &szVal )
+{
+  for( int i=0; i<_countof(BadID); i++ )
+  {
+    if( !_stricmp(szVal.c_str(), BadID[i].Name) )
+    {
+      tok = BadID[i].ID;
+#ifndef _DEBUG1
+      return true;
+#endif
+    }
+  }
+  return false;
+}
+
+struct SNameByName
+{
+  LPCSTR pN1;
+  eToken_value tok;
+};
+
+static SNameByName constVals[] =
+{
+  {"ON", etON },
+  {"OFF", etOFF },
+};
+
+bool KQbTranslator::IsConst( eToken_value &tok, std::string &szVal )
+{
+  for( int i=0; i<_countof(constVals); i++ )
+  {
+    if( !strcmp(szVal.c_str(), constVals[i].pN1) )
+    {
+      tok = constVals[i].tok;
+      return true;
+    }
+  }
+  return false;
+}

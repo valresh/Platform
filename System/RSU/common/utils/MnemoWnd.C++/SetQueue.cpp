@@ -1,0 +1,140 @@
+#include "Queue.h"
+#include "Lang.h"
+#include "crossplatform.h"
+//#include "MnemoWnd.h"
+#include "QueueAPM.h"
+//#include "Function.h"
+//#include <assert.h>
+//#include "QueueWnd.h"
+//#include "FormatScn.h"
+//#include "shlwapi.h"
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+bool ParserBuffer( CLang& def, char*& ptr, SBuffer& Buffer, SUniLogic& rLog );
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inline bool IsParam( char* p )
+  {
+  bool b = _strnicmp( p, "param", 5 ) == 0;
+  return b && ( ('0' <= p[5] && p[5] <= '9') || 'x' == p[5] || p[5] == 'y' );
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inline bool IsRegistr( char* p )
+  {
+  bool b = _strnicmp( p, "registr", 7 ) == 0;
+  return b && ( '0' <= p[7] && p[7] <= '9' );
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inline bool IsRegistf( char* p )
+  {
+  bool b = _strnicmp( p, "registf", 7 ) == 0;
+  return b && ( '0' <= p[7] && p[7] <= '9' );
+  }
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int    gnRegistr[10];
+double gnRegistf[10];
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void FillFunction( CLang& def, int nParam, POINT& point, char* ptr, char*& str )
+  {
+  while ( *ptr )
+    {
+    if ( tolower(ptr[0]) == 'p' && IsParam(ptr) )
+      {
+      static char szXY[4096];
+      char* par = szXY;
+      if ( ptr[5] == 'x' )
+        sprintf_s(szXY,sizeof(szXY),"%d",point.x);
+      else
+      if ( ptr[5] == 'y' )
+        sprintf_s(szXY,sizeof(szXY),"%d",point.y);
+      else
+        {
+        int m = ptr[5]-'0';
+        DWORD dwPar = 1<<m;
+        if ( def.dwPar & dwPar )
+          par = def.szParam[m];
+        else
+          par = def.m_queue.arrFunc[nParam].szParam[m];
+        }
+      FillFunction( def, nParam, point, par, str );
+      ptr += 6;
+      }
+    else
+    if ( tolower(ptr[0]) == 'r' && IsRegistr(ptr) )
+      {
+      static char szXY[1024];
+      char* par = szXY;
+      int m = ptr[7]-'0';
+      sprintf_s(szXY,sizeof(szXY),"%d",gnRegistr[m]);
+      FillFunction( def, nParam, point, par, str );
+      ptr += 8;
+      }
+    else
+    if ( tolower(ptr[0]) == 'r' && IsRegistf(ptr) )
+      {
+      static char szXY[1024];
+      char* par = szXY;
+      int m = ptr[7]-'0';
+      sprintf_s(szXY,sizeof(szXY),"%f",gnRegistf[m]);
+      FillFunction( def, nParam, point, par, str );
+      ptr += 8;
+      }
+    else
+      {
+      *str++ = *ptr++;
+      }
+    }
+  *str = '\0';
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddFunction( CLang& def,char* value, SBuffer& Buffer,int nParam, SUniLogic& rLog)
+  {
+  POINT pt = {0,0};
+  bool bReturn = ::ParserPoint( value, pt );
+  //
+  if ( *value == '\0' || bReturn )
+    {
+    POINT point = pt;
+    long size = std::max( def.m_queue.arrFunc[nParam].dl*10,1024 );
+    char* buff = (char*)::BuffAlloc( size, true );
+    if ( buff != NULL )
+      {
+      char* str = buff;
+      char* ptr = def.m_queue.arrFunc[nParam].buff;
+      FillFunction(  def, nParam, point, ptr, str );
+      {
+      AddQueue(Queue_Macros,TYPE_MACROS);
+      p->nParams = -1;
+      p->mRect.left = pt.x;
+      p->mRect.top  = pt.y;
+      p->mRect.right  = p->mRect.left + 20;
+      p->mRect.bottom = p->mRect.top  + 20;
+      }
+      str = buff;
+      //
+      CLang::ms_nStack++;
+      ParserBuffer( def, str, Buffer, rLog );
+      CLang::ms_nStack--;
+      ::BuffFree( buff );
+      }
+    }
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+bool AddObject(CLang& def,SBuffer& Buffer,char* name,char* value,SUniLogic& rLog)
+  {
+  if ( !def.ms_bAddQueue )
+  if ( ::IsMnemoStyle(MNEMO_HIDE_SCN) == 0 )
+  if ( _strcmpi( name, "/sergej" ) ) return true;
+  // Делаем обратный порядок, чтобы можно было переопределять макросы
+  for ( int n = def.m_queue.cntFunc-1; n >= 0; n-- )
+    {
+    if ( _strcmpi( name, def.m_queue.arrFunc[n].szName ) == 0 )
+      {
+      AddFunction(def,value,Buffer,n,rLog);
+      return true;
+      }
+    }
+  //
+  return false;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

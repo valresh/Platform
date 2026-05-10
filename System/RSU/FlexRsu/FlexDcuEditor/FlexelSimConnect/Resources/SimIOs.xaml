@@ -1,0 +1,118 @@
+﻿<Expander IsExpanded="True" Header="Связь с Симулятором" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+    <FlexDesigner:Toolbox ItemSize="60,30" Header="Связь с Симулятором">
+        <ItemsControl.Items>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimDI" FlexDesigner:DesignerItem.SpacesInNamePermitted="True"  FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Получение цифровых данных из Симулятора"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Green" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sim-&gt;DI"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtModelDI" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=modelDI, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M65,10 70,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Model" x:Name="modelDI" PropName="txtModelDI" Value="Model"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimDO" FlexDesigner:DesignerItem.SpacesInNamePermitted="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Передача цифровых данных в Симулятор"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Green" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="DO-&gt;Sim"/>
+                </Border>
+                <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+                <TextBlock Grid.Row="1" x:Name="txtModelDO" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=modelDO, Path=Value}"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Model" x:Name="modelDO" PropName="txtModelDO" Value="Model"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimAI" FlexDesigner:DesignerItem.SpacesInNamePermitted="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Получение аналоговых данных из Симулятора"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Green" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sim-&gt;AI"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtModelAI" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=modelAI, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M65,10 70,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Model" x:Name="modelAI" PropName="txtModelAI" Value="Model"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimAO" FlexDesigner:DesignerItem.SpacesInNamePermitted="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Передача аналоговых данных в Симулятор"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Green" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AO-&gt;Sim"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtModelAO" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=modelAO, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Model" x:Name="modelAO" PropName="txtModelAO" Value="Model"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+        </ItemsControl.Items>
+    </FlexDesigner:Toolbox>
+</Expander>
+  

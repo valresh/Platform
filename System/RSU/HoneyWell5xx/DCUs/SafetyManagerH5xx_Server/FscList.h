@@ -1,0 +1,133 @@
+#pragma once
+#include <UniBufferT.h>
+#include "FscBase.h"
+#include "IStateSer.h"
+
+// Содержит список всех объектов в FSC-файлах
+class SFscList : public SUniBufferT<SFscBase>
+{
+  enum
+  {
+    funcCount = 0x100,
+  };
+public:
+  SFscList();
+  //
+  SFscBase* Item(UINT n)
+  {
+    if ( n > Count() )
+      return NULL;
+    return &m_szBuffer[n];
+  }
+  int  Load( IFscStorage* fsc, SfscAbstruct* pDat, DWORD dwDatSize, DWORD dwCount, CSIZE& szDoc, SUniTemp& tmp, FILE* hFile, BYTE bFile, UINT nNumber );
+  void Link( IFscStorage* fsc, SUniTemp& temp, UINT nPlace, UINT nCount );
+#ifdef _WIN32
+  void Draw1( IFscStorage* fsc, UINT nItem, CMyFont& font, UINT nSelect );
+  void Draw2( IFscStorage* fsc, UINT nItem, CMyFont& font, UINT nSelect );
+#endif
+  void Timer( IFscStorage* fsc, double dt /*cek*/ );
+  int GetVars( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName );
+protected:
+  void TestFunctions();
+  void Direct0 ( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nPlace, UINT nCount );// Выход у объекта справа
+  void Direct1 ( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nPlace, UINT nCount );// Выход у объекта внизу
+  void VertLine( IFscStorage* fsc, SFscBase* obj, UINT n, UINT nCount );// Объекты вертикальной линии
+  void HorzLine( IFscStorage* fsc, SFscBase* obj, UINT n, UINT nCount );// Объекты горизонтальной линии
+  bool GotoGoto( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nType );// Связывание переходов
+  bool GotoMult( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nType );// Связывание переходов
+public:
+  int CallSaveState( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj );
+  int CallRestoreState( IStateSer *prest, IFscStorage* fsc, LFscBase *obj );
+public:
+  typedef bool (SFscList::*pfFuncParser)( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp );
+  static pfFuncParser func[funcCount];
+
+  typedef void (SFscList::*pfFuncSetLink)( IFscStorage* fsc, SFscBase& p, UINT nLink, int x, int y );
+  static pfFuncSetLink funcSL[funcCount];
+
+#ifdef _WIN32
+  typedef void (SFscList::*pfFuncPaints)( IFscStorage* fsc, SFscBase& p, CMyFont& font, UINT nSelect );
+  static pfFuncPaints funcPaints[funcCount];
+#endif
+
+  typedef UINT* (SFscList::*pfFuncPaintOutput)( IFscStorage* fsc, SFscBase& p, int &n );
+  static pfFuncPaintOutput funcPaintOutput[funcCount];
+
+  typedef void (SFscList::*pfFuncTimers)( IFscStorage* fsc, SFscBase& p, double dt );
+  static pfFuncTimers funcFuncTimers[funcCount];
+
+  typedef int (SFscList::*pfFuncQuickWatchs)( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName );
+  static pfFuncQuickWatchs funcFuncQuickWatchs[funcCount];
+
+  typedef int (SFscList::*pfSaveState)( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj );
+  static pfSaveState funcSaveStates[funcCount];
+
+  typedef int (SFscList::*pfRestoreState)( IStateSer *prest, IFscStorage* fsc, LFscBase *obj );
+  static pfRestoreState funcRestoreStates[funcCount];
+
+  bool MultiIN( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp, EValueType type = enumValueBol);
+  bool Trigger( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp );
+  bool LogicDB( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp, EValueType type = enumValueBol );
+
+  void FillGoto( SGoto & io, SfscAbstruct& dat );
+  void FillGoto( SGotoN& io, SfscAbstruct& dat );
+
+#ifndef VAR_PARSER
+#define VAR_PARSER IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp
+#endif
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) bool FuncParser##Name( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp);
+#include "FscDeclEnum.hpp"
+  bool FuncParserdo( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp );
+  void FuncParser41_2( VAR_PARSER );
+
+#ifndef VAR_SETLNK
+#define VAR_SETLNK IFscStorage* fsc, SFscBase& p, UINT nLink, int x, int y
+#endif
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) void FuncSetLnk##Name( IFscStorage* fsc, SFscBase& p, UINT nLink, int x, int y);
+#include "FscDeclEnum.hpp"
+  void FuncSetLnkdo( IFscStorage* fsc, SFscBase& p, UINT nLink, int x, int y );
+
+
+#ifdef _WIN32
+#ifndef VAR_PAINTS
+#define VAR_PAINTS IFscStorage* fsc, SFscBase& p, CMyFont& font, UINT nSelect
+#endif
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) void FuncPaints##Name( IFscStorage* fsc, SFscBase& p, CMyFont& font, UINT nSelect );
+#include "FscDeclEnum.hpp"
+  void FuncPaintsdo( IFscStorage* fsc, SFscBase& p, CMyFont& font, UINT nSelect );
+#endif
+
+#ifndef VAR_OUTPUT
+#define VAR_OUTPUT IFscStorage* fsc, SFscBase& p, int& n
+#endif
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) UINT* FuncOutput##Name( IFscStorage* fsc, SFscBase& p, int& n );
+#include "FscDeclEnum.hpp"
+  UINT* FuncOutputdo( IFscStorage* fsc, SFscBase& p, int& n );
+
+#ifndef VAR_TIMERS
+#define VAR_TIMERS IFscStorage* fsc, SFscBase& p, double dt
+#endif
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) void FuncTimers##Name( IFscStorage* fsc, SFscBase& p, double dt );
+#include "FscDeclEnum.hpp"
+  void FuncTimersdo( IFscStorage* fsc, SFscBase& p, double dt );
+
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) int FuncQuickWatch##Name( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName );
+#include "FscDeclEnum.hpp"
+  int FuncQuickWatchdo( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName );
+
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) int SaveState##Name( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj );
+#include "FscDeclEnum.hpp"
+  int SaveStatedo( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj );
+
+#undef  EnumFSC
+#define EnumFSC( Nomer, Name ) int RestoreState##Name( IStateSer *prest, IFscStorage* fsc, LFscBase *obj );
+#include "FscDeclEnum.hpp"
+  int RestoreStatedo( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj );
+};

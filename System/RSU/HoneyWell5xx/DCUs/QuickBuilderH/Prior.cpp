@@ -1,0 +1,45 @@
+#include "QbTranslator.h"
+
+bool KQbTranslator::IsArith( eToken_value AOP )
+{
+  switch( AOP )
+  {
+  case etLP:
+    return false;
+  }
+  return true;
+}
+
+int KQbTranslator::Prior( eToken_value AOP )
+{
+  switch( AOP )
+  {
+  case etASSIGN:
+    return -3;
+  case etAND:
+  case etOR:
+    return -2;
+  case etPLUS:
+  case etMINUS:
+    return 1;
+  case etMUL:
+  case etDIV:
+    return 2;
+  case etBITAND:
+  case etBITOR:
+    return 4;
+  case etNOT:
+    return 6;
+  case etGE:
+  case etLE:
+  case etGT:
+  case etLT:
+  case etEQ:
+  case etNE:
+    return 0;
+  case etNEGATIVE:
+    return 7;
+  }
+  ASSD(0);
+  return 0;
+}

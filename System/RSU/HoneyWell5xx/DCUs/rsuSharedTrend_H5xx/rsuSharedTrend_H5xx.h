@@ -1,0 +1,6 @@
+#pragma once
+#ifdef RSUSHAREDTREND_H5XX_EXPORTS
+#define RSUSHAREDTREND_H5XX_API _EXP
+#else
+#define RSUSHAREDTREND_H5XX_API _IMP
+#endif

@@ -1,0 +1,436 @@
+//ID=144
+String_K(NAME,"Имя",32*4)
+String_A(AICHNLNAME,"Channel Name",64 * 4,32)
+//Enumeration_A(AIPTEXECST,"Point Execution State",32,Inactive,Active,Def=)
+String_A(AOCHNLNAME,"Channel Name",64 * 4,32)
+//Enumeration_A(AOPTEXECST,"Point Execution State",32,Inactive,Active,Def=)
+//String_K(ASSOCASSET,"Associated Asset",132*4)
+//Integer_A(ASSOCBLOCK,"Associated Block",1000)
+String_A(AUXDESC,"Auxiliary Descriptor",40 * 4,36)
+//Real(AVGPDTIME,"Avg. Control Data Process Time")
+/*String_K(BLCKCOMMENT1,"Block Comment 1",40*4)
+String_K(BLOCKTYPNAME,"Block Type Name",101*4)
+String_K(BOXSFAEMPTY,"BOXSFA Empty Caption",64*4)
+String_K(BOXSFAFULL,"BOXSFA Full Caption",64*4)
+String_A(BOXSFASTATUS,"BOXSFA Status",256*4,256)
+String_K(BOXSFATITLE,"BOXSFA Title",64*4)
+String_K(BOXSFBEMPTY,"BOXSFB Empty Caption",64*4)
+String_K(BOXSFBFULL,"BOXSFB Full Caption",64*4)
+String_A(BOXSFBSTATUS,"BOXSFB Status",256*4,256)
+String_K(BOXSFBTITLE,"BOXSFB Title",64*4)
+Boolean(BOXSFFLA,"Box Soft Failure Flag",false)
+Boolean(BOXSFFLB,"Box Soft Failure Flag",false)
+Enumeration(CALIBRJSTS,"Reference Junction Calib Sts",Disabled,Enabled,Not_Permitted,Def=)
+Enumeration(CALIBSTS,"Calibration Status",Disabled,Enabled,Not_Permitted,Def=)
+Integer(CBBLOCKPROP,"Block Property")
+Boolean(CHANSFFLA,"Channel Soft Failure Flag",false)
+Boolean(CHANSFFLB,"Channel Soft Failure Flag",false)
+Enumeration(CHKPNTST,"Checkpoint State",Invalid,Valid,NotLoaded,Reading,Writing,Restored,DbValidRestored,Def=)
+Boolean(CHKPTSVSTS,"Checkpoint save status",false)*/
+String_A(CHNLNAME,"Channel Name",64 * 4,32)
+/*String_K(CHNLSFAEMPTY,"CHNLSFA Empty Caption",64*4)
+String_K(CHNLSFAFULL,"CHNLSFA Full Caption",64*4)
+String_A(CHNLSFASTATUS,"CHNLSFA Status",256*4,256)
+String_K(CHNLSFATITLE,"CHNLSFA Title",64*4)
+String_K(CHNLSFBEMPTY,"CHNLSFB Empty Caption",64*4)
+String_K(CHNLSFBFULL,"CHNLSFB Full Caption",64*4)
+String_A(CHNLSFBSTATUS,"CHNLSFB Status",256*4,256)
+String_K(CHNLSFBTITLE,"CHNLSFB Title",64*4)
+String_K(CHNLWFAILAEMPTY,"CHNLWFAILA Empty Caption",64*4)
+String_K(CHNLWFAILAFULL,"CHNLWFAILA Full Caption",64*4)
+String_A(CHNLWFAILASTATUS,"CHNLWFAILA Status",128*4,256)
+String_K(CHNLWFAILATITLE,"CHNLWFAILA Title",64*4)
+String_K(CHNLWFAILBEMPTY,"CHNLWFAILB Empty Caption",64*4)
+String_K(CHNLWFAILBFULL,"CHNLWFAILB Full Caption",64*4)
+String_A(CHNLWFAILBSTATUS,"CHNLWFAILB Status",128*4,256)
+String_K(CHNLWFAILBTITLE,"CHNLWFAILB Title",64*4)
+Enumeration(CPRESTORESCOPE,"Checkpoint Restore Scope",ExposedNotChecked,ExposedChecked,UnExposedChecked,UnExposedNotChecked,Def=)
+Real(CPUFREEAVGA,"CPU Free Average")
+Real(CPUFREEAVGB,"CPU Free Average")
+Real(CPUFREEMINA,"CPU Free Minimum")
+Real(CPUFREEMINB,"CPU Free Minimum")
+Boolean(CTRLCONFIRM,"Control Confirmation",false)
+Boolean(DBVALID,"Database Valid",false)
+Boolean(DBVALIDA,"Database Valid DPA Part A",false)
+Boolean(DBVALIDB,"Database Valid DPA Part B",false)
+Boolean(DBVALIDCMD,"Validate IOP Database",false)*/
+String_K(DESC,"Description",132*4)
+String_A(DICHNLNAME,"Channel Name",64 * 4,32)
+/*Enumeration(DIMODE,"DI Mode",Normal,Soe,LowLatency,Def=)
+Enumeration_A(DIPTEXECST,"Point Execution State",32,Inactive,Active,Def=)*/
+String_A(DOCHNLNAME,"Channel Name",64 * 4,32)
+//Enumeration_A(DOPTEXECST,"Point Execution State",32,Inactive,Active,Def=)
+String_K(EUDESC,"Engineering Units",24*4)
+/*STRUCT(FFBLKLST)
+INTEGER_SA(FFBLKLST,INSTID,32,"Block Instance ID")
+STRING_SA(FFBLKLST,TMPLTID,32,64,"Block Template ID")
+INTEGER_SA(FFBLKLST,VFDINDX,32,"VFD Array Index associated with the Block")
+STRUCT_END(FFBLKLST)
+Boolean(FWINVALIDA,"IOM Firmware Not Compatible",false)
+Boolean(FWINVALIDB,"IOM Firmware Not Compatible",false)
+STRUCT(GROUP)
+INTEGER_SA(GROUP,NUMBER,25,"Group Number")
+INTEGER_S(GROUP,NUMPARAMS,"Number of Group parameters")
+STRUCT_END(GROUP)
+Real(HCUAVAIL,"HCU Available Ch 1-16")
+Real(HCUAVAIL2,"HCU Available Ch 17-32")
+Integer_A(HDEVID,"Id (Serial Number)",32)
+Enumeration_A(HDEVMFG,"Manufacturer",32,UNKNOWN 000,Acromag,Allen Bradley,Ametek,Analog Devices,Elsag Bailey,Beckman,Bell Microsensor,Bourns,Bristol Babcock,Brooks Instrument,Chessell,Combustion Engineering,Daniel Endustries,Delta,Dieterich Standard,Dohrmann,Endress && Hauser,Elsag Bailey (2),Fisher Controls,Foxboro,Fuji,ABB Automation,Honeywell,ITT Barton,Kay Ray/Sensall,ABB Automation (2),Leeds && Northrup,Leslie,M-System Co.,Measurex,Micro Motion,Moore Industries,Moore Products,Ohkura Electric,Paine,Rochester Instrument Systems,Ronan,Rosemount,Peek Measurement,Schlumberger,Sensall,Siemens,Weed,Toshiba,Transmation,Rosemount Analytic,Metso Automation,Flowserve,Varec,Viatran,Delta/Weed,Westinghouse,Xomox,Yamatake,Yokogawa,Nuovo Pignone,Promac,Exac Corporation,Meggitt Mobrey,Arcom Control System,Princo,Smar,Foxboro Eckardt,Measurement Technology,Applied System Technologies,Samson,Sparling Instruments,Fireye,Krohne,Betz,Druck,SOR,Elcon Instruments,EMCO,Termiflex Corporation,VAF instruments,Westlock Controls,Drexelbrook,Saab Tank Control,K-TEK,Flowdata,Draeger,Raytek,Siemens Milltronics PI,BTG,Magnetrol,Metso Automation (2),Milltronics,HELIOS,Anderson Instrument Company,INOR,ROBERTSHAW,PEPPERL+FUCHS,ACCUTECH,Flow Measurement,KAMSTRUP,Knick,VEGA,MTS Systems Corp.,Oval,Masoneilan-Dresser,BESTA,Ohmart,Harold Beck and Sons,rittmeyer instrumentation,Rossel Messtechnik,WIKA,Bopp && Reuther Heinrichs,PR Electronics,Jordan Controls,Valcom s.r.l.,US ELECTRIC MOTORS,Apparatebau Hundsbach,Dynisco,Spriano,Direct Measurement,Klay Instruments,Action Instruments,MMG Automatiky DTR,Buerkert Fluid Control Systems,AALIANT Process Mgt,PONDUS INSTRUMENTS,ZAP S.A. Ostrow Wielkopolski,GLI,Fisher-Rosemount Performance Technologies,Paper Machine Components,LABOM,Danfoss,Turbo,TOKYO KEISO,SMC,Status Instruments,Huakong,Duon System,Vortek Instruments, LLC,AG Crosby,Action Instruments (2),Keystone Controls,Thermo Electric Co.,Ise-Magtech,Rueger,Mettler Toledo,Det-Tronics,TN Technologies,DeZURIK,Phase Dynamics,WELLTECH SHANGHAI,ENRAF,4tech ASA,Brandt Instruments,Nivelco,Camille Bauer,Metran,Milton Roy Co.,PMV,Turck,Panametrics,Stahl,Analytical Technology, Inc,Fieldbus International,BERTHOLD,InterCorr,China BRICONTE Co Ltd,Electron Machine,Sierra Instruments,Fluid Components Intl,Solid AT,Meriam Instrument,Invensys,S-Products,Tyco Valves and Controls,Micro Matic INstrument A/S,J-Tec Associates,TRACERCO,AGAR,Phoenix COntact,Andean Instruments,Amer.Level Instr,Hawk,YTC,Pyromation Inc.,Satron Instruments,BIFFI,SAIC,BD Sensors,Andean Instruments,Kemotron,APLISENS,Badger Meter,HIMA,GP.50,Kongsberg Maritime,ASA S.p.A,Hengesbach,Lanlian Instruments,Spectrum Controls,Kajaani Process Measurements,FAFNIR,SICK-MAIHAK,JSP Nova Paka,MEASACON,Spirax Sarco Italy,L and J TECHNOLOGY,Tecfluid S.A,Sailsors Instruments,Roost,KOSO,MJK,GE Energy,BW Technologies,HEINRICHS,SIC,HACH LANGE,Exalon Instruments,FAURE HERMAN,STI S.r.1,Manometr-Kharkiv,Dalian-Instruments,Spectrex,SIPAI Instruments,Advanced Flow,Rexa.Koso America,General Monitors,Manufacturer Expansion,UNKNOWN 225,UNKNOWN 226,UNKNOWN 227,UNKNOWN 228,UNKNOWN 229,UNKNOWN 230,UNKNOWN 231,UNKNOWN 232,UNKNOWN 233,UNKNOWN 234,UNKNOWN 235,UNKNOWN 236,UNKNOWN 237,UNKNOWN 238,UNKNOWN 239,UNKNOWN 240,UNKNOWN 241,UNKNOWN 242,UNKNOWN 243,UNKNOWN 244,UNKNOWN 245,UNKNOWN 246,UNKNOWN 247,UNKNOWN 248,UNKNOWN 249,Generic HART Device,None     251,UNKNOWN  252,Special  253,UNKNOWN  254,UNKNOWN  255, ,HART Communication Foundation ExSaf,SEOJIN INSTECH,TASI FLOW,Daehan Control,APM,ORANGE INST.UK,BARTEC,Detcon,MSA,METROVAL,Etalon Rus,JOGLER,KSB,Richter CT,NET SAFETY,SECanada,SUPCON,DKK -TOA,Dwyer Instruments,Fine Tek,Top Worx Inc.,HOFFER FLOW CNTRLS,DUST NETWORKS,Forbes Marshall,All Measures, Ltd.,MACTek,CSI,TC Fluid Control,Rohrback Cosasco,AirSprite,Microcyber Inc.,TIG,ifm prover Gmbh,FLEXIM,TOKIMEC.INC,SBEM,SkoFlo Industries, Inc/,StoneL Corporation,EUREKA FLOW,BEKA associates,CAPSTAR AUTOMATION,Pulsar,Elemer,Soft Tech Group,Def=)
+Enumeration_A(HDEVTYPENAME,"Type (Name)",32,Any Device,ST3000,STT25H,Logix 1200,Any Device,Def=)
+Boolean_A(HENABLE,"HART Enabled",32)
+STRUCT(HIST)
+FLAG_SA(HIST,EXC,25,"Exception Collection Type")
+INTEGER_SA(HIST,EXCCOLLRATE,25,"Collection Rate for Exception History Collection Type")
+INTEGER_SA(HIST,EXCOFFSET,25,"Collection Rate Offset for Exception History Collection Type")
+FLAG_SA(HIST,EXTD,25,"Extended Collection Type")
+FLAG_SA(HIST,FAST,25,"Fast Collection Type")
+INTEGER_SA(HIST,FASTCOLLRATE,25,"Collection Rate for Fast History Collection Type")
+STRING_SA(HIST,GATESTRING,25,255,"Gating Parameter String")
+STRING_SA(HIST,GATEVALUE,25,255,"Gating Parameter value")
+INTEGER_S(HIST,NUMPARAMS,"Number of History parameters")
+FLAG_SA(HIST,STD,25,"Standard Collection Type")
+INTEGER_SA(HIST,STDCOLLRATE,25,"Collection Rate for Standard History Collection Type")
+INTEGER_SA(HIST,STDOFFSET,25,"Collection Rate Offset for Standard History Collection Type")
+STRING_SA(HIST,TYPE,25,255,"History Type")
+STRUCT_END(HIST)
+Enumeration_A(HSCANCFG,"Scan HART Variables",32,1S Device,1S Dynamic,2S Device,2S Dynamic,2S Dev & Dyn,4S Device,4S Dynamic,4S Dev & Dyn,8S Device,8S Dynamic,8S Dev & Dyn,16S Device,16S Dynamic,16S Dev & Dyn,Status Only,Def=)
+Boolean_A(HSCANOVR,"Scan Overrun",32)*/
+String_A(HTAG,"Tag",8 * 4,32)
+//Enumeration(ICONSTATE,"Icon States",IDLE,PriIdleNoSec,PriIdleNotSync,PriIdleSync,RUN,PriRunNoSec,PriRunNotSync,PriRunSync,FAILED,PriCommErrNoSec,PriCommErrNoSync,NODB,PriNoDbNoSec,PriNoDbNotSync,PriNoDbSync,Reserve1,Def=)
+/*Integer(IOLINK,"Associated IOLINK")
+Enumeration(IOLINKCOLOR,"I/O Link Cable Color",Unknown,Gray,Violet,Def=)
+String_K(IOMBTREVA,"Boot Revision",12*4)
+String_K(IOMBTREVB,"Boot Revision",12*4)
+Enumeration(IOMCOMMAND,"Command",None,Select_Cable_A,Select_Cable_B,Reset_Errors,Swap_Primary,---,Disable_Sync,Enable_Sync,Shutdown_IOM_A,Restart_IOM_A,Shutdown_IOM_B,Restart_IOM_B,Def=)
+String_K(IOMFWREVA,"Firmware Revision",12*4)
+String_K(IOMFWREVB,"Firmware Revision",12*4)
+String_K(IOMHWREVA,"Hardware Revision",12*4)
+String_K(IOMHWREVB,"Hardware Revision",12*4)
+Enumeration(IOMLHFSTA,"Last Hard Fail Status",Unknown,PowerDown,InvPrgExec,EpromErr,RamCntErr,RamAdrErr,DpaError,DsaError,RxBufOvFl,IolJabber,SramFail,BadPgJmp,AdConvInmcp,AdOutOvfl,AdOutUndef,AdCalibErr,BadLcLtc,Dmt_Tmot,MltOutFail,DataBusDiagFl,BadDaRange,MstrTmot,---,CounterCircuitFail,SoeCounterFail,OutputControlHwFail,OutputMuxFail,AsCrcFail,PsCodeMismatch,ParityHwFail,TaskStackStartFail,StackOverrun,WatchDogTimeout,IllegalWrite,ParityError,UserReset,ZeroRefFail,RefInpChkFail,FPGARdbkFail,AppRAMDiagFail,AppCapSemPhFail,AppCpuDiagFail,AppIllegalIsr,DataBusErr,AppIOTAErr,AppBrdPwrErr,ExtRAMContErr,KrnlPwrFail,CpldVerFail,Parity0Fail,Parity1Fail,DataBusFail,DACRBFail,AppWatchDogTimeout,AoDacFail,Def=)
+Enumeration(IOMLHFSTB,"Last Hard Fail Status",Unknown,PowerDown,InvPrgExec,EpromErr,RamCntErr,RamAdrErr,DpaError,DsaError,RxBufOvFl,IolJabber,SramFail,BadPgJmp,AdConvInmcp,AdOutOvfl,AdOutUndef,AdCalibErr,BadLcLtc,Dmt_Tmot,MltOutFail,DataBusDiagFl,BadDaRange,MstrTmot,---,CounterCircuitFail,SoeCounterFail,OutputControlHwFail,OutputMuxFail,AsCrcFail,PsCodeMismatch,ParityHwFail,TaskStackStartFail,StackOverrun,WatchDogTimeout,IllegalWrite,ParityError,UserReset,ZeroRefFail,RefInpChkFail,FPGARdbkFail,AppRAMDiagFail,AppCapSemPhFail,AppCpuDiagFail,AppIllegalIsr,DataBusErr,AppIOTAErr,AppBrdPwrErr,ExtRAMContErr,KrnlPwrFail,CpldVerFail,Parity0Fail,Parity1Fail,DataBusFail,DACRBFail,AppWatchDogTimeout,AoDacFail,Def=)
+Enumeration(IOMOPERA,"Operation",Primary,Secondary,---,Def=)
+Enumeration(IOMOPERB,"Operation",Primary,Secondary,---,Def=)
+String_K(IOMPLD1REVA,"CPLD Revision",12*4)
+String_K(IOMPLD1REVB,"CPLD Revision",12*4)
+String_K(IOMPLD2REVA,"FPGA Revision",12*4)
+String_K(IOMPLD2REVB,"FPGA Revision",12*4)
+String_K(IOMPLREVA,"Programmable Logic Revision",12*4)
+String_K(IOMPLREVB,"Programmable Logic Revision",12*4)
+Enumeration(IOMSTATE,"Execution State",Idle,Run,Def=)
+Enumeration(IOMSTSA,"Status",Power_On,Idle,OK,NoResponse,IdleSF,SoftFail,CommError,ConfgMis,Not_Config,---,Alive,Failed,Def=)
+Enumeration(IOMSTSB,"Status",Power_On,Idle,OK,NoResponse,IdleSF,SoftFail,CommError,ConfgMis,Not_Config,---,Alive,Failed,Def=)
+String_K(IOMTYPE,"Module Type",64*4)
+String_K(IOPDESCA,"IOP Descriptor",12*4)
+String_K(IOPDESCB,"IOP Descriptor",12*4)
+String_K(IOPLOCATION,"IOM Location",64*4)
+Enumeration(IOPTYPE,"IOP Type",---,LLAI,HLAI,DI,DO16,AO8,LLMUX,STIMV,DISOE,AO16,DO32,RHMUX,HLAIHART,DI24V,AO16HART,AI_HART,AI_LLMUX,AO_HART,DI_HV,DI_24,DO_24B,DI_SOE,AI_HL,AO,SVP,SP,PI,UIO,Def=)
+Boolean(IOREDOPT,"This IOM is redundant",false)
+Integer(LASTSERIALNUMA,"Last Serial Number")
+Integer(LASTSERIALNUMB,"Last Serial Number")
+Real_A(LRL,"Device Extended Low Range",32)
+Real_A(LRV,"Device Low Range (4mA)",32)
+Enumeration(MODLTYPEA,"Module Type DPA Part A",---,LLAI,HLAI,DI,DO16,AO8,LLMUX,STIMV,DISOE,AO16,DO32,RHMUX,HLAIHART,DI24V,AO16HART,AI_HART,AI_LLMUX,AO_HART,DI_HV,DI_24,DO_24B,DI_SOE,AI_HL,AO,SVP,SP,PI,UIO,Def=)
+Enumeration(MODLTYPEB,"Module Type DPA Part B",---,LLAI,HLAI,DI,DO16,AO8,LLMUX,STIMV,DISOE,AO16,DO32,RHMUX,HLAIHART,DI24V,AO16HART,AI_HART,AI_LLMUX,AO_HART,DI_HV,DI_24,DO_24B,DI_SOE,AI_HL,AO,SVP,SP,PI,UIO,Def=)
+Enumeration(MONACTCMD,"Enum for activate",Idle,Run,Def=)
+String_K(MONCMDPARAM,"Parameter stores activation",64*4)
+Enumeration(MONINACTCMD,"Enum for inactivate",Idle,Run,Def=)
+Enumeration(MONLDCMD,"Value prior to load",Idle,Run,Def=)
+String_K(MONREADLDUI,"Parameter read for LoadUI",64*4)
+String_K(MONREADPARAM,"Parameter to be monitored",64*4)
+Enumeration(MONRQDLD,"Required load state",IDLE,PriIdleNoSec,PriIdleNotSync,PriIdleSync,RUN,PriRunNoSec,PriRunNotSync,PriRunSync,FAILED,PriCommErrNoSec,PriCommErrNoSync,NODB,PriNoDbNoSec,PriNoDbNotSync,PriNoDbSync,Reserve1,Def=)
+Enumeration_A(MONSTATES,"Enum values for each state",3,IDLE,PriIdleNoSec,PriIdleNotSync,PriIdleSync,RUN,PriRunNoSec,PriRunNotSync,PriRunSync,FAILED,PriCommErrNoSec,PriCommErrNoSync,NODB,PriNoDbNoSec,PriNoDbNotSync,PriNoDbSync,Reserve,Def=)
+Integer(NUMBLOBS,"Number of Dynamic State Blobs")
+Enumeration(NUMSIGS,"Electronic Signature Type",NONE,SINGLE,DOUBLE,Def=)*/
+/*Integer(ORDERINCM,"Execution Order in CM")
+String_K(PARENTASSET,"Parent Asset:",132*4)
+Boolean(PARTNERINCOMPATIBLEA,"IOM Partner Not Compatible",false)
+Boolean(PARTNERINCOMPATIBLEB,"IOM Partner Not Compatible",false)
+Enumeration_A(PNTTYPE,"Channel Point Type",32,NULL,AI,AO,DI,DO,DigCom,RegPV,RegCtl,Logic,Array,Flag,Numeric,ProcModl,Timer,DevCtl,SVP,SP,PI,UIO,Def=)
+String_K(PNTTYPEENUMMASK,"Point Type Enumeration Mask",64*4)
+String_K(PRIMARYSIG,"Primary Signature Meaning",24*4)
+Boolean(PRIORITYIOM,"Priority IOM",false)
+Enumeration_A(PTEXECST,"Point Execution State",32,Inactive,Active,Def=)*/
+/*String_K(QUALSTATE,"Qualification State",100*4)
+Enumeration(RDNAUTOSYNC,"Auto Synchronization State",DISABLED,ENABLED,---,Def=)
+Integer(READCOUNT,"Scanned Count")
+Integer(READPHASE,"Scan Phase")
+Integer(REASONSET,"Reason Set Number")
+Enumeration(REDDATAA,"Redundancy Status",---,NotSyncd,DumpFailed,FreezeNotAccepted,SyncFailed,IolTimeOut,Syncd,DumpComplete,FreezePermitted,FreezeAccepted,FoInProgess,FoComplete,SwapInProgress,SwapComplete,Frozen,DumpSeqBegin,DumpSeq_02,DumpSeq_03,DumpSeq_04,DumpSeq_05,DumpSeq_06,DumpSeq_07,DumpSeq_08,DumpSeq_09,DumpSeq_10,DumpSeq_11,DumpSeq_12,DumpSeq_13,DumpSeq_14,DumpSeq_15,DumpSeq_16,DumpSeq_17,DumpSeq_18,DumpSeq_19,DumpSeq_20,DumpSeqMax,Def=)
+Enumeration(REDDATAB,"Redundancy Status",---,NotSyncd,DumpFailed,FreezeNotAccepted,SyncFailed,IolTimeOut,Syncd,DumpComplete,FreezePermitted,FreezeAccepted,FoInProgess,FoComplete,SwapInProgress,SwapComplete,Frozen,DumpSeqBegin,DumpSeq_02,DumpSeq_03,DumpSeq_04,DumpSeq_05,DumpSeq_06,DumpSeq_07,DumpSeq_08,DumpSeq_09,DumpSeq_10,DumpSeq_11,DumpSeq_12,DumpSeq_13,DumpSeq_14,DumpSeq_15,DumpSeq_16,DumpSeq_17,DumpSeq_18,DumpSeq_19,DumpSeq_20,DumpSeqMax,Def=)
+String_K(SCANAREA,"SCAN Area",40*4)
+String_K(SCANASSOCDSP,"SCAN Associated Display",255*4)
+Integer(SCANCTRLLVL,"SCAN Control Level")
+String_K(SCANEUHI,"SCAN EUHI Parameter",255*4)
+String_K(SCANEULO,"SCAN EULO Parameter",255*4)
+String_K(SCANGRPDTL,"SCAN Group Detail Page",255*4)
+String_K(SCANPNTDTL,"SCAN Point Detail Page",255*4)
+Enumeration(SCANRATE,"I/O Link Scan Rate",Priority_IOM,100_ms,200_ms,250_ms,500_ms,800_ms,1S,2S,Def=)
+String_K(SCANRATEENUMMASK,"Scan Rate Enumeration Mask",64*4)
+String_K(SECONDARYSIG,"Secondary Signature Meaning",24*4)
+Enumeration(SECSIGSECLVL,"Sec Signer Security Level",VIEWONLY,ACKONLY,OPER,SUPV,ENGR,MNGR,Def=)
+Integer(SERIALNUMA,"Serial Number")
+Integer(SERIALNUMB,"Serial Number")
+Enumeration(SFTEXT,"Soft Failure Text",Channel_00,Channel_01,Channel_02,Channel_03,Channel_04,Channel_05,Channel_06,Channel_07,Channel_08,Channel_09,Channel_10,Channel_11,Channel_12,Channel_13,Channel_14,Channel_15,Channel_16,Channel_17,Channel_18,Channel_19,Channel_20,Channel_21,Channel_22,Channel_23,Channel_24,Channel_25,Channel_26,Channel_27,Channel_28,Channel_29,Channel_30,Channel_31,Channel_32,Channel_33,Channel_34,Channel_35,Channel_36,Channel_37,Channel_38,Channel_39,Channel_40,Channel_41,Channel_42,Channel_43,Channel_44,Channel_45,Channel_46,Channel_47,Channel_48,Channel_49,Channel_50,Channel_51,Channel_52,Channel_53,Channel_54,Channel_55,Channel_56,Channel_57,Channel_58,Channel_59,Channel_60,Channel_61,Channel_62,Channel_63,Channel_64,Def=)
+Enumeration(SFTEXTA,"Soft Failure Text Partner A",Channel_00_A,Channel_01_A,Channel_02_A,Channel_03_A,Channel_04_A,Channel_05_A,Channel_06_A,Channel_07_A,Channel_08_A,Channel_09_A,Channel_10_A,Channel_11_A,Channel_12_A,Channel_13_A,Channel_14_A,Channel_15_A,Channel_16_A,Channel_17_A,Channel_18_A,Channel_19_A,Channel_20_A,Channel_21_A,Channel_22_A,Channel_23_A,Channel_24_A,Channel_25_A,Channel_26_A,Channel_27_A,Channel_28_A,Channel_29_A,Channel_30_A,Channel_31_A,Channel_32_A,Channel_33_A,Channel_34_A,Channel_35_A,Channel_36_A,Channel_37_A,Channel_38_A,Channel_39_A,Channel_40_A,Channel_41_A,Channel_42_A,Channel_43_A,Channel_44_A,Channel_45_A,Channel_46_A,Channel_47_A,Channel_48_A,Channel_49_A,Channel_50_A,Channel_51_A,Channel_52_A,Channel_53_A,Channel_54_A,Channel_55_A,Channel_56_A,Channel_57_A,Channel_58_A,Channel_59_A,Channel_60_A,Channel_61_A,Channel_62_A,Channel_63_A,Channel_64_A,Def=)
+Enumeration(SFTEXTB,"Soft Failure Text Partner B",Channel_00_B,Channel_01_B,Channel_02_B,Channel_03_B,Channel_04_B,Channel_05_B,Channel_06_B,Channel_07_B,Channel_08_B,Channel_09_B,Channel_10_B,Channel_11_B,Channel_12_B,Channel_13_B,Channel_14_B,Channel_15_B,Channel_16_B,Channel_17_B,Channel_18_B,Channel_19_B,Channel_20_B,Channel_21_B,Channel_22_B,Channel_23_B,Channel_24_B,Channel_25_B,Channel_26_B,Channel_27_B,Channel_28_B,Channel_29_B,Channel_30_B,Channel_31_B,Channel_32_B,Channel_33_B,Channel_34_B,Channel_35_B,Channel_36_B,Channel_37_B,Channel_38_B,Channel_39_B,Channel_40_B,Channel_41_B,Channel_42_B,Channel_43_B,Channel_44_B,Channel_45_B,Channel_46_B,Channel_47_B,Channel_48_B,Channel_49_B,Channel_50_B,Channel_51_B,Channel_52_B,Channel_53_B,Channel_54_B,Channel_55_B,Channel_56_B,Channel_57_B,Channel_58_B,Channel_59_B,Channel_60_B,Channel_61_B,Channel_62_B,Channel_63_B,Channel_64_B,Def=)
+Enumeration(SIMSTATE,"Simulation State",NONE,SIMRUN,SIMFREEZE,SIMDISABLE,Def=)*/
+/*Boolean(SOREADFAIL,"Status Echoback Invalid",false)
+Boolean(STATRESETA,"Reset Statistics",false)
+Boolean(STATRESETB,"Reset Statistics",false)
+Enumeration(STTEXT,"Soft Failure Text",IOP_00,IOP_01,IOP_02,IOP_03,IOP_04,IOP_05,IOP_06,IOP_07,IOP_08,IOP_09,IOP_10,IOP_11,IOP_12,IOP_13,IOP_14,IOP_15,IOP_16,IOP_17,IOP_18,IOP_19,IOP_20,IOP_21,IOP_22,IOP_23,IOP_24,IOP_25,IOP_26,IOP_27,IOP_28,IOP_29,IOP_30,IOP_31,IOP_32,IOP_33,IOP_34,IOP_35,IOP_36,IOP_37,IOP_38,IOP_39,IOP_40,Def=)
+Enumeration(STTEXTA,"Soft Failure Text Partner A",PartnerA_00,PartnerA_01,PartnerA_02,PartnerA_03,PartnerA_04,PartnerA_05,PartnerA_06,PartnerA_07,PartnerA_08,PartnerA_09,PartnerA_10,PartnerA_11,PartnerA_12,PartnerA_13,PartnerA_14,PartnerA_15,PartnerA_16,PartnerA_17,PartnerA_18,PartnerA_19,PartnerA_20,PartnerA_21,PartnerA_22,PartnerA_23,PartnerA_24,PartnerA_25,PartnerA_26,PartnerA_27,PartnerA_28,PartnerA_29,PartnerA_30,PartnerA_31,PartnerA_32,PartnerA_33,PartnerA_34,PartnerA_35,PartnerA_36,PartnerA_37,PartnerA_38,PartnerA_39,PartnerA_40,Def=)
+Enumeration(STTEXTB,"Soft Failure Text Partner B",PartnerB_00,PartnerB_01,PartnerB_02,PartnerB_03,PartnerB_04,PartnerB_05,PartnerB_06,PartnerB_07,PartnerB_08,PartnerB_09,PartnerB_10,PartnerB_11,PartnerB_12,PartnerB_13,PartnerB_14,PartnerB_15,PartnerB_16,PartnerB_17,PartnerB_18,PartnerB_19,PartnerB_20,PartnerB_21,PartnerB_22,PartnerB_23,PartnerB_24,PartnerB_25,PartnerB_26,PartnerB_27,PartnerB_28,PartnerB_29,PartnerB_30,PartnerB_31,PartnerB_32,PartnerB_33,PartnerB_34,PartnerB_35,PartnerB_36,PartnerB_37,PartnerB_38,PartnerB_39,PartnerB_40,Def=)
+Real(TEMPCURA,"Current Temperature (degC)")
+Real(TEMPCURB,"Current Temperature (degC)")
+Integer(TEMPHILM,"Temperature High Alarm (degC)")
+Integer(TEMPLOLM,"Temperature Low Alarm (degC)")
+Real(TEMPMAXA,"Maximum Temperature (degC)")
+Real(TEMPMAXB,"Maximum Temperature (degC)")
+Real(TEMPMINA,"Minimum Temperature (degC)")
+Real(TEMPMINB,"Minimum Temperature (degC)")
+STRUCT(TREND)
+INTEGER_SA(TREND,NUMBER,32,"Trend Number")
+INTEGER_S(TREND,NUMPARAMS,"Number of Trend parameters")
+ENUM_SA(TREND,POSITION,32,"Trend Position",32,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,None,Def=)
+STRUCT_END(TREND)
+Boolean(TYPEINVALIDA,"IOM Type Mismatch",false)
+Boolean(TYPEINVALIDB,"IOM Type Mismatch",false)
+Real_A(URL,"Device Extended High Range",32)
+Real_A(URV,"Device High Range (20mA)",32)
+Boolean(WITHBIASA,"With Bias DPA Part A",false)
+Boolean(WITHBIASB,"With Bias DPA Part B",false)
+Integer(X_BLOCKMEM,"Currently used memory (bytes)")
+Enumeration(X_NOTIF_ID,"Alarm condition strings",DO NOT USE,BADCTL,OPHIGH,OPLOW,REGSI,DEVHI,DEVLOW,ADVDEV,UNCMDCHG,PREDPVHI,PREDPVLO,PIDPLBADPV,Def=)
+*/
+/*AICHNLNAME;2;Channel Name
+AIPTEXECST;6;Point Execution State
+AOCHNLNAME;2;Channel Name
+AOPTEXECST;6;Point Execution State
+ASICVERA;2;ASIC Version
+ASICVERB;2;ASIC Version
+ASSOCASSET;2;Associated Asset
+ASSOCBLOCK;9;Associated Block
+AUXDESC;2;Auxiliary Descriptor*/
+//AV;19;Accumulated Value
+//AVGPDTIME;3;Avg. Control Data Process Time
+//BADPVFL;4;Bad Process Value Flag
+/*BLCKCOMMENT1;2;Block Comment 1
+BLCKCOMMENT2;2;Block Comment 2
+BLCKCOMMENT3;2;Block Comment 3
+BLCKCOMMENT4;2;Block Comment 4
+BLKDSDSIZE;15;Block DSD Size(Bytes)
+BLOCKTYPNAME;2;Block Type Name
+BOXSFAEMPTY;2;BOXSFA Empty Caption
+BOXSFAFULL;2;BOXSFA Full Caption
+BOXSFASTATUS;2;BOXSFA Status
+BOXSFATITLE;2;BOXSFA Title
+BOXSFBEMPTY;2;BOXSFB Empty Caption
+BOXSFBFULL;2;BOXSFB Full Caption
+BOXSFBSTATUS;2;BOXSFB Status
+BOXSFBTITLE;2;BOXSFB Title
+BOXSFFLA;4;Box Soft Failure Flag
+BOXSFFLB;4;Box Soft Failure Flag
+CABINETNAME;9;Cabinet
+CABINETPOSITION;2;Position in Cabinet
+CALIBRJSTS;6;Reference Junction Calib Sts
+CALIBSTS;6;Calibration Status
+CBBLOCKPROP;15;Block Property
+CBBLOCKPROPI;15;Block Property (indexed)
+CHANSFFLA;4;Channel Soft Failure Flag
+CHANSFFLB;4;Channel Soft Failure Flag
+CHKPNTST;6;Checkpoint State
+CHKPTSVSTS;4;Checkpoint save status
+CHNLNAME;2;Channel Name
+CHNLSFAEMPTY;2;CHNLSFA Empty Caption
+CHNLSFAFULL;2;CHNLSFA Full Caption
+CHNLSFASTATUS;2;CHNLSFA Status
+CHNLSFATITLE;2;CHNLSFA Title
+CHNLSFBEMPTY;2;CHNLSFB Empty Caption
+CHNLSFBFULL;2;CHNLSFB Full Caption
+CHNLSFBSTATUS;2;CHNLSFB Status
+CHNLSFBTITLE;2;CHNLSFB Title
+CHNLWFAILAEMPTY;2;CHNLWFAILA Empty Caption
+CHNLWFAILAFULL;2;CHNLWFAILA Full Caption
+CHNLWFAILASTATUS;2;CHNLWFAILA Status
+CHNLWFAILATITLE;2;CHNLWFAILA Title
+CHNLWFAILBEMPTY;2;CHNLWFAILB Empty Caption
+CHNLWFAILBFULL;2;CHNLWFAILB Full Caption
+CHNLWFAILBSTATUS;2;CHNLWFAILB Status
+CHNLWFAILBTITLE;2;CHNLWFAILB Title
+CPRESTORESCOPE;6;Checkpoint Restore Scope
+CPUFREEAVGA;3;CPU Free Average
+CPUFREEAVGB;3;CPU Free Average
+CPUFREEMINA;3;CPU Free Minimum
+CPUFREEMINB;3;CPU Free Minimum
+CREATEDBY;2;Created By
+CTRLCONFIRM;4;Control Confirmation
+DBVALID;4;Database Valid
+DBVALIDA;4;Database Valid DPA Part A
+DBVALIDB;4;Database Valid DPA Part B
+DBVALIDCMD;4;Validate IOP Database
+DESC;2;Description
+DICHNLNAME;2;Channel Name
+DIMODE;6;DI Mode
+DIPTEXECST;6;Point Execution State
+DOCHNLNAME;2;Channel Name
+DOOP;19;PWM Output Value (%)
+DOPTEXECST;6;Point Execution State
+DRAWINGINFO;2;Drawing Information
+ENSPAREDETECT;4;Detect Connections to Spare Channels
+ESIG;2;Electronic Signature License
+EUDESC;2;Engineering Units
+FFBLKLST.INSTID;9;Block Instance ID
+FFBLKLST.TMPLTID;2;Block Template ID
+FFBLKLST.VFDINDX;Integer_;VFD Array Index associated with the Block
+FWINVALIDA;4;IOM Firmware Not Compatible
+FWINVALIDB;4;IOM Firmware Not Compatible
+GROUP.NUMBER;15;Group Number
+GROUP.NUMPARAMS;1;Number of Group parameters
+HADCENABLE;4;Enable STAC Discovery
+HARTVERSION;6;Supported HART Version
+HCUAVAIL;3;HART Comm. Units - Available
+HCUAVAIL2;3;HART Comm. Units - Available
+HDEVID;Integer_;Id (Serial Number)
+HDEVMFG;6;Manufacturer
+HDEVTYPENAME;6;Type (Name)
+HENABLE;4;HART Enabled
+HIST.EXC;4;Exception Collection Type
+HIST.EXCCOLLRATE;1;Collection Rate for Exception History Collection Type
+HIST.EXCOFFSET;1;Collection Rate Offset for Exception History Collection Type
+HIST.EXCPHDCOLLRATE;6;PHD Collection Rate for EXC History Collection Type
+HIST.EXTD;4;Extended Collection Type
+HIST.EXTDPHDCOLLRATE;6;PHD Collection Rate for EXTD History Collection Type
+HIST.FAST;4;Fast Collection Type
+HIST.FASTCOLLRATE;1;Collection Rate for Fast History Collection Type
+HIST.FASTPHDCOLLRATE;6;PHD Collection Rate for Fast History Collection Type
+HIST.GATESTRING;2;Gating Parameter String
+HIST.GATEVALUE;2;Gating Parameter value
+HIST.NUMPARAMS;1;Number of History parameters
+HIST.STD;4;Standard Collection Type
+HIST.STDCOLLRATE;1;Collection Rate for Standard History Collection Type
+HIST.STDOFFSET;1;Collection Rate Offset for Standard History Collection Type
+HIST.STDPHDCOLLRATE;6;PHD Collection Rate for STD History Collection Type
+HIST.TYPE;2;History Type
+HLONGTAG;2;Long Tag
+HSCANCFG;6;Scan HART Variables
+HSCANOVR;4;Scan Overrun
+HTAG;2;Tag
+ICONSTATE;6;Icon States
+INITVAL;19;Echoback Value
+IOLINK;9;Associated IOLINK
+IOLINKCOLOR;6;I/O Link Cable Color
+IOMBTREVA;2;Boot Revision
+IOMBTREVB;2;Boot Revision
+IOMCOMMAND;6;Command
+IOMFWREVA;2;Firmware Revision
+IOMFWREVB;2;Firmware Revision
+IOMHWREVA;2;Hardware Revision
+IOMHWREVB;2;Hardware Revision
+IOMLHFSTA;6;Last Hard Fail Status
+IOMLHFSTB;6;Last Hard Fail Status
+IOMOPERA;6;Operation
+IOMOPERB;6;Operation
+IOMPLD1REVA;2;CPLD Revision
+IOMPLD1REVB;2;CPLD Revision
+IOMPLD2REVA;2;FPGA Revision
+IOMPLD2REVB;2;FPGA Revision
+IOMPLREVA;2;Programmable Logic Revision
+IOMPLREVB;2;Programmable Logic Revision
+IOMSTATE;6;Execution State
+IOMSTSA;6;Status
+IOMSTSB;6;Status
+IOMTYPE;2;Module Type
+IOPDESCA;2;IOP Descriptor
+IOPDESCB;2;IOP Descriptor
+IOPLOCATION;2;IOM Location
+IOPTYPE;6;IOP Type
+IOREDOPT;4;This IOM is redundant
+LASTSERIALNUMA;Integer_;Last Serial Number
+LASTSERIALNUMB;Integer_;Last Serial Number
+LRL;3;Device Extended Low Range
+LRV;3;Device Low Range (4mA)
+MODIFIEDBY;2;Last Modified By
+MODLTYPEA;6;Module Type DPA Part A
+MODLTYPEB;6;Module Type DPA Part B
+MONACTCMD;6;Enum for activate
+MONCMDPARAM;2;Parameter stores activation
+MONINACTCMD;6;Enum for inactivate
+MONLDCMD;6;Value prior to load
+MONREADLDUI;2;Parameter read for LoadUI
+MONREADPARAM;2;Parameter to be monitored
+MONRQDLD;6;Required load state
+MONSTATES;6;Enum values for each state
+NUMBLOBS;15;Number of Dynamic State Blobs
+NUMSIGS;6;Electronic Signature Type
+OP;19;Output Value (%)
+OPFINAL;19;Final Output Value
+OPINITVAL;19;PWM Echoback Value
+ORDERINCM;15;Execution Order in CM
+PARENTASSET;2;Parent Asset:
+PARTNERINCOMPATIBLEA;4;IOM Partner Not Compatible
+PARTNERINCOMPATIBLEB;4;IOM Partner Not Compatible
+PNTTYPE;6;Channel Point Type
+PNTTYPEENUMMASK;2;Point Type Enumeration Mask
+PRIMARYSIG;2;Primary Signature Meaning
+PRIORITYIOM;4;Priority IOM
+PTEXECST;6;Point Execution State
+PV;19;Process Value
+PVFL;4;Process Value
+PVSTS;6;Process Value Status
+QUALSTATE;2;Qualification State
+RDNAUTOSYNC;6;Auto Synchronization State
+READCOUNT;Integer_;Scanned Count
+READPHASE;1;Scan Phase
+REASONSET;1;Reason Set Number
+REDDATAA;6;Redundancy Status
+REDDATAB;6;Redundancy Status
+SCANAREA;2;SCAN Area
+SCANASSOCDSP;2;SCAN Associated Display
+SCANCTRLLVL;1;SCAN Control Level
+SCANEUHI;2;SCAN EUHI Parameter
+SCANEULO;2;SCAN EULO Parameter
+SCANGRPDTL;2;SCAN Group Detail Page
+SCANPNTDTL;2;SCAN Point Detail Page
+SCANRATE;6;I/O Link Scan Rate
+SCANRATEENUMMASK;2;Scan Rate Enumeration Mask
+SECONDARYSIG;2;Secondary Signature Meaning
+SECSIGSECLVL;6;Sec Signer Security Level
+SERIALNUMA;Integer_;Serial Number
+SERIALNUMB;Integer_;Serial Number
+SFTEXT;6;Soft Failure Text
+SFTEXTA;6;Soft Failure Text Partner A
+SFTEXTB;6;Soft Failure Text Partner B
+SIMSTATE;6;Simulation State
+SO;4;Status Output Value
+SOINITVAL;4;Status Echoback Value
+SOREADFAIL;4;Status Echoback Invalid
+STATRESETA;4;Reset Statistics
+STATRESETB;4;Reset Statistics
+STTEXT;6;Soft Failure Text
+STTEXTA;6;Soft Failure Text Partner A
+STTEXTB;6;Soft Failure Text Partner B
+TEMPCURA;19;Current Temperature (degC)
+TEMPCURB;19;Current Temperature (degC)
+TEMPHILM;15;Temperature High Alarm (degC)
+TEMPLOLM;15;Temperature Low Alarm (degC)
+TEMPMAXA;19;Maximum Temperature (degC)
+TEMPMAXB;19;Maximum Temperature (degC)
+TEMPMINA;19;Minimum Temperature (degC)
+TEMPMINB;19;Minimum Temperature (degC)
+TREND.NUMBER;15;Trend Number
+TREND.NUMPARAMS;1;Number of Trend parameters
+TREND.POSITION;6;Trend Position
+TV;19;Target Value
+TVFL;4;TV Range Violation
+TYPEINVALIDA;4;IOM Type Mismatch
+TYPEINVALIDB;4;IOM Type Mismatch
+URL;3;Device Extended High Range
+URV;3;Device High Range (20mA)
+USERSYMNAME;2;Name of user assigned symbol
+VERSION;2;Version Text
+VERSIONNUM;3;Version Number
+WITHBIASA;4;With Bias DPA Part A
+WITHBIASB;4;With Bias DPA Part B
+X_BLOCKMEM;15;Currently used memory (bytes)
+X_NOTIF_ID;6;Alarm condition strings
+*/

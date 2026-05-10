@@ -1,0 +1,6 @@
+ACK_ALARMS
+INTEGER(PV,"")
+FLAG(AOFS,"")
+FLAG(oldAFLS,"")
+INTEGER(OPMK,"")//
+//

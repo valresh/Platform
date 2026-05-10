@@ -1,0 +1,25 @@
+#include <rsuErr.h>
+#include <H_Class.h>
+
+static SBlockCreate PCDINUMARRCH( "PCDINUMARRCH", SH_PCDINUMARRCH::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_PCDINUMARRCH,W_PCDINUMARRCH,1010)
+
+void SH_PCDINUMARRCH::InitParm()
+{
+#include "Blocks/PCDINUMARRCH.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/PCDINUMARRCH_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+void SH_PCDINUMARRCH::StepT( SStepCalcParams &dt )
+{
+  SH_Block::InputConnectionsTransfer();
+  /*for( int i=0; i<=W->NNUMERIC; ++i )
+  {
+    W->PV[i] = W->PVRAW[i];
+  }*/
+}

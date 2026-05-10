@@ -1,0 +1,37 @@
+#pragma once
+#include <BaseType.h>
+
+enum EValueTypeExRsu : BYTE//EValueType
+{
+  /*enumValueUnk = 0,
+  enumValueDbl = 1,
+  enumValueInt = 2,
+  enumValueChr = 3,
+  enumValueBol = 4,
+  enumValueFlt = 5,
+  enumValueStr = 6,
+  enumValueI64 = 7,*/
+  enumValueI2 = 8,//short
+  enumValueUI2 = 9,//WORD
+  enumValueUI4 = 10,//DWORD
+};
+
+struct STrendPointInfo
+{
+  STrendPointInfo()
+  {
+    ZeroMemory( this, sizeof(*this) );
+    bitOffset = -1;
+  }
+  LPCSTR pszSufName;
+  char type;//A - int, D - double
+  BYTE eValType;
+  BYTE *pAddr;
+  DWORD dwID;
+  char szName[512];//для DeltaV
+  char bitOffset;
+};
+
+typedef int(*tTrendInfoPoint)(DWORD type, LPCSTR pObjName, CBase* pBase, int fcsNumber, int cInfs, STrendPointInfo *pInfs );
+
+typedef bool(*tEnumIo_Objs)(DWORD& ID, const DWORD ClassID, struct CBase** base, LPCSTR* pszName, int *pFcsNumber );

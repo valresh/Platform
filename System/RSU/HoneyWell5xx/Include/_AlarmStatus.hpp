@@ -1,0 +1,17 @@
+//ПРИОРИТЕТ
+#if 1 // Современный вариант в соответствии с нумератором
+//ENUM_S(PVLLALM,PR,"PV LoLo Alarm Priority",NONE,JOURNAL,LOW,HIGH,URGENT)
+EnumSTATUS(None     ,0,"N 00")
+EnumSTATUS(Journal  ,1,"J 00")
+EnumSTATUS(Low      ,2,"L 00")
+EnumSTATUS(High     ,3,"H 00")
+EnumSTATUS(Emergncy ,4,"U 00")
+#else // Старый вариант
+EnumSTATUS(JnlPrint ,0,"I 00")
+EnumSTATUS(Printer  ,1,"P 00")
+EnumSTATUS(Emergncy ,2,"U 00")
+EnumSTATUS(High     ,3,"H 00")
+EnumSTATUS(Low      ,4,"L 00")
+EnumSTATUS(Journal  ,5,"J 00")
+EnumSTATUS(NoAction ,6,"N 00")
+#endif

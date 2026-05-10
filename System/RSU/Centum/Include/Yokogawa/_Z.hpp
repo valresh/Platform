@@ -1,0 +1,7 @@
+INTEGER(PV,"")
+INTEGER(fakeSW,"")
+DOUBLE(DPV,"")
+INTEGER(OPMK,"")//
+FLAG(AFLS,"")
+FLAG(fakeBSTS,"")
+//

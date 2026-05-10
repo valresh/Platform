@@ -1,0 +1,35 @@
+#pragma once
+#include <H_Data.h>
+#include <IControlBuilder.h>
+// KControlBuilderDoc document
+
+class KControlBuilderDoc : public CDocument
+{
+  std::string m_szActiveXml, m_szActiveBlk;
+	DECLARE_DYNCREATE(KControlBuilderDoc)
+
+public:
+	KControlBuilderDoc();
+	virtual ~KControlBuilderDoc();
+  void OnSelectCnf( LPCSTR pszCnfFile, LPCSTR pszBlkName );
+  LPCSTR GetFile();
+  LPCSTR GetBlkName();
+#ifndef _WIN32_WCE
+	virtual void Serialize(CArchive& ar);   // overridden for document i/o
+#endif
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+#ifndef _WIN32_WCE
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+#endif
+
+public:
+   SH_Module * m_entryModule;
+   IControlBuilder *m_pcb;
+   CString m_szFirstSelect;
+protected:
+	virtual BOOL OnNewDocument();
+
+	DECLARE_MESSAGE_MAP()
+};

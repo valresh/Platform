@@ -1,0 +1,37 @@
+#pragma once
+#include <BaseType.h>
+#include <crossplatform.h>
+
+
+#ifdef MEMORYSERVICEQB5XX_EXPORTS
+#define MEMORYSERVICEQB5XX_API _EXP
+#else
+#define MEMORYSERVICEQB5XX_API _IMP
+#endif
+
+typedef void*(*tMemQB5xxAllocatorImpl)( size_t size );
+typedef CBase*(*tStructQB5xxAllocatorImpl)( LPCSTR ObjName, DWORD TypeID, int number );
+typedef CBase*(*tFindStructQB5xxImpl)( LPCSTR ObjName, DWORD TypeID, int number, LPCSTR* pszEntry );
+typedef void(*tRefCreator)( LPCSTR ObjName, CBase *pSrc, int number );
+
+class MEMORYSERVICEQB5XX_API KMemoryServiceQB5xx
+{
+  tMemQB5xxAllocatorImpl m_pMemAllocator;
+  tStructQB5xxAllocatorImpl m_pIOsStructAllocator;
+  tFindStructQB5xxImpl m_pIOFinder;
+  tRefCreator m_pRefCreator;
+  
+protected:
+  KMemoryServiceQB5xx();
+public:
+  static KMemoryServiceQB5xx& Instance();
+  void InitMemAllocator( tMemQB5xxAllocatorImpl pfn );
+  void InitIOsStructAllocator( tStructQB5xxAllocatorImpl pcreator, tFindStructQB5xxImpl pfinder, tRefCreator prc );
+  void* NewMem( size_t size );
+  CBase* CreateIOsStruct( LPCSTR ObjName, DWORD TypeID, int number );
+  CBase* FindIOsStruct( LPCSTR ObjName, DWORD TypeID, int number, LPCSTR* pszEntry );
+  void CreateRef( LPCSTR ObjName, CBase *pSrc, int number );  
+};
+
+#define NEWQB  void *operator new( size_t size ) { return KMemoryServiceQB5xx::Instance().NewMem( size ); };\
+              void *operator new[]( size_t size ) { return KMemoryServiceQB5xx::Instance().NewMem( size ); };

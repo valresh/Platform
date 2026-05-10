@@ -1,0 +1,6 @@
+#include <QbDataTypes_.h>
+#include <QuickBuilderStruct.h>
+
+#undef  QB_TYPE
+#define QB_TYPE( a, b, c ) LPCSTR W_##b::ClassName = c;
+#include <QuickBuilderType.hpp>

@@ -1,0 +1,12 @@
+SharedAnalog32Savebale(PV)
+SharedAnalog32Savebale(MV)
+SharedAnalog32Savebale(SP)
+SharedDigital32Savebale(MA)//ручной/автоматический
+SharedAnalog32Savebale(CV)
+SharedAnalog32(SH)
+SharedAnalog32(SL)
+SharedAnalog32(MH)
+SharedAnalog32(ML)
+SharedChars(EU,64)
+SharedAnalog32( P )
+SharedAnalog32( I )

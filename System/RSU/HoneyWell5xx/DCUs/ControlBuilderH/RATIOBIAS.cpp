@@ -1,0 +1,85 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate RATIOBIAS( "RATIOBIAS", SH_RATIOBIAS::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_RATIOBIAS,W_RATIOBIAS,300)
+
+void SH_RATIOBIAS::InitParm()
+{
+#include "Blocks/RATIOBIAS.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/RATIOBIAS_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class RATIOBIAS_IMPL : public W_RATIOBIAS
+{
+public:
+  void StepT( SStepCalcParams &dt, bool bHaveSpConnection );
+protected:
+  void Modefl();
+  void Обработка_SP( bool bHaveSpConnection );
+  void Отслеживание_PV();
+  void CalcCV();
+  void Обработка_выхода();
+};
+
+void SH_RATIOBIAS::StepT( SStepCalcParams &dt )
+{
+  bool bHaveSpConnection = false;
+  for( size_t i=0; i<inConsC; ++i )
+  {
+    if( 'S'==pInConns[i].szInFld[0] && 'P'==pInConns[i].szInFld[1] )
+    {
+      bHaveSpConnection = true;
+      pInConns[i].enabledTrasfer = W->MODE.V == W->MODE.CAS ? true : false;
+    }
+  }
+  InputConnectionsTransfer();
+  RATIOBIAS_IMPL *impl = reinterpret_cast<RATIOBIAS_IMPL*>(W);
+  impl->StepT( dt, bHaveSpConnection );
+  OutputConnectionsTransfer();
+}
+
+void SH_RATIOBIAS::StepAfterRestoreState()
+{
+  W->HIALM.PR = __ALPRIOR::None;
+  W->HIALM.TYPE = __DACALMTYPE::None;
+  W->HIALM.SV = 0;
+}
+//////////////////////////////////////////////////////////////////////////
+void RATIOBIAS_IMPL::StepT( SStepCalcParams &dt, bool bHaveSpConnection )
+{
+}
+
+void RATIOBIAS_IMPL::Обработка_выхода()
+{
+}
+
+void RATIOBIAS_IMPL::CalcCV()
+{
+}
+
+
+void RATIOBIAS_IMPL::Modefl()
+{
+  MODEFL.MAN = MODE.V == MODE.MAN;
+  MODEFL.AUTO = MODE.V == MODE.AUTO;
+  MODEFL.CAS = MODE.V == MODE.CAS;
+  MODEATTRFL.OPER = MODEATTR.V == MODEATTR.OPERATOR;
+  MODEATTRFL.PROG = MODEATTR.V == MODEATTR.PROGRAM;
+  MODEFL.NORM = MODE.V == NORMMODE.V;
+  MODEATTRFL.NORM = MODEATTR.V == NORMMODEATTR.V;
+}
+
+void RATIOBIAS_IMPL::Отслеживание_PV()
+{
+
+}
+
+void RATIOBIAS_IMPL::Обработка_SP( bool bHaveSpConnection )
+{
+}

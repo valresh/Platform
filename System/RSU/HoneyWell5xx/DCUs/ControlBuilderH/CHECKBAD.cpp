@@ -1,0 +1,38 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate CHECKBAD( "CHECKBAD", SH_CHECKBAD::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_CHECKBAD,W_CHECKBAD,50)
+
+void SH_CHECKBAD::InitParm()
+{
+#include "Blocks/CHECKBAD.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/CHECKBAD_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class CHECKBAD_IMPL : public W_CHECKBAD
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_CHECKBAD::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  CHECKBAD_IMPL *impl = reinterpret_cast<CHECKBAD_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void CHECKBAD_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( IsNaN(IN) )
+    OUT = 1;
+  else
+    OUT = 0;
+}

@@ -1,0 +1,111 @@
+#pragma once
+#include "./QBParamInfo.h"
+#include "QbRsuX.h"
+#include <QbBridge2SysParam.h>
+#include "ScriptHandle.h"
+#include <macros/FixString.h>
+#include <crossplatform.h>
+
+#ifdef QUICKBUILDERH5XX_EXPORTS
+#define QUICKBUILDERH5XX_API _EXP
+#else
+#define QUICKBUILDERH5XX_API _IMP
+#endif
+
+#pragma warning( push )
+#pragma warning( disable : 4251 )
+
+class QUICKBUILDERH5XX_API KQbBase
+{
+protected:
+  enum
+  {
+    sizeofBlockName = 48*2,
+  };
+  enum ETypePoint
+  {
+    etpHZ = 0,
+    etpMOD,
+    etpSM,
+    etpUMC_HC900,
+    etpRsLogixMOD,
+  };
+  struct SPntConnectInfo
+  {
+    SPntConnectInfo() : m_nAddress1(-1), m_pntType( etpHZ ), m_nID(-1)
+    {
+      m_szController[0] = 0;
+      m_szAddress2[0] = 0;
+      szDataType[0] = 0;
+    }
+    char m_szController[32*4];//UMC_HC900 RsLogix
+    int m_nAddress1;//SM + MOD
+    char m_szAddress2[32*4];//MOD RsLogix
+    int m_nID;//MO
+    ETypePoint m_pntType;
+    char szDataType[12*4];
+  };
+protected:
+  BYTE* pObjAddr;
+  SVarInfo * ClassVarInfo;
+  int kClassVarInfo;
+
+  BYTE* pObjAddrAlgo;
+  SVarInfo * ClassVarInfoAlgo;
+  int kClassVarInfoAlgo;
+
+  KScriptHandle m_scripts[20];
+protected:
+  SPntConnectInfo m_PvSourceConnectInfo, m_OpSourceConnectInfo, m_MdSourceConnectInfo, m_SpSourceConnectInfo;
+  SPntConnectInfo m_OpDestinctConnectInfo, m_MdDestinctConnectInfo, m_SpDestinctConnectInfo;
+protected:
+  KQbRsuX m_PVSource, m_OPSource, m_MDSource, m_SPSource;
+  KQbRsuX m_OPDestinc, m_MDDestinc, m_SPDestinc;
+public:
+  SFixString<sizeofBlockName> PointName;
+  DWORD QB_Type;
+  int L_Class_FullW;
+  BYTE * pClass_FullW;
+public:
+  KQbBase();
+  virtual void SetParmList(){}
+  virtual bool GetVar( LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize = NULL, LPCSTR *ppszEnum = NULL );
+  virtual bool SetValue( LPCSTR pField, LPCSTR pszVal, LPCSTR pszVal2 = NULL );
+  virtual void SetSourceAddressSM( LPCSTR pszController, LPCSTR pszWord, LPCSTR pszParmName );
+  virtual void SetDestinctAddressSM( LPCSTR pszController, LPCSTR pszWord, LPCSTR pszParmName );
+  virtual void SetSourceAddressMOD( LPCSTR pszController, LPCSTR pszWord1, LPCSTR pszWord2, int ID, LPCSTR pszParmName );
+  virtual void SetDestinctAddressMOD( LPCSTR pszController, LPCSTR pszWord1, LPCSTR pszWord2, int ID, LPCSTR pszParmName );
+  virtual void SetSourceAddressHC900_UMB( LPCSTR pszIPxAddr, LPCSTR pszParmName );
+  virtual void SetDestinctAddressHC900_UMB( LPCSTR pszIPxAddr, LPCSTR pszParmName );
+  virtual void SetSourceAddressRsLogixMod( LPCSTR pszNameB1, LPCSTR pszNameB2, LPCSTR pszDataType, LPCSTR pszParmName );
+  virtual void SetDestinctAddressRsLogixMod( LPCSTR pszNameB1, LPCSTR pszNameB2, LPCSTR pszDataType, LPCSTR pszParmName );
+  virtual void Link();
+  virtual void StepT( double dt );
+  virtual BYTE* EnumSavebleVars( int &nPos, const char **ppName, eVarType &type, tVarSizeType_ &varSize );
+  virtual void GetAsParams( KQbBridge2SysParam &paramCont );
+  virtual LPCSTR GetTypeName() = 0;
+  virtual void AddUserDefined( LPCSTR pszRaw );
+  virtual bool AddScript( LPCSTR pszScr );
+  virtual void AfterRestoreState(){}
+public:
+  virtual void OnScriptAssgned( LPCSTR pszFld );
+protected:
+  void ScriptsAfterStateRestored();
+  virtual struct SUserDef* GetUserDefs( DWORD &nCount );
+  virtual bool GetUserDef( LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize = NULL );
+  void FillConnectInfoSM( SPntConnectInfo &pnt, LPCSTR pszController, LPCSTR pszWord );
+  void FillConnectInfoMOD( SPntConnectInfo &pnt, LPCSTR pszController, LPCSTR pszWord1, LPCSTR pszWord2, int ID );
+  void LinkPnt( KQbRsuX &rsuPnt, SPntConnectInfo &connectInfo, bool Direction );
+  nRSUx::SParamInfo LinkingSM( SPntConnectInfo &pnt, bool Direction );
+  nRSUx::SParamInfo LinkingMOD( SPntConnectInfo &pnt );
+  template<class T>
+  void initW( T *wLocal, T *wStatic )
+  {
+    pObjAddr = (BYTE*)wLocal;
+    memmove( ((BYTE*)static_cast<T*>(wLocal)) + sizeof(CBase),
+              ((BYTE*)static_cast<T*>(wStatic)) + sizeof(CBase),
+              sizeof(T) - sizeof(CBase));
+  }
+};
+
+#pragma warning( pop )

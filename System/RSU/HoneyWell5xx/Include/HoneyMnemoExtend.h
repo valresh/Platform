@@ -1,0 +1,138 @@
+#pragma once
+#include <PipeClient.h>
+#include <basetype_.h>
+#include <UtilsH.h>
+#include <UtilsQB.h>
+#include <string>
+#include <map> 
+#include <crossplatform.h>
+
+#ifdef HONEYMNEMOEXTEND_EXPORTS
+#define HONEYMNEMOEXTEND_API _EXP
+#else
+#define HONEYMNEMOEXTEND_API _IMP
+#endif
+
+typedef UTILSQB5XX_API SValueDef* (*LPNameToValueQB)( DWORD eData, LPCTSTR name );
+extern LPNameToValueQB lpNameToValueQB;
+
+// структура для подмены nNumber и def для выражений вида "{%CtrlBlockSelected%}.mode", где CtrlBlockSelected может быть "L1", "L2" и т.п.
+struct SParamValueHMulti 
+{
+   std::map<std::string, std::string> &dataRepository;
+   std::map<std::string, std::pair<int, SValueDef*>> mDefs;
+   char key[32*4];   //имя переменной в %%
+   char curkeyval[32*4]; //текущее значение переменной в %%
+   SParamValueHMulti(std::map<std::string, std::string> &DataRepository) : dataRepository(DataRepository)
+   {
+      ZeroMemory( &key, sizeof(key) + sizeof(curkeyval));
+   }
+};
+
+struct SParamValueH
+  {
+  SParamValueH() : nNumber(-1), def(NULL), pMulti(NULL), nUDType(0) {userDefinition[0]=0;}
+  SParamValueH(int n,SValueDef* d) : nNumber(n), def(d), pMulti(NULL), nUDType(0) {userDefinition[0]=0;}
+  ~SParamValueH() 
+  { 
+	  if (pMulti) 
+		  delete pMulti; 
+	  pMulti = NULL;
+  }
+  void freeMulti()
+  {
+	  if (pMulti) 
+		  delete pMulti; 
+	  pMulti = NULL;
+  }
+  SParamValueH::SParamValueH(const SParamValueH &other)
+  {
+   nNumber = other.nNumber;
+   def = other.def;
+   nUDType = other.nUDType;
+   if(nUDType)
+   {
+     lstrcpyn(userDefinition, other.userDefinition, _countof(userDefinition)-1);
+     userDefinition[_countof(userDefinition)-1] = 0;
+   }
+   else 
+   {
+       userDefinition[0] = 0;
+   }
+   if(other.pMulti)
+     {
+       pMulti = new SParamValueHMulti(other.pMulti->dataRepository);
+       CopyMemory( &pMulti->key, &other.pMulti->key, sizeof(pMulti->key) + sizeof(pMulti->curkeyval) );    
+       for(std::map<std::string, std::pair<int, SValueDef*>>::iterator it = other.pMulti->mDefs.begin(); it!=other.pMulti->mDefs.end(); it++)
+           pMulti->mDefs.insert(std::pair<std::string, std::pair<int, SValueDef*>>(it->first, std::pair<int, SValueDef*>(it->second.first, it->second.second)));
+     }
+   else pMulti = NULL;
+  }
+  SParamValueH& operator =(const SParamValueH &other)
+  {
+   nNumber = other.nNumber;
+   def = other.def;
+   freeMulti();
+   nUDType = other.nUDType;
+   if(nUDType)
+   {
+     lstrcpyn(userDefinition, other.userDefinition, _countof(userDefinition)-1);
+     userDefinition[_countof(userDefinition)-1] = 0;     
+   }
+   else 
+   {
+       userDefinition[0] = 0;
+   }
+   if(other.pMulti)
+     {
+       pMulti = new SParamValueHMulti(other.pMulti->dataRepository);
+       CopyMemory( &pMulti->key, &other.pMulti->key, sizeof(pMulti->key) + sizeof(pMulti->curkeyval) );
+       for(std::map<std::string, std::pair<int, SValueDef*>>::iterator it = other.pMulti->mDefs.begin(); it!=other.pMulti->mDefs.end(); it++)
+           pMulti->mDefs.insert(std::pair<std::string, std::pair<int, SValueDef*>>(it->first, std::pair<int, SValueDef*>(it->second.first, it->second.second)));
+     }
+
+   return *this;
+  }
+   
+  int   nNumber;
+  SValueDef* def;
+  SParamValueHMulti *pMulti;
+  UINT nUDType;  // тип структуры с userDefinition
+  char userDefinition[64]; //поле для userDefinition
+  void Init( int n, EDataTypes e, const char* p )
+    {
+    nNumber = n; 
+    nUDType = 0;
+    userDefinition[0]=0;
+    def = ::NameToValueH( e, p );
+    if( !def && lpNameToValueQB)
+        def = lpNameToValueQB( e, p );
+    }
+  };
+
+class HONEYMNEMOEXTEND_API KHoneyPipeClient : public CPipeClient
+{
+  int m_LocalSystem;
+  DWORD m_dwDelay;  //задержка повторной записи в одну и туже точку
+  PVOID m_pDampingBuffer;
+public:
+  KHoneyPipeClient( LPCSTR pszDebugName, DWORD dwDelay = 0 );
+  virtual ~KHoneyPipeClient();
+  int AddMnemo( LPCTSTR pszName );
+  int AddAlmGr( LPCTSTR pszName );
+
+  int AddLocalSytem();
+  struct CShHoneywellSystem* GetLocalSystem();
+  static CShBase* GetShHoney(UINT eType);
+  UINT  FindHoney( LPCTSTR name, LPTSTR szHoney, LPTSTR szParam = NULL );//qFindHoney
+  CAlarmBase* Alarm( UINT nNumber );
+  void* ParamValue_H( SParamValueH& var, char* pnType=NULL );
+  BYTE ValueB_H( SParamValueH& var, BYTE   bDef = 0xff );
+  bool ValueBOOL_H( SParamValueH& var, bool  bDef = false );
+  char* ValueS_H( SParamValueH& var, char*  sDef = "" );
+  double ValueF_H( SParamValueH& var, double dDef = NaN );
+  int    ValueI_H( SParamValueH& var, int    nDef = -1 );
+  inline void Assert_H( SParamValueH& var, EValueType a2 );
+  bool SendDataEx( UINT nNumber, struct SSendToModel& send, bool bMessage = true);
+  bool RefreshEx();
+};

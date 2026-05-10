@@ -1,0 +1,115 @@
+// MyTreeCtrl.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "MyTreeCtrl.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+// CMyTreeCtrl
+
+IMPLEMENT_DYNAMIC(CMyTreeCtrl, CTreeCtrl)
+
+CMyTreeCtrl::CMyTreeCtrl()
+{
+
+}
+
+CMyTreeCtrl::~CMyTreeCtrl()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CMyTreeCtrl, CTreeCtrl)
+  ON_MESSAGE(TVM_INSERTITEM, OnInsertItem)
+  ON_MESSAGE(WM_LBUTTONDBLCLK, OnLButtonDblClk)
+  ON_MESSAGE(WM_LBUTTONDOWN, OnLButtonClk)
+END_MESSAGE_MAP()
+
+
+
+// CMyTreeCtrl message handlers
+
+
+//@mfunc overwienable the parent to do something when an item is inserted into the tree
+//
+//@parm WPARAM | wParam | 0
+//
+//@parm LPARAM | lParam | Address of a TVINSERTSTRUCT structure that specifies the attributes of the tree view item
+//
+//@rdesc handle of the new TreeItem or NULL
+LRESULT CMyTreeCtrl::OnInsertItem(WPARAM wParam, LPARAM lParam)
+{
+  HTREEITEM hItem = (HTREEITEM) DefWindowProc(TVM_INSERTITEM, wParam, lParam);
+
+  // notify the parentwindow
+  GetParent()->SendMessage(TVMYN_INSERTITEM, (WPARAM) hItem, 0);
+
+  return (LRESULT) hItem;
+}
+//@mfunc checks, if there was a doubleclick right of the normal treeitem and puts the x-Pos to left
+//
+//@parm WPARAM | wParam | Indicates whether various virtual keys are down, see Win32 documentation
+//
+//@parm LPARAM | lParam | specifies the Mousecursosposition, see Win32 documentation
+//
+//@rdesc the returnvalue of the default procedure
+LRESULT CMyTreeCtrl::OnLButtonDblClk(WPARAM wParam, LPARAM lParam)
+{
+  short xPos = LOWORD(lParam); 
+  short yPos = HIWORD(lParam); 	
+
+  TVHITTESTINFO HitTestInfo;
+
+  HitTestInfo.pt.x = xPos;
+  HitTestInfo.pt.y = yPos;
+
+  HitTest(&HitTestInfo);
+  if(HitTestInfo.flags == TVHT_ONITEMRIGHT)
+  {
+    CRect rc;
+    GetItemRect(HitTestInfo.hItem, &rc, TRUE);
+    xPos = (short)(rc.left + rc.Width() / 2);
+    lParam = yPos;
+    lParam <<= 16;
+    lParam &= 0x0ffff0000;
+    lParam += xPos;
+  }
+
+  return DefWindowProc(WM_LBUTTONDBLCLK, wParam, lParam);
+}
+//@mfunc checks, if there was a click right of the normal treeitem and puts the x-Pos to left
+//
+//@parm WPARAM | wParam | Indicates whether various virtual keys are down, see Win32 documentation
+//
+//@parm LPARAM | lParam | specifies the Mousecursosposition, see Win32 documentation
+//
+//@rdesc the returnvalue of the default procedure
+LRESULT CMyTreeCtrl::OnLButtonClk(WPARAM wParam, LPARAM lParam)
+{
+  short xPos = LOWORD(lParam); 
+  short yPos = HIWORD(lParam); 	
+
+  TVHITTESTINFO HitTestInfo;
+
+  HitTestInfo.pt.x = xPos;
+  HitTestInfo.pt.y = yPos;
+
+  HitTest(&HitTestInfo);
+  if(HitTestInfo.flags == TVHT_ONITEMRIGHT)
+  {
+    CRect rc;
+    GetItemRect(HitTestInfo.hItem, &rc, TRUE);
+    xPos = (short)(rc.left + rc.Width() / 2);
+    lParam = yPos;
+    lParam <<= 16;
+    lParam &= 0x0ffff0000;
+    lParam += xPos;
+  }
+
+  return DefWindowProc(WM_LBUTTONDOWN, wParam, lParam);
+}

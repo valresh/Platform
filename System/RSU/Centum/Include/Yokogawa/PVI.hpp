@@ -1,0 +1,17 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+FLAG(oldAFLS,"")
+FLAG(CALI,"")
+//
+DOUBLE2(PV,Tune_PV,"")
+DOUBLE(RAW,"")
+DOUBLE(SUM,"")//*
+DOUBLE(dPVn,"")
+//
+INTEGER(AF,"")
+
+INTEGER(TSW,"")
+INTEGER(PSW,"")

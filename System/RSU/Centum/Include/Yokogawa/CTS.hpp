@@ -1,0 +1,12 @@
+UMODE
+INTEGER(OPMK,"")//
+//
+ENUM(BSTS,"",STOP,PAUS,RUN,PALM,CTUP)
+FLAG(Res1,"")
+FLAG(Res2,"")
+FLAG(Res3,"")
+//
+INTEGER(PV,"")
+INTEGER(DV,"")
+//
+INTEGER(ACT,"")

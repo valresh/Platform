@@ -1,0 +1,6 @@
+﻿DOUBLE(IdealGasGibbsFreeEnergyOfFormationA)
+DOUBLE(IdealGasGibbsFreeEnergyOfFormationB)
+DOUBLE(IdealGasGibbsFreeEnergyOfFormationC)
+DOUBLE(IdealGasGibbsFreeEnergyOfFormationTmin)
+DOUBLE(IdealGasGibbsFreeEnergyOfFormationTmax)
+DOUBLE(IdealGasGibbsFreeEnergyOfFormation_298)

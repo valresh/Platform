@@ -1,0 +1,178 @@
+﻿<Expander IsExpanded="True" Header="Связь с Simit" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+    <FlexDesigner:Toolbox ItemSize="60,30" Header="Связь с Simit">
+        <ItemsControl.Items>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimitDI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Получение цифровых данных из Simit"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Simit-&gt;DI"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtProjectDI" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectDI, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M65,10 70,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectDI" PropName="txtProjectDI" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimitDO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Передача цифровых данных в Simit"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="DO-&gt;Simit"/>
+                </Border>
+                <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+                <TextBlock Grid.Row="1" x:Name="txtProjectDO" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectDO, Path=Value}"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectDO" PropName="txtProjectDO" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimitAI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Получение аналоговых данных из Simit"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Simit-&gt;AI"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtProjectAI" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectAI, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M65,10 70,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectAI" PropName="txtProjectAI" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="70" Height="30" Background="LightBlue" x:Name="SimitAO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Передача аналоговых данных в Simit"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="60" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AO-&gt;Simit"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtProjectAO" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectAO, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-35,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectAO" PropName="txtProjectAO" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="90" Height="50" Background="LightBlue" x:Name="SimitAIW" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Получение 2-х WORD-ов из Simit ввиде аналоговых данных"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="80" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="wSimit-&gt;AI"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtAIW2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=AIW2, Path=Value}"/>
+                <TextBlock Grid.Row="2" x:Name="txtProjectAIW" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectAIW, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M85,10 90,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="WORD2" x:Name="AIW2" PropName="txtAIW2" Value=""/>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectAIW" PropName="txtProjectAIW" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+            <Grid Width="90" Height="50" Background="LightBlue" x:Name="SimitAOW" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+                <Grid.ToolTip>
+                    <TextBlock Text="Передача аналоговых данных в Simit ввиде 2-х WORD-ов"/>
+                </Grid.ToolTip>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="80" BorderThickness="2" BorderBrush="Aquamarine" HorizontalAlignment="Center" CornerRadius="10">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AO-&gt;wSimit"/>
+                </Border>
+                <TextBlock Grid.Row="1" x:Name="txtAOW2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=AOW2, Path=Value}"/>
+                <TextBlock Grid.Row="2" x:Name="txtProjectAOW" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=projectAOW, Path=Value}"/>
+                <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+                <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                    <ControlTemplate>
+                        <FlexDesigner:ReferenceCenterPositionPanel>
+                            <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-45,10"/>
+                        </FlexDesigner:ReferenceCenterPositionPanel>
+                    </ControlTemplate>
+                </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <FlexDesigner:DesignerItem.HiddenProperties>
+                    <FlexDesigner:HiddenPropertiesContainer>
+                        <FlexDesigner:HiddenProperty Key="WORD2" x:Name="AOW2" PropName="txtAOW2" Value=""/>
+                        <FlexDesigner:HiddenProperty Key="Project" x:Name="projectAOW" PropName="txtProjectAOW" Value="Project"/>
+                    </FlexDesigner:HiddenPropertiesContainer>
+                </FlexDesigner:DesignerItem.HiddenProperties>
+            </Grid>
+
+        </ItemsControl.Items>
+    </FlexDesigner:Toolbox>
+</Expander>
+  

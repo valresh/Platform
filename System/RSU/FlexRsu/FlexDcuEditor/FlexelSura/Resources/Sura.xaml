@@ -1,0 +1,1488 @@
+﻿<Expander IsExpanded="True" Header="Sura элементы" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="90,120" Header="Составные элементы">
+    <ItemsControl.Items>
+
+      <Grid Width="90" Height="120" Background="LightBlue" x:Name="AI" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Ввод Аналог"/>
+            <TextBlock Text="MODE - 0 - ручной режим"/>
+            <TextBlock Text="MODE - 1 - автоматический режим"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border Width="80" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="White" Offset="0.0" />
+              <GradientStop Color="Gray" Offset="1.0" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <Grid Margin="4,0,4,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="ВводА" HorizontalAlignment="Right" />
+              <TextBlock Text="X" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="налог" HorizontalAlignment="Left" />
+              <TextBlock Text="PV" HorizontalAlignment="Right" />
+              <TextBlock Text="BAD" HorizontalAlignment="Right" />
+              <TextBlock Text="HH" HorizontalAlignment="Right" />
+              <TextBlock Text="H" HorizontalAlignment="Right" />
+              <TextBlock Text="L" HorizontalAlignment="Right" />
+              <TextBlock Text="LL" HorizontalAlignment="Right" />
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,25 90,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,42 90,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,57 90,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,74 90,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,90 90,90"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,106 90,106"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="X" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-45,25"/>
+              <FlexDesigner:Connector x:Name="PV" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,25"/>
+              <FlexDesigner:Connector x:Name="BAD" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,42"/>
+              <FlexDesigner:Connector x:Name="HH" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,57"/>
+              <FlexDesigner:Connector x:Name="H" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,74"/>
+              <FlexDesigner:Connector x:Name="L" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,90"/>
+              <FlexDesigner:Connector x:Name="LL" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,106"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="MODE" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="XREF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="PVHH" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVLO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVLL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="HYST" Value=""/>
+            <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SYMBOL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT_BODY" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT1_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT1_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT2_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT2_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT3_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT3_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT4_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT4_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT5_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT5_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR5" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="100" Height="150" Background="LightBlue" x:Name="REGUL" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Блок Регулятор"/>
+            <TextBlock Text="MODE - 0 - ручной режим"/>
+            <TextBlock Text="MODE - 1 - автоматический режим"/>
+            <TextBlock Text="MODE - 2 - каскадный режим"/>
+            <TextBlock Text="MODE - 3 - RCAS"/>
+            <TextBlock Text="MODE - 4 - ROP"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border Width="90" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="White" Offset="0.0" />
+              <GradientStop Color="Gray" Offset="1.0" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="БлокРе" HorizontalAlignment="Right" />
+              <TextBlock Text="X" HorizontalAlignment="Left" />
+              <TextBlock Text="CAS_IN" HorizontalAlignment="Left" />
+              <TextBlock Text="RCAS_IN" HorizontalAlignment="Left" />
+              <TextBlock Text="ROP_IN" HorizontalAlignment="Left" />
+              <TextBlock Text="" HorizontalAlignment="Left" Opacity="0" />
+              <TextBlock Text="" HorizontalAlignment="Left" Opacity="0" />
+              <TextBlock Text="INITin" HorizontalAlignment="Left" />
+              <TextBlock Text="TRKin" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="гулятор" HorizontalAlignment="Left" />
+              <TextBlock Text="OP" HorizontalAlignment="Right" />
+              <TextBlock Text="BAD" HorizontalAlignment="Right" />
+              <TextBlock Text="HH" HorizontalAlignment="Right" />
+              <TextBlock Text="H" HorizontalAlignment="Right" />
+              <TextBlock Text="L" HorizontalAlignment="Right" />
+              <TextBlock Text="LL" HorizontalAlignment="Right" />
+              <TextBlock Text="INITout" HorizontalAlignment="Right" />
+              <TextBlock Text="TRKout" HorizontalAlignment="Right" />
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,122 5,122"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,138 5,138"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,25 100,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,42 100,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,57 100,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,74 100,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,90 100,90"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,106 100,106"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,122 100,122"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,138 100,138"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="X" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,25"/>
+              <FlexDesigner:Connector x:Name="CAS_IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,42"/>
+              <FlexDesigner:Connector x:Name="RCAS_IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,57"/>
+              <FlexDesigner:Connector x:Name="ROP_IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,74"/>
+              <FlexDesigner:Connector x:Name="INITin" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,122"/>
+              <FlexDesigner:Connector x:Name="TRKin" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,138"/>
+              <FlexDesigner:Connector x:Name="OP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,25"/>
+              <FlexDesigner:Connector x:Name="BAD" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,42"/>
+              <FlexDesigner:Connector x:Name="HH" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,57"/>
+              <FlexDesigner:Connector x:Name="H" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,74"/>
+              <FlexDesigner:Connector x:Name="L" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,90"/>
+              <FlexDesigner:Connector x:Name="LL" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,106"/>
+              <FlexDesigner:Connector x:Name="INITout" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,122"/>
+              <FlexDesigner:Connector x:Name="TRKout" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,138"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="MODE" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="SP_MODE" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="XREF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="AO_REF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="PVHH" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVLO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVLL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="SPMAX" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="DZ" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="KPHI" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="KPLO" Value="-100"/>
+            <FlexDesigner:HiddenProperty Key="TIHI" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="TILO" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="TDHI" Value="1000"/>
+            <FlexDesigner:HiddenProperty Key="TDLO" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="HYST" Value=""/>
+            <FlexDesigner:HiddenProperty Key="KP" Value="0.1"/>
+            <FlexDesigner:HiddenProperty Key="TI" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="TD" Value="0"/>
+            
+            <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SYMBOL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT_BODY" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT1_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT1_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT2_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT2_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT3_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT3_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT4_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT4_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT5_TRUE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TEXT5_FALSE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_CODE5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_TEXT5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="EVENT_COLOR5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_CODE5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_TEXT5" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR3" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR4" Value=""/>
+            <FlexDesigner:HiddenProperty Key="ALARM_COLOR5" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+        
+        <Grid Width="110" Height="140" Background="LightBlue" x:Name="UV" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок Отсекатель"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="БлокОт" HorizontalAlignment="Right" />
+                        <TextBlock Text="GH" HorizontalAlignment="Left" />
+                        <TextBlock Text="GL" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_CL" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_OP" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_CL" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_OP" HorizontalAlignment="Left" />
+                        <TextBlock Text="FLAG" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="секатель" HorizontalAlignment="Left" />
+                        <TextBlock Text="DO_OP" HorizontalAlignment="Right" />
+                        <TextBlock Text="DO_CL" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,90 5,90"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,106 5,106"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,122 5,122"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,25 110,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,42 110,42"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="GH" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+                        <FlexDesigner:Connector x:Name="GL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,42"/>
+                        <FlexDesigner:Connector x:Name="OI1_CL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,57"/>
+                        <FlexDesigner:Connector x:Name="OI1_OP" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,74"/>
+                        <FlexDesigner:Connector x:Name="OI2_CL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,90"/>
+                        <FlexDesigner:Connector x:Name="OI2_OP" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,106"/>
+                        <FlexDesigner:Connector x:Name="FLAG" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,122"/>
+                        <FlexDesigner:Connector x:Name="DO_OP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,25"/>
+                        <FlexDesigner:Connector x:Name="DO_CL" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,42"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="GH_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="GL_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_OP_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_CL_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="T_OP_tr" Value="2"/>
+                    <FlexDesigner:HiddenProperty Key="T_CL_tr" Value="2"/>
+                    <FlexDesigner:HiddenProperty Key="T_OP" Value="10"/>
+                    <FlexDesigner:HiddenProperty Key="T_CL" Value="10"/>
+                    <FlexDesigner:HiddenProperty Key="OP_PRIOR" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT_BODY" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR10" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="110" Height="150" Background="LightBlue" x:Name="EV" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок Задвижка"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Задвиж" HorizontalAlignment="Right" />
+                        <TextBlock Text="GH" HorizontalAlignment="Left" />
+                        <TextBlock Text="GL" HorizontalAlignment="Left" />
+                        <TextBlock Text="GF" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_CL" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_OP" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_CL" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_OP" HorizontalAlignment="Left" />
+                        <TextBlock Text="FLAG" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="ка" HorizontalAlignment="Left" />
+                        <TextBlock Text="DO_OP" HorizontalAlignment="Right" />
+                        <TextBlock Text="DO_CL" HorizontalAlignment="Right" />
+                        <TextBlock Text="DO_ST" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,90 5,90"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,106 5,106"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,122 5,122"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,138 5,138"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,25 110,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,42 110,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,57 110,57"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="GH" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+                        <FlexDesigner:Connector x:Name="GL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,42"/>
+                        <FlexDesigner:Connector x:Name="GF" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,57"/>
+                        <FlexDesigner:Connector x:Name="OI1_CL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,74"/>
+                        <FlexDesigner:Connector x:Name="OI1_OP" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,90"/>
+                        <FlexDesigner:Connector x:Name="OI2_CL" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,106"/>
+                        <FlexDesigner:Connector x:Name="OI2_OP" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,122"/>
+                        <FlexDesigner:Connector x:Name="FLAG" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,138"/>
+                        <FlexDesigner:Connector x:Name="DO_OP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,25"/>
+                        <FlexDesigner:Connector x:Name="DO_CL" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,42"/>
+                        <FlexDesigner:Connector x:Name="DO_ST" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,57"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="GH_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="GL_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="GF_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_OP_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_CL_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_ST_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="PULSEWIDTH" Value="5"/>
+                    <FlexDesigner:HiddenProperty Key="T_MOVE_tr" Value="5"/>
+                    <FlexDesigner:HiddenProperty Key="T_MOVE" Value="60"/>
+
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT_BODY" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR12" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR13" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR14" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR10" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="110" Height="120" Background="LightBlue" x:Name="MOTOR" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок Двигатель"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="БлокДв" HorizontalAlignment="Right" />
+                        <TextBlock Text="DI" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_OFF" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI1_ON" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_OFF" HorizontalAlignment="Left" />
+                        <TextBlock Text="OI2_ON" HorizontalAlignment="Left" />
+                        <TextBlock Text="FLAG" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="игатель" HorizontalAlignment="Left" />
+                        <TextBlock Text="DO_ON" HorizontalAlignment="Right" />
+                        <TextBlock Text="DO_OFF" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,90 5,90"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,106 5,106"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,25 110,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M105,42 110,42"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="DI" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+                        <FlexDesigner:Connector x:Name="OI1_OFF" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,42"/>
+                        <FlexDesigner:Connector x:Name="OI1_ON" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,57"/>
+                        <FlexDesigner:Connector x:Name="OI2_OFF" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,74"/>
+                        <FlexDesigner:Connector x:Name="OI2_ON" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,90"/>
+                        <FlexDesigner:Connector x:Name="FLAG" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,106"/>
+                        <FlexDesigner:Connector x:Name="DO_ON" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,25"/>
+                        <FlexDesigner:Connector x:Name="DO_OFF" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,42"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="DI_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_ON_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_OFF_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="T_FEEDBACK" Value="5"/>
+                    <FlexDesigner:HiddenProperty Key="DO_TYPE" Value="1"/>
+                    <FlexDesigner:HiddenProperty Key="PULSEWIDTH" Value="5"/>
+                    <FlexDesigner:HiddenProperty Key="T_FEEDBACK" Value="5"/>
+
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT_BODY" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT1_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT2_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT3_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT4_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_TRUE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TEXT5_FALSE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="EVENT_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT11" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR10" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR11" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="110" Height="40" Background="LightBlue" x:Name="DIAGALM" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок ДиагнОшибки"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Диагн" HorizontalAlignment="Right" />
+                        <TextBlock Text="ALM" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Ошибки" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="ALM" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="ALM_REF" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="ALARM_CODE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="110" Height="40" Background="LightBlue" x:Name="CNGST" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок СменаСост"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Смена" HorizontalAlignment="Right" />
+                        <TextBlock Text="DI" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Сост" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="DI" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="DI_REF" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_TEXT2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALARM_COLOR2" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="100" Height="100" Background="LightBlue" x:Name="AVO" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Блок АВО"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="90" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Блок" HorizontalAlignment="Right" />
+                        <TextBlock Text="AI" HorizontalAlignment="Left" />
+                        <TextBlock Text="DI" HorizontalAlignment="Left" />
+                        <TextBlock Text="XLF" HorizontalAlignment="Left" />
+                        <TextBlock Text="CAS_IN" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="АВО" HorizontalAlignment="Left" />
+                        <TextBlock Text="AO" HorizontalAlignment="Right" />
+                        <TextBlock Text="DO" HorizontalAlignment="Right" />
+                        <TextBlock Text="INITout" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M95,25 100,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M95,42 100,42"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M95,57 100,57"/>
+
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="AI" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,25"/>
+                        <FlexDesigner:Connector x:Name="DI" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,42"/>
+                        <FlexDesigner:Connector x:Name="XLF" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,57"/>
+                        <FlexDesigner:Connector x:Name="CAS_IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,74"/>
+                        <FlexDesigner:Connector x:Name="AO" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,25"/>
+                        <FlexDesigner:Connector x:Name="DO" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,42"/>
+                        <FlexDesigner:Connector x:Name="INITout" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,57"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MARKA_FP" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AI_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DI_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="XLF_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DO_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AO_REF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_FP" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="PVEU" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="PVFORMAT" Value="2"/>
+                    <FlexDesigner:HiddenProperty Key="PVEUHI" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="PVEULO" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="OPEU" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="OPFORMAT" Value="2"/>
+                    <FlexDesigner:HiddenProperty Key="OPEUHI" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="OPEULO" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MODE" Value="0"/>
+
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="SYMBOL" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY9" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY8" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY7" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY6" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY5" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="90" Height="60" Background="LightBlue" x:Name="DI" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Ввод Дискрет"/>
+                    <TextBlock Text="MODE - 0 - ручной режим"/>
+                    <TextBlock Text="MODE - 1 - автоматический режим"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="80" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="4,0,4,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="ВводД" HorizontalAlignment="Right" />
+                        <TextBlock Text="X" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="искрет" HorizontalAlignment="Left" />
+                        <TextBlock Text="PV" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+            <Path Stroke="Black" StrokeThickness="1" Data="M85,25 90,25"/>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                        <FlexDesigner:Connector x:Name="X" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-45,25"/>
+                        <FlexDesigner:Connector x:Name="PV" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,25"/>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="XREF" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="MODE" Value="1"/>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY4" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY3" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY2" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY1" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ASSOCDISP_PRIORITY0" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+        <Grid Width="90" Height="60" Background="LightBlue" x:Name="AREA" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+            <Grid.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Зона Сигн"/>
+                </StackPanel>
+            </Grid.ToolTip>
+            <Border Width="80" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0.0" />
+                        <GradientStop Color="Gray" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Margin="4,0,4,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Area" HorizontalAlignment="Right" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+                <ControlTemplate>
+                    <FlexDesigner:ReferenceCenterPositionPanel>
+                    </FlexDesigner:ReferenceCenterPositionPanel>
+                </ControlTemplate>
+            </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+            <FlexDesigner:DesignerItem.HiddenProperties>
+                <FlexDesigner:HiddenPropertiesContainer>
+                    <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+                    <FlexDesigner:HiddenProperty Key="ALMEN" Value=""/>
+
+                    <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+                </FlexDesigner:HiddenPropertiesContainer>
+            </FlexDesigner:DesignerItem.HiddenProperties>
+        </Grid>
+
+      <Grid Width="100" Height="150" Background="LightBlue" x:Name="SURGE" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Блок АПР"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border Width="90" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="White" Offset="0.0" />
+              <GradientStop Color="Gray" Offset="1.0" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="Блок А" HorizontalAlignment="Right" />
+              <TextBlock Text="X" HorizontalAlignment="Left" />
+              <TextBlock Text="Ps" HorizontalAlignment="Left" />
+              <TextBlock Text="Pd" HorizontalAlignment="Left" />
+              <TextBlock Text="Ts" HorizontalAlignment="Left" />
+              <TextBlock Text="Td" HorizontalAlignment="Left" />
+              <TextBlock Text="SD" HorizontalAlignment="Left" />
+              <TextBlock Text="EXTESD" HorizontalAlignment="Left" />
+              <TextBlock Text="MOR" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="ПР" HorizontalAlignment="Left" />
+              <TextBlock Text="OP" HorizontalAlignment="Right" />
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,90 5,90"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,106 5,106"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,122 5,122"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,138 5,138"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,25 100,25"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="X" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,25"/>
+              <FlexDesigner:Connector x:Name="Ps" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,42"/>
+              <FlexDesigner:Connector x:Name="Pd" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,57"/>
+              <FlexDesigner:Connector x:Name="Ts" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,74"/>
+              <FlexDesigner:Connector x:Name="Td" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,90"/>
+              <FlexDesigner:Connector x:Name="SD" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,106"/>
+              <FlexDesigner:Connector x:Name="EXTESD" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,122"/>
+              <FlexDesigner:Connector x:Name="MANOVRD" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,138"/>
+              <FlexDesigner:Connector x:Name="OP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,25"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="XREF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="AO_REF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PDEUMAX" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PDEUMIN" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="SPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="OPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="HYST" Value=""/>
+            <FlexDesigner:HiddenProperty Key="KP" Value="1.0"/>
+            <FlexDesigner:HiddenProperty Key="TI" Value="0.2"/>
+            <FlexDesigner:HiddenProperty Key="TD" Value="0"/>
+            
+            <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SYMBOL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+
+            <FlexDesigner:HiddenProperty Key="CLM" Value="1.2"/>
+            <FlexDesigner:HiddenProperty Key="SCM" Value="1.2"/>
+            <FlexDesigner:HiddenProperty Key="EAM" Value="0.9"/>
+            <FlexDesigner:HiddenProperty Key="SDM" Value="0.9"/>
+            <FlexDesigner:HiddenProperty Key="SIGMAFB" Value="0.4"/>
+            <FlexDesigner:HiddenProperty Key="SIGMALMH" Value="0.8"/>
+            <FlexDesigner:HiddenProperty Key="SIGMALML" Value="0.3"/>
+            <FlexDesigner:HiddenProperty Key="SLOWDOWNDELAY" Value="10.0"/>
+            <FlexDesigner:HiddenProperty Key="STARTRAMP" Value="0.5"/>
+            <FlexDesigner:HiddenProperty Key="STOPRAMP" Value="1.0"/>
+            <FlexDesigner:HiddenProperty Key="SRGCOUNTESD" Value="3"/>
+            <FlexDesigner:HiddenProperty Key="SRGCYCLE" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="TRIPPOS" Value="100000"/>
+            <FlexDesigner:HiddenProperty Key="TRIPNEG" Value="-100000"/>
+            <FlexDesigner:HiddenProperty Key="SLOWDOWNRAMP" Value="0.5"/>
+            <FlexDesigner:HiddenProperty Key="SRGTST" Value="1.0"/>
+            <FlexDesigner:HiddenProperty Key="CASOPDECRLIM" Value="-0.5"/>
+            <FlexDesigner:HiddenProperty Key="Zs" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="MW" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="POS_X_MAX" Value="100.0"/>
+            <FlexDesigner:HiddenProperty Key="POS_X_MIN" Value="0.0"/>
+            <FlexDesigner:HiddenProperty Key="POS_Y_MAX" Value="100.0"/>
+            <FlexDesigner:HiddenProperty Key="POS_Y_MIN" Value="0.0"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+        
+      <Grid Width="100" Height="100" Background="LightBlue" x:Name="LOAD" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Блок Загрузка"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border Width="90" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="White" Offset="0.0" />
+              <GradientStop Color="Gray" Offset="1.0" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="Блок За" HorizontalAlignment="Right" />
+              <TextBlock Text="X" HorizontalAlignment="Left" />
+              <TextBlock Text="ERun" HorizontalAlignment="Left" />
+              <TextBlock Text="CLoad" HorizontalAlignment="Left" />
+              <TextBlock Text="CUnload" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="грузка" HorizontalAlignment="Left" />
+              <TextBlock Text="OP" HorizontalAlignment="Right" />
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M95,25 100,25"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="X" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,25"/>
+              <FlexDesigner:Connector x:Name="ERun" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,42"/>
+              <FlexDesigner:Connector x:Name="CLoad" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,57"/>
+              <FlexDesigner:Connector x:Name="CUnload" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-50,74"/>
+              <FlexDesigner:Connector x:Name="OP" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="50,25"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="XREF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="AO_REF" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="PVEUHI" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="PVEULO" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="PVFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="SPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEUHI" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPEULO" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="OPEU" Value=""/>
+            <FlexDesigner:HiddenProperty Key="OPEUHI" Value="100"/>
+            <FlexDesigner:HiddenProperty Key="OPEULO" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="OPFORMAT" Value="2"/>
+            <FlexDesigner:HiddenProperty Key="HYST" Value=""/>
+            <FlexDesigner:HiddenProperty Key="KP" Value="0.4"/>
+            <FlexDesigner:HiddenProperty Key="TI" Value="0.4"/>
+            <FlexDesigner:HiddenProperty Key="TD" Value="0"/>
+            
+            <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TYPE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="CONTROLLER" Value=""/>
+            <FlexDesigner:HiddenProperty Key="SYMBOL" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_F" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR_D" Value=""/>
+
+            <FlexDesigner:HiddenProperty Key="OFFLINEPOS" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="SDNPOS" Value="0"/>
+            <FlexDesigner:HiddenProperty Key="LOADRATE" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="UNLOADRATE" Value="1"/>
+            <FlexDesigner:HiddenProperty Key="L1_MODE" Value=""/>
+            <FlexDesigner:HiddenProperty Key="FV_MODE" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="110" Height="565" Background="LightBlue" x:Name="FIRST" SnapsToDevicePixels="True" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.Vendor="Sura">
+        <Grid.ToolTip>
+          <StackPanel>
+            <TextBlock Text="Блок Первопричина"/>
+          </StackPanel>
+        </Grid.ToolTip>
+        <Border Width="100" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center" CornerRadius="3">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="White" Offset="0.0" />
+              <GradientStop Color="Gray" Offset="1.0" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="Первоп" HorizontalAlignment="Right" />
+              <TextBlock Text="A1" HorizontalAlignment="Left" />
+              <TextBlock Text="A2" HorizontalAlignment="Left" />
+              <TextBlock Text="A3" HorizontalAlignment="Left" />
+              <TextBlock Text="A4" HorizontalAlignment="Left" />
+              <TextBlock Text="A5" HorizontalAlignment="Left" />
+              <TextBlock Text="A6" HorizontalAlignment="Left" />
+              <TextBlock Text="A7" HorizontalAlignment="Left" />
+              <TextBlock Text="A8" HorizontalAlignment="Left" />
+              <TextBlock Text="A9" HorizontalAlignment="Left" />
+              <TextBlock Text="A10" HorizontalAlignment="Left" />
+              <TextBlock Text="A11" HorizontalAlignment="Left" />
+              <TextBlock Text="A12" HorizontalAlignment="Left" />
+              <TextBlock Text="A13" HorizontalAlignment="Left" />
+              <TextBlock Text="A14" HorizontalAlignment="Left" />
+              <TextBlock Text="A15" HorizontalAlignment="Left" />
+              <TextBlock Text="A16" HorizontalAlignment="Left" />
+              <TextBlock Text="A17" HorizontalAlignment="Left" />
+              <TextBlock Text="A18" HorizontalAlignment="Left" />
+              <TextBlock Text="A19" HorizontalAlignment="Left" />
+              <TextBlock Text="A20" HorizontalAlignment="Left" />
+              <TextBlock Text="A21" HorizontalAlignment="Left" />
+              <TextBlock Text="A22" HorizontalAlignment="Left" />
+              <TextBlock Text="A23" HorizontalAlignment="Left" />
+              <TextBlock Text="A24" HorizontalAlignment="Left" />
+              <TextBlock Text="A25" HorizontalAlignment="Left" />
+              <TextBlock Text="A26" HorizontalAlignment="Left" />
+              <TextBlock Text="A27" HorizontalAlignment="Left" />
+              <TextBlock Text="A28" HorizontalAlignment="Left" />
+              <TextBlock Text="A29" HorizontalAlignment="Left" />
+              <TextBlock Text="A30" HorizontalAlignment="Left" />
+              <TextBlock Text="A31" HorizontalAlignment="Left" />
+              <TextBlock Text="A32" HorizontalAlignment="Left" />
+              <TextBlock Text="RST" HorizontalAlignment="Left" />
+              <TextBlock Text="EXT" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="ричина" HorizontalAlignment="Left" />
+              <TextBlock Text="FIRSTOUT" HorizontalAlignment="Right" />
+              <TextBlock Text="NUMBER" HorizontalAlignment="Right" />
+              <TextBlock Text="SIGNALS" HorizontalAlignment="Right" />
+              <TextBlock Text="RSTOUT" HorizontalAlignment="Right" />
+              <TextBlock Text="EXTOUT" HorizontalAlignment="Right" />
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,25 5,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,42 5,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,57 5,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,74 5,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,90 5,90"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,106 5,106"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,122 5,122"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,138 5,138"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,154 5,154"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,170 5,170"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,186 5,186"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,202 5,202"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,218 5,218"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,234 5,234"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,250 5,250"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,266 5,266"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,282 5,282"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,298 5,298"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,314 5,314"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,330 5,330"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,346 5,346"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,362 5,362"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,378 5,378"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,394 5,394"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,410 5,410"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,426 5,426"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,442 5,442"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,458 5,458"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,474 5,474"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,490 5,490"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,506 5,506"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,522 5,522"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,538 5,538"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,554 5,554"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,25 110,25"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,42 110,42"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,57 110,57"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,74 110,74"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M105,90 110,90"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="A1" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,25"/>
+              <FlexDesigner:Connector x:Name="A2" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,42"/>
+              <FlexDesigner:Connector x:Name="A3" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,57"/>
+              <FlexDesigner:Connector x:Name="A4" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,74"/>
+              <FlexDesigner:Connector x:Name="A5" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,90"/>
+              <FlexDesigner:Connector x:Name="A6" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,106"/>
+              <FlexDesigner:Connector x:Name="A7" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,122"/>
+              <FlexDesigner:Connector x:Name="A8" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,138"/>
+              <FlexDesigner:Connector x:Name="A9" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,154"/>
+              <FlexDesigner:Connector x:Name="A10" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,170"/>
+              <FlexDesigner:Connector x:Name="A11" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,186"/>
+              <FlexDesigner:Connector x:Name="A12" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,202"/>
+              <FlexDesigner:Connector x:Name="A13" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,218"/>
+              <FlexDesigner:Connector x:Name="A14" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,234"/>
+              <FlexDesigner:Connector x:Name="A15" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,250"/>
+              <FlexDesigner:Connector x:Name="A16" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,266"/>
+              <FlexDesigner:Connector x:Name="A17" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,282"/>
+              <FlexDesigner:Connector x:Name="A18" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,298"/>
+              <FlexDesigner:Connector x:Name="A19" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,314"/>
+              <FlexDesigner:Connector x:Name="A20" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,330"/>
+              <FlexDesigner:Connector x:Name="A21" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,346"/>
+              <FlexDesigner:Connector x:Name="A22" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,362"/>
+              <FlexDesigner:Connector x:Name="A23" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,378"/>
+              <FlexDesigner:Connector x:Name="A24" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,394"/>
+              <FlexDesigner:Connector x:Name="A25" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,410"/>
+              <FlexDesigner:Connector x:Name="A26" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,426"/>
+              <FlexDesigner:Connector x:Name="A27" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,442"/>
+              <FlexDesigner:Connector x:Name="A28" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,458"/>
+              <FlexDesigner:Connector x:Name="A29" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,474"/>
+              <FlexDesigner:Connector x:Name="A30" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,490"/>
+              <FlexDesigner:Connector x:Name="A31" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,506"/>
+              <FlexDesigner:Connector x:Name="A32" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,522"/>
+              <FlexDesigner:Connector x:Name="RST" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,538"/>
+              <FlexDesigner:Connector x:Name="EXT" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-55,554"/>
+              <FlexDesigner:Connector x:Name="FIRSTOUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,25"/>
+              <FlexDesigner:Connector x:Name="NUMBER" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,42"/>
+              <FlexDesigner:Connector x:Name="SIGNALS" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,57"/>
+              <FlexDesigner:Connector x:Name="RSTOUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,74"/>
+              <FlexDesigner:Connector x:Name="EXTOUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="55,90"/>
+          </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="MARKA" Value=""/>
+            
+            <FlexDesigner:HiddenProperty Key="AREA" Value=""/>
+            <FlexDesigner:HiddenProperty Key="DESCR" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+
+        </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>
+  

@@ -1,0 +1,37 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate SPARE( "SPARE", SH_SPARE::Create );
+
+SH_SPARE::SH_SPARE()
+{
+}
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_SPARE,W_SPARE,70)
+
+void SH_SPARE::InitParm()
+{
+#include "Blocks/SPARE.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/SPARE_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class _SPARE_IMPL : public W_SPARE
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_SPARE::StepT( SStepCalcParams &dt )
+{
+	SH_Block::StepT( dt );
+  _SPARE_IMPL *impl = reinterpret_cast<_SPARE_IMPL*>(W);
+  impl->StepT( dt );
+}
+//////////////////////////////////////////////////////////////////////////
+void _SPARE_IMPL::StepT( SStepCalcParams &dt )
+{
+}

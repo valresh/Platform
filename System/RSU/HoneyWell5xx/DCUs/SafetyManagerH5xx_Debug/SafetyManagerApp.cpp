@@ -1,0 +1,170 @@
+#include "stdafx.h"
+#include "SafetyManager.h"
+#include "SafetyManagerApp.h"
+#include "SafetyManagerFrame.h"
+#include "SafetyManagerDoc.h"
+#include "SafetyManagerView.h"
+
+// KSafetyManagerApp
+
+IMPLEMENT_DYNCREATE(KSafetyManagerApp, CWinApp)
+
+KSafetyManagerApp::KSafetyManagerApp()
+: m_pDocManager( NULL )
+{
+}
+
+KSafetyManagerApp::~KSafetyManagerApp()
+{
+}
+
+BOOL KSafetyManagerApp::InitInstance()
+{
+	// TODO:  perform and per-thread initialization here
+	return TRUE;
+}
+
+int KSafetyManagerApp::ExitInstance()
+{
+	// TODO:  perform any per-thread cleanup here
+	return CWinApp::ExitInstance();
+}
+
+BEGIN_MESSAGE_MAP(KSafetyManagerApp, CWinApp)
+END_MESSAGE_MAP()
+
+
+// KSafetyManagerApp message handlers
+void KSafetyManagerApp::Open( LPCSTR pszPrj, IFscStorage *pOwner )
+{
+  AFX_MANAGE_STATE(AfxGetStaticModuleState());
+  AFX_MODULE_THREAD_STATE* pState = AfxGetModuleThreadState();
+  CWinThread* pThread = pState->m_pCurrentWinThread;
+  if( !pState->m_pCurrentWinThread )
+    pState->m_pCurrentWinThread = this;
+  if( !m_pDocManager )
+  {
+    /*void *pmem = NewMem( sizeof(*m_pDocManager) );
+    if( !pmem )
+      return;
+    m_pDocManager = new (pmem ) CDocManager;
+    if( !m_pDocManager )
+      return;
+    pmem = NewMem( sizeof(CMultiDocTemplate) );
+    if( !pmem )
+      return;
+    CMultiDocTemplate* pDocTemplate = new (pmem) CMultiDocTemplate( IDR_SAFETYMANAGER,
+                                                                    RUNTIME_CLASS(KSafetyManagerDoc),
+                                                                    RUNTIME_CLASS(KSafetyManagerFrame),
+                                                                    RUNTIME_CLASS(KSafetyManagerView));*/
+    m_pDocManager = new CDocManager;
+    if( !m_pDocManager )
+      return;
+    CMultiDocTemplate* pDocTemplate = new CMultiDocTemplate( IDR_SAFETYMANAGER,
+                                                              RUNTIME_CLASS(KSafetyManagerDoc),
+                                                              RUNTIME_CLASS(KSafetyManagerFrame),
+                                                              RUNTIME_CLASS(KSafetyManagerView));
+    m_pDocManager->AddDocTemplate(pDocTemplate);
+
+#ifdef _DEBUG
+    HMODULE h = LoadLibrary("CJ60Lib_d.dll");
+#else
+    HMODULE h = LoadLibrary("CJ60Lib_r.dll");
+#endif
+    if( h )
+    {
+      typedef void(CALLBACK*lpReg)();
+      lpReg call = (lpReg)GetProcAddress( h, "RegisterInMfcApp" );
+      if( call )
+        call();
+    }
+  }
+
+  POSITION pos = m_pDocManager->GetFirstDocTemplatePosition();
+  CDocument* pOpenDocument = NULL;
+
+  bool bOpenFull = true;
+
+  /*while( pos != NULL )
+  {
+    CDocTemplate* pTemplate = (CDocTemplate*)m_pDocManager->GetNextDocTemplate(pos);
+    ASSERT_KINDOF(CDocTemplate, pTemplate);
+    POSITION pos1 = pTemplate->GetFirstDocPosition();
+    if( pos1 )
+    {
+      pOpenDocument = pTemplate->GetNextDoc( pos1 );
+      if( pOpenDocument && pOpenDocument->IsKindOf( RUNTIME_CLASS(KSafetyManagerDoc)) )
+        break;
+      else
+        pOpenDocument = NULL;
+    }
+  }*/
+
+  if( !pOpenDocument )
+  {
+    char Path[_MAX_PATH] = { 0 };
+
+    m_pDocManager->OnFileNew();
+
+    pos = m_pDocManager->GetFirstDocTemplatePosition();
+    while (pos != NULL )
+    {
+      CDocTemplate* pTemplate = (CDocTemplate*)m_pDocManager->GetNextDocTemplate(pos);
+      ASSERT_KINDOF(CDocTemplate, pTemplate);
+      POSITION pos1 = pTemplate->GetFirstDocPosition();
+      while( pos1 )
+      {
+        pOpenDocument = pTemplate->GetNextDoc( pos1 );
+        if( pOpenDocument && pOpenDocument->IsKindOf( RUNTIME_CLASS(KSafetyManagerDoc)) )
+        {
+          KSafetyManagerDoc* pDoc = (KSafetyManagerDoc*)pOpenDocument;
+          if( pDoc->m_pOwner )
+            continue;
+          pDoc->m_pOwner = pOwner;
+		  pDoc->SetTitle( pszPrj );
+
+          pos = pOpenDocument->GetFirstViewPosition();
+          CView *pView = pOpenDocument->GetNextView( pos );
+          if( pView )
+          {
+            CFrameWnd *pFr = pView->GetParentFrame();
+            if( pFr )
+            {
+              if( bOpenFull )
+              {
+                pFr->SendMessageToDescendants( WM_USER, 0, 0, TRUE, TRUE);
+              }
+              else
+              {
+                /*pFr->SendMessage( WM_USER, (WPARAM)pScs, (LPARAM)pObjName );
+                pFr->SetTitle( pProcName );
+                pDoc->OnSelectPou( pScs, pObjName );*/
+              }
+            }
+          }
+
+          pos = NULL;
+          break;
+        }
+        else
+          pOpenDocument = NULL;
+      }
+    }
+  }
+
+  /*if( pOpenDocument )
+  {
+    pos = pOpenDocument->GetFirstViewPosition();
+    CView *pView = pOpenDocument->GetNextView( pos );
+    if( pView )
+    {
+      CFrameWnd *pFr = pView->GetParentFrame();
+      if( pFr )
+      {
+        if( !pFr->IsWindowVisible() )
+          pFr->ShowWindow( SW_SHOW );
+        pFr->SetActiveWindow();
+      }
+    }
+  }*/
+}

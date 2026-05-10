@@ -1,0 +1,5 @@
+PrivateDigital32Savebale( in1 )
+PrivateDigital32Savebale( in2 )
+PrivateDigital32Savebale( in3 )
+PrivateDigital32Savebale( out )
+PrivateDigital32( FIXED_OUT )

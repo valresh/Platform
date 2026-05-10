@@ -1,0 +1,21 @@
+#include "TrendsRsuKernel.h"
+
+void KTrendsRsuKernel::FillHeader()
+{
+  UINT nCount = Count();
+  if ( nCount == 0 ) 
+    return;
+  //
+  STrendId* pID = m_pHeadT->nId;
+  STrendDef* list = (STrendDef*)Obj(0);
+  for ( UINT n = 0; n < nCount; n++, pID++ )
+  {
+    pID->nId = list[n].dwID;
+    strcpy_s( pID->name, list[n].name );
+  }
+  //
+  m_dwBklTotal = 0;
+  if ( pbBegWnd != NULL )
+      m_hMapData.unmap();
+  //
+}

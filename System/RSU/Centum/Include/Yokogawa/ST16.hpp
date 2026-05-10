@@ -1,0 +1,7 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+STRING(PV,4,"Active STEP")
+//
+FLAG(ACT,"")

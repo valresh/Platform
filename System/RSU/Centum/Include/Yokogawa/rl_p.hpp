@@ -1,0 +1,8 @@
+YPARM_S(Comment,64,"ETCM")
+YPARM_B(Accept_BAD,false,"UBDD")
+YPARM_I_A(UC,16,"")
+YPARM_D_A(C,16,"")
+INTEGER(kRef,"")
+YPARM_S_A(Ref,16,32,"")
+YPARM_S_A(D,16,32,"")
+YPARM_I_A(Oper,16,"CMP=0,AND=1")

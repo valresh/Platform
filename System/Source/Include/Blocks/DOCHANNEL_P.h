@@ -1,0 +1,53 @@
+String_K(DESC,"Block Descriptor",132*4)
+Integer(CHANNUM,"CHANNUM",1)
+String_K(CONTAINEDIN,"Contained in",16*4)
+String_K(DEVICELOCATION,"Associated Device Location",64*4)
+Enumeration(DOSTYPE,"DO Slot Type",NONE,UNKNOWN,SONOTCONF,SOPOINT,SOCOMPONENT,ONPULSE,OFFPULSE,OPNOTCONF,OPPOINT,OPCOMPONENT,Def=NONE)
+Enumeration(FAULTOPT,"Fault Option",Hold,Unpower,Power,UseFaultValue,Def=Unpower)
+Real(FAULTVALUE,"Fault Value",0)
+String_K(IOP,"Associated I/O Module",32*4)
+Enumeration(IOPTYPE,"IOM Type",DI_HV=54,DI_24,DO_24B,Def=DI_24)
+Enumeration(PNTFORM,"",Full,Component,Def=Component)
+Enumeration(PNTTYPE,"",AI=1,AO,DI,DO,Def=DO)
+Enumeration(DOTYPE,"DO Type",STATUS,PWM,OnPulse,OffPulse,Def=STATUS)//Determines the type of digital output point
+Enumeration(OPTDIR,"Output Direction",Direct,Reverse,Def=Direct)
+
+Enumeration(MODEATTR,"Mode Attribute",None,Operator,Program,Normal,Def=Operator)
+Enumeration(MODEPERM,"Mode Permissive",NotPerm,Permit,Def=Permit)
+Enumeration(NMODATTR,"Normal Mode Attribute",None,Operator,Program,Normal,Def=None)
+Enumeration(NMODE,"Normal Mode",None,Man,Cas,Normal,Def=None)
+
+String_K(MONREADPARAM,"Parameter to be monitored",64*4)
+//STRING(BLCKCOMMENT1,40,"Block Comment 1")
+String_K(BLKTYPE,"Block Type",33*4)
+Real(OPINITVAL,"OP Initialize Value",0)
+//Integer(ORDERINCM,"Execution order",10)// of a component block relative to other component blocks within a Control Module (CM) function 
+Real(PERIOD,"PWM Period",0)
+/*
+Integer(FETCHMODE,"Fetch Mode",0)// - When this mode is set, the IO Channel works without the IOM function block.
+Real(FREEZETIME,"Maximum Freeze Time",4.)
+Boolean(INITVAL,"Initialization Value",false)
+Integer(IOCTYPE,"Channel Type",-1)
+Integer(IOMCONN,"IO Module Connector",0)
+Real(OFFPULSE,"Off Pulse Command",0)//Lets users specify how long a status output (SO) is to be set to Off in seconds. At the end of the OFFPULSE time, SO is set to On
+Real(ONPULSE,"On Pulse Command",0)//Lets users specify how long a status output (SO) is to be set to On in seconds. At the end of the ONPULSE time, SO is set to Off
+Boolean(SOSOURCE,"",false)//Timer Status Output (SO) Source Connector
+*/
+//INTEGER(CBBLOCKPROP,"Block Property")
+//ENUM(CHKPNTST,"Invalid,Valid,NotLoaded,Reading,Writing,Restored,DbValidRestored","Checkpoint State")
+//FLAG(COMMFAILFL,"Communications Failure")
+//INTEGER(CONTAINEDIN,"Contained in")
+//FLAG(INITREQ,"Initialize Request")
+//FLAG(INITREQLATCH,"Initialize Request Latched")
+//ENUM(MONACTCMD,"INACTIVE,ACTIVE","Enum for activate")
+//STRING(MONCMDPARAM,64,"Parameter stores activation")
+//ENUM(MONINACTCMD,"INACTIVE,ACTIVE","Enum for inactivate")
+//ENUM(MONLDCMD,"INACTIVE,ACTIVE","Value prior to load")
+//ENUM(MONRQDLD,"INACTIVE,ACTIVE","Required load state")
+//INTEGER(NUMBLOBS,"Number of Dynamic State Blobs")
+//FLAG(OWDENBL,"Open Wire Detection Enable")
+//ENUM(PNTTYPE,"NULL,AI,AO,DI,DO,DigCom,RegPV,RegCtl,Logic,Array,Flag,Numeric,ProcModl,Timer,DevCtl,SVP,SP,PI,UIO","Point Type")
+//STRING(QUALSTATE,100,"Qualification State")
+Enumeration(SIMMODE,"Simulation Mode",NONE,DIRECTSUB,SIMVALSUB,INITDISABLE,Def=NONE)
+Real(SIMVALUE,"Simulated Value",0)
+Boolean(SOINITVAL,"SO Initialize Value",0)

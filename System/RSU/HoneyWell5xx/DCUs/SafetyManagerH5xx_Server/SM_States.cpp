@@ -1,0 +1,383 @@
+#include "SM_Server.h"
+#include <CommonRSUs.h>
+#ifdef _WIN32
+#include <io.h>
+#endif
+#include "StateSer.h"
+#include "stateKeys.h"
+
+#include <rsuNoNames.h>
+#include <BaseType.h>
+#include <UtilsSM.h>
+#include <SafetyManagerStruct.h>
+#include <chrono>
+#include <crossstring.h>
+
+extern KNoName *g_IOs;
+
+int KServer::StateSave( LPCSTR pszPath )
+{
+  OutputDebugString( "SafetyManager::SaveState...\n" );
+  auto t = std::chrono::high_resolution_clock::now();
+
+  fs::remove(pszPath);
+
+  fs::path path(pszPath);
+  std::string filenameinzip = path.filename().string();
+  std::string path_tmp(pszPath);
+  path_tmp += ".tmp";
+
+
+  {
+    KStateSer saver( path_tmp.c_str(), true );
+    IStateSer *piSaver = &saver;
+
+    saver.StartSave();
+    SaveStateImpl( piSaver );
+    saver.SaveCompleted();
+  }
+
+  RsuPackager( path_tmp.c_str(), pszPath, filenameinzip.c_str());
+  fs::remove( path_tmp );
+
+  auto d = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - t).count();
+  char szDebug[64*4];
+  sprintf_s( szDebug, "время сохранения состояния SafetyManager %lld ms\n", d );
+  OutputDebugString( szDebug );
+
+  return 0;
+}
+
+int KServer::StateRestore( LPCSTR pszPath )
+{
+  if( 0!=_access( pszPath, 0) )
+    return 1;
+  OutputDebugString( "SafetyManager::RestoreState...\n" );
+  auto t = std::chrono::high_resolution_clock::now();
+  bool convert = pszPath[strlen(pszPath)-1] != 'x';
+
+  KStateSer restorerImpl(RsuExtractor(pszPath), false, convert );
+  int r = restorerImpl.StartRestore();
+  ASS( r );
+  if( !r )
+    return !r;
+
+  IStateSer *piRest = &restorerImpl;
+
+  r = RestoreStateImpl( piRest );
+  auto d = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - t).count();
+  char szDebug[64*4];
+  sprintf_s( szDebug, "время восстановления состояния SafetyManager %lld ms\n", d );
+  OutputDebugString( szDebug );
+
+  return r;
+}
+
+static const DWORD s_StateFormatVersion = 0x03000002;
+
+static LPCSTR s_ppSharedFields[] = { "PV", "PVFL", "OPFL", "OP" };
+
+void KServer::SaveStateImpl( IStateSer *piSaver )
+{
+  piSaver->Write( kKeyVersion );
+  piSaver->Write( s_StateFormatVersion );
+  piSaver->SetSavedVersionFormat( s_StateFormatVersion );
+
+  const UINT nFiles = mFile.Count();
+
+
+  for( UINT nf=0; nf<nFiles; ++nf )
+  {
+    LFscFile& fld = mFile.Item(nf);
+    piSaver->Write( kKeyFld );
+    piSaver->Write( fld.nNumber );
+    piSaver->Write( fld.nFromFldCall );
+    piSaver->Write( fld.nParent );
+    piSaver->Write( nf );
+
+    DWORD posStart = piSaver->GetPosition();
+    DWORD l = piSaver->Write( posStart );
+
+    for( UINT n = fld.nPlace, E(fld.nPlace+fld.nCount); n < E ; ++n )
+    {
+      SFscBase * obj = mList.Item(n);
+
+      // Линии пропускаем
+      if ( 0x3A <= obj->mT && obj->mT <= 0x3D )
+        continue;
+
+      piSaver->Write( kKeyObj );
+      piSaver->Write( obj->ID );
+      piSaver->Write( obj->mT );
+      piSaver->Write( obj->mB );
+      piSaver->Write( obj->nNumberFld );
+      piSaver->Write( obj->nFromFldCall );
+      piSaver->Write( n );
+
+      DWORD posStartO = piSaver->GetPosition();
+      DWORD lO = piSaver->Write( posStartO );
+      
+      mList.CallSaveState( piSaver, this, obj );
+
+      DWORD posEndO = piSaver->GetPosition();
+      DWORD lengthO = posEndO - posStartO - lO;
+      piSaver->WriteAtPosition( posStartO, lengthO );
+      piSaver->Write( kKeyObjEnd );
+    }
+
+    DWORD posEnd = piSaver->GetPosition();
+    DWORD length = posEnd - posStart - l;
+    piSaver->WriteAtPosition( posStart, length );
+    piSaver->Write( kKeyFldEnd );
+  }
+  piSaver->Write( kKeyEndFlds );
+
+  const char* pszName;
+  DWORD ID = 0;
+  CBase* pBase = NULL;
+  int nFcs = 0;
+  while( g_IOs->WhileBase( ID, -1, &pBase, &pszName, &nFcs ) )
+  {
+    switch( pBase->ID_CLASS )
+    {
+    case W_SMDISCRET::TypeID:
+    case W_SMANALOG::TypeID:
+    case W_SMAI::TypeID:
+    case W_SMAO::TypeID:
+    case W_SMDI::TypeID:
+    case W_SMDO::TypeID:
+    case W_SMBI::TypeID:
+    case W_SMBO::TypeID:
+    case W_SMBICOM::TypeID:
+    case W_SMBOCOM::TypeID:
+    case W_SMDOCOM::TypeID:
+    case W_SMDICOM::TypeID:
+      break;
+    default:
+      continue;
+    }
+    piSaver->Write( kKeyShared );
+    piSaver->Write( pszName );
+    piSaver->Write( pBase->ID_CLASS );
+    piSaver->Write( nFcs );
+    DWORD posStart = piSaver->GetPosition();
+    DWORD l = piSaver->Write( posStart );
+
+    for( int i=0; i<_countof(s_ppSharedFields); ++i )
+    {
+      SValueDef* def = NameToValueSM( pBase->ID_CLASS, s_ppSharedFields[i] );
+      if( !def )
+        continue;
+      BYTE *pMem = (BYTE*)pBase;
+      pMem += def->dwShift;
+      USHORT size = 0;
+      switch( def->eVal )
+      {
+      case enumValueDbl:
+        size = sizeof(double);
+        break;
+      case enumValueBol:
+        size = sizeof(bool);
+        break;
+      case enumValueInt:
+        size = sizeof(int);
+        break;
+      case enumValueChr:
+        size = sizeof(char);
+        break;
+      default:
+        ASSD(0);
+        continue;
+      }
+      piSaver->Write( kKeySharedFld );
+      piSaver->Write( s_ppSharedFields[i] );
+      piSaver->Write( def->eVal );
+      piSaver->Write( size );
+      piSaver->Write( pMem, size );
+    }
+
+    DWORD posEnd = piSaver->GetPosition();
+    DWORD length = posEnd - posStart - l;
+    piSaver->WriteAtPosition( posStart, length );
+    piSaver->Write( kKeyEndShared );
+  }
+  piSaver->Write( kKeyAllEnd );
+}
+
+int KServer::RestoreStateImpl( IStateSer *pRest )
+{
+  EKeys key = eKeyNULL;
+  DWORD savedVer = 0;
+  pRest->Read( key );
+  pRest->Read( savedVer );
+  if( kKeyVersion!=key || (s_StateFormatVersion!=savedVer && 0x03000001!=savedVer) )
+  {
+    ASSD(0);
+    return -2;
+  }
+  pRest->SetSavedVersionFormat( savedVer );
+
+  bool bContinue = true;
+  LFscFile *pSavedFld = NULL;
+  while( bContinue && pRest->Read( key ) )
+  {
+    switch( key )
+    {
+    default:
+      ASS(0);
+      return -3;
+    case kKeyEndFlds:
+      bContinue = false;
+      break;
+    case kKeyFldEnd:
+      break;
+    case kKeyFld:
+      {
+        UINT NF = 0;
+        pSavedFld = NULL;
+        LFscFile ff;
+        DWORD len = 0;
+        pRest->Read( ff.nNumber );
+        pRest->Read( ff.nFromFldCall );
+        pRest->Read( ff.nParent );
+        pRest->Read( NF );
+        pRest->Read( len );
+        const UINT nFiles = mFile.Count();
+        for( UINT nf=NF; nf<nFiles; ++nf )
+        {
+          LFscFile& fld = mFile.Item(nf);
+          if( ff.nNumber!=fld.nNumber || ff.nFromFldCall!=fld.nFromFldCall || ff.nParent!=fld.nParent )
+            continue;
+          pSavedFld = &fld;
+          break;
+        }
+        //ASSD( pSavedFld );
+        if( !pSavedFld )
+        {
+          pRest->Skip( len );
+          continue;
+        }
+        RestoreFld( pRest, pSavedFld );
+        KKK();
+      }
+      break;
+    }
+  }
+
+  bContinue = true;
+  char szName[256];
+  DWORD ID_CLASS;
+  DWORD len;
+  int nFcs;
+  CBase* pBase = NULL;
+  USHORT size;
+  EValueType sVal;
+  while( bContinue && pRest->Read( key ) )
+  {
+    switch( key )
+    {
+    default:
+      ASS(0);
+      return -4;
+    case kKeyAllEnd:
+      bContinue = false;
+      break;
+    case kKeyEndShared:
+      break;
+    case kKeySharedFld:
+      pRest->Read( szName );
+      if (pRest->NeedConvertUTF())
+          cross::string::convert_to_utf8(1251, szName, szName, sizeof(szName));
+      pRest->Read( sVal );
+      pRest->Read( size );
+      {
+        SValueDef* def = NameToValueSM( pBase->ID_CLASS, szName );
+        if( !def )
+        {
+          pRest->Skip( size );
+          continue;
+        }
+        ASSD (sVal==def->eVal );
+        BYTE *pMem = (BYTE*)pBase;
+        pMem += def->dwShift;
+        pRest->RawRead( pMem, size );
+      }
+      break;
+    case kKeyShared:
+      pRest->Read( szName );
+      if (pRest->NeedConvertUTF())
+          cross::string::convert_to_utf8(1251, szName, szName, sizeof(szName));
+      pRest->Read( ID_CLASS );
+      pRest->Read( nFcs );
+      pRest->Read( len );
+      pBase = g_IOs->FindStruct( szName, ID_CLASS, nFcs );
+      if( !pBase )
+      {
+        pRest->Skip( len );
+      }
+      break;
+    }
+  }
+
+  return 0;
+}
+
+int KServer::RestoreFld( IStateSer *pRest, LFscFile *pSavedFld )
+{
+  EKeys key = eKeyNULL;
+  bool bContinue = true;
+  SFscBase * pSavedObj = NULL;
+  while( bContinue && pRest->Read( key ) )
+  {
+    switch( key )
+    {
+    default:
+      ASS(0);
+      return -1;
+    case kKeyFldEnd:
+      bContinue = false;
+      break;
+    case kKeyObjEnd:
+      break;
+    case kKeyObj:
+      {
+        pSavedObj = NULL;
+        SFscBase so;
+        UINT sN = 0;
+        DWORD len = 0;
+        pRest->Read( so.ID );
+        pRest->Read( so.mT );
+        pRest->Read( so.mB );
+        pRest->Read( so.nNumberFld );
+        pRest->Read( so.nFromFldCall );
+        pRest->Read( sN );
+        pRest->Read( len );
+        for( UINT n = pSavedFld->nPlace, E(pSavedFld->nPlace+pSavedFld->nCount); n < E ; ++n )
+        {
+          if( sN!=n )
+            continue;
+          pSavedObj = mList.Item(n);
+          break;
+        }
+        if( !pSavedObj )
+        {
+          pRest->Skip( len );
+          continue;
+        }
+        if( so.ID==pSavedObj->ID 
+          && so.mT==pSavedObj->mT
+          && so.mB==pSavedObj->mB
+          && so.nNumberFld==pSavedObj->nNumberFld
+          && so.nFromFldCall==pSavedObj->nFromFldCall )
+        {
+          if( mList.CallRestoreState( pRest, this, pSavedObj ) )
+            pRest->Skip( len );
+        }
+        else
+          pRest->Skip( len );
+      }
+      break;
+    }
+  }
+  return 0;
+}

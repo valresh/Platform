@@ -1,0 +1,1 @@
+SharedBoolSavebale( RAW, NULL )

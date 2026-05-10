@@ -1,0 +1,41 @@
+#pragma once
+#include "resource.h"
+#include "IFscStorage.h"
+
+// KEditFix dialog
+
+class KEditFix : public CDialog
+{
+  enum
+  {
+    eMaxVars = 10,
+  };
+  IFscStorage::SVarInfo m_Vars[eMaxVars];
+  int m_varCount;
+
+
+  void SetTypeName( IFscStorage::SVarInfo &var, int n );
+  void SetValue( IFscStorage::SVarInfo &var, int n );
+  void SetValue( LPCSTR pVal, int n );
+	DECLARE_DYNAMIC(KEditFix)
+
+public:
+	KEditFix( IFscStorage::SVarInfo *vars, int c, CWnd* pParent = NULL);   // standard constructor
+	virtual ~KEditFix();
+
+// Dialog Data
+	enum { IDD = IDD_EDITFIX };
+
+public:
+  CString m_strDlgCaption;
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	DECLARE_MESSAGE_MAP()
+public:
+  virtual BOOL OnInitDialog();
+  afx_msg void OnTimer(UINT_PTR nIDEvent);
+protected:
+  virtual void OnOK();
+  virtual void OnCancel();
+};

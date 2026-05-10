@@ -1,0 +1,6 @@
+PrivateAnalog32Savebale( in )
+PrivateDigital32Savebale( n_e )
+PrivateDigital32Savebale( o )
+PrivateAnalog32Savebale( ok_l )
+PrivateDigital32Savebale( out )
+PrivateAnalog32Savebale( t_l )

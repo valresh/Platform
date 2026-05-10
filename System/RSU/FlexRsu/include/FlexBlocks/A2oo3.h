@@ -1,0 +1,8 @@
+SharedAnalog32Savebale(IN1)
+SharedAnalog32Savebale(IN2)
+SharedAnalog32Savebale(IN3)
+SharedAnalog32Savebale(PV)
+SharedChars(EU,64)
+SharedDigital32(BAD1CH)
+SharedDigital32(BAD2CH)
+SharedDigital32(BADALL)

@@ -1,0 +1,79 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate FIRSTOUT( "FIRSTOUT", SH_FIRSTOUT::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_FIRSTOUT,W_FIRSTOUT,165)
+
+void SH_FIRSTOUT::InitParm()
+{
+#include "Blocks/FIRSTOUT.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/FIRSTOUT_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class FIRSTOUT_IMPL : public W_FIRSTOUT
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_FIRSTOUT::StepT( SStepCalcParams &dt )
+{
+  if( !W->cfa )
+    InputConnectionsTransfer();
+  FIRSTOUT_IMPL *impl = reinterpret_cast<FIRSTOUT_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+  if( W->cfa )
+    W->cfa = 0;
+}
+
+void FIRSTOUT_IMPL::StepT( SStepCalcParams &dt )
+{
+  int nAbnormal = 0;
+  int nFirst = 0;
+  for( int n=1; n<=NUMDINPUTS; ++n )
+  {
+    if( IN[n]!=NORMAL[n] )
+    {
+      if( !nFirst )
+        nFirst = n;
+      if( !INPUTACTED[n] )
+      {
+        if( !nAbnormal )
+          FIRSTOUTACTED = 1;
+      }
+      ++nAbnormal;
+      if( !RESET )
+        INPUTACTED[n] = 1;
+    }
+    /*else
+      INPUTACTED[n] = 0;*/
+  }
+  if( !nAbnormal )
+  {
+    OREDOUT = 0;
+    FIRSTOUTINPUT = _FIRSTOUTINPUT::NONE;
+  }
+  else if( 1==nAbnormal )
+  {
+    FIRSTOUTINPUT = nFirst;
+    OREDOUT = 1;
+  }
+  else
+  {
+    FIRSTOUTINPUT = _FIRSTOUTINPUT::MULTIPLE;
+    OREDOUT = 1;
+  }
+  if( RESET )
+  {
+    if( !nAbnormal )
+      FIRSTOUTACTED = 0;
+    for( int n=1; n<=NUMDINPUTS; ++n )
+      INPUTACTED[n] = 0;
+  }
+}

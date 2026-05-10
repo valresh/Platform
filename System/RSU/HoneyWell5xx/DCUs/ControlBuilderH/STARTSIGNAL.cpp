@@ -1,0 +1,35 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate STARTSIGNAL( "STARTSIGNAL", SH_STARTSIGNAL::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_STARTSIGNAL,W_STARTSIGNAL,10)
+
+void SH_STARTSIGNAL::InitParm()
+{
+#include "Blocks/STARTSIGNAL.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/STARTSIGNAL_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class STARTSIGNAL_IMPL : public W_STARTSIGNAL
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_STARTSIGNAL::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  STARTSIGNAL_IMPL *impl = reinterpret_cast<STARTSIGNAL_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void STARTSIGNAL_IMPL::StepT( SStepCalcParams &dt )
+{
+#pragma message("!!!!! STARTSIGNAL сделать\n")
+}

@@ -1,0 +1,2 @@
+BooleanEx2(PV,"PV",false,PVFL)
+Enumeration(PVSTS,"Process Variable (PV) Status",Bad,Uncertain,Normal,Manual,Def=Bad)

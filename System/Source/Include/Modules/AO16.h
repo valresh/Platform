@@ -1,0 +1,2 @@
+Real_A(OP,"Output Value (%)",16,NaN)
+Real_A(OPFINAL,"Final Output Value",16,NaN)
