@@ -1,0 +1,8 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "Thermostatic_Valve_3.cpp"
+#include "Thermostatic_Valve_3_Calc.cpp"
+#include "Thermostatic_Valve_3_Defects.cpp"
+#include "Thermostatic_Valve_3_dll.cpp"
+#include "Thermostatic_Valve_3_Param.cpp"
+#include "Thermostatic_Valve_3_Hydro.cpp"

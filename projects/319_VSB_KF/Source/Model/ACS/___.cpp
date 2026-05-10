@@ -1,0 +1,5 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "ACS_dll.cpp"
+#include "Analog.cpp"
+#include "Diskrete.cpp"

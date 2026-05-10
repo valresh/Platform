@@ -1,0 +1,5 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include ".\HeatOil_dll.cpp"
+#include ".\HeatAir.cpp"
+#include ".\HeatOil.cpp"

@@ -1,0 +1,24 @@
+﻿#include "stdafx.h"
+#include "EV.h"
+#include "Err.h"
+
+ON_DEFECT(CEV)
+{
+	SET_BP BreakPoint;
+	IF_DEFECT(pRecoveryDef, RECOVERY_DEFECT_NAME)
+		Fixed_Position = false;
+		Fixed_Task = false;
+		Заклинивание = 0;
+		Отказ_электродвигателя->Fire = 0;
+		Отказ_заклинивание->Fire = 0;
+	END_IF
+	IF_DEFECT(Отказ_электродвигателя, $"Отказ электродвигателя")
+		Fixed_Task = true;
+	END_IF
+	IF_DEFECT( Отказ_заклинивание, "Заклинивание" )
+		nDefect |= DEFECT_FIXED_POSITION;	
+		Fixed_Position = true;
+		Заклинивание = 1;		
+	END_IF
+	return CValve_A_b::OnDefect(pDefect);
+}

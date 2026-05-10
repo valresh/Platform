@@ -1,0 +1,6 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "CtrlReg.cpp"
+#include "CtrlReg_Defects.cpp"
+#include "CtrlReg_dll.cpp"
+#include "CtrlReg_Param.cpp"

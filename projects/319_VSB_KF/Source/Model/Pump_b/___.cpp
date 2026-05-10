@@ -1,0 +1,7 @@
+﻿#include "stdafx.h"
+//#include "stdafx.cpp"
+// #include "Pump_b.cpp"
+// #include "Pump_b_Defects.cpp"
+// #include "Pump_b_dll.cpp"
+// #include "Pump_b_Param.cpp"
+// #include "Pump_b_Hydro.cpp"

@@ -1,0 +1,10 @@
+﻿#include "stdafx.h"
+#include "HeatChange.cpp"
+#include "HeatChange_Calc.cpp"
+#include "HeatChange_Defects.cpp"
+#include "HeatChange_dll.cpp"
+#include "HeatChange_Hydro.cpp"
+#include "HeatChange_Param.cpp"
+#include "stdafx.cpp"
+#include "UniHeatChange.cpp"
+

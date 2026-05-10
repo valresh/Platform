@@ -1,0 +1,12 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "Control_dll.cpp"
+#include "Analog.cpp"
+#include "Control.cpp"
+#include "Discrete.cpp"
+#include "Level.cpp"
+#include "Omega.cpp"
+#include "Stable.cpp"
+#include "Control_Calc.cpp"
+#include "Control_Param.cpp"
+

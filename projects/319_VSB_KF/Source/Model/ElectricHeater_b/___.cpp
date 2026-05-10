@@ -1,0 +1,8 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "ElectricHeater_b.cpp"
+#include "ElectricHeater_b_Calc.cpp"
+#include "ElectricHeater_b_Defects.cpp"
+#include "ElectricHeater_b_dll.cpp"
+#include "ElectricHeater_b_Param.cpp"
+#include "ElectricHeater_b_Hydro.cpp"

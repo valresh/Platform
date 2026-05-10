@@ -1,0 +1,7 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "Electro.cpp"
+#include "Electro_Calc.cpp"
+#include "Electro_Defects.cpp"
+#include "Electro_dll.cpp"
+#include "Electro_Param.cpp"

@@ -1,0 +1,16 @@
+﻿#include "stdafx.h"
+#include "V.h"
+#include "Err.h"
+#include "CommProc.h"
+
+bool CV::Defect_Calc(double dt)
+{
+	return CValve_b::Defect_Calc(dt);
+}
+
+
+void CV::Calc(double dt)
+{
+	SET_BP BreakPoint;
+	CValve_M_b::Calc(dt);
+}

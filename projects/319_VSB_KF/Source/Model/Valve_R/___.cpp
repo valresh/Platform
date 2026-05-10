@@ -1,0 +1,8 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "Valve_R.cpp"
+#include "Valve_R_Calc.cpp"
+#include "Valve_R_Defects.cpp"
+#include "Valve_R_dll.cpp"
+#include "Valve_R_Param.cpp"
+#include "Valve_R_Hydro.cpp"

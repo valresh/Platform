@@ -1,0 +1,15 @@
+﻿//   Model
+#include "stdafx.h"
+#include "Column.cpp"
+#include "ColumnSub.cpp"
+#include "Eps.cpp"
+#include "Stage.cpp"
+#include "StageAdd.cpp"
+#include "StageSub.cpp"
+#include "Common.cpp"
+#include "Cond_In_Sloj.cpp"
+#include "Cond_In_Vol.cpp"
+#include "Karman.cpp"
+//   ...
+#include "BaseCol_dll.cpp"
+#include "stdafx.cpp"

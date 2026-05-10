@@ -1,0 +1,8 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "EpsVol_dll.cpp"
+#include "Base.cpp"
+#include "Eps.cpp"
+#include "Func.cpp"
+#include "Vol.cpp"
+#include "Vol_2.cpp"

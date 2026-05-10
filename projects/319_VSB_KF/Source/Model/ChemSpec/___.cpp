@@ -1,0 +1,5 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "ChemSpec.cpp"
+#include "ChemSpec_dll.cpp"
+#include "ChemSpec_Param.cpp"

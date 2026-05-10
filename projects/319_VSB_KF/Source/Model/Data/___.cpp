@@ -1,0 +1,7 @@
+﻿#include "stdafx.h"
+#include "stdafx.cpp"
+#include "Data_dll.cpp"
+#include "ALL_Data.cpp"
+#include "ALL_Data_Param.cpp"
+#include "Data.cpp"
+#include "Save_Rest.cpp"
