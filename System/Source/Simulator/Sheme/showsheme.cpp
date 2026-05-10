@@ -83,27 +83,27 @@ ShowSheme::ShowSheme( QWidget *parent, const char * File, const char * _Select  
     QAction * Pause = new QAction(tr("&Пауза"), this);
     Pause->setIcon( QIcon(":/pause.png"));
     Pause->setStatusTip(tr("Пуск"));
-    connect(Pause, SIGNAL(activated()), this, SLOT(tbPause()));
+    connect(Pause, &QAction::triggered, this, &ShowSheme::tbPause);
  //
     QAction * Cont = new QAction(tr("&Продолжить"), this);
     Cont->setIcon( QIcon(":/next_step.png"));
     Cont->setStatusTip(tr("Продолжить"));
-    connect(Cont, SIGNAL(activated()), this, SLOT(tbCont()));
+    connect(Cont, &QAction::triggered, this, &ShowSheme::tbCont);
 //
     QAction * SaveParams = new QAction(tr("&Сохранить параметры"), this);
     SaveParams->setIcon( QIcon(":/diskette_down.png"));
     SaveParams->setStatusTip(tr("Пуск"));
-    connect(SaveParams, SIGNAL(activated()), this, SLOT(tbSaveParams()));
+    connect(SaveParams, &QAction::triggered, this, &ShowSheme::tbSaveParams);
 //
     QAction * SaveState = new QAction(tr("&Сохранить состояние"), this);
     SaveState->setIcon( QIcon(":/diskette_reload.png"));
     SaveState->setStatusTip(tr("Пуск"));
-    connect(SaveState, SIGNAL(activated()), this, SLOT(tbSaveState()));
+    connect(SaveState, &QAction::triggered, this, &ShowSheme::tbSaveState);
     //
     QAction * SaveAll = new QAction(tr("&Сохранить все"), this);
     SaveAll->setIcon( QIcon(":/diskette.png"));
     SaveAll->setStatusTip(tr("Пуск"));
-    connect(SaveAll, SIGNAL(activated()), this, SLOT(tbSaveAll()));
+    connect(SaveAll, &QAction::triggered, this, &ShowSheme::tbSaveAll);
     //
     toolbar->addAction ( Pause );
     toolbar->addAction ( Cont );
