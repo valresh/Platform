@@ -1,0 +1,42 @@
+#include "AlarmServer.h"
+
+#ifdef _WIN32
+
+#ifdef _MANAGED
+#pragma managed(push, off)
+#endif
+
+HINSTANCE g_hInst = 0;
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+					 )
+{
+  switch (ul_reason_for_call)
+  {
+  case DLL_PROCESS_ATTACH:
+    g_hInst = hModule;
+    break;
+  case DLL_THREAD_ATTACH:
+  case DLL_THREAD_DETACH:
+  case DLL_PROCESS_DETACH:
+    break;
+  }
+  return TRUE;
+}
+
+#ifdef _MANAGED
+#pragma managed(pop)
+#endif
+
+#endif
+
+/*
+extern "C" __declspec(dllexport) IRsuModel* CreateServer(LPCSTR ObjName )
+{
+  IRsuModel *pModel = new KAlarmServer( ObjName );
+
+  return pModel;
+}
+*/

@@ -1,0 +1,28 @@
+#pragma once
+#include "Mnemo.h"
+//
+struct TAlmGr : public ns_US::SLocal
+  {
+  UINT m_nCount;// Количество тэгов
+  UINT m_nPlace;// Место в буфере индексов
+  COneAlmGrHoney* pAlmGr;
+  //
+  void AlarmIncDec( CAlarmEntry& data,CAlarmBase* obj );
+  void ACK( struct SUniHoney& tag, bool& bAnaliz );
+  void STP( struct SUniHoney& tag, bool& bAnaliz );
+  void Reset();
+  char description[128];
+	};
+//
+//
+struct SUniAlmGr : public SUniSortT<TAlmGr>
+  {
+  SUniAlmGr(SUniIndex& w,SUniCharT& n)
+  : SUniSortT(n), rWord(w){};
+  //
+  SUniIndex& rWord;
+  TAlmGr* Items(){ return (TAlmGr*)Obj(0); }
+  TAlmGr* Data(UINT n){ return (TAlmGr*)Obj(n); }
+  TAlmGr& Item(int  n){TAlmGr* lst = Items();return lst[rWord.W(n)];}
+  };
+//

@@ -1,0 +1,8 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+YPARM_S(CPV,24,"")
+INTEGER(SW,"")// 0 ... 16,"")
+//
+FLAG(AOFS,"")

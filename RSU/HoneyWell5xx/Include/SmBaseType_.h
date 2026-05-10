@@ -1,0 +1,33 @@
+#pragma once
+#include <CBase.h>
+#include <crossplatform.h>
+
+
+#ifdef UTILSSM5XX_EXPORTS
+#define UTILSSM5XX_API _EXP
+#else
+#define UTILSSM5XX_API _IMP
+#endif
+
+struct UTILSSM5XX_API CSmBase : CBase
+{
+  BYTE btDummy[8];
+  int iDummy;
+};
+
+//
+enum
+{
+  id_CSMSystem = 40003,
+  id_SMAcyMin = 40004,
+  // Специфика
+  #undef   SM_TYPE
+  #define  SM_TYPE( a, b, c ) id_##b = a,
+  #include "./SafetyManagerType.hpp"
+  id_SMAcyMax = 40016,
+};
+
+inline bool IsSMAcy( UINT nType )
+{
+  return id_SMAcyMin <= nType && nType <= id_SMAcyMax;
+}

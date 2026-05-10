@@ -1,0 +1,13 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+FLAG(oldAFLS,"")
+//
+DOUBLE2(PV,Tune_PV,"")
+DOUBLE(OUT_V,"")
+//
+INTEGER(AF,"")
+//
+FLAG(BSTS,"")

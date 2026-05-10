@@ -1,0 +1,4 @@
+INTEGER(OPMK,"")
+INTEGER(PV,"")
+FLAG(AFLS,"")
+//

@@ -1,0 +1,15 @@
+YPARM_S(Comment,64,"ETCM")
+YPARM_DD(SH,SL,DBL_MAX,DBL_MAX,"ESCL","%D:%D") 
+//
+YPARM_Dref(HH,W->SH,"----")
+YPARM_Dref(PH,W->SH,"----")
+YPARM_Dref(PL,W->SL,"----")
+YPARM_Dref(LL,W->SL,"----")
+YPARM_Dref(VL,W->SH-W->SL,"----")
+YPARM_Dref(DL,W->SH-W->SL,"----")
+//
+YPARM_I(AlarmLevel,12,"EALA")
+YPARM_B(PV_Overshoot,false,"OVPV")
+YPARM_B(PV_Limit,false,"PVRL")
+YPARM_L(Deviation_DL,0,"DVTN","%{NO;SINGLE;BOTH}")
+YPARM_H(Deviation_HYS,2.,"DVHS");

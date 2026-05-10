@@ -1,0 +1,83 @@
+// Alarms
+YPARM_I(AlarmLevel,12,"EALA")
+YPARM_L(Input_Open_alarm,0,"INOP","%{NO;H;L;HL}")
+YPARM_L(HHLL,0,"HHLL","%{NO;HH;LL;HHLL}")
+YPARM_L(HL,0,"INHL","%{NO;H;L;HL}")
+YPARM_H(HYS_HL,2.,"HHLH")
+YPARM_B(Deadband,false,"NOCL")
+YPARM_H(HYS_DB,2.,"NCHT")
+YPARM_L(Sides_VL,0,"INVC","%{NO;SINGLE;BOTH}")
+YPARM_IID(N_Samples,Sample_Int,HYS_VL,0,0,2.,"IVHS","%I:%I:%H")
+YPARM_L(Deviation_DL,0,"DVTN","%{NO;SINGLE;BOTH}")
+YPARM_DDD(GAIN_DL,Time_DL,HYS_DL,1.,1.,2.,"DVFH", "%D:%D:%H")
+YPARM_L(HL_OUT,0,"HLLT","%{NO;H;L;HL}")
+YPARM_H(HYS_OUT,1.,"HLHT")
+YPARM_L(Aux,0,"SUOU","%{PV;DPV;MV;DMV}")
+//
+YPARM_I(Mes,-1,"----")
+YPARM_S(cMes,8,"EUNT")
+YPARM_S(Comment,64,"ETCM")
+YPARM_L_savable(Algorithm,4,"PIDA","%{AUTO;I-PD;PI-D;PID;AUTO2}")
+YPARM_L(Non_linear_Gain,0,"NLGN", "%{NO;GAP;ERSQ}")
+YPARM_L(nKnl,1,"NGGN","%{0;1;2;3}")
+YPARM_DB(Out_VL,MAN_bypass,100.,false,"OVLM", "%D:%B")
+YPARM_B(Limit_On_CLP,false,"CLPO")
+YPARM_L_savable(PIDD,0,"PIDD","%{REVERSE;DIRECT}")
+//
+//
+YPARM_L(Positional,1,"CCOU","%{VELOCITY;POSITION}")
+YPARM_B(PV_Overshoot,false,"OVPV")
+YPARM_B(PV_Limit,false,"PVRL")
+YPARM_B(Output_Open_alarm,false,"ALOP" );
+YPARM_B(BAD_connection_alarm,false,"ILCN" )// BAD connection alarm
+//	YPARM_I(STC) 
+YPARM_DD(SH,SL,DBL_MAX,DBL_MAX,"ESCL","%D:%D") 
+YPARM_DDS(MVH,MVL,cMesMV,W->MSH,W->MSL,8,"AORA","%D:%D:%S") 
+YPARM_Dref(OPHI,W->MSH,"----")
+YPARM_Dref(OPLO,W->MSL,"----")
+YPARM_Dref(MH,W->MSH,"----")
+YPARM_Dref(ML,W->MSL,"----")
+YPARM_D(MSH,DBL_MAX,"----")
+YPARM_D(MSL,DBL_MAX,"----")
+YPARM_L(Display_style_MV,0,"MV99","%{AUTO;SELF}")//Display style for MV data"
+//
+YPARM_Dref(HH,W->SH,"----")
+YPARM_Dref(PH,W->SH,"----")
+YPARM_Dref(PL,W->SL,"----")
+YPARM_Dref(LL,W->SL,"----")
+YPARM_Dref(VL,W->SH-W->SL,"----")
+YPARM_Dref(DL,W->SH-W->SL,"----")
+YPARM_Dref(SVH,W->SH,"----")
+YPARM_Dref(SVL,W->SL,"----")
+//
+YPARM_D(P,100.,"----")
+YPARM_D(I,20.,"----")
+YPARM_D(D,0.,"----")
+YPARM_D(GW,0.,"----")
+YPARM_D(DB,0.,"----")
+YPARM_D(CK,1.,"----")
+YPARM_D(CB,0.,"----")
+YPARM_B(Use_MINMAX,false,"AOTF")
+YPARM_DD_savable(Out_MAX,Out_MIN,100.,0.,"AOF!","%D:%D")//106.25:-17.19
+YPARM_DD_savable(Conv_GAIN,Conv_BIAS,1.,0.,"SSO!","%D:%D")
+//	YPARM_D(DR,1.,"----")
+//
+YPARM_BBB(Trk_MAN,Trk_AUT_CND,Trk_CAS_CND,false,false,false,"MTMC","%B:%B:%B")
+//
+SKIP("ESCA")
+SKIP("HLLI");//??
+SKIP("PSTY");
+SKIP("SBPM");
+SKIP("SIOP");//??
+SKIP("SMET");//??
+YPARM_L(TotalizerTimeUnit,0,"ESUM","%{NO;SEC;MIN;HOUR;DAY}")//Totalizer time unit, Totalizer low input cut value
+
+YPARM_4D(Data_GAIN,Data_BIAS,H_Limit,L_Limit,1.,0.,100.,0.,"SSI!","%D:%D:%D:%D")
+
+YPARM_L(OutputSignalConvertion,0,"OUTP","%{LINEAR;PW;SUBSYS;SUBWFT}")
+YPARM_DDD(FullStrokeValue,BacklashCompensatedValue,MinOutputWidth,0.,0.,0.,"PWF!","%D:%D:%D")
+YPARM_L(InputSignalConversion,0,"EINP", "%{LINEAR;SQRT;BTHPUL;SUBSYS}")
+YPARM_L(IOCompensation,0,"IOCP", "%{NO;IN;OUT}")//IO Compensation
+
+YPARM_B(trkError,false,"")//желает перейти в TRK, но из-за !pSys->IsBlk не может
+YPARM_Dref(PMV,W->MSL,"----")

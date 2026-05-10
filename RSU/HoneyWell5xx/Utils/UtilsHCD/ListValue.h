@@ -1,0 +1,59 @@
+#pragma once
+#include <UniBufferT.h>
+#include <UniBuffer.h>
+#include <HcdStruct.h>
+
+class SListValue : SUniBufferT<SValueDef>
+{
+  struct SUniHAND : public SUniBufferT<HNAME>
+  {
+  };
+
+  struct SLocalENUM
+  { 
+    SLocalENUM() : nPlace(0),nCount(0)
+    {}
+    UINT nPlace,nCount; 
+  };
+  struct SUniENUM : public SUniBufferT<SLocalENUM>
+  {
+  };
+
+  SUniENUM mEnum;
+  SUniHAND mHand;
+  SUniName mName;
+  SUniChar mChar;
+
+  void AddHWImpl( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, int nCount, size_t elSize, UINT nFlag = 0 );
+  UINT AddEnum( const char* szEnum );
+public:
+  SListValue();
+  void Attach(std::filesystem::path modulePath);
+  void Detach();
+  void AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, UINT nFlag = 0 );
+  void AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, LPCSTR pszEnum );
+  void AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, int nCount, size_t elSize, UINT nFlag = 0 )
+  {
+    AddHWImpl( name, hw, sh, eType, nType, nCount, elSize, nFlag );
+  }
+  template<typename T>
+  void AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, int nCount, T obj, LPCSTR pszEnum )
+  {
+    size_t elSize = sizeof(T);
+    UINT nEnum = AddEnum( pszEnum );
+    AddHWImpl( name, hw, sh, eType, nType, nCount, elSize, nEnum );
+  }
+  void AddHWS( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, int Max, int nCount, UINT nFlag = 0 )
+  {
+    AddHWImpl( name, hw, sh, eType, nType, nCount, Max, nFlag );
+  }
+
+  LPCSTR EnumStr( SValueDef& def, BYTE val );
+  BYTE   EnumVal( SValueDef& def, LPCSTR name );
+  SValueDef* Find( const char* name, UINT nType );
+protected:
+  void BuildList();
+  void BuildName();
+};
+
+extern SListValue theList;

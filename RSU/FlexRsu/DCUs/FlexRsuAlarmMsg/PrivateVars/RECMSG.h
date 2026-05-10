@@ -1,0 +1,6 @@
+PrivateDigital32Savebale( CLK )
+PrivateDigital32( iP1 )
+PrivateAnalog32( aP1 )
+PrivateDigital32( iP2 )
+PrivateAnalog32( aP2 )
+PrivateChars( SHORTTEXT, 128 * 4)

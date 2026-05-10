@@ -1,0 +1,16 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate FTEB( "FTEB", S_FTEB::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_FTEB,W_FTEB,50)
+
+void S_FTEB::InitParm()
+{
+#include "Modules/FTEB.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Modules/FTEB_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}

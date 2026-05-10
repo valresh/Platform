@@ -1,0 +1,32 @@
+#include "Queue.h"
+#include "../Lang.h"
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Структура
+struct Queue_Rect : public SPROLOZ
+  {
+  } ;
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Функция отображения
+//int PaintRect(DefinePaint)
+//  {
+//  QueueP(Queue_Rect);
+//  ::Rectangle( hDC, p->mRect.left, p->mRect.top, p->mRect.right, p->mRect.bottom );
+//  return 1;
+//  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddRect(DefineTegs)
+  {
+  RECT rect;
+  if ( !ParserRect(teg[0].value,rect) ) return;
+
+  AddQueueEx(Queue_Rect);
+  // Код, посылаемый в АРМ
+  p->btSendType = QUEUE_NO;
+  // Определение функции вывода
+  //p->paint = &PaintRect;
+  //
+  p->mRect = rect;
+  managed::RegisterElement(teg->name, p);
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

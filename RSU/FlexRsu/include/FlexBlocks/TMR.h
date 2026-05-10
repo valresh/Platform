@@ -1,0 +1,6 @@
+SharedChars(DESCR, 512)
+SharedDigital32Savebale(TM_SP)
+SharedDigital32Savebale(TM_COMPLETE)
+SharedDigital32Savebale(TM_REMAIN)
+SharedAnalog32Savebale(TIMER)
+SharedDigital32Savebale(MODE)

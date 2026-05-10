@@ -1,0 +1,28 @@
+#pragma once
+#include "CalcVar.h"
+
+class KCalcRes : public KCalcVar
+{
+public:
+  BOOL m_bAddrVar;
+  eVarType *m_pTypeVar;
+public:
+  KCalcRes();
+
+  void Reset();
+  bool IsReal();
+  bool IsInteger();
+  bool IsFlag();
+  bool IsMemStr();
+  bool IsUnknown();
+
+  void shift2index( int index );
+
+  KCalcRes& operator = ( const KCalcVar &thr );
+  KCalcRes& operator = ( const double &thr );
+  KCalcRes& operator = ( const int &thr );
+  operator double();
+  operator int();
+  operator bool();
+  void AssignMeString( const KCalcRes &thr );
+};

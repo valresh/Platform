@@ -1,0 +1,111 @@
+#include "FscList.h"
+static char* sid = "Операция x^2";
+//
+struct SLogic37
+  {
+  UINT I;// Вход
+  UINT O;// Выход
+  };
+//
+bool SFscList::FuncParser37( VAR_PARSER )
+{
+  FuncParserdo(fsc,p,dat,tmp);
+  SLogic37 io;
+  // Выходные точки
+  SDotValue O(enumValueDbl);
+  io.O = fsc->AddFscDots(&O);
+  // Входные точки
+  io.I = -1;
+  // Заказываем память
+  p.nBuff = fsc->AddFscBuff( &io, sizeof(io) );
+  //
+  ns_UT::SLocalTmp* item = tmp.Item();
+  item->nCount = 1;
+  item->dim[0] = io.O;
+  return true;
+}
+//
+//void FuncDebugs37( VAR_DEBUGS )
+//  {
+//  strcat_s( str, sid );
+//  strcat_s( str, "\r\n------------------------------------------------------------\r\n" );
+//  FuncDebugsdo( p, str );
+//  }
+//
+#ifdef _WIN32
+void SFscList::FuncPaints37( VAR_PAINTS )
+{
+  SLogic37* dat = (SLogic37*)fsc->Data(p.nBuff);
+  //
+  CMyPen pen( font, p.Color( nSelect, dat->I, dat->O ) );
+  CMyBrush brush( font, 0x101010, true );
+  pen.Rect( p.rect );
+  font.Draw( p.rect, "x^2" );
+}
+#endif
+//
+void SFscList::FuncSetLnk37( VAR_SETLNK )
+{
+  // Вход только справа
+  if ( x == p.rect.right ) 
+    return;
+  SLogic37* dat = (SLogic37*)fsc->Data(p.nBuff);
+  dat->I = nLink;
+}
+////-----------------------------------------------------------------------------
+//UINT FuncCursor37( VAR_CURSOR )
+//  {
+//  SLogic37* dat = (SLogic37*)fsc->Data(p.nBuff);
+//  int x = (p.rect.left+p.rect.right)/2;
+//  return ( pt.x < x ) ? dat->I : dat->O;
+//  }
+////-----------------------------------------------------------------------------
+UINT* SFscList::FuncOutput37( VAR_OUTPUT )
+{
+  SLogic37* dat = (SLogic37*)fsc->Data(p.nBuff);
+  n = 1;
+  return &dat->O;
+}
+////-----------------------------------------------------------------------------
+void SFscList::FuncTimers37( VAR_TIMERS )
+{
+  SLogic37* dat = (SLogic37*)fsc->Data(p.nBuff);
+  SDotValue* O = fsc->DotV(dat->O);
+  if ( O->dwFlags & 1 )
+    return;
+  SDotValue* I = fsc->DotV(dat->I);
+  if ( I == NULL )
+    return;
+  double d = I->Dbl();
+  if ( d != NaN )
+    d = d*d;
+  O->Set( d );
+}
+//-----------------------------------------------------------------------------
+static LPCSTR s_pName[] = { "O" };
+int SFscList::FuncQuickWatch37( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName )
+{
+  return 0;
+}
+
+int SFscList::SaveState37( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj )
+{
+  SLogic37* dat = (SLogic37*)fsc->Data(obj->nBuff);
+  SDotValue* vals[] = { fsc->DotV(dat->O) };
+  for( int i=0; i<_countof(vals); ++i )
+  {
+    psaver->WriteDotV( vals[i], s_pName[i] );
+  }
+  return 0;
+}
+
+int SFscList::RestoreState37( IStateSer *prest, IFscStorage* fsc, LFscBase *obj )
+{
+  SLogic37* dat = (SLogic37*)fsc->Data(obj->nBuff);
+  SDotValue* vals[] = { fsc->DotV(dat->O) };
+  for( int i=0; i<_countof(vals); ++i )
+  {
+    prest->ReadDotV( vals[i], s_pName[i] );
+  }
+  return 0;
+}

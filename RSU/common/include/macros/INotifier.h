@@ -1,0 +1,663 @@
+#pragma once
+
+#include <vector>
+#include <map>
+#include <winbase.h>
+#include <algorithm>
+
+#ifndef NOTIFIER_INTERFACE_ONLY
+#include <macros/IntrusivePtr.h>
+#endif
+
+struct INotifier 
+{
+  struct SINK : public ref_counted
+  {
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData) = 0;
+    virtual const type_info& GetType()
+    {
+      return typeid(NULL);
+    }
+    virtual ~SINK() 
+    {
+    }
+  };
+
+  typedef TIntrusivePtr<INotifier::SINK> CONNECTION;
+
+  virtual bool Advise(SINK* pSink)               = 0;
+  virtual bool Unadvise(SINK* pSink)             = 0;
+  virtual void DoNotify(int nCode, void* lpData = NULL) = 0;
+
+  template<typename A>
+  void DoNotify( int nCode, A*lpData )
+  {
+    DoNotifyTyped( nCode, lpData );
+  }
+
+  virtual ~INotifier() 
+  {
+  }
+protected:
+  virtual void DoNotifyTyped(int nCode, void* lpData ) = 0;
+}; 
+
+
+template<class T>
+struct NotifierImpl 
+  : public T
+  , public ref_counted
+{
+    typedef std::vector<INotifier::SINK*> s_vector;
+    s_vector                              sinks;
+
+    CRITICAL_SECTION m_csAccess;
+
+    struct TCriticalSectionGuardRs
+    {
+      LPCRITICAL_SECTION m_cs;
+      TCriticalSectionGuardRs( LPCRITICAL_SECTION cs )
+      : m_cs( cs )
+      {
+        EnterCriticalSection( m_cs );
+      }
+
+      ~TCriticalSectionGuardRs()
+      {
+        LeaveCriticalSection( m_cs );
+      }
+    };
+
+    NotifierImpl()
+    {
+      InitializeCriticalSection( &m_csAccess );
+    }
+
+    ~NotifierImpl()
+    {
+      DeleteCriticalSection( &m_csAccess );
+    }
+
+    virtual bool Advise(INotifier::SINK* pSink)
+    {
+      TCriticalSectionGuardRs g(&m_csAccess);
+      for ( size_t i = 0; i < sinks.size(); ++i )
+      {
+        if (sinks[i] == NULL)
+        {
+          sinks[i] = pSink;
+          return true;
+        }
+      }
+      sinks.push_back(pSink);
+      return true;
+    }
+
+    virtual bool Unadvise(INotifier::SINK* pSink)
+    {
+      TCriticalSectionGuardRs g(&m_csAccess);
+      s_vector::iterator iter = std::find( sinks.begin(), sinks.end(), pSink );
+      if( iter!=sinks.end() )
+      {
+        sinks.erase( iter );
+        return true;
+      }
+      return false;
+    }
+
+    virtual void DoNotify(int nCode = 0, void* lpData = NULL )
+    {
+      TCriticalSectionGuardRs g(&m_csAccess);
+      for( size_t i = 0; i < sinks.size(); ++i )
+      {
+        s_vector::value_type vt = sinks[i];
+        if( vt != NULL)
+          vt->OnNotify(this, nCode, lpData);
+      }
+    }
+
+    virtual void DoNotifyTyped(int nCode, void* lpData )
+    {
+      TCriticalSectionGuardRs g(&m_csAccess);
+      for( size_t i = 0; i < sinks.size(); ++i )
+      {
+        s_vector::value_type vt = sinks[i];
+        if( vt != NULL)
+        {
+          vt->OnNotify(this, nCode, lpData);
+        }
+      }
+    }
+
+    virtual int DoNotifyUntilRetValue(int nRetValue, int nCode = 0, void* lpData = NULL)
+    {
+      TCriticalSectionGuardRs g(&m_csAccess);
+      for ( size_t i = 0; i < sinks.size(); ++i )
+      {
+        if(sinks[i] != NULL)
+          if(sinks[i]->OnNotify(this, nCode, lpData) == nRetValue)
+            return nRetValue;
+      }
+      return 0;
+    }
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T, typename F >
+class NotifierSinkBase :
+    public TIntrusivePtrImpl<INotifier::SINK>
+{
+protected:
+    INotifier* m_pNotifier;
+    T*         m_pClient;
+    F          m_pFunc;
+
+    virtual void PreDelete()
+    {
+      Disconnect();
+    }
+
+public:
+    NotifierSinkBase(T* pClient = NULL, F pFunc = NULL) :
+        m_pNotifier(NULL),
+        m_pClient(pClient),
+        m_pFunc(pFunc)
+    {
+    }
+
+    virtual ~NotifierSinkBase()
+    {
+        Disconnect();
+    }
+
+    void Connect(INotifier* pNotifier)
+    {
+      if(m_pNotifier != NULL)
+        m_pNotifier->Unadvise(this);
+      m_pNotifier = pNotifier;
+      if(m_pNotifier != NULL)
+        m_pNotifier->Advise(this);
+    }
+
+    void Connect(INotifier* pNotifier, T* pClient, F pFunc)
+    {
+      m_pClient = pClient;
+      m_pFunc   = pFunc;
+      Connect(pNotifier);
+    }
+
+    void Disconnect()
+    {
+      Connect(NULL);
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink0_ :
+    public NotifierSinkBase<T, int (T::*)()>
+{
+public:
+    NotifierSink0_(T* pClient = NULL, int (T::*pFunc)() = NULL) :
+        NotifierSinkBase<T, int (T::*)()>(pClient, pFunc)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+      if (this->m_pClient && this->m_pFunc)
+        return ((this->m_pClient)->*(this->m_pFunc))();
+      return 0;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink0C_ :
+  public NotifierSinkBase<T, int (T::*)()>
+{
+  int m_code;
+
+public:
+  NotifierSink0C_(T* pClient = NULL, int (T::*pFunc)() = NULL, int code = 0) :
+      NotifierSinkBase<T, int (T::*)()>(pClient, pFunc),
+      m_code(code)
+  {
+  }
+
+  virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+  {
+    if(this->m_pClient && this->m_pFunc && nCode == m_code)
+    return ((this->m_pClient)->*(this->m_pFunc))();
+    return 0;
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink1_ :
+  public NotifierSinkBase<T, int (T::*)(int)>
+{
+public:
+  NotifierSink1_(T* pClient = NULL, int (T::*pFunc)(int) = NULL) :
+    NotifierSinkBase<T, int (T::*)(int)>(pClient, pFunc)
+  {
+  }
+
+  virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+  {
+    if(this->m_pClient && this->m_pFunc)
+      return ((this->m_pClient)->*(this->m_pFunc))(nCode);
+    return 0;
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink1C_ :
+    public NotifierSinkBase<T, int (T::*)(void*)>
+{
+    int m_code;
+
+public:
+    NotifierSink1C_(T* pClient = NULL, int (T::*pFunc)(void*) = NULL, int code = 0) :
+        NotifierSinkBase<T, int (T::*)(void*)>(pClient, pFunc),
+        m_code(code)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc && nCode == m_code)
+            return ((this->m_pClient)->*(this->m_pFunc))(lpData);
+        return 0;
+    }
+};
+
+template< typename T, typename A >
+class NotifierSink1CA_ :
+  public NotifierSinkBase<T, int (T::*)(A*)>
+{
+  int m_code;
+
+public:
+  NotifierSink1CA_(T* pClient = NULL, int (T::*pFunc)(A*) = NULL ) :
+      NotifierSinkBase<T, int (T::*)(A*)>(pClient, pFunc)
+        , m_code(0)
+      {
+      }
+
+      virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+      {
+        if (this->m_pClient && this->m_pFunc )
+          return ((this->m_pClient)->*(this->m_pFunc))( (A*)lpData );
+        return 0;
+      }
+
+      virtual const type_info& GetType()
+      {
+        return typeid(A);
+      }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink2_ :
+    public NotifierSinkBase<T, int (T::*)(int, void*)>
+{
+public:
+    NotifierSink2_(T* pClient = NULL, int (T::*pFunc)(int, void*) = NULL) :
+        NotifierSinkBase<T, int (T::*)(int, void*)>(pClient, pFunc)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc)
+            return ((this->m_pClient)->*(this->m_pFunc))(nCode, lpData);
+        return 0;
+    }
+};
+
+template< typename T, typename A >
+class NotifierSink2A_ :
+  public NotifierSinkBase<T, int (T::*)(int, A*)>
+{
+public:
+  NotifierSink2A_(T* pClient = NULL, int (T::*pFunc)(int, A*) = NULL) :
+      NotifierSinkBase<T, int (T::*)(int, A*)>(pClient, pFunc)
+      {
+      }
+
+      virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+      {
+        if (this->m_pClient && this->m_pFunc)
+          return ((this->m_pClient)->*(this->m_pFunc))(nCode, (A*)lpData);
+        return 0;
+      }
+
+      virtual const type_info& GetType()
+      {
+        return typeid(A);
+      }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink0 :
+    public NotifierSinkBase<T, void (T::*)()>
+{
+public:
+    NotifierSink0(T* pClient = NULL, void (T::*pFunc)() = NULL) :
+        NotifierSinkBase<T, void (T::*)()>(pClient, pFunc)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc)
+            ((this->m_pClient)->*(this->m_pFunc))();
+        return 0;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink0C :
+    public NotifierSinkBase<T, void (T::*)()>
+{
+    int m_code;
+
+public:
+    NotifierSink0C(T* pClient = NULL, void (T::*pFunc)() = NULL, int code = 0) :
+        NotifierSinkBase<T, void (T::*)()>(pClient, pFunc),
+        m_code(code)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc && nCode == m_code)
+            ((this->m_pClient)->*(this->m_pFunc))();
+        return 0;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink1 :
+    public NotifierSinkBase<T, void (T::*)(int)>
+{
+public:
+    NotifierSink1(T* pClient = NULL, void (T::*pFunc)(int) = NULL) :
+        NotifierSinkBase<T, void (T::*)(int)>(pClient, pFunc)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc)
+            ((this->m_pClient)->*(this->m_pFunc))(nCode);
+        return 0;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink1C :
+    public NotifierSinkBase<T, void (T::*)(void*)>
+{
+    int m_code;
+
+public:
+    NotifierSink1C(T* pClient = NULL, void (T::*pFunc)(void*) = NULL, int code = 0) :
+        NotifierSinkBase<T, void (T::*)(void*)>(pClient, pFunc),
+        m_code(code)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc && nCode == m_code)
+            ((this->m_pClient)->*(this->m_pFunc))(lpData);
+        return 0;
+    }
+};
+
+template< typename T, typename A >
+class NotifierSink1CA :
+  public NotifierSinkBase<T, void (T::*)(A*)>
+{
+  int m_code;
+
+public:
+  NotifierSink1CA(T* pClient = NULL, void (T::*pFunc)(A*) = NULL ) :
+      NotifierSinkBase<T, void (T::*)(A*)>(pClient, pFunc)
+        , m_code(0)
+      {
+      }
+
+      virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+      {
+        if (this->m_pClient && this->m_pFunc )
+          ((this->m_pClient)->*(this->m_pFunc))( (A*)lpData );
+        return 0;
+      }
+
+      virtual const type_info& GetType()
+      {
+        return typeid(A);
+      }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+class NotifierSink2 :
+    public NotifierSinkBase<T, void (T::*)(int, void*)>
+{
+public:
+    NotifierSink2(T* pClient = NULL, void (T::*pFunc)(int, void*) = NULL) :
+        NotifierSinkBase<T, void (T::*)(int, void*)>(pClient, pFunc)
+    {
+    }
+
+    virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+    {
+        if (this->m_pClient && this->m_pFunc)
+            ((this->m_pClient)->*(this->m_pFunc))(nCode, lpData);
+        return 0;
+    }
+};
+
+template< typename T, typename A >
+class NotifierSink2A :
+  public NotifierSinkBase<T, void (T::*)(int, A*)>
+{
+public:
+  NotifierSink2A(T* pClient = NULL, void (T::*pFunc)(int, A*) = NULL) :
+      NotifierSinkBase<T, void (T::*)(int, A*)>(pClient, pFunc)
+      {
+      }
+
+      virtual int OnNotify(INotifier* pSender, int nCode, void* lpData)
+      {
+        if (this->m_pClient && this->m_pFunc)
+          ((this->m_pClient)->*(this->m_pFunc))(nCode, (A*)lpData);
+        return 0;
+      }
+
+      virtual const type_info& GetType()
+      {
+        return typeid(A);
+      }
+};
+
+
+#ifndef NOTIFIER_INTERFACE_ONLY
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, int (T::*pFunc)()) 
+{
+    NotifierSink0_<T>* pSink = new NotifierSink0_<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, int (T::*pFunc)(), int code) 
+{
+    NotifierSink0C_<T>* pSink = new NotifierSink0C_<T>(pClient, pFunc, code);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, int (T::*pFunc)(int)) 
+{
+    NotifierSink1_<T>* pSink = new NotifierSink1_<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, int (T::*pFunc)(void*), int code) 
+{
+    NotifierSink1C_<T>* pSink = new NotifierSink1C_<T>(pClient, pFunc, code);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, int (T::*pFunc)(int, void*)) 
+{
+    NotifierSink2_<T>* pSink = new NotifierSink2_<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, void (T::*pFunc)()) 
+{
+    NotifierSink0<T>* pSink = new NotifierSink0<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, void (T::*pFunc)(), int code) 
+{
+    NotifierSink0C<T>* pSink = new NotifierSink0C<T>(pClient, pFunc, code);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, void (T::*pFunc)(int)) 
+{
+    NotifierSink1<T>* pSink = new NotifierSink1<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, void (T::*pFunc)(void*), int code) 
+{
+    NotifierSink1C<T>* pSink = new NotifierSink1C<T>(pClient, pFunc, code);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T >
+INotifier::CONNECTION ConnectNotifier(INotifier* pNotifier, T* pClient, void (T::*pFunc)(int, void*)) 
+{
+    NotifierSink2<T>* pSink = new NotifierSink2<T>(pClient, pFunc);
+    pSink->Connect(pNotifier);
+    return INotifier::CONNECTION(pSink);
+}
+
+template< typename T, typename A >
+  INotifier::CONNECTION ConnectNotifierA(INotifier* pNotifier, T* pClient, void (T::*pFunc)(int, A*)) 
+{
+  NotifierSink2A<T,A>* pSink = new NotifierSink2A<T,A>(pClient, pFunc);
+  pSink->Connect(pNotifier);
+  return INotifier::CONNECTION(pSink);
+}
+
+template< typename T, typename A >
+  INotifier::CONNECTION ConnectNotifierA(INotifier* pNotifier, T* pClient, int (T::*pFunc)(int, A*)) 
+{
+  NotifierSink2A_<T,A>* pSink = new NotifierSink2A_<T,A>(pClient, pFunc);
+  pSink->Connect(pNotifier);
+  return INotifier::CONNECTION(pSink);
+}
+
+template< typename T, typename A >
+  INotifier::CONNECTION ConnectNotifierA(INotifier* pNotifier, T* pClient, void (T::*pFunc)(A*) ) 
+{
+  NotifierSink1CA<T,A>* pSink = new NotifierSink1CA<T,A>(pClient, pFunc);
+  pSink->Connect(pNotifier);
+  return INotifier::CONNECTION(pSink);
+}
+
+template< typename T, typename A >
+  INotifier::CONNECTION ConnectNotifierA(INotifier* pNotifier, T* pClient, int (T::*pFunc)(A*) ) 
+{
+  NotifierSink1CA_<T,A>* pSink = new NotifierSink1CA_<T,A>(pClient, pFunc);
+  pSink->Connect(pNotifier);
+  return INotifier::CONNECTION(pSink);
+}
+#endif
+
+class INotifierOwner
+{
+public:
+  virtual void OnAdvised() = 0;
+  virtual void OnUnadvised() = 0;
+};
+
+template<class T>
+class TNotifierImplC 
+  : public TIntrusivePtrImpl<NotifierImpl<T>>
+{
+  INotifierOwner *m_Parent;
+public:
+  TNotifierImplC( INotifierOwner *pParent = NULL )
+    : m_Parent( pParent )
+  {
+  }
+  ~TNotifierImplC()
+  {
+  }
+
+  virtual bool Advise(INotifier::SINK* pSink)
+  {
+    bool r = __super::Advise( pSink );
+    if( r && m_Parent )
+      m_Parent->OnAdvised();
+    return r;
+  }
+  virtual bool Unadvise(INotifier::SINK* pSink)
+  {
+    bool r = __super::Unadvise( pSink );
+    if( r && m_Parent )
+      m_Parent->OnUnadvised();
+    return r;
+  }
+};
+
+typedef TNotifierImplC<INotifier>   notifier;
+typedef TIntrusivePtr<notifier> notifier_ptr;
+typedef std::map<int, notifier_ptr> notifiers_vector;

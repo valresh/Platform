@@ -1,0 +1,34 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate SP_SPDVOTE( "SP_SPDVOTE", SH_SP_SPDVOTE::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_SP_SPDVOTE,W_SP_SPDVOTE,105)
+
+void SH_SP_SPDVOTE::InitParm()
+{
+#include "Blocks/SP_SPDVOTE.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/SP_SPDVOTE_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class SP_SPDVOTE_IMPL : public W_SP_SPDVOTE
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_SP_SPDVOTE::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  SP_SPDVOTE_IMPL *impl = reinterpret_cast<SP_SPDVOTE_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void SP_SPDVOTE_IMPL::StepT( SStepCalcParams &dt )
+{
+}

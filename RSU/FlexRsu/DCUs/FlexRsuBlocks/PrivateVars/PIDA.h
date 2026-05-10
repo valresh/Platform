@@ -1,0 +1,8 @@
+PrivateAnalog32( LOCK_IN )
+PrivateDigital32( INTERLOCK )
+PrivateAnalog32Savebale( CAS_IN )
+PrivateAnalog32( TRK_IN )
+PrivateAnalog32Savebale( out )
+PrivateDigital32( LOCK )
+PrivateDigital32( ALGORITHM )
+PrivateDigital32( SP_LIMIT )

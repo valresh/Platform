@@ -1,0 +1,88 @@
+#include <MemoryServiceQB5xx.h>
+#include <rsuErr.h>
+
+
+KMemoryServiceQB5xx::KMemoryServiceQB5xx()
+: m_pMemAllocator( NULL )
+, m_pIOsStructAllocator( NULL )
+, m_pIOFinder( NULL )
+, m_pRefCreator( NULL )
+{
+}
+
+static KMemoryServiceQB5xx* _Instance = nullptr;
+
+KMemoryServiceQB5xx& KMemoryServiceQB5xx::Instance()
+{
+    if (!_Instance)
+        _Instance = new KMemoryServiceQB5xx();
+  return *_Instance;
+}
+
+void KMemoryServiceQB5xx::InitMemAllocator( tMemQB5xxAllocatorImpl pfn )
+{
+  if( m_pMemAllocator )
+  {
+    ASS( m_pMemAllocator==pfn );
+  }
+  m_pMemAllocator = pfn;
+}
+
+void KMemoryServiceQB5xx::InitIOsStructAllocator( tStructQB5xxAllocatorImpl pcreator, tFindStructQB5xxImpl pfinder, tRefCreator prc )
+{
+  if( m_pIOsStructAllocator )
+  {
+    ASS( m_pIOsStructAllocator==pcreator );
+  }
+  m_pIOsStructAllocator = pcreator;
+  
+  if( m_pIOFinder )
+  {
+    ASS( m_pIOFinder==pfinder );
+  }
+  m_pIOFinder = pfinder;
+
+  if( m_pRefCreator )
+  {
+    ASS( m_pRefCreator==prc );
+  }
+  m_pRefCreator = prc;
+}
+
+void* KMemoryServiceQB5xx::NewMem( size_t size )
+{
+  ASSD( m_pMemAllocator );
+  if( !m_pMemAllocator )
+  {
+    BYTE *p = new BYTE[size];
+    ZeroMemory( p, size );
+    return p;
+  }
+  return m_pMemAllocator( size );
+}
+
+CBase* KMemoryServiceQB5xx::CreateIOsStruct( LPCSTR ObjName, DWORD TypeID, int number )
+{
+  ASS( m_pIOsStructAllocator );
+  if( !m_pIOsStructAllocator )
+    return NULL;
+  CBase *pName = m_pIOsStructAllocator( ObjName, TypeID, number );
+  return pName;
+}
+
+CBase* KMemoryServiceQB5xx::FindIOsStruct( LPCSTR ObjName, DWORD TypeID, int number, LPCSTR* pszEntry )
+{
+  ASS( m_pIOFinder );
+  if( !m_pIOFinder )
+    return NULL;
+  CBase *pName = m_pIOFinder( ObjName, TypeID, number, pszEntry );
+  return pName;
+}
+
+void KMemoryServiceQB5xx::CreateRef( LPCSTR ObjName, CBase *pSrc, int number )
+{
+  ASS( m_pRefCreator );
+  if( !m_pRefCreator )
+    return;
+  m_pRefCreator( ObjName, pSrc, number );
+}

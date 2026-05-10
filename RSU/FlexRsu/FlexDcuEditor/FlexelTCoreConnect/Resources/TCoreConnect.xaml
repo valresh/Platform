@@ -1,0 +1,151 @@
+﻿<Expander IsExpanded="True" Header="T-Core" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner">
+  <FlexDesigner:Toolbox ItemSize="60,30" Header="T-Core">
+    <ItemsControl.Items>
+
+      <Grid Width="80" Height="20" Background="LightBlue" x:Name="TCoreDI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Получение цифровых данных из T-Core"/>
+        </Grid.ToolTip>
+        <Border Width="70" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="TCore-&gt;DI"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M75,3 80,3"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M75,17 80,17"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="40,3"/>
+              <FlexDesigner:Connector x:Name="QUALITY" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="40,17"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value="T-Sens"/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="80" Height="20" Background="LightBlue" x:Name="TCoreDO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Выдача цифровых данных в T-Core"/>
+        </Grid.ToolTip>
+        <Border Width="70" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="DO-&gt;TCore"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-40,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value="T-Sens"/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="80" Height="20" Background="LightBlue" x:Name="TCoreAI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Получение аналоговых данных с T-Core"/>
+        </Grid.ToolTip>
+        <Border Width="70" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center" CornerRadius="10">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="TCore-&gt;AI"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M70,3 80,3"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M70,17 80,17"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="40,3"/>
+              <FlexDesigner:Connector x:Name="QUALITY" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="40,17"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value="T-Sens"/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="80" Height="20" Background="LightBlue" x:Name="TCoreAO" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Выдача аналоговых данных в T-Core"/>
+        </Grid.ToolTip>
+        <Border Width="70" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center" CornerRadius="10">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="AO-&gt;TCore"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M0,10 5,10"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="IN" Orientation="Left" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="-40,10"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value="T-Sens"/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="90" Height="20" Background="LightBlue" x:Name="FUTURETREND" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="True">
+        <Grid.ToolTip>
+          <TextBlock Text="Прогнозируемый график"/>
+        </Grid.ToolTip>
+        <Path Stroke="Black" StrokeThickness="2" Data="M0,0 0,20 90,20 90,0"/>
+        <Path Stroke="Red" StrokeThickness="1" Data="M0,5 15,0 A 25,10 180 0 0 50,3 M50,3 90,0"/>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="FUTURETREND"/>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value=""/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+      <Grid Width="90" Height="40" Background="LightBlue" x:Name="TCoreMAI" FlexDesigner:DesignerItem.ShowItemName="True" FlexDesigner:DesignerItem.ShowExecOrder="False">
+        <Grid.ToolTip>
+          <TextBlock Text="Получение аналоговых данных двойной точности с T-Core"/>
+        </Grid.ToolTip>
+        <Border Width="80" BorderThickness="2" BorderBrush="BlueViolet" HorizontalAlignment="Center" CornerRadius="10">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="TCore-&gt;MAI"/>
+        </Border>
+        <Path Stroke="Black" StrokeThickness="1" Data="M80,3 90,3"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,17 90,17"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M85,27 90,27"/>
+        <Path Stroke="Black" StrokeThickness="1" Data="M80,37 90,37"/>
+        <FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+          <ControlTemplate>
+            <FlexDesigner:ReferenceCenterPositionPanel>
+              <FlexDesigner:Connector x:Name="OUT" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,3"/>
+              <FlexDesigner:Connector x:Name="QUALITY" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,17"/>
+              <FlexDesigner:Connector x:Name="OVPLUS" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,27"/>
+              <FlexDesigner:Connector x:Name="OVMINUS" Orientation="Right" FlexDesigner:ReferenceCenterPositionPanel.ReferenceCenterPosition="45,37"/>
+            </FlexDesigner:ReferenceCenterPositionPanel>
+          </ControlTemplate>
+        </FlexDesigner:DesignerItem.ConnectorDecoratorTemplate>
+        <FlexDesigner:DesignerItem.HiddenProperties>
+          <FlexDesigner:HiddenPropertiesContainer>
+            <FlexDesigner:HiddenProperty Key="Module" Value="T-Sens"/>
+            <FlexDesigner:HiddenProperty Key="TagInModuleOrOPC" Value=""/>
+            <FlexDesigner:HiddenProperty Key="GAIN" Value="1"/>
+          </FlexDesigner:HiddenPropertiesContainer>
+        </FlexDesigner:DesignerItem.HiddenProperties>
+      </Grid>
+
+    </ItemsControl.Items>
+  </FlexDesigner:Toolbox>
+</Expander>
+  

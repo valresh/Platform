@@ -1,0 +1,43 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate SR( "SR", SH_SR::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_SR,W_SR,4)
+
+void SH_SR::InitParm()
+{
+#include "Blocks/SR.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/SR_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class SR_IMPL : public W_SR
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_SR::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  SR_IMPL *impl = reinterpret_cast<SR_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void SR_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( S )
+  {
+    Q = 1;
+    return;
+  }
+  if( R )
+  {
+    Q = 0;
+  }
+}

@@ -1,0 +1,6 @@
+PrivateAnalog32( WAIT )
+PrivateAnalog32( PULSE )
+PrivateDigital32Savebale( in )
+PrivateDigital32Savebale( out )
+PrivateAnalog32Savebale( waiting )
+PrivateAnalog32Savebale( pulsing )

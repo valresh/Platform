@@ -1,0 +1,35 @@
+﻿<Window x:Class="FlexViewer.MainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Icon="Group.ico">
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/ImagesDictionary.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/Toolbox.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/ToolboxItem.xaml"/>
+        <ResourceDictionary Source="Resources/DesignerItem.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/Connector.xaml"/>
+        <ResourceDictionary Source="Resources/Connection.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/DesignerCanvasDictionary.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Window.Resources>
+
+  <Grid Background="LightBlue">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <FlexDesigner:DesignerCanvas MinHeight="100"
+                        MinWidth="100"
+                        AllowDrop="True"
+                        FocusVisualStyle="{x:Null}"
+                        Focusable="true"
+                        x:Name="designerCanvas" SnapsToDevicePixels="True" Background="Transparent" IsGridVisible="False" Mode="ViewOnly">
+      </FlexDesigner:DesignerCanvas>
+    </ScrollViewer>
+
+  </Grid>
+</Window>

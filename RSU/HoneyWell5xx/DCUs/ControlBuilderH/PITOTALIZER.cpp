@@ -1,0 +1,78 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate PITOTALIZER( "PITOTALIZER", SH_PITOTALIZER::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_PITOTALIZER,W_PITOTALIZER,50)
+
+void SH_PITOTALIZER::InitParm()
+{
+#include "Blocks/PITOTALIZER.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/PITOTALIZER_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class PITOTALIZER_IMPL : public W_PITOTALIZER
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_PITOTALIZER::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  PITOTALIZER_IMPL *impl = reinterpret_cast<PITOTALIZER_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void PITOTALIZER_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( RESETFL || _COMMAND::RESET==COMMAND.V )
+  {
+    OLDAV = PV;
+    PV = RESETVAL;
+    ACCTVFL = 0;
+    RESETFL = 0;
+    ZeroMemory( ACCDEV.FL, sizeof(ACCDEV.FL) );
+    COMMAND = _COMMAND::NONE;
+  }
+  else if( STOPFL || _COMMAND::STOP==COMMAND.V )
+  {
+    STOPFL = 0;
+    COMMAND = _COMMAND::NONE;
+    if( _STATE::RUNNING == STATE.V )
+      STATE = _STATE::STOPPED;
+  }
+  else if( STARTFL || _COMMAND::START==COMMAND.V )
+  {
+    STARTFL = 0;
+    COMMAND = _COMMAND::NONE;
+    STATE = _STATE::RUNNING;
+  }
+
+  if( _STATE::RUNNING != STATE.V )
+    return;
+
+  PV += P1 * (dt * 60);
+  if( !IsNaN(ACCTV) )
+  {
+    if( PV >= ACCTV )
+      ACCTVFL = 1;
+    else
+      ACCTVFL = 0;
+    double d = ACCTV - PV;
+    for( int i=0; i<_countof(ACCDEV.TP); ++ i )
+    {
+      if( IsNaN(ACCDEV.TP[i]) )
+        continue;
+      if( d < ACCDEV.TP[i] )
+        ACCDEV.FL[i] = 1;
+      else
+        ACCDEV.FL[i] = 0;
+    }
+  }
+}

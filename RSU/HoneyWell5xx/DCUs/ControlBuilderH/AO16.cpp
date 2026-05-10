@@ -1,0 +1,16 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate AO16( "AO16", S_AO16::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_AO16,W_AO16,205)
+
+void S_AO16::InitParm()
+{
+#include "Modules/AO16.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Modules/AO16_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}

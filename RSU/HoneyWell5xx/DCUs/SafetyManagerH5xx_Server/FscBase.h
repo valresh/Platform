@@ -1,0 +1,218 @@
+#pragma once
+#include "IFscStorage.h"
+
+namespace ns_UT
+{
+  struct SLocalTmp 
+  {
+    UINT nCount;
+    UINT dim[14];
+    UINT nDirect; 
+  };
+}
+
+struct SUniTemp : public SUniBufferT<ns_UT::SLocalTmp>
+{
+  SUniTemp() 
+    : SUniBufferT()
+  {}
+  SUniBufferT::_Type* Item(UINT n)
+  {
+    return ((SUniBufferT::_Type*)m_szBuffer)+n;
+  }
+  /*void Add( UINT n, UINT* N, UINT d = 0 )
+  {
+    ASS( n <= 10 );
+    SUniBufferT::_Type* item = ((SUniBufferT::_Type*)m_szBuffer)+AddCurr(0)-1;
+    item->nCount  = n;
+    item->nDirect = d;
+    memcpy( item->dim, N, n*sizeof(UINT) );
+  }*/
+  SUniBufferT::_Type* Item()
+  {
+    return ((SUniBufferT::_Type*)m_szBuffer)+AddCurr(0)-1;
+  }
+};
+
+#pragma pack(push)
+#pragma pack(1)
+struct SProcedure
+{
+  SProcedure()
+  {
+    ZeroMemory( this, sizeof(*this) );
+  }
+  enum
+  {
+    MAX_PROC_IN  = 14,
+    MAX_PROC_OUT = 14
+  };
+  WORD nProc;// Номер процедуры
+  UINT nPlace;// Место процедуры в SFscFile;
+  BYTE nI;// Количество входов
+  BYTE nO;// Количество выходов
+  UINT I [MAX_PROC_IN ];
+  UINT O [MAX_PROC_OUT];
+  BYTE pI[MAX_PROC_IN ];
+  BYTE pO[MAX_PROC_OUT];
+  //BYTE dataI[MAX_PROC_IN ];
+  //BYTE dataO[MAX_PROC_OUT];
+};
+
+struct SProcInOut
+{
+  UINT IO; //Точка входа-выхода
+  BYTE io; //Индех входа-выхода
+};
+
+struct SEquationBlock
+{
+  SEquationBlock()
+  {
+    ZeroMemory( this, sizeof(*this) );
+  }
+  WORD nProc;// Номер EquationBlock
+  WORD w2;
+  UINT nPlace;// Место процедуры в SFscFile;
+  UINT X;// Вход
+  UINT Y;// Выход
+  UINT nFirstPlaceRow;
+  UINT nLastPlaceRow;
+};
+
+struct SEquationBlockRow
+{
+  SEquationBlockRow()
+  {
+    ZeroMemory( this, sizeof(*this) );
+  }
+  double X, Y;
+};
+
+struct SfscHdr
+{
+  DWORD id;
+  short x,y,cx,cy;
+  short unk0;//Всегда 0?
+  LFscBase::typeB b;
+  unsigned char type;//
+};
+
+namespace ns_ver153
+{
+  struct Sfsc : SfscHdr
+  {
+    // В зависимости от версии
+    BYTE data[33];
+  };
+};
+
+namespace ns_ver137
+{
+  struct Sfsc : SfscHdr
+  {
+    // В зависимости от версии
+    BYTE data[29];
+  };
+};
+
+#pragma warning(push)
+#pragma warning( disable: 4200)
+struct SfscAbstruct : SfscHdr
+{
+  BYTE data[0];
+  static size_t sizeData;
+};
+#pragma warning(pop)
+
+//typedef ns_ver153::Sfsc Sfsc;
+
+#pragma pack(pop)
+
+enum
+{
+  BADCOLOR = 0xff00ff,
+  BOXCOLOR = 0xc0c0c0,
+  SELCOLOR = 0xffff00,
+  FIXCOLOR = 0x808080,
+
+  NOTCONNECTED = 0x00a0e0,
+
+  COLOR_0 = 0x00ff00,
+  COLOR_1 = 0x0000ff,
+  BACKGROUND = 0x000000,
+};
+
+struct SLogicDB
+{
+  UINT   O;// Выход
+  UINT In1;// Вход
+  UINT In2;// Вход
+};
+// С нефиксированным количеством входов
+struct SMultiIN
+{
+  UINT O;// Выход
+  UINT I;// Выходы в SFscNext
+};
+// Содержит список сохраняемых значений
+struct SFscBuff : public SUniCharT
+{
+  SFscBuff() : SUniCharT(0){};
+  //
+  SPointIn * PointIn( UINT n)
+  {
+    return (SPointIn *)(m_szBuffer+(UINT)n);
+  };
+  //
+  SPointOut* PointOut(UINT n)
+  {
+    return (SPointOut*)(m_szBuffer+(UINT)n);
+  };
+  //
+  char* Data( UINT n)
+  {
+    return m_szBuffer+(UINT)n;
+  };
+  //
+};
+
+struct SFscBase : public LFscBase
+{
+#ifdef _WIN32
+  void DrawL( CMyFont& font, RECT rc, const char* text, int n, int N = 3 );
+  void DrawR( CMyFont& font, RECT rc, const char* text, int n, int N = 3 );
+  void DrawC( CMyFont& font, RECT rc, const char* text, int n, int N = 3 );
+  void DrawL( CMyFont& font, const char* text, int n, LPRECT lrc = NULL );
+  void DrawR( CMyFont& font, const char* text, int n, LPRECT lrc = NULL );
+#endif
+  double ParsTime( BYTE *ptr, char& nMeas, BYTE &base );
+#ifdef _WIN32
+  void DrawTime( IFscStorage* fsc, CMyFont& font, UINT nSelect, LPPOINT pt );
+  void Select( CMyFont& font, UINT n, UINT N, bool bLeft, COLORREF color = SELCOLOR );
+  void BadRect ( CMyFont& font, UINT n );
+#endif
+
+  void MultiIN( IFscStorage* fsc, SUniTemp& tmp, EValueType type = enumValueBol);
+  void Trigger( IFscStorage* fsc, SUniTemp& tmp, SfscAbstruct& dat);
+  void LogicDB( IFscStorage* fsc, SUniTemp& tmp, EValueType type = enumValueBol);
+  void MultiLnk( IFscStorage* fsc, UINT nLink, int y );
+  void LogicLnk(IFscStorage* fsc, UINT nLink, int y);
+#ifdef _WIN32
+  COLORREF LogicOut( IFscStorage* fsc, CMyFont& font, UINT nSelect, const char* text );
+  COLORREF MultiOut( IFscStorage* fsc, CMyFont& font, UINT nSelect, const char* text, LPRECT rc = NULL );
+
+  COLORREF BoxL( IFscStorage* fsc, CMyFont& font, int nNumb, RECT rc, const char* c = NULL, const char* b = NULL );
+  COLORREF BoxR( IFscStorage* fsc, CMyFont& font, int nNumb, RECT rc, const char* c = NULL, const char* b = NULL );
+
+  COLORREF Color( UINT nSelect, UINT nLink );
+  COLORREF Color( UINT nSelect, UINT nLink, UINT nOut );
+#endif
+protected:
+#ifdef _WIN32
+    COLORREF BoxA( IFscStorage* fsc, CMyFont& font, int nNumb, RECT rc, const char* b = NULL, const char* c = NULL );
+
+  COLORREF Color( UINT nSelect, UINT nOut, UINT* nLink, int N );
+  COLORREF Color( IFscStorage* fsc, UINT nSelect, UINT nOut, UINT nLink, int& N );
+#endif
+};

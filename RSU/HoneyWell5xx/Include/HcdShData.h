@@ -1,0 +1,10 @@
+#pragma once
+#include <shemedata.h>
+
+#undef  HCD_TYPE
+#define HCD_TYPE( a, b, c ) \
+struct CSh##b: public CShBase, public W_##b \
+  { \
+  CSh##b() : CShBase( sizeof(CSh##b) ){}; \
+  };
+#include "HCDType.hpp"

@@ -1,0 +1,35 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate NEG( "NEG", SH_NEG::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_NEG,W_NEG,10)
+
+void SH_NEG::InitParm()
+{
+#include "Blocks/NEG.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/NEG_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class NEG_IMPL : public W_NEG
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_NEG::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  NEG_IMPL *impl = reinterpret_cast<NEG_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void NEG_IMPL::StepT( SStepCalcParams &dt )
+{
+  OUT = -(IN);
+}

@@ -1,0 +1,15 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+FLAG(CALI,"")
+//
+DOUBLE(PV,"")
+DOUBLE(MV,"")
+DOUBLE(SUM,"")//*
+DOUBLE(OPHI,"")
+DOUBLE(OPLO,"")
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INTEGER(TSW,"")

@@ -1,0 +1,264 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate TYPECONVERT( "TYPECONVERT", SH_TYPECONVERT::Create );
+
+SH_TYPECONVERT::SH_TYPECONVERT()
+: m_ConnectedIn( ecioNo )
+{
+  m_ConnectedOut[0] = ecioNo;
+  m_ConnectedOut[1] = ecioNo;
+}
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_TYPECONVERT,W_TYPECONVERT,156)
+
+void SH_TYPECONVERT::InitParm()
+{
+#include "Blocks/TYPECONVERT.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/TYPECONVERT_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+bool SH_TYPECONVERT::GetVar( LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize /*= NULL*/, LPCSTR *ppszEnum /*= NULL*/, BYTE *pFlags /*= NULL*/ )
+{
+  bool r = SH_Block::GetVar( pField, ppVar, pType, pVarSize, ppszEnum, pFlags );
+  if( !r )
+    return false;
+
+  if( SH_Block::s_DebuggerInitializing )
+    return r;
+  if( SH_Block::s_bProjectLoaded )
+    return r;
+
+  if( !strcmp(pField,"IN.BOOLEAN") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioBool); m_ConnectedIn = ecioBool;
+  }
+  else if( !strcmp(pField,"IN.INT32") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioInt32); m_ConnectedIn = ecioInt32;
+  }
+  else if( !strcmp(pField,"IN.UINT32") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioUInt32); m_ConnectedIn = ecioUInt32;
+  }
+  else if( !strcmp(pField,"IN.FLOAT64") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioDouble64); m_ConnectedIn = ecioDouble64;
+  }
+  else if( !strcmp(pField,"IN.FLOAT32") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioDouble32); m_ConnectedIn = ecioDouble32;
+  }
+  else if( !strcmp(pField,"IN.ENUM") )
+  {
+    ASS( m_ConnectedIn==ecioNo || m_ConnectedIn==ecioEnum); m_ConnectedIn = ecioEnum;
+  }
+  else if( !strncmp(pField,"IN.",3) )
+  {
+    ASS(0);
+  }
+///
+  bool bOut = true;
+  eConIn outType = ecioNo;
+  if( !strcmp(pField,"OUT.BOOLEAN") )
+    outType = ecioBool;
+  else if( !strcmp(pField,"OUT.INT32") )
+    outType = ecioInt32;
+  else if( !strcmp(pField,"OUT.FLOAT64") )
+    outType = ecioDouble64;
+  else if( !strcmp(pField,"OUT.ENUM") )
+    outType = ecioEnum;
+  else if( !strcmp(pField,"OUT.SDENUM") )
+    outType = ecioSdEnum;
+  else if( !strncmp(pField,"OUT.",4) )
+  {
+    ASSD(0);
+  }
+  else
+  {
+    bOut = false;
+  }
+
+  if( bOut )
+  {
+    ASS( outType != ecioNo );
+    bool bSetOut = false;
+    for( int i=0; i<_countof(m_ConnectedOut); ++i )
+    {
+      if( ecioNo!=m_ConnectedOut[i] )
+      {
+        if( outType==m_ConnectedOut[i] )
+        {
+          bSetOut = true;
+          break;
+        }
+        continue;
+      }
+      bSetOut = true;
+      SetOutType( pField, m_ConnectedOut[i] );
+      break;
+    }
+    ASS( bSetOut );
+  }
+
+  return true;
+}
+
+void SH_TYPECONVERT::SetOutType( LPCSTR pField, eConIn &ConnectedOut )
+{
+  if( !strcmp(pField,"OUT.BOOLEAN") )
+  {
+    ASS( ConnectedOut==ecioNo ); ConnectedOut = ecioBool;
+  }
+  else if( !strcmp(pField,"OUT.INT32") )
+  {
+    ASS( ConnectedOut==ecioNo ); ConnectedOut = ecioInt32;
+  }
+  else if( !strcmp(pField,"OUT.FLOAT64") )
+  {
+    ASS( ConnectedOut==ecioNo ); ConnectedOut = ecioDouble64;
+  }
+  else if( !strcmp(pField,"OUT.ENUM") )
+  {
+    ASS( ConnectedOut==ecioNo ); ConnectedOut = ecioEnum;
+  }
+  else if( !strcmp(pField,"OUT.SDENUM") )
+  {
+    ASS( ConnectedOut==ecioNo ); ConnectedOut = ecioSdEnum;
+  }
+  else if( !strncmp(pField,"OUT.",4) )
+  {
+    ASS(0);
+  }
+}
+
+void SH_TYPECONVERT::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+
+  for( int i=0; i<_countof(m_ConnectedOut); ++i )
+  {
+    if( ecioNo==m_ConnectedOut[i] )
+      continue;
+    TransOut( m_ConnectedOut[i] );
+  }
+  
+  OutputConnectionsTransfer();
+}
+
+void SH_TYPECONVERT::TransOut( eConIn ConnectedOut )
+{
+  switch( m_ConnectedIn )
+  {
+  case ecioBool:
+    switch( ConnectedOut )
+    {
+    case ecioEnum:
+      W->OUT.ENUM = W->IN.bOOLEAN ? W->BOOLVALUEON.V : W->BOOLVALUEOFF.V;
+      break;
+    case ecioSdEnum:
+      if( W->IN.bOOLEAN )
+        strcpy_s( W->OUT.SDENUM, W->SDENUMTEXT[1] );
+      else
+        strcpy_s( W->OUT.SDENUM, W->SDENUMTEXT[0] );
+      break;
+    case ecioNo:
+      break;
+    case ecioDouble64:
+      if( W->IN.bOOLEAN )
+        W->OUT.FLOAT64 = 1.;
+      else
+        W->OUT.FLOAT64 = 0;
+      break;
+      break;
+    default:
+      ASSD(0);
+      break;
+    }
+    break;
+  case ecioEnum:
+    switch( ConnectedOut )
+    {
+    case ecioBool:
+      ASSD( W->IN.ENUM < _countof(W->ENUMBOOLMAP) );
+      W->OUT.bOOLEAN = W->ENUMBOOLMAP[ W->IN.ENUM ];
+      break;
+    case ecioEnum:
+      W->OUT.ENUM = W->IN.ENUM;
+      break;
+    default:
+      ASSD(0);
+      break;
+    }
+    break;
+  case ecioInt32:
+    switch( ConnectedOut )
+    {
+    case ecioInt32:
+      W->OUT.iNT32 = W->IN.iNT32;
+      break;
+    case ecioDouble64:
+      W->OUT.FLOAT64 = W->IN.iNT32;
+      break;
+    case ecioNo:
+      break;
+    default:
+      ASSD(0);
+      break;
+    }
+    break;
+  case ecioDouble32:
+    switch( ConnectedOut )
+    {
+    case ecioDouble64:
+      W->OUT.FLOAT64 = W->IN.FLOAT32;
+      break;
+    default:
+      ASSD(0);
+      break;
+    }
+    break;
+  case ecioDouble64:
+    switch( ConnectedOut )
+    {
+    case ecioDouble64:
+      W->OUT.FLOAT64 = W->IN.FLOAT64;
+      break;
+    case ecioInt32:
+      W->OUT.iNT32 = (int)W->IN.FLOAT64;
+      break;
+    case ecioNo:
+    case ecioBool:
+      if( IsNaN(W->THRESHOLD) )
+      {
+        if( 0==W->IN.FLOAT64 )
+          W->OUT.bOOLEAN = false;
+        else
+          W->OUT.bOOLEAN = true;
+      }
+      else
+      {
+        if( W->IN.FLOAT64 < W->THRESHOLD )
+          W->OUT.bOOLEAN = false;
+        else
+          W->OUT.bOOLEAN = true;
+      }
+      break;
+    case ecioEnum:
+      W->OUT.ENUM = (BYTE)W->IN.FLOAT64;
+      break;
+    default:
+      ASSD(0);
+      break;
+    }
+    break;
+  case ecioNo:
+    break;
+  default:
+    ASSD(0);
+  }
+}

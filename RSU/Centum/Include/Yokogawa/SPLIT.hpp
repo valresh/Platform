@@ -1,0 +1,15 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+//
+DOUBLE(SV,"")
+DOUBLE(MV1,"")//*
+DOUBLE(MV2,"")//*
+//
+DOUBLE(CSV,"")
+//
+INTEGER(SW,"")
+DOUBLE(RP1,"")
+DOUBLE(RP2,"")

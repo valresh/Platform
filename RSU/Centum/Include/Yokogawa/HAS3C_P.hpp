@@ -1,0 +1,12 @@
+YPARM_S(Comment,64,"ETCM")
+YPARM_DD(SH,SL,DBL_MAX,DBL_MAX,"ESCL","%D:%D") 
+//
+YPARM_DDS(MVH,MVL,cMesMV,W->MSH,W->MSL,8,"AORA","%D:%D:%S") 
+YPARM_Dref(SVH,W->SH,"----")
+YPARM_Dref(SVL,W->SL,"----")
+YPARM_D(MSH,DBL_MAX,"----")
+YPARM_D(MSL,DBL_MAX,"----")
+YPARM_Dref(MH,W->MSH,"----")
+YPARM_Dref(ML,W->MSL,"----")
+YPARM_L(ButtonAction,0,"BTA2","%{ALTER;RADIO;MOMENT}")
+YPARM_I(OutputTimeWidthBTA2,1,"MBOT")

@@ -1,0 +1,24 @@
+#pragma once
+
+
+// KControlBuilderSimpleFrame frame
+
+class KControlBuilderSimpleFrame : public CFrameWnd
+{
+	DECLARE_DYNCREATE(KControlBuilderSimpleFrame)
+protected:
+	KControlBuilderSimpleFrame();           // protected constructor used by dynamic creation
+	virtual ~KControlBuilderSimpleFrame();
+
+  CSplitterWnd m_wndSplitter;
+  CStatusBar  m_wndStatusBar;
+  class KControlBuilderDoc *m_pDoc;
+protected:
+	DECLARE_MESSAGE_MAP()
+  virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+public:
+  afx_msg void OnDevctlMomstate();
+  afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+};
+
+

@@ -1,0 +1,532 @@
+#include <rsuErr.h>
+#include "ControlBuilder.h"
+#include "CBPool.h"
+#include <macros/StrHelps.h>
+
+extern KCBPool g_Pool;
+
+void KControlBuilder::LinkConnections( SH_Module *pM )
+{
+  for( size_t i=0; i < pM->nSubModules; ++i )
+  {
+    LinkConnections( pM->ppSubModules[i] );
+  }
+
+  for( size_t i=0; i < pM->nBlocks; ++i )
+  {
+    LinkConnections( pM->ppBlocks[i] );
+  }
+}
+
+bool Link2SMGetVar( LPCSTR pBlock, LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize )
+{
+  char szTmp[128*4] = { 0 };
+  if( !pBlock || !pField )
+    return false;
+  if( !*pBlock || !*pField )
+    return false;
+  sprintf_s( szTmp, "%s.%s", pBlock, pField );
+
+  KARsuX pnt;
+  int r = pnt.LinkTo( szTmp, NULL, "РСУ_SMH_" );
+  if( r )
+    return false;
+  nRSUx::SParamInfo infa = pnt.GetInfo();
+  switch( infa.type )
+  {
+  case nRSUx::e_bool:
+    *ppVar = infa.pMem;
+    if( pType )
+      *pType = evtBool;
+    if( pVarSize )
+      *pVarSize = infa.size;
+    return true;
+  case nRSUx::e_double:
+    *ppVar = infa.pMem;
+    if( pType )
+      *pType = evtDouble;
+    if( pVarSize )
+      *pVarSize = infa.size;
+    return true;
+  default:
+    ASSD(0);
+    break;
+  }
+  return false;
+}
+
+void KControlBuilder::LinkConnections( SH_Block *pB )
+{
+  for( size_t i=0; i < pB->inConsC; ++i )
+  {
+    SConnectionMB &con = pB->pInConns[i];
+    BYTE *pVarI = NULL, *pVarO = NULL;
+    eVarType typeO = evtHZ, typeI = evtHZ;
+    USHORT varSizeI = 0, varSizeO = 0;
+    LPCSTR pszEnum = NULL;
+    bool bo = false, bi = false;
+    KBmBase *outO = m_entryModule->QuickFindObj( con.szOutObj );
+    if( outO )
+    {
+      bo = outO->GetVar( con.szOutFld, &pVarO, &typeO, &varSizeO, &pszEnum );
+      con.szTypeObjOut = outO->TypeName;
+    }
+    if( !bo )
+      bo = g_Pool.GetVar( NULL, con.szOutObj, con.szOutFld, &pVarO, &typeO, &varSizeO, &pszEnum );
+    if( !bo )
+      bo = Link2SMGetVar( con.szOutObj, con.szOutFld, &pVarO, &typeO, &varSizeO );
+
+    pszEnum = NULL;
+    KBmBase *outI = m_entryModule->QuickFindObj( con.szInObj );
+    if( outI )
+    {
+      bi = outI->GetVar( con.szInFld, &pVarI, &typeI, &varSizeI, &pszEnum );
+      con.szTypeObjIn = outI->TypeName;
+    }
+    if( !bi )
+      bi = g_Pool.GetVar( NULL, con.szInObj, con.szInFld, &pVarI, &typeI, &varSizeI, &pszEnum );
+    if( !bi )
+      bi = Link2SMGetVar( con.szInObj, con.szInFld, &pVarI, &typeI, &varSizeI );
+
+    if( (!outO && !bo) || (!outI && !bi) )
+    {
+      using namespace std;
+      stringstream ss;
+      ss << "Не возможно найти объект ";
+      if( !outO  )
+        ss << con.szOutObj;
+      if( !outI  )
+        ss << con.szInObj;
+      ss << " для связи " << con.szOutObj << '.' << con.szOutFld << " -> ";
+      ss << con.szInObj << '.' << con.szInFld << "\r\n";
+      OutputDebugString( ss.str().c_str() );
+      continue;
+    }
+    if( !bi || !bo )
+    {
+      using namespace std;
+      stringstream ss;
+      ss << "Не возможно найти ";
+      if( !bo  )
+      {
+        if( outO )
+          ss << "поле " << con.szOutFld;
+        else
+        ss << "объект " << con.szOutObj;
+        
+      }
+      if( !bi  )
+      {
+        if( !bo  )
+          ss << " и ";
+        if( outI )
+          ss << "поле " << con.szInFld;
+        else
+          ss << "объект " << con.szInObj;
+      }
+      ss << " для связи " << con.szOutObj << '.' << con.szOutFld << " -> ";
+      ss << con.szInObj << '.' << con.szInFld << "\r\n";
+      OutputDebugString( ss.str().c_str() );
+      if( SConnectionMB::eBackward==con.direction )
+      {
+        ASS( !"связь должна быть обязательно" );
+      }
+      continue;
+    }
+
+    ASSD( typeO==typeI );
+
+    if( outO )
+      outO->AddAsOutputConnection( &con );
+    con.AssignInputRef( pVarI, typeI, varSizeI, outI );
+    con.AssignOutputRef( pVarO, typeO, varSizeO, outO );
+
+    KKK();
+  }
+}
+
+void KControlBuilder::SelectAllConnections( LPCSTR pszName, LPCSTR pszField, bool bInput, std::vector<std::string> &cont )
+{
+  if( !m_entryModule )
+    return;
+  SelectAllConnections( m_entryModule, pszName, pszField, bInput, cont );
+}
+
+void KControlBuilder::SelectAllConnections( SH_Module *pM, LPCSTR pszName, LPCSTR pszField, bool bInput, std::vector<std::string> &cont )
+{
+  for( size_t i=0; i < pM->nSubModules; ++i )
+  {
+    SelectAllConnections( pM->ppSubModules[i], pszName, pszField, bInput, cont );
+  }
+  for( size_t i=0; i < pM->nBlocks; ++i )
+  {
+    SelectAllConnections( pM->ppBlocks[i], pszName, pszField, bInput, cont );
+  }
+}
+
+void KControlBuilder::SelectAllConnections( SH_Block *pB, LPCSTR pszName, LPCSTR pszField, bool bInput, std::vector<std::string> &cont )
+{
+  for( size_t i=0; i < pB->inConsC; ++i )
+  {
+    SConnectionMB &con = pB->pInConns[i];
+    if( bInput )
+    {
+      if( !strcmp( con.szInObj, pszName) && !strcmp(con.szInFld, pszField) )
+      {
+        char fn[128*4];
+        sprintf_s( fn, "%s.%s", con.szOutObj, con.szOutFld );
+        cont.push_back( fn );
+      }
+    }
+    else
+    {
+      if( !strcmp( con.szOutObj, pszName) && !strcmp(con.szOutFld, pszField) )
+      {
+        char fn[128*4];
+        sprintf_s( fn, "%s.%s", con.szInObj, con.szInFld );
+        cont.push_back( fn );
+      }
+    }
+  }
+}
+
+void KControlBuilder::AssignToContainers( SH_Module *pM, FILE* pOut )
+{
+  switch( pM->H_Type )
+  {
+  case W_SP::TypeID:
+    KKK();
+    return;
+  }
+
+  for( size_t i=0; i < pM->nSubModules; ++i )
+  {
+    AssignToContainers( pM->ppSubModules[i], pOut );
+  }
+  for( size_t i=0; i < pM->nBlocks; ++i )
+  {
+    AssignToContainers( pM->ppBlocks[i], pOut );
+  }
+}
+
+void KControlBuilder::AssignToContainers( SH_Block *pB, FILE* pOut )
+{
+  tfnAssignToContainers fnHandler = NULL;
+  switch( pB->H_Type )
+  {
+  case W_DICHANNEL::TypeID:
+  case W_DOCHANNEL::TypeID:
+  case W_AICHANNEL::TypeID:
+  case W_AOCHANNEL::TypeID:
+  case W_HAICHANNEL::TypeID:
+    fnHandler = &KControlBuilder::fnAssignToContainersSimpleIO;
+    break;
+  case W_DIREF::TypeID:
+  case W_DOREF::TypeID:
+  case W_AIREF::TypeID:
+  case W_AOREF::TypeID:
+    fnHandler = &KControlBuilder::fnLinkRefWithIO;
+    break;
+#pragma message( "!!!!!вернуть\n" )
+  case W_MAI::TypeID:
+    fnHandler = &KControlBuilder::fnAssignToContainersMAI;
+    break;
+  case W_PCDINUMARRCH::TypeID:
+    fnHandler = &KControlBuilder::fnAssignToContainersPCDINUMARRCH;
+    break;
+  case W_SP_AI::TypeID:
+  case W_SP_AO::TypeID:
+  case W_SP_DI::TypeID:
+  case W_SP_DO::TypeID:
+  case W_SP_SPDVOTE::TypeID:
+  case W_SP_SPEED::TypeID:
+    fnHandler = &KControlBuilder::fnAssignToContainersSP_;
+    break;
+  default:
+    return;
+  }
+  if( !fnHandler )
+    return;
+
+  (this->*fnHandler)( pB, pOut );
+}
+
+void KControlBuilder::fnAssignToContainersPCDINUMARRCH( SH_Block *pB, FILE* pOut )
+{
+  if( !pOut )
+    return;
+  int *pSTARTINDEX = NULL;
+  int *pNNUMERIC = NULL;
+  eVarType type = evtHZ;
+  bool r = pB->GetVar( "STARTINDEX", (BYTE**)&pSTARTINDEX, &type );
+  if( !r || evtInt!=type )
+    return;
+  r = pB->GetVar( "NNUMERIC", (BYTE**)&pNNUMERIC , &type );
+  if( !r || evtInt!=type )
+    return;
+  for( int i=1; i<=(*pNNUMERIC); ++i )
+  {
+    char szFld[16*4];
+    sprintf_s( szFld, "PV[%d]", i );
+    fprintf( pOut, "%s.PV[%d];%d,", pB->BlockName, i, (*pSTARTINDEX)+i );
+
+    LPBYTE pV = NULL;
+    eVarType type = evtHZ;
+    LPCSTR pFldDest = NULL;
+    KBmBase *dest = m_entryModule->WhoHasConnection( pB->BlockName, szFld, true, &pFldDest );
+    if( dest )
+    {
+      dest->GetVar( "DESC", &pV, &type );
+      fprintf( pOut, "%s", dest->BlockName );
+      if( pFldDest && *pFldDest )
+        fprintf( pOut, ".%s", pFldDest );
+    }
+    fprintf( pOut, ";AI;" );
+    if( pV && evtString==type )
+      fprintf( pOut, "%s", (LPCSTR)pV );
+    fprintf( pOut, ";\n");
+  }
+}
+
+void KControlBuilder::fnLinkRefWithIO( SH_Block *pB, FILE* pOut )
+{
+  BYTE *pVar = NULL;
+  eVarType type = evtHZ;
+  bool r = pB->GetVar( "REF", &pVar, &type );
+  ASSD( r );
+  if( !r )
+    return;
+  LPSTR pszRef = (LPSTR)pVar;
+  if( !pszRef[0] )
+    return;
+  KBmBase *dest = NULL;
+  LPSTR pField = strrchr( pszRef, '.' );
+  LPSTR pPntL = strchr( pszRef, '.' );
+  if( pField==pPntL )
+  {
+    dest = m_entryModule->QuickFindObj( pszRef );
+    pField = NULL;
+  }
+  else
+  {
+    TStringTerminator st( pField );
+    ++pField;
+    dest = m_entryModule->QuickFindObj( pszRef );
+  }
+#pragma message("!!!!! восстановить")
+  //ASSD( dest );
+  if( !dest )
+    return;
+  pB->SetDestIO( dest, pField );
+}
+
+void KControlBuilder::fnAssignToContainersMAI( SH_Block *pB, FILE* pOut )
+{
+  if( !pOut )
+    return;
+  LPCSTR pAss = strstr( pB->BlockName, pB->AssignedTo);
+  LPCSTR pCont = strstr( pB->BlockName, pB->Container);
+  if( !pAss || !pCont )
+    return;
+  for( int i=1; i<9; ++i )
+  {
+    char szFld[16*4];
+    sprintf_s( szFld, "OUT_%d.VALUE", i );
+    fprintf( pOut, "%s.%s;", pB->BlockName, szFld );
+
+    LPBYTE pV = NULL;
+    eVarType type = evtHZ;
+    LPCSTR pFldDest = NULL;
+    KBmBase *dest = m_entryModule->WhoHasConnection( pB->BlockName, szFld, true, &pFldDest );
+    if( dest )
+    {
+      dest->GetVar( "DESC", &pV, &type );
+      fprintf( pOut, "%s", dest->BlockName );
+      if( pFldDest && *pFldDest )
+        fprintf( pOut, ".%s", pFldDest );
+    }
+    fprintf( pOut, ";AI;" );
+    if( pV && evtString==type )
+      fprintf( pOut, "%s", (LPCSTR)pV );
+    fprintf( pOut, ";\n");
+  }
+}
+
+void KControlBuilder::fnAssignToContainersSP_( SH_Block *pB, FILE* pOut )
+{
+  if( !pOut )
+    return;
+  KBmBase *mod = pB;
+  LPBYTE pV = NULL;
+  eVarType type = evtHZ;
+  mod->GetVar( "DESC", &pV, &type );
+  if( !pV || (pV && !*pV) )
+  {
+    pV = NULL;
+    mod = m_entryModule->QuickFindObj( pB->Container );
+    if( mod )
+      mod->GetVar( "DESC", &pV, &type );
+  }
+
+  char ad = ' ', io = ' ';
+  switch( pB->H_Type )
+  {
+  case W_SP_AI::TypeID:
+    fprintf( pOut, "%s.PVRAW;;AI;", pB->BlockName );
+    break;
+  case W_SP_AO::TypeID:
+    fprintf( pOut, "%s.OPFINAL;;AO;", pB->BlockName );
+    break;
+  case W_SP_DI::TypeID:
+    fprintf( pOut, "%s.PVRAW;;DI;", pB->BlockName );
+    break;
+  case W_SP_DO::TypeID:
+    {
+      SH_SP_DO* pSP_DO = (SH_SP_DO*)pB;
+      switch( pSP_DO->W->DOTYPE.V )
+      {
+      case W_SP_DO::_DOTYPE::Status:
+        fprintf( pOut, "%s.SO;;DO;", pB->BlockName );
+        break;
+      case W_SP_DO::_DOTYPE::PWM:
+        fprintf( pOut, "%s.OP;;AO;", pB->BlockName );
+        break;
+      case W_SP_DO::_DOTYPE::OnPulse:
+        fprintf( pOut, "%s.ONPULSE;;AO;", pB->BlockName );
+        break;
+      case W_SP_DO::_DOTYPE::OffPulse:
+        fprintf( pOut, "%s.OFFPULSE;;AO;", pB->BlockName );
+        break;
+      default:
+        return;
+      }
+    }
+    break;
+  case W_SP_SPDVOTE::TypeID:
+    fprintf( pOut, "%s.PV1;;AI;", pB->BlockName );
+    fprintf( pOut, "%s.PV2;;AI;", pB->BlockName );
+    fprintf( pOut, "%s.PV3;;AI;", pB->BlockName );
+    fprintf( pOut, "%s.PV4;;AI;", pB->BlockName );
+    break;
+  case W_SP_SPEED::TypeID:
+    fprintf( pOut, "%s.PVRAW;;AI;", pB->BlockName );
+    break;
+  default:
+    return;
+  }
+
+  if( pV && evtString==type )
+    fprintf( pOut, "%s", (LPCSTR)pV );
+  fprintf( pOut, ";\n");
+}
+
+void KControlBuilder::fnAssignToContainersSimpleIO( SH_Block *pB, FILE* pOut )
+{
+  char ad = ' ', io = ' ';
+  switch( pB->H_Type )
+  {
+  case W_DICHANNEL::TypeID:
+    ad = 'D';
+    io = 'I';
+    break;
+  case W_DOCHANNEL::TypeID:
+    ad = 'D';
+    io = 'O';
+    break;
+  case W_AICHANNEL::TypeID:
+    ad = 'A';
+    io = 'I';
+    break;
+  case W_AOCHANNEL::TypeID:
+    ad = 'A';
+    io = 'O';
+    break;
+  case W_HAICHANNEL::TypeID:
+    ad = 'A';
+    io = 'I';
+    break;
+  default:
+    return;
+  }
+  LPCSTR pAss = strstr( pB->BlockName, pB->AssignedTo);
+  LPCSTR pCont = strstr( pB->BlockName, pB->Container);
+  KBmBase *dest = NULL;
+  /*if( !pAss && pCont )
+  {
+    char szB[128] = {};
+    sprintf_s( szB, "%s.%s", pB->AssignedTo, pB->BlockName );
+    dest = m_entryModule->QuickFindObj( pCont );
+    KKK();
+  }*/
+  if( !pAss || !pCont )
+  {
+    if( !dest )
+      return;
+  }
+  //if( pAss==pCont )return;
+  if( !dest )
+    dest = m_entryModule->QuickFindObj( pCont );
+  ASSD( dest );
+  if( !dest )
+    return;
+  LPCSTR pField = pB->SetDestIO( dest );
+  if( pB!=dest )
+    KKK();
+  AssignValue( pB, dest, "IOP" );
+  AssignValue( pB, dest, "CHANNUM" );
+
+  if( !pOut )
+    return;
+
+  LPBYTE pV = NULL;
+  eVarType type = evtHZ;
+  dest->GetVar( "DESC", &pV, &type );
+  if( !pV || (pV && !*pV) )
+  {
+    pV = NULL;
+    dest = m_entryModule->QuickFindObj( pB->Container );
+    if( dest )
+      dest->GetVar( "DESC", &pV, &type );
+  }
+
+  if( pOut )
+  {
+    LPCSTR pszSinkFld = NULL;
+    KBmBase *pSink = m_entryModule->WhoHasConnection( pB->BlockName, pField, true, &pszSinkFld );
+    ASS( pField );
+    if( !pField )
+      pField = "PV";
+    fprintf( pOut, "%s.%s;;%c%c;", pB->BlockName, pField, ad, io );
+    if( pV && evtString==type )
+      fprintf( pOut, "%s", (LPCSTR)pV );
+    fprintf( pOut, ";\n");
+  }
+}
+
+void KControlBuilder::AssignValue( KBmBase *src, KBmBase *dest, LPCSTR pszField )
+{
+  BYTE *pVarI = NULL, *pVarO = NULL;
+  eVarType typeO = evtHZ, typeI = evtHZ;
+  USHORT varSize = 0;
+  LPCSTR pszEnum = NULL;
+  bool bo = src->GetVar( pszField, &pVarO, &typeO, &varSize, &pszEnum );
+  ASS( bo );
+
+  pszEnum = NULL;
+  bool bi = dest->GetVar( pszField, &pVarI, &typeI, &varSize, &pszEnum );
+  ASS( bi );
+
+  ASS( typeO==typeI );
+
+  switch( typeO )
+  {
+  case evtString:
+    memcpy( pVarI, pVarO, varSize );
+    break;
+  case evtInt:
+    memcpy( pVarI, pVarO, sizeof(int) );
+    break;
+  default:
+    ASS(0);
+  }
+}

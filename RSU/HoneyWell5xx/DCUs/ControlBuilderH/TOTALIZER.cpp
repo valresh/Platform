@@ -1,0 +1,169 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate TOTALIZER( "TOTALIZER", SH_TOTALIZER::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_TOTALIZER,W_TOTALIZER,50)
+
+void SH_TOTALIZER::InitParm()
+{
+#include "Blocks/TOTALIZER.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/TOTALIZER_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class TOTALIZER_IMPL : public W_TOTALIZER
+{
+public:
+  void StepT( SStepCalcParams &dt, double P1prev );
+  void SetPVSTSFL();
+};
+
+void SH_TOTALIZER::StepT( SStepCalcParams &dt )
+{
+  TOTALIZER_IMPL *impl = reinterpret_cast<TOTALIZER_IMPL*>(W);
+  double P1prev = impl->P1;
+  InputConnectionsTransfer();
+  impl->StepT( dt, P1prev );
+  impl->SetPVSTSFL();
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void TOTALIZER_IMPL::StepT( SStepCalcParams &dt, double P1prev )
+{
+  OLDAV = PV;
+  double inputP1 = P1;
+  if( IsNaN(inputP1) )
+  {
+    switch( PVEQN.V )
+    {
+    case PVEQN.EqA:
+    case PVEQN.EqD:
+      inputP1 = 0;
+      P1STS.V = P1STS.BAD;
+      PVSTS.V = PVSTS.Uncertain;
+      break;
+    case PVEQN.EqB:
+    case PVEQN.EqE:
+      inputP1 = LASTGOOD;
+      P1STS.V = P1STS.BAD;
+      PVSTS.V = PVSTS.Bad;
+      if( IsNaN(LASTGOOD) )
+        return;
+      PVSTS.V = PVSTS.Uncertain;
+      break;
+    case PVEQN.EqC:
+    case PVEQN.EqF:
+      PV = NaN;
+      STATE.V = STATE.Stopped;
+      PVSTS.V = PVSTS.Bad;
+      return;
+    default:
+      return;
+    }
+  }
+  else
+  {
+    LASTGOOD = inputP1;
+    P1STS.V = P1STS.NORMAL;
+  }
+
+  switch( COMMAND.V )
+  {
+  case COMMAND.Start:
+    STARTFL = TRUE;
+    COMMAND.V = COMMAND.None;
+    break;
+  case COMMAND.Stop:
+    STOPFL = TRUE;
+    COMMAND.V = COMMAND.None;
+    break;
+  case COMMAND.Reset:
+    RESETFL = TRUE;
+    COMMAND.V = COMMAND.None;
+    break;
+  }
+
+  if( RESETFL )
+  {
+    RESETFL = FALSE;
+    PV = RESETVAL;
+    STATE.V = STATE.Stopped;
+  }
+  if( STOPFL )
+  {
+    STOPFL = FALSE;
+    STATE.V = STATE.Stopped;
+  }
+  if( STARTFL )
+  {
+    STARTFL = FALSE;
+    STATE.V = STATE.Running;
+  }
+  if( STATE.V==STATE.Stopped )
+    return;
+
+  if( P1STS.V == P1STS.NORMAL )
+    PVSTS.V = PVSTS.Normal;
+
+  const double TS = dt / 60;
+  double time_scale = 0;
+  if( TIMEBASE.V==TIMEBASE.Seconds )
+    time_scale = dt;//TS*60
+  else if( TIMEBASE.V==TIMEBASE.Minutes )
+    time_scale = TS;
+  else if( TIMEBASE.V==TIMEBASE.Hours )
+    time_scale = TS / 60;
+
+  if( IsNaN(PV) )
+    PV = RESETVAL;
+
+  OLDAV = PV;
+
+  double _P1prev = 0;
+  if( !IsNaN(P1prev) )
+    _P1prev = P1prev;
+
+  PV = OLDAV + C1 * time_scale * ( _P1prev + ( inputP1 -_P1prev) )/2;
+  P1prev = P1;
+
+  const double d = ACCTV-PV;
+  for( int i=0; i<_countof(ACCDEV.TP); ++i )
+  {
+    if( ACCDEV.TP[i] >= d )
+      ACCDEV.FL[i] = TRUE;
+    else
+      ACCDEV.FL[i] = FALSE;
+  }
+  if( PV >= ACCTV )
+    ACCTVFL = TRUE;
+  else
+    ACCTVFL = FALSE;
+}
+
+void TOTALIZER_IMPL::SetPVSTSFL()
+{
+  switch( PVSTS.V )
+  {
+  case PVSTS.Bad:
+    PVSTSFL.BAD = TRUE;
+    PVSTSFL.NORM = FALSE;
+    PVSTSFL.UNCER = FALSE;
+    break;
+  case PVSTS.Uncertain:
+    PVSTSFL.BAD = FALSE;
+    PVSTSFL.NORM = FALSE;
+    PVSTSFL.UNCER = TRUE;
+    break;
+  case PVSTS.Normal:
+    PVSTSFL.BAD = FALSE;
+    PVSTSFL.NORM = TRUE;
+    PVSTSFL.UNCER = FALSE;
+    break;
+  }
+  PVVALSTS.PV = PV;
+  PVVALSTS.PVSTS = PVSTS.V;
+}

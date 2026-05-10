@@ -1,0 +1,74 @@
+#pragma once
+#include <BaseType.h>
+#include <TrendSrvH.h>
+#include <UniBufferT.h>
+#include <TrendsSup.h>
+#include <mio.hpp>
+
+#ifdef TRENDSKERNEL_EXPORTS
+#define TRENDSKERNEL_API _EXP
+#else
+#define TRENDSKERNEL_API _IMP
+#endif
+
+struct STrendDef
+{
+  STrendDef()
+  {
+    ZeroMemory( this, sizeof(*this) );
+    bitOffset = -1;
+  }
+  BYTE eVal;
+  void* Void;
+  DWORD dwID;
+  char name[512*4];
+  char bitOffset;
+};
+
+#pragma warning( push )
+#pragma warning( disable : 4251 )
+class TRENDSKERNEL_API KTrendsRsuKernel : public SUniBufferT<STrendDef>
+{
+protected:
+  enum
+  {
+    maxBlocksOut = 256,
+  };
+  UINT64 GetTrendSize();
+  DWORD m_nStep;
+public:
+  KTrendsRsuKernel();
+  ~KTrendsRsuKernel();
+protected:
+  void Close();
+  int StepK0();
+  int StepKT( double dtH, time_t StartTime );
+protected:
+  double m_dCurTime;
+  int    m_nInterval;
+  int    m_nSizeMB;
+  int    m_nAddMB;
+  bool   m_bInit;
+  //
+  void MapTrends();
+  virtual void WriteTrends();
+  bool OpenTrendHead();
+  bool OpenTrendData(DWORD dwName);
+  //
+  mio::mmap_sink m_hMapHead;
+  CTrendHeaderEx* m_pHeadT;
+  //
+  mio::mmap_sink m_hMapData;
+  DWORD  m_dwBklTotal;// Количество записей в файле
+  DWORD  m_dwBlkAlloc;// Периодичность вызова MapViewOfFile
+  BYTE * pbBegWnd;
+  float* m_pDataT;
+  UINT64 m_AllocLeft;//осталось места для записи
+  //
+  virtual void FillArray() = 0;
+  virtual void FillHeader();
+  UINT64  m_nSizeVar;//Count()*sizeof(float)
+  //
+  //BYTE* MapView( HANDLE hHandle, UINT64 dwOffset, SIZE_T dwSize );
+};
+#pragma warning( pop )

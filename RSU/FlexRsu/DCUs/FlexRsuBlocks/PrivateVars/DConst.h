@@ -1,0 +1,1 @@
+PrivateDigital32( VALUE )

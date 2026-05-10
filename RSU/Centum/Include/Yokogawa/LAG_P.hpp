@@ -1,0 +1,5 @@
+YPARM_D(GAIN,1.,"RTGN");
+YPARM_D(I,1.,"----")
+YPARM_DD(SH,SL,DBL_MAX,DBL_MAX,"ESCL","%D:%D") 
+YPARM_L(Aux,0,"SUOC","%{CPV;DCPV}")
+YPARM_B(PV_Overshoot,false,"OVPV")

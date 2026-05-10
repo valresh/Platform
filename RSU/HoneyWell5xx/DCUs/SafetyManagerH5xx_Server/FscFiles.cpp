@@ -1,0 +1,287 @@
+#include "FscFiles.h"
+#include <macros/AutoCloser.h>
+#include <macros/FileFind.h>
+
+CFscFiles::CFscFiles(void)
+: mFile(mList)
+{
+}
+
+CFscFiles::~CFscFiles(void)
+{
+}
+
+bool CFscFiles::BuildListFsc( IFscStorage* fsc, LPCSTR pszFileMask, SUniTemp &temp, SFldsInfo *pFldsInfo /*= NULL*/, int nFI /*= 0*/ )
+{
+  bool bReturn = Load( fsc, pszFileMask, temp, pFldsInfo, nFI );
+  ASS( bReturn );
+  for( int n = 0; n < 3; n++ )
+    Link( fsc, temp, -1 );
+  return bReturn;
+}
+
+void CFscFiles::Link( IFscStorage* fsc, SUniTemp& temp, UINT nParent )
+{
+  UINT nProc = 0;
+  ASS( temp.Count() == mList.Count() );
+  const UINT nCount = mFile.Count();
+  for ( UINT n = 0; n < nCount; n++ )
+  {
+    LFscFile& item = mFile.Item(n);
+    if ( item.nParent != nParent )
+      continue;
+    // Увязываем входные точки
+    if ( nParent != -1 )
+      nProc = SetInput( temp, n );
+    //
+    // Устанавливаем связи для данного файла
+    mList.Link( fsc, temp, item.nPlace, item.nCount );
+    // Увязываем выходные точки
+    if ( nParent != -1 )
+      SetOutput( temp, nProc, item );
+    //
+    // Проход по подпрограммам
+    if ( item.nChild != -1 )
+    {
+      // Рекурсивно устанавливаем связи
+      Link( fsc, temp, n);
+      // Повторяем установку связей с учётом выходных точек
+      mList.Link( fsc, temp, item.nPlace, item.nCount );
+    }
+  }
+}
+// Увязываем входные точки
+UINT CFscFiles::SetInput( SUniTemp& temp, UINT nProc )
+{
+  const UINT nList = mList.Count();
+  UINT nProcedure = -1;
+  SProcedure* proc = NULL;
+  SEquationBlock *equt = NULL;
+  for ( UINT n = 0; n < nList; n++ )
+  {
+    SFscBase* item = mList.Item(n);
+    if ( item->mT != 0x41 )
+      continue;
+    SProcedure* dat = (SProcedure*)mBuff.Data( item->nBuff );
+    if ( dat->nPlace != nProc )
+      continue;
+    //
+    if ( proc == NULL )
+    {
+      proc = dat;
+      nProcedure = n;
+      //break;
+    }
+    else
+    {
+      // Ссылка может быть только одна!!!!!
+      ASS(0);
+    }
+  }
+
+  if( !proc )
+  {
+    for ( UINT n = 0; n < nList; n++ )
+    {
+      SFscBase* item = mList.Item(n);
+      if ( item->mT != 0x1C )
+        continue;
+      SEquationBlock* dat = (SEquationBlock*)mBuff.Data( item->nBuff );
+      if ( dat->nPlace != nProc )
+        continue;
+      //
+      if ( equt == NULL )
+      {
+        equt = dat;
+        nProcedure = n;
+        //break;
+      }
+      else
+      {
+        // Ссылка может быть только одна!!!!!
+        ASS(0);
+      }
+    }
+  }
+  ASSD( proc || equt );
+  if( !proc && !equt)
+    return nProcedure;
+
+  if ( proc )
+  {
+    LFscFile& file = mFile.Item(nProc);
+    UINT nCount = file.nPlace+file.nCount;
+    for ( UINT n = file.nPlace; n < nCount; n++ )
+    {
+      SFscBase* item = mList.Item(n);
+      //Входы Дискретная точка    Аналоговая точка
+      if ( !( item->mT == 0x42 || item->mT == 0x43 ) )
+        continue;
+      SProcInOut* dat = (SProcInOut*)mBuff.Data(item->nBuff);
+      UINT m = 0;
+      for( m = 0; m < proc->nI; m++ )
+      {
+        if( dat->io != proc->pI[m] )
+          continue;
+        dat->IO = proc->I[m];
+        if ( dat->IO != -1 )
+        {
+          ns_UT::SLocalTmp* loc = temp.Item(n);
+          loc->nCount = 1;
+          loc->dim[0] = dat->IO;
+        }
+        break;
+      }
+      ASS( m < proc->nI );
+    }
+    return nProcedure;
+  }
+  if( equt )
+  {
+    LFscFile& file = mFile.Item(nProc);
+    equt->nFirstPlaceRow = file.nPlace;
+    equt->nLastPlaceRow = file.nPlace + file.nCount;
+    return nProcedure;
+  }
+
+  return nProcedure;
+}
+// Увязываем выходные точки
+void CFscFiles::SetOutput( SUniTemp& temp, UINT nProc, LFscFile& file )
+{
+  if ( nProc == -1 ) return;
+  SFscBase*   base = mList.Item(nProc);
+  SProcedure* proc = (SProcedure*)mBuff.Data(base->nBuff);
+  //
+  UINT nCount = file.nPlace+file.nCount;
+  for ( UINT n = file.nPlace; n < nCount; n++ )
+  {
+    SFscBase* item = mList.Item(n);
+    //Выход Дискретная точка    Аналоговая точка
+    if ( !( item->mT == 0x44 || item->mT == 0x45 ) )
+      continue;
+    SProcInOut* dat = (SProcInOut*)mBuff.Data(item->nBuff);
+    for ( UINT m = 0; m < proc->nO; m++ )
+      if  ( proc->pO[m] == dat->io )
+      {
+        proc->O[m] = dat->IO;
+        if ( dat->IO != -1 )
+        {
+          ns_UT::SLocalTmp* loc = temp.Item(nProc);
+          loc->nCount = proc->nO;
+          ASSD( m < _countof(loc->dim) );
+          loc->dim[m] = dat->IO;
+        }
+        break;
+      }
+  }
+}
+
+bool CFscFiles::Load( IFscStorage* fsc, LPCSTR pszFileMask, SUniTemp& temp, SFldsInfo *pFldsInfo, int nFI )
+{
+  KFileFind files(pszFileMask);
+  if (0 == files.files().size())
+  {
+      return false;
+  }
+
+  files.SortByNumericExtension(); 
+  for (const auto& file : files.files())
+  {
+
+    std::string filename = fs::path(file).filename().string();
+    size_t dl = filename.length();
+    filename = filename.substr(dl - 5);
+    if(filename[0] != '.' )
+      continue;
+    filename = filename.erase(0,1);
+    const int n = atoi(filename.c_str());
+    for (int i=0; i< filename.length(); i++)
+    {
+      ASS( isdigit(filename[i]));
+    }
+    // Берём только блокировки.
+    // Процедуры будут подключаться по мере надобности
+    bool isProgram = true;
+    SFldsInfo *pInfo = NULL;
+    for( int i=0; i<nFI; ++i )
+    {
+      if( n!=pFldsInfo[i].nFld )
+        continue;
+      if( SFldsInfo::Program!=pFldsInfo[i].type )
+        isProgram = false;
+      pInfo = &pFldsInfo[i];
+      break;
+    }
+    if( !isProgram )
+      continue;
+    UINT nReturn = mFile.LoadFile( fsc, file.c_str(), n, -1, temp, -1);
+    if ( nReturn == -1 )
+      return false;
+    LFscFile& item = mFile.Item(nReturn);
+    if( pInfo )
+    {
+      strcpy_s( item.szTagName, pInfo->szTagName );
+      strcpy_s( item.szTitle, pInfo->szTitle );
+    }
+  }
+
+  return true;
+}
+
+UINT CFscFiles::AddFscBuff( void* Void, int nSize )
+{
+  return mBuff.AddBuff( (const char*)Void, nSize );
+}
+
+void* CFscFiles::Data( UINT n )
+{
+  return (void*)mBuff.Data( n );
+}
+
+UINT CFscFiles::AddFscDots( SDotValue* add )
+{
+  return mDots.AddObj( add );
+}
+
+SDotValue* CFscFiles::DotV( UINT n )
+{
+  return mDots.Item( n );
+}
+
+UINT CFscFiles::ItemLink( UINT nLink )
+{
+  return mNext.Item(nLink);
+}
+
+UINT CFscFiles::NextLink( UINT nLink )
+{
+  return mNext.Next(nLink);
+}
+
+UINT CFscFiles::PlusLink( UINT nLink, UINT nData )
+{
+  return mNext.AddInEnd( nLink, nData );
+}
+
+SPointIn* CFscFiles::PointIn (UINT n)
+{
+  return mBuff.PointIn(n);
+}
+
+SPointOut* CFscFiles::PointOut(UINT n)
+{
+  return mBuff.PointOut(n);
+}
+
+#ifdef _WIN32
+LFscBase* CFscFiles::FscInRect( UINT nFile, POINT point )
+{
+  return mFile.PtInRect( nFile, point);
+}
+#endif
+
+int CFscFiles::GetVars( LFscBase *obj, SVarInfo *pvi, int cVI, LPCSTR *ppPntName )
+{
+  return mList.GetVars( this, obj, pvi, cVI, ppPntName );
+}

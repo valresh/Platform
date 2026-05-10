@@ -1,0 +1,109 @@
+#include <rsuErr.h>
+#include "AlarmTestPV.h"
+
+static SBlockCreate FLAG( "FLAG", SH_FLAG::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_FLAG,W_FLAG,55)
+
+void SH_FLAG::InitParm()
+{
+#include "Blocks/FLAG.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/FLAG_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+void SH_FLAG::StepAfterRestoreState()
+{
+  W->OFFNRMALM.FL = 0;
+  W->INALM = 0;
+}
+
+bool SH_FLAG::IsArmAssigned()
+{
+  return W->cfa ? true : false;
+}
+
+class FLAG_IMPL : public W_FLAG
+{
+public:
+  void StepT( SStepCalcParams &dt, LPCSTR pFullName );
+};
+
+void SH_FLAG::OnAssignField( LPCSTR pszFieldName )
+{
+  if( !strcmp(pszFieldName,"PVFL") )
+    W->cfa = true;
+}
+
+void SH_FLAG::StepT( SStepCalcParams &dt )
+{
+  bool *pRest = NULL;
+  if( W->cfa )
+  {
+    for( size_t i=0; i<inConsC; ++i )
+    {
+      if( !pInConns[i].enabledTrasfer )
+        continue;
+      if( !strcmp(pInConns[i].szInFld,"PVFL") )
+      {
+        pInConns[i].enabledTrasfer = false;
+        pRest = &pInConns[i].enabledTrasfer;
+        break;
+      }
+    }
+    W->cfa = false;
+  }
+  InputConnectionsTransfer();
+  if( pRest )
+    *pRest = true;
+  FLAG_IMPL *impl = reinterpret_cast<FLAG_IMPL*>(W);
+  impl->StepT( dt, BlockName );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void FLAG_IMPL::StepT( SStepCalcParams &dt, LPCSTR pFullName )
+{
+  if( PVFL )
+  {
+    strcpy_s( PV, STATETEXT[1] );
+    STATE0 = 0;
+    STATE1 = 1;
+    if( NORMAL.V == NORMAL.State1 )
+    {
+      if( OFFNRMALM.FL && pAlarm )
+        (*pAlarm)( pFullName, A_OFN, OFFNRMALM.PR, false, PVFL, NULL, 0, PV );
+      OFFNRMALM.FL = 0;
+      INALM = 0;
+    }
+    else
+    {
+      if( OFFNRMALM.FL == 0 && pAlarm )
+        (*pAlarm)( pFullName, A_OFN, OFFNRMALM.PR, true, PVFL, NULL, 0, PV );
+      OFFNRMALM.FL = 1;
+      INALM = 1;
+    }
+  }
+  else
+  {
+    strcpy_s( PV, STATETEXT[0] );
+    STATE0 = 1;
+    STATE1 = 0;
+    if( NORMAL.V == NORMAL.State0 )
+    {
+      if( OFFNRMALM.FL && pAlarm )
+        (*pAlarm)( pFullName, A_OFN, OFFNRMALM.PR, false, PVFL, NULL, 0, PV );
+      OFFNRMALM.FL = 0;
+      INALM = 0;
+    }
+    else
+    {
+      if( OFFNRMALM.FL == 0 && pAlarm )
+        (*pAlarm)( pFullName, A_OFN, OFFNRMALM.PR, true, PVFL, NULL, 0, PV );
+      OFFNRMALM.FL = 1;
+      INALM = 1;
+    }
+  }
+}

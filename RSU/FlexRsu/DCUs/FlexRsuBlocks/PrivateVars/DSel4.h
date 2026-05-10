@@ -1,0 +1,6 @@
+PrivateDigital32Savebale( A )
+PrivateDigital32Savebale( B )
+PrivateDigital32Savebale( C )
+PrivateDigital32Savebale( D )
+PrivateDigital32Savebale( SEL )
+PrivateDigital32Savebale( O )

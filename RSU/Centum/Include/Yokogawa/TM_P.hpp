@@ -1,0 +1,9 @@
+YPARM_S(Comment,64,"ETCM")
+YPARM_D(PH,100000.,"----")
+YPARM_D(PL,0.,"----")
+YPARM_Dref(DL,W->PL,"----")
+//
+YPARM_I(AlarmLevel,3,"EALA")
+YPARM_B(BAD_connection_alarm,false,"ILCN")
+YPARM_L(SecMin,0,"TKSW","%{SEC;MIN}")
+YPARM_B(Periodical,false,"PACT")

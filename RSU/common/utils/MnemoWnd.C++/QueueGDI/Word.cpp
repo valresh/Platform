@@ -1,0 +1,129 @@
+#include "Queue.h"
+#include "../Lang.h"
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Структура
+struct Queue_Word : public SPROLOZ
+  {
+  int dl;
+  char* text;
+  int nAlign;
+  RECT rcOut;
+  bool bCalc;
+  } ;
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void ClearWord(SQueue& q,void* s)
+  {
+  //Queue_Word* p = (Queue_Word*)s;
+  //delete [] p->text;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Функция отображения
+int PaintWord(DefinePaint)
+  {
+  //QueueP(Queue_Word);
+  //int nOldAlign = ::SetTextAlign( hDC, TA_LEFT|TA_TOP );
+  //if ( p->bCalc && ((p->nAlign & DT_VCENTER) || (AOP_TOBOLSK!=Version)) )
+  //  {
+  //  RECT rect = p->rcOut;
+  //  ::DrawText( hDC, p->text, p->dl, &rect, p->nAlign|DT_WORDBREAK|DT_CALCRECT );
+  //  int y = (p->mRect.bottom-rect.bottom)/2;
+  //  ::OffsetRect( &p->rcOut, 0, y );
+  //  p->bCalc = false;
+  //  }
+  //else  p->bCalc = false;
+  //if((p->nAlign&DT_VCENTER) || (AOP_TOBOLSK!=Version))
+  //  ::DrawText( hDC, p->text, p->dl, &p->rcOut, p->nAlign|DT_WORDBREAK );
+  //else ::DrawText( hDC, p->text, p->dl, &p->rcOut, p->nAlign );
+  //::SetTextAlign( hDC, nOldAlign );
+  return 1;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddWord(DefineTegs)
+  {
+  AddQueueEx(Queue_Word);
+  // Код, посылаемый в АРМ
+  p->btSendType = QUEUE_NO;
+  // Определение функции вывода
+  p->paint = &PaintWord;
+  p->clear = &ClearWord;
+  //
+  STegObj obj[] =
+    {
+    { 'R', "rect" , &p->mRect },
+    { 'E', "rc"   , &p->mRect },
+    { 'W', "a"    , &p->nAlign },
+    { 'W', "align", &p->nAlign },
+    };
+  //
+  ::ParserObjScn( teg, obj, sizeof(obj)/sizeof(STegObj) );
+  p->dl = lstrlen(teg[0].value);
+  p->text = new char[p->dl+1];
+  Multiline( p->text, teg[0].value, p->dl+1 );
+  p->dl = lstrlen(p->text);
+  p->bCalc = (p->nAlign & DT_VCENTER) == DT_VCENTER;
+  p->rcOut = p->mRect;
+  managed::RegisterElement(teg->name, p);
+  //
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddWordDbl   (DefineTegs)
+  {
+  //AddQueueEx(Queue_Word);
+  //// Код, посылаемый в АРМ
+  //p->btSendType = QUEUE_NO;
+  //// Определение функции вывода
+  //p->paint = &PaintWord;
+  //p->clear = &ClearWord;
+  //int nFloat = 0;
+  ////
+  //STegObj obj[] =
+  //  {
+  //  { 'R', "rect" , &p->mRect  },
+  //  { 'E', "rc"   , &p->mRect  },
+  //  { 'I', "float", &nFloat },
+  //  { 'W', "a"    , &p->nAlign },
+  //  { 'W', "align", &p->nAlign },
+  //  };
+  ////
+  //::ParserObjScn( teg, obj, sizeof(obj)/sizeof(STegObj) );
+  ////
+  //p->text = new char[32];
+  //double dValue = Atof(teg[0].value);
+  //char filtr[8] = "%.0f";
+  //filtr[2] += nFloat;
+  //sprintf_s( p->text, 32, filtr, dValue );
+  //p->dl = lstrlen(p->text);
+  //p->bCalc = (p->nAlign & DT_VCENTER) == DT_VCENTER;
+  //p->rcOut = p->mRect;
+  //
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddWordInt   (DefineTegs)
+  {
+  //AddQueueEx(Queue_Word);
+  //// Код, посылаемый в АРМ
+  //p->btSendType = QUEUE_NO;
+  //// Определение функции вывода
+  //p->paint = &PaintWord;
+  //p->clear = &ClearWord;
+  ////
+  //STegObj obj[] =
+  //  {
+  //  { 'R', "rect" , &p->mRect },
+  //  { 'E', "rc"   , &p->mRect },
+  //  { 'W', "a"    , &p->nAlign },
+  //  { 'W', "align", &p->nAlign },
+  //  };
+  ////
+  //::ParserObjScn( teg, obj, sizeof(obj)/sizeof(STegObj) );
+  ////
+  //p->text = new char[32];
+  //int nValue = Atoi(teg[0].value);
+  //sprintf_s( p->text, 32, "%d", nValue );
+  //p->dl = lstrlen(p->text);
+  //p->bCalc = (p->nAlign & DT_VCENTER) == DT_VCENTER;
+  //p->rcOut = p->mRect;
+  ////
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

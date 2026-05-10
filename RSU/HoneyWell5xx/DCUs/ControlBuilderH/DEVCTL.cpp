@@ -1,0 +1,386 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate DEVCTL( "DEVCTL", SH_DEVCTL::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_DEVCTL,W_DEVCTL,255)
+
+void SH_DEVCTL::InitParm()
+{
+#include "Blocks/DEVCTL.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/DEVCTL_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+void SH_DEVCTL::StepAfterRestoreState()
+{
+  W->HIALM.PR = __ALPRIOR::None;
+  W->HIALM.TYPE = __DACALMTYPE::None;
+  W->HIALM.SV = 0;
+  for( int i=0; i<_countof(W->PI); ++i )
+  {
+    W->PI[i] = true;
+    if( !W->PI[i] )
+    {
+      OutputDebugString( BlockName );OutputDebugString("\n");
+      break;
+    }
+  }
+  if( W->OI[0] == 0 && W->OI[1] == 0 && W->OI[2] == 0 && W->MOMSTATE.V != 0 )
+  {
+    W->MOM_TIMEOUT = 5;
+  }
+  ASSD( W->PVSRCOPT.V <= W->PVSRCOPT.All )
+}
+
+class DEVCTL_IMPL : public W_DEVCTL
+{
+public:
+  void StepT( SStepCalcParams &dt );
+protected:
+  void SetPV( double dt );
+  void SetOP( double dt );// Автомат. изменение OP
+  void OutPut( double dt );
+};
+
+int g_All2MomState = 0;
+
+void SH_DEVCTL::StepT( SStepCalcParams &dt )
+{
+  //if( !strcmp(BlockName,"131JCA1.DEVCTLA") )
+    //KKK();
+  bool bHaveGOPConnection = false;
+  for( size_t i=0; i<inConsC; ++i )
+  {
+    if( 'G'==pInConns[i].szInFld[0] && 'O'==pInConns[i].szInFld[1] && 'P'==pInConns[i].szInFld[2])
+    {
+      bHaveGOPConnection = true;
+      pInConns[i].enabledTrasfer = W->MODEATTR.V == W->MODEATTR.Program ? true : false;
+    }
+  }
+  char OLDModeattr = W->MODEATTR.V;
+  InputConnectionsTransfer();
+  if ( W->MODEATTR.V > 3 )
+    W->MODEATTR.V = OLDModeattr;
+  if ( bHaveGOPConnection && W->MODEATTR.V == W->MODEATTR.Program )
+    W->OP.V = W->GOP.V;
+  DEVCTL_IMPL *impl = reinterpret_cast<DEVCTL_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+
+void SH_DEVCTL::OnAssignField( LPCSTR pszFieldName )
+{
+  if( !strcmp(pszFieldName,"GOP") )
+    W->OP.V = W->GOP.V;
+}
+//////////////////////////////////////////////////////////////////////////
+void DEVCTL_IMPL::StepT( SStepCalcParams &dt )
+{
+  SetPV( dt );
+  
+  ZeroMemory( PVFL, sizeof(PVFL) );
+  if( GPV.V == GPV.S0 )
+    PVFL[0] = 1;
+  if( GPV.V == GPV.S1 )
+    PVFL[1] = 1;
+  if( GPV.V == GPV.S2 )
+    PVFL[2] = 1;
+  if( GPV.V == GPV.Null )
+    NULLPVFL = 1;
+  else
+    NULLPVFL = 0;
+  if( GPV.V == GPV.Inbet )
+    INBETFL = 1;
+  else
+    INBETFL = 0;
+
+  SetOP( dt );
+
+  OutPut( dt );
+
+  if( PVSRCOPT.V == PVSRCOPT.All && PVSOURCE.V == PVSOURCE.Track )
+  {
+    GPV.V = OP.V;
+    PV.V = GPV.V;
+  }
+}
+
+void DEVCTL_IMPL::SetPV( double dt )
+{
+  if( NUMDINPTS<=0 )
+    return;
+  int M = 1;
+  int N = 0;
+  for ( int n = 1; n <= NUMDINPTS; n++ )
+  {
+    if ( DI[n] )
+      N |= M;
+    M = M << 1;
+  }
+  
+  int STATEindex = 0;
+  for( int i=0; i<_countof(STATETEXT); ++i )
+  {
+    if( !strcmp(DIPVMAP[N], STATETEXT[i]) )
+    {
+      STATEindex = i;
+      strcpy_s( PVAUTO, STATETEXT[i] );
+      break;
+    }
+  }
+
+  GPVAUTO.V = STATEindex;//DIPVMAP[N]
+
+  if( (PVSRCOPT.V == PVSRCOPT.All || PVSRCOPT.V == PVSRCOPT.OnlyAuto) && PVSOURCE.V == PVSOURCE.Auto )
+  {
+    GPV.V = GPVAUTO.V;
+    PV.V = GPV.V;
+  }
+}
+
+void DEVCTL_IMPL::SetOP( double dt )
+{
+  if( SI )
+  {
+    OP.V = GOP.V = SAFEOP.V;
+    MOM_TIMEOUT = 0.;
+    strcpy_s( OPFINAL, STATETEXT[GOP.V] );
+    return;
+  }
+  if( MODEATTR.Program==MODEATTR.V )
+  {
+    MODEATTRFL.PROG = true;
+    if( SAFEOP.V == SAFEOP.S0 )
+    {
+      // По приоритетам
+      if ( OPCMD[0] )
+        OP.V = OP.S0;
+      else
+      {
+        if ( OPCMD[1] )
+          OP.V = OP.S1;
+        else if ( OPCMD[2] )
+          OP.V = OP.S2;
+      }
+    }
+    if( SAFEOP.V == SAFEOP.S1 )
+    {
+      // По приоритетам
+      if ( OPCMD[1] )
+        OP.V = OP.S1;
+      else
+      {
+        if ( OPCMD[0] )
+          OP.V = OP.S0;
+        else if ( OPCMD[2] )
+          OP.V = OP.S2;
+      }
+    }
+    if( SAFEOP.V == SAFEOP.S2 )
+    {
+      // По приоритетам
+      if ( OPCMD[2] )
+        OP.V = OP.S2;
+      else
+      {
+        if ( OPCMD[0] )
+          OP.V = OP.S0;
+        else if ( OPCMD[1] )
+          OP.V = OP.S1;
+      }
+    }
+  }
+  else
+  {
+    MODEATTRFL.PROG = false;
+  }
+
+  if( OI[0] == 0 && OI[1] == 0 && OI[2] == 0 )
+  {
+	  if( g_All2MomState>0 || MOM_TIMEOUT < -9 )
+    {
+      MOM_TIMEOUT = 5;
+    }
+    if( MOM_TIMEOUT > 0. )
+    {
+      MOM_TIMEOUT -= dt;
+      if ( MOM_TIMEOUT <= 0. )
+      {
+        OP.V = GOP.V = SAFEOP.V;
+        MOM_TIMEOUT = 0.;
+        strcpy_s( OPFINAL, STATETEXT[GOP.V] );
+        return ;
+      }
+    }
+    // Считаем, что оператор задает OP
+    if( GOP.V!=OP.V && OP.V!=SAFEOP.V )
+    {
+      switch( MOMSTATE.V  )
+      {
+      case _MOMSTATE::None:
+        break;
+      case _MOMSTATE::STATE_0:
+        if( _OP::S0==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      case _MOMSTATE::STATE_1:
+        if( _OP::S1==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      case _MOMSTATE::STATE_0AND1:
+        if( _OP::S0==OP.V || _OP::S1==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      case _MOMSTATE::STATE_2:
+        if( _OP::S2==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      case _MOMSTATE::STATE_0AND2:
+        if( _OP::S0==OP.V || _OP::S2==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      case _MOMSTATE::STATE_1AND2:
+        if( _OP::S1==OP.V || _OP::S2==OP.V )
+          MOM_TIMEOUT = 5;
+        break;
+      }
+    }
+    if( !BYPASS )
+    {
+      switch( OP.V )
+      {
+      case _OP::S0:
+        if( !PI[0] )
+          OP.V = GOP.V, MOM_TIMEOUT = 0;
+        break;
+      case _OP::S1:
+        if( !PI[1] )
+          OP.V = GOP.V, MOM_TIMEOUT = 0;
+        break;
+      case _OP::S2:
+        if( !PI[2] )
+          OP.V = GOP.V, MOM_TIMEOUT = 0;
+        break;
+      }
+    }
+    GOP.V = OP.V;
+    strcpy_s( OPFINAL, STATETEXT[GOP.V] );
+    return ;
+  }
+  if( _MOMSTATE::None != MOMSTATE.V )
+    MOM_TIMEOUT = -10;
+  if ( SAFEOP.V == SAFEOP.S0 && !BYPASS )
+  {
+    // По приоритетам
+    if ( OI[0] )
+      OP.V = OP.S0;
+    else
+    {
+      if ( OI[1] )
+        OP.V = OP.S1;
+      else
+        OP.V = OP.S2;
+    }
+  }
+  if ( SAFEOP.V == SAFEOP.S1 && !BYPASS )
+  {
+    // По приоритетам
+    if ( OI[1] )
+      OP.V = OP.S1;
+    else
+    {
+      if ( OI[0] )
+        OP.V = OP.S0;
+      else
+        OP.V = OP.S2;
+    }
+  }
+  if ( SAFEOP.V == SAFEOP.S2 && !BYPASS )
+  {
+    // По приоритетам
+    if ( OI[2] )
+      OP.V = OP.S2;
+    else
+    {
+      if ( OI[0] )
+        OP.V = OP.S0;
+      else
+        OP.V = OP.S1;
+    }
+  }
+  GOP.V = OP.V;
+  strcpy_s( OPFINAL, STATETEXT[GOP.V] );
+}
+
+void DEVCTL_IMPL::OutPut( double dt )
+{
+  GOPFINAL.V = GOP.V;
+
+  if( GOPFINAL.V == GOPFINAL.S0 )
+  {
+    for ( int n = 1; n <= NUMDOUTS; n++ )
+    {
+      if ( OPDOMAP[0][n] )
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = PULSEWIDTH[n];
+        else
+          DO[n] = 1;
+      }
+      else
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = 0.;
+        else
+          DO[n] = 0;
+      }
+    }
+    return ;
+  }
+  if ( GOPFINAL.V == GOPFINAL.S1 )
+  {
+    for ( int n = 1; n <= NUMDOUTS; n++ )
+    {
+      if ( OPDOMAP[1][n] )
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = PULSEWIDTH[n];
+        else
+          DO[n] = 1;
+      }
+      else
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = 0.;
+        else
+          DO[n] = 0;
+      }
+    }
+    return ;
+  }
+  if ( GOPFINAL.V == GOPFINAL.S2 )
+  {
+    for ( int n = 1; n <= NUMDOUTS; n++ )
+    {
+      if ( OPDOMAP[2][n] )
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = PULSEWIDTH[n];
+        else
+          DO[n] = 1;
+      }
+      else
+      {
+        if ( POCONNECTED[n] )
+          PO[n] = 0.;
+        else
+          DO[n] = 0;
+      }
+    }
+  }
+
+}

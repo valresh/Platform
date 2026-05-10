@@ -1,0 +1,16 @@
+#include "QbTranslator.h"
+#include <algorithm>
+
+int KQbTranslator::AddVar( LPCSTR pszName, KVar::eType Type )
+{
+  tVarCont_::iterator it = std::find( m_Vars.begin(), m_Vars.end(), pszName );
+  if( m_Vars.end()!=it )
+  {
+    return (int)std::distance( m_Vars.begin(), it );
+  }
+
+  m_Vars.push_back( KVar(pszName, Type) );
+
+  int N = (int)m_Vars.size()-1;
+  return N;
+}

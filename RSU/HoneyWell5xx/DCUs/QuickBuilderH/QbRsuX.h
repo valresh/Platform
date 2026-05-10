@@ -1,0 +1,21 @@
+#pragma once
+#include <RsuX.h>
+
+class KQbRsuX
+{
+  KRsuX bl1, bl2;
+  int nBlocks;
+  LPCSTR pszDataType;
+public:
+  KQbRsuX();
+  int LinkTo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pszFile );
+  int LinkToBl2( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pszFile, LPCSTR pszDataType );
+  void ManualInit( nRSUx::SParamInfo &info );
+  bool IsConnected();
+  void Reset();
+  operator int();
+  operator double();
+  operator BYTE();
+  void operator = ( int thr );
+  void operator = ( double thr );
+};

@@ -1,0 +1,2 @@
+YPARM_S(Comment,64,"ETCM")
+YPARM_S_A(PHAS,16,16,"")

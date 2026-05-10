@@ -1,0 +1,53 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate LE( "LE", SH_LE::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_LE,W_LE,11)
+
+void SH_LE::InitParm()
+{
+#include "Blocks/LE.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/LE_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class LE_IMPL : public W_LE
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_LE::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  LE_IMPL *impl = reinterpret_cast<LE_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+//////////////////////////////////////////////////////////////////////////
+void LE_IMPL::StepT( SStepCalcParams &dt )
+{
+  double V1 = IN[1];
+  double V2 = (1==NUMOFINPUTS) ? TP : IN[2];
+
+  if( IsNaN(V1) )
+  {
+    OUT = INBADOPT;
+    return;
+  }
+
+  if( 2==NUMOFINPUTS && IsNaN(V2) )
+  {
+    OUT = INBADOPT;
+    return;
+  }
+
+  if( V1 <= V2 )
+    OUT = 1;
+  else if ( V1 > (V2 + DEADBAND) )
+    OUT = 0;
+}

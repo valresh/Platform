@@ -1,0 +1,8 @@
+#pragma once
+#include "crossplatform.h"
+
+#ifdef SERVEREXSHAREDPLUGIN_FLEXRSU_EXPORTS
+#define SERVEREXSHAREDPLUGIN_FLEXRSU_API _EXP
+#else
+#define SERVEREXSHAREDPLUGIN_FLEXRSU_API _IMP
+#endif

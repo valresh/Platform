@@ -1,0 +1,10 @@
+#include "QuickBuilder.h"
+
+int KQuickBuilder::StepTL( double dt_sec )
+{
+  for( DWORD n=0; n<m_nPoints; ++n )
+  {
+    m_ppPoints[n]->StepT( dt_sec );
+  }
+  return 0;
+}

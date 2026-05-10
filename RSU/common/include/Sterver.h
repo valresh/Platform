@@ -1,0 +1,122 @@
+#pragma once
+//#include "MnemoWnd.h"
+#include <mutex>
+#ifndef _WIN32
+    #include <cfloat>
+#endif
+#include "BaseType.h"
+#include "Common.h"
+#include "UniBuffer.h"
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#undef CLIENTDLL_API
+#if defined(_WIN32)
+    #ifdef QUEUEAPM_EXPORTS
+        #define CLIENTDLL_API __declspec(dllexport)
+    #else
+        #define CLIENTDLL_API __declspec(dllimport)
+    #endif
+#else
+    #ifdef QUEUEAPM_EXPORTS
+        #define CLIENTDLL_API __attribute((visibility("default")))
+    #else
+        #define CLIENTDLL_API
+    #endif
+#endif
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+struct SSterver
+  {
+  //В первом байте сидит длина имени с нулем на конце(для экономии)
+  char szName[128];// Имя на мнемосхеме
+  char szServ[128];// Имя в модели (comment)
+  UINT     nType ;// Тип устройства
+  int      nShift;// Смещение в общем массиве
+  int        nTeg;// Номер записи в tegs.scn
+  BYTE      nEala;// Таблица сигнализаций
+  };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+struct SParamValue
+  {
+  SParamValue() : nNumber(-1), def(NULL){}
+  SParamValue(int n,SValueDef* d) : nNumber(n), def(d){}
+  UINT   nNumber;
+  SValueDef* def;
+  void Init( int n, EDataTypes e, const char* p )
+    {
+    nNumber = n; def = ::NameToValue( e, p );
+    }
+  };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+struct CShBase;
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#pragma warning ( disable : 4275 )
+class CLIENTDLL_API CSterver : public SUniBuffer
+{
+  inline void Assert( SParamValue& var, EValueType a2 );
+  CharMP m_szActObj;
+  public:
+  int m_nActive;
+  protected:
+    #ifdef MULTITHREAD
+	  CRITICAL_SECTION m_lock;
+    #endif
+  SUniBuffer mData;// Данные для запроса у сервера
+  public:
+    CSterver();
+    virtual ~CSterver();
+    //
+    SSterver* Item(UINT n = 0)
+      {
+      return (SSterver*)Obj(n);
+      }
+    SSterver& GetAt(int n)
+      {
+      SSterver* lst = (SSterver*)m_szBuffer;
+      return lst[n];
+      }
+    UINT   Size() { return mData.m_nCurrent;}
+    void*  Data(int nObj = 0) { return mData.Obj(nObj); }
+    UINT Active() { return m_nActive; }
+    CShBase* Base ( UINT nNumber );
+    CShBase* Base ( SSterver& st );
+    //
+    static CShBase* GetSh(int eType);
+    //
+    int AddAcy(UINT nType,LPCTSTR pszName,BYTE nEALA);
+    int AddObj(int nTag);
+    int FindObj ( UINT nType,const char* szServ,const char* szName );
+    int AddSxema(const char* pszName, int nType );
+    //
+    bool IsTrueSh  ( UINT nNumber, UINT type );
+    //
+    const char* GetMnemoName( UINT nNumber );
+    const char* GetModelName( UINT nNumber );
+    UINT        GetMnemoType( UINT nNumber );
+    int         GetMnemoTags( UINT nNumber );
+    int         GetAlarmTags( UINT nNumber );
+    //
+    CShBase   & SH( UINT nNumber );
+    CShBase   * Sh( UINT nNumber );
+    //
+    void*  ParamValue( SParamValue& var );
+    double ValueD( SParamValue& var, double dDef = DBL_MAX );
+	double ValueF( SParamValue& var, double dDef = NaN );
+    BYTE   ValueB( SParamValue& var, BYTE   bDef = 0xff );
+    int    ValueI( SParamValue& var, int    nDef = -1 );
+    char*  ValueS( SParamValue& var, char*  sDef = "" );
+    bool   ValueL( SParamValue& var, bool   bDef = false );
+    //    
+    void ActObj( const char* szObj ){lstrcpy( m_szActObj, szObj );}
+    const char* ActObj(){return m_szActObj;}
+	UINT  GetActive() { return m_nActive; }
+	bool IsTrueUnit( UINT nNumber );
+    //
+    bool FillValue( char* text, SParamValue& var, int nDot, const char* format = NULL, double dScale=1.0 );
+  protected:
+    bool FillObj(SSterver& st,const char* szServ,const char* szName);
+    int  AddObj (UINT nType  ,const char* szServ,const char* szName);
+  };
+
+typedef CShBase* (*tGetShFromChild)( UINT eType );
+extern CLIENTDLL_API tGetShFromChild g_pExtenders[5];
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

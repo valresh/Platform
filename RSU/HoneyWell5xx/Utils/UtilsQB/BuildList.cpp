@@ -1,0 +1,44 @@
+#include <QuickBuilderStruct.h>
+#include <QbShData.h>
+#include "ListValue.h"
+#include <stddef.h>
+
+
+#include "QB_Sheme.h"
+#pragma warning(push)
+#pragma warning(disable : 4101)
+
+void W_QBANALOG::BuildList(void)
+{
+#undef shareObj
+#undef netObj
+  typedef W_QBANALOG shareObj;
+  typedef CShQBANALOG netObj;
+#include "QuickBuilder/Analog.h"
+#include "QuickBuilder/Analog_P.h"
+  ACK_ALARM
+}
+
+void W_QBSTATUS::BuildList(void)
+{
+#undef shareObj
+#undef netObj
+  typedef W_QBSTATUS shareObj;
+  typedef CShQBSTATUS netObj;
+#include "QuickBuilder/Status.h"
+#include "QuickBuilder/Status_P.h"
+  ACK_ALARM
+}
+
+void W_QBPSA::BuildList(void)
+{
+#undef shareObj
+#undef netObj
+#define shareObj W_QBPSA
+#define netObj CShQBPSA
+#include "QuickBuilder/Psa.h"
+#include "QuickBuilder/Psa_P.h"
+  ACK_ALARM
+}
+
+#pragma warning(pop)

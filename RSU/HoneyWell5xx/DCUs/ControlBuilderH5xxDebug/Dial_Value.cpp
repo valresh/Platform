@@ -1,0 +1,200 @@
+// Dial_Value.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Dial_Value.h"
+
+
+// CDial_Value dialog
+
+IMPLEMENT_DYNAMIC(CDial_Value, CDialog)
+
+CDial_Value::CDial_Value(CWnd* pParent /*=NULL*/)
+	: CDialog(CDial_Value::IDD, pParent)
+{
+
+}
+
+CDial_Value::~CDial_Value()
+{
+}
+
+void CDial_Value::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_LIST, m_List);
+}
+
+
+BEGIN_MESSAGE_MAP(CDial_Value, CDialog)
+  ON_WM_DESTROY()
+  ON_WM_SIZE()
+  ON_WM_TIMER()
+  ON_NOTIFY(NM_CLICK, IDC_LIST, OnNMClickList)
+  ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST, OnEndLabelEdit)
+END_MESSAGE_MAP()
+
+
+// CDial_Value message handlers
+
+void CDial_Value::OnDestroy()
+{
+  CDialog::OnDestroy();
+
+  delete this;
+}
+
+BOOL CDial_Value::OnInitDialog()
+{
+  m_Font.CreateFont( -16,//int nHeight,
+                      0,//int nWidth,
+                      0,//int nEscapement,
+                      0,//int nOrientation,
+                      FW_BOLD,//FW_NORMAL,//int nWeight,
+                      FALSE,//BYTE bItalic,
+                      FALSE,//BYTE bUnderline,
+                      FALSE,//BYTE cStrikeOut,
+                      RUSSIAN_CHARSET,// BYTE nCharSet,
+                      OUT_TT_ONLY_PRECIS,//BYTE nOutPrecision,
+                      CLIP_DEFAULT_PRECIS,//BYTE nClipPrecision,
+                      ANTIALIASED_QUALITY,//BYTE nQuality,
+                      FIXED_PITCH,//BYTE nPitchAndFamily,
+                      "Arial" );//LPCTSTR lpszFacename 
+
+  CDialog::OnInitDialog();
+
+  m_List.SetFont( &m_Font );
+  CRect rc;
+  m_List.GetClientRect ( &rc );
+  int w = rc.Width();
+  int w0 = (int)( w * 0.3 );
+  int w1 = (int)( w * 0.7 );
+  m_List.InsertColumn ( 0, "Значение", LVCFMT_LEFT, w0, 0 );
+  m_List.InsertColumn ( 1, "Название", LVCFMT_LEFT, w1, 1 );
+  m_List.SetExtendedStyle( LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT );//LVS_EX_GRIDLINES|
+
+  FillList();
+
+  return TRUE;  // return TRUE unless you set the focus to a control
+  // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CDial_Value::SetVarList( int nCount, KHParamInfo *pVars )
+{
+  if( nCount <= 0 )
+    return;
+
+  m_Vars.resize( nCount );
+  std::copy( pVars, pVars+nCount, m_Vars.begin() );
+  FillList();
+}
+
+void CDial_Value::FillList()
+{
+  if( !GetSafeHwnd() )
+    return;
+  m_List.DeleteAllItems();
+  char Txt[256];
+  int N = 0;
+  size_t p =0;
+  for( tVarsCont_::iterator it=m_Vars.begin(), end(m_Vars.end()); it!=end; ++it, ++p )
+  {
+    tVarsCont_::value_type &var = *it;    
+    var.FillVal( Txt );
+    int nItem = m_List.InsertItem( N++, Txt );
+    m_List.SetItemText( nItem, 1, var.VarName );
+    m_List.SetItemData( nItem, p );
+  }
+  SetTimer(1, 1000, NULL );
+}
+
+void CDial_Value::OnSize(UINT nType, int cx, int cy)
+{
+  CDialog::OnSize(nType, cx, cy);
+
+  if ( !IsWindow(m_List.m_hWnd ))
+    return ;
+  CRect rc( 5, 45, cx - 5, cy - 5 ); 
+  m_List.SetWindowPos ( NULL, rc.left, rc.top, rc.Width(), rc.Height(), SWP_NOZORDER );
+  int w0 = m_List.GetColumnWidth( 0 );
+  int w1 = rc.Width() - w0 - GetSystemMetrics ( SM_CXVSCROLL ) - 4;
+  m_List.SetColumnWidth( 1, w1 );
+}
+
+void CDial_Value::OnTimer(UINT_PTR nIDEvent)
+{
+  int nItem = m_List.GetNextItem ( -1, LVNI_ALL );
+  char Txt[256];
+  while( nItem >= 0 )
+  {
+    size_t p = (size_t)m_List.GetItemData( nItem );
+    tVarsCont_::value_type &var = m_Vars.at(p);
+    var.FillVal( Txt );
+    m_List.SetItemText( nItem, 0, Txt );
+    nItem = m_List.GetNextItem ( nItem, LVNI_ALL );
+  }
+
+  CDialog::OnTimer(nIDEvent);
+}
+
+void CDial_Value::OnNMClickList(NMHDR *pNMHDR, LRESULT *pResult)
+{
+  *pResult = 0;
+  int nItem = m_List.GetNextItem( -1, LVNI_SELECTED );
+  if ( nItem < 0 )
+    return;
+
+  if( m_List.m_iRowIndex != nItem )
+    return;
+  if( m_List.m_iColumnIndex > 0 )
+    return;
+
+  size_t N = (size_t)m_List.GetItemData( nItem );
+  if( N>=m_Vars.size() )
+    return;
+  tVarsCont_::value_type &var = m_Vars.at(N);
+
+  tValEnums_ vals;
+  var.FillValues( vals );
+
+  CString t = m_List.GetItemText( nItem, 0 );
+
+  if( !vals.empty() )
+  {
+    CInPlaceCombo* p = m_List.ShowInPlaceList( m_List.m_iRowIndex, m_List.m_iColumnIndex, vals.size() );
+    if( !p )
+      return;
+    p->SetDefText( t );
+    int sel = 0, i=0;
+    for( tValEnums_::iterator it=vals.begin(), end(vals.end()); it!=end; ++it, ++i)
+    {
+      if( t==it->second.c_str() )
+        sel = i;
+      p->AddString( it->second.c_str() );
+    }
+    p->SetCurSel( sel );
+    p->ShowDropDown(TRUE);
+  }
+  else
+  {
+    switch( var.GetType() )
+    {
+    case evtByte:
+    case evtInt:
+    case evtDouble:
+      break;
+    default:  
+      return;
+    }
+    CInPlaceEdit* pInPlaceEdit = m_List.ShowInPlaceEdit( m_List.m_iRowIndex, m_List.m_iColumnIndex, t);
+  }
+}
+
+void CDial_Value::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+  LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+  m_List.SetItemText(pDispInfo->item.iItem, pDispInfo->item.iSubItem, pDispInfo->item.pszText);
+  *pResult = 0;
+  tVarsCont_::value_type &var = m_Vars.at(pDispInfo->item.iItem);
+  var.SetValue( pDispInfo->item.pszText );
+}

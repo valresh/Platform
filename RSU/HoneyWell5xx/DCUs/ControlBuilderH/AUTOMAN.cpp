@@ -1,0 +1,269 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+#include <math.h>
+
+static SBlockCreate AUTOMAN( "AUTOMAN", SH_AUTOMAN::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_AUTOMAN,W_AUTOMAN,215)
+
+void SH_AUTOMAN::InitParm()
+{
+#include "Blocks/AUTOMAN.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/AUTOMAN_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class AUTOMAN_IMPL : public W_AUTOMAN
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_AUTOMAN::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  AUTOMAN_IMPL *impl = reinterpret_cast<AUTOMAN_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+  if( pINITMAN_Master && pOP_Master )
+  {
+    if( W->MODE.Cas==W->MODE.V )
+      *pINITMAN_Master = false;
+    else
+    {
+      *pINITMAN_Master = true;
+      *pOP_Master = W->OP;
+    }
+  }
+  if( pINITREQ1_Master && pOP_Master )
+  {
+    if( W->MODE.Cas==W->MODE.V )
+      *pINITREQ1_Master = false;
+    else
+    {
+      *pINITREQ1_Master = true;
+      *pOP_Master = W->OP;
+    }
+  }
+  if( pINITREQ2_Master && pOP_Master )
+  {
+    if( W->MODE.Cas==W->MODE.V )
+      *pINITREQ2_Master = false;
+    else
+    {
+      *pINITREQ2_Master = true;
+      *pOP_Master = W->OP;
+    }
+  }
+  if( pINITREQ3_Master && pOP_Master )
+  {
+    if( W->MODE.Cas==W->MODE.V )
+      *pINITREQ3_Master = false;
+    else
+    {
+      *pINITREQ3_Master = true;
+      *pOP_Master = W->OP;
+    }
+  }
+  if( pINITREQ4_Master && pOP_Master )
+  {
+    if( W->MODE.Cas==W->MODE.V )
+      *pINITREQ4_Master = false;
+    else
+    {
+      *pINITREQ4_Master = true;
+      *pOP_Master = W->OP;
+    }
+  }
+}
+
+void SH_AUTOMAN::StepBeforeRestoreState( LPCSTR pSystemName, KBmBase *pRoot, KBmBase *pModule )
+{
+  switch( W->NORMMODE.V )
+  {
+  case W->NORMMODE.Man:
+    W->MODE = W->MODE.Man;
+    break;
+  case W->NORMMODE.Cas:
+    W->MODE = W->MODE.Cas;
+    break;
+  case W->NORMMODE.Auto:
+    W->MODE = W->MODE.Auto;
+    break;
+  case W->NORMMODE.Bcas:
+    W->MODE = W->MODE.BackupCascade;
+    break;
+  }
+}
+
+void SH_AUTOMAN::StepAfterRestoreState()
+{
+  W->HIALM.PR = __ALPRIOR::None;
+  W->HIALM.TYPE = __DACALMTYPE::None;
+  W->HIALM.SV = 0;
+  W->OPHIALM.FL = 0;
+  W->OPLOALM.FL = 0;
+  for( size_t i=0; i<inConsC; ++i )
+  {
+    SConnectionMB &con = pInConns[i];
+    if( !strcmp( con.szInFld, "X1") && !strncmp( con.szOutFld, "OP", 2) && con.objO && (!strncmp(con.szTypeObjOut, "PID", 3) || !strncmp(con.szTypeObjOut, "FANOUT", 6)) )
+    {
+      eVarType vt = evtHZ;
+      if ( !strncmp(con.szTypeObjOut, "FANOUT", 6))
+      {
+        double *pCVEUHI[8] = {}, *pCVEULO[8] = {};
+        if( con.objO->GetVar( "CVEUHI[1]", (BYTE**)&pCVEUHI[1], &vt, NULL ) )
+          *pCVEUHI[1] = W->XEUHI;
+        if( con.objO->GetVar( "CVEULO[1]", (BYTE**)&pCVEULO[1], &vt, NULL ) )
+          *pCVEULO[1] = W->XEULO;
+        if( con.objO->GetVar( "CVEUHI[2]", (BYTE**)&pCVEUHI[2], &vt, NULL ) )
+          *pCVEUHI[2] = W->XEUHI;
+        if( con.objO->GetVar( "CVEULO[2]", (BYTE**)&pCVEULO[2], &vt, NULL ) )
+          *pCVEULO[2] = W->XEULO;
+        if( con.objO->GetVar( "CVEUHI[3]", (BYTE**)&pCVEUHI[3], &vt, NULL ) )
+          *pCVEUHI[3] = W->XEUHI;
+        if( con.objO->GetVar( "CVEULO[3]", (BYTE**)&pCVEULO[3], &vt, NULL ) )
+          *pCVEULO[3] = W->XEULO;
+        if( con.objO->GetVar( "CVEUHI[4]", (BYTE**)&pCVEUHI[4], &vt, NULL ) )
+          *pCVEUHI[4] = W->XEUHI;
+        if( con.objO->GetVar( "CVEULO[4]", (BYTE**)&pCVEULO[4], &vt, NULL ) )
+          *pCVEULO[4] = W->XEULO;
+      }
+      if ( !strcmp( con.szOutFld, "OP[1]") || !strcmp( con.szOutFld, "OPEU[1]") )
+	  {	  
+        con.objO->GetVar( "INITREQ[1]", &pINITREQ1_Master, &vt, NULL );
+		if ( !strncmp( con.szOutFld, "OPEU", 4 ) )
+          con.objO->GetVar( "OP[1]", (BYTE**)&pOP_Master, &vt, NULL );
+        else
+          con.objO->GetVar( con.szOutFld, (BYTE**)&pOP_Master, &vt, NULL );
+	  }
+      else if ( !strcmp( con.szOutFld, "OP[2]") || !strcmp( con.szOutFld, "OPEU[2]") )
+	  {
+        con.objO->GetVar( "INITREQ[2]", &pINITREQ2_Master, &vt, NULL );
+	    if ( !strncmp( con.szOutFld, "OPEU", 4 ) )
+          con.objO->GetVar( "OP[2]", (BYTE**)&pOP_Master, &vt, NULL );
+        else
+          con.objO->GetVar( con.szOutFld, (BYTE**)&pOP_Master, &vt, NULL );
+	  }
+      else if ( !strcmp( con.szOutFld, "OP[3]") || !strcmp( con.szOutFld, "OPEU[3]") )
+	  {
+        con.objO->GetVar( "INITREQ[3]", &pINITREQ3_Master, &vt, NULL );
+		if ( !strncmp( con.szOutFld, "OPEU", 4 ) )
+          con.objO->GetVar( "OP[3]", (BYTE**)&pOP_Master, &vt, NULL );
+        else
+          con.objO->GetVar( con.szOutFld, (BYTE**)&pOP_Master, &vt, NULL );
+	  }
+      else if ( !strcmp( con.szOutFld, "OP[4]") || !strcmp( con.szOutFld, "OPEU[4]") )
+	  {
+        con.objO->GetVar( "INITREQ[4]", &pINITREQ4_Master, &vt, NULL );
+		if ( !strncmp( con.szOutFld, "OPEU", 4 ) )
+          con.objO->GetVar( "OP[4]", (BYTE**)&pOP_Master, &vt, NULL );
+        else
+          con.objO->GetVar( con.szOutFld, (BYTE**)&pOP_Master, &vt, NULL );
+	  }
+      else
+	  {
+        con.objO->GetVar( "INITMAN", &pINITMAN_Master, &vt, NULL );
+		if ( !strncmp( con.szOutFld, "OPEU", 4 ) )
+          con.objO->GetVar( "OP", (BYTE**)&pOP_Master, &vt, NULL );
+        else
+		  con.objO->GetVar( con.szOutFld, (BYTE**)&pOP_Master, &vt, NULL );
+	  }
+    }
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+void AUTOMAN_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( SIFL )
+  {
+    if( SIALM.OPT )
+    SIALM.FL = 1;
+    switch( SIOPT.V )
+    {
+    case SIOPT.No_Shed:
+      break;
+    case SIOPT.ShedHigh:
+      OP = OPEXHILM;
+      MODE = MODE.Man;
+      X1 = OP;
+      MODEATTR = MODEATTR.Operator;
+      break;
+    case SIOPT.ShedLow:
+      OP = OPEXLOLM;
+      MODE = MODE.Man;
+      X1 = OP;
+      MODEATTR = MODEATTR.Operator;
+      break;
+    case SIOPT.ShedSafe:
+      if ( finite( SAFEOP ) )
+        OP = SAFEOP;
+      MODE = MODE.Man;
+      X1 = OP;
+      MODEATTR = MODEATTR.Operator;
+      break;
+    case SIOPT.ShedHold:
+      // OP Не менять!!!
+      MODE = MODE.Man;
+      X1 = OP;
+      MODEATTR = MODEATTR.Operator;
+      break;
+    }
+    return;
+  }
+  else
+  {
+    SIALM.FL = 0;
+    if( _ESWPERM::PERMIT==ESWPERM.V && _ESWENB::ENABLE==ESWENB.V )
+    {
+      if( ESWFL.CAS )
+        MODE.V = MODE.Cas;
+      else if( ESWFL.MAN )
+        MODE.V = MODE.Man;
+    }
+  }
+  if ( !finite( X1 ) )
+  {
+    X1STS.V = X1STS.Bad;
+    return;
+  }
+  X1STS.V = X1STS.Normal;
+
+  X1 = (XEUHI-XEULO) * 0.01 * X1 + XEULO;
+  
+  X1P = ( X1 - XEULO ) / ( XEUHI - XEULO ) * 100.;
+  CV = K * X1 + OPBIAS.FIX;
+  if ( !std::isnan ( OPBIAS.FLOAT ))
+    CV += OPBIAS.FLOAT;									 
+  if ( MODE.V != MODE.Man )
+  {
+    if ( !IsNaN(OPROCLM) )
+    {
+      double TargetOP = ( CV - CVEULO ) / ( CVEUHI - CVEULO ) * 100.;
+      if ( OP >= TargetOP )
+        if ( OP >= TargetOP && ((OP - TargetOP) < (OPROCLM*dt)/60) )
+          OP = TargetOP;
+        else
+          OP = OP - (OPROCLM*dt)/60;
+      else
+        if ( OP < TargetOP && ((TargetOP - OP) < (OPROCLM*dt)/60) )
+          OP = TargetOP;
+        else
+          OP = OP + (OPROCLM*dt)/60;
+    }
+    else
+    {
+      OP = ( CV - CVEULO ) / ( CVEUHI - CVEULO ) * 100.;
+    }
+  }
+  if ( OP < OPLOLM )
+    OP = OPLOLM;
+  if ( OP > OPHILM )
+    OP = OPHILM;
+
+  double A = OP * 0.01;
+  OPEU = ( 1. - A ) * CVEULO + A * CVEUHI;
+}

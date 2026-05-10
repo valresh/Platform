@@ -1,0 +1,8 @@
+#include "ControlBuilder.h"
+
+int KControlBuilder::GetParams( KHBridge2SysParam &params )
+{
+  if( m_entryModule )
+    m_entryModule->GetParams( params );
+  return 0;
+}

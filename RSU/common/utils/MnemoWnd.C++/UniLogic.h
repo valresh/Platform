@@ -1,0 +1,50 @@
+#pragma once
+#include "UniBuffer.h"
+#include "PipeClient.h"
+
+//
+struct SItemLogic
+  {
+  struct SLocal//Аналог SParamValue
+    {
+    int    nNumber;
+    SValueDef* def;
+    };
+  int nCode;
+  union
+    {
+    SLocal      mDef;
+    BYTE        mPar;
+    const char* mStr;
+    char        mTxt[8];
+    };
+  };
+//
+#define MAX_STACK 128
+//
+struct SUniLogic : public SUniBuffer
+  {
+  SUniLogic()
+  : SUniBuffer( sizeof(SItemLogic), 0x100 ) {};
+
+  SItemLogic* Obj(UINT n)
+    {
+    SItemLogic* list = (SItemLogic*)m_szBuffer;
+    return   list + n;
+    }
+  UINT ParserIf( class CPipeClient& pipe, UINT eTypeObj, char*  ptr );
+  UINT Argument( class CPipeClient& pipe, UINT eTypeObj, char*& ptr, UINT nCnt );
+  bool Visible ( class CPipeClient& pipe, UINT nCountIF, UINT nPlaceIF );
+  //
+  void Begin();
+  bool InVis();
+  void If    (bool v);
+  void ElseIf(bool v);
+  void Else ();
+  void EndIf();
+
+  protected:
+    int m_nCurr;
+    int m_nStack[MAX_STACK];
+  };
+//

@@ -1,0 +1,2 @@
+// Alarms
+YPARM_I(AlarmLevel,12,"EALA")

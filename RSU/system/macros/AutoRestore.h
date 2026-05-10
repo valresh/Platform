@@ -1,0 +1,31 @@
+#pragma once
+#include <CommProc.h>
+
+template<class T>
+class TAutoRestore
+{
+  T *m_pObjAddr;
+  T m_Val;
+public:
+  TAutoRestore( T &pObj )
+  {
+    m_pObjAddr = &pObj;
+    m_Val = pObj;
+  }
+  TAutoRestore() : m_pObjAddr( NULL )
+  {
+    memset( &m_Val, 0, sizeof(m_Val) );
+  }
+  void Set( T &pObj, bool restorePrev = true )
+  {
+    if( m_pObjAddr && restorePrev )
+      *m_pObjAddr = m_Val;
+    m_pObjAddr = &pObj;
+    m_Val = pObj;
+  }
+  ~TAutoRestore()
+  {
+    if( m_pObjAddr )
+      *m_pObjAddr = m_Val;
+  }
+};

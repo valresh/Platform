@@ -1,0 +1,10 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(AOFS,"")
+FLAG(BSTS,"")//?????
+//
+DOUBLE(PV,"")//*
+DOUBLE(SV,"")
+DOUBLE(MV,"")

@@ -1,0 +1,180 @@
+#include "stdafx.h"
+#include "EditFix.h"
+#include <rsuIsType.h>
+#include <rsuFormats.h>
+#include <crosslocale.h>
+
+// KEditFix dialog
+
+IMPLEMENT_DYNAMIC(KEditFix, CDialog)
+
+KEditFix::KEditFix( IFscStorage::SVarInfo *vars, int c, CWnd* pParent /*=NULL*/)
+	: CDialog(KEditFix::IDD, pParent)
+{
+  m_varCount = __min( c, eMaxVars);
+  ZeroMemory( m_Vars, sizeof(m_Vars) );
+  CopyMemory( m_Vars, vars, sizeof(m_Vars[0])*m_varCount );
+}
+
+KEditFix::~KEditFix()
+{
+}
+
+void KEditFix::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+}
+
+
+BEGIN_MESSAGE_MAP(KEditFix, CDialog)
+  ON_WM_TIMER()
+END_MESSAGE_MAP()
+
+
+// KEditFix message handlers
+
+BOOL KEditFix::OnInitDialog()
+{
+  CDialog::OnInitDialog();
+
+  if( !m_strDlgCaption.IsEmpty() )
+    SetWindowText( m_strDlgCaption );
+
+  for( int n = 0; n < m_varCount; ++n )
+  {
+    IFscStorage::SVarInfo &var = m_Vars[n];
+    SetTypeName( var, n );
+    SetValue( var, n );
+  }
+
+  for( int n = m_varCount; n < eMaxVars; ++n )
+  {
+    GetDlgItem(IDC_EDIT1 + n )->EnableWindow(false);
+    //GetDlgItem(IDC_EDIT1 + n )->ShowWindow(SW_HIDE);
+    GetDlgItem(IDC_STATIC1 + n )->ShowWindow(SW_HIDE);
+  }
+
+  return TRUE;  // return TRUE unless you set the focus to a control
+  // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void KEditFix::SetTypeName( IFscStorage::SVarInfo &var, int n )
+{
+  if( !var.val )
+    return;
+  char buf[64*4] = { 0 };
+  sprintf_s( buf, "%s (", var.szName );
+  switch( var.val->eType )
+  {
+  case enumValueBol:
+    strcat_s(buf, "bool");
+    break;
+  case enumValueDbl:
+    strcat_s(buf, "double");
+    break;
+  case enumValueInt:
+    strcat_s(buf, "int");
+    break;
+  case enumValueChr:
+    strcat_s(buf, "chr/byte");
+    break;
+  default:
+    sprintf_s( buf, "%s (%d", var.szName, (int)var.val->eType );
+  }
+  strcat_s(buf, ")");
+  SetDlgItemText( IDC_STATIC1+n, buf );
+}
+
+void KEditFix::SetValue( IFscStorage::SVarInfo &var, int n )
+{
+  ASSD( var.val );
+  if( !var.val )
+    return;
+  char buf[64*4] = { 0 };
+  switch( var.val->eType )
+  {
+  case enumValueBol:
+    SetDlgItemText( IDC_EDIT1+n, var.val->bVal ? "1" : "0" );
+    break;
+  case enumValueDbl:
+  {
+      std::string str(buf);
+      DblToStr(str, var.val->dVal);
+      SetDlgItemText(IDC_EDIT1 + n, buf);
+  }
+    break;
+  case enumValueInt:
+    sprintf_s(buf, "%d", var.val->nVal);
+    SetDlgItemText( IDC_EDIT1+n, buf );
+    break;
+  case enumValueChr:
+    sprintf_s(buf, "%d", var.val->cVal);
+    SetDlgItemText( IDC_EDIT1+n, buf );
+    break;
+  }
+}
+
+void KEditFix::OnTimer(UINT_PTR nIDEvent)
+{
+  CDialog::OnTimer(nIDEvent);
+}
+
+void KEditFix::OnOK()
+{
+  for( int n = 0; n<m_varCount; ++n )
+  {
+    if( GetFocus() == GetDlgItem(IDC_EDIT1 + n ) )
+    {
+      CString str;
+      GetDlgItemText( IDC_EDIT1+n, str );
+      SetValue( str, n );
+      return;
+    }
+  }
+}
+
+void KEditFix::OnCancel()
+{
+  CDialog::OnCancel();
+}
+
+void KEditFix::SetValue( LPCSTR pVal, int n )
+{
+  IFscStorage::SVarInfo &var = m_Vars[n];
+  switch( var.val->eType )
+  {
+  case enumValueBol:
+    if( IsInt( pVal ) )
+    {
+      int v = atoi(pVal);
+      if ( v == 0 )
+        var.val->bVal = false;
+      else if ( v == 1 )
+        var.val->bVal = true;
+    }
+    break;
+  case enumValueDbl:
+    if( IsFlt(pVal) )
+    {
+      double v = cross::locale::safe_atof(pVal);
+      var.val->dVal = v;
+    }
+    break;
+  case enumValueInt:
+    if( IsInt(pVal) )
+    {
+      int v = atoi(pVal);
+      var.val->nVal = v;
+    }
+    break;
+  case enumValueChr:
+    if( IsInt(pVal) )
+    {
+      int v = atoi(pVal);
+      var.val->cVal = v;
+    }
+    break;
+  default:
+    break;
+  }
+}

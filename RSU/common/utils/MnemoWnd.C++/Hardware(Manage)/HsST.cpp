@@ -1,0 +1,571 @@
+//#include "..\MnemoWnd.h"
+#include "Queue.h"
+#include "../Lang.h"
+#include <string>
+//
+enum AO
+{
+	NotAutoClose = 0,
+	AutoClose = 1,
+	AutoClose_NeedClose = 2
+};
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Структура работы с задвижкой
+struct Queue_HsST : public Queue_PRS
+{
+	CShHS sh;
+	int  nHS;
+	int  nHS2;
+	int nSend;
+	bool bSend;
+	bool bState;
+	//
+	bool bBlock;
+	int  nBlock;
+	int  nPush;// 1-нажатие 2-отжатие
+	int nSkoba; //0-не скоба 1 -скоба
+	bool bCheckBlink;//моргание при проверке
+	bool bBlinkAlways;//моргание всегда
+	bool bStartBlink;
+	bool bBlinkValue;
+	bool blockbyPolyNotEqual1;
+	int nBlockByPoly;
+	bool bSendinvert;
+	bool bBlockInvert;
+	int nKlapan;
+	int nKlapanValue;
+	bool bPlusMinusPribor;
+	bool bZalipHS;
+	AO AutoCloseWnd;
+	bool bViewInvert; //инвертировать значение от View HS
+	bool bConfirm;
+  //HWND hwndPult;
+	bool bConfirmReturnPress;
+	int  nSet;
+	bool bIsNoAck;
+	bool bKcaAlarm;
+	bool bSocket;
+	bool bActiveFromSocket;
+	//
+};
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void ChangeSend(Queue_HsST* p, SQueue& q)
+{
+	if (p->nSend >= 0)
+	{
+		CShHS& Sh = (CShHS&)q.m_pPipe->SH(p->nSend);
+		if (Sh.RetCode == CShBase::rcOK)
+		{
+			p->bSend = Sh.mOn;
+		}
+
+		if (p->bSendinvert)
+		{
+			p->bSend = !p->bSend;
+		}
+	}
+}
+
+void ChangePolyBlock(Queue_HsST* p, SQueue& q)
+{
+	if (p->nBlockByPoly >= 0)
+	{
+		CShPolyHS& Sh = (CShPolyHS&)q.m_pPipe->SH(p->nBlockByPoly);
+		if (Sh.RetCode == CShBase::rcOK)
+		{
+			p->blockbyPolyNotEqual1 = (Sh.SP != 1);
+		}
+	}
+}
+// Функция отображения
+int PaintHsST(DefinePaint)
+{
+	QueueP(Queue_HsST);
+	//
+	/*p->hwndPult = q.hWnd;
+	if (p->AutoCloseWnd == AutoClose_NeedClose)
+	{
+		::PostMessageA(q.hWnd, WM_CLOSE, 0, 0);
+		p->AutoCloseWnd = NotAutoClose;
+		return 1;
+	}*/
+	//
+	CShHS* sh = NULL;
+	if (p->nNumber != -1)
+	{
+		sh = (CShHS*)PipeSh;
+	}
+	else
+	{
+		if (p->nSocketNumber != -1)
+		{
+			sh = (CShHS*)q.m_pSocket->Sh(p->nSocketNumber);
+		}
+	}
+	//
+	if (sh == NULL)
+	{
+		return 1;
+	}
+
+	ChangeSend(p, q);
+	ChangePolyBlock(p, q);
+	p->bBlinkValue = (q.m_dwMainTimer % 2 == 0);
+	if (p->nHS >= 0)
+	{
+		CShHS& Sh = (CShHS&)q.m_pPipe->SH(p->nHS);
+		if (Sh.RetCode == CShBase::rcOK)
+		{
+			if (p->bKcaAlarm)
+			{
+				p->bState = !Sh.Is_State(CHs::IS_NOACK);
+				p->bBlock = p->bState;
+			}
+			else
+			{
+				p->bState = p->bViewInvert ? !Sh.mOn : Sh.mOn;
+				if (p->bCheckBlink)
+				{
+					p->bStartBlink = Sh.mOn;
+				}
+			}
+		}
+	}
+
+	if (!p->bState)
+	{
+		if (p->nHS2 >= 0)
+		{
+			CShHS& Sh = (CShHS&)q.m_pPipe->SH(p->nHS2);
+			if (Sh.RetCode == CShBase::rcOK)
+			{
+				p->bState = Sh.mOn;
+			}
+		}
+	}
+
+	if (p->nKlapan >= 0)
+	{
+		CShKlapan& Sh = (CShKlapan&)q.m_pPipe->SH(p->nKlapan);
+		if (Sh.RetCode == CShBase::rcOK)
+		{
+			p->bState = Sh.Vent == p->nKlapanValue;
+		}
+	}
+
+	if (p->bBlinkAlways)
+	{
+		p->bStartBlink = true;
+	}
+
+	if (IsTypeOk)
+	{
+		if ((!p->m_bPressed) || (p->nBlockByPoly >= 0) || (!p->bZalipHS))
+		{
+			memcpy(&p->sh, sh, sizeof(CShHS));
+		}
+
+		p->bIsNoAck = p->sh.Is_State(CHs::IS_NOACK);
+		if (p->nBlock >= 0)
+		{
+			CShHS& Sh = (CShHS&)q.m_pPipe->SH(p->nBlock);
+			if (Sh.RetCode == CShBase::rcOK)
+			{
+				if (p->bBlockInvert)
+				{
+					p->bBlock = !Sh.mOn;
+				}
+				else
+				{
+					p->bBlock = Sh.mOn; //##??
+				}
+			}
+		}
+		//
+		if (p->nSkoba == 1)
+		{
+			if (sh->mOn) //##??
+			{
+				p->bBlock = true;
+			}
+			else
+			{
+				p->bBlock = false;
+			}
+		}
+	}
+	/*else if (::IsMnemoStyle(MNEMO_EDIT))
+	{
+		RECT rc = p->mRect;
+		::InflateRect(&rc, 2, 2);
+		CMyBrush brush(hDC, 0x0080ff);
+		brush.Rect(rc);
+	}*/
+	//
+	return 1;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+static void fnSendData(void* base, void* pNewValue, void* pOldValue, bool bMessage)
+{
+	assert(base);
+	Queue_HsST* p = (Queue_HsST*)base;
+	p->send.SetOld(pOldValue); // vladexl:  copied from LabelD.cpp because fnBeginPress() doesn't work any more
+	if (p->bSend && (!bMessage/*только по отжатию кнопки мыши*/ || (p->nSet != -1)) && (p->AutoCloseWnd == AutoClose))
+	{
+		p->AutoCloseWnd = AutoClose_NeedClose;
+	}
+
+	//if (!ISTypeOK) return;
+
+	// vladexl:  unused
+	//if (p->bConfirm)
+	//{
+	//    int nResult = 0;
+	//    nResult = ::MessageBox(p->hwndPult, "Вы уверены?", "Внимание", MB_YESNO);
+	//    if (IDYES != nResult)
+	//    {
+	//        if (nResult == 0)
+	//            return;
+	//        p->bConfirmReturnPress = true;
+	//        return;
+	//    }
+	//    else
+	//        p->bConfirmReturnPress = true;
+	//}
+	if (p->bSend)
+	{
+		p->send.SetNew(pNewValue);
+		if (p->nSocketNumber != -1)
+		{
+			if (p->send.eType == enumValueBol)
+			{
+				double dValue = 0;
+				if (p->send.bNew)
+				{
+					dValue = 1;
+				}
+
+				if (p->bPlusMinusPribor)
+				{
+					if (p->send.bNew)
+					{
+						p->send.dOld = 0;
+					}
+					else
+					{
+						p->send.dOld = 1;
+					}
+				}
+				
+				p->pSocket->SetSocketValue(id_HS, p->send.szName, p->send.szValue, dValue, p->send.dOld, bMessage, p->send.eType);
+			}
+		}
+		else
+		{
+			if ((p->bPlusMinusPribor) && (p->send.eType == enumValueBol))
+			{
+				// vladexl:  useless  if (p->sh.RetCode == CShBase::rcOK)
+				p->send.bOld = !p->send.bNew;
+			}
+			
+			p->pPipe->SendData(p->send, bMessage);
+		}
+	}
+
+	p->m_bPressed = !bMessage;
+	if (p->nPush & 0x01 && p->send.bNew)
+	{
+		static SSendToModel send;
+		lstrcpy(send.szValue, "PUSH");
+		send.eType = enumValueInt;
+		bool bNew = true;
+		send.SetNew(&bNew);
+		p->pPipe->SendData(p->nNumber, send, false);
+	}
+
+	if (p->nPush & 0x02 && !p->send.bNew)
+	{
+		static SSendToModel send;
+		lstrcpy(send.szValue, "UNPUSH");
+		send.eType = enumValueInt;
+		bool bNew = true;
+		send.SetNew(&bNew);
+		p->pPipe->SendData(p->nNumber, send, false);
+	}
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void FillHs(SPriborBase* d, void* pp)
+{
+	d->fnData = fnSendData;
+	//
+	Queue_HsST* p = (Queue_HsST*)pp;
+	if (d->nType == 14)
+	{
+		p->bPlusMinusPribor = true;
+	}
+
+	if (d->nType == 1)
+	{
+		if (p->bBlinkAlways)
+		{
+			SPriborBool* a = (SPriborBool*)d;
+			a->pbStartBlink = &p->bStartBlink;
+			a->pbBlinkValue = &p->bBlinkValue;
+		}
+		if (p->bConfirm)
+		{
+			SPriborBool* a = (SPriborBool*)d;
+			a->pbConfirmReturnPress = &p->bConfirmReturnPress;
+		}
+	}
+
+	if (d->pVoid == &p->sh.State_Flags && strcmp(p->send.szValue, "НеКвитирован") == 0)
+	{
+		d->pVoid = &p->bIsNoAck;
+	}
+
+	if (p->nHS >= 0 && d->nType == 1)
+	{
+		SPriborBool* a = (SPriborBool*)d;
+		a->pbOther = &p->bState;
+		if (p->bCheckBlink)
+		{
+			a->pbStartBlink = &p->bStartBlink;
+			a->pbBlinkValue = &p->bBlinkValue;
+		}
+	}
+
+	if (p->nKlapan >= 0 && d->nType == 1)
+	{
+		SPriborBool* a = (SPriborBool*)d;
+		a->pbOther = &p->bState;
+	}
+
+	int nTag = p->pPipe->GetMnemoTags(p->nNumber);
+	if (nTag >= 0)
+	{
+		const char* block = ::TegValueS(nTag, "block");
+		if (block != NULL)
+		{
+			p->nBlock = p->pPipe->AddSxema(block, id_HS);
+			if (p->nBlock >= 0)
+			{
+				p->pPipe->End();
+				d->pbBlock = &p->bBlock;
+			}
+		}
+	}
+
+	if (p->nBlock >= 0)
+	{
+		d->pbBlock = &p->bBlock;
+	}
+
+	if (p->nSkoba == 1)
+	{
+		d->pbBlock = &p->bBlock;
+	}
+
+	if (p->nBlockByPoly >= 0)
+	{
+		d->pbBlock = &p->blockbyPolyNotEqual1;
+	}
+
+	if (p->bKcaAlarm)
+	{
+		d->pbBlock = &p->bState;
+	}
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void AddHsST(DefineTegs)
+{
+	//
+	AddQueueEx(Queue_HsST);
+	//
+	CShHS sh;
+	memcpy(&p->sh, &sh, sizeof(CShHS));
+	p->pSH = &p->sh;
+	p->pPipe = def.m_queue.m_pPipe; // vladexl
+	//
+	// Код, посылаемый в АРМ
+	p->btSendType = QUEUE_NO;
+	// Определение функции вывода
+	p->paint = &PaintHsST;
+	p->nHS = -1;
+	p->nHS2 = -1;
+	p->nBlock = -1;
+	p->nSend = -1;
+	p->nSkoba = 0;
+	p->bSend = true;
+	char szHS[64] = "";
+	char szHS2[64] = "";
+	char szSF[64] = "";
+	char szSend[64] = "";
+	char szPoly[64] = "";
+	char szMiddle[64] = "";
+	char szBlock[64] = "";
+	char szKlapan[64] = "";
+	p->bCheckBlink = false;
+	p->blockbyPolyNotEqual1 = false;
+	p->nBlockByPoly = -1;
+	p->bSendinvert = false;
+	p->bBlockInvert = false;
+	p->nKlapan = -1;
+	p->nKlapanValue = 0;
+	p->bPlusMinusPribor = false;
+	p->bZalipHS = true;
+	p->bBlinkAlways = false;
+	p->bBlinkValue = false;
+	p->bStartBlink = false;
+	p->AutoCloseWnd = NotAutoClose;
+	p->bViewInvert = false;
+	p->bConfirm = false;
+    //p->hwndPult = NULL;
+	p->bConfirmReturnPress = false;
+	p->nSet = -1; //-1 - неопределено
+	p->bIsNoAck = false;
+	p->bKcaAlarm = false;
+	char szViewcom[64] = "\0";
+	char szBlockcom[64] = "\0";
+	p->nSocketNumber = -1;
+	p->nNumber = -1;
+	p->bActiveFromSocket = false;
+	p->bSocket = false;
+	//
+	STegObj obj[] =
+	{
+	{ 'S', "view", szHS, 63 },
+	{ 'S', "view2", szHS2, 63 },
+	{ 'S', "suff", szSF, 63 },
+	{ 'S', "middle", szMiddle, 63 },
+	{ 'S', "blockByPoly", szPoly, 63 },
+	{ 'S', "block", szBlock, 63 },
+	{ 'S', "send", szSend, 63 },
+	{ 'I', "push", &p->nPush },
+	{ 'I', "skoba", &p->nSkoba },
+	{ 'L', "morgan",&p->bCheckBlink},
+	{ 'L', "checkBlink",&p->bCheckBlink},
+	{ 'L', "blinkAlways",&p->bBlinkAlways},
+	{ 'B', "sendinvert",&p->bSendinvert},
+	{ 'B', "blockinvert",&p->bBlockInvert},
+	{ 'S', "viewKlapan", szKlapan, 63 },
+	{ 'I', "klapanvalue", &p->nKlapanValue },
+	{ 'L', "zalip", &p->bZalipHS },
+	{ 'I', "closewindow", &p->AutoCloseWnd},
+	{ 'B', "viewinvert", &p->bViewInvert},
+	{ 'L', "confirm", &p->bConfirm },
+	{ 'I', "set", &p->nSet },
+	{ 'L', "kcalarm", &p->bKcaAlarm },
+	{ 'S', "viewcommon", szViewcom, 63 },
+	{ 'S', "blockcommon", szBlockcom, 63 },
+	{ 'L', "socket", &p->bSocket },
+	{ 'L', "activeFromSocket", &p->bActiveFromSocket },
+	// Дополнительная информация
+	EXT_QUEUE
+	}; ::ParserObjScn(teg, obj, sizeof(obj) / sizeof(STegObj));
+	//
+	if (p->AutoCloseWnd != NotAutoClose)
+	{
+		p->AutoCloseWnd = AutoClose;
+	}
+	//
+	int nActive;
+	if (p->bActiveFromSocket)
+	{
+		nActive = def.GetActiveObjSocket();
+	}
+	else
+	{
+		nActive = def.GetActiveObj();
+	}
+	
+	if (p->bSocket)
+	{
+		nActive = def.GetActiveObjSocket();
+	}
+	//
+	if (*szHS)
+	{
+		if (*szViewcom) //суффикс для имени
+		{
+			char szName[128];
+			sprintf_s(szName, sizeof(szName), "%s%s", szHS, szViewcom);
+			p->nHS = def.AddKindPipe(id_HS, szName);
+		}
+		else
+		{
+			p->nHS = def.AddKindPipe(id_HS, szHS);
+		}
+	}
+
+	if (*szHS2)
+	{
+		p->nHS2 = def.AddKindPipe(id_HS, szHS2);
+	}
+
+	if (*szKlapan)
+	{
+		p->nKlapan = def.AddKind(id_Klapan, szKlapan);
+	}
+	//
+	if (*szSF)
+	{
+		const char* name = def.GetModelName(nActive);
+		char szName[128];
+		sprintf_s(szName, sizeof(szName), "%s%s", name, szSF);
+		def.AddKindPipe(id_HS, szName);
+		def.m_queue.m_pPipe->End();
+		def.m_queue.m_pSocket->Refresh();
+	}
+
+	if (*szMiddle)
+	{
+		const char* name = def.GetModelName(nActive);
+		def.AddKind(id_HS, name);
+		def.m_queue.m_pPipe->End();
+		def.m_queue.m_pSocket->Refresh();
+	}
+	//
+	if (*szSend)
+	{
+		p->nSend = def.AddKind(id_HS, szSend);
+	}
+
+	if (*szPoly)
+	{
+		p->nBlockByPoly = def.AddKind(id_PHS, szPoly);
+	}
+
+	if (*szBlock)
+	{
+		if (*szBlockcom) //суффикс для имени
+		{
+			char szName[128];
+			sprintf_s(szName, sizeof(szName), "%s%s", szBlock, szBlockcom);
+			p->nBlock = def.AddKind(id_HS, szName);
+		}
+		else
+		{
+			p->nBlock = def.AddKind(id_HS, szBlock);
+		}
+	}
+
+	HPRIBOR hPribor;
+	if (p->bSocket)
+	{
+		hPribor = AddPribors(def, teg, Buffer, p, &FillHs, id_HS);
+	}
+	else
+	{
+		hPribor = AddPriborsPipe(def, teg, Buffer, p, &FillHs, id_HS);
+	}
+
+	if (*szSF)
+	{
+		def.m_queue.m_pPipe->m_nActive = nActive;
+		def.m_queue.m_pSocket->m_nActive = nActive;
+	}
+
+	managed::RegisterElement(teg->name, p, hPribor);
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

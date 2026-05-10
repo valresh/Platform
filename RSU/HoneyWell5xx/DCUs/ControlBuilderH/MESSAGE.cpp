@@ -1,0 +1,52 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+
+static SBlockCreate MESSAGE( "MESSAGE", SH_MESSAGE::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_MESSAGE,W_MESSAGE,173)
+
+void SH_MESSAGE::InitParm()
+{
+#include "Blocks/MESSAGE.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/MESSAGE_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class MESSAGE_IMPL : public W_MESSAGE
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_MESSAGE::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  MESSAGE_IMPL *impl = reinterpret_cast<MESSAGE_IMPL*>(W);
+  impl->StepT( dt );
+  OutputConnectionsTransfer();
+}
+void MESSAGE_IMPL::StepT( SStepCalcParams &dt )
+{
+  for( int i=0; i<_countof(SENDFL); ++i )
+  {
+    switch ( MSGTYPE[i].V )
+    {
+    case _MSGTYPE::Info:
+      KKK();
+      break;
+    case _MSGTYPE::Confirm:
+      if ( CONFIRMED[i] )
+        CONFIRMED[i] = false;
+      if ( CONFIRM[i] )
+        CONFIRMED[i] = true;
+      break;
+    case _MSGTYPE::SingleSignature:
+      break;
+    case _MSGTYPE::DoubleSignature:
+      break;
+    }
+  }
+}

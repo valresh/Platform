@@ -1,0 +1,38 @@
+#pragma once
+#include "CalcVar.h"
+#include "Trans.h"
+
+class KScriptHandle
+{
+  BYTE *m_pAddr;
+  eVarType m_Type;
+  USHORT m_varSize;
+  union
+  {
+    double dblPrev;
+  };
+  char m_szObjectID[64*4];
+  bool m_bLinked;
+
+  bool m_bScriptError;
+  USHORT m_nOps, m_nVars;
+  SOPElement *m_pOPs;
+  KCalcVar *m_pVars;
+
+  void Operation( eToken_value cmd );
+  bool Function( eFunctions nF );
+public:
+  SFixString<24> szFieldOfObj;
+public:
+  KScriptHandle();
+  void SetOnChangeEvent( LPCSTR pszName, BYTE *pAddr, eVarType Type, USHORT varSize );
+  LPCSTR GetObjectID();
+  int SetScript( LPCSTR pszScr, bool textAsName = false );
+  void AfterStateRestored();
+  void StepT( double dt );
+  void Algo20StepT( double dt );
+  void Algo20Init();
+private:
+  void ExecSt();
+  void Links();
+};

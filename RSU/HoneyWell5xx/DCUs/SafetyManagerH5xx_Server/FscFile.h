@@ -1,0 +1,29 @@
+#pragma once
+#include "FscList.h"
+
+// Содержит список файлов с иерархией
+class SFscFile : public SUniBufferT<LFscFile>
+{
+public:
+  SFscFile(SFscList& rList)
+    : SUniBufferT()
+    , mList(rList)
+  {
+  }
+  //
+  LFscFile& Item( UINT n)
+  {
+    ASS( n<Count() );
+    return m_szBuffer[n];
+  }
+  UINT LoadFile( IFscStorage* fsc, LPCSTR szFile, int nNumber, UINT nParent, SUniTemp& temp, int nFromFldCall );
+#ifdef _WIN32
+  void Draw( IFscStorage* fsc, UINT nItem, CMyFont& font, UINT nSelect, bool bNumber );
+  void GetACSBounds (int nItem, RECT *pRect);
+  SFscBase* PtInRect( UINT nItem, POINT pt );
+#endif
+protected:
+  UINT AddFile( UINT nNumb, UINT nPar, int nFromFldCall );
+protected:
+  SFscList& mList;
+};

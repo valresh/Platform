@@ -1,0 +1,21 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate TC_MDP081( "TC-MDP081", S_TC_MDP081::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_TC_MDP081,W_TC_MDP081,230)
+
+void S_TC_MDP081::InitParm()
+{
+#include "Modules/TC-MDP081.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Modules/TC-MDP081_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+void S_TC_MDP081::StepT( SStepCalcParams &dt )
+{
+	SH_Module::StepT(dt);
+}

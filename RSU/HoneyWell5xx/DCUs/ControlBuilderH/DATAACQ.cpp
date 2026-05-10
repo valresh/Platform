@@ -1,0 +1,235 @@
+#include <rsuErr.h>
+#include "AlarmTestPV.h"
+
+static SBlockCreate DATAACQ( "DATAACQ", SH_DATAACQ::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_DATAACQ,W_DATAACQ,111)
+
+void SH_DATAACQ::InitParm()
+{
+#include "Blocks/DATAACQ.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Blocks/DATAACQ_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class DATAACQ_IMPL : public W_DATAACQ
+{
+  void TestBadPv( LPCSTR pFullName );
+public:
+  void StepT( SStepCalcParams &dt, LPCSTR pFullName );
+};
+
+void SH_DATAACQ::StepT( SStepCalcParams &dt )
+{
+  InputConnectionsTransfer();
+  DATAACQ_IMPL *impl = reinterpret_cast<DATAACQ_IMPL*>(W);
+  impl->StepT( dt, BlockName );
+  OutputConnectionsTransfer();
+}
+
+void SH_DATAACQ::StepAfterRestoreState()
+{
+  W->HIALM.PR = __ALPRIOR::None;
+  W->HIALM.TYPE = __DACALMTYPE::None;
+  W->HIALM.SV = 0;
+  W->PVHHALM.FL = 0;
+  W->PVHIALM.FL = 0;
+  W->PVLOALM.FL = 0;
+  W->PVLLALM.FL = 0;
+  W->BADPVALM.FL = 0;
+  W->GOODPVHHFL = 0;
+  W->GOODPVHIFL = 0;
+  W->GOODPVLOFL = 0;
+  W->GOODPVLLFL = 0;
+}
+
+void SH_DATAACQ::GetParams( KHBridge2SysParam &params )
+{
+  Add2Params( W->ПолучениеP1EU.V, "Получение P1EU", params );
+  Add2Params( W->LOCUTOFF, "LOCUTOFF", params );
+  Add2Params( W->P1FILTTIME, "P1FILTTIME", params );
+}
+//////////////////////////////////////////////////////////////////////////
+
+void DATAACQ_IMPL::StepT( SStepCalcParams &dt, LPCSTR pFullName )
+{
+  double dt_min = dt / 60;
+  if ( !finite( P1 ) )
+  {
+    P1STS.V = P1STS.Bad;
+    PVSTS.V = PVSTS.Bad;
+
+    if( PVSOURCE.V != PVSOURCE.Man )
+    {
+      PVAUTOSTS.V = PVAUTOSTS.Bad;
+      PVSTSFL.BAD = 1;
+      PVSTSFL.MAN = 0;
+      PVSTSFL.NORM = 0;
+      PVSTSFL.UNCER = 0;
+      PV = NaN;
+      TestBadPv( pFullName );
+      return;
+    }
+  }
+  else
+  {
+    P1STS.V = P1STS.Normal;
+    PVSTS.V = PVSTS.Normal;
+    PVAUTOSTS.V = PVAUTOSTS.Normal;
+    PVSTSFL.BAD = 0;
+    PVSTSFL.MAN = 0;
+    //PVSTSFL.NORM = 1;
+    PVSTSFL.UNCER = 0;
+  }
+
+  bool setToNan = false;
+  if( PVSOURCE.V != PVSOURCE.Man )
+  {
+    if( ПолучениеP1EU.Честно==ПолучениеP1EU.V )
+    {
+      if( PVCHAR.Linear==PVCHAR.V )
+        P1EU = (P1 /100)*(PVEUHI - PVEULO) + PVEULO;
+      else if( PVCHAR.SquareRoot==PVCHAR.V )
+      {
+        if( P1 >= 0 )
+          P1EU = sqrt(P1 /100) * (PVEUHI - PVEULO) + PVEULO;
+        else
+          P1EU = (-sqrt( (-P1) /100)) * (PVEUHI - PVEULO) + PVEULO;
+      }
+      else
+        P1EU = P1;
+    }
+    else
+      P1EU = P1;
+
+    if ( P1FILTTIME > 0. )
+    {
+      if( P1EU >= PVEXLOLM && P1EU <= PVEXHILM )
+      {
+        if( IsNaN(PVAUTO) )
+          PVAUTO = P1EU;
+      }
+      PVAUTO += ( P1EU - PVAUTO ) * dt_min / ( dt_min + P1FILTTIME );
+    }
+    else
+    {
+      PVAUTO = P1EU;
+    }
+    PVAUTOSTS.V = PVAUTOSTS.Normal;
+    if ( P1CLAMPOPT.V == P1CLAMPOPT.Enable )
+    {
+      if ( PVAUTO > PVEXHILM )
+      {
+        PVAUTO = PVEXHILM;
+        PVAUTOSTS.V = PVAUTOSTS.Uncertain;
+        PVEXHIFL = 1;
+      }
+      else
+        PVEXHIFL = 0;
+      if ( PVAUTO < PVEXLOLM )
+      {
+        PVAUTO = PVEXLOLM;
+        PVAUTOSTS.V = PVAUTOSTS.Uncertain;
+        PVEXLOFL = 1;
+      }
+      else
+        PVEXLOFL = 0;
+    }
+    else
+    {
+      if ( PVAUTO > PVEXHILM )
+      {
+        PVAUTO = NaN;
+        PVAUTOSTS.V = PVAUTOSTS.Bad;
+        PVEXHIFL = 1;
+      }
+      else
+        PVEXHIFL = 0;
+      if ( PVAUTO < PVEXLOLM )
+      {
+        PVAUTO = NaN;
+        PVAUTOSTS.V = PVAUTOSTS.Bad;
+        PVEXLOFL = 1;
+      }
+      else
+        PVEXLOFL = 0;
+    }
+    if ( finite( LOCUTOFF ) )
+    {
+      if ( PVAUTO < LOCUTOFF )
+      {
+        PVAUTO = PVEULO;//?
+        setToNan = true;
+      }
+    }
+  }
+
+  if ( PVSRCOPT.V == PVSRCOPT.OnlyAuto )
+    PVSOURCE.V = PVSOURCE.Auto;
+  switch ( PVSOURCE.V )
+  {
+  case PVSOURCE.Auto:
+    PV = PVAUTO;
+    PVSTS.V = PVAUTOSTS.V;
+    if( setToNan )
+      PVAUTO = NaN;
+    break;
+  case PVSOURCE.Man:
+    if ( PV > PVEXHILM )
+      PV = PVEXHILM;
+    if ( PV < PVEXLOLM )
+      PV = PVEXLOLM;
+    PVSTS.V = PVAUTOSTS.Manual;
+    break;
+  case PVSOURCE.Sub:
+    if ( PV > PVEXHILM )
+    {
+      PV = PVEXHILM;
+      PVEXHIFL = 1;
+    }
+    else
+      PVEXHIFL = 0;
+    if ( PV < PVEXLOLM )
+    {
+      PV = PVEXLOLM;
+      PVEXLOFL = 1;
+    }
+    else
+      PVEXLOFL = 0;
+    PVSTS.V = PVAUTOSTS.Uncertain;
+    break;
+  }
+  PVP = ( PV - PVEULO ) / ( PVEUHI - PVEULO ) * 100.; 
+
+  PV_Test( PV, pFullName, A_2HP, 2, &PVHHALM, sizeof ( PVHHALM ), PVEUHI, PVEULO, dt );
+  PV_Test( PV, pFullName, A_HP, 1, &PVHIALM, sizeof ( PVHIALM ), PVEUHI, PVEULO, dt );
+  PV_Test( PV, pFullName, A_LP, -1, &PVLOALM, sizeof ( PVLOALM ), PVEUHI, PVEULO, dt );
+  PV_Test( PV, pFullName, A_2LP, -2, &PVLLALM, sizeof ( PVLLALM ), PVEUHI, PVEULO, dt );
+  TestBadPv( pFullName );
+  GOODPVHHFL = !BADPVALM.FL && PVHHALM.FL;
+  GOODPVHIFL = !BADPVALM.FL && PVHIALM.FL;
+  GOODPVLOFL = !BADPVALM.FL && PVLOALM.FL;
+  GOODPVLLFL = !BADPVALM.FL && PVLLALM.FL;
+}
+
+void DATAACQ_IMPL::TestBadPv( LPCSTR pFullName )
+{
+  if( IsNaN(PV) )
+  {
+    if(  BADPVALM.FL == 0 && pAlarm )
+      (*pAlarm)( pFullName, A_BP, BADPVALM.PR, true, PV, NULL, 0, NULL );
+    BADPVALM.FL = 1;
+    PVSTSFL.NORM = 0;
+  }
+  else
+  {
+    if( BADPVALM.FL && pAlarm )
+      (*pAlarm)( pFullName, A_BP, BADPVALM.PR, false, PV, NULL, 0, NULL );
+    BADPVALM.FL = 0;
+    PVSTSFL.NORM = 1;
+    LASTGOODPV = PV;
+  }
+}

@@ -1,0 +1,116 @@
+#include "AlmGr.h"
+//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void TAlmGr::AlarmIncDec( CAlarmEntry& data, CAlarmBase* obj )
+{
+  BYTE unit = obj->mUnit;
+  BYTE ehln = obj->btEHLN;
+  if ( data.btOnOf == 0 )// Конец сигнализации
+  {
+    if ( ehln == 2 )//LOW
+    {
+      int n = pAlmGr->count1[unit]-1;
+      if ( n < 0 ) n = 0;// Этого не должно быть
+      pAlmGr->count1[unit] = n;
+    }
+    else if ( ehln == 4 )//Emergency
+    {
+      int n = pAlmGr->count2[unit]-1;
+      if ( n < 0 ) n = 0;// Этого не должно быть
+      pAlmGr->count2[unit] = n;
+    }
+    else if ( ehln == 3 )//High
+    {
+      int n = pAlmGr->count3[unit]-1;
+      if ( n < 0 ) n = 0;// Этого не должно быть
+      pAlmGr->count3[unit] = n;
+    }
+  }
+  else
+  {
+    if ( ehln == 2 )//LOW
+    {
+      if ( data.btKvit == 0 )
+        pAlmGr->state1[unit] = true;
+      pAlmGr->count1[unit]++;
+      pAlmGr->notACK = data.btKvit ? 0 : 1;
+    }
+    else if ( ehln == 4 )//Emergency
+    {
+      if ( data.btKvit == 0 )
+        pAlmGr->state2[unit] = true;
+      pAlmGr->count2[unit]++;
+      pAlmGr->notACK = data.btKvit ? 0 : 1;
+    }
+    else if ( ehln == 3 )//High
+    {
+      if ( data.btKvit == 0 )
+        pAlmGr->state3[unit] = true;
+      pAlmGr->count3[unit]++;
+      pAlmGr->notACK = data.btKvit ? 0 : 1;
+    }
+  }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Квитирование всех объектов, которые сидят в аларменной группе
+void TAlmGr::ACK( SUniHoney& tag, bool& bAnaliz )
+  {
+  BYTE ack = pAlmGr->setACK-1;
+  if ( ack < 4 )
+    {
+    UINT N = m_nPlace;
+    for ( UINT n = 0; n < m_nCount; n++, N++ )
+      {
+      THoneyWell& obj = tag.Item(N);
+      // Этого, вообще-то, не должно быть
+      if ( obj.m_pObj == NULL )
+        continue;
+      //
+      if ( obj.m_pObj->notACK )
+//Sergej if ( TrueUNIT( obj.m_pObj->mUnit ) )
+        {
+        bAnaliz = true;
+        obj.m_pObj->setACK = 1;
+        }
+      }
+    }
+  pAlmGr->notACK = 0;
+  pAlmGr->setACK = 0;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void TAlmGr::STP( SUniHoney& tag, bool& bAnaliz )
+  {
+  int N = m_nPlace;
+  for ( UINT n = 0; n < m_nCount; n++, N++ )
+    {
+    THoneyWell& obj = tag.Item(N);
+    // Этого, вообще-то, не должно быть
+    if ( obj.m_pObj == NULL )
+      continue;
+    // Нашёлся неквитированный объект
+    if ( obj.m_pObj->notACK )
+      return;
+    }
+  // Все объекты квитированы ( nCount не может быть меньше нуля )
+  memset( pAlmGr->state1, 0, sizeof(pAlmGr->state1) );
+  memset( pAlmGr->state2, 0, sizeof(pAlmGr->state2) );
+  memset( pAlmGr->state3, 0, sizeof(pAlmGr->state3) );
+  pAlmGr->notACK = 0;
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void TAlmGr::Reset()
+{
+  if( !pAlmGr )
+    return;
+  memset( pAlmGr->state1, 0, sizeof(pAlmGr->state1) );
+  memset( pAlmGr->state2, 0, sizeof(pAlmGr->state2) );
+  memset( pAlmGr->state3, 0, sizeof(pAlmGr->state3) );
+  memset( pAlmGr->count1, 0, sizeof(pAlmGr->count1) );
+  memset( pAlmGr->count2, 0, sizeof(pAlmGr->count2) );
+  memset( pAlmGr->count3, 0, sizeof(pAlmGr->count3) );
+  pAlmGr->notACK = 0;
+  pAlmGr->setACK = 0;
+  pAlmGr->Shelved = 0;
+  pAlmGr->btEHLN = 0;
+  pAlmGr->btType = 0;
+}

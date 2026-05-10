@@ -1,0 +1,36 @@
+#include <DataTypes_.h>
+#include <CommonH.h>
+#include <ShData.h>
+#include "ListValue.h"
+#include "Sh_Sheme.h"
+
+LPCSTR COneMnemoHoney::ClassName = GetOneMnemoNameControlBuilderHoneywell();
+
+int COneMnemoHoney::Init()
+{
+  _INIT_FROM_CBASE
+  return 0;
+}
+
+void COneMnemoHoney::BuildList()
+{
+  typedef COneMnemoHoney shareObj;
+  typedef CShOneMnemoHoney netObj;
+  ACK_ALARM
+}
+
+int COneMnemoHoney::SaveState( )
+{
+  return 0;
+}
+
+int COneMnemoHoney::RestoreState( char * StrName )
+{
+  ASS(FALSE);
+  return 1;
+}
+
+int COneMnemoHoney::GetParams( char * StrName )
+{
+  return 0;
+}

@@ -1,0 +1,119 @@
+#include <rsuErr.h>
+#include "ControlBuilder.h"
+#include <fstream>
+#include <string>
+#ifdef _WIN32
+#include "../ControlBuilderH5xxDebug/ControlBuilderH5xxDebug.h"
+#endif
+
+using namespace std;
+
+bool KControlBuilder::GetFirstACSObject()
+{
+  m_nAcsFindStep = 0;
+  m_activeModule = 0;
+  return true;
+}
+
+bool KControlBuilder::GetNextACSObject( void ** pData, char *Name, size_t sn, char *Data, size_t sd )
+{
+  switch( m_nAcsFindStep )
+  {
+  case 0:
+    strcpy_s( Name, sn, (LPCSTR)m_szObjName );
+    strcpy_s( Data, sd, "ControlBuilder" );
+    *pData = NULL;
+    m_nAcsFindStep++;
+    pszSelectedModule = NULL;
+    return true;
+  case 1:
+    {
+      if( !m_entryModule || !m_entryModule->nSubModules )
+        return false;
+      KBmBase* pM = GetBlockAfterThis( m_entryModule, pszSelectedModule, &m_activeModule );
+      if( !pM )
+      {
+        ++m_activeModule;
+        if( m_activeModule==m_entryModule->nSubModules )
+          return false;
+        pszSelectedModule = m_entryModule->BlockName;
+        pM = GetBlockAfterThis( m_entryModule, pszSelectedModule, &m_activeModule );
+        if( !pM )
+          return false;
+      }
+      pszSelectedModule = pM->BlockName;
+      strcpy_s( Name, sn, pszSelectedModule );
+      strcpy_s( Data, sd, pM->TypeName );
+      *pData = NULL;//(IBaseModel*)this;
+    }
+    return true;
+  }
+  return false;
+}
+
+KBmBase* KControlBuilder::GetBlockAfterThis( SH_Module* pUpper, LPCSTR pCur, int *_activeModule )
+{
+  if( !pCur )
+    return pUpper;
+  if( !strcmp(pCur, pUpper->BlockName ) )
+  {
+    if( pUpper->nSubModules )
+    {
+      if( _activeModule )
+        return pUpper->ppSubModules[*_activeModule];
+      return pUpper->ppSubModules[0];
+    }
+    if( pUpper->nBlocks )
+      return pUpper->ppBlocks[0];
+  }
+
+  bool bNext = false;
+  for( size_t i=0; i<pUpper->nBlocks; ++i )
+  {
+    if( bNext )
+      return pUpper->ppBlocks[i];
+    if( !strcmp(pCur, pUpper->ppBlocks[i]->BlockName ) )
+      bNext = true;
+  }
+  
+  size_t curLen = strlen( pCur );
+
+  for( size_t i=0; i<pUpper->nSubModules; ++i )
+  {
+    if( bNext )
+      return pUpper->ppSubModules[i];
+    size_t modLen = strlen( pUpper->ppSubModules[i]->BlockName );
+    if( modLen==curLen && !strcmp( pCur, pUpper->ppSubModules[i]->BlockName ) )
+      bNext = true;
+    if( curLen>modLen )
+    {
+      if( '.'==pCur[modLen] && !strncmp( pCur, pUpper->ppSubModules[i]->BlockName, modLen ) )
+        bNext = true;
+    }
+    KBmBase *p = GetBlockAfterThis( pUpper->ppSubModules[i], pCur, NULL);
+    if( p )
+      return p;
+  }
+  return NULL;
+}
+
+bool KControlBuilder::GetVar( LPCSTR pBlock, LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize /*= NULL*/, LPCSTR *ppszEnum /*= NULL*/ )
+{
+  if( !m_entryModule )
+    return false;
+  KBmBase *blk = m_entryModule->FindObj( pBlock );
+  if( !blk )
+    return false;
+  return blk->GetVar( pField, ppVar, pType, pVarSize, ppszEnum );
+}
+
+#ifdef _WIN32
+bool KControlBuilder::ShowACSObject( HWND hMainWnd, char * Name, void * pData, bool bEnternalCall )
+{
+#ifdef _WIN32
+  return ShowDebugWnd( m_entryModule, this, Name, m_szObjName, pData, bEnternalCall );
+#else 
+  return true;
+#endif
+}
+#endif

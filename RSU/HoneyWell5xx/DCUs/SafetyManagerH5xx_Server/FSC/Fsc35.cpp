@@ -1,0 +1,184 @@
+#include "FscList.h"
+#include <rsuFormats.h>
+
+static char* sid = "Константа double";
+//
+struct SFloat35
+  {
+  UINT O;// Константа
+  char m;// Для отображения единиц
+  };
+//
+bool SFscList::FuncParser35( VAR_PARSER )
+  {
+  FuncParserdo(fsc,p,dat,tmp);
+  //
+  double dValue = 0;
+  ASS( dat.data[0] == 1 );
+  switch ( dat.data[1] )
+    {
+    case 0x42:// byte
+      {
+        char* w = (char*)(dat.data+2);
+        dValue = (double)w[0];
+      }
+      break;
+    case 0x57:// word
+      {
+        short* w = (short*)(dat.data+2);
+        dValue = (double)w[0];
+      }
+      break;
+    case 0x46:// float
+      {
+        int S = 0x7f+char(dat.data[2]);
+        if ( 0x7f >= dat.data[2] )
+          S = (dat.data[2]-0x81);
+        int M = 1 << abs(S);
+        //
+        __int64 i = *(__int64*)(dat.data+3);
+        int Z = 1;
+        if ( i & 0x8000000000L )
+          Z = -1, i -= 0x8000000000L;
+        //
+        double d = 1.+(double)(i)/0x8000000000L;
+        if ( S > 0 )
+          d *= M;
+        else
+          d /= M;
+        dValue = Z*d;
+        if( 0==dat.data[2] && 0==i )
+          dValue = 0;
+      }
+      break;
+    case 0x4C:
+      {
+        long* w = (long*)(dat.data+2);
+        dValue = (double)w[0];
+      }
+      break;
+    default:
+      ASS(0);
+    }
+  //
+  SFloat35 io;
+  // Выходная точка
+  SDotValue O(enumValueDbl);
+  O.dVal = dValue;
+  io.O = fsc->AddFscDots(&O);
+  // Константы
+  io.m = dat.data[1];
+  // Заказываем память
+  p.nBuff = fsc->AddFscBuff( &io, sizeof(io) );
+  //
+  ns_UT::SLocalTmp* item = tmp.Item();
+  item->nCount = 1;
+  item->dim[0] = io.O;
+  return true;
+}
+//
+//void FuncDebugs35( VAR_DEBUGS )
+//  {
+//  strcat_s( str, sid );
+//  strcat_s( str, "\r\n------------------------------------------------------------\r\n" );
+//  FuncDebugsdo( p, str );
+//  }
+//
+#ifdef _WIN32
+void SFscList::FuncPaints35( VAR_PAINTS )
+{
+  SFloat35* dat = (SFloat35*)fsc->Data(p.nBuff);
+  SDotValue*  d = fsc->DotV(dat->O);
+  switch ( dat->m )
+    {
+    case 0x42:// byte
+      {
+      int   n = (int)d->dVal;
+      char  c = (char)n;
+      d->dVal = (double)c;
+      }
+      break;
+    case 0x57:// word
+      {
+      int   n = (int)d->dVal;
+      short c = (short)n;
+      d->dVal = (double)c;
+      }
+      break;
+    case 0x4C:
+      KKK();
+      break;
+    case 'F':
+      break;
+    default:
+      ASS(0);
+
+    };
+  //
+  RECT rcl = p.rect; rcl.right = rcl.left+10;
+  RECT rcr = p.rect; rcr.left  = rcl.right+2;
+  //
+  CMyPen pen( font, (nSelect == dat->O) ? SELCOLOR : BOXCOLOR );
+  pen.Rect( p.rect );
+  pen.Rect( rcl );
+  //
+  char txt[64*4];
+  memcpy( txt, &dat->m, 1 );
+  txt[1] = 0;
+  font.Draw ( rcl, txt );
+  //
+  switch ( dat->m )
+    {
+    default:
+    case 0x42:// byte
+    case 0x57:// word
+      sprintf_s( txt, sizeof(txt), "%.0f", d->dVal );
+      break;
+    case 0x46:// float
+    {
+        std::string str;
+        DblToStr(str, d->dVal);
+        sprintf_s(txt, sizeof(txt), "%s", str.c_str());
+    }
+      break;
+    }
+  font.DrawS( rcr, txt, DT_LEFT );
+}
+#endif
+//
+void SFscList::FuncSetLnk35( VAR_SETLNK )
+{
+// Не обрабатываем
+}
+////-----------------------------------------------------------------------------
+//UINT FuncCursor35( VAR_CURSOR )
+//  {
+//  SFloat35* dat = (SFloat35*)fsc->Data(p.nBuff);
+//  return dat->O;
+//  }
+////-----------------------------------------------------------------------------
+UINT* SFscList::FuncOutput35( VAR_OUTPUT )
+{
+  SFloat35* dat = (SFloat35*)fsc->Data(p.nBuff);
+  n = 1;
+  return &dat->O;
+}
+////-----------------------------------------------------------------------------
+void SFscList::FuncTimers35( VAR_TIMERS )
+{
+}
+////-----------------------------------------------------------------------------
+int SFscList::FuncQuickWatch35( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName )
+{
+  return 0;
+}
+
+int SFscList::SaveState35( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj )
+{
+  return 0;
+}
+
+int SFscList::RestoreState35( IStateSer *prest, IFscStorage* fsc, LFscBase *obj )
+{
+  return 0;
+}

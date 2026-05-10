@@ -1,0 +1,192 @@
+#include "QB_Server.h"
+#include <rsuNoNames.h>
+#include <ConnectQB.h>
+#include <RsuX.h>
+#include <dylib.hpp>
+
+extern KNoName *g_IOs;
+
+extern nRSUx::SParamInfo RsuConnectParamInfo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pSuffix );
+KQuickBuilder* gl_pQuickBuilder;
+
+KServer::KServer( LPCSTR pszModelName )
+: KQuickBuilder( pszModelName )
+#ifdef _WIN32
+, m_hWndThread( 0 )
+, m_hCmdWnd( 0 )
+#endif
+{
+  m_bInited = m_bStep0 = m_bStep1 = false;
+
+  gl_pQuickBuilder = this;
+  if( pRegisterRsuConnection )
+    pRegisterRsuConnection( "РСУ_QB_", RsuConnectParamInfo, NULL );
+}
+
+int KServer::Initialize()
+{
+  if( m_bInited )
+    return 0;
+  m_bInited = true;
+  if( !pRegisterQBstructs )
+    dylib* lib = new dylib("QB5xxRegisterInRSU", true);
+  if( pRegisterQBstructs )
+    pRegisterQBstructs();
+#ifdef _WIN32
+  DWORD ThreadId;
+  m_hWndThread = ::CreateThread( NULL, 0, s_WndThread, (void*)this, 0, &ThreadId );
+
+  while( !m_hCmdWnd )
+    Sleep( 100 );
+#endif
+  KQuickBuilder::InitL();
+  //if( m_hCmdWnd )
+  //  SendMessage( m_hCmdWnd, WM_USER+1, 2, 0 );
+  return 0;
+}
+
+int KServer::AfterInit()
+{
+  if( m_bStep0 )
+  {
+    DWORD id = 0;
+    CBase* pBase;
+    LPCSTR pszName = NULL;
+    while( g_IOs->WhileBase( id, 0, &pBase, &pszName, NULL ) )
+    {
+      if( !IsQBAcy(pBase->ID_CLASS) )
+        continue;
+      CAlarmBase* pAlrmed = (CAlarmBase*)pBase;
+      //pAlrmed->noKvit = false;
+      //pAlrmed->mAck = false;
+      pAlrmed->btEHLN = 0;
+      pAlrmed->btType = 0;
+      pAlrmed->notACK = 0;
+      pAlrmed->setACK = 0;
+      pAlrmed->cfa = 0;
+      pAlrmed->mUse = 0;
+      pAlrmed->mUnit = 0;
+      pAlrmed->Shelved = 0;
+    }
+    return 0;
+  }
+  m_bStep0 = true;
+  return KQuickBuilder::Step0L();
+}
+
+int KServer::AfterRestored()
+{
+  if( m_bStep1 )
+    return 0;
+  m_bStep1 = true;
+  return KQuickBuilder::Step1L();
+}
+
+int KServer::CalcStep( int dtMs )
+{
+  double dtS = dtMs / 1000.;
+  return KQuickBuilder::StepTL( dtS );
+}
+
+namespace ns_details
+{
+  static LPCSTR s_szWndClassName = "QB5xxServer_ModelWindowClass";
+  static int s_flagRegisteredWindow = 0;
+}
+
+#ifdef _WIN32
+extern HINSTANCE g_hInst;
+
+DWORD KServer::s_WndThread(LPVOID lpParam)
+{
+    KServer* p = (KServer*)lpParam;
+    p->WndThread();
+    return 0;
+}
+
+void KServer::WndThread()
+{
+  if( !ns_details::s_flagRegisteredWindow )
+  {
+    WNDCLASSEX wc;
+    ::memset ( &wc, 0, sizeof( wc ) );
+    wc.cbSize = sizeof(WNDCLASSEX);
+    wc.lpfnWndProc = s_WndProc;
+    wc.hInstance     = g_hInst;
+    wc.lpszClassName = ns_details::s_szWndClassName;
+    ::RegisterClassEx( &wc );
+  }
+  ++ns_details::s_flagRegisteredWindow;
+  HWND hCmdWnd = ::CreateWindow( ns_details::s_szWndClassName, 0, WS_DISABLED, 0, 0, 0, 0, 0, 0, g_hInst, this );
+  if( !hCmdWnd )
+  {
+    return;
+  }
+
+  ::SetWindowLongPtr( hCmdWnd, GWLP_USERDATA, (LONG_PTR)this );
+
+  MSG msg;
+  while (GetMessage(&msg, NULL, 0, 0))
+  {
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+  }
+}
+
+LRESULT KServer::s_WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+  switch( msg )
+  {
+  case WM_CREATE:
+    {
+      CREATESTRUCT *pCreate = (CREATESTRUCT*)lParam;
+      if( pCreate->lpCreateParams )
+      {
+        KServer* p = reinterpret_cast<KServer*>(pCreate->lpCreateParams);
+        if( p )
+          return p->WndProcImpl( hWnd, msg, wParam, lParam );
+      }
+    }
+    break;
+  case WM_DESTROY:
+    break;
+  }
+
+  LONG_PTR lg = GetWindowLongPtr( hWnd, GWLP_USERDATA);
+  if( lg )
+  {
+    KServer* p = reinterpret_cast<KServer*>(lg);
+    if( p )
+      return p->WndProcImpl( hWnd, msg, wParam, lParam );
+  }
+
+  return ::DefWindowProc( hWnd, msg, wParam, lParam );
+}
+
+
+LRESULT KServer::WndProcImpl( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+  switch( msg )
+  {
+  case WM_CREATE:
+    m_hCmdWnd = hWnd;
+    return 0;
+  case WM_USER+1:
+    if( 1==wParam )
+    {
+      LPCSTR pszName = (LPCSTR)lParam;
+      ShowACSObject( NULL, (LPSTR)pszName, NULL );
+    }
+    //else if( 2==wParam )
+    //  KQuickBuilder::InitL();
+    break;
+  }
+  return ::DefWindowProc( hWnd, msg, wParam, lParam );
+}
+
+void KServer::ShowObject( LPCSTR pszName )
+{
+  if( m_hCmdWnd )
+    SendMessage( m_hCmdWnd, WM_USER+1, 1, (LPARAM)pszName );
+}
+#endif

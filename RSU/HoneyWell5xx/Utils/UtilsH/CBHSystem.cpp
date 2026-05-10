@@ -1,0 +1,31 @@
+#include <DataTypes_.h>
+#include <CommonH.h>
+#include <rsuErr.h>
+
+LPCSTR CCBHSystem::ClassName = GetNameControlBuilderHoneywell();
+
+int CCBHSystem::Init()
+{
+  _INIT_FROM_CBASE
+  return 0;
+}
+
+void CCBHSystem::BuildList()
+{
+}
+
+int CCBHSystem::SaveState( )
+{
+  return 0;
+}
+
+int CCBHSystem::RestoreState( char * StrName )
+{
+  ASS(FALSE);
+  return 1;
+}
+
+int CCBHSystem::GetParams( char * StrName )
+{
+  return 0;
+}

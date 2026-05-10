@@ -1,0 +1,8 @@
+SharedAnalog64Savebale(RAW64)
+SharedAnalog32Savebale(PV32)
+SharedAnalog64(GAIN)
+SharedDigital32(OVPLUS)
+SharedDigital32(OVMINUS)
+SharedChars( Module, 256)
+SharedChars( TagInModuleOrOPC, 256)
+SharedDigital32Savebale(QUALITY)

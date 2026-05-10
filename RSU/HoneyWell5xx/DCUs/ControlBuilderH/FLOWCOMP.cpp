@@ -1,0 +1,59 @@
+#include <rsuErr.h>
+#include "H_Class.h"
+#include <math.h>
+
+static SBlockCreate FLOWCOMP( "FLOWCOMP", SH_FLOWCOMP::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(SH_FLOWCOMP,W_FLOWCOMP,50)
+
+void SH_FLOWCOMP::InitParm()
+{
+#include "Blocks/FLOWCOMP.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Blocks/FLOWCOMP_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+class FLOWCOMP_IMPL : public W_FLOWCOMP
+{
+public:
+  void StepT( SStepCalcParams &dt );
+};
+
+void SH_FLOWCOMP::StepT( SStepCalcParams &dt )
+{
+  SH_Block::StepT( dt );
+  FLOWCOMP_IMPL *impl = reinterpret_cast<FLOWCOMP_IMPL*>(W);
+  impl->StepT( dt );
+}
+
+void SH_FLOWCOMP::StepAfterRestoreState()
+{
+  W->HIALM.PR = __ALPRIOR::None;
+  W->HIALM.TYPE = __DACALMTYPE::None;
+  W->HIALM.SV = 0;
+}
+//////////////////////////////////////////////////////////////////////////
+void FLOWCOMP_IMPL::StepT( SStepCalcParams &dt )
+{
+  if( _PVEQN::EQA==PVEQN.V )
+    COMPTERM = G / RG;
+  else if( _PVEQN::EQB==PVEQN.V )
+    COMPTERM = ((P + P0) / RP) * (RT/(T+T0));
+  else if( _PVEQN::EQC==PVEQN.V )
+    COMPTERM = ((P + P0) / RP) * (RT/(T+T0)) * (G/RG);
+  else if( _PVEQN::EQD==PVEQN.V )
+    COMPTERM = ((P + P0) / RP) * (RT/(T+T0)) * (RMW/MW);
+  else if( _PVEQN::EQE==PVEQN.V )
+    COMPTERM = ((P + P0) / RP) * (RT/(T+T0)) * (X/RX) * (RQ/Q);
+  else
+  {
+    ASSD(0);
+  }
+
+  if( _PVCHAR::SQUAREROOT==PVCHAR.V )
+    COMPTERM = sqrt(COMPTERM);
+  PV = CPV * CF1 / CF2 * F * COMPTERM;
+}

@@ -1,0 +1,265 @@
+#include "ListValue.h"
+#include <macros/AutoCloser.h>
+#include <TagType.h>
+#include <UtilsQB.h>
+#include <macros/StrHelps.h>
+#include <crosssemaphore.h>
+#include <Common.h>
+#include <crossplatform.h>
+
+SListValue theList;
+extern std::unique_ptr<cross::counting_semaphore> hSemValue;
+
+SListValue::SListValue()
+: mName( mChar )
+{
+}
+
+static const char g_chVer = 1;
+
+void SListValue::Attach(std::filesystem::path modulePath)
+{
+    hSemValue->try_acquire_for(10000);
+    //
+    CharMP szBin;
+    ::GetBinFile(szBin, modulePath.string().c_str(), "honeyQBlist");
+    //
+
+  bool bRead = true;
+  std::error_code errorCode;
+  auto lastWriteTime = ToFILETIME(std::filesystem::last_write_time(modulePath, errorCode));
+  if (!errorCode)
+  {
+#ifndef _DEBUG
+    DWORD dwSize;
+    KAutoCloser<char*> szBuffer( ::FileToBuff( szBin, dwSize ), ::BuffFree );
+    if( szBuffer )
+    {
+      char* ptr = szBuffer;
+      if( *ptr == g_chVer )//Версия
+      {
+        ptr++;
+        FILETIME* F = (FILETIME*)ptr;
+        // Проверяем дату поледней сборки DLL
+        if (::EqAttr(lastWriteTime, F[0]))//Время последнего изменения
+        {
+          ptr += sizeof(FILETIME);
+          Read(ptr);
+          mEnum.Read(ptr);
+          mHand.Read(ptr);
+          mName.Read(ptr);
+          mChar.Read(ptr);
+          bRead = false;
+        }
+      }
+    }
+#endif
+  }
+
+  if ( bRead )
+  {
+    BuildList();
+    // Сразу же записываем
+    std::ofstream hFile;
+    hFile.open(szBin, std::ios::trunc | std::ios::binary);
+    if ( hFile.is_open() )
+    {
+      hFile.write(& g_chVer, 1 );
+      hFile.write((char*)&lastWriteTime, sizeof(FILETIME));
+      Write( hFile );
+      mEnum.Write( hFile );
+      mHand.Write( hFile );
+      mName.Write( hFile );
+      mChar.Write( hFile );
+      hFile.close();
+    }
+  }
+  BuildName();
+}
+
+void SListValue::Detach()
+{
+  Clear();
+  mEnum.Clear();
+  mHand.Clear();
+  mName.Clear();
+  mChar.Clear();
+}
+
+STagType* FindTagType( char* name )
+{
+  static STagType list[] =
+  {
+    //{ "system", (EDataTypes)CSystem  ::TypeID ,CSystem  ::BuildList },
+#undef   QB_TYPE
+#define  QB_TYPE( a, b, c ) { c, #b, id_##b, W_##b::BuildList },
+#include <QuickBuilderType.hpp>
+  };
+  static bool bInit = true;
+  Qsort( list, _countof(list), sizeof(list[0]), bInit );
+  if( name == NULL ) 
+    return list;
+  if( *name ==  0  )
+    return (STagType*)_countof(list);
+  return (STagType*)SearchName( name, list, _countof(list), sizeof(list[0]) );
+}
+// Построение списка переменных
+void SListValue::BuildList()
+{
+  char null = 0;
+  mChar.AddObj( &null );
+
+  STagType* lst = FindTagType( NULL );
+  size_t nCount = (size_t)FindTagType( "" );
+  for ( int n = 0; n < nCount; n++ )
+    lst[n].build();
+}
+
+int SortValueDef( const void * d1, const void * d2 ) 
+{
+  SValueDef* p1 = (SValueDef*)d1;
+  SValueDef* p2 = (SValueDef*)d2;
+  int ret = _strcmpi( p1->name, p2->name );
+  if ( ret == 0 )
+  {
+    if ( p1->dwLog > p2->dwLog )
+      ret = -1;
+    else
+      if ( p1->dwLog < p2->dwLog )
+        ret =  1;
+  }
+  return ret;
+}
+// Преобразование HNAME -> const char*
+void SListValue::BuildName()
+{
+  SValueDef* obj = (SValueDef*)Obj(0);
+  UINT nCount = Count();
+  for ( UINT n = 0; n < nCount; n++ )
+    obj[n].name = mName.Name( HNAME(obj[n].name) );
+  qsort( obj, nCount, sizeof(obj[0]), SortValueDef );
+}
+
+void SListValue::AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, UINT nFlag /*= 0*/ )
+{
+  HNAME hName = mName.Add( name );
+  SValueDef obj = { LPCSTR(hName), hw, sh, eType, nFlag, nType, nFlag };
+  AddObj( &obj );
+}
+
+void SListValue::AddHW( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, LPCSTR pszEnum )
+{
+  UINT nEnum = AddEnum( pszEnum );
+  AddHW( name, hw, sh, eType, nType, nEnum );
+}
+
+UINT SListValue::AddEnum( const char* szEnum )
+{
+  if( !*szEnum )
+    return -1;
+  SLocalENUM obj;
+  obj.nPlace = mHand.Count();
+  char  buf[1024];
+  strcpy_s( buf, szEnum );
+  char* ptr = buf;
+  while ( 1 )
+  {
+    char* p = strchr( ptr, ',' );
+    TStringTerminator st(p);
+    //
+    if( !strchr(ptr,'=') )
+    {
+      HNAME hEnum = mName.Add( ptr );
+      mHand.AddObj( &hEnum );
+    }
+    //
+    if( !p )
+      break;
+    ptr = p+1;
+  }
+  obj.nCount = mHand.Count()-obj.nPlace;
+  return mEnum.AddObj(&obj);
+}
+
+void SListValue::AddHWImpl( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, int nCount, size_t elSize, UINT nFlag /*= 0*/ )
+{
+  HNAME  hName;
+  char szName[128 * 4];
+  for( int n = 0; n < nCount; ++n )
+  {
+    sprintf_s( szName, sizeof(szName), "%s(%d)", name, n );
+    hName = mName.Add( szName );
+    SValueDef obj = { LPCSTR(hName), hw, sh, eType, nFlag, nType };
+    AddObj( &obj );
+
+    sprintf_s( szName, sizeof(szName), "%s[%d]", name, n );
+    hName = mName.Add( szName );
+    SValueDef obi = { LPCSTR(hName), hw, sh, eType, nFlag, nType };
+    AddObj( &obi );
+    //
+    hw += elSize, sh += elSize;
+  }
+}
+
+/*void SListValue::AddHW_Enum( LPCSTR name, DWORD_PTR hw, DWORD_PTR sh, EValueType eType, UINT nType, LPCSTR szEnum )
+{
+}*/
+
+SValueDef* SListValue::Find( const char* name, UINT nType )
+{
+  if( !name )
+    return NULL;
+  if( !*name )
+    return NULL;
+  //
+  SValueDef* obj = (SValueDef*)Obj(0);
+  UINT nCount = Count();
+  //
+  SValueDef fnd = { name, 0, 0, enumValueUnk, 0, nType };
+  return (SValueDef*)bsearch( &fnd, obj, nCount, sizeof(obj[0]), SortValueDef );
+}
+
+LPCSTR SListValue::EnumStr( SValueDef& def, BYTE val )
+{
+  if ( def.dwFlag < mEnum.Count() )
+  {
+    SUniENUM::_Type* obj = mEnum.Obj(def.dwFlag);
+    if ( val < obj->nCount )
+    {
+      HNAME hName = *(HNAME*)mHand.Obj( obj->nPlace+val );
+      return mName.Name( hName );
+    }
+  }
+  return mChar.m_szBuffer;
+}
+
+BYTE SListValue::EnumVal( SValueDef& def, LPCSTR name )
+{
+  if ( def.dwFlag < mEnum.Count() )
+  {
+    SUniENUM::_Type* obj = mEnum.Obj(def.dwFlag);
+    for ( UINT n = 0; n < obj->nCount; n++ )
+    {
+      HNAME hName = *(HNAME*)mHand.Obj( obj->nPlace+n );
+      const char* text = mName.Name( hName );
+      if ( _strcmpi( text, name ) == 0 )
+        return n;
+    }
+  }
+  return 0xff;
+}
+
+SValueDef* NameToValueQB( DWORD eData, LPCTSTR name )
+{
+  return theList.Find( name, eData );
+}
+
+LPCSTR EnumStrQB( SValueDef& def, BYTE val )
+{
+  return theList.EnumStr( def, val );
+}
+
+BYTE EnumValQB( SValueDef& def, LPCSTR name )
+{
+  return theList.EnumVal( def, name );
+}

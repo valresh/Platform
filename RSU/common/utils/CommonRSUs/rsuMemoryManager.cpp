@@ -1,0 +1,196 @@
+#include <rsuMemoryManager.h>
+#include <stdio.h>
+#include "OnDiskAllocator.h"
+#include <cstring>
+#include <algorithm>
+
+#ifdef LINUX
+#include "LogFile.h"
+#endif // LINUX
+
+BYTE* KRsuMemoryManager::SWorkingKvant::GetMemory(DWORD count)
+{
+    if ((Pos + count) > Size)
+        return NULL;
+    BYTE* p = &pMem[Pos];
+    memset(p, 0, count);
+    Pos += count;
+    return p;
+}
+
+DWORD KRsuMemoryManager::SWorkingKvant::LeftFree()
+{
+    return Size - Pos;
+}
+
+//////////////////////////////////////////////////////////////////////////
+static LPCSTR s_szMemExt = "mem";
+KRsuMemoryManager::KRsuMemoryManager()
+    : m_pFirstBlock(NULL)
+    , m_pActiveBlock(NULL)
+    , m_addMBytes(10)
+{
+}
+
+KRsuMemoryManager::~KRsuMemoryManager()
+{
+}
+
+KRsuMemoryManager::KRsuMemoryManager(KRsuMemoryManager& src)
+{
+}
+
+KRsuMemoryManager& KRsuMemoryManager::operator = (KRsuMemoryManager& src)
+{
+    return *this;
+}
+
+static DWORD toBytes(DWORD mb)
+{
+    return mb * 1024 * 1024;
+}
+
+size_t KRsuMemoryManager::Create(LPCSTR pszName, DWORD nInitialMBytes, DWORD addMBytes /*= 20*/)
+{
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_1: m_pActiveBlock %08lx, pszName %s", m_pActiveBlock, pszName);
+#endif // LINUX
+
+    if (m_pActiveBlock)
+        return m_pActiveBlock->LeftFree();
+    m_addMBytes = addMBytes;
+    SWorkingKvant kvant;
+    bool bNewMem;
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_2");
+#endif // LINUX
+
+    DWORD lenName = (DWORD)strlen(pszName) + 1;
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_3");
+#endif // LINUX
+
+    DWORD realSize = toBytes(nInitialMBytes) + sizeof(kvant) + lenName;
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_31: nInitialMBytes %d, realSize %d", (int)nInitialMBytes, (int)realSize);
+#endif // LINUX
+
+    kvant.pMem = OnDiskAllocator(kvant.hVarMapping, bNewMem, realSize, pszName, s_szMemExt, true);
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_4: kvant.pMem %08lx", kvant.pMem);
+#endif // LINUX
+
+    if (!kvant.pMem)
+        return 0;
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_5");
+#endif // LINUX
+
+    kvant.Size = toBytes(nInitialMBytes);
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_51: realSize %d", (int)realSize);
+#endif // LINUX
+
+#ifndef LINUX
+    memset(kvant.pMem, 0, realSize);
+#endif // NOT LINUX
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_52");
+#endif // LINUX
+
+    memcpy(kvant.GetMemory(sizeof(kvant)), &kvant, sizeof(kvant));
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_53");
+#endif // LINUX
+
+    m_pFirstBlock = m_pActiveBlock = (SWorkingKvant*)kvant.pMem;
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_6: m_pActiveBlock %08lx", m_pActiveBlock);
+#endif // LINUX
+
+    LPSTR psz4Name = (LPSTR)m_pActiveBlock->GetMemory(lenName);
+    strncpy(psz4Name, pszName, lenName);
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::Create_7: m_pActiveBlock->Size %d", m_pActiveBlock ? (int)m_pActiveBlock->Size : 0);
+#endif // LINUX
+    return m_pActiveBlock->Size;
+}
+
+BYTE* KRsuMemoryManager::AllocMemory(DWORD size)
+{
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::AllocMemory_1: size %d, m_pActiveBlock %08lx", (int)size, m_pActiveBlock);
+#endif // LINUX
+
+    if (!size)
+        return NULL;
+    if (!m_pActiveBlock)
+        return NULL;
+    DWORD needSize = size;
+    size += sizeof(DWORD);
+
+    BYTE* p = NULL;
+    if (m_pActiveBlock->LeftFree() >= size)
+        p = m_pActiveBlock->GetMemory(size);
+    else
+    {
+        for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext)
+        {
+            if (pb->LeftFree() >= size)
+            {
+                p = pb->GetMemory(size);
+                break;
+            }
+        }
+    }
+    if (!p)
+    {
+        int n = 0;
+        for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext, ++n)
+        {
+        }
+        SWorkingKvant kvant;
+
+        DWORD bytes = std::max(size, toBytes(m_addMBytes)) + sizeof(kvant);
+        LPCSTR pName = (LPCSTR)m_pFirstBlock->pMem + sizeof(kvant);
+        char szName[512];
+        snprintf(szName, sizeof(szName), "%s_%d", pName, n);
+#ifdef LINUX
+        CLogFile::Log("KRsuMemoryManager::AllocMemory_2: szName %s", szName);
+#endif // LINUX
+
+        bool bNewMem;
+        kvant.pMem = OnDiskAllocator(kvant.hVarMapping, bNewMem, bytes, szName, s_szMemExt, true);
+#ifdef LINUX
+        CLogFile::Log("KRsuMemoryManager::AllocMemory_3: kvant.pMem %08lx", kvant.pMem);
+#endif // LINUX
+
+        if (!kvant.pMem)
+            return NULL;
+        kvant.Size = bytes;// - sizeof(kvant);
+#ifndef LINUX
+        memset(kvant.pMem, 0, bytes);
+#endif // NOT LINUX
+        memcpy(kvant.GetMemory(sizeof(kvant)), &kvant, sizeof(kvant));
+        m_pActiveBlock->pNext = (SWorkingKvant*)kvant.pMem;
+        m_pActiveBlock = m_pActiveBlock->pNext;
+        p = m_pActiveBlock->GetMemory(size);
+    }
+
+    *(DWORD*)p = needSize;
+    p += sizeof(DWORD);
+#ifdef LINUX
+    CLogFile::Log("KRsuMemoryManager::AllocMemory_4: p %08lx", p);
+#endif // LINUX
+
+    return p;
+}
+
+void KRsuMemoryManager::Clear()
+{
+    for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext)
+    {
+        pb->Pos = sizeof(SWorkingKvant);
+    }
+    m_pActiveBlock = m_pFirstBlock;
+}

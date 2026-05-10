@@ -1,0 +1,246 @@
+﻿<Window x:Class="FlexChemEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:FlexChemEditor"
+        xmlns:FlexDesigner="clr-namespace:FlexDesigner;assembly=FlexDesigner"
+        Title="{Binding ElementName=designerCanvas, Path=OpennedFile}" Height="650" Width="825">
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/ImagesDictionary.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/Toolbox.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/ToolboxItem.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/DesignerItem.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/Connector.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/Connection.xaml"/>
+        <ResourceDictionary Source="/FlexDesigner;component/Resources/DesignerCanvasDictionary.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Window.Resources>
+
+  <Window.InputBindings>
+    <KeyBinding Key="Del" Command="{Binding DiagramViewModel.DeleteSelectedItemsCommand}" />
+  </Window.InputBindings>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!--<Menu Grid.Row="0" Background="LightBlue">
+      <MenuItem Header="_File" x:Uid="menu.File">
+        <MenuItem Header="_Очистить" x:Name="miNew" 
+                Command="{x:Static ApplicationCommands.New}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"/>
+        <MenuItem Header="_SaveAs" x:Name="miSaveAs" x:Uid="menu.File.SaveAs" 
+                  Command="{x:Static ApplicationCommands.SaveAs}" 
+                  CommandTarget="{Binding ElementName=designerCanvas}"/>
+      </MenuItem>
+    </Menu>-->
+
+    <ToolBarTray Grid.Row="1">
+      <ToolBar Band="0">
+        <CheckBox Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}" 
+                  Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}" 
+                  ToolTip="Сетка" 
+                  IsChecked="{Binding ElementName=designerCanvas, Path=IsGridVisible}"
+                  Command="{Binding ElementName=designerCanvas, Path=GridVisible}">
+          <CheckBox.Content>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+              <Image Grid.Row="0" Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Сетка.png"/>
+              <StackPanel Grid.Row="1">
+                <TextBlock Text="Сетка"/>
+                <TextBlock Text=""/>
+              </StackPanel>
+            </Grid>
+          </CheckBox.Content>
+        </CheckBox>
+      </ToolBar>
+      <ToolBar>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.New}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Новая схема">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Новая схема.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Новая"/>
+              <TextBlock Text="схема"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.Open}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Открыть">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Открыть.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Открыть"/>
+              <TextBlock Text=""/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.Save}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Сохранить">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Сохранить.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Сохранить"/>
+              <TextBlock Text=""/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.SaveAs}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Сохранить под другим именем">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Сохранить как.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Сохранить"/>
+              <TextBlock Text="как"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+      </ToolBar>
+      <ToolBar>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.Paste}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Вставить">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Вставить.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Вставить"/>
+              <TextBlock Text="из буфера"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=ToolbarButtonSize}"
+                Command="{x:Static ApplicationCommands.Copy}" 
+                CommandTarget="{Binding ElementName=designerCanvas}"
+                ToolTip="Копировать">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="pack://application:,,/FlexDesigner;Component/Images/64х64/Копировать.png"/>
+            <StackPanel Grid.Row="1">
+              <TextBlock Text="Копировать"/>
+              <TextBlock Text="в буфер"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+      </ToolBar>
+    </ToolBarTray>
+
+    <Grid Background="LightBlue" Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0">
+        <Grid Grid.Column="2">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer.Resources>
+              <DataTemplate x:Key="HeaderText">
+                <Border Height="25" Background="Transparent">
+                  <TextBlock Text="{Binding}" Margin="4 0" VerticalAlignment="Center" Foreground="Blue" FontWeight="Bold"/>
+                </Border>
+              </DataTemplate>
+              <Style TargetType="{x:Type Expander}">
+                <Setter Property="HeaderTemplate" Value="{StaticResource HeaderText}"/>
+              </Style>
+            </ScrollViewer.Resources>
+            <StackPanel Grid.Row="0" Name="Elements"/>
+          </ScrollViewer>
+          
+          <Expander Grid.Row="1" IsExpanded="True" ExpandDirection="Down" Header="Свойства">
+            <StackPanel>
+              <TextBox PreviewKeyDown="DgName_PreviewKeyDown" Name="DgName" Visibility="Collapsed" HorizontalAlignment="Stretch" Text="{Binding Path=VisibleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+              <DockPanel Name="DgExecOrder" LastChildFill="True" Visibility="Collapsed">
+                <TextBlock Text="Послед-сть выполнения"/>
+                <TextBox HorizontalAlignment="Stretch" Text="{Binding Path=ExecOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+              </DockPanel>
+              <DataGrid Name="DgProperties" AutoGenerateColumns="False" HeadersVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" MaxHeight="300" >
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="Свойство" Width="0.5*" Binding="{Binding Key}" IsReadOnly="True"/>
+                  <DataGridTextColumn Header="Значение" Width="Auto" Binding="{Binding Value}" IsReadOnly="False"/>
+                </DataGrid.Columns>
+              </DataGrid>
+            </StackPanel>
+          </Expander>
+        </Grid>
+      </Border>
+      
+      <Border Grid.Column="1">
+        <Grid Background="LightBlue">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <FlexDesigner:DesignerCanvas MinHeight="100"
+                        MinWidth="100"
+                        AllowDrop="True"
+                        FocusVisualStyle="{x:Null}"
+                        Focusable="true"
+                        ContextMenu="{StaticResource DesignerCanvasContextMenu}"
+                        x:Name="designerCanvas"
+                                         SnapsToDevicePixels="True">
+              <FlexDesigner:DesignerCanvas.Style>
+                <Style TargetType="{x:Type FlexDesigner:DesignerCanvas}">
+                  <Setter Property="Background" Value="{StaticResource SnappingGridBrush_Points}"/>
+                  <Style.Triggers>
+                    <Trigger Property="FlexDesigner:DesignerCanvas.IsGridVisible" Value="false">
+                      <Setter Property="Background" Value="Transparent"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </FlexDesigner:DesignerCanvas.Style>
+            </FlexDesigner:DesignerCanvas>
+          </ScrollViewer>
+        </Grid>
+      </Border>
+
+      <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+    </Grid>
+  </Grid>
+</Window>

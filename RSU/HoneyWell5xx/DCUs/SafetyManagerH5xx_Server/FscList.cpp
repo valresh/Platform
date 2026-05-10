@@ -1,0 +1,825 @@
+#include "FscList.h"
+#include <algorithm>
+
+SFscList::pfFuncParser SFscList::func[funcCount] = {};
+SFscList::pfFuncSetLink SFscList::funcSL[funcCount] = {};
+#ifdef _WIN32
+SFscList::pfFuncPaints SFscList::funcPaints[funcCount] = {};
+#endif
+SFscList::pfFuncPaintOutput SFscList::funcPaintOutput[funcCount] = {};
+SFscList::pfFuncTimers SFscList::funcFuncTimers[funcCount] = {};
+SFscList::pfFuncQuickWatchs SFscList::funcFuncQuickWatchs[funcCount] = {};
+SFscList::pfSaveState SFscList::funcSaveStates[funcCount] = {};
+SFscList::pfRestoreState SFscList::funcRestoreStates[funcCount] = {};
+
+SFscList::SFscList()
+{
+    static bool bInit = true;
+    if (bInit)
+    {
+        bInit = false;
+        ZeroMemory(funcFuncTimers, sizeof(funcFuncTimers));
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcFuncTimers[Nomer] = &SFscList::FuncTimers##Name;
+#include "FscEnum.hpp"
+    }
+}
+
+int SFscList::Load( IFscStorage* fsc, SfscAbstruct* pDat, DWORD dwDatSize, DWORD dwCount, CSIZE& szDoc, SUniTemp& tmp, FILE* hFile, BYTE bFile, UINT nNumber )
+{
+  static bool bInit = true;
+  if( bInit )
+  {
+    bInit = false;
+    ZeroMemory( func, sizeof(func) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) func[Nomer] = &SFscList::FuncParser##Name;
+#include "FscEnum.hpp"
+  }
+
+  // Тест формата
+  if( pDat->id != 0 ) //0x044eafab )
+    return -1;
+
+  const UINT nPlace = Count();
+
+  SfscAbstruct* pDatZ = (SfscAbstruct*)(((BYTE*)pDat)+dwDatSize);
+
+  int b3e = 0;
+  int b3x = 0;
+  for ( DWORD n = 1; n < dwCount; ++n, pDatZ = (SfscAbstruct*)(((BYTE*)pDatZ)+dwDatSize) )
+  {
+    if ( pDatZ->type == 0x3E )
+    {
+      if ( b3e == 0 )
+      {
+        b3e = 1;
+        continue;
+      }
+      else if ( b3e == 1 )
+      {
+        continue;
+      }
+      else if ( b3e == 2 )
+      {
+        ASS(0);
+      }
+    }
+    b3e = 2;
+    //
+    if ( 0x3A <= pDatZ->type && pDatZ->type <= 0x3D )
+      b3x = 1;
+    else if ( b3x == 1 )
+      continue;
+    //
+    if ( pDatZ->type == 0x41 && pDatZ->data[0] != 1 )
+      continue;
+    //
+    szDoc.cx = std::max<LONG>(szDoc.cx,pDatZ->x+pDatZ->cx);
+    szDoc.cy = std::max<LONG>(szDoc.cy,pDatZ->y+pDatZ->cy);
+    //
+    ASS( func[ pDatZ->type ] );
+    if( !func[ pDatZ->type ] )
+      return -1;
+    {
+      SFscBase obj;
+      obj.nNumberFld = nNumber;
+      AddObj( &obj );
+    }
+    UINT uniN = Count() - 1;
+    SFscBase *pObj = Item( uniN );
+    pObj->uniNum = uniN;
+    (this->*func[ pDatZ->type ])( fsc, *pObj, *pDatZ, tmp );
+    KKK();
+  }
+
+  szDoc.cx += 10, szDoc.cy += 10;
+
+  // Процедуры делаем ещё в 2-захода
+  const BYTE key[] = { 2, 3 };
+  for( int Z=0; Z<_countof(key); ++Z )
+  {
+    pDatZ = (SfscAbstruct*)(((BYTE*)pDat)+dwDatSize);
+    for ( DWORD n = 1; n < dwCount; ++n, pDatZ = (SfscAbstruct*)(((BYTE*)pDatZ)+dwDatSize) )
+    {
+      if( pDatZ->type != 0x41 )
+        continue;
+      if( pDatZ->data[0] != key[Z] )
+        continue;
+      const DWORD C = Count();
+      for ( DWORD m = nPlace; m < C; m++ )
+      {
+        SFscBase* obj = Item(m);
+        if( obj->mT != 0x41 )
+          continue;
+        SRECT rectZ = { pDatZ->x, pDatZ->y, pDatZ->x+pDatZ->cx, pDatZ->y+pDatZ->cy };
+        if( !memcmp( &obj->realSMrect, &rectZ, sizeof(obj->realSMrect) ) )
+        {
+          FuncParser41_2( fsc, *obj, *pDatZ, tmp );
+          break;
+        }
+      }
+    }
+  }
+
+  return 0;
+}
+
+void SFscList::Link( IFscStorage* fsc, SUniTemp& temp, UINT nPlace, UINT nCount )
+{
+  using namespace ns_UT;
+  nCount += nPlace;
+  static bool bInit = true;
+  if ( bInit )
+  {
+    bInit = false;
+    ZeroMemory( funcSL, sizeof(funcSL) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcSL[Nomer] = &SFscList::FuncSetLnk##Name;
+#include "FscEnum.hpp"
+  }
+  // Первый проход делаем по объектам, которые являются переходами
+  for ( UINT n = nPlace; n < nCount; n++ )
+  {
+    SFscBase * obj = Item(n);
+    SLocalTmp* loc = temp.Item(n);
+    switch ( obj->mT )
+    {
+    case 0x0D:
+      if ( !GotoGoto( fsc, obj, loc, 0x15 ) )
+        GotoMult( fsc, obj, loc, 0x18 );
+      break;
+    case 0x0E:
+      if( !GotoGoto( fsc, obj, loc, 0x16 ) )
+        GotoMult( fsc, obj, loc, 0x17 );
+      break;
+    case 0x0F:
+      if ( !GotoMult( fsc, obj, loc, 0x18 ) )
+        GotoGoto( fsc, obj, loc, 0x15 );
+      break;
+    case 0x10:
+      if( !GotoMult( fsc, obj, loc, 0x17 ) )
+        GotoGoto( fsc, obj, loc, 0x16 );
+      break;
+    }
+  }
+  // Второй проход делаем по объектам, которые имеют выходные точки
+  for( UINT n = nPlace; n < nCount; n++ )
+  {
+    SFscBase * obj = Item(n);
+    SLocalTmp* loc = temp.Item(n);
+    if( loc->nCount != 0 )
+    {
+      if( 0x28==obj->mT) //NOT
+      {
+        Direct0( fsc, obj, loc, nPlace, nCount );
+        Direct1( fsc, obj, loc, nPlace, nCount );
+      }
+      else
+      {
+        if( loc->nDirect == 0 )
+        {
+          Direct0( fsc, obj, loc, nPlace, nCount );
+          KKK();
+        }
+        else if ( loc->nDirect == 1 )
+          Direct1( fsc, obj, loc, nPlace, nCount );
+        else
+        {
+          ASSD(0);
+          KKK();
+        }
+      }
+    }
+  }
+  int nReturn = 0;
+  int nBreak = 0;
+  while ( 1 )
+  {
+    nReturn++;
+    //
+    // Делаем проход по линиям, пока всё не заполним
+    for ( UINT n = nPlace; n < nCount; n++ )
+    {
+      SFscBase * obj = Item(n);
+      switch ( obj->mT )
+      {
+      case 0x3A:
+      case 0x3C:
+        if ( obj->nBuff != -1 )
+          VertLine( fsc, obj, nPlace, nCount );
+        break;
+      case 0x08:
+      case 0x3B:
+      case 0x3D:
+        if ( obj->nBuff != -1 )
+          HorzLine( fsc, obj, nPlace, nCount );
+        break;
+      }
+      KKK();
+    }
+    // Проверяем заполненность всех линий
+    bool bBreak = true;
+    for ( UINT n = nPlace; n < nCount; n++ )
+    {
+      SFscBase * obj = Item(n);
+      if ( 0x3A <= obj->mT && obj->mT <= 0x3D )
+      {
+        if ( obj->nBuff == -1 )
+          bBreak = false;
+      }
+    }
+    if ( bBreak )
+      nBreak++;
+    if ( nBreak == 4 )
+    {
+      if( !bBreak )
+        KKK();
+      break;
+    }
+    nBreak++;
+    if( nReturn == 20 )
+    {
+      //ASS(0);
+      break;
+    }
+  }
+}
+
+bool SFscList::Trigger( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp )
+{
+  bool r = FuncParserdo(fsc, p,dat,tmp);
+  p.Trigger(fsc, tmp, dat );
+  return r;
+}
+
+bool SFscList::LogicDB( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp, EValueType type /*= enumValueBol*/ )
+{
+  bool r = FuncParserdo(fsc, p,dat,tmp);
+  p.LogicDB(fsc, tmp, type );
+  return r;
+}
+
+bool SFscList::MultiIN( IFscStorage* fsc, SFscBase& p, SfscAbstruct& dat, SUniTemp& tmp, EValueType type /*= enumValueBol*/)
+{
+  bool r = FuncParserdo(fsc, p,dat,tmp);
+  p.MultiIN( fsc, tmp, type );
+  return r;
+}
+
+void SFscList::FillGoto( SGoto& io, SfscAbstruct& dat )
+{
+  io.nData = -1;
+  if( SfscAbstruct::sizeData == 17 )
+  {
+    LPWORD w = (LPWORD)dat.data;
+    io.nSrc  = w[0];
+    io.nDst  = w[1];
+    io.nIndex= dat.data[13];
+  }
+  else if( SfscAbstruct::sizeData > 25 )
+  {
+    LPDWORD w = (LPDWORD)dat.data;
+    io.nSrc  = (WORD)w[0];
+    io.nDst  = (WORD)w[1];
+    io.nIndex= dat.data[25];
+  }
+  else
+  {
+    ASS(0);
+  }
+}
+//
+void SFscList::FillGoto( SGotoN& io, SfscAbstruct& dat )
+{
+  memset( io.nDst, 0, sizeof(io.nDst) );
+  io.nData = -1;
+  if( SfscAbstruct::sizeData == 17 )
+  {
+    LPWORD w = (LPWORD)dat.data;
+    io.nSrc  = w[0];
+    int n = 1;
+    while ( w[n] )
+    {
+      io.nDst[n-1] = w[n];
+      n++;
+      if ( n == 6 ) break;
+    }
+    io.nIndex= dat.data[13];
+  }
+  else if( SfscAbstruct::sizeData > 25)
+  {
+    LPDWORD w = (LPDWORD)dat.data;
+    io.nSrc  = (WORD)w[0];
+    int n = 1;
+    while ( w[n] )
+    {
+      io.nDst[n-1] = (WORD)w[n];
+      n++;
+      if ( n == 6 ) break;
+    }
+    io.nIndex= dat.data[25];
+  }
+  else
+  {
+    ASS(0);
+  }
+}
+// Связывание переходов
+bool SFscList::GotoGoto( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nType )
+{
+  const DWORD C = Count();
+  SGoto* dst = (SGoto*)fsc->Data(obj->nBuff);
+  for ( UINT n = 0; n < C; n++ )
+  {
+    SFscBase * lnk = Item(n);
+    if ( lnk->mT != nType )
+      continue;
+    SGoto* src = (SGoto*)fsc->Data(lnk->nBuff);
+    if( dst->nSrc  != src->nSrc  )
+      continue;
+    if( dst->nDst  != src->nDst  )
+      continue;
+    if( dst->nIndex!= src->nIndex)
+      continue;
+    dst->nData = src->nData;
+    if ( dst->nData != -1 )
+    {
+      loc->nCount = 1;
+      loc->dim[0] = dst->nData;
+    }
+    return true;
+  }
+  return false;
+}
+// Связывание переходов
+bool SFscList::GotoMult( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nType )
+{
+  const DWORD C = Count();
+  SGoto * dst = (SGoto *)fsc->Data(obj->nBuff);
+  for ( UINT n = 0; n < C; n++ )
+  {
+    SFscBase * lnk = Item(n);
+    if ( lnk->mT != nType )
+      continue;
+    SGotoN* src = (SGotoN*)fsc->Data(lnk->nBuff);
+    if( dst->nSrc  != src->nSrc  )
+      continue;
+    if( dst->nIndex!= src->nIndex)
+      continue;
+    for ( UINT m = 0; m < _countof(src->nDst); m++ )
+    {
+      if( dst->nDst != src->nDst[m] )
+        continue;
+      dst->nData = src->nData;
+      if ( dst->nData != -1 )
+      {
+        loc->nCount = 1;
+        loc->dim[0] = dst->nData;
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+bool UDgreater ( SFscBase* elem1, SFscBase* elem2 )
+{
+  return elem1->rect.top < elem2->rect.top;
+}
+
+
+// Выход у объекта справа
+void SFscList::Direct0( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nPlace, UINT nCount )
+{
+  SRECT rect = obj->rect;
+  /*if ( obj->mT == 0x41 )
+  {
+    SProcedure* dat = (SProcedure*)fsc->Data(obj->nBuff);
+    if ( dat->nProc == 960 )
+      ::InflateRect(&rect,0,-18);
+  }*/
+  //
+  int y0 = rect.top;
+  if  ( obj->mT == 0x28 )
+    y0 = (rect.top+rect.bottom)/2;
+
+  int dY = 0;
+  int nAlgoritm = 0;
+  if( 0x41==obj->mT )
+  {
+    SProcedure* dat = (SProcedure*)fsc->Data(obj->nBuff);
+    {
+      SFscBase* pLines[_countof(loc->dim)] = {};
+      UINT nOL = 0;
+      for ( UINT n = nPlace; n < nCount; n++ )
+      {
+        SFscBase* lnk = Item(n);
+        if( lnk == obj )
+          continue;
+        if( rect.right != lnk->rect.left )
+          continue;
+        if( lnk->rect.top<rect.top )
+          continue;
+        if( lnk->rect.bottom>rect.bottom )
+          continue;
+        pLines[nOL++] = lnk;
+      }
+      if( nOL!=loc->nCount )
+      {
+        int H = obj->rect.bottom - obj->rect.top;
+        if( nOL > 2 && loc->nCount > 2)
+        {
+          if( !(dat->nI%2) && !(dat->nO%2) ) 
+          {
+            if( dat->nI == dat->nO ){}
+            else if( dat->nI == (dat->nO+2) )
+            {
+              dY = H / dat->nI;
+              y0 += (dY/2);
+            }
+            else if( dat->nI == (dat->nO-2) ){}
+            else if( dat->nI == (dat->nO-4) ){}
+            else
+            {
+              ASSD(0);
+            }
+          }
+          else if( !(dat->nO%2) ) 
+          {
+            dY = H / dat->nO;
+          }
+          else
+          {
+            int shift = ( rect.bottom - rect.top ) / (dat->nO+2);
+            std::sort( pLines, pLines+nOL, UDgreater );
+            int nDistBline = pLines[1]->rect.top - pLines[0]->rect.top;
+            for( UINT j=2; j<nOL; ++j )
+            {
+              int t = pLines[j]->rect.top - pLines[j-1]->rect.top;
+              nDistBline = std::min<int>( t,nDistBline );
+            }
+            if( shift==nDistBline )
+            {
+              y0 += shift;
+              dY = shift;
+            }
+            else
+            {
+              //ASSD( H==nDistBline*(dat->nO+1) );
+              KKK();
+            }
+          }
+          KKK();
+        }
+      }
+      else if( nOL > 2 )
+      {
+        std::sort( pLines, pLines+nOL, UDgreater );
+        int nDistBline = pLines[1]->rect.top - pLines[0]->rect.top;
+        int H = obj->rect.bottom - obj->rect.top;
+        int offset = pLines[0]->rect.top - obj->rect.top;
+        for( UINT j=2; j<nOL; ++j )
+        {
+          int t = pLines[j]->rect.top - pLines[j-1]->rect.top;
+          ASSD( t==nDistBline );
+        }
+        //ASSD( offset == (H-(nDistBline*(nOL-1)))/2 );
+        /*if( offset == nDistBline/(nOL-1) ){}
+        else if( offset == nDistBline/nOL ){}*/
+        if( offset == nDistBline ){}
+        else if( offset == nDistBline/2 ){}
+        else if( offset == nDistBline/3 ){}
+        else if( offset == nDistBline/4 ){}
+        else if( offset == nDistBline/5 ){}
+        else if( offset > nDistBline )
+        {
+          int shift = offset - nDistBline;
+          y0 += shift;
+          dY = nDistBline;
+        }
+        else
+        {
+          ASSD(0);
+        }
+        obj->nNumberFld;
+        KKK();
+      }
+      KKK();
+    }
+  }
+
+  for ( UINT m = 0; m < loc->nCount; m++ )
+  {
+    int y1 = ( rect.top*(loc->nCount-m-1)+rect.bottom*(m+1))/loc->nCount;
+    if( dY )
+      y1 = y0 + dY;
+
+    for ( UINT n = nPlace; n < nCount; n++ )
+    {
+      SFscBase* lnk = Item(n);
+      if( lnk == obj )
+        continue;
+      if( rect.right != lnk->rect.left )
+        continue;
+      if ( 0x3A <= lnk->mT && lnk->mT <= 0x3D )
+      {
+        if ( y0 <= lnk->rect.top && lnk->rect.top <= y1 )
+        {
+          bool bSL = true;
+          if( 0x3B==lnk->mT )
+          {
+            if( 1==m )
+            {
+              switch( obj->mT )
+              {
+              case 0x1:
+              case 0x2:
+              case 0x3:
+              case 0x4:
+              case 0x6:
+              case 0x8:
+              case 0x9:
+              case 0xA:
+                KKK();
+              case 0x5:
+                (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[0], rect.right, (y0+y1)/2 );
+                bSL = false;
+                break;
+              }
+            }
+          }
+
+          if( bSL )
+            (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[m], rect.right, (y0+y1)/2 );
+        }
+      }
+      else if ( 0x28 == lnk->mT )
+      {
+        if ( y0 < lnk->rect.top && lnk->rect.top < y1 )
+          (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[m], rect.right, (y0+y1)/2 );
+      }
+      else if ( lnk->rect.top < y0 && y0 < lnk->rect.bottom )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[m], rect.right, y0 );
+      KKK();
+    }
+    y0 = y1;
+  }
+}
+// Выход у объекта внизу
+void SFscList::Direct1( IFscStorage* fsc, SFscBase* obj, ns_UT::SLocalTmp* loc, UINT nPlace, UINT nCount )
+{
+  int x0 = obj->rect.left;
+  for ( UINT m = 0; m < loc->nCount; m++ )
+  {
+    int x1 = ( obj->rect.left*(loc->nCount-m-1)+obj->rect.right*(m+1))/loc->nCount;
+    for ( UINT n = nPlace; n < nCount; n++ )
+    {
+      SFscBase* lnk = Item(n);
+      if ( lnk == obj )
+        continue;
+      if ( obj->rect.bottom == lnk->rect.top )
+      {
+        if( 0x28==obj->mT )
+        {
+          if ( x0 > lnk->rect.left && lnk->rect.right > x1 )
+            (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[m], (x0+x1)/2, obj->rect.bottom );
+        }
+        else if ( x0 <= lnk->rect.left && lnk->rect.right <= x1 )
+          (this->*funcSL[lnk->mT])( fsc, *lnk, loc->dim[m], (x0+x1)/2, obj->rect.bottom );
+      }
+    }
+    x0 = x1;
+  }
+}
+
+bool Vert( SRECT a, SRECT b )
+{
+  if( a.left == b.left || a.left == b.right )
+  {
+    if( a.top == b.top )
+      return true;
+    if( a.top == b.bottom )
+      return true;
+    if( b.top == a.bottom )
+      return true;
+  }
+  return false;
+}
+// Объекты вертикальной линии
+void SFscList::VertLine( IFscStorage* fsc, SFscBase* obj, UINT B, UINT nCount )
+{
+  for ( UINT n = B; n < nCount; n++ )
+  {
+    SFscBase* lnk = Item(n);
+    if ( obj == lnk ) 
+      continue;
+    //
+    if ( lnk->mT == 0x3B || lnk->mT == 0x3D )
+    {
+      if( Vert( obj->rect, lnk->rect ) )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, 0, 0 );
+    }
+    else if( lnk->rect.left <= obj->rect.left && obj->rect.right <= lnk->rect.right )
+    {
+      if ( obj->rect.bottom == lnk->rect.top )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, obj->rect.left, obj->rect.bottom );
+      else if ( obj->rect.top == lnk->rect.bottom )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, obj->rect.left, obj->rect.top );
+    }
+  }
+}
+
+bool Horz( SRECT a, SRECT b )
+{
+  if ( a.top == b.top || a.top == b.bottom )
+  {
+    if( a.left == b.left  )
+      return true;
+    if( a.left == b.right )
+      return true;
+    if( b.left == a.right )
+      return true;
+  }
+  return false;
+}
+// Объекты горизонтальной линии
+void SFscList::HorzLine( IFscStorage* fsc, SFscBase* obj, UINT B, UINT nCount )
+{
+  for ( UINT n = B; n < nCount; n++ )
+  {
+    SFscBase* lnk = Item(n);
+    if ( obj == lnk )
+      continue;
+    //
+    if ( lnk->mT == 0x3A || lnk->mT == 0x3C )
+    {
+      if ( Horz( obj->rect, lnk->rect ) )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, 0, 0 );
+    }
+    else if ( lnk->rect.top <= obj->rect.top && obj->rect.bottom <= lnk->rect.bottom )
+    {
+      if ( obj->rect.right == lnk->rect.left )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, obj->rect.right, obj->rect.top );
+      else if ( obj->rect.left == lnk->rect.right )
+        (this->*funcSL[lnk->mT])( fsc, *lnk, obj->nBuff, obj->rect.left, obj->rect.top );
+      KKK();
+    }
+  }
+}
+
+void SFscList::TestFunctions()
+{
+  static bool bInit = true;
+  if( !bInit )
+    return;
+
+  bInit = false;
+
+#ifdef _WIN32
+  ZeroMemory( funcPaints, sizeof(funcPaints) );
+#endif
+
+#ifdef _WIN32
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcPaints[Nomer] = &SFscList::FuncPaints##Name;
+#include "FscEnum.hpp"
+#endif
+
+  ZeroMemory( funcPaintOutput, sizeof(funcPaintOutput) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcPaintOutput[Nomer] = &SFscList::FuncOutput##Name;
+#include "FscEnum.hpp"
+}
+
+#ifdef _WIN32
+void SFscList::Draw1( IFscStorage* fsc, UINT nItem, CMyFont& font, UINT nSelect )
+{
+  if( nItem >= Count() )
+    return;
+  
+  TestFunctions();
+
+  SFscBase* obj = Item(nItem);
+
+  // Окрашивание объектов, если у них есть зафиксированные выходы
+  int  a = 0;
+  ASS( funcPaintOutput[obj->mT] );
+  if( !funcPaintOutput[obj->mT] )
+    return;
+  UINT* b = (this->*funcPaintOutput[obj->mT])( fsc, *obj, a );
+  int nFill = 0;
+  for ( int m = 0; m < a; m++ )
+  {
+    SDotValue* dot = fsc->DotV(b[m]);
+    if ( dot->dwFlags & 0x01 )
+      nFill++;
+  }
+  if( nFill )
+  {
+    CMyBrush brush( font, FIXCOLOR );
+    brush.Rect( obj->rect);
+  }
+  // Вывод только линий
+  if ( 0x3A <= obj->mT && obj->mT <= 0x3D )
+  {
+#ifdef _WIN32
+    ASS( funcPaints[obj->mT] );
+    if( funcPaints[obj->mT] )
+      (this->*funcPaints[obj->mT])( fsc, *obj, font, nSelect );
+#endif
+  }
+}
+
+void SFscList::Draw2( IFscStorage* fsc, UINT nItem, CMyFont& font, UINT nSelect )
+{
+  if( nItem >= Count() )
+    return;
+
+  TestFunctions();
+
+  SFscBase* obj = Item(nItem);
+
+  if( 0x3A <= obj->mT && obj->mT <= 0x3D )
+    return;
+
+#ifdef _WIN32
+  ASS( funcPaints[obj->mT] );
+  if( funcPaints[obj->mT] )
+    (this->*funcPaints[obj->mT])( fsc, *obj, font, nSelect );
+#endif
+}
+#endif
+
+void SFscList::Timer( IFscStorage* fsc, double dt /*cek*/ )
+{
+/*
+инициализацию funcFuncTimers перенес в конструток, т.к. при нескольких проектах будет неопределенность
+*/
+  //
+  UINT nCount = Count();
+  for ( UINT n = 0; n < nCount; n++ )
+  {
+    SFscBase* obj = Item(n);
+    // Линии пропускаем
+    if ( 0x3A <= obj->mT && obj->mT <= 0x3D )
+      continue;
+    ASSD( funcFuncTimers[obj->mT] );
+    if( !funcFuncTimers[obj->mT] )
+      continue;
+    (this->*funcFuncTimers[obj->mT])( fsc, *obj, dt );
+  }
+}
+
+int SFscList::GetVars( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName )
+{
+  static bool bInit = true;
+  if ( bInit )
+  {
+    bInit = false;
+    ZeroMemory( funcFuncQuickWatchs, sizeof(funcFuncQuickWatchs) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcFuncQuickWatchs[Nomer] = &SFscList::FuncQuickWatch##Name;
+#include "FscEnum.hpp"
+  }
+  if( ppPntName )
+    *ppPntName = NULL;
+  ASS( funcFuncQuickWatchs[obj->mT] );
+  if( !funcFuncQuickWatchs[obj->mT] )
+    return 0;
+  return (this->*funcFuncQuickWatchs[obj->mT])( fsc, obj, pvi, cVI, ppPntName );
+}
+
+int SFscList::CallSaveState( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj )
+{
+  static bool bInit = true;
+  if ( bInit )
+  {
+    bInit = false;
+    ZeroMemory( funcSaveStates, sizeof(funcSaveStates) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcSaveStates[Nomer] = &SFscList::SaveState##Name;
+#include "FscEnum.hpp"
+  }
+  ASS( funcSaveStates[obj->mT] );
+  if( !funcSaveStates[obj->mT] )
+    return -1;
+  return (this->*funcSaveStates[obj->mT])(psaver, fsc, obj);
+}
+
+int SFscList::CallRestoreState( IStateSer *prest, IFscStorage* fsc, LFscBase *obj )
+{
+  static bool bInit = true;
+  if ( bInit )
+  {
+    bInit = false;
+    ZeroMemory( funcRestoreStates, sizeof(funcRestoreStates) );
+#undef EnumFSC
+#define EnumFSC( Nomer, Name ) funcRestoreStates[Nomer] = &SFscList::RestoreState##Name;
+#include "FscEnum.hpp"
+  }
+  ASS( funcRestoreStates[obj->mT] );
+  if( !funcRestoreStates[obj->mT] )
+    return -1;
+  return (this->*funcRestoreStates[obj->mT])(prest, fsc, obj);
+}

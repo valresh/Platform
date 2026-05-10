@@ -1,0 +1,45 @@
+#undef DBLE
+#define DBLE(Var,Def,Desc) double Var;
+
+#undef DBLE2
+#define DBLE2(Var,VarName,Def,Desc) double Var;
+
+#undef ALG_DBLE
+#define ALG_DBLE(Var,Def,Desc) double Var;
+
+#undef REAL
+#define REAL(Var,Def,Desc) float Var;
+
+#undef INT2
+#define INT2(Var,Def,Desc) short Var;
+
+#undef INT4
+#define INT4(Var,Def,Desc) int Var;
+
+#undef Boolean
+#define Boolean(Var,Def,Desc) bool Var;
+
+#undef  ENUMERATION
+#define ENUMERATION(Var,Desc,...) \
+struct _##Var\
+    {\
+    BYTE V;\
+    enum { __VA_ARGS__ };\
+    void operator = ( int Z ) { V = Z; };\
+    void operator = ( BYTE Z ) { V = Z; };\
+    bool operator == ( int Z ) { return V == Z; };\
+    void operator = ( _##Var Z ) { V = Z.V; };\
+    operator int () { return V; };\
+    operator BYTE () { return V; };\
+    static LPCSTR GetVals() { return #__VA_ARGS__;}\
+    };\
+    _##Var Var;
+
+#undef STRING
+#define STRING(Var,Len,Comm) char Var[Len];
+
+#undef STRING_2
+#define STRING_2(Var,VarName,Len,Comm) char Var[Len];
+
+#undef ALG_STRING
+#define ALG_STRING(Var,Len,Comm) char Var[Len];

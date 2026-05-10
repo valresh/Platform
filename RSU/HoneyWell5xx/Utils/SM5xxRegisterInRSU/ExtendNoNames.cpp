@@ -1,0 +1,35 @@
+#include <SmDataTypes_.h>
+#include <rsuNoNames.h>
+
+
+int RsuHandleInitData( CBase* pObj );
+int RsuHandleGetParams( CBase* pObj );
+
+void RegisterSMstructs()
+{
+#undef PNT
+#define PNT(Class) KNoName::RegisterClassInNames( Class::TypeID, Class::ClassName);
+#undef  SM_TYPE
+#define SM_TYPE( a, b, c ) PNT(W_##b)
+#include <SafetyManagerType.hpp>
+
+    KNoName::RegisterInitCBaseCall( RsuHandleInitData );
+}
+
+int RsuHandleInitData( CBase* pObj )
+{
+  switch( pObj->ID_CLASS )
+  {
+#undef PNT
+#define PNT(Class) \
+  case Class::TypeID: \
+  pObj->size = sizeof(Class); \
+  memset( ((BYTE*)pObj) + sizeof(CBase), 0, sizeof(Class) - sizeof(CBase) ); \
+  return 0;
+
+#undef  SM_TYPE
+#define SM_TYPE( a, b, c ) PNT(W_##b)
+#include <SafetyManagerType.hpp>
+  };
+  return -1;
+}

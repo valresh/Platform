@@ -1,0 +1,6 @@
+SharedAnalog32(PV)
+SharedChars(EU,64)
+SharedChars(VALUE_FORMAT,64)
+SharedAnalog32(MAXIMUM)
+SharedAnalog32(MINIMUM)
+SharedChars( DESCR, 512)

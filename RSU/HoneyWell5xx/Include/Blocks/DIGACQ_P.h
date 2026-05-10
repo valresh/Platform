@@ -1,0 +1,15 @@
+Struct_BEIII(BADPVALM,FL,ALPRIOR,PR,SV,TM,TMO)
+Integer(DABLOCKSINCM,"Number Of blocks in CM for System Detail Display",1)
+Struct_EIE(HIALM,ALPRIOR,PR,SV,DACALMTYPE,TYPE)
+String_K(NAME,"",32*4)
+String_K(DESC,"Description",132*4)
+Enumeration(NORMAL,"Defines the normal state of the Flag function block.",None,State0,State1,Def=None)
+Struct_BEIII(OFFNRMALM,FL,ALPRIOR,PR,SV,TM,TMO)
+Enumeration(PVSOURCE,"Identifies the source of the PV input",SUB,MAN,AUTO,TRACK,Def=AUTO)
+Enumeration(PVSRCOPT,"PV Source Option",ONLYAUTO,ALL,Def=ONLYAUTO)//Identifies the PV source selection options available to this function block.
+Boolean(INVPVFL,"Inverted State Flag",false)
+String_A(STATETEXT,"State Descriptor Text",12*4,2)
+Boolean(INALM,"FB In-Alarm Flag",false)
+
+Struct_EII(CHGOFSTALM,ALPRIOR,PR,SV,TM)
+Boolean(CHGOFSTALMENB,"COS Alarm Enable option ",false)

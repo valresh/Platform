@@ -1,0 +1,21 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate xC300( "C300", S_xC300::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_xC300,W_xC300,50)
+
+void S_xC300::InitParm()
+{
+#include "Modules/xC300.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Modules/xC300_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
+
+void S_xC300::StepT( SStepCalcParams &dt )
+{
+	SH_Module::StepT( dt );
+}

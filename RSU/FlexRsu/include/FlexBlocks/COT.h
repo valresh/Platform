@@ -1,0 +1,7 @@
+SharedAnalog32Savebale( AHOUR )
+SharedDigital32( DAY )
+SharedDigital32( HOUR )
+SharedDigital32( MINUTE )
+SharedDigital32( SECOND )
+SharedDigital32( INWORK )
+SharedDigital32Savebale( STARTCOUNTER )

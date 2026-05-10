@@ -1,0 +1,328 @@
+//#include "MnemoWnd.h"
+#include "Queue.h"
+#include "UniLogic.h"
+#include "FormatScn.h"
+//
+int NameToString( const char* name, BYTE val, char* value ) //Не менее 10 символов
+  {
+  return -1;
+  }
+//
+void ValueToString( int nType, BYTE val, char* value ) //Не менее 10 символов
+  {
+  }
+//
+void SUniLogic::Begin()
+  {
+  m_nCurr = 0;
+  memset( m_nStack, 0, sizeof(m_nStack) );
+  }
+//
+bool SUniLogic::InVis()
+  {
+  return m_nStack[m_nCurr] != 0;
+  }
+//
+void SUniLogic::If(bool v)
+  {
+  int nOld = m_nStack[m_nCurr];
+  m_nCurr++;
+  ASSERT(m_nCurr < MAX_STACK);
+  if ( m_nCurr == MAX_STACK )
+    return;// Чтобы не вылетала
+  if ( nOld != 0 )
+    m_nStack[m_nCurr] = 2;
+  else
+    m_nStack[m_nCurr] = v ? 0 : 1;
+  }
+//
+void SUniLogic::ElseIf(bool v)
+  {
+  if ( m_nStack[m_nCurr] == 1 )
+    m_nStack[m_nCurr] = v ? 0 : 1;
+  else
+  if ( m_nStack[m_nCurr] == 0 )
+    m_nStack[m_nCurr] = 2;
+  }
+//
+void SUniLogic::Else()
+  {
+  if ( m_nStack[m_nCurr] == 0 ) m_nStack[m_nCurr] = 1;
+  else
+  if ( m_nStack[m_nCurr] == 1 ) m_nStack[m_nCurr] = 0;
+  }
+//
+void SUniLogic::EndIf()
+  {
+  ASSERT( m_nCurr > 0 );
+  if ( m_nCurr == 0 )
+    return;// Чтобы не вылетала
+  m_nCurr--;
+  }
+//
+bool IsOper( char*& ptr, int& nCode )
+  {
+  while ( *ptr == ' ' ) ptr++;
+  switch ( *ptr )
+    {
+    case '!': ASSERT( ptr[1] == '=' ); ptr++; nCode = 10; break;
+    case '=': ASSERT( ptr[1] == '=' ); ptr++; nCode = 11; break;
+    case '|': ASSERT( ptr[1] == '|' ); ptr++; nCode = 12; break;
+    case '&': ASSERT( ptr[1] == '&' ); ptr++; nCode = 13; break;
+    case '>': if    ( ptr[1] == '=' )  ptr++, nCode = 14;
+              else                            nCode = 15; break;
+    case '<': if    ( ptr[1] == '=' )  ptr++, nCode = 16;
+              else                            nCode = 17; break;
+    default: return false;
+    }; ptr++;
+  return true;
+  }
+//
+// Упрощенный вариант
+UINT SUniLogic::ParserIf( CPipeClient& pipe, UINT eTypeObj, char* ptr )
+  {
+  UINT nCount = 0;
+  SItemLogic obj;
+  while ( *ptr )
+    {
+    // Аргумент 1
+    if ( !IsOper( ptr, obj.nCode ) )
+      {
+      nCount += Argument( pipe, eTypeObj, ptr, nCount );
+      // Операция
+      if ( !IsOper( ptr, obj.nCode ) )
+        {
+        ASSERT(0);
+        }
+      }
+    // Аргумент 2
+    nCount += Argument( pipe, eTypeObj, ptr, nCount );
+    //
+    AddObj( &obj );
+    nCount++;
+    //
+    while ( *ptr == ' ' ) ptr++;
+    };
+  return nCount;
+  }
+//
+void EndArg( char*& ptr )
+  {
+  if ( *ptr == '{' )
+    {
+    char* str = MyBraces( ptr+1, '}' );
+    ptr = str;
+    return;
+    }
+  //
+  while ( *ptr && *ptr != ' ' )
+    {
+    if ( *ptr == '!' ) break; //!=
+    if ( *ptr == '=' ) break; //==
+    if ( *ptr == '>' ) break; //>= >
+    if ( *ptr == '<' ) break; //<= <
+    if ( *ptr == '|' ) break; //||
+    if ( *ptr == '&' ) break; //&&
+    ptr++;
+    }
+  }
+//
+BYTE ParamsValue( SValueDef* def, char* p )
+  {
+  if ( def == NULL )
+    return -2;
+  if ( *p == '\'' )
+    {
+    p++;
+    char* s = p;
+    while ( *s && *s != '\'' ) *s++;
+    if ( *s == '\'' )
+      *s = 0;
+    }
+  if ( ::IsInt(p) )
+    return BYTE(atoi(p));
+  int nDot = NameToString( def->name, 0, NULL );
+  if ( nDot == -1 ) nDot = 8;//FLAGS;
+  char str[16] = ".";
+  BYTE r = 0;
+  while ( 1 )
+    {
+    ::ValueToString( nDot, r, str );
+    if ( *str == '-' )
+      break;
+    if ( _strcmpi( str, p ) == 0 )
+      return r;
+    r++;
+    if ( r == 100 )
+      break;
+    }
+  return -1;
+  }
+//
+UINT SUniLogic::Argument( CPipeClient& pipe, UINT eTypeObj, char*& ptr, UINT nCnt )
+  {
+  while ( *ptr == ' ' ) ptr++;
+  if ( *ptr == '(' )
+    {
+    char* str = MyBraces( ptr+1, ')' );
+    ASSERT( str != NULL );
+    *str = 0;
+    UINT nReturn = ParserIf( pipe, eTypeObj, ptr+1 );
+    ptr = str+1;
+    return nReturn;
+    }
+  //
+  char* arg = ptr;
+  EndArg( ptr );
+  //
+  char chr = *ptr;
+  *ptr = 0;
+  SItemLogic obj;
+  if ( *arg == '\'' )
+    {
+    ASSERT( nCnt > 0 );
+    SItemLogic* prev = Obj(Count()-1);
+    if ( prev->nCode == 1 )
+      {
+      obj.nCode = 0;
+      obj.mPar  = ::ParamsValue( prev->mDef.def, arg );
+      }
+    else
+    if ( prev->nCode == 3 )
+      {
+      obj.nCode = 2;
+      lstrcpy( obj.mTxt, arg+1 );
+      obj.mTxt[lstrlen(obj.mTxt)-1] = 0;
+      }
+    }
+  else
+    {
+    obj.nCode = 1;
+    obj.mDef.nNumber = pipe.Active();
+    if ( *arg == '.' ) arg++;
+    else
+      {
+      if ( *arg == '{' ) arg++;
+      char* a = strchr( arg, '.' );
+      if ( a != NULL )
+        {
+        *a = 0;
+        if ( eTypeObj == id_Unknown )
+          {
+          ASSERT(0);
+          /*if ( g_pAcyType )
+          eTypeObj = (*g_pAcyType)( arg );*/
+          obj.mDef.nNumber = pipe.AddAcy( eTypeObj, arg, 0 );
+          }
+        else
+          {
+          int nTag = ::FindTag( arg, eTypeObj );
+          if ( nTag >= 0 )
+          obj.mDef.nNumber = pipe.AddObj( nTag );
+          }
+        arg = a+1;
+        }
+      }
+    UINT eType = pipe.GetMnemoType(obj.mDef.nNumber);
+    obj.mDef.def  = ::NameToValue( eType, arg );
+    if ( obj.mDef.def != 0 )
+      {
+      if ( obj.mDef.def->eVal == enumValueChr ) obj.nCode = 1;
+      if ( obj.mDef.def->eVal == enumValueStr ) obj.nCode = 3;
+      }
+    }
+  *ptr = chr;
+  if ( chr == '}' ) ptr++;
+  AddObj( &obj );
+  return 1;
+  }
+//
+bool SUniLogic::Visible ( CPipeClient& pipe, UINT nCountIF, UINT nPlaceIF )
+  {
+  ASSERT( (nCountIF % 4) == 3 );
+  SItemLogic* mStek = Obj(nPlaceIF);
+  SItemLogic bt[12];
+  int N = 0;
+  UINT n = 0;
+  while ( n  < nCountIF )
+    {
+    switch ( mStek[n].nCode )
+      {
+      case 1:
+        {
+        bt[N].nCode  = 0;
+        bt[N++].mPar = pipe.ValueB( (SParamValue&)mStek[n].mDef );
+        }
+      break;
+      case 0:
+        bt[N].nCode  = 0;
+        bt[N++].mPar = mStek[n].mPar;
+      break;
+      case 3:
+        {
+        bt[N].nCode  = 2;
+        bt[N++].mStr = pipe.ValueS( (SParamValue&)mStek[n].mDef );
+        }
+      break;
+      case 2:
+        bt[N].nCode  = 2;
+        bt[N++].mStr = mStek[n].mTxt;
+      break;
+      case 10:
+        if ( bt[N-1].nCode == 0 && bt[N-2].nCode == 0 )
+          bt[N-2].mPar = bt[N-1].mPar != bt[N-2].mPar;
+        else
+        if ( bt[N-1].nCode == 2 && bt[N-2].nCode == 2 )
+          {
+          int nn = lstrcmpi( bt[N-2].mStr, bt[N-1].mStr );
+          bt[N-2].nCode = 0;
+          bt[N-2].mPar  = ( nn == 0 ) ? 0 : 1;
+          }
+        else
+          {
+          ASSERT(0);
+          }
+        N--;
+        break;
+      case 11:
+        if ( bt[N-1].nCode == 0 && bt[N-2].nCode == 0 )
+          bt[N-2].mPar = bt[N-1].mPar == bt[N-2].mPar;
+        else
+        if ( bt[N-1].nCode == 2 && bt[N-2].nCode == 2 )
+          {
+          int nn = _strcmpi( bt[N-2].mStr, bt[N-1].mStr );
+          bt[N-2].nCode = 0;
+          bt[N-2].mPar  = ( nn == 0 ) ? 1 : 0;
+          }
+        else
+          {
+          ASSERT(0);
+          }
+        N--;
+        break;
+      case 12: bt[N-2].mPar = bt[N-1].mPar || bt[N-2].mPar; N--; break;
+      case 13:
+        if ( bt[N-1].nCode == 0 && bt[N-2].nCode == 0 )
+          bt[N-2].mPar = bt[N-1].mPar && bt[N-2].mPar;
+        else
+        if ( bt[N-1].nCode == 2 && bt[N-2].nCode == 2 )
+          {
+          const char* p = strstr( bt[N-2].mStr, bt[N-1].mStr );
+          bt[N-2].nCode = 0;
+          bt[N-2].mPar  = ( p != NULL ) ? 1 : 0;
+          }
+        else
+          {
+          ASSERT(0);
+          }
+        N--;
+        break;
+      case 14: bt[N-2].mPar = bt[N-1].mPar <= bt[N-2].mPar; N--; break;
+      case 15: bt[N-2].mPar = bt[N-1].mPar <  bt[N-2].mPar; N--; break;
+      case 16: bt[N-2].mPar = bt[N-1].mPar >= bt[N-2].mPar; N--; break;
+      case 17: bt[N-2].mPar = bt[N-1].mPar >  bt[N-2].mPar; N--; break;
+      };
+    n++;
+    }
+  return bt[0].mPar != 0;
+  }

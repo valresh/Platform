@@ -1,0 +1,82 @@
+#include "FscList.h"
+static char* sid = "Константа 1 ???";
+//
+struct SConst4A
+  {
+  UINT O;// Константа
+  };
+//
+bool SFscList::FuncParser4A( VAR_PARSER )
+{
+  FuncParserdo(fsc,p,dat,tmp);
+  //
+  SConst4A io;
+  // Выходная точка
+  SDotValue O(enumValueBol);
+  O.bVal = true;
+  io.O = fsc->AddFscDots(&O);
+  // Заказываем память
+  p.nBuff = fsc->AddFscBuff( &io, sizeof(io) );
+  //
+  ns_UT::SLocalTmp* item = tmp.Item();
+  item->nCount = 1;
+  item->dim[0] = io.O;
+  return true;
+}
+//
+//void FuncDebugs4A( VAR_DEBUGS )
+//  {
+//  strcat_s( str, sid );
+//  strcat_s( str, "\r\n------------------------------------------------------------\r\n" );
+//  FuncDebugsdo( p, str );
+//  }
+//
+#ifdef _WIN32
+void SFscList::FuncPaints4A( VAR_PAINTS )
+{
+  SConst4A* dat = (SConst4A*)fsc->Data(p.nBuff);
+  SDotValue*  b = fsc->DotV(dat->O);
+  //
+  CMyPen pen( font, (nSelect == dat->O) ? SELCOLOR : BOXCOLOR );
+  pen.Rect( p.rect );
+  font.Draw( p.rect, b->bVal ? "1" : "0" );
+}
+#endif
+//
+void SFscList::FuncSetLnk4A( VAR_SETLNK )
+{
+// Не обрабатываем
+}
+////-----------------------------------------------------------------------------
+//UINT FuncCursor4A( VAR_CURSOR )
+//  {
+//  SConst4A* dat = (SConst4A*)fsc->Data(p.nBuff);
+//  return dat->O;
+//  }
+////-----------------------------------------------------------------------------
+UINT* SFscList::FuncOutput4A( VAR_OUTPUT )
+{
+  SConst4A* dat = (SConst4A*)fsc->Data(p.nBuff);
+  n = 0;
+  return &dat->O;
+}
+////-----------------------------------------------------------------------------
+void SFscList::FuncTimers4A( VAR_TIMERS )
+{
+}
+////-----------------------------------------------------------------------------
+
+int SFscList::FuncQuickWatch4A( IFscStorage* fsc, LFscBase *obj, IFscStorage::SVarInfo *pvi, int cVI, LPCSTR *ppPntName )
+{
+  return 0;
+}
+
+int SFscList::SaveState4A( IStateSer *psaver, IFscStorage* fsc, LFscBase *obj )
+{
+  return 0;
+}
+
+int SFscList::RestoreState4A( IStateSer *prest, IFscStorage* fsc, LFscBase *obj )
+{
+  return 0;
+}

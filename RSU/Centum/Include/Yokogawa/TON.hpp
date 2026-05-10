@@ -1,0 +1,11 @@
+UMODE
+ACK_ALARMS
+INTEGER(OPMK,"")//
+//
+FLAG(_AF,"")
+FLAG(AOFS,"")
+//
+FLAG(RV,"")
+FLAG(CPV,"")
+//
+INTEGER(AF,"")

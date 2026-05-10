@@ -1,0 +1,135 @@
+#pragma once
+#include <rsuErr.h>
+#include <RSUBaseType_.h>
+#include <ParmVarInfo.h>
+#include <HParamInfo.h>
+#include <RsuX.h>
+#include <HBridge2SysParam.h>
+#include <hashRSU.h>
+#include <ConnectionMB.h>
+#include <macros/StrHelps.h>
+#include <rsuStr.h>
+
+class KARsuX : public KRsuX
+{
+public:
+  nRSUx::SParamInfo GetInfo()
+  {
+    return m_PointInfo;
+  }
+};
+
+struct SStepCalcParams
+{
+  SStepCalcParams() : simDtSec(0), kvantCeeSec(0), periodSec(0), usePhases(false)
+  {}
+  double simDtSec;//дельта шага от симулятора
+  double kvantCeeSec;//может быть 50 мс
+  double periodSec;
+  bool usePhases;
+  operator double()
+  {
+    return periodSec;
+  }
+  void operator= ( double dtSec )
+  {
+    simDtSec = kvantCeeSec = periodSec = dtSec;
+  }
+};
+
+class KBmBase
+{
+public:
+  enum
+  {
+    sizeofBlockName = 48*4,
+    sizeofTypeName = 32*4,
+    sizeofAssignedTo = 32*4,
+    sizeofContainer = 32*4,
+    countNames = 4,
+  };
+  enum blockVarType
+  {
+	  blockVar_Params,
+	  blockVar_States,
+	  blockVar_All
+  };
+protected:
+  BYTE* pObjAddr;
+  BYTE* pThisAddr;
+  SVarInfo * ClassVarInfo;
+  int kClassVarInfo;
+  int nBlockCrcs;
+public:
+  char BlockName[sizeofBlockName];
+  char EntityName[sizeofBlockName];
+  char TypeName[sizeofTypeName];
+  char HandlerName[sizeofAssignedTo];
+  char AssignedTo[sizeofAssignedTo];//физическое расположение
+  char Container[sizeofContainer];//фактическое использование, как бы ссылка на AssignedTo
+  typeHASH32_ crcBlockSplitted[countNames];
+  DWORD H_Type;
+  int L_Class_FullW;
+  BYTE * pClass_FullW;
+public:
+  KBmBase();
+  void CreateCrcs();
+  virtual void SetParmList(){}
+  virtual bool GetVar( LPCSTR pField, BYTE **ppVar, eVarType *pType, USHORT *pVarSize = NULL, LPCSTR *ppszEnum = NULL, BYTE *pFlags = NULL );
+  virtual bool SetValue( LPCSTR pField, LPCSTR pszVal );
+  virtual void OnNoSetValue( LPCSTR pField, LPCSTR pszVal );
+  virtual KBmBase* FindObj( LPCSTR pObj );
+  virtual KBmBase* FindObj( typeHASH32_ *pCrcs, int nCrcs, int nAlgFind = 0 );
+  virtual KBmBase* QuickFindObj( LPCSTR pszObj, int nAlgFind = 0 );
+  virtual void StepT( SStepCalcParams &dt );
+  virtual void StepBeforeRestoreState( LPCSTR pSystemName, KBmBase *pRoot, KBmBase *pModule );
+  virtual void StepAfterRestoreState(){}
+#ifdef _WIN32
+  virtual void GetFields( KHParamInfo *pPparms, int &nCur, const int nCount, blockVarType type = blockVar_All );
+#endif
+  virtual void OnReadProject( KBmBase *pRoot, KBmBase *pModule ){}
+  virtual void SaveBlock( std::fstream& hFile ){}
+  virtual bool RestoreBlock( std::fstream& hFile )
+  {
+    return true;
+  }
+  virtual void GetParams( KHBridge2SysParam &params ){}
+  //
+  int GetFirstVar( BYTE maskFlags );//SVarInfo::efParam SVarInfo::efVar;
+  LPCSTR GetVar( int &pos, LPBYTE &pVar, eVarType &pType, USHORT *pVarSize );
+  //пока не придумал как использовать 2 xyCHANNEL как 1, то буду их связывать руками
+  virtual LPCSTR SetDestIO( KBmBase *dest, LPCSTR pszField = NULL ){ return NULL;}
+  virtual BOOL IsBlock() = 0;
+  virtual KBmBase* WhoHasConnection( LPCSTR pszObj, LPCSTR pszFld, bool bOutput, LPCSTR *ppFld );
+  virtual bool IsArmAssigned() { return false ;}
+  virtual void OnAssignField( LPCSTR pszFieldName ){}//вызывается из KCalcRes::operator =
+  virtual void AddAsOutputConnection( class SConnectionMB *pCon ){}
+protected:
+  template<class T>
+  void initW( T *wLocal, T *wStatic )
+  {
+    pObjAddr = (BYTE*)wLocal;
+    memmove( ((BYTE*)static_cast<T*>(wLocal)) + sizeof(CBase),
+              ((BYTE*)static_cast<T*>(wStatic)) + sizeof(CBase),
+              sizeof(T) - sizeof(CBase));
+  }
+  template<class T>
+  void Add2Params( T &Var, LPCSTR pFieldName, KHBridge2SysParam &params )
+  {
+    params.Add( Var, BlockName, pFieldName );
+  }
+  template< size_t x>
+  static int CreateCrcsImpl( LPCSTR pszIn, typeHASH32_ (&crcSplits)[x] )
+  {
+    char szSplits[x][KBmBase::sizeofBlockName] = {};
+    int cParts = SplitString( pszIn, szSplits, '.', false );
+    ASSD( cParts < x );
+
+    for( int i=0; i<cParts; ++i )
+    {
+      _Ktoupper(szSplits[i]);
+      crcSplits[i] = CreateHASH32( szSplits[i], false );
+    }
+    return cParts;
+  }
+};

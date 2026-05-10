@@ -1,0 +1,6 @@
+PrivateAnalog32Savebale( A )
+PrivateAnalog32Savebale( B )
+PrivateAnalog32Savebale( C )
+PrivateAnalog32Savebale( D )
+PrivateDigital32Savebale( SEL )
+PrivateAnalog32Savebale( O )

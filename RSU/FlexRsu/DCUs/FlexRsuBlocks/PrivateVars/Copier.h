@@ -1,0 +1,6 @@
+PrivateDigital32( mode )
+PrivateDigital32Savebale( inD )
+PrivateAnalog32Savebale( inA )
+PrivateDigital32Savebale( outD )
+PrivateAnalog32Savebale( outA )
+PrivateDigital32Savebale( cnd )

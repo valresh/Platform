@@ -1,0 +1,16 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate PCDI_MASTER( "PCDI_MASTER", S_PCDI_MASTER::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_PCDI_MASTER,W_PCDI_MASTER,70)
+
+void S_PCDI_MASTER::InitParm()
+{
+#include "Modules/PCDI_MASTER.h" 
+s_defFlag = SVarInfo::efParam;
+#include "Modules/PCDI_MASTER_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}

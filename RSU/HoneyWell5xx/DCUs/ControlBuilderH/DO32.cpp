@@ -1,0 +1,16 @@
+#include <rsuErr.h>
+#include <H_Data.h>
+
+static SModuleCreate DO32( "DO32", S_DO32::Create );
+
+#include <HPARM_INIT.h> 
+#include "ParmVarInfo.h"
+LIST_PARM(S_DO32,W_DO32,204)
+
+void S_DO32::InitParm()
+{
+#include "Modules/DO32.h" 
+  s_defFlag = SVarInfo::efParam;
+#include "Modules/DO32_P.h"
+  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );
+}
