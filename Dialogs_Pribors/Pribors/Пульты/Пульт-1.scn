@@ -1,0 +1,36 @@
+%------------------------------------------------------------------------------
+%
+% Пульт регулятора давления по месту
+%
+<header color=dbe5ed size=383,383 code=3>
+%------------------------------------------------------------------------------
+<image="@Регулятор давления по месту" rc=20,20,343,343>
+%------------------------------------------------------------------------------
+<Objects="Регулятор">
+  <control=.PV.DBL     pt=191,190 image="Стрелка Красная">
+  <control=.SP.DBL     pt=191,190 image="Стрелка Зелёная">
+  <control=.SP.Задание pt=191,312 image="Регулятор давления" invert=1 clip=56>
+  <control=.SP.Задание image=Плюс-Минус add=240,330,20,20 div=125,330,20,20>
+  <Assert=0,0 par0=383>
+</Objects>
+%------------------------------------------------------------------------------
+% Прорисовка шкалы регулятора
+<macros=Scale>
+<drawdbl=(param0*(10-param2)+param1*param2)/10 float=-1
+  rect=paramx,paramy,paramx+40,paramy+40 align=cv>
+</macros>
+<textcolor=gff>
+<font=Arial height=30 bold=900>
+  <Scale=" 80,280" tag0=minSP tag1=maxSP par2= 0>
+  <Scale=" 40,220" tag0=minSP tag1=maxSP par2= 1>
+  <Scale=" 35,160" tag0=minSP tag1=maxSP par2= 2>
+  <Scale=" 50, 90" tag0=minSP tag1=maxSP par2= 3>
+  <Scale="100, 50" tag0=minSP tag1=maxSP par2= 4>
+  <Scale="170, 35" tag0=minSP tag1=maxSP par2= 5>
+  <Scale="240, 50" tag0=minSP tag1=maxSP par2= 6>
+  <Scale="290, 90" tag0=minSP tag1=maxSP par2= 7>
+  <Scale="305,160" tag0=minSP tag1=maxSP par2= 8>
+  <Scale="310,220" tag0=minSP tag1=maxSP par2= 9>
+  <Scale="270,280" tag0=minSP tag1=maxSP par2=10>
+</font>
+%------------------------------------------------------------------------------

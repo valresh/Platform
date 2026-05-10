@@ -1,0 +1,18 @@
+% Диалог насоса Ярославля с двумя кнопками без тумблера
+%-----------------------------------------------------------------------------------
+<header color=0 bitmap=".@bigScaf.png" code=3>
+%-----------------------------------------------------------------------------------
+<macros=RM param0=110 param1=40>
+  <rect=paramx,paramy,paramx+param0,paramy+param1>
+  <rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2>
+  <word="param2"
+   rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<RM= 47,20 par0=100 par1=30 par2="">
+<Objects="Насос">
+<PumpST=. shift=Открыть image="GreenKnopka" pt=65,57 set=1>
+<PumpST=. shift=Остановить image="RedKnopka" pt=65,132 set=1>
+<font=Arial bold=900 height=16>
+<PumpSH=. rc=47,20,100,30 type=7> 
+</font>
+</Objects>

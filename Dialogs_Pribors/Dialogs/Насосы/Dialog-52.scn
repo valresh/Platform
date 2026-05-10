@@ -1,0 +1,29 @@
+% Диалог насоса Ярославля с двумя кнопками
+%-----------------------------------------------------------------------------------
+<header color=0 bitmap=".@scafSTART_STOP_WithTumbler.png" code=3>
+%-----------------------------------------------------------------------------------
+<macros=RM param0=110 param1=28>
+<rect=paramx,paramy,paramx+param0,paramy+param1>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<macros=TM param0=110 param1=28>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<font=Arial bold=90 height=10>
+<textcolor=000000>
+<pen=solid color=000000>
+<brush=FFFFFF>
+<RM=195,67 par0=110 par1=28 par2="Ручной        Авто">
+</font>
+</pen>
+</brush>
+<Objects="Пульт">
+<PumpST=. shift=Вкл/Выкл image="START_White" pt=55,42 set=1>
+<PumpST=. shift=Вкл/Выкл image="STOP_White" pt=55,127 set=0>
+  <font=a height=22 bold=900>
+  <LabelD rect=0,0,160,20>
+  </font>
+<HsST="." shift="MV" suff="_Авто" pt=207,95 image="TumblerPump2" zalip=0>
+</Objects>

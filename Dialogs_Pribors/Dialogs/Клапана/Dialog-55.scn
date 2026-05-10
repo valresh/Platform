@@ -1,0 +1,32 @@
+%------------------------------------------------------------------------------
+%
+% Диалог отсекателя Уфа
+%
+<header color=dbe5ed size=300,345 code=3>
+%------------------------------------------------------------------------------
+<macros=RM param0=110 param1=28>
+<rect=paramx,paramy,paramx+param0,paramy+param1>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<font=Arial bold=900 height=16>
+<textcolor=000000>
+<RM=203,10 par0=90 par1=28 par2="Открыть">
+<RM=203,90 par0=90 par1=28 par2="Закрыть">
+</font>
+%------------------------------------------------------------------------------
+<Objects="Клапан">
+  <KlapST="Задание"  pt=" 70, 20" image="Дублёр с зацеплениемNew" min=0 max=100 step=0.5>
+  <HsST="Кнопка" suff="_5SEC_OPEN" pt=228,42 image="Чёрная1" scale=0.8>
+  <HsST="Кнопка" suff="_5SEC_CLOSE" pt=228,122 image="Чёрная1" scale=0.8>
+  %
+  <font=a height=24 bold=900>
+  <KlapSH=.0 rect="205,290,290,315" type=0>
+  </font>
+  %
+  <font=a height=22 bold=900>
+  <align=lt>
+  <LabelD rect=0,0,300,30>
+  </font>
+</Objects>
+%------------------------------------------------------------------------------

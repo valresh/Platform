@@ -1,0 +1,74 @@
+%------------------------------------------------------------------------------
+<header color=5A5A5A size=350,490 code=1>
+%------------------------------------------------------------------------------
+<macros=RM param0=110 param1=28>
+<rect=paramx,paramy,paramx+param0,paramy+param1>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<macros=RM_LEFT param0=110 param1=28>
+<rect=paramx,paramy,paramx+param0,paramy+param1>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=lt>
+</macros>
+<macros=RM_RIGHT param0=110 param1=28>
+<rect=paramx,paramy,paramx+param0,paramy+param1>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=rt>
+</macros>
+<macros=TM param0=110 param1=28>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=cv>
+</macros>
+<macros=TM_LEFT param0=110 param1=28>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=lt>
+</macros>
+<macros=TM_RIGHT param0=110 param1=28>
+<word="param2"
+ rect=paramx+2,paramy+2,paramx+param0-2,paramy+param1-2 a=rt>
+</macros>
+<pen=solid color=000000>
+<brush=C0C0C0>
+<ellipse=250,470,270,490>
+<ellipse=165,470,185,490>
+<ellipse=80,470,100,490>
+<ellipse=330,180,350,200>
+<ellipse=330,60,350,80>
+</brush>
+<brush=5A5A5A>
+<rect=40,40,310,450>
+<font=Arial bold=900 height=12>
+<textcolor=000000>
+</brush>
+<brush=C0C0C0>
+<RM=185,270 par0=70 par1=20 par2="Пуск/Start">
+<ellipse=330,300,350,320>
+<ellipse=330,420,350,440>
+<ellipse=250,0,270,20>
+<ellipse=165,0,185,20>
+<ellipse=80,0,100,20>
+<ellipse=0,180,20,200>
+<ellipse=0,60,20,80>
+<ellipse=0,300,20,320>
+<ellipse=0,420,20,440>
+<RM=95,270 par0=70 par1=20 par2="Стоп/Stop">
+</font>
+<font=Arial bold=90 height=22>
+<RM=60,110 par0=20 par1=140 par2="в\nЭ\nЛ\nА\nн">
+</brush>
+<brush=000000>
+<rect=115,240,234,250>
+</font>
+<font=Arial bold=900 height=8>
+</brush>
+<brush=C0C0C0>
+<RM=100,410 par0=150 par1=30 par2="ОТКРЫВАТЬ ОТКЛЮЧИВ ОТ СЕТИ\nOPEN SWITCHED OFF">
+</font>
+</pen>
+</brush>
+<Objects="Насосы">
+<PumpST="." shift="Вкл/Выкл" pt=190,300 image="Яр_Пуск" set=1>
+<HsST="." shift="Кнопка" pt=100,300 image="СтопКрасная" zalip=0 suff="_E_STOP" activeFromSocket=1>
+<PumpST="." shift="Показания" pt=175,190 image="Манометр" ManomType=7 radius=60 min=0.0 max=100.0 riska=63.0 unit="А">
+</Objects>
