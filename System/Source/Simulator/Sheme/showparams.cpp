@@ -27,6 +27,7 @@ ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
   //ui->ParamList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch );
   //ui->ParamList->resizeColumnToContents( 1 );
   ui->ParamList->resizeRowsToContents();
+//  ui->ParamList->setSectionResizeMode(QHeaderView::ResizeToContents);
   Sign = 0;
   KKK();
 }
@@ -204,5 +205,22 @@ void ShowParams::on_Change( double Delta )
 void ShowParams::on_Step1_clicked()
   {
   pObj->SetData( sd_PipeState, NULL );
+  }
+
+void ParamsList::sectionResized( int logicalIndex, int oldSize, int newSize )
+  {
+  resizeRowsToContents();
+  }
+
+ParamsList::ParamsList(QWidget * Parent ) : QTableView ( Parent )
+  {
+    pParams = NULL;
+    kParams = 0;
+    QHeaderView * headerV =  verticalHeader();
+    QHeaderView * headerH =  horizontalHeader();
+    connect( headerH, &QHeaderView::sectionResized, this, &ParamsList::sectionResized);
+    headerV->setVisible(false);
+    setModel( &Model );
+    setEditTriggers(QAbstractItemView::DoubleClicked);
   }
 

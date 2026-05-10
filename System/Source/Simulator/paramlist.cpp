@@ -213,6 +213,7 @@ void ParamsList::show(CParams * _pParams, int _kParams)
 
 void ParamsList::contextMenuEvent(QContextMenuEvent *e)
   {
+  resizeRowsToContents();
   QModelIndex index = indexAt(e->pos());
   if ( !index.isValid())
     return;

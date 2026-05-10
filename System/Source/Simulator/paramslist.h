@@ -28,22 +28,18 @@ class ParamsListModel : public QAbstractTableModel
 };
 
 
- struct ParamsList : public QTableView
-    {
-    CParams * pParams;
-    int kParams;
-    ParamsListModel Model;
-    ParamsList(QWidget * Parent ) : QTableView ( Parent )
-    {
-    pParams = NULL;
-    kParams = 0;
-    QHeaderView * headerV =  verticalHeader();
-    headerV->setVisible(false);
-    setModel( &Model );
-    setEditTriggers(QAbstractItemView::DoubleClicked);
-    }
+struct ParamsList : public QTableView
+  {
+  Q_OBJECT
+public:
+  CParams * pParams;
+  int kParams;
+  ParamsListModel Model;
+  ParamsList(QWidget * Parent );
   void contextMenuEvent(QContextMenuEvent *e);
   void show(CParams * pParams, int kParams);
+  private slots:
+    void sectionResized( int logicalIndex, int oldSize, int newSize);
   };
 
 #endif // PARAMSLIST_H
