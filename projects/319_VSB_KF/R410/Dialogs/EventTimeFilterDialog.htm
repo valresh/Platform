@@ -1,0 +1,401 @@
+<HTML>
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE>Custom filter</TITLE>
+
+<style type="text/css">
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+
+<script language="JScript">
+
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+// Some key-codes used in key-press handling
+
+var VK_ESC				= 27;
+var VK_ENTER			= 13;
+
+// These values correspond to the order in which the options appear in the
+// option selector
+
+var DT_SPECIFICDAY		= 0;
+var DT_AFTER			= 1;
+var DT_BEFORE			= 2;
+var DT_BETWEEN			= 3;
+
+var g_rgObjects			= null;
+var g_strValue			= "";
+
+// ----------------------------------------------------------------------------------
+// DoKeyPress
+//
+//	Invoked by the 'onkeypress' event on the body element. This is used to provide
+//	keyboard support for such keys as 'ESC' and 'ENTER'
+// ----------------------------------------------------------------------------------
+
+function DoKeyPress()
+{
+	var key = window.event.keyCode;
+
+	switch(key)
+	{
+	case VK_ESC:
+		window.close();
+		break;
+
+	case VK_ENTER:
+
+		// ENTER on a button element
+		if( window.event.srcElement.tagName != "BUTTON" )
+			DoUnload();
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// DoLoad
+//
+//	Invoked by the 'onload' event of the body element. It is responsible for 
+//	retrieving and restoring the previous state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function DoLoad()
+{
+	// Get the value from the menu item
+	g_strValue = window.dialogArguments.Value;
+
+	// Set the cancel value to 'true' in case we terminate early
+	window.returnValue = true;
+
+	g_rgObjects = new Array( dtDATE1, dtDATE2, dtTIME1, dtTIME2 );
+	
+	var bWait = false;
+
+	for(var i=0; i<g_rgObjects.length; i++ )
+	{
+		if( g_rgObjects[i].readyState != 4 )
+		{
+			g_rgObjects[i].onreadystatechange = ContinueLoadDialog;
+			bWait = true;
+		}
+	}
+
+	if( !bWait ) 
+		ContinueLoadDialog();	
+}
+
+// ----------------------------------------------------------------------------------
+// DoUnload
+//
+//	Invoked by the user clicking the 'OK' button to apply a filter. 
+// ----------------------------------------------------------------------------------
+
+function DoUnload()
+{
+	// Set the new value
+	window.dialogArguments.Value = GetValue();
+	
+	// Set the cancel value to 'false' since we're setting a new value
+	window.returnValue = false;
+	
+	window.close();
+}
+
+// ----------------------------------------------------------------------------------
+// ContinueLoadDialog
+//
+//	Checks the ready state of the date pickers before continuing to load.
+// ----------------------------------------------------------------------------------
+
+function ContinueLoadDialog()
+{
+	for(var i=0; i<g_rgObjects.length; i++ )
+	{
+		if( g_rgObjects[i].readyState != 4 )
+			return;
+			
+		g_rgObjects[i].onreadystatechange = null;
+	}
+
+	var rgSplit = g_strValue.split(";");
+	
+	switch( rgSplit[0] )
+	{
+	case "SPECIFICDAY":
+		cboOptions.selectedIndex = DT_SPECIFICDAY;
+		ApplyDate(rgSplit[1], dtDATE1, dtTIME1);
+		break;
+	case "AFTER":
+		cboOptions.selectedIndex = DT_AFTER;
+		ApplyDate(rgSplit[1], dtDATE1, dtTIME1);
+		break;
+	case "BEFORE":
+		cboOptions.selectedIndex = DT_BEFORE;
+		ApplyDate(rgSplit[1], dtDATE1, dtTIME1);
+		break;
+	case "BETWEEN":
+		cboOptions.selectedIndex = DT_BETWEEN;
+		ApplyDate(rgSplit[1], dtDATE1, dtTIME1);
+		ApplyDate(rgSplit[2], dtDATE2, dtTIME2);
+		break;
+	default:
+		cboOptions.selectedIndex = DT_SPECIFICDAY;
+		break;
+	}
+	
+	DoSelect(cboOptions.selectedIndex);
+}
+
+// ----------------------------------------------------------------------------------
+// GetValue
+//
+//	Helper routine used to convert the state of the dialog into an expression part 
+//	that can be used by the TDO to perform the filter.
+// ----------------------------------------------------------------------------------
+
+function GetValue()
+{
+	switch( cboOptions.selectedIndex )
+	{
+	case DT_SPECIFICDAY:
+		return "SPECIFICDAY;" + FormatDate(dtDATE1, dtTIME1);
+	case DT_AFTER:
+		return "AFTER;" + FormatDate(dtDATE1, dtTIME1);
+	case DT_BEFORE:
+		return "BEFORE;" + FormatDate(dtDATE1, dtTIME1);
+	case DT_BETWEEN:
+		return "BETWEEN;" + FormatDate(dtDATE1, dtTIME1) + ";" + FormatDate(dtDATE2, dtTIME2);
+	}
+
+	return "";
+}
+
+// ----------------------------------------------------------------------------------
+// DoSelect
+//
+//	Invoked by the 'onchange' event on the option selector drop-down. This function
+//	determines whether to show|hide certain components that may|may not be required
+//	by the currently selected option.
+// ----------------------------------------------------------------------------------
+
+function DoSelect(value)
+{	
+	var strDisplay_DATE1 = "none";
+	var strDisplay_DATE2 = "none";
+	var strDisplay_TIME1 = "none";
+	var strDisplay_TIME2 = "none";
+	var strDisplay_LBL1  = "none";
+	var strDisplay_LBL2	 = "none";
+	
+	switch( value )
+	{
+	case DT_BETWEEN:
+		
+		strDisplay_DATE2 = "block";
+		strDisplay_TIME2 = "block";
+		strDisplay_LBL1  = "block";
+		strDisplay_LBL2	 = "block";		
+		
+	case DT_AFTER:
+	case DT_BEFORE:
+
+		strDisplay_TIME1 = "block";
+		
+	case DT_SPECIFICDAY:
+		
+		strDisplay_DATE1 = "block";
+
+	default:
+	}
+	
+	dtDATE1.style.display = strDisplay_DATE1;
+	dtDATE2.style.display = strDisplay_DATE2;
+	dtTIME1.style.display = strDisplay_TIME1;
+	dtTIME2.style.display = strDisplay_TIME2;
+	lblDATETIME1.style.display = strDisplay_LBL1;
+	lblDATETIME2.style.display = strDisplay_LBL2;
+}
+
+</script>
+
+<script language="VBScript">
+' ----------------------------------------------------------------------------------
+' FormatDate
+'
+'	Constructs a date format string from two DTPicker controls - one for date, and one
+'	for time.
+' ----------------------------------------------------------------------------------
+
+Function FormatDate(d, t)
+	Dim fulldate
+	fulldate = DateSerial(d.Year, d.Month, d.Day)
+	fulldate = DateAdd("h", t.Hour, fulldate)
+	fulldate = DateAdd("n", t.Minute, fulldate)
+	fulldate = DateAdd("s", t.Second, fulldate)
+	
+	FormatDate = CStr(fulldate)
+End Function
+
+' ----------------------------------------------------------------------------------
+' ApplyDate
+'
+'	Populates two DTPicker controls based on a date string. 
+'	NOTE: this will cause an error if the DTPicker is not visible.
+' ----------------------------------------------------------------------------------
+
+Function ApplyDate(strDate, d, t)
+	Dim dt
+	dt = CDate(strDate)
+
+	d.Year = Year(dt)
+	d.Month = Month(dt)
+	d.Day = Day(dt)
+	t.Hour = Hour(dt)
+	t.Minute = Minute(dt)
+	t.Second = Second(dt)
+End Function
+</script>
+
+</HEAD>
+<BODY onload="InitializeLogger(); DoLoad()"
+	  onkeypress="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  style="background-color: buttonface;
+			 margin: 5px;
+			 white-space: nowrap;">
+
+	<span style="position: absolute;
+				 left: 10px;
+				 top: 8px;
+				 width: 190px;
+				 text-align: right;">	
+				   
+		Show all events that occurred:
+	
+	</span>
+
+	<select id="cboOptions"
+			style="position: absolute;
+				   top: 4px;
+				   width: 250px;
+				   left: 215px;"
+			onchange="DoSelect(this.selectedIndex)" >
+		
+		<option>On a specific day</option>	
+		<option>After</option>
+		<option>Before</option>
+		<option>Between</option>
+		
+	</select>
+
+
+	<span id="lblDATETIME1"
+		  style="position: absolute;
+				 left: 10px;
+				 top: 42px;
+				 width: 190px;
+				 display: none;
+				 text-align: right;">	
+				   
+		Start date & time:
+	
+	</span>
+
+	<OBJECT id="dtDATE1"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 215px;
+				   top: 38px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="1">
+		
+	</OBJECT>
+
+	<OBJECT id="dtTIME1"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 345px;
+				   top: 38px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="2">
+		
+	</OBJECT>
+
+	<span id="lblDATETIME2"
+		  style="position: absolute;
+				 left: 10px;
+				 top: 76px;
+				 width: 190px;
+				 display: none;
+				 text-align: right;">	
+				   
+		End date & time:
+	
+	</span>
+
+	<OBJECT id="dtDATE2"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 215px;
+				   top: 72px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="1">
+		
+	</OBJECT>
+
+	<OBJECT id="dtTIME2"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 345px;
+				   top: 72px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="2">
+		
+	</OBJECT>
+
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			style="position: absolute; 
+				   top: 110px;
+				   left: 295px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			onclick="window.close()" 
+			style="position: absolute; 
+				   top: 110px;
+				   left: 385px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</BODY>
+</HTML>

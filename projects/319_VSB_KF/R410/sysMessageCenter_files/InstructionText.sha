@@ -1,0 +1,269 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="240px" height="124px"><versionheaders><versionheader name="PS" value="6.31"/></versionheaders><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[// remove vertical size restriction to enable scrollbar
+	instructionTextElem.parentElement.style.overflow = "hidden";
+	instructionTextElem.style.height = null;
+
+	var bindingTargets = instructionTextElem.parentElement.parentElement.parentElement.customBindingTargets;
+	var customAlphaList = [	{numeric: customalpha1, enumerate: customenum1}, 
+							{numeric: customalpha2, enumerate: customenum2}, 
+							{numeric: customalpha3, enumerate: customenum3},
+							{numeric: customalpha4, enumerate: customenum4},
+							{numeric: customalpha5, enumerate: customenum5}];
+	
+	// get the instruction text string from shape's parent
+	var instructionTextString = instructionTextElem.parentElement.parentElement.parentElement.instructionTextString;
+	if ((typeof(instructionTextString) != 'string') || (instructionTextString.length == 0)) {
+		return;
+	}
+	instructionTextElem.innerHTML = instructionTextString;
+
+	// Resize the instruction text area
+	// This is done in setTimeout to allow the instruction text innerHTML to be parsed, 
+	// new DOM elements created and laid out correctly before resizing everything according to the instruction text.
+	setTimeout(function() {
+		var MAX_INSTRUCTION_TEXT_HEIGHT = 300;
+		var newHeight = Math.min(MAX_INSTRUCTION_TEXT_HEIGHT, instructionTextElem.clientHeight);
+		instructionTextElem.parentElement.style.height = newHeight.toString() + "px";
+		instructionTextElem.parentElement.parentElement.style.height = newHeight.toString() + "px";
+
+		// Once the instruction area size has been set, allow it to be rendered, then 
+		// resize the whole instruction response shape accordingly
+		setTimeout(function() {
+			if (instructionTextElem.parentElement.parentElement.parentElement.OnResize) {
+				instructionTextElem.parentElement.parentElement.parentElement.OnResize();
+			}
+			
+			// setup the custom scrollbar only if it is necessary
+			instructionTextElem.parentElement.classList.remove("instruction-response-shape-text-with-scrollbar");
+			if (instructionTextElem.clientHeight > MAX_INSTRUCTION_TEXT_HEIGHT) {
+				setTimeout(function() {
+					var elNC = document.getElementsByTagName("hn-notification-center")[0];
+					if (elNC && elNC.applyCustomScrollbar) {
+						instructionTextElem.parentElement.classList.add("instruction-response-shape-text-with-scrollbar");
+						elNC.applyCustomScrollbar(instructionTextElem.parentElement, instructionTextElem.clientHeight);
+					}
+					// once scrollbar is set, position the live value alphas
+					setTimeout(function() {
+						InitializeCustomBindingAlphas(bindingTargets, customAlphaList);
+					}, 0);
+				}, 0);
+			} else {
+				// if we don't need a scrollbar, position the live value alphas now
+				InitializeCustomBindingAlphas(bindingTargets, customAlphaList);
+			}
+		}, 0);
+	}, 0);
+	
+	instructionTextElem.parentElement.parentElement.parentElement.parentElement.RepositionLiveValueAlphas = function() {
+		PositionCustomBindingAlphas(bindingTargets, customAlphaList);
+	};]]></script><script event="" language="JScript" id="F2956D8E-0997-4A5D-92C4-DE3321D0F3CD"><![CDATA[// global instruction text shape functions
+function InitializeCustomBindingAlphas(bindingTargets, customAlphaList) {
+	if (!bindingTargets){
+		return;
+	}
+	
+	for (var i = 0; i < Math.min(bindingTargets.length, customAlphaList.length); ++i) {
+		var bindingTarget = bindingTargets[i];
+		if (!bindingTarget.point || !bindingTarget.param || !bindingTarget.placeholder || (bindingTarget.decimals == null)) {
+			window.external.application.logMessage("InstructionText: bindingTargets[" + i + "] is not valid");
+			continue;
+		}
+		var spanParent = document.getElementById(bindingTarget.placeholder);
+		if (!spanParent) {
+			window.external.application.logMessage("InstructionText: spanParent with id:" + bindingTarget.placeholder + " not found");
+			continue;
+		}
+		// move the alpha in the dom
+		spanParent.appendChild(customAlphaList[i].numeric);
+		spanParent.appendChild(customAlphaList[i].enumerate);
+		customAlphaList[i].enumerate.firstUpdateReceived = false;
+		customAlphaList[i].numeric.firstUpdateReceived = false;
+		
+		// format the alpha
+		var decimalFormatter = "";
+		switch (bindingTarget.decimals) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			decimalFormatter = "%." + bindingTarget.decimals + "f";
+			break;
+		default:
+			decimalFormatter = "%.2f";
+			break;
+		}
+		customAlphaList[i].numeric.numericDisplayFormat = decimalFormatter;		
+		customAlphaList[i].numeric.style.whiteSpace = "nowrap";
+		customAlphaList[i].numeric.indicateBadState = false;
+		
+	}
+	
+	PositionCustomBindingAlphas(bindingTargets, customAlphaList);
+}
+
+// throttled alpha reposition function
+var repositionThrottleTimer = null;
+function PositionCustomBindingAlphas(bindingTargets, customAlphaList) {
+	if (repositionThrottleTimer) {
+		return;
+	}
+	// throttle to max 5 reposition of alpha per second
+	repositionThrottleTimer = setTimeout(function() {
+		PositionCustomBindingAlphasDelayed(bindingTargets, customAlphaList);
+		repositionThrottleTimer = null;
+	}, 200);
+}
+
+function PositionCustomBindingAlphasDelayed(bindingTargets, customAlphaList) {
+	if (!bindingTargets){
+		return;
+	}
+	for (var i = 0; i < Math.min(bindingTargets.length, customAlphaList.length); ++i) {
+		var bindingTarget = bindingTargets[i];
+		if (!bindingTarget.placeholder) {
+			continue;
+		}
+		var spanParent = document.getElementById(bindingTarget.placeholder);
+		if (!spanParent) {
+			continue;
+		}
+		customAlphaList[i].numeric.style.width = spanParent.offsetWidth + "px";
+		customAlphaList[i].numeric.style.height = (spanParent.offsetHeight - 1) + "px";
+		customAlphaList[i].numeric.style.left = (spanParent.offsetLeft + 1) + "px";
+		customAlphaList[i].numeric.style.top = (spanParent.offsetTop - 1) + "px";
+		customAlphaList[i].enumerate.style.width = spanParent.offsetWidth + "px";
+		customAlphaList[i].enumerate.style.height = (spanParent.offsetHeight - 1) + "px";
+		customAlphaList[i].enumerate.style.left = (spanParent.offsetLeft + 1) + "px";
+		customAlphaList[i].enumerate.style.top = (spanParent.offsetTop - 1) + "px";
+		
+	}
+}
+
+var DT_INT2 = 2;
+var DT_INT4 = 3;
+var DT_REAL = 4;
+var DT_DBLE = 5;
+var DT_INT8 = 15;
+]]></script></scripts><parameters><parameter name="CUSTOM1POINT" type="Point" description="" defaultvalue=""/><parameter name="CUSTOM1PARAM" type="Parameter" description="" defaultvalue=""/><parameter name="CUSTOM2POINT" type="Point" description="" defaultvalue=""/><parameter name="CUSTOM2PARAM" type="Parameter" description="" defaultvalue=""/><parameter name="CUSTOM3POINT" type="Point" description="" defaultvalue=""/><parameter name="CUSTOM3PARAM" type="Parameter" description="" defaultvalue=""/><parameter name="CUSTOM4POINT" type="Point" description="" defaultvalue=""/><parameter name="CUSTOM4PARAM" type="Parameter" description="" defaultvalue=""/><parameter name="CUSTOM5POINT" type="Point" description="" defaultvalue=""/><parameter name="CUSTOM5PARAM" type="Parameter" description="" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customalpha1 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; WHITESPACE:TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%.2f;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customalpha1.firstUpdateReceived){
+		switch(customalpha1.Binding.DataObjects.Item(0).ValueType) {
+		case DT_INT2:
+		case DT_INT4:
+		case DT_REAL:
+		case DT_DBLE:
+		case DT_INT8:
+			customalpha1.style.textAlign = "right";
+			break;
+		default:
+			customalpha1.style.textAlign = "center";
+			break;
+		}
+		customalpha1.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM1POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM1PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customalpha2 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 20.16%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%.2f;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customalpha2.firstUpdateReceived){
+		switch(customalpha2.Binding.DataObjects.Item(0).ValueType) {
+		case DT_INT2:
+		case DT_INT4:
+		case DT_REAL:
+		case DT_DBLE:
+		case DT_INT8:
+			customalpha2.style.textAlign = "right";
+			break;
+		default:
+			customalpha2.style.textAlign = "center";
+			break;
+		}
+		customalpha2.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM2POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM2PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customalpha3 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 40.32%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%.2f;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customalpha3.firstUpdateReceived){
+		switch(customalpha3.Binding.DataObjects.Item(0).ValueType) {
+		case DT_INT2:
+		case DT_INT4:
+		case DT_REAL:
+		case DT_DBLE:
+		case DT_INT8:
+			customalpha3.style.textAlign = "right";
+			break;
+		default:
+			customalpha3.style.textAlign = "center";
+			break;
+		}
+		customalpha3.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM3POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM3PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customalpha4 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 60.48%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%.2f;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customalpha4.firstUpdateReceived){
+		switch(customalpha4.Binding.DataObjects.Item(0).ValueType) {
+		case DT_INT2:
+		case DT_INT4:
+		case DT_REAL:
+		case DT_DBLE:
+		case DT_INT8:
+			customalpha4.style.textAlign = "right";
+			break;
+		default:
+			customalpha4.style.textAlign = "center";
+			break;
+		}
+		customalpha4.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM4POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM4PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customalpha5 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 80.64%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%.2f;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customalpha5.firstUpdateReceived){
+		switch(customalpha5.Binding.DataObjects.Item(0).ValueType) {
+		case DT_INT2:
+		case DT_INT4:
+		case DT_REAL:
+		case DT_DBLE:
+		case DT_INT8:
+			customalpha5.style.textAlign = "right";
+			break;
+		default:
+			customalpha5.style.textAlign = "center";
+			break;
+		}
+		customalpha5.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM5POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM5PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customenum1 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 50%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customenum1.firstUpdateReceived){
+		var ENUM_TYPE = 8;
+		if (customenum1.Binding.DataObjects.Item(0).ValueType == ENUM_TYPE) {
+			customenum1.style.visibility = "inherit";
+			customalpha1.style.visibility = "hidden";
+		} else {
+			customenum1.style.visibility = "hidden";
+			customalpha1.style.visibility = "inherit";
+		}
+		customenum1.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM1POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM1PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customenum2 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 50%; TOP: 20.16%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customenum2.firstUpdateReceived){
+		var ENUM_TYPE = 8;
+		if (customenum2.Binding.DataObjects.Item(0).ValueType == ENUM_TYPE) {
+			customenum2.style.visibility = "inherit";
+			customalpha2.style.visibility = "hidden";
+		} else {
+			customenum2.style.visibility = "hidden";
+			customalpha2.style.visibility = "inherit";
+		}
+		customenum2.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM2POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM2PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customenum3 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 50%; TOP: 40.32%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customenum3.firstUpdateReceived){
+		var ENUM_TYPE = 8;
+		if (customenum3.Binding.DataObjects.Item(0).ValueType == ENUM_TYPE) {
+			customenum3.style.visibility = "inherit";
+			customalpha3.style.visibility = "hidden";
+		} else {
+			customenum3.style.visibility = "hidden";
+			customalpha3.style.visibility = "inherit";
+		}
+		customenum3.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM3POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM3PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customenum4 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 50%; TOP: 60.48%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customenum4.firstUpdateReceived){
+		var ENUM_TYPE = 8;
+		if (customenum4.Binding.DataObjects.Item(0).ValueType == ENUM_TYPE) {
+			customenum4.style.visibility = "inherit";
+			customalpha4.style.visibility = "hidden";
+		} else {
+			customenum4.style.visibility = "hidden";
+			customalpha4.style.visibility = "inherit";
+		}
+		customenum4.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM4POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM4PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=customenum5 class="hsc.alpha.1 instruction-response-live-value-alpha" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 19.35%; FONT-FAMILY: Arial; WIDTH: 50%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 50%; TOP: 80.64%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:-1;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:instruction-response-live-value-alpha;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[if (!customenum5.firstUpdateReceived){
+		var ENUM_TYPE = 8;
+		if (customenum5.Binding.DataObjects.Item(0).ValueType == ENUM_TYPE) {
+			customenum5.style.visibility = "inherit";
+			customalpha5.style.visibility = "hidden";
+		} else {
+			customenum5.style.visibility = "hidden";
+			customalpha5.style.visibility = "inherit";
+		}
+		customenum5.firstUpdateReceived = true;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::CUSTOM5POINT%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::CUSTOM5PARAM%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=instructionTextElem class="hvg.textbox.1 instruction-response-instruction-text" style="OVERFLOW: hidden; HEIGHT: 96.77%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%" hdxproperties="fillColorBlink:False;FillStyle:1;Height:120;lineColorBlink:False;LineStyle:0;textColorBlink:False;TotalRotation:-1;Width:240;styleClass:instruction-response-instruction-text"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 124px; WIDTH: 240px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:124;lineColorBlink:False;Width:240;"></DIV>]]></content></html></group></shape></shapes></shapefile>

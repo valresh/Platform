@@ -1,0 +1,241 @@
+/*****************************************************************************
+Copyright (C) 2008 HONEYWELL INTERNATIONAL SARL
+$Archive: /System Displays/_Master/Common/Styles/SystemDisplayBehavior.css $								
+$Workfile: SystemDisplayBehavior.css $												
+$Modtime: 22/09/08 1:40p $											
+$Revision: 11 $
+$Author: Jcheung $														
+******************************************************************************
+This stylesheet contains the CSS styles that apply DHTML behaviors to various 
+elements of a display. These are in their own stylesheet because this is an
+IE-specific technique that will need to be replaced if non-IE browsers are
+to be used in the future.
+
+The Script Behaviors that are applied using the .ScriptsRequired selector
+are those that reference the standard javascript-library functions, so if 
+you require any of these styles, then you MUST also reference the following 
+library script files:
+	Logging.js
+	ErrorHandling.js
+	JSExtensions.js
+	HTMLUtils.js
+	Utilities.js
+
+To get these behaviors to run, you will also need to give a top-level element
+the "ScriptsRequired" class in order to complete the selectors. 
+*****************************************************************************/
+
+/* -----------------------------*/
+/* Imported VML namespaces.		*/
+/* -----------------------------*/
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+
+/* -----------------------------*/
+/*	Complete Hacks				*/
+/*------------------------------*/
+html
+{
+	/* 
+	The custom systemdisplayspath style variable below will hold the best-effort guess 
+	at the relative URL from the current host document to the standard System Displays
+	virtual directory base. 
+	It can be referenced in CSS expressions or client-side scripts as:
+ 
+		document.documentElement.currentStyle.systemdisplayspath
+
+	---	If the host document is called up via http / IIS, then the virtual
+		"/SystemDisplays/" directory should be correct (assuming displays are on the web server!)
+
+	--- If the host document is not called up via http or https, then this expression 
+		will try to check for a custom attribute on the window-document's <html/> tag:
+		note that for a viewlink, the element-document (this.ownerDocument) and the 
+		window-document (window.document) are NOT the same object!
+
+	--- If the path to the system displays cannot be worked out, then this expando
+		style will contain an empty string, which will still be valid for all displays 
+		which actually live in the base SystemDisplays directory: this is the best
+		default we can give. If this happens, then individual files can be searched
+		for in the system display paths as needed.
+	*/
+	/*
+    systemdisplayspath: expression(	window.location.protocol.toLowerCase().indexOf("http") >= 0 ? 
+										"/SystemDisplays/" : 
+										(this.getAttribute("SystemDisplaysPath") == null ? 
+											(window.top.external == null || typeof(window.top.external.FindFile) == "undefined" ? 
+												"" :
+												window.top.external.FindFile("sysBackground.sha").replace(/(sysBackground\.sha)/ig, "")
+											) :
+											this.getAttribute("SystemDisplaysPath")
+										) 
+									);
+	*/
+	
+    systemdisplayspath: expression(	window.location.protocol.toLowerCase().indexOf("http") >= 0 ? 
+									"/SystemDisplays/" : 
+									(this.getAttribute("SystemDisplaysPath") == null ? "" : this.getAttribute("SystemDisplaysPath")) 
+								);
+																					
+	/* 
+	This behavior will ensure that all the standard script library files are referenced
+	in the header of the document and then apply the 'ScriptsAvailable' class to this 
+	document element node as soon as they are all parsed.
+	*/
+	behavior: expression("url('" + this.currentStyle.systemdisplayspath + "Objects/SystemDisplayScripts.htc')");
+
+}
+
+/* -----------------------------*/
+/*	General element styles		*/
+/*------------------------------*/
+body
+{
+	behavior: url(#default#userData);
+}
+
+body#Page
+{
+	behavior: url(#default#userData) url(#StnEvtReflector);
+}
+
+img
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/Unselectable.htc')");
+}
+
+/* -----------------------------*/
+/*	General element classes		*/
+/*------------------------------*/
+
+.ScriptsAvailable .LocalizeMe
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/I18NText.htc')");
+}
+   
+/*****************************************************************************
+Page Layout Classes
+******************************************************************************
+These classes should be used for the containers of the appropriate 
+page-layout regions so that their appearance is consistent with that of
+a standard system display.
+*****************************************************************************/
+
+/*----------------------------------------------------------------------------
+OperatorsMenu
+------------------------------------------------------------------------------
+The OperatorsMenu element is defined in the TopLeft viewlink behavior or shape.
+----------------------------------------------------------------------------*/ 
+.ScriptsAvailable .ToggleMenuButton
+{
+	behavior: expression(	"url('" + 
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/PopupController.htc" + 
+							"') url('" +	
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/ToggleMenuButton.htc" + 
+							"')");
+}
+
+
+/*----------------------------------------------------------------------------
+NavPane
+------------------------------------------------------------------------------
+The NavPane element takes up the rest of the left-hand bar of the display
+below the TopLeft title element.  
+----------------------------------------------------------------------------*/ 
+
+.ScriptsAvailable .NavMenu
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/NavMenu.htc')");
+}
+
+
+/* 
+The following two classes ensure that the toggle behavior is applied to 
+all top-level NavPane li elements that are _not_ part of a navmenu, and also to
+li elements that _are_ part of a NavMenu and explicitly ask to be toggle-able.
+*/
+.NavPane li, .NavMenu li.toggle
+{
+	/* background-color: pink; */
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/ListToggle.htc')");
+}
+
+.NavPane li li, .NavMenu li
+{
+	/* background-color: Green; */
+	behavior: expression("");	
+}
+
+/*----------------------------------------------------------------------------
+TabSet
+------------------------------------------------------------------------------
+The TabSet element stretches across the top of the display under the TitleBar
+and to the right of the LeftBar element. 
+----------------------------------------------------------------------------*/ 
+.TabSet .TabScroller
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/Unselectable.htc')");
+}
+
+/*****************************************************************************
+Button Styles
+******************************************************************************
+The style classes below are for various types of buttons that can be used
+anywhere on the displays.
+*****************************************************************************/
+
+div.FormButton, input.FormButton, span.FormButton,
+div.HoverButton, input.HoverButton, span.HoverButton
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/HoverButton.htc')");
+}
+
+.ScriptsAvailable .StationBrowseButton
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/StationBrowser.htc')");
+}
+
+.ScriptsAvailable .DownButton,
+.ScriptsAvailable .UpButton
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/DisableGrey.htc')");
+}
+
+.ScriptsAvailable .ToolbarButton
+{
+	behavior: expression(	"url('" + 
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/DisableGrey.htc" + 
+							"') url('" +	
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/HoverButton.htc" + 
+							"')");
+}
+
+
+.ScriptsAvailable .LED
+{
+	behavior: expression(	"url('" + 
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/LED.htc" + 
+							"') url('" +	
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/DisableGrey.htc" + 
+							"')");
+}
+
+.ScriptsAvailable .PenPickerTrigger
+{
+	behavior: expression(	"url('" + 
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/PopupController.htc" + 
+							"') url('" +	
+								this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/PenPickerTrigger.htc" + 
+							"')");
+}
+
+.ScriptsAvailable .PenPicker
+{
+	behavior: expression("url('" + this.ownerDocument.documentElement.currentStyle.systemdisplayspath + "Objects/PenPicker.htc')");
+}
+
+/*****************************************************************************
+Copyright (C) 2008 HONEYWELL INTERNATIONAL SARL
+*****************************************************************************/

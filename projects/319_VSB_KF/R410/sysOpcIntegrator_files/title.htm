@@ -1,0 +1,359 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html>
+    <head>
+        <meta name="VI60_defaultClientScript" content="VBScript">
+        <meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+        <link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="OpciStyles.css" type="text/css">
+        <title></title>
+        <object id="OpciDashboard" style="display: none; left: 0px; top: 0px" classid="clsid:8EE82555-376E-4F89-A10F-F878986B2091">
+            <param name="_ExtentX" value="6562">
+            <param name="_ExtentY" value="1905">
+        </object>
+        <script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+        <script id="OpciClientFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+        <script id="clientEventHandlersVBS" language="vbscript">
+<!-- 
+Dim g_SrcColWidth			' Saved width of the Source Item column in the Item's grid
+Dim g_DstColWidth			' Saved width of the Destination Item column in the Item's grid
+Dim g_SrcTypeWidth			' Saved width of the SourceDataType column in the Item's grid
+Dim g_DstTypeWidth			' Saved width of the DestinationDataType column in the Item's grid
+Dim g_ErrorStringWidth		' Saved width of the ErrorString column in the Item's grid
+Dim g_ItemIDWidth			' Saved width of the ItemID column in the Item's grid
+Dim g_GroupId
+Dim g_Mode
+Dim g_Connected
+Dim g_Degraded
+
+Sub window_onload
+    On Error Resume Next
+
+    ' Initialise
+    g_Mode = ERROR_MODE
+    g_Connected = False
+    g_Degraded = False
+
+    ' Connect To the server
+    Call connectToServer
+    
+    ' set page title
+    PageTitle.innerHTML = g_sApplicationName
+    
+End Sub
+
+Sub	connectToServer
+    On Error Resume Next
+    Dim iServerStatus
+    Dim bDegraded
+    Dim CStrConnectionString
+    
+    parent.main.document.body.style.cursor = "wait"
+    
+    ' connect To the same server as station
+    strServerA = m_ServerName
+    strServerB = ""
+        
+    ' Check the status
+    iServerStatus = m_objStation.RuntimeStatus.FieldState(5)
+    If iServerStatus = SERVER_UNAVAILABLE Then
+        m_objStation.MessageZoneText = MSG_SERVER_UNAVAILABLE
+        OpciDashboard.ServerErrorText = MSG_SERVER_UNAVAILABLE
+        bDegraded = True
+    ElseIf iServerStatus = SERVER_SYNCHRONISING Then
+        m_objStation.MessageZoneText = MSG_SERVER_SYNCHRONISING
+        OpciDashboard.ServerErrorText = MSG_SERVER_SYNCHRONISING
+        bDegraded = True
+    Else
+        OpciDashboard.ServerErrorText = ""
+        bDegraded = False
+    End If
+    
+    g_Degraded = bDegraded
+
+    CStrConnectionString = GetConnectionString()
+
+    g_Connected = OpciDashboard.Connect(CStr(strServerA), CStr(strServerB), CStr(CStrConnectionString), CBool(bDegraded))
+    If g_Connected Then
+        If InStr(1, parent.document.location.href, "sysCfgOpcIntegrator", 1) > 0  Then
+            OpciDashboard.mode = CONFIG_MODE
+            g_Mode = CONFIG_MODE
+        Else
+            g_Mode = ONLINE_MODE
+        End If
+        ' Dashboard is connected (For the first time)
+        parent.main.navigate ("GroupTable.htm")
+    Else
+        If g_Mode <> ERROR_MODE Then
+            parent.main.navigate ("ServerUnavailable.htm")
+        End If
+        
+        g_Mode = ERROR_MODE
+        parent.main.document.body.style.cursor = "auto"
+    End If
+End Sub
+
+'=============================================================
+' OPCIDashboard event handlers
+'=============================================================
+Sub OpciDashboard_OnTemporaryStateTextChange
+    On Error Resume Next
+    m_objStation.TemporaryMessageZoneText = OpciDashboard.TemporaryStateText
+End Sub
+
+Sub OpciDashboard_OnPermanentStateTextChange
+    On Error Resume Next
+    m_objStation.MessageZoneText = OpciDashboard.PermanentStateText
+End Sub
+
+Sub OpciDashboard_OnChange
+    On Error Resume Next
+    Dim iServerStatus
+
+    If InStr(1, parent.document.location.href, "sysCfgOpcIntegrator", 1) > 0  Then
+        If Not OpciDashboard.EnteredConfigMode Then
+            ' enter config mode
+            OpciDashboard.mode = CONFIG_MODE
+            ' check If successfully entered config mode
+            If OpciDashboard.EnteredConfigMode Then
+                ' Dashboard is connected
+                g_Mode = CONFIG_MODE
+            End If
+        End If
+    End If
+
+    iServerStatus = m_objStation.RuntimeStatus.FieldState(5)
+    If iServerStatus = SERVER_OK Or iServerStatus = SERVER_STATUS_UNKNOWN Or iServerStatus = NOT_CONSOLE_STN Then
+        ' server is ok or this is not a console station
+        OpciDashboard.ServerErrorText = ""
+            
+        If g_Degraded Then
+            ' It was degraded, now we're back online
+            parent.main.navigate ("GroupTable.htm")
+            g_Degraded = False
+        Else
+            parent.main.GroupListTable.draw
+            parent.main.ShowGroupStatus
+        End If		
+    Else
+        If iServerStatus = SERVER_UNAVAILABLE Then
+            OpciDashboard.ServerErrorText = MSG_SERVER_UNAVAILABLE
+        Else
+            OpciDashboard.ServerErrorText = MSG_SERVER_SYNCHRONISING
+        End If
+
+        If Not g_Degraded Then
+            ' It was online, now we're degraded
+            parent.main.navigate ("ServerUnavailable.htm")			
+            g_Degraded = True
+        End If
+
+        parent.main.document.body.style.cursor = "auto"
+    End If
+End Sub
+
+Sub OpciDashboard_OnTimer(bServerHealthy)
+    On Error Resume Next
+    Dim iServerStatus
+    Dim CStrServerName
+
+    CStrServerName = GetStationServerName()
+    
+    ' This is used To handle retry For connection, and is handled this way because:
+    ' (1) we need To ensure that g_Connected is set properly from this End
+    ' (2) we are able To handle case-specific scenarios (EPKS, EBI, etc.)
+    ' (3) we do not have To needlessly store the server strings in the OpciDashboard
+    ' (4) we will also handle the Console Station error string override here
+    If Not g_Connected Then
+        ' Need To check whether or not the console station has changed server (name)
+        If m_ServerName <> CStrServerName Then
+            ' Changing server (name) is the same as changing from backup To primary
+            Call OpciDashboard_OnBackup(False)
+        Else
+            ' Disconnected case - connect To server
+            Call connectToServer()
+        End If
+    Else
+        iServerStatus = m_objStation.RuntimeStatus.FieldState(5)	
+        If iServerStatus = SERVER_OK Or iServerStatus = SERVER_STATUS_UNKNOWN Or iServerStatus = NOT_CONSOLE_STN Then
+            ' server is ok or this is not a console station
+            OpciDashboard.ServerErrorText = ""
+
+            If g_Degraded Then
+                ' It was degraded, now we're back online
+                parent.main.navigate ("GroupTable.htm")
+                g_Degraded = False
+            End If
+        Else
+            If iServerStatus = SERVER_UNAVAILABLE Then
+                OpciDashboard.ServerErrorText = MSG_SERVER_UNAVAILABLE
+            Else
+                OpciDashboard.ServerErrorText = MSG_SERVER_SYNCHRONISING
+            End If
+                
+            If Not g_Degraded Then
+                ' It was online, now we're degraded
+                parent.main.navigate ("ServerUnavailable.htm")			
+                g_Degraded = True
+            End If
+                
+            ' Need To check whether or not the console station has changed server (name)
+            If m_ServerName <> CStrServerName Then
+                ' Changing server (name) is the same as changing from backup To primary
+                Call OpciDashboard_OnBackup(False)
+            End If
+        End If
+    End If
+End Sub
+
+Sub OpciDashboard_OnBackup(bDuringCommand)
+    On Error Resume Next
+
+    ' Reset variables
+    call ResetMemberVariables
+
+    ' Need To reload everything
+    call window_onload
+    parent.main.location.reload True
+End Sub
+
+Sub OpciDashboard_OnLogMessage(message)
+    LogMessage message
+End Sub
+
+Sub lstGroups_onchange
+    On Error Resume Next
+    Dim bGroupDirty
+    Dim bGroupSaved
+    Dim bGroupProcessing
+    
+    If (OpciDashboard.CurrentGroup = 0) Then
+        bGroupDirty = False
+        bGroupSaved = False
+        bGroupProcessing = False
+    Else
+        bGroupDirty = parent.main.GroupDirty
+        bGroupSaved = parent.main.GroupSaved
+        bGroupProcessing = parent.main.GroupProcessing
+    End If
+
+    If g_Mode = CONFIG_MODE And bGroupDirty And bGroupSaved And Not bGroupProcessing Then
+        If Not (m_objStation.RuntimeStatus.SecurityLevel < SECURITY_LEVEL_MNGR) Then		
+            Dim iCurrentGroup
+            Dim iSelectedGroup
+            Dim iOriginalGroup
+        
+            ' remember the group the user has selected
+            iSelectedGroup = lstGroups.selectedIndex
+        
+            ' get the current group from the dashboard
+            iCurrentGroup = OpciDashboard.CurrentGroup
+        
+            ' find the current groups index in the list
+            For i = 0 To lstGroups.length - 1
+                If CLng(lstGroups.options(i).value) = CLng(iCurrentGroup) Then
+                    iOriginalGroup = i
+                End If
+            Next
+        
+            ' set the selected list item To what it was originally
+            ' since the user may choose not To navigate from this page If the group is dirty
+            ' but only do this If we have authority To save the changes
+            lstGroups.selectedIndex = iOriginalGroup
+            txtGroupId.value = iCurrentGroup
+        
+            parent.main.lstGroups_ChangeConfirm iSelectedGroup, False, g_Mode
+        Else
+            ' set the current group
+            OpciDashboard.CurrentGroup = lstGroups.options(lstGroups.selectedIndex).value
+            txtGroupId.value = lstGroups.options(lstGroups.selectedIndex).value
+            ' reload the main frame
+            parent.main.location.reload True
+        End If
+    Else
+        ' set the current group
+        OpciDashboard.CurrentGroup = lstGroups.options(lstGroups.selectedIndex).value
+        ' reload the main frame
+        parent.main.location.reload True
+    End If
+End Sub
+
+Sub txtGroupId_onchange
+    On Error Resume Next
+    ' set the current group
+    Dim iCurrentGroup
+    Dim txtGroup
+    Dim bExists
+    Dim i
+    
+    iCurrentGroup = OpciDashboard.CurrentGroup
+    txtGroup = txtGroupId.value
+    
+    If Not IsNumeric(txtGroup) Then
+        txtGroupId.value = iCurrentGroup
+        Exit Sub
+    End If
+    
+    If CLng(txtGroup) = CLng(iCurrentGroup) Then Exit Sub
+    
+    For i = 0 To lstGroups.length - 1
+        If CLng(lstGroups.options(i).value) = CLng(txtGroupId.value) Then
+            lstGroups.selectedIndex = i
+            lstGroups_onchange
+            Exit Sub
+        End If
+    next
+    
+    ' Group not found in list, ignore entry
+    txtGroupId.value = iCurrentGroup
+End Sub
+
+Sub txtGroupId_onkeydown
+    On Error Resume Next
+    ' treat enter key as an onchange event
+    If window.event.keycode = ENTER_KEY Then
+        txtGroupId_onChange
+    End If
+End Sub
+
+Sub document_onkeydown
+    On Error Resume Next
+    'Only process pageup and pagedown If the select box is visible
+    If lstGroups.style.display <> "none" Then
+        If window.event.keyCode = 33 Then
+            ' Page up pressed
+            If (lstGroups.selectedIndex > 0) Then
+                lstGroups.selectedIndex = lstGroups.selectedIndex - 1
+            End If
+        ElseIf window.event.keyCode = 34 Then
+            ' Page down pressed
+            If (lstGroups.selectedIndex < lstGroups.length-1) Then
+                lstGroups.selectedIndex = lstGroups.selectedIndex + 1
+            End If
+        End If
+    End If	
+End sub
+-->
+        </script>
+    </head>
+    <body scroll="no">
+        <table class="TitleBar WholeArea" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td id="PageTitle" class="Titlebar_Text_Style2" align="left" width="10%"></td>
+                <td align="center" width="60%">
+
+                    <input id="txtGroupId" type="text" style="display: none"/>
+                    &nbsp;&nbsp;
+                    <select id="lstGroups" style="display: none">
+                    </select>
+                </td>
+                <td id="GroupStatusLabel" align="right" width="11%"></td>
+                <td id="GroupStatusImage" align="right" width="2%"></td>
+                <td id="GroupStatusValue" align="left" width="17%"></td>
+            </tr>
+        </table>
+    </body>
+</html>

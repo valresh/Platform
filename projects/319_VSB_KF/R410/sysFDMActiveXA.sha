@@ -1,0 +1,79 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="564px" height="432px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeunload" language="VBScript" id=""><![CDATA[window.external.MessageZoneText =   ""]]></script><script event="" language="VBScript" id="95F04374-EF54-4EC4-827C-34B6F5D7A869"><![CDATA[Dim bIsControlRegistered
+
+bIsControlRegistered = false]]></script><script event="onshapeload" language="VBScript" id=""><![CDATA[	On Error Resume Next
+
+	
+
+	Dim Wshell
+
+	Dim StrPath
+
+	set Wshell = window.external.CreateWhitelistedObject("Wscript.shell",1)
+
+	StrPath= Wshell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Honeywell\HFDCM\" & "RootDir")
+
+	
+
+	If Err.number = 0 then
+
+		bIsControlRegistered = true		
+
+		Set Wshell= Nothing	
+
+	else		
+
+		bIsControlRegistered = false	
+
+	End If
+
+	
+
+	if (bIsControlRegistered ) then		
+
+		if window.external.status.FieldState(5) = 1 then 'server connection lost condition
+
+			window.external.TemporaryMessageZoneText "Server connection is lost maintenance view can't be loaded"
+
+			exit sub
+
+		end if
+
+		MaintenanceViewCtrl.HCMDeviceTag( window.external.DetailPointID)
+
+		MaintenanceViewCtrl.HCMFlexStationServer(window.external.Parent.RuntimeStatus.clusterServerName)
+
+
+
+		MaintenanceViewCtrl.HCMIsConsoleStation(window.external.Parent.RuntimeStatus.IsConsoleStation)		
+
+		MaintenanceViewCtrl.HCMConsoleStationServer(window.external.Parent.RuntimeStatus.clusterServerName)		
+
+		
+
+		MaintenanceViewCtrl.HCMStationServerName(window.external.ServerName)
+
+		MaintenanceViewCtrl.HCMSecurityType(window.external.SecurityType)
+
+		
+
+		MaintenanceViewCtrl.HCMSecurityLevel(window.external.SecurityLevel )
+
+		MaintenanceViewCtrl.HCMStationNumber(window.external.StationNumber)
+
+		
+
+		MaintenanceViewCtrl.HCMOperatorName(window.external.OperatorID)		
+
+		MaintenanceViewCtrl.HCMStationAcronym(window.external.Parent.RuntimeStatus.StationAcronym)
+
+		
+
+		MaintenanceViewCtrl.HCMCurrentPageLocation(window.external.CurrentPageLocation)		
+
+		MaintenanceViewCtrl.HCMCurrentPage(window.external.CurrentPage)	
+
+				
+
+	End If]]></script></scripts><parameters><parameter name="tagname" type="Point" description="" defaultvalue="{%CurrentPoint%}"/></parameters><shapes><shape><element><html><content><![CDATA[
+
+<OBJECT tabIndex=-1 id=MaintenanceViewCtrl class=hsc.activexcontrol.1 style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 432px; FONT-FAMILY: Arial; WIDTH: 564px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 56px; TOP: 28px" classid=clsid:79596D9A-D66C-4211-A671-2ABF66B51494><PARAM NAME="RightToLeft" VALUE="No"><PARAM NAME="PreferredSize" VALUE="0, 0"><PARAM NAME="AutoScrollMinSize" VALUE="0, 0"><PARAM NAME="AutoValidate" VALUE="EnablePreventFocusChange"><PARAM NAME="CausesValidation" VALUE="True"><PARAM NAME="TabStop" VALUE="True"><PARAM NAME="Size" VALUE="564, 432"><PARAM NAME="Font" VALUE="Arial, 16world"><PARAM NAME="AutoScrollOffset" VALUE="0, 0"><PARAM NAME="MaximumSize" VALUE="0, 0"><PARAM NAME="ForeColor" VALUE="Black"><PARAM NAME="Enabled" VALUE="True"><PARAM NAME="AccessibleRole" VALUE="Default"><PARAM NAME="Tag" VALUE=""><PARAM NAME="Anchor" VALUE="Top, Left"><PARAM NAME="BorderStyle" VALUE="None"><PARAM NAME="MinimumSize" VALUE="0, 0"><PARAM NAME="Margin" VALUE="3, 3, 3, 3"><PARAM NAME="BackColor" VALUE="Control"><PARAM NAME="Visible" VALUE="True"><PARAM NAME="CurrentAutoScaleDimensions" VALUE="0, 0"><PARAM NAME="AutoSize" VALUE="False"><PARAM NAME="ImeMode" VALUE="NoControl"><PARAM NAME="AllowDrop" VALUE="False"><PARAM NAME="Cursor" VALUE="Default"><PARAM NAME="BackgroundImage" VALUE=""><PARAM NAME="Location" VALUE="0, 0"><PARAM NAME="AutoScroll" VALUE="False"><PARAM NAME="AccessibleDescription" VALUE=""><PARAM NAME="AutoSizeMode" VALUE="GrowOnly"><PARAM NAME="TabIndex" VALUE="0"><PARAM NAME="AutoScrollMargin" VALUE="0, 0"><PARAM NAME="UseWaitCursor" VALUE="False"><PARAM NAME="Name" VALUE="MaintenanceViewCtrl"><PARAM NAME="BackgroundImageLayout" VALUE="Tile"><PARAM NAME="Padding" VALUE="0, 0, 0, 0"><PARAM NAME="Dock" VALUE="None"><PARAM NAME="AccessibleName" VALUE="">]]></content></html></element></shape></shapes></shapefile>

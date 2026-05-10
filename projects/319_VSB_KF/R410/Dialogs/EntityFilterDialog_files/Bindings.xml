@@ -1,0 +1,46 @@
+<hdx version="1.0">
+
+<datasource ID="datasource1" class="progid:DataSource.HSCDataSourceFactory"/>
+
+<binding ID="0">
+	<dataobject ID="dso1" objectmodelid="datasource1" objecttype="DataSourceObj.EntitySource" objectid="1"/>
+
+	<event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnInitialize" 
+	       targettype="pageelement" targetobject="element" targetmethod="OnInitialize" eventtype="dispatch"/>
+
+	<event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnRefresh" 
+	       targettype="pageelement" targetobject="element" targetmethod="OnRefresh" eventtype="dispatch"/>
+
+	<event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnAckTransaction" 
+	       targettype="pageelement" targetobject="element" targetmethod="OnAckTransaction" eventtype="dispatch"/>
+
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnClientReady" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnClientReady" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnViewResize" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnViewResize" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnSelect" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnSelect" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnScroll" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnScroll" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnDataChange" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnDataChange" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnKeyPress" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnKeyPress" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnMenuSelect" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnMenuSelect" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnColumnAction" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnColumnAction" eventtype="dispatch"/>
+
+	<event sourcetype="pageelement" sourceobject="element" sourceevent="OnTerminate" 
+	       targettype="dataobject"  targetobject="dso1"    targetmethod="OnTerminate" eventtype="dispatch"/>
+</binding>
+
+</hdx>

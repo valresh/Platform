@@ -1,0 +1,147 @@
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2004           HONEYWELL LIMITED AUSTRALIA      ****/
+/************************************************************************/
+-->
+<!-- "PntBrowser.htm" -->
+<!-- $Revision: 9 $ -->
+<html>
+<head >
+    <title> Point Browser </title> 
+
+    <OBJECT id=PBControlObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px; " 
+        codeBase="" border=0 classid=clsid:F294C996-D9DB-11D3-80A3-00C04F9A66E9 VIEWASTEXT>
+	</OBJECT>
+
+    <script language=jscript>
+	var g_bobjEmBrowserReady = false;
+	var g_bStationObjectReady = false;
+        var g_BrowserScrpltGap = 20;
+
+        function fnSetStationObject()
+        {
+            if (g_bobjEmBrowserReady != true) {
+                g_bStationObjectReady = true;
+                return;                
+            }
+            objEmBrowser.SetBackgroundColor("buttonface");
+            return objEmBrowser.SetStationObject();
+        }
+
+        function fnGetTagName()
+        {
+            if (g_bobjEmBrowserReady != true) {
+                return;                
+            }
+            return objEmBrowser.GetTagName();
+        }
+		
+        function fnGetTagName2()
+        {
+            if (g_bobjEmBrowserReady != true) {
+                return;                
+            }
+            return objEmBrowser.GetTagName2();
+        }
+		
+        function fnGetServerStatus()
+        {
+            if (g_bobjEmBrowserReady != true) {
+                return 0;        
+            }
+            return objEmBrowser.GetServerStatus();
+        }
+        
+	function fnDisconnectServer()
+	{
+		if(g_bobjEmBrowserReady != true)
+		{
+			return;
+		}
+		objEmBrowser.DisconnectServer();
+	}
+        
+    </script>	
+	
+    <script language=vbscript>
+	    Function Initialize()
+            Dim strPBScriptlet
+    	    
+    	    On Error Resume Next
+	        strPBScriptlet = ""
+                       
+            strPBScriptlet = window.external.DisplayDirectory & "PntBrowserScrplt.htm"
+	    	        
+	        If 0 = err.Number Then
+		        divEmBrowser.innerHtml = _
+			        "<OBJECT ID='objEmBrowser'" & _ 
+                    "name='nobjEmBrowser' "  & _
+	                "style='width:301px; background-color:#f0f0f0; height:392px; " & _
+			        "		border: none;' " & _
+                    "TYPE='text/x-scriptlet' " & _
+                    "DATA='file:\\" & strPBScriptlet & "' " & _
+			        "UNSELECTABLE='no' > " & _
+			        "</OBJECT>"
+    	    End If
+	    End Function
+    </script>
+</head>
+
+<body id=PBbody scroll="no" onload="Initialize()" onresize="SizeChanged()" style="background-color: buttonface">
+
+    <div id="divEmBrowser">
+    </div>    
+
+    <script language="jscript"
+        FOR="objEmBrowser"
+        EVENT="onscriptletevent(sName, oEventData)">
+
+        switch (sName) {
+            case "event_onready":
+                g_bobjEmBrowserReady = true;
+                if (g_bStationObjectReady == true) {
+                    objEmBrowser.SetBackgroundColor("buttonface");
+                    objEmBrowser.SetStationObject();
+                }
+                break;
+            case "event_onpointselect":
+                Handle_OnPointSelect();
+                break;
+            case "event_onserverstatuschange":
+                Handle_OnServerStatusChange();
+                break;
+            default:
+                break;
+        }
+    </script>
+
+    <script language="jscript">
+        function    Handle_OnPointSelect() {
+            try {           
+            external.OnPointSelected();
+            } catch(err) {
+            alert("Handle_OnPointSelect catch " + err.number + " " + err.description);
+            }
+            return;
+        }
+
+        function    Handle_OnServerStatusChange() {
+            return;
+        }
+	
+        function     SizeChanged() {
+            if (g_bobjEmBrowserReady)
+            {
+                objEmBrowser.style.pixelWidth = PBbody.clientWidth - g_BrowserScrpltGap;
+                objEmBrowser.style.pixelHeight = PBbody.clientHeight - g_BrowserScrpltGap;
+            }
+        }
+
+    </script> 
+</body>
+</html>
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2004           HONEYWELL LIMITED AUSTRALIA      ****/
+/************************************************************************/
+-->

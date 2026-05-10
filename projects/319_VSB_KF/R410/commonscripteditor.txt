@@ -1,0 +1,678 @@
+var securityLevel;
+
+nServerAvailable    = 0;
+nServerUnavailable  = 1;
+nServerSynching     = 2;
+
+nCombinedScriptEditor = 0;
+nReportScriptEditor   = 1;
+nPointScriptEditor    = 2;
+nAlertScriptEditor    = 3;
+
+try
+{
+    LastState = window.external.status.FieldState(5);
+}
+catch(e)
+{
+    LastState = nServerAvailable;
+}
+
+function CStnSpecificGUI()
+{
+    var blnIsConsole;
+    try
+    {
+        blnIsConsole = window.external.status.IsConsoleStation;
+    }
+    catch(e)
+    {
+        blnIsConsole = false;
+    }
+
+    if (true == blnIsConsole)
+    {
+        CurrentState = window.external.status.FieldState(5);
+
+        if(CurrentState == nServerUnavailable)
+        {
+
+            if(EditorType == nCombinedScriptEditor)
+            {
+                if(cboScriptType.selectedIndex != -1)
+                {
+                    cboScriptType.selectedIndex = -1;
+                }
+            }
+
+            try
+            {
+                // Don't worry about security here
+                CombinedEd.SaveWorking();
+            }
+            catch(e)
+            {
+                cmdSave.style.visibility   = "hidden";
+                cmdUndo.style.visibility   = "hidden";
+                cmdCommit.style.visibility = "hidden";
+                cmdReset.style.visibility  = "hidden";
+                txtCannotSave.style.visibility = "visible";
+                return true;
+            }
+            ReportMessage(GetLocalI18NString(419));
+            CombinedEd.UnsetView();
+            return true;
+        }
+    }
+    return false;
+}
+
+function IsSecure()
+{
+    try
+    {
+        var SecLevel = window.external.SecurityLevel;
+        if(null == SecLevel)
+        {
+            // Assume not secure if no Station model
+            return false;
+        }
+        else if(SecLevel >= 4)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch(e)
+    {
+        // Assume not secure if errors encountered
+        return false;
+    }
+}
+
+IsConsoleStationFetched = false;
+bIsConsoleStation = false;	// This is default
+
+//
+// Returns true if we are running from a console station
+// that is not connected to the server.
+//
+function IsDisconnectedCStn()
+{
+    var blnIsConsole = bIsConsoleStation;
+
+    try
+    {
+		if (IsConsoleStationFetched == false)
+		{
+	        blnIsConsole = window.external.status.IsConsoleStation;
+			IsConsoleStationFetched = true;
+			bIsConsoleStation = blnIsConsole;
+		}
+    }
+    catch(e)
+    {
+		IsConsoleStationFetched = true;
+        blnIsConsole = bIsConsoleStation;	// Use default
+    }
+
+    if (true == blnIsConsole)
+    {
+        CurrentState = window.external.status.FieldState(5);
+
+        if (CurrentState == nServerUnavailable)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// to ensure that this is called at least once ...
+IsDisconnectedCStn();
+
+function IsStation()
+{
+    try
+    {
+        var SecLevel = window.external.SecurityLevel;
+        if(null == SecLevel)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    catch(e)
+    {
+        return false;
+    }
+}
+
+function GetServerName()
+{
+    try
+    {
+
+    var blnIsConsole;
+    blnIsConsole = window.external.status.IsConsoleStation;
+
+    if ( true == blnIsConsole )
+    {
+        Name = window.external.Status.ClusterServerName;
+    }
+
+    if ( (false == blnIsConsole) || ("" == Name) )
+    {
+        Name = window.external.Status.ServerName;
+    }
+
+        if ( (null == Name) || ("" == Name) )
+        {
+        // Choose a sensible default
+        Name = "localhost";
+        }
+
+        return Name;
+
+    }
+    catch(e)
+    {
+        // Choose a sensible default
+        return "localhost";
+    }
+}
+
+function GetStationNumber()
+{
+    return window.external.Status.StationNumber;
+}
+
+function ReportMessage(msg)
+{
+    try
+    {
+        // Try to output to station message zone
+        window.external.TemporaryMessageZoneText = msg;
+    }
+    catch(e)
+    {
+    }
+}
+
+function InSufficientSecurity()
+{
+    ReportMessage(GetLocalI18NString(401));
+}
+
+function cmdSave_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.SaveWorking();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(402));
+    }
+}
+
+function cmdCommit_OnClick()
+{
+    if(IsSecure())
+    {
+        try
+        {
+            // Save first
+            CombinedEd.SaveWorking();
+        }
+        catch(e)
+        {
+            ReportMessage(GetLocalI18NString(403));
+            return;
+        }
+        try
+        {
+            // Now commit
+            CombinedEd.CommitToLive();
+        }
+        catch(e)
+        {
+            ReportMessage(GetLocalI18NString(404));
+            return;
+        }
+    }
+    else
+    {
+        InSufficientSecurity();
+    }
+}
+
+function cmdUndo_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.UndoChanges();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(405));
+    }
+}
+
+function cmdReset_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.ResetFromLive();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(406));
+    }
+}
+
+function CombinedEd_OnChangeState()
+{
+    try
+    {
+        var blnSave     = false;
+        var blnCommit   = false;
+        var blnRestore  = false;
+        var blnUndo     = false;
+    
+        switch(CombinedEd.State)
+        {
+        case -1:
+        case 0:
+            // Leave everything disabled
+            break;
+        case 1:
+            blnSave = true
+            blnUndo = true
+            break;
+        case 2:
+            blnRestore = true
+            blnCommit = true
+            break;
+        case 3:
+            blnSave = true
+            blnRestore = true
+            blnCommit = true
+            blnUndo = true
+            break;
+        default:
+            // Leave everything disabled
+            break;
+        }
+    
+        cmdSave.disabled = !blnSave;
+        cmdCommit.disabled = !blnCommit;
+        cmdReset.disabled = !blnRestore;
+        cmdUndo.disabled = !blnUndo;
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(407));
+    }
+}
+
+function CheckSave()
+{
+    try
+    {
+        var doWeSave = false;
+        var edState;
+        edState = CombinedEd.State;
+
+        // ISR49581 - do not attempt autosave from a console station
+        // if server is unavailable
+        if (!IsDisconnectedCStn())
+        {
+            // Note that if we don't do this 2 step process
+            // the script engine always throws an error, despite the
+            // catch statement.
+            switch(edState)
+            {
+            case -1:
+            case 0:
+            case 2:
+                // No need to attempt a save
+                break;
+            case 1:
+            case 3:
+                doWeSave = true;
+                break;
+            default:
+                // No need to attempt a save
+                break;
+            }
+        }
+        if(doWeSave)
+        {
+            try
+            {
+                // Don't worry about security here
+                CombinedEd.SaveWorking();
+            }
+            catch(e)
+            {
+                ReportMessage(GetLocalI18NString(408));
+            }
+        }
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security
+    }
+}
+
+function cmdHelp_OnClick()
+{
+    try
+    {
+        CombinedEd.ShowHelp();
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(409));
+    }
+}
+
+function SecurityLevelChanged()
+{
+    try
+    {
+        if(securityLevel != IsSecure())
+        {
+            SetCurrentSecurityLevel();
+            window.external.Application.CurrentPage = window.external.Application.CurrentPage;
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(410));
+    }
+}
+
+function SetCurrentSecurityLevel()
+{
+    try
+    {
+        securityLevel = IsSecure();
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(411));
+    }
+}
+
+function GetLocalI18NString(strToGet)
+{
+    try
+    {
+        switch(strToGet)
+        {
+        case 101: return "Save Draft Changes";
+        case 102: return "Cancel Draft Changes";
+        case 103: return "Commit Draft to Online";
+        case 104: return "Reset Draft from Online";
+        case 105: return "Scripting Help";
+
+        case 201: return "Script Type: ";
+        case 202: return "Server";
+        case 203: return "Library";
+        case 204: return "Periodic Scripts";
+
+        case 301: return "Station Application Reflector failed to load!\n-- Please check browser security settings.\n";
+        case 302: return "Script Editor control failed to load!\n-- Please check browser security settings.\n";
+
+        case 401: return "You must be at Manager or Engineer security level to edit scripts.";
+        case 402: return "Error received when attempting to Save Draft Changes.";
+        case 403: return "Error received when attempting to save draft changes before committing them.";
+        case 404: return "Error received when attempting to Commit Draft To Online.";
+        case 405: return "Error received when attempting to Cancel Draft Changes.";
+        case 406: return "Error received when attempting to Reset Draft from Online.";
+        case 407: return "Error received in function CombinedEd_OnChangeState.";
+        case 408: return "Error received when attempting to Save Draft Changes.";
+        case 409: return "Error received when attempting to access help.";
+        case 410: return "Error received when security level changed.";
+        case 411: return "Error received when setting current security level.";
+        case 412: return "General error encountered when communicating with the server. See log for details.";
+        case 413: return "The point name is unknown.";
+        case 414: return "Cannot view or edit server scripts for points of this type.";
+        case 415: return "The server took too long to respond. See log for details.";
+        case 416: return "Could not establish a connection to the server. See log for details.";
+        case 417: return "General error occurred when attempting to retrieve scripts.";
+        case 418: return "General object setup failed";
+        case 419: return "Script editor is not available when server is unavailable.";
+        case 420: return "Error received when disabling editor in response to server becoming unavailable.";
+
+        case 501: return "Report: ";
+
+        case 601: return "Point: ";
+
+        case 701: return "New Alert Source: ";
+        case 702: return "Existing Alert Source: ";
+        case 703: return "New Condition: ";
+        case 704: return "Existing Condition: ";
+        case 705: return "Edit Existing Scripts";
+        case 706: return "Add New Script";
+        case 707: return "Delete Alert Source";
+        case 708: return "Delete Alert Condition";
+
+        default:
+            // We don't have an appropriate string
+            return "Message: " + strToGet;
+        }
+    }
+    catch(e)
+    {
+        ReportMessage("Error received when getting I18N string.");
+        return "";
+    }
+}
+
+function SetI18NStrings(objToSet)
+{
+    try
+    {
+        objToSet.I18NString(301) = "Automatically Allocate";
+        objToSet.I18NString(302) = "Testing";
+
+        objToSet.I18NString(401) = "This event is fired whenever an alarm on the object is raised.";
+        objToSet.I18NString(402) = "This event is fired whenever an alarm on the object ceases to be in alarm.";
+        objToSet.I18NString(403) = "This event is fired whenever a user acknowledges an alarm on the object.";
+        objToSet.I18NString(404) = "This event is fired periodically if a timer has been created for this object.";
+        objToSet.I18NString(405) = "This event is fired whenever the parameter value changes.";
+        objToSet.I18NString(406) = "This event is fired whenever a user changes the parameter value from Station.";
+        objToSet.I18NString(407) = "This event is fired whenever the server is started.";
+        objToSet.I18NString(408) = "This event is fired just before the server shuts down.";
+        objToSet.I18NString(409) = "This event is fired at the start of day.";
+        objToSet.I18NString(410) = "This event is fired at the start of every shift.";
+        objToSet.I18NString(411) = "This event is fired whenever a new message is generated.";
+        objToSet.I18NString(412) = "This event is fired whenever a message is acknowledged.";
+        objToSet.I18NString(413) = "This event is fired whenever a message is confirmed.";
+        objToSet.I18NString(414) = "This event is fired whenever a report is generated.";
+
+        objToSet.I18NString(501) = "Script Editor - ";
+        objToSet.I18NString(502) = "Event:";
+        objToSet.I18NString(503) = "Parameter:";
+        objToSet.I18NString(504) = "Script Engine:";
+        objToSet.I18NString(505) = "Print";
+        objToSet.I18NString(506) = "OK";
+        objToSet.I18NString(507) = "Cancel";
+
+        objToSet.I18NString(601) = "Error at line: ";
+        objToSet.I18NString(602) = " - ";
+
+        objToSet.I18NString(701) = "&Print";
+        objToSet.I18NString(702) = "Draft";
+        objToSet.I18NString(703) = "Online";
+        objToSet.I18NString(704) = "Script Engine:";
+
+        objToSet.I18NString(801) = "Procedure:";
+
+        objToSet.I18NString(901) = "&Add";
+        objToSet.I18NString(902) = "&Delete";
+        objToSet.I18NString(903) = "Periodic Script Name";
+        objToSet.I18NString(904) = "Period";
+        objToSet.I18NString(905) = "Units";
+        objToSet.I18NString(906) = "Start Time";
+        objToSet.I18NString(907) = "End Time";
+        objToSet.I18NString(908) = "NewPeriodic";
+        objToSet.I18NString(909) = "Hours";
+        objToSet.I18NString(910) = "Minutes";
+        objToSet.I18NString(911) = "Seconds";
+        objToSet.I18NString(912) = "Script Engine";
+
+        objToSet.I18NString(1001) = "Event:";
+        objToSet.I18NString(1002) = "Parameters:";
+
+        objToSet.I18NString(1101) = "&Delete Scripts";
+        objToSet.I18NString(1102) = "The script data below has been corrupted. Click 'Delete Scripts' to delete the corrupted scripts.";
+        objToSet.I18NString(1103) = "Script Data Error";
+
+        objToSet.I18NString(1201) = "The script editor is not running.";
+        objToSet.I18NString(1202) = "The script editor was unable to retrieve scripts from the server. Please see the log file for details.";
+        objToSet.I18NString(1203) = "The script editor is loading scripts from the server. Please wait.";
+
+        objToSet.I18NString(1301) = "Server";
+        objToSet.I18NString(1302) = "Report";
+
+        objToSet.I18NString(1401) = "Ln %l, Col %c";
+
+        objToSet.I18NString(1501) = "Event_";
+    }
+    catch(e)
+    {
+        ReportMessage("Error received when setting the I18N strings.");
+    }
+}
+
+function ReportSetViewErrors(e)
+{
+    try
+    {
+        switch(~e.number)
+        {
+        case ~0x80041503:
+            // Hsccli general
+            ReportMessage(GetLocalI18NString(412));
+            break;
+        case ~0x80041504:
+            // Point Name Unknown
+            ReportMessage(GetLocalI18NString(413));
+            break;
+        case ~0x80041505:
+            // Invalid Point Type
+            ReportMessage(GetLocalI18NString(414));
+            break;
+        case ~0x80041506:
+            // Timeout
+            ReportMessage(GetLocalI18NString(415));
+            break;
+        case ~0x80041507:
+            // Connect Failure
+            ReportMessage(GetLocalI18NString(416));
+            break;
+        default:
+            // Ignore errors - they probably mean editor was not allowed to run because of security
+            ReportMessage(GetLocalI18NString(417));
+            break;
+        }
+    }
+    catch(e2)
+    {
+        // Do nothing
+    }
+}
+
+function AppStatusUpdate()
+{
+
+    try
+    {
+        var blnIsConsole;
+        try
+        {
+            blnIsConsole = window.external.status.IsConsoleStation;
+        }
+        catch(e)
+        {
+            blnIsConsole = false;
+        }
+
+        if (true == blnIsConsole)
+        {
+
+            CurrentState = window.external.status.FieldState(5);
+
+            if (LastState != CurrentState)
+            {
+                if (CurrentState == nServerUnavailable)
+                {
+                    if (EditorType == nCombinedScriptEditor)
+                    {
+                        if (cboScriptType.selectedIndex > -1)
+                        {
+                            PreviousSelection = cboScriptType.selectedIndex;
+                        }
+                    }
+
+                    ReportMessage(GetLocalI18NString(419));
+                    SelectEditorType();
+
+                }
+                else
+                {
+                    if (LastState == nServerUnavailable)
+                    {
+                        if (EditorType == nCombinedScriptEditor)
+                        {
+                            cboScriptType.selectedIndex = PreviousSelection;
+                        }
+                        cmdSave.style.visibility       = "visible";
+                        cmdUndo.style.visibility       = "visible";
+                        cmdCommit.style.visibility     = "visible";
+                        cmdReset.style.visibility      = "visible";
+                        txtCannotSave.style.visibility = "hidden";
+                        SelectEditorType();
+                    }
+                }
+                LastState = CurrentState;
+            }
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(420));
+    }
+}

@@ -1,0 +1,307 @@
+
+/* Page Layout */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+html {
+    height: 100%;
+    overflow: hidden;
+    font-family: calibri, sans-serif;
+    font-size: 12px;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+#Page {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#header {
+    border-top: 1px solid #CDDCDE;
+    border-bottom: 1px solid #54969E;
+    background-color: #7EA4A9;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B9CDD0', endColorstr='#96B5B9', GradientType=0);
+    padding:6px 10px 12px 10px;
+}
+
+#header h1 {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-weight:normal;
+}
+
+#leftPane, #treePane, #filterPane {
+    background-color: #EFF3F5;
+    padding: 0;
+}
+
+#leftPane h2 {
+    color: #1A616C;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+#mainContent {
+    overflow: auto;
+    background-color: #FFFFFF;
+    padding: 0rem;
+}
+
+#relatedContentPane {
+    background-color: #EFF3F5;
+    padding: 1rem;
+}
+
+#relatedContentPane h2 {
+    color: #1A616C;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+div.translucentScreen {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    background-color: #777777;
+}
+
+/* HMIWeb tree */
+/*--------------------------------------------------------------------------------------------------------------------*/
+#tree
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background-color: transparent;
+    cursor: default;
+    white-space: nowrap;
+}
+
+#tree img /*taken from System.css to correct alignment of tree nodes*/
+{
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+#Selected_Active_Cells
+{
+    background-color:#d5e8ec;
+    color:#fff;
+}
+
+#Selected_Active_Unassigned_Cells
+{
+    background-color:#d5e8ec;
+    color:#fff;
+}
+
+#Selected_Inactive_Cells
+{
+    background-color:#d5e8ec;
+    color:#fff;
+}
+
+#Selected_Inactive_Unassigned_Cells
+{
+    background-color:#d5e8ec;
+    color:#fff;
+}
+
+#Unassigned_Cells
+{
+    color:#8d8882;
+}
+
+#Selected_Inactive_Cells
+{
+    background-color:#d5e8ec;
+}
+
+/* Frame */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+div.contentFrame
+{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+/* Filter pane */
+/*--------------------------------------------------------------------------------------------------------------------*/
+#filterControl label
+{
+    float: left;
+    clear: both;
+}
+
+#filterControl .collapsibleSection .content {
+    display: inline-block;
+}
+
+/* Collapsible Sections */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.collapsibleSection {
+    margin:0px 8px;
+}
+
+#filterControl .collapsibleSection {
+    margin:0px;
+}
+
+.collapsibleSection .header {
+    cursor: pointer;
+    border-top: 1px dashed #CCCCCC;
+    border-bottom: 1px dashed #CCCCCC;
+    border-left: none;
+    border-right: none;
+    padding: 5px 21px;
+    background-image: url(../res/tab_right.png);
+    /* TODO: This conflicts with JQuery UI stylesheet's use of background-repeat */
+    background-repeat: no-repeat;
+    background-position: 4px center;
+}
+
+.collapsibleSection .header:hover {
+    border-top: 1px dashed #BBBBBB;
+    border-bottom: 1px dashed #BBBBBB;
+    background-color: #CAD9D9;
+}
+
+.collapsibleSection .expanded {
+    background-image: url(../res/tab_down.png);
+}
+
+.collapsibleSection .content {
+    padding: 5px 5px 5px 5px;
+}
+
+/* Section Header */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.sectionHeader h3 {
+    padding: 0px;
+    margin: 0px;
+    display: inline;
+}
+
+.sectionHeader h3.title {
+    color: #000000;
+}
+
+.sectionHeader h3.titleInfo {
+    color: #777777;
+}
+
+
+/* Banner */
+/*--------------------------------------------------------------------------------------------------------------------*/
+.banner {
+    background-color: #f7f7f7;
+	height:74px;
+	padding:8px;
+	margin-bottom:10px;
+}
+
+.banner h1 {
+    font-weight: normal;
+}
+
+.bannerHeading {
+    color: #1A616C;
+    font-size:21px;
+	padding:0px;
+	margin:0px;
+	
+}
+
+.bannerContent {
+	position:relative;
+	float:left;
+    height:74px;
+	margin-right:10px;
+}
+
+/* TODO: Where should these display element styles live? */
+.bannerContent img {
+    width: 100%;
+}
+
+.bannerContent .hsc\.alarmicon\.1 {
+    display: inline-block;
+}
+
+
+.bannerContent .hsc\.alpha\.1 ,.bannerValue{
+    width:60%;
+}
+
+
+
+.bannerValue , .bannerUnits {
+    display:right;
+	position:relative;
+	display:inline-block;
+}
+
+.bannerDescription{
+clear:both;
+float:left;
+position:relative;
+margin-left:5px;
+}
+
+.bannerUnits{
+margin:-5px 0px 0px -40px;
+}
+
+
+/* JQuery UI */
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Corner radius */
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl { -moz-border-radius-topleft: 0px; -webkit-border-top-left-radius: 0px; -khtml-border-top-left-radius: 0px; border-top-left-radius: 0px; }
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr { -moz-border-radius-topright: 0px; -webkit-border-top-right-radius: 0px; -khtml-border-top-right-radius: 0px; border-top-right-radius: 0px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl { -moz-border-radius-bottomleft: 0px; -webkit-border-bottom-left-radius: 0px; -khtml-border-bottom-left-radius: 0px; border-bottom-left-radius: 0px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { -moz-border-radius-bottomright: 0px; -webkit-border-bottom-right-radius: 0px; -khtml-border-bottom-right-radius: 0px; border-bottom-right-radius: 0px; }
+
+.fg-toolbar {
+    margin-top:5px;
+}
+
+.ui-buttonset .ui-button {
+    margin-right:3px;
+}
+
+.fg-button{
+    padding:0px 8px 0px 8px;
+    margin-left:10px;
+}
+
+/* Correct alignment of table pagination buttons */
+/* TODO: UX designer consider removing this if more appropriate to use margin */
+.ui-widget-header {
+    padding:5px 0px 2px 0px;
+}

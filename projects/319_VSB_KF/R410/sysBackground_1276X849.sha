@@ -1,0 +1,962 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="sysBackground" description="Background layout and navigation menus for a standard system display" useFirstShapeForBadValue="0" width="1276px" height="849px">
+    <versionheaders>
+        <versionheader name="PS" value="5.5"/>
+    </versionheaders>
+    <scripts>
+        <script event="" language="JavaScript" id="CFD45B49-72AB-4fb7-9CC8-A7D18331606B">
+            <![CDATA[
+        //------------------------------------------------------------------------
+        // CreateExtensionDiv
+        //------------------------------------------------------------------------
+        // <summary>
+        // Creates a single div in the specified parent element with the specified
+        // styles and attributes.
+        // </summary>
+        // <param name="extId">The ID for the new div.</param>
+        // <param name="extClass">The class(es) for the new div.</param>
+        // <param name="extXStyle">The style used to give the div its horizontal position ('left' or 'right')</param>
+        // <param name="extXPos">The expression for the div's horizontal position.</param>
+        // <param name="extYStyle">The style used to give the div its vertical position ('top or 'bottom')</param>
+        // <param name="extYPos">The expression for the div's vertical position.</param>
+        // <param name="extWidth">The expression for the div's width.</param>
+        // <param name="extHeight">The expression for the div's height.</param>
+        // <param name="extDisplay">The expression for the div's display style - null or '' if this is not needed.</param>
+        // <param name="objExtParent">The element to insert the new div as a child of.</param>
+        // <returns>
+        // true if the div was created with no problems, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function CreateExtensionDiv(extId, extClass, extXStyle, extXPos, extYStyle, extYPos, extWidth, extHeight, extDisplay, objExtParent)
+        {
+          try
+          {
+
+		
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating background extension '" + extId + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+        function CreateActionBarExtensionDiv()
+        {
+          try
+          {
+		    var objPage = window.document.getElementById("Page");
+            var objBackground = window.document.getElementById("Background"); 
+            var objExt = window.document.getElementById("bgActionBar");
+            if (objExt == null)
+            {
+              objExt = window.document.createElement("div");
+              objExt.id = "bgActionBar";
+              objExt.className = "ActionBar";
+              objExt.style.position = "absolute";
+              objExt.style.overflow = "hidden";
+              objExt.style.right = "0px";
+			  objExt.style.bottom = "0px";
+			  objExt.style.width = objBackground.clientWidth - objPage.offsetWidth + window.document.getElementById("ActionBarBackground").offsetWidth +'px';
+			  objExt.style.height = objBackground.clientHeight - window.document.getElementById("TitleBarBackground").offsetHeight +'px';
+			  objExt.style.display = window.document.getElementById("ActionBarBackground").currentStyle.display;
+			  
+              // Insert the new extension div into the proper location in a seperate thread, so that
+              // the time it takes doesn't delay the calculation of the size and location of the
+              // other extensions. This also breaks out of the onreadystatechange handler thread before
+              // mucking around with the DOM, which could potentially change the readyState again.
+              window.setTimeout(function(){ window.document.getElementById("Background").appendChild(objExt); objExt = null;}, 5);
+			 }
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating background extension '" + extId + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }	
+        function CreateTitleBarExtensionDiv()
+        {
+          try
+          {
+            var objExt = window.document.getElementById("bgTitleBar");
+            if (objExt == null)
+            {
+		    var objPage = window.document.getElementById("Page");
+            var objBackground = window.document.getElementById("Background"); 			
+              objExt = window.document.createElement("div");
+              objExt.id = "bgTitleBar";
+              objExt.className = "TitleBar";
+              objExt.style.position = "absolute";
+              objExt.style.overflow = "hidden";
+              objExt.style.right = "0px";
+			  objExt.style.top = "0px";
+			  objExt.style.width = '100%';
+			  objExt.style.height = window.document.getElementById("TitleBarBackground").offsetHeight + 'px';
+			  objExt.style.display = window.document.getElementById("TitleBarBackground").currentStyle.display;
+			  
+              // Insert the new extension div into the proper location in a seperate thread, so that
+              // the time it takes doesn't delay the calculation of the size and location of the
+              // other extensions. This also breaks out of the onreadystatechange handler thread before
+              // mucking around with the DOM, which could potentially change the readyState again.
+              window.setTimeout(function(){ window.document.getElementById("Background").appendChild(objExt); objExt = null;}, 5);
+			 }
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating background extension '" + extId + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+        function CreateTabSetExtensionDiv()
+        {
+
+          try
+          {
+
+            var objExt = window.document.getElementById("bgTabSet");
+            if (objExt == null)
+            {
+			  var objPage = window.document.getElementById("Page");
+              var objBackground = window.document.getElementById("Background");
+              objExt = window.document.createElement("div");
+              objExt.id = "bgTabSet";
+              objExt.className = "TabSet";
+              objExt.style.position = "absolute";
+              objExt.style.overflow = "hidden";
+              objExt.style.right = "0px";
+			  objExt.style.top = window.document.getElementById("TitleBarBackground").offsetHeight  +'px';
+			  objExt.style.width = '100%';
+			  objExt.style.height = window.document.getElementById("TabSetBackground").offsetHeight +'px';
+			  objExt.style.display = window.document.getElementById("TabSetBackground").currentStyle.display;
+			  
+              // Insert the new extension div into the proper location in a seperate thread, so that
+              // the time it takes doesn't delay the calculation of the size and location of the
+              // other extensions. This also breaks out of the onreadystatechange handler thread before
+              // mucking around with the DOM, which could potentially change the readyState again.
+              window.setTimeout(function(){ window.document.getElementById("Background").appendChild(objExt); objExt = null;}, 5);
+			 }
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating background extension '" + extId + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }	
+        function CreateNavPaneExtensionDiv()
+        {
+          try
+          {
+			var objPage = window.document.getElementById("Page");
+            var objBackground = window.document.getElementById("Background");		  
+            var objExt = window.document.getElementById("bgNavPane");
+            if (objExt == null)
+            {
+              objExt = window.document.createElement("div");
+              objExt.id = "bgNavPane";
+              objExt.className = "NavPane";
+              objExt.style.position = "absolute";
+              objExt.style.overflow = "hidden";
+              objExt.style.left = "0px";
+			  objExt.style.bottom = "0px";
+			  objExt.style.width = window.document.getElementById("NavPane").offsetWidth +'px';
+			  objExt.style.height = objBackground.clientHeight - objPage.offsetHeight +'px';
+			  objExt.style.display = window.document.getElementById("NavPane").currentStyle.display;
+			  
+              // Insert the new extension div into the proper location in a seperate thread, so that
+              // the time it takes doesn't delay the calculation of the size and location of the
+              // other extensions. This also breaks out of the onreadystatechange handler thread before
+              // mucking around with the DOM, which could potentially change the readyState again.
+              window.setTimeout(function(){ window.document.getElementById("Background").appendChild(objExt); objExt = null;}, 5);
+			 }
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating background extension '" + extId + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }			
+		
+        
+        //------------------------------------------------------------------------
+        // CreateBackgroundExtensions
+        //------------------------------------------------------------------------
+        // <summary>
+        // Create empty elements inside the background that match the colored
+        // parts of the shape to give the impression that the Page stretches
+        // all the way to the edges of the Background.
+        // </summary>
+        // <returns>
+        // true if the extensions were created with no problems, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function CreateBackgroundExtensions()
+        {
+          try
+          {
+              var objPage = window.document.getElementById("Page");
+              var objBackground = window.document.getElementById("Background");      
+              if (objPage == null || objBackground == null)
+              {
+                return false;
+              }
+                                          
+              // Put the action bar extension in first: it needs to go _under_ the TabSet extension.
+								  CreateActionBarExtensionDiv();
+
+              // Extend the TitleBar on the right-hand edge
+
+								  CreateTitleBarExtensionDiv();
+              
+              // Extend the TabSet on the right-hand edge.
+
+								  CreateTabSetExtensionDiv();
+              
+              // Extend the NavPane on the bottom edge.
+
+								   CreateNavPaneExtensionDiv();
+			objPage = null;
+            objBackground = null; 
+			return true;
+          }
+          catch(e)
+          {
+             alert("Exception creating background extensions: " + (typeof(e) == "string" ? e : e.description));
+          }  
+          return false;
+        }
+        
+        //------------------------------------------------------------------------
+        // ResolveMenuPaths
+        //------------------------------------------------------------------------
+        // <summary>
+        // Work out where the desired menu definitions and images actually live. 
+        // </summary>
+        // <returns>
+        // true if the paths were resolved, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function ResolveMenuPaths(navMenuElement, navMenuFile, topLeftIconElement, topLeftIconFile, operatorsMenuElement)
+        {
+          try
+          {
+            if (typeof(window.document.documentElement.SystemDisplayScripts) == "object")
+            {
+              var iconPath = "./Images/";
+              if (navMenuFile != "")
+              {
+                navMenuElement.setAttribute("IconPath", iconPath, 1);
+                navMenuElement.setAttribute("MenuXML", document.documentElement.ResolveReference("Menus/" + navMenuFile), 1);
+              }
+              if (topLeftIconFile != "")
+              {
+                topLeftIconElement.src = iconPath + "/" + topLeftIconFile;
+                topLeftIconElement.style.display = "inline";
+              }
+              
+              operatorsMenuElement.setAttribute("IconPath", iconPath, 1);
+              operatorsMenuElement.setAttribute("MenuXML", document.documentElement.ResolveReference("Menus/OperatorsMenu.xml"), 1);
+			  navMenuFile=null;
+			  iconPath= null;
+              return true;
+            }
+          }
+          catch(e)
+          {
+            alert("Exception resolving menu path for '" + navMenuFile + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+      	
+	var licenceOverrides;
+	
+      ]]>
+        </script>
+        <script event="onshapeload" language="JavaScript" id="">
+            <![CDATA[
+        // Move the shape to take up the whole page.
+        this.style.left = "0px";
+        this.style.top = "0px";
+        this.style.width = Page.clientWidth;
+        this.style.height = Page.clientHeight;
+        
+        // Adjust the sizes of page elements that depend on whether the tabs and action bar are shown.
+        var showActionBar = "{%Value::ShowActionBar%}" == "true";
+        var showTabs = "{%Value::ShowTabs%}" == "true";
+        
+        TabSetBackground.style.display = (showTabs ? "block" : "none");
+        ActionBarBackground.style.display = (showActionBar ? "block" : "none");
+        PageEdge.style.display = ((showActionBar && showTabs) ? "block" : "none");
+
+        DisplayAreaBackground.className = (showTabs ? "" : "NoTabs");
+        DetailsAreaBackground.className = (showActionBar ? "DetailsArea" : "NoActionBar DetailsArea");
+        LeftBar.className = "";
+       
+        // Put the display title in the title bar
+        if ("{%Value::ShowDisplayTitle%}"=="true")
+        {
+          TitleBarBackground.innerHTML = document.title;
+        }
+                   
+        // Ensure that the background-extensions get added to the DOM.
+        // Make sure the object that extends the NavPane to the edge of the display will be created,
+        // and that the menu-elements generated only after the window has finished loading. This is
+        // because Bad Things happen if you muck with the DOM before it's fully parsed.
+        if (!CreateBackgroundExtensions())
+        {
+          document.attachEvent("onreadystatechange", CreateBackgroundExtensions);
+        }
+        
+        // Initialize the top-left corner and NavPane.
+        var topLeftTitleText = "{%Value::TopLeftTitle%}";
+        var topLeftIconFile = "{%Value::TopLeftIcon%}";
+        var menuFile = "{%Value::MenuXML%}";
+
+        TopLeftTitle.innerText = topLeftTitleText; 
+        if (menuFile != "")
+        {
+          if (topLeftTitleText == "")
+          {
+            // We need to use the title and icon defined by the MenuXML file.
+            NavPane.attachEvent("onreadystatechange", function(){ try{ ApplyMenuText(NavPane, TopLeftTitle, TopLeftIcon); } catch(e){}});
+            topLeftIconFile = ""; // Only use the custom icon if we are not getting one from the menu.
+          }          
+        }
+        
+        var fnResolveMenuContent = function(){
+			NavPane.className = "NavPane NavMenu";
+			OperatorsMenu.className = "NavPane NavMenu";
+			return ResolveMenuPaths(NavPane, menuFile, TopLeftIcon, topLeftIconFile, OperatorsMenu); 
+		}
+        if (!fnResolveMenuContent())
+        {
+          document.documentElement.attachEvent("onreadystatechange", fnResolveMenuContent);
+        }
+		showActionBar = null;
+        showTabs = null;
+		topLeftTitleText = null;
+        //topLeftIconFile = null;
+        //menuFile = null;
+		fnResolveMenuContent = null;
+		CreateBackgroundExtensions= null;
+      ]]>
+        </script>
+    </scripts>
+    <parameters>
+        <parameter name="MenuXML" type="Value" description="The name of the file that contains the menu definition." defaultvalue="ConfigMenu.xml"/>
+        <parameter name="ShowTabs" type="Value" description="Whether tabs should be shown: 'true', 'false' or 'auto'." defaultvalue="auto"/>
+        <parameter name="ShowActionBar" type="Value" description="Whether the action bar should be shown: 'true' or 'false'" defaultvalue="false"/>
+        <parameter name="ShowDisplayTitle" type="Value" description="'true' if the title of the display should be shown in the titlebar area, 'false' if the display title should not be shown." defaultvalue="true"/>
+        <parameter name="TopLeftTitle" type="Value" description="The text for the top-left title (leave blank to use the default title for the menu)." defaultvalue=""/>
+        <parameter name="TopLeftIcon" type="Value" description="The file name of the icon to use in the top-left title (only used if the TopLeftTitle parameter is not empty)." defaultvalue=""/>
+    </parameters>
+    <shapes>
+        <shape>
+            <group>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="DVMInstalled" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                      BOTTOM: 0%;
+                      HEIGHT: 20px; 
+                      LEFT: 0%;
+                      POSITION: absolute;
+                      VISIBILITY: hidden;
+                      WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>DVMInstalled</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = DVMInstalled.value
+				 if (newValue=="1")
+				{
+					newValue="True";
+				}
+				else
+				{
+					newValue="False";
+				}
+                  var oldValue = DVMInstalled.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+                    DVMInstalled.setAttribute("OldValue", newValue);
+                    licenceOverrides = "DVM" + "Installed=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.       
+                    
+                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+                    NavPane.className = "NavPane NavMenu";
+
+                    OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+                    OperatorsMenu.className = "NavPane NavMenu";
+                  }
+                ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="8"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="10"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="6"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="RecipeMgmtLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                      BOTTOM: 0%;
+                      HEIGHT: 20px; 
+                      LEFT: 0%;
+                      POSITION: absolute;
+                      VISIBILITY: hidden;
+                      WIDTH: 150px;" 
+		      tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>RecipeMgmtLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = RecipeMgmtLicence.value
+		  if (newValue=="1")
+		  {
+		  	newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+		  var oldValue = RecipeMgmtLicence.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+			RecipeMgmtLicence.setAttribute("OldValue", newValue);
+			licenceOverrides = licenceOverrides + "&&RecipeMgmt" + "Licence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded. 
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";			
+		  }
+                ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1721"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="1"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="OPCIntegratorLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                      BOTTOM: 0%;
+                      HEIGHT: 20px; 
+                      LEFT: 0%;
+                      POSITION: absolute;
+                      VISIBILITY: hidden;
+                      WIDTH: 150px;" 
+		      tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>OPCIntegratorLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = OPCIntegratorLicence.value
+		  if (newValue=="1")
+		  {
+		  	newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+		  var oldValue = OPCIntegratorLicence.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+			OPCIntegratorLicence.setAttribute("OldValue", newValue);
+			licenceOverrides = licenceOverrides + "&&OPCIntegrator" + "Licence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";			
+		  }
+                ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="80"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="2"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1106"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="2"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="DualLicence" class="hsc.checkbox.1"  
+			style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+			BOTTOM: 0%;
+			HEIGHT: 20px; 
+			LEFT: 0%;
+			POSITION: absolute;
+			VISIBILITY: hidden;
+			WIDTH: 150px;" 
+			tabIndex=0 
+	                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>DualLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+	                  var newValue = DualLicence.value
+			  if (newValue=="1")
+			  {
+				newValue="True";
+			  }
+			  else
+			  {
+				newValue="False";
+			  }
+	                  var oldValue = DualLicence.getAttribute("OldValue");
+	                  if (oldValue == null || oldValue != newValue)
+	                  {
+				DualLicence.setAttribute("OldValue", newValue);
+				licenceOverrides = licenceOverrides + "&&Dual" + "Licence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";				
+                  	  }
+	                ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1720"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="15"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="DSA" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                BOTTOM: 0%;
+                HEIGHT: 20px; 
+                LEFT: 0%;
+                POSITION: absolute;
+                VISIBILITY: hidden;
+                WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>DSA</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = DSA.value
+		  if (newValue=="1")
+		  {
+			newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+                  var oldValue = DSA.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+                    DSA.setAttribute("OldValue", newValue);
+                    licenceOverrides = licenceOverrides + "&&" + "D"+"SA=" + newValue; // Literal is split to avoid name-substitution when shape is loaded. 
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";					
+                  }
+                ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1727"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="9"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="8"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="ConsoleStationLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                BOTTOM: 0%;
+                HEIGHT: 20px; 
+                LEFT: 0%;
+                POSITION: absolute;
+                VISIBILITY: hidden;
+                WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>ConsoleStationLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = ConsoleStationLicence.value
+		  if (newValue=="1")
+		  {
+			newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+                  var oldValue = ConsoleStationLicence.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+                    ConsoleStationLicence.setAttribute("OldValue", newValue);
+                    licenceOverrides = licenceOverrides + "&&Console" + "StationLicence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded. 
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";					
+                  }
+	        ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1733"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="13"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="6"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="OPMLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                BOTTOM: 0%;
+                HEIGHT: 20px; 
+                LEFT: 0%;
+                POSITION: absolute;
+                VISIBILITY: hidden;
+                WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>OPMLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = OPMLicence.value
+		  if (newValue=="1")
+		  {
+			newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+                  var oldValue = OPMLicence.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+                    OPMLicence.setAttribute("OldValue", newValue);
+                    licenceOverrides = licenceOverrides + "&&OPM" + "Licence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.  
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";					
+                  }
+	        ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1733"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="AlarmPagerLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                BOTTOM: 0%;
+                HEIGHT: 20px; 
+                LEFT: 0%;
+                POSITION: absolute;
+                VISIBILITY: hidden;
+                WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>AlarmPagerLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+					var newValue = AlarmPagerLicence.value
+					if (newValue=="1")
+					{
+						newValue="True";
+					}
+					else
+					{
+						newValue="False";
+					}
+					var oldValue = AlarmPagerLicence.getAttribute("OldValue");
+					if (oldValue == null || oldValue != newValue)
+					{
+						AlarmPagerLicence.setAttribute("OldValue", newValue);
+						licenceOverrides = licenceOverrides + "&&Alarm"+"PagerLicence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.       
+						
+	                    			NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";
+					}
+					]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1725"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="14"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <element>
+                    <html>
+                        <content>
+                            <![CDATA[<SPAN id="LRLicence" class="hsc.checkbox.1"  
+                style="BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior);  
+                BOTTOM: 0%;
+                HEIGHT: 20px; 
+                LEFT: 0%;
+                POSITION: absolute;
+                VISIBILITY: hidden;
+                WIDTH: 150px;" 
+                tabIndex=0 
+                hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;inverseLogic:0;textColorBlink:False;"><INPUT tabIndex=0 type=checkbox></INPUT><SPAN>LRLicence</SPAN></SPAN>]]>
+                        </content>
+                        <scripts>
+                            <script event="onupdate" language="JavaScript">
+                                <![CDATA[
+                  var newValue = LRLicence.value
+		  if (newValue=="1")
+		  {
+			newValue="True";
+		  }
+		  else
+		  {
+			newValue="False";
+		  }
+                  var oldValue = LRLicence.getAttribute("OldValue");
+                  if (oldValue == null || oldValue != newValue)
+                  {
+                    LRLicence.setAttribute("OldValue", newValue);
+                    licenceOverrides = licenceOverrides + "&&LR" + "Licence=" + newValue; // Literal is split to avoid name-substitution when shape is loaded.  
+	                    NavPane.setAttribute("LicenceValues",  licenceOverrides);
+						
+						NavPane.className = "NavPane NavMenu";
+
+						OperatorsMenu.setAttribute("LicenceValues",  licenceOverrides);
+						OperatorsMenu.className = "NavPane NavMenu";					
+                  }
+	        ]]>
+                            </script>
+                        </scripts>
+                    </html>
+                    <binding>
+                        <dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic">
+                            <dataobjectdef format="propertybag">
+                                <property name="version" varianttype="VT_R4" value="1.2"/>
+                                <property name="ObjectType" varianttype="VT_UI1" value="0"/>
+                                <property name="UpdatePeriod" varianttype="VT_UI2" value="0"/>
+                                <property name="SecurityLevel" varianttype="VT_UI1" value="0"/>
+                                <property name="AddressType" varianttype="VT_UI1" value="1"/>
+                                <property name="AddressFlags" varianttype="VT_UI1" value="0"/>
+                                <property name="FileRefFile" varianttype="VT_UI4" value="121"/>
+                                <property name="FileRefRecord" varianttype="VT_UI4" value="1"/>
+                                <property name="FileRefWord" varianttype="VT_UI4" value="1748"/>
+                                <property name="FileRefFlags" varianttype="VT_UI4" value="0"/>
+                                <property name="FileRefFormat" varianttype="VT_UI1" value="5"/>
+                                <property name="FileRefBitFieldStart" varianttype="VT_UI1" value="3"/>
+                                <property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/>
+                                <property name="PresentationType" varianttype="VT_UI1" value="0"/>
+                            </dataobjectdef>
+                        </dataobject>
+                        <class ID="HSC.CheckBox" refcount="1"/>
+                    </binding>
+                </element>
+                <html>
+                    <content>
+                        <![CDATA[<DIV id="SystemDisplayContainer" class="hvg.group.1" 
+              style="BEHAVIOR: url(#HDXVectorFactory#group);
+                    HEIGHT: 849px;
+                    LEFT: 0px;                    
+                    POSITION: absolute;
+                    overflow: hidden; 
+                    TOP: 0px; 
+                    WIDTH: 1276px;" 
+              tabIndex="-1" 
+              hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;"><div id="LeftBar" class="NoExpressions" style="padding: 0px;"><div id="TopLeft" class="TopLeft"><a id="OperatorsMenuButton"
+                      class="DropDown"
+                      href=""
+		      style ="padding-left: 2px;text-align:left;"
+                      onclick="javascript: try{ ToggleDropDownMenu(OperatorsMenu, this); return false; } catch(e){}"
+                      onmouseleave="javascript: try{ if (OperatorsMenu.currentStyle.display.toLowerCase() == 'block') { ToggleDropDownMenu(OperatorsMenu, this);}  return false; } catch(e){}"><img id="TopLeftIcon" src="" style="display: none;"/><span id="TopLeftTitle"><span style="display: none;">[Menu Icon and Title]</span></span></a></div><div id="NavPane" class="NavPane"><div style="display: none;">
+                    [Menu from {%Value::MenuXML%}]
+                  </div></div></div><div id="OperatorsMenuContainer" class="popup"><div id="OperatorsMenu" class="NavPane"
+                    style="position: absolute; display: none;
+                            left: expression(OperatorsMenuButton.currentStyle.marginLeft);
+                            top: expression(OperatorsMenuButton.offsetTop + OperatorsMenuButton.offsetHeight);
+                            width: expression(OperatorsMenuButton.offsetWidth); z-index: 100;"
+                    MenuXML="OperatorsMenu.xml"
+                    onmouseenter ="javascript: try{ ToggleDropDownMenu(OperatorsMenu, OperatorsMenuButton); return false; } catch(e){}"
+                    onmouseleave = "javascript: try{ if (OperatorsMenu.currentStyle.display.toLowerCase() == 'block') { ToggleDropDownMenu(OperatorsMenu, OperatorsMenuButton);}           return false; } catch(e){}"></div></div><div id="RightBar" class="NoExpressions"><div id="TitleBarBackground" class="TitleBar" style="padding-left: 25px; padding-top: 10px;"><span style="display: none;">[Display Title shown = '{%Value::ShowDisplayTitle%}']</span>
+                  &nbsp;
+                </div><div id="TabSetBackground" class="TabSet"><div style="display: none;">[Tabs shown = '{%Value::ShowTabs%}']</div><v:roundrect id="PageEdge" strokecolor="#FFFFFF" fillcolor="#FFFFFF" arcsize="0.5"></v:roundrect></div><div id="DisplayAreaBackground" class="NoExpressions"><div id="ActionBarBackground" class="ActionBar"><div style="display: none; color: red;">
+                      [Action Bar shown = '{%Value::ShowActionBar%}']
+                    </div></div><div id="DetailsAreaBackground" class="DetailsArea"  style="padding: 0px;"><TABLE style="BORDER-BOTTOM: medium none; POSITION: absolute; BORDER-LEFT: medium none; WIDTH: 890px; DISPLAY: none; TABLE-LAYOUT: fixed; HEIGHT: 100%; BORDER-TOP: medium none; TOP: 0px; BORDER-RIGHT: medium none; LEFT: 47px" id=PositionGrid cellSpacing=0 cellPadding=0><STYLE>td { width: 58px; background: url(".\Images\margin_bg.gif") #ffffff; } td.layout_column { width: 100px; background: url(".\Images\column_bg.gif") #eeeeee; }</STYLE><TBODY><TR><TD class=layout_column>&nbsp;</TD><TD>&nbsp;</TD><TD class=layout_column>&nbsp;</TD><TD>&nbsp;</TD><TD class=layout_column>&nbsp;</TD><TD>&nbsp;</TD><TD class=layout_column>&nbsp;</TD><TD>&nbsp;</TD><TD class=layout_column>&nbsp;</TD><TD>&nbsp;</TD><TD class=layout_column>&nbsp;</TD></TR></TBODY></TABLE></div></div></div></DIV>]]>
+                    </content>
+                </html>
+            </group>
+        </shape>
+    </shapes>
+</shapefile>

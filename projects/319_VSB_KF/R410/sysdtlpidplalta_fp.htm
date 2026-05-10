@@ -1,0 +1,892 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE></TITLE>
+<SCRIPT language=VBScript src="DisplayScripts\SysGSH.vbs"> </SCRIPT>
+
+<SCRIPT language=JScript src="DisplayScripts\AlarmLimit.js"> </SCRIPT>
+
+<META content="text/html; charset=UTF-8" http-equiv=Content-Type>
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<META name=GENERATOR content="MSHTML 11.00.10570.1001">
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<SCRIPT language=VBScript for=document defer event=onreadystatechange>
+on error resume next
+	If (document.readyState = "complete") then
+		'Call ApplyLayout()
+		Call GetStringsObject(GrptxtScript)		
+	End if
+</SCRIPT>
+
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=DisplayVersion-PS content=6.11>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT><LINK 
+id=HDXStylesheet rel=stylesheet type=text/css href=".\Styles\SysFaceplate.css">
+<OBJECT id=HSCFaceplateAutoSelectBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:DFA6B4E8-BAC1-4C53-A43B-C9248F274863></OBJECT>
+<SCRIPT language=VBScript for=ConAlpEUTickMarksServerBits_GSH defer 
+event=onupdate>call EU_ServerBitsUpdate()</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpHiAlmTypePIDA defer event=onupdate>call Alarm_None(ConAlpHiAlmTypePIDA)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPV_GSH defer event=onmouseover>call SetPVRAW(sd, ShpPVInd, ConAlpPV_GSH, ConAlpPVMan_GSH, strCtlBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConCboModeAttr defer event=onupdate>call OffNormalModeAttrState(sd, ConCboModeAttr, TxtModeAttr1, TxtModeAttr2, strCtlBlockName,"NORMMODEATTR")</SCRIPT>
+
+<SCRIPT language=VBScript for=ConCboMode defer event=onupdate>call OffNormalModeState(sd, ConCboMode, TxtMode, strCtlBlockName, "NormMode")</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpPVInd defer event=onmouseover>call SetPVRAW(sd, ShpPVInd, ConAlpPV_GSH, ConAlpPVMan_GSH, strCtlBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpOPInd defer event=onmouseover>call setOpToolTip(sd, ShpOPInd, "OPHILM", "OPLOLM", strCtlBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpEUDesc_GSH defer event=onmouseover>call EUDescToolTip(me)</SCRIPT>
+
+<SCRIPT language=VBScript for=shaOUTIND defer event=onmouseover>call SetOUTINDToolTip(me,3,4)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPVEULo_GSH defer event=onupdate>if gbPageComplete then call ApplyPVFormat(sd, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPVEUHi_GSH defer event=onupdate>if gbPageComplete then call ApplyPVFormat(sd, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpPlSP defer event=onmouseover>call SetSpToolTip_CDA(sd,ConAlpPSPServerBits, ShpPlSP, ConIndPSP, ConAlpSP, strCtlBlockName, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpSP defer event=onmouseover>call SetSpToolTip_CDA(sd,ConAlpPSPServerBits, ShpPlSP, ConIndPSP, ConAlpSP, strCtlBlockName, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPVMan_GSH defer event=onmouseover>call SetPVRAW(sd, ShpPVInd, ConAlpPV_GSH, ConAlpPVMan_GSH, strCtlBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpHiAlmTypeDACA defer event=onupdate>call Alarm_None(me)</SCRIPT>
+
+<SCRIPT language=VBScript for=Page defer event=onpagecomplete>on error resume next
+document.title = cstr(alphaTagName.value)
+ConIndPSP.rangeLo = ConAlpPVEULo_GSH.value
+ConIndPSP.rangeHi = ConAlpPVEUHi_GSH.value
+
+gbPageComplete = true
+
+call SetPVRAWRef(sd, strCtlBlockName)
+
+call PVFormatUpdate(sd, strDacaBlockName)
+call SetEUDescHeight(ConAlpEUDesc_GSH)
+call PLbars</SCRIPT>
+
+<SCRIPT language=VBScript for=sd defer event=ondatachange>If sd.DataChanged("CurrentPoint." & strCtlBlockName & ".REDTAG") Or sd.DataChanged("CurrentPoint." & strCtlBlockName & ".OPERTAG") Or sd.DataChanged("{%SECPNTNAME%}.{%SECBLOCKNAME%}.REDTAG") Then
+	call SetTags(sd, picRedTag, picOperTag, picSecRedTag, strCtlBlockName)
+	picOperTag.Title = sd.DataValue("CurrentPoint." & strCtlBlockName & ".OPERTAGDESC")
+End If
+
+If sd.DataChanged("CurrentPoint." & strCtlBlockName & ".OPERTAGDESC") Then
+    picOperTag.Title = sd.DataValue("CurrentPoint." & strCtlBlockName & ".OPERTAGDESC")
+End If
+
+If sd.DataChanged("CurrentPoint." & strDacaBlockName & ".PVSOURCE") Then call PVSOURCEUpdate(sd, ConAlpPV_GSH, ConAlpPVMan_GSH, strDacaBlockName)
+
+If sd.DataChanged("CurrentPoint." & strDacaBlockName & ".pvformat") Then
+    If gbPageComplete = True Then
+        call PVFormatUpdate(sd, strDacaBlockName)
+    End If
+    If sd.QualityBad("CurrentPoint." & strDacaBlockName & ".pvformat") Then
+        bPVFORMATBadFlag = True
+    Else
+        bPVFORMATBadFlag = False
+    End If
+End If
+
+If Not sd.QualityBad("CurrentPoint." & strCtlBlockName & ".SECBLOCKID") Then
+    If sd.DataChanged("CurrentPoint." & strCtlBlockName & ".SECBLOCKID") Then
+		call GetSecData(sd, 0, strCtlBlockName)
+    End If
+End If
+
+If sd.DataChanged("CurrentPoint." & strCtlBlockName & ".NORMMODE") Then
+    call OffNormalModeState(sd, ConCboMode, TxtMode, strCtlBlockName, "NormMode")
+End If
+
+If sd.DataChanged("CurrentPoint." & strCtlBlockName & ".NORMMODEATTR") Then
+    call OffNormalModeAttrState(sd, ConCboModeAttr, TxtModeAttr1, TxtModeAttr2, strCtlBlockName,"NORMMODEATTR")
+End If
+
+if me.DataChanged("CurrentPoint." & strCtlBlockName & ".optmode") or me.DataChanged("CurrentPoint." & strCtlBlockName & ".ctrlmode") or me.DataChanged("CurrentPoint." & strCtlBlockName & ".ctleqn") then
+	call plbars
+end if</SCRIPT>
+
+<SCRIPT language=VBScript defer>Dim gbPageComplete, strCtlBlockName, strDacaBlockName
+
+strCtlBlockName = "pida"
+strDacaBlockName = "daca"
+
+gbPageComplete = False
+
+Sub ApplyLayout()
+	on error resume next
+	call ApplyLayout_Stretch(ShpPVInd)
+End Sub
+
+sub PLbars
+	if sd.DataValue("CurrentPoint.pida.ctleqn") <> 7 then
+	  linSP.style.visibility = "Visible" : TxtSPEU.style.visibility = "Visible" : TxtSP.style.visibility = "Visible" : ConAlpSP.style.visibility = "Visible" : ConShpWinupSP.style.visibility = "Visible"
+	  TxtRNGEU.style.visibility = "Hidden" : TxtRG.style.visibility = "Hidden" : ConAlpSPHi_GSH.style.visibility = "Hidden" : ConAlpSPLo_GSH.style.visibility = "Hidden" : ConLinRG.style.visibility = "Hidden"
+	  ShpPlSP.objects("ConIndSP").style.visibility="visible"
+	  ShpPlSP.objects("ConIndSP").levelfillcolor="#00BF00" : ShpPlSP.objects("PlgHigh").style.visibility="hidden" : ShpPlSP.objects("PlgLow").style.visibility="hidden"
+	  ShpOPInd.objects("LinSSOP").style.visibility="hidden" : ShpPVInd.objects("LinSSPV").style.visibility="hidden" : document.getElementById("seqOptMode").style.visibility = "hidden"
+	  bIndZ=0
+	elseif sd.DataValue("CurrentPoint.pida.ctleqn")=7 then
+	  ShpOPInd.objects("LinSSOP").style.visibility="visible" : ShpPVInd.objects("LinSSPV").style.visibility="visible"
+	  if  sd.DataValue("CurrentPoint.pida.ctrlmode") = 0 then
+	      linSP.style.visibility = "Visible" : TxtSPEU.style.visibility = "Visible" : TxtSP.style.visibility = "Visible" : ConAlpSP.style.visibility = "Visible" : ConShpWinupSP.style.visibility = "Visible"
+		  ShpPlSP.objects("ConIndSP").style.visibility="visible"
+		  TxtRNGEU.style.visibility = "Hidden" : TxtRG.style.visibility = "Hidden" : ConAlpSPHi_GSH.style.visibility = "Hidden" : ConAlpSPLo_GSH.style.visibility = "Hidden" : ConLinRG.style.visibility = "Hidden"
+	      ShpPlSP.objects("PlgHigh").style.visibility="hidden" : ShpPlSP.objects("PlgLow").style.visibility="hidden" : ShpPlSP.objects("ConIndSP").levelfillcolor="#00BF00"
+	      document.getElementById("seqOptMode").style.visibility = "hidden" : bIndZ=0
+	  elseif sd.DataValue("CurrentPoint.pida.ctrlmode")=1 and sd.DataValue("CurrentPoint.pida.optmode")=3 then
+	      linSP.style.visibility = "Visible" : TxtSPEU.style.visibility = "Visible" : TxtSP.style.visibility = "Visible" : ConAlpSP.style.visibility = "Visible" : ConShpWinupSP.style.visibility = "Visible"
+		  TxtRNGEU.style.visibility = "Visible" : TxtRG.style.visibility = "Visible" : ConAlpSPHi_GSH.style.visibility = "Visible" : ConAlpSPLo_GSH.style.visibility = "Visible" : ConLinRG.style.visibility = "Visible"
+		  ShpPlSP.objects("ConIndSP").style.visibility="visible"
+	      ShpPlSP.objects("ConIndSP").levelfillcolor="#006400" : ShpPlSP.objects("PlgHigh").style.visibility="visible" : ShpPlSP.objects("PlgLow").style.visibility="visible"
+		  document.getElementById("seqOptMode").style.visibility = "visible" : bindz=0
+	  else
+	  	  linSP.style.visibility = "Hidden" : TxtSPEU.style.visibility = "Hidden" : TxtSP.style.visibility = "Hidden" : ConAlpSP.style.visibility = "Hidden" : ConShpWinupSP.style.visibility = "Hidden"
+	      ShpPlSP.objects("ConIndSP").style.visibility="hidden"
+		  TxtRNGEU.style.visibility = "Visible" : TxtRG.style.visibility = "Visible" : ConAlpSPHi_GSH.style.visibility = "Visible" : ConAlpSPLo_GSH.style.visibility = "Visible" : ConLinRG.style.visibility = "Visible"
+	      ShpPlSP.objects("PlgHigh").style.visibility="visible" : ShpPlSP.objects("PlgLow").style.visibility="visible"
+		  document.getElementById("seqOptMode").style.visibility = "visible" : bindz=0
+	  end if
+	end if
+end sub</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPSP_GSH defer event=onupdate>call SetSpToolTip_CDA(sd,ConAlpPSPServerBits, ShpPlSP, ConIndPSP, ConAlpSP, strCtlBlockName, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=ConAlpPSPServerBits defer event=onupdate>call SetSpToolTip_CDA(sd,ConAlpPSPServerBits, ShpPlSP, ConIndPSP, ConAlpSP, strCtlBlockName, strDacaBlockName)</SCRIPT>
+
+<SCRIPT language=VBScript for=PbAlmAck defer event=onclick>on error resume next
+window.external.Application.Document.ParentWindow.external.InvokeMenu2 "Acknowledge Alarm"</SCRIPT>
+</HEAD>
+<SCRIPT language=JScript for=alphaTagName defer event=onupdate>	if ((this.scrollHeight - this.clientHeight) > 0 )
+	{
+		this.styleClass = "PointName_LongTag_Style";
+		ConAlpDescription.styleClass = "Description_LongTag_Style";
+	}
+	else
+	{
+		this.styleClass = "PointName_Style";
+		ConAlpDescription.styleClass = "Description_Style";
+	}</SCRIPT>
+
+<SCRIPT id=EA1B846A-5181-4183-A88D-CCDD37C13682 language=VBScript defer 
+shaperefcount="1">dim bIndZ
+bIndZ=0
+
+sub lims(oSource,oSource1,oSource2,oSource3)
+dim oShape,oGroup,oSymbH,oSymbL,ofs
+on error resume next
+set oGroup=oSource.parentnode
+set oShape=oGroup.parentnode
+
+sphi=oSource.value
+splo=oSource1.value
+pvhi=oSource2.value
+pvlo=oSource3.value
+
+set oSymbH=oShape.objects("PlgHigh")
+set oSymbL=oShape.objects("PlgLow")
+
+ofs=round(oGroup.style.pixelheight*pvlo/(pvhi-pvlo))
+oSymbH.style.pixeltop=ofs+oGroup.style.pixelheight-oSymbH.style.pixelheight-round(oGroup.style.pixelheight*sphi/(pvhi-pvlo))
+ss="SPHi: " & sphi & " " & page.all("ConAlpEUdesc").value
+oSymbH.title=ss
+
+oSymbL.style.pixeltop=ofs+oGroup.style.pixelheight-round(oGroup.style.pixelheight*splo/(pvhi-pvlo))
+ss="SPLo: " & splo & " " & page.all("ConAlpEUdesc").value
+oSymbL.title=ss
+if bIndZ=0 then 
+    oSymbH.style.zindex=-1
+    oSymbL.style.zindex=-2
+else
+    oSymbH.style.zindex=0
+    oSymbL.style.zindex=0
+end if
+end sub</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpOPInd_ConAlpCVEUHi defer event=onupdate>on error resume next
+call ssop_pos(ShpOPInd_ConAlpSSOP,me,ShpOPInd_ConAlpCVEULo)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpOPInd_ConAlpCVEULo defer event=onupdate>on error resume next
+call ssop_pos(ShpOPInd_ConAlpSSOP,ShpOPInd_ConAlpCVEUHi,me)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpOPInd_ConAlpSSOP defer event=onupdate>on error resume next
+call ssop_pos(me,ShpOPInd_ConAlpCVEUHi,ShpOPInd_ConAlpCVEULo)</SCRIPT>
+
+<SCRIPT id=907A5BEF-524D-4DF2-BDA4-B351EC7BF94C language=VBScript defer 
+shaperefcount="1">sub ssop_pos(oSource,oSource1,oSource2)
+dim oShape,oGroup,oSymb
+	on error resume next
+	set oGroup=oSource.parentnode
+	set oShape=oGroup.parentnode
+	ssop=oSource.value
+	cvhi=oSource1.value
+	cvlo=oSource2.value  
+	set oSymb=oShape.objects("LinSSOP")
+	oSymb.style.pixeltop=round(oGroup.style.pixelheight*cvlo/(cvhi-cvlo))+oGroup.style.pixelheight-round(oGroup.style.pixelheight*ssop/(cvhi-cvlo))
+	ss="Steady State OPEU: " & ssop & " " & page.all("ConAlpEUdesc").value
+	oSymb.title=ss 
+end sub</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpPVInd_ConAlpPVEUHi defer event=onupdate>on error resume next
+call sspv_pos(ShpPVInd_ConAlpSSPV,me,ShpPVInd_ConAlpPVEULo)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpPVInd_ConAlpPVEULo defer event=onupdate>on error resume next
+call sspv_pos(ShpPVInd_ConAlpSSPV,ShpPVInd_ConAlpPVEUHi,me)</SCRIPT>
+
+<SCRIPT language=VBScript for=ShpPVInd_ConAlpSSPV defer event=onupdate>on error resume next
+call sspv_pos(me,ShpPVInd_ConAlpPVEUHi,ShpPVInd_ConAlpPVEULo)</SCRIPT>
+
+<SCRIPT id=0AD21102-D973-406A-B529-2FED5AE5FFF3 language=VBScript defer 
+shaperefcount="1">sub sspv_pos(oSource,oSource1,oSource2)
+dim oShape,oGroup,oSymb
+	on error resume next
+	set oGroup=oSource.parentnode
+	set oShape=oGroup.parentnode
+	sspv=oSource.value
+	pvhi=oSource1.value
+	pvlo=oSource2.value  
+	set oSymb=oShape.objects("LinSSPV")
+	oSymb.style.pixeltop=round(oGroup.style.pixelheight*pvlo/(pvhi-pvlo))+oGroup.style.pixelheight-round(oGroup.style.pixelheight*sspv/(pvhi-pvlo))
+	ss="Steady State PV: " & sspv & " " & page.all("ConAlpEUdesc").value
+	oSymb.title=ss 
+end sub</SCRIPT>
+
+<SCRIPT language=JScript for=ConShpAlmPr_oSource defer event=ondatachange>if (bShapeLoaded == true )
+{
+	var oShape = this.parentElement.parentElement;
+	var sFBName = oShape.GetCustomProperty("Text","DACFBName");
+	Standard_AlarmLimit(this, sFBName);
+}</SCRIPT>
+
+<SCRIPT language=JScript for=ConShpAlmPr_oSource defer event=onupdate>var sFBName = this.parentElement.parentElement.GetCustomProperty("Text","DACFBName");
+	Standard_AlarmLimit(this, sFBName);
+	bShapeLoaded = true;</SCRIPT>
+
+<SCRIPT id=D3ABAF81-1037-4D62-A034-71A09D420996 language=JScript defer 
+shaperefcount="1">var bShapeLoaded = false;</SCRIPT>
+
+<BODY 
+style="FONT-SIZE: 12pt; OVERFLOW: auto; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=CLSID:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=CLSID:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<DIV id=Background 
+style="HEIGHT: 856px; WIDTH: 1704px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #ded8d0"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 375px; FONT-FAMILY: Arial; WIDTH: 150px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector) url(#DisplayDataRepository) url(#HSCFaceplateAutoSelectBehavior); BACKGROUND-COLOR: transparent" 
+CommandAction="1" OutputAction="1" SetpointAction="1" ModeAction="1" 
+CommandElementID="ConAlpDescription" OutputElementID="ConAlpOP" 
+SetpointElementID="ConAlpSP" ModeElementID="ConCboMode" PageDescription 
+hdxproperties="CurrentLevelPageHeight:552;CurrentLevelPageWidth:777;TopLevelNumberOfFrames:0;TopLevelPageHeight:552;TopLevelPageWidth:777;" 
+HelpFileName="operatorsguide.chm" HelpFileTypeList="HTML help" 
+LocateHelpTopicBy="Topic number" HelpTopic="1969" AutoSelectOnModeChange="1" 
+AutoSelectAction="0" AutoSelectElementID>
+<DIV tabIndex=-1 id=sd class="hvg.textbox.1 HSC.ScriptDataObject.1 Hidden_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 15px; FONT-FAMILY: Arial; WIDTH: 60px; POSITION: absolute; COLOR: #ff0000; TEXT-ALIGN: left; LEFT: 5px; TOP: 50px; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:62;Height:15;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;LineWidth:0;styleClass:Hidden_Style;textColor:#FF0000;textColorBlink:False;TotalRotation:0;Width:60;" 
+HDX_LOCK="-1">Script Data</DIV>
+<DIV tabIndex=-1 id=GrpLowerPanel class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 176px; WIDTH: 150px; POSITION: absolute; LEFT: 0px; TOP: 200px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:176;lineColorBlink:False;Width:150;" 
+HDX_LOCK="-1">
+<DIV tabIndex=-1 id=rect02 class="hvg.base.1 Lower_Panel_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 99.43%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: inherit" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:175;LineColor:transparent;lineColorBlink:False;LineWidth:0;styleClass:Lower_Panel_Style;Width:150;" 
+HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=line003 class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 12.5%; FONT-FAMILY: Arial; WIDTH: 0.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 18.66%; TOP: 59.09%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:22;LineColor:#bfbf00;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;" 
+HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=line001 class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 12.5%; FONT-FAMILY: Arial; WIDTH: 0.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 18.66%; TOP: 45.45%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:22;LineColor:#00bfbf;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;" 
+HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=TxtPV002 class="hvg.textbox.1 General_Unit_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 12.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 79.33%; TOP: 47.15%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:General_Unit_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:19;" 
+HDX_LOCK="-1" globalscripts>EU</DIV><SPAN tabIndex=-1 id=ConCboModeAttr title="" 
+class="hsc.combo.1 Dataentry_Combobox_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 76.66%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20.66%; BORDER-LEFT: transparent 2px; TOP: 86.36%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: #ffffff; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:Inset;borderWidth:2;fillColor:#FFFFFF;fillColorBlink:False;HDXBINDINGID:1;indicateScanState:True;lineColor:#808080;lineColorBlink:False;printValue:Combobox;styleClass:Dataentry_Combobox_Style;textColor:#000000;textColorBlink:False;" 
+HDX_LOCK="-1" printValue="Combobox">Combobox</SPAN><INPUT tabIndex=0 id=PbAlmAck class="hsc.button.1 Pushbutton_Style" style="FONT-SIZE: 8pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 2px outset; HEIGHT: 11.93%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 2px outset; WIDTH: 14.66%; BACKGROUND-IMAGE: url(file:./sysdtlpidplalta_fp_files/alarm.png); BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px outset; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; LEFT: 81.33%; BORDER-LEFT: #ffffff 2px outset; TOP: 2.84%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: #cbccce" type=button hdxproperties="fillColor:#CBCCCE;fillColorBlink:False;HDXBINDINGID:24;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColor:#FFFFFF;lineColorBlink:False;styleClass:Pushbutton_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" shapesrc=".\sysdtlpidplalta_fp_files\alarm.png"><TEXTAREA tabIndex=-1 id=ConAlpHiAlmTypePIDA class="hsc.alpha.1 Alarm_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 11.36%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 60%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 17.33%; BORDER-RIGHT-COLOR: transparent; TOP: 0%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:13;indicateAlarmState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:16;numericDisplayFormat:%s;printDisplayValue:State;styleClass:Alarm_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="State">State</TEXTAREA> 
+<DIV tabIndex=-1 id=TxtMode class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 15.33%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 74.43%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:23;" 
+HDX_LOCK="-1" globalscripts>MD</DIV><SPAN tabIndex=-1 id=ConCboMode title="" 
+class="hsc.combo.1 Dataentry_Combobox_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 76.66%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20.66%; BORDER-LEFT: transparent 2px; TOP: 72.72%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: #ffffff; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:Inset;borderWidth:2;fillColor:#FFFFFF;fillColorBlink:False;HDXBINDINGID:12;indicateScanState:True;lineColor:#808080;lineColorBlink:False;printValue:Combobox;styleClass:Dataentry_Combobox_Style;textColor:#000000;textColorBlink:False;" 
+HDX_LOCK="-1" printValue="Combobox">Combobox</SPAN> 
+<DIV tabIndex=-1 id=TxtOP class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 12%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 57.38%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:18;" 
+HDX_LOCK="-1" globalscripts>OP</DIV><TEXTAREA tabIndex=-1 id=ConAlpOP class="hsc.alpha.1 Dataentry_Alphanumeric_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 58%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 2px; TOP: 59.09%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:11;indicateAlarmState:0;indicateScanState:-1;lineColor:white;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Dataentry_Alphanumeric_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=TxtPV class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 13.33%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 47.15%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:20;" 
+HDX_LOCK="-1" globalscripts>PV</DIV><TEXTAREA tabIndex=-1 id=ConAlpPV_GSH title=123 class="hsc.alpha.1 Readonly_Alpha_RightAlign_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 11.36%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 58%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 20%; BORDER-LEFT: transparent 2px; TOP: 46.02%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:None;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:10;indicateAlarmState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Readonly_Alpha_RightAlign_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpHiAlmTypeDACA class="hsc.alpha.1 Alarm_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 11.36%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 60%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 17.33%; BORDER-RIGHT-COLOR: transparent; TOP: 7.95%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:8;indicateAlarmState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:16;numericDisplayFormat:%s;printDisplayValue:State;styleClass:Alarm_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts="null" printDisplayValue="State">State</TEXTAREA> 
+
+<DIV tabIndex=-1 id=Lin1 class="hvg.base.1 Group_Line_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.56%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 17.04%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: visible" 
+hdxproperties="EndArrow:0;fillColorBlink:False;Height:1;LineColor:#C0C0C0;lineColorBlink:False;LineStyle:1;points:0 0 100 0 ;styleClass:Group_Line_Style;textColorBlink:0;Width:150;" 
+HDX_LOCK="-1" globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin3 class="hvg.base.1 Group_Line_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.56%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: visible" 
+hdxproperties="EndArrow:0;fillColorBlink:False;Height:1;LineColor:#C0C0C0;lineColorBlink:False;LineStyle:1;points:0 0 100 0 ;styleClass:Group_Line_Style;textColorBlink:0;Width:150;" 
+HDX_LOCK="-1" globalscripts></DIV>
+<DIV tabIndex=-1 id=alarmstate001 
+title="Bad Quality, Urgent, Active, Acknowledged" class=hsc.alarmstate.1 
+style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 12.5%; FONT-FAMILY: Arial; WIDTH: 16%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 2.66%; TOP: 2.27%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior)" 
+hdxproperties="acknowledged:True;AlertColor:white;HDXBINDINGID:25;HighColor:yellow;JournalColor:cyan;LowColor:cyan;OffScanColor:gray;priority:3;quality:0;RespondedColor:green;rtn:False;showDisableIcon:True;showTooltip:True;sizeableIcon:False;staticIcon:False;UrgentColor:red;" 
+HDX_LOCK="-1" ObjectType="6"></DIV>
+<DIV tabIndex=-1 id=Lin001 class="hvg.base.1 Group_Line_Style_Hidden" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.56%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 99.43%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="EndArrow:0;fillColorBlink:False;Height:1;LineColor:#C0C0C0;lineColorBlink:False;LineStyle:1;points:0 0 100.6993 0 ;styleClass:Group_Line_Style_Hidden;textColorBlink:0;Width:150;" 
+HDX_LOCK="-1" globalscripts></DIV>
+<DIV tabIndex=-1 id=ConShpInitMan class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 21.33%; TOP: 60.79%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:38;Height:16;lineColorBlink:False;Width:30;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlpidplalta_fp_files\seqInitMan.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "2">
+<DIV tabIndex=-1 id=ConShpInitMan_group006 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:15;lineColorBlink:False;Width:31;">
+<DIV tabIndex=-1 id=ConShpInitMan_rect2 class="hvg.base.1 Square_Shape_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#808080;fillColorBlink:False;Height:15;LineColor:#808080;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Style;Width:31;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=ConShpInitMan_textbox2 
+class="hvg.textbox.1 Square_Shape_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 87.5%; FONT-FAMILY: Arial; WIDTH: 83.33%; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 9.38%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:13;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Text_Style;textColor:#ffffff;textColorBlink:False;TotalRotation:0;Width:26;" 
+globalscripts>INIT</DIV></DIV></DIV><TEXTAREA tabIndex=-1 id=ConAlpPVMan_GSH title=123 class="hsc.alpha.1 Dataentry_Alphanumeric_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 58%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 2px; TOP: 45.45%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:52;indicateAlarmState:0;lineColor:white;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Dataentry_Alphanumeric_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=ConShpSIFL class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 41.33%; TOP: 60.79%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:16;Height:16;lineColorBlink:False;Width:16;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlpidplalta_fp_files\seqSI.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "2">
+<DIV tabIndex=-1 id=ConShpSIFL_group004 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:15;lineColorBlink:False;Width:15;">
+<DIV tabIndex=-1 id=ConShpSIFL_rect2 class="hvg.base.1 Square_Shape_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#808080;fillColorBlink:False;Height:15;LineColor:#808080;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Style;Width:15;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=ConShpSIFL_textbox2 
+class="hvg.textbox.1 Square_Shape_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 87.5%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 6.25%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:13;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Text_Style;textColor:#ffffff;textColorBlink:False;TotalRotation:0;Width:13;" 
+globalscripts>SI</DIV></DIV></DIV>
+<DIV tabIndex=-1 id=TxtModeAttr2 class="hvg.textbox.1 Txt_Label_Normal" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 14.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 90.34%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Normal;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:22;" 
+HDX_LOCK="-1" globalscripts>attr.</DIV>
+<DIV tabIndex=-1 id=TxtModeAttr1 class="hvg.textbox.1 Txt_Label_Normal" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 14.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 84.65%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Normal;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:22;" 
+HDX_LOCK="-1" globalscripts>MD</DIV>
+<DIV tabIndex=-1 id=txtOPPC class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 14%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 63.63%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:21;" 
+HDX_LOCK="-1">(%)</DIV>
+<DIV tabIndex=-1 id=ConShpPVSTS class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 21.33%; TOP: 46.59%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:48;Height:16;lineColorBlink:False;Width:16;" 
+HDX_LOCK="-1" value = "3" src = ".\sysdtlpidplalta_fp_files\seqPvSts.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "4">
+<DIV tabIndex=-1 id=ConShpPVSTS_group016 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:15;lineColorBlink:False;Width:15;">
+<DIV tabIndex=-1 id=ConShpPVSTS_rect002 class="hvg.base.1 Square_Shape_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#808080;fillColorBlink:False;Height:15;LineColor:#808080;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Style;Width:15;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=ConShpPVSTS_textbox002 
+class="hvg.textbox.1 Square_Shape_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 87.5%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 6.25%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:13;lineColorBlink:False;LineStyle:0;styleClass:Square_Shape_Text_Style;textColor:#ffffff;textColorBlink:False;TotalRotation:0;Width:13;" 
+globalscripts>N</DIV></DIV></DIV><TEXTAREA tabIndex=-1 id=ConAlpSPLo_GSH title="" class="hsc.alpha.1 Dataentry_Alphanumeric_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 32.66%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 2px; TOP: 18.18%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:30;indicateAlarmState:0;indicateScanState:-1;lineColor:white;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Dataentry_Alphanumeric_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpSPHi_GSH class="hsc.alpha.1 Dataentry_Alphanumeric_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 32.66%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 53.33%; BORDER-LEFT: transparent 2px; TOP: 18.18%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:31;indicateAlarmState:0;indicateScanState:-1;lineColor:white;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Dataentry_Alphanumeric_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA> 
+
+<DIV tabIndex=-1 id=TxtRG class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 14%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 20.45%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: inherit" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:21;" 
+HDX_LOCK="-1" globalscripts>RG</DIV>
+<DIV tabIndex=-1 id=TxtRNGEU class="hvg.textbox.1 General_Unit_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 12.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 86.66%; TOP: 20.45%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: inherit" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:General_Unit_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:19;" 
+HDX_LOCK="-1" globalscripts>EU</DIV><TEXTAREA tabIndex=-1 id=ConAlpSP title="Save SP value to Preferred SP value by right clicking on SP bar or on SP field" class="hsc.alpha.1 Dataentry_Alphanumeric_Style" style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-TOP: transparent 2px; HEIGHT: 12.5%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 58%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 2px; TEXT-ALIGN: right; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 2px; TOP: 31.81%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:9;indicateAlarmState:0;indicateScanState:-1;lineColor:white;lineColorBlink:False;numberOfChars:21;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:Dataentry_Alphanumeric_Style;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" globalscripts="null" printDisplayValue="9999.99" SHORTCUTMENUFILE="Sysdtl_RegCtl_PSP_sm.xml" SHORTCUTMENUCUSTOM="1">9999.99</TEXTAREA> 
+
+<DIV tabIndex=-1 id=TxtSP class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 12.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 2.66%; TOP: 34.09%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:19;" 
+HDX_LOCK="-1" globalscripts>SP</DIV>
+<DIV tabIndex=-1 id=TxtSPEU class="hvg.textbox.1 General_Unit_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.52%; FONT-FAMILY: Arial; WIDTH: 12.66%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 79.33%; TOP: 34.09%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:15;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:General_Unit_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:19;" 
+HDX_LOCK="-1" globalscripts>EU</DIV>
+<DIV tabIndex=-1 id=linSP class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 12.5%; FONT-FAMILY: Arial; WIDTH: 0.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 18.66%; TOP: 31.81%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:22;LineColor:#00bf00;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;" 
+HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=ConLinRG class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 12.5%; FONT-FAMILY: Arial; WIDTH: 0.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 18.66%; TOP: 18.18%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:22;LineColor:#008000;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;" 
+HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=ConShpWinupSP class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.22%; FONT-FAMILY: Arial; WIDTH: 6%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 92.66%; TOP: 32.95%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:51;Height:18;lineColorBlink:False;Width:9;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlpidplalta_fp_files\seqWindUP.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "4">
+<DIV tabIndex=-1 id=ConShpWinupSP_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:10;">
+<DIV tabIndex=-1 id=ConShpWinupSP_polygon015 class="hvg.base.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 44.44%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#polygon)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:8;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:50.000000 0.000000 0.000000 100.000000 100.000000 100.000000 50.000000 0.000000 ;styleClass:;textColor:#DDDDDD;textColorBlink:False;Width:10;"></DIV>
+<DIV tabIndex=-1 id=ConShpWinupSP_polygon016 class="hvg.base.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 44.44%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; TOP: 50%; BEHAVIOR: url(#HDXVectorFactory#polygon)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:8;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:50.000000 100.000000 0.000000 0.000000 100.000000 0.000000 50.000000 100.000000 ;styleClass:;textColor:#DDDDDD;textColorBlink:False;Width:10;"></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=ConShpWinupOP class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.22%; FONT-FAMILY: Arial; WIDTH: 6%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 92.66%; TOP: 59.65%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:61;Height:18;lineColorBlink:False;Width:9;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlpidplalta_fp_files\seqWindUP.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "4">
+<DIV tabIndex=-1 id=ConShpWinupOP_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:10;">
+<DIV tabIndex=-1 id=ConShpWinupOP_polygon015 class="hvg.base.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 44.44%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#polygon)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:8;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:50.000000 0.000000 0.000000 100.000000 100.000000 100.000000 50.000000 0.000000 ;styleClass:;textColor:#DDDDDD;textColorBlink:False;Width:10;"></DIV>
+<DIV tabIndex=-1 id=ConShpWinupOP_polygon016 class="hvg.base.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 44.44%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; TOP: 50%; BEHAVIOR: url(#HDXVectorFactory#polygon)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:8;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:50.000000 100.000000 0.000000 0.000000 100.000000 0.000000 50.000000 100.000000 ;styleClass:;textColor:#DDDDDD;textColorBlink:False;Width:10;"></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=picOperTag class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 79.33%; TOP: 59.65%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Src:.\sysdtlpidplalta_fp_files\Operator_ flag.gif;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysdtlpidplalta_fp_files\Operator_ flag.gif"></DIV>
+<DIV tabIndex=-1 id=picSecRedTag class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 79.33%; TOP: 59.65%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Src:.\sysdtlpidplalta_fp_files\sec_redtag_icon.gif;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysdtlpidplalta_fp_files\sec_redtag_icon.gif"></DIV>
+<DIV tabIndex=-1 id=picRedTag class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 9.09%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 79.33%; TOP: 59.65%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Src:.\sysdtlpidplalta_fp_files\redtag_icon.gif;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysdtlpidplalta_fp_files\redtag_icon.gif"></DIV></DIV>
+<DIV tabIndex=-1 id=GrptxtScript class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 2px; WIDTH: 2px; POSITION: absolute; LEFT: 10px; TOP: 10px; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:2;lineColorBlink:False;Width:2;">
+<DIV tabIndex=-1 id=txtsdPrecentageUnits class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">%</DIV>
+<DIV tabIndex=-1 id=txtsdRedTagSeton class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Red 
+Tag Set on: </DIV>
+<DIV tabIndex=-1 id=txtsdNOALARM class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">NOALARM</DIV>
+<DIV tabIndex=-1 id=txtsdNONE class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">NONE</DIV>
+<DIV tabIndex=-1 id=txtsdPVAlarmLimits class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">PV 
+Alarm Limits:</DIV>
+<DIV tabIndex=-1 id=txtsdOPHighLimit class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">OP 
+High Limit &nbsp;=&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdSavePreferredSp class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Save 
+SP value to Preferred SP value by right clicking on SP bar or on SP field</DIV>
+<DIV tabIndex=-1 id=txtsdSPLowLimit class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">SP 
+Low Limit&nbsp;&nbsp; =&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdEUDESC class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">EUDESC 
+= </DIV>
+<DIV tabIndex=-1 id=txtsdDirectControl class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Direct 
+Control</DIV>
+<DIV tabIndex=-1 id=txtsdReverseControl class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Reverse&nbsp;Control</DIV>
+<DIV tabIndex=-1 id=txtsdEU class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">&nbsp;EU</DIV>
+<DIV tabIndex=-1 id=txtsdMilliOhms class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">MilliOhms</DIV>
+<DIV tabIndex=-1 id=txtsddegC class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">degC</DIV>
+<DIV tabIndex=-1 id=txtsdMagneticFlow class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">MagneticFlow</DIV>
+<DIV tabIndex=-1 id=txtsdpsia class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">psia</DIV>
+<DIV tabIndex=-1 id=txtsdpsig class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">psig</DIV>
+<DIV tabIndex=-1 id=txtsdMicroVolts class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">MicroVolts</DIV>
+<DIV tabIndex=-1 id=txtsdpsi class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">psi</DIV>
+<DIV tabIndex=-1 id=txtsdMilliVolts class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">MilliVolts</DIV>
+<DIV tabIndex=-1 id=txtsdNoEU class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">NoEU</DIV>
+<DIV tabIndex=-1 id=txtsdSPHighLimit class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">SP 
+High Limit&nbsp; =&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdOPLowLimit class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">OP 
+Low Limit&nbsp; &nbsp;=&nbsp;</DIV>
+<DIV tabIndex=-1 id=txtsdLowLow class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Low 
+Low:&nbsp;</DIV>
+<DIV tabIndex=-1 id=txtsdHigh class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">High:&nbsp;&nbsp;</DIV>
+<DIV tabIndex=-1 id=txtsdLow class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Low:&nbsp;&nbsp;</DIV>
+<DIV tabIndex=-1 id=txtsdCurrentSP class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:2;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:1;">Current 
+SP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;=&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdPreferredSP class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">Preferred 
+SP&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdPVRAW class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">PVRAW&nbsp; 
+=&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdPV class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">PV 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; =&nbsp; </DIV>
+<DIV tabIndex=-1 id=txtsdHighHigh class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;Width:0;">High 
+High:</DIV>
+<DIV tabIndex=-1 id=TxtsdOffNormMode class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:0;" 
+globalscripts>Mode is off-normal (Normal mode is </DIV>
+<DIV tabIndex=-1 id=TxtsdOffNormModeAttr class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:0;" 
+globalscripts>Mode attribute is off-normal (Normal mode attribute is </DIV>
+<DIV tabIndex=-1 id=TxtsdOffNormModebracket 
+class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:0;" 
+globalscripts>)</DIV>
+<DIV tabIndex=-1 id=TxtsdSLIDEWIRE class="hvg.textbox.1 Txt_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:0;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Txt_Label_Style;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:0;" 
+globalscripts>SLIDEWIRE</DIV></DIV>
+<DIV tabIndex=-1 id=GrpCenterPanel class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 126px; WIDTH: 150px; POSITION: absolute; LEFT: 0px; TOP: 76px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:126;lineColorBlink:False;Width:150;">
+<DIV tabIndex=-1 id=rect003 class="hvg.base.1 Center_Panel_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 99.2%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: inherit" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:125;LineColor:transparent;lineColorBlink:False;LineWidth:0;styleClass:Center_Panel_Style;Width:150;"></DIV>
+<DIV tabIndex=-1 id=shaOUTIND title="" class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 96.82%; FONT-FAMILY: Arial; WIDTH: 10.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 88%; TOP: 1.58%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:60;Height:122;lineColorBlink:False;Width:16;" 
+value = "3" src = ".\sysdtlpidplalta_fp_files\OUTINDSYM.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "" numberOfShapesAnimated 
+= "4">
+<DIV tabIndex=-1 id=shaOUTIND_group008 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:123;lineColorBlink:False;Width:16;">
+<DIV tabIndex=-1 id=shaOUTIND_group006 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 9.83%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:12;lineColorBlink:False;Width:16;">
+<DIV tabIndex=-1 id=shaOUTIND_textbox012 
+class="hvg.textbox.1 Outind_Reverse_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Hwl-Graphics; WIDTH: 62.5%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:12;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Outind_Reverse_Style;textColor:gray;textColorBlink:False;TotalRotation:0;Width:10;">{</DIV>
+<DIV tabIndex=-1 id=shaOUTIND_textbox013 
+class="hvg.textbox.1 Outind_Reverse_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Hwl-Graphics; WIDTH: 62.5%; POSITION: absolute; COLOR: #808080; TEXT-ALIGN: left; LEFT: 31.25%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:12;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Outind_Reverse_Style;textColor:gray;textColorBlink:False;TotalRotation:0;Width:10;">}</DIV></DIV>
+<DIV tabIndex=-1 id=shaOUTIND_group007 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 11.47%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 88.52%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:14;lineColorBlink:False;Width:16;">
+<DIV tabIndex=-1 id=shaOUTIND_textbox010 
+class="hvg.textbox.1 Outind_Direct_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 92.85%; FONT-FAMILY: Hwl-Graphics; WIDTH: 62.5%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:13;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Outind_Direct_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:10;">[</DIV>
+<DIV tabIndex=-1 id=shaOUTIND_textbox011 
+class="hvg.textbox.1 Outind_Direct_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 85.71%; FONT-FAMILY: Hwl-Graphics; WIDTH: 62.5%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 31.25%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:12;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:Outind_Direct_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:10;">]</DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=grpEU class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 92.06%; WIDTH: 56%; POSITION: absolute; LEFT: 10%; TOP: 3.96%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:116;lineColorBlink:False;Width:84;"><TEXTAREA tabIndex=-1 id=ConAlpPVEULo_GSH class="hsc.alpha.1 General_Right_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 17.24%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 89.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 10.71%; BORDER-RIGHT-COLOR: transparent; TOP: 82.75%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:7;indicateScanState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:12;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:General_Right_Style;textColor:#000000;textColorBlink:False;" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpPVEUHi_GSH class="hsc.alpha.1 General_Right_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 17.24%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 89.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 10.71%; BORDER-RIGHT-COLOR: transparent; TOP: 0%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:4;indicateScanState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:12;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:General_Right_Style;textColor:#000000;textColorBlink:False;" globalscripts="null" printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpPVEU3_GSH title="" class="hsc.alpha.1 General_Right_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 17.24%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 89.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 9.52%; BORDER-RIGHT-COLOR: transparent; TOP: 20.68%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:54;indicateScanState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:12;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:General_Right_Style;textColor:#000000;textColorBlink:False;" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpPVEU2_GSH title="" class="hsc.alpha.1 General_Right_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 17.24%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 89.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 9.52%; BORDER-RIGHT-COLOR: transparent; TOP: 41.37%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:55;indicateScanState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:12;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:General_Right_Style;textColor:#000000;textColorBlink:False;" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpPVEU1_GSH title="" class="hsc.alpha.1 General_Right_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 17.24%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 89.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 9.52%; BORDER-RIGHT-COLOR: transparent; TOP: 62.06%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:56;indicateScanState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:12;numericDisplayFormat:%.2f;printDisplayValue:9999.99;styleClass:General_Right_Style;textColor:#000000;textColorBlink:False;" globalscripts printDisplayValue="9999.99">9999.99</TEXTAREA> 
+
+<DIV tabIndex=-1 id=rectEUValueProtect_GSH class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 64.66%; FONT-FAMILY: Arial; WIDTH: 97.62%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 18.1%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:75;LineColor:#000000;lineColorBlink:False;LineStyle:0;Width:82;"></DIV></DIV><SPAN 
+tabIndex=-1 id=ConIndPSP title="" class="hsc.indicator.1 Level_Indicator_Style" 
+style="FONT-SIZE: 0pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 76.98%; FONT-FAMILY: Arial; WIDTH: 8.66%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 65.33%; TOP: 11.11%; BEHAVIOR: url(#HSCIndicatorBehavior) url(#BindingBehavior)" 
+hdxproperties="borderStyle:none;borderWidth:1;fillColor:transparent;fillColorBlink:0;fillDirection:0;fillStyle:2;HDXBINDINGID:58;levelFillColor:#00bf00;levelFillColorBlink:0;lineColor:transparent;lineColorBlink:0;positiveDirection:0;printFillColor:transparent;printInverse:False;printLevelFillColor:#00bf00;printValue:33;rangeOrigin:0;styleClass:Level_Indicator_Style;visibleRangeHi:100;visibleRangeLo:0;"></SPAN>
+<DIV tabIndex=-1 id=ShpPlSP 
+title="Save SP value to Preferred SP value by right clicking on SP bar or on SP field" 
+class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 76.98%; FONT-FAMILY: Arial; WIDTH: 8.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 64.66%; TOP: 11.11%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:97;lineColorBlink:False;Width:13;" 
+SHORTCUTMENUFILE="Sysdtl_RegCtl_PSP_sm.xml" SHORTCUTMENUCUSTOM="1" value = "1" 
+src = ".\sysdtlpidplalta_fp_files\dsplsp.sha" parameters = 
+"Point?tagname:{%CurrentPoint%};Parameter?cp_spp:pida.spp;Parameter?cp_splolm:pida.splo;Parameter?cp_sphilm:pida.sphi;Parameter?cp_pveulo:pida.pveulo;Parameter?cp_pveuhi:pida.pveuhi;" 
+linkType = "embedded" globalscripts = 
+"C1B3AB79-B06E-47D5-A777-E3A994596D36 EA1B846A-5181-4183-A88D-CCDD37C13682" 
+styleClass = "">
+<DIV tabIndex=-1 id=ShpPlSP_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:100;lineColorBlink:False;Width:10;"><SPAN 
+tabIndex=-1 onmouseover=me.style.zindex=-2 onmouseout=me.style.zindex=0 
+id=ShpPlSP_ConIndSP class=hsc.indicator.1 language=VBScript 
+style="FONT-SIZE: 0pt; OVERFLOW: hidden; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 100%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; BORDER-LEFT: transparent 1px; TOP: 0%; BEHAVIOR: url(#HSCIndicatorBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" 
+hdxproperties="borderStyle:inset;borderWidth:1px;fillColor:transparent;fillColorBlink:0;fillDirection:0;fillStyle:8;HDXBINDINGID:21;indicateAlarmState:0;indicateScanState:1;levelFillColor:#00bf00;levelFillColorBlink:0;lineColor:transparent;lineColorBlink:0;" 
+globalscripts printInverse="false" printLevelFillColor="#00bf00" 
+printFillColor="transparent" printValuePercent="33"></SPAN>
+<DIV tabIndex=-1 id=ShpPlSP_PlgHigh class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 4%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 1%; BEHAVIOR: url(#HDXVectorFactory#polygon); VISIBILITY: hidden" 
+hdxproperties="FillColor:#008000;fillColorBlink:False;Height:4;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:0 100 100 100 0 0 0 100 ;textColor:#008000;Width:9;"></DIV>
+<DIV tabIndex=-1 id=ShpPlSP_PlgLow class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 4%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 6%; BEHAVIOR: url(#HDXVectorFactory#polygon); VISIBILITY: hidden" 
+hdxproperties="FillColor:#008000;fillColorBlink:False;Height:4;LineColor:transparent;lineColorBlink:False;LineStyle:0;points:0.000000 0.000000 100.000000 0.000000 0.000000 100.000000 0.000000 0.000000 ;textColor:#008000;Width:9;"></DIV><TEXTAREA tabIndex=-1 id=ShpPlSP_ConAlpPVEUHi class=hsc.alpha.1 language=VBScript style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 40%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 1px; TOP: 30%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:22;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99" onupdate="call lims(ShpPlSP_ConAlpSPHILM,ShpPlSP_ConAlpSPLOLM,me,ShpPlSP_ConAlpPVEULo)">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpPlSP_ConAlpPVEULo class=hsc.alpha.1 language=VBScript style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 40%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 1px; TOP: 34%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:23;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99" onupdate="call lims(ShpPlSP_ConAlpSPHILM,ShpPlSP_ConAlpSPLOLM,ShpPlSP_ConAlpPVEUHi,me)">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpPlSP_ConAlpSPHILM class=hsc.alpha.1 language=VBScript style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 40%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 1px; TOP: 38%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:26;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99" onupdate="call lims(me,ShpPlSP_ConAlpSPLOLM,ShpPlSP_ConAlpPVEUHi,ShpPlSP_ConAlpPVEULo)">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpPlSP_ConAlpSPLOLM class=hsc.alpha.1 language=VBScript style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 40%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 20%; BORDER-LEFT: transparent 1px; TOP: 42%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:27;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99" onupdate="call lims(ShpPlSP_ConAlpSPHILM,me,ShpPlSP_ConAlpPVEUHi,ShpPlSP_ConAlpPVEULo)">9999.99</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=ShpOPInd class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 76.98%; FONT-FAMILY: Arial; WIDTH: 7.33%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 89.33%; TOP: 11.11%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:97;lineColorBlink:False;Width:11;" 
+value = "1" src = ".\sysdtlpidplalta_fp_files\dsOPInd.sha" parameters = 
+"Point?tagname:{%CurrentPoint%};Parameter?cp_op:pida.op;Parameter?cp_cveulo:pida.cveulo;Parameter?cp_cveuhi:pida.cveuhi;Parameter?cp_SSOP:pida.steadystateopeu;" 
+linkType = "embedded" globalscripts = 
+"05FAF9C5-BFBC-4B99-A932-A07640330BB1 08F5B3D9-2E81-4FEE-871A-54351A9E03FA 1655A851-C98F-4663-9CFD-CD01B905EA10 2E545170-3F4A-4EFE-870D-B7C3B3D89980 4588995B-A6CB-435C-A089-C7462B415DB7 7538D289-6B15-4C43-8632-982D2AD36738 883CA19F-3A0D-4953-B063-CCDB76E04300 907A5BEF-524D-4DF2-BDA4-B351EC7BF94C 9626BE59-DCCD-4AE0-AFB5-048C154DD941 B0EE1CF2-1FFE-48FC-80C1-396B4B688503 B840F270-4D54-4E84-BC71-8B0B19ABB855 CAAB96C3-D704-4A9C-A253-353E37443E04 DA143696-96BA-4C1B-A6A4-FDBDADF9F129 F3F65E9B-A826-47E6-AEB7-FC0027F27A9E F6D6E27E-8FD4-4582-A581-7ADF884C634E" 
+styleClass = "">
+<DIV tabIndex=-1 id=ShpOPInd_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:100;lineColorBlink:False;Width:8;"><SPAN 
+tabIndex=-1 id=ShpOPInd_ConIndOP 
+class="hsc.indicator.1 LevelFill_Indicator_Style" 
+style="FONT-SIZE: 0pt; OVERFLOW: hidden; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 100%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; BORDER-LEFT: transparent 1px; TOP: 0%; BEHAVIOR: url(#HSCIndicatorBehavior) url(#BindingBehavior)" 
+hdxproperties="borderStyle:inset;borderWidth:1;fillColor:#ffffff;fillColorBlink:0;fillDirection:0;fillStyle:0;HDXBINDINGID:28;indicateAlarmState:0;indicateScanState:1;levelFillColor:#bfbf00;levelFillColorBlink:0;lineColor:black;lineColorBlink:0;styleClass:LevelFill_Indicator_Style;" 
+printInverse="false" printLevelFillColor="#bfbf00" printFillColor="#ffffff" 
+printValuePercent="33"></SPAN>
+<DIV tabIndex=-1 id=ShpOPInd_LinSSOP class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 28%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;lineColorBlink:False;LineWidth:2;points:0.000000 0.000000 100.000000 0.000000 ;Width:7;"></DIV><TEXTAREA tabIndex=-1 id=ShpOPInd_ConAlpCVEUHi class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 50%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 37.5%; BORDER-LEFT: transparent 2px; TOP: 40%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:29;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpOPInd_ConAlpCVEULo class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 50%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 37.5%; BORDER-LEFT: transparent 2px; TOP: 48%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:32;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpOPInd_ConAlpSSOP class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 50%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 37.5%; BORDER-LEFT: transparent 2px; TOP: 56%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:33;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=ShpPVInd class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 76.98%; FONT-FAMILY: Arial; WIDTH: 12.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 73.33%; TOP: 11.11%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:97;lineColorBlink:False;Width:19;" 
+value = "1" src = ".\sysdtlpidplalta_fp_files\dsPVInd.sha" parameters = 
+"Point?tagname:{%CurrentPoint%};Parameter?cp_pvp:pida.pvp;Parameter?cp_pveulo:pida.pveulo;Parameter?cp_pveuhi:pida.pveuhi;Parameter?cp_sspv:pida.steadystatepv;Point?tagname:{%CurrentPoint%};Point?tagname:{%CurrentPoint%};Point?tagname:{%CurrentPoint%};" 
+linkType = "embedded" globalscripts = 
+"0AD21102-D973-406A-B529-2FED5AE5FFF3 1E4531C8-88C8-4772-B9EC-B6E542C19973 C10D540F-DF01-4903-8086-01D24C1469A0 E5B51450-4851-41B2-840B-6B067638E135" 
+styleClass = "">
+<DIV tabIndex=-1 id=ShpPVInd_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:100;lineColorBlink:False;Width:16;"><SPAN 
+tabIndex=-1 id=ShpPVInd_ConIndPV 
+class="hsc.indicator.1 LevelFill_Indicator_Style" 
+style="FONT-SIZE: 0pt; OVERFLOW: hidden; TEXT-DECORATION: none; BORDER-TOP: transparent 1px; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 1px; WIDTH: 100%; BORDER-BOTTOM: transparent 1px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; BORDER-LEFT: transparent 1px; TOP: 0%; BEHAVIOR: url(#HSCIndicatorBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" 
+hdxproperties="borderStyle:inset;borderWidth:1;fillColor:#ffffff;fillColorBlink:0;fillDirection:0;fillStyle:0;HDXBINDINGID:34;indicateAlarmState:0;indicateScanState:1;levelFillColor:#00bfbf;levelFillColorBlink:0;lineColor:black;lineColorBlink:0;styleClass:LevelFill_Indicator_Style;" 
+globalscripts printInverse="false" printLevelFillColor="#00bfbf" 
+printFillColor="#ffffff" printValuePercent="33"></SPAN>
+<DIV tabIndex=-1 id=ShpPVInd_LinSSPV class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1%; FONT-FAMILY: Arial; WIDTH: 93.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 24%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;lineColorBlink:False;LineWidth:2;points:0.000000 0.000000 100.000000 0.000000 ;Width:15;"></DIV><TEXTAREA tabIndex=-1 id=ShpPVInd_ConAlpPVEUHi class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 25%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 25%; BORDER-LEFT: transparent 2px; TOP: 36%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:35;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpPVInd_ConAlpPVEULo class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 25%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 25%; BORDER-LEFT: transparent 2px; TOP: 44%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:36;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA><TEXTAREA tabIndex=-1 id=ShpPVInd_ConAlpSSPV class=hsc.alpha.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-TOP: transparent 2px; HEIGHT: 4%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 2px; WIDTH: 25%; BORDER-BOTTOM: transparent 2px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; PADDING-BOTTOM: 2px; FONT-STYLE: normal; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 2px; LEFT: 25%; BORDER-LEFT: transparent 2px; TOP: 52%; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:inset;borderWidth:2px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:37;lineColor:#ffffff;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=seqOptMode class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 11.11%; FONT-FAMILY: Arial; WIDTH: 24.66%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 2.66%; TOP: 80.15%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:50;Height:14;lineColorBlink:False;Width:37;" 
+value = "1" src = ".\sysdtlpidplalta_fp_files\seqOPTMODE.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "" numberOfShapesAnimated 
+= "5">
+<DIV tabIndex=-1 id=seqOptMode_textbox005 class="hvg.textbox.1 General_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:14;lineColorBlink:False;LineStyle:0;styleClass:General_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:37;">TARG</DIV></DIV><TEXTAREA tabIndex=-1 id=ConAlpEUDesc_GSH title='EUDESC = " "' class="hsc.alpha.1 General_Left_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 30.95%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 30%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; PADDING-BOTTOM: 1px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 1.33%; BORDER-RIGHT-COLOR: transparent; TOP: 41.26%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:6;indicateScanState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:132;numericDisplayFormat:%s;printDisplayValue:Text;styleClass:General_Left_Style;textColor:#000000;textColorBlink:False;" globalscripts="null" printDisplayValue="Text">Text</TEXTAREA> 
+
+<DIV tabIndex=-1 id=group008 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 77.77%; WIDTH: 5.33%; POSITION: absolute; LEFT: 68.66%; TOP: 11.11%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:98;lineColorBlink:False;Width:8;">
+<DIV tabIndex=-1 id=Lin5 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:100.000000 0.000000 0.000000 0.000000 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:7;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin6 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 48.97%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:116.6667 0 -12.5 0 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:7;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin7 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 97.95%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:112.5 0 -12.5 0 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:7;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin9 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 25%; TOP: 73.46%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:116.6667 0 -12.5 0 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:4;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin8 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 25%; TOP: 24.48%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:116.6667 0 -12.5 0 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:4;" 
+globalscripts></DIV>
+<DIV tabIndex=-1 id=Lin4 class="hvg.base.1 EUTickmark_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 97.95%; FONT-FAMILY: Arial; WIDTH: 12.5%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 87.5%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:96;LineColor:#808080;lineColorBlink:False;LineStyle:1;points:0 0 0 100.8621 ;styleClass:EUTickmark_Style;textColorBlink:0;Width:1;" 
+globalscripts></DIV></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 77.77%; FONT-FAMILY: Arial; WIDTH: 2%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 86%; TOP: 11.11%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:98;lineColorBlink:False;Width:3;" 
+value = "1" src = ".\sysdtlpidplalta_fp_files\PSc_Almtp_Bars.sha" parameters = 
+"Point?tagname:{%currentpoint%};Text?DACFBName:daca;" linkType = "embedded" 
+globalscripts = 
+"0E93F254-D320-45DE-99D9-49D9AA177E42 1E3D8D7E-C81A-4B5A-93B1-8EEC6108DF42 222ED8C4-0BEE-42A0-A6E4-26315AB208E5 24D36F43-D9EE-49A9-A2CF-C16E2D0C949E 325DB070-1026-40E4-AD37-4FC46B71DC9A 3D376B93-9739-4807-9FAC-7E16E0014A59 48201625-BE21-47E3-8F75-9446D9E898A6 6B857B3E-B0AB-4028-8125-474911CE4C68 8859F7B6-4623-4F81-A079-188C7890C9A7 8DE425B2-C201-4173-8F40-63C9C7457C69 B771F183-28C2-4D6F-B8BA-F7B6D67A3E48 C30350DE-4247-4492-B62A-99EEEE3B283B C68B991D-826F-4483-8F2A-92C4D0F0CC64 D3ABAF81-1037-4D62-A034-71A09D420996" 
+styleClass = "">
+<DIV tabIndex=-1 id=ConShpAlmPr_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:98;lineColorBlink:False;Width:4;"><TEXTAREA tabIndex=-1 id=ConShpAlmPr_oSource class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 48.97%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:0;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA>
+<DIV tabIndex=-1 id=ConShpAlmPr_indOperatingHigh title=" Limit High: " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:0;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:2;Height:97;LevelFillColor:#ffffff;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indOperatingLow title=" Limit Low:  " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:1;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:3;Height:97;LevelFillColor:#ffffff;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indExceedanceHigh class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:1;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:14;Height:97;LevelFillColor:#00ffff;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indExceedanceLow class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:0;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:15;Height:97;LevelFillColor:#00ffff;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indOperatingAim title=" Aim:          " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.02%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 48.97%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#303030;lineColorBlink:False;LineWidth:1;points:0.000000 0.000000 100.000000 0.000000 ;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indpvLow title="PV Low:          " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:0;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:17;Height:97;LevelFillColor:#ffff00;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indpvHigh title="PV High:          " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:1;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:18;Height:97;LevelFillColor:#ffff00;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indpvLowLow title="PV Low Low:   " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:0;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:19;Height:97;LevelFillColor:#ffff00;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_indpvHighHigh title="PV High High: " 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior) url(#HDXLevelFillBehavior); VISIBILITY: hidden" 
+hdxproperties="direction:1;FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:20;Height:97;LevelFillColor:#ff0000;LevelFilled:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV>
+<DIV tabIndex=-1 id=ConShpAlmPr_rectTT class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.97%; FONT-FAMILY: Arial; WIDTH: 75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:97;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=GrpUpperPanel class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 76px; WIDTH: 150px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:76;lineColorBlink:False;Width:150;">
+<DIV tabIndex=-1 id=rect002 class="hvg.base.1 Upper_Panel_Style" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 98.68%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)  url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:59;Height:75;LineColor:transparent;lineColorBlink:False;LineWidth:0;styleClass:Upper_Panel_Style;Width:150;"></DIV><TEXTAREA tabIndex=0 id=alphaTagName class="hsc.alpha.1 PointName_Style" style="FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-TOP: transparent 0px; HEIGHT: 26.31%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 0px; WIDTH: 97.33%; BORDER-BOTTOM: transparent 0px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 1.33%; BORDER-LEFT: transparent 0px; TOP: 5.26%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:49;lineColor:transparent;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;printDisplayValue:Text;styleClass:PointName_Style;textColor:#000000;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=-1 id=ConAlpDescription class="hsc.alpha.1 Description_Style" style="FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-TOP: transparent 0px; HEIGHT: 63.15%; FONT-FAMILY: Arial; BORDER-RIGHT: transparent 0px; WIDTH: 97.33%; BORDER-BOTTOM: transparent 0px; POSITION: absolute; COLOR: #000000; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 1.33%; BORDER-LEFT: transparent 0px; TOP: 32.89%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:1px;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:5;indicateScanState:0;lineColor:#ffffff;lineColorBlink:False;numberOfChars:132;numericDisplayFormat:%s;printDisplayValue:Text;styleClass:Description_Style;textColor:#000000;textColorBlink:False;" globalscripts printDisplayValue="Text">Text</TEXTAREA>
+<DIV tabIndex=-1 id=Lin2 class="hvg.base.1 Group_Line_Style" 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.31%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; LEFT: 0%; TOP: 98.68%; BEHAVIOR: url(#HDXVectorFactory#line)  url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="EndArrow:0;fillColorBlink:False;HDXBINDINGID:57;Height:1;indicateAlarmState:False;indicateScanState:False;LineColor:#C0C0C0;lineColorBlink:False;LineStyle:1;points:0 0 100 0 ;styleClass:Group_Line_Style;textColorBlink:0;Width:150;" 
+globalscripts></DIV><TEXTAREA tabIndex=0 id=ConAlpEUTickMarksServerBits_GSH class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18.42%; FONT-FAMILY: Arial; WIDTH: 8.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 45.33%; TOP: 69.73%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:44;lineColor:transparent;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=ConAlpPSPServerBits class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18.42%; FONT-FAMILY: Arial; WIDTH: 8.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 45.33%; TOP: 46.05%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:45;lineColor:transparent;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=ConAlpPSP_GSH class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18.42%; FONT-FAMILY: Arial; WIDTH: 8.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 45.33%; TOP: 22.36%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:46;lineColor:transparent;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=ConAlpPSPClear class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18.42%; FONT-FAMILY: Arial; WIDTH: 8.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 68%; TOP: 35.52%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:47;lineColor:transparent;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=ConAlpPSPSet class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18.42%; FONT-FAMILY: Arial; WIDTH: 8.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 74.66%; TOP: 48.68%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:53;lineColor:transparent;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA></DIV></DIV></BODY></HTML>

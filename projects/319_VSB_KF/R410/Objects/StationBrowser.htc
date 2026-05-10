@@ -1,0 +1,302 @@
+<!--
+***************************************************************************
+Copyright (C) 2006 Honeywell Limited
+$Archive: /System Displays/_Master/Common/Objects/StationBrowser.htc $								
+$Workfile: StationBrowser.htc $												
+$Modtime: 1/24/08 9:20a $											
+$Revision: 13 $
+$Author: Bjones $														
+***************************************************************************
+This DHTML behavior is used to turn a button into a trigger for the 
+StationPoint browser or Location browser.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JsExtensions.js    (JsType*)
+ HtmlUtils.js       (HtmlState*)
+ Utilities.js       (GetStationApp, PersistData, PersistedData
+                     OperatorMessage)
+***************************************************************************
+-->
+<public:component name="StationBrowser" urn="StationBrowser" lightWeight="false">
+	<public:property name="StationBrowseType" value="point" />
+	<public:property name="StationBrowseErrorMsg" value="Station application oject required" />
+	<public:event name="OnStationBrowseComplete" id="OnStationBrowseComplete" />
+	<public:event name="OnStationNameBrowseComplete" id="OnStationNameBrowseComplete" />
+	<public:attach event="oncontentready" onevent="javascript: try{ BindStationEventReflector(); }catch(e){}" for="element"/>
+	<public:attach event="onunload" onevent="javascript: try{ ShowStationBrowser(false); }catch(e){}" for="window"/>
+	<public:attach event="onclick" onevent="javascript: try{ ShowStationBrowser(true); }catch(e){}" for="element"/>
+</public:component>
+<script language="Javascript" type="text/javascript">
+	//-----------------------------------------------------------------------
+	// BindStationEventReflector
+	//-----------------------------------------------------------------------
+	// This function locates the Station Event Reflector behavior (expected to 
+	// be on the 'Page' element or the body element of the current document)
+	// and binds a handler to its OnUserObjectNotify event.
+	//-----------------------------------------------------------------------
+	function BindStationEventReflector()
+	{
+		// Ensure that the whole window is fully loaded.
+		if (element.ownerDocument.readyState != HtmlStateComplete)
+		{
+			// Call this in window_onload instead.
+			window.attachEvent("onload", BindStationEventReflector);
+			return;
+		}
+		
+		try
+		{
+			// Check that the Station Event Reflector object exists on the page.
+			var reflectorObject = element.ownerDocument.getElementById("StnEvtReflector");
+			if (reflectorObject == null)
+			{
+				// There is no object with the default ID... check for the class id.
+				var objectsList = element.ownerDocument.getElementsByTagName("object");
+				for (var i = 0; i < objectsList.length; i++)
+				{
+					if (objectsList[i].classid.toUpperCase() == "CLSID:F5585C3E-DFE6-41A7-98EF-FD6E9547809D")
+					{
+						reflectorObject = objectsList[i];
+						break;
+					}
+				}
+			}
+			if (reflectorObject == null)
+			{
+				throw "Station Event Reflector object was not found on this page.";
+			}
+			
+			// Find the element that the reflector object-behavior is bound to: we
+			// expect this element to have an id of 'Page', or to be the body object.
+			var pageObject = element.ownerDocument.getElementById("Page");
+			if (pageObject == null)
+			{
+				pageObject = element.ownerDocument.body;
+			}
+			
+			// Check that the page object defines the 'OnUserObjectNotify event.
+			if (typeof(pageObject.onuserobjectnotify) == JsTypeUndefined)
+			{
+				// The station event reflector behavior is not actually assigned to that object.
+				var stationApp = GetStationApp();
+				if (stationApp == null)
+				{
+					// It is not going to be possible to add the Station Event Reflector behavior to
+					// this object: it will just throw an error when you call addBehavior with it.
+					throw "Unable to add the Station Event Reflector behavior to the '" + pageObject.tagName + "' object with id '" + pageObject.id + "': Station application required.";
+				}	
+						
+				// Apply the behavior and try again once it's loaded.
+				pageObject.attachEvent("onreadystatechange", BindStationEventReflector);
+				pageObject.addBehavior("#" + reflectorObject.id);
+				if (typeof(pageObject.onuserobjectnotify) == JsTypeUndefined)
+				{
+					// the behavior hasn't attached yet: this function will be called again
+					// when the onreadystatechange event fires once it _has_ finished attaching.
+					return;				
+				}
+			}
+			
+			// Bind to the OnUserObjectNotify event.
+			var isAttached = pageObject.attachEvent("onuserobjectnotify", OnUserObjectNotify);	
+			if (!isAttached)
+			{
+				throw "Unable to bind to the StnEvtReflector::OnUserObjectNotify event.";
+			}
+		}
+		catch(e)
+		{
+			ScriptError("StationBrowser::BindStationEventReflector", e);
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// ShowStationBrowser
+	//-----------------------------------------------------------------------
+	// If the 'StationBrowseType' property is set on the button, this 
+	// function will show or hide the appropriate browser window.
+	//-----------------------------------------------------------------------
+	function ShowStationBrowser(isVisible)
+	{
+		try
+		{
+			// Check that browsing is configured for this button.
+			var browseType = new String(element.StationBrowseType);
+			if (browseType == null || 
+				browseType == "")
+			{
+				return;	// We are not browsing for anything.
+			}
+
+
+			// If the organization browser is requested to be shown, check whether the control
+			// associated with the button is enabled before showing the browser
+			if (isVisible == true && (browseType == "organization" || browseType == "organisation"))
+			{
+
+				// Try to get the OrganizationTextElement. If it is not there, continue
+				if (element.OrganizationTextElement != undefined)
+				{
+					var controlID = new String(element.OrganizationTextElement);
+					if (controlID != null && controlID != "")
+					{
+						var OrganizationTextElement = element.ownerDocument.getElementById(controlID)
+						if (OrganizationTextElement.disabled == true)
+						{
+							return;
+						}
+					}
+				}
+			}
+
+			
+			// Check that Station is available.
+			var stationApp = GetStationApp();
+			if (stationApp == null)
+			{
+				// It is not going to be possible to perform this operation...
+				throw "Unable to retrieve the Station Browser dialog: Station application required.";
+			}
+	
+			// Locate the target browser object, and show or hide it as normal.
+			if (browseType.toLowerCase() == "point")
+			{
+				stationApp.Dictionary.Item("BrowserDialog").Value.Visible = isVisible;
+			}
+			else
+			{
+				var browser = stationApp.Dictionary.Item("LocationDialog").Value;
+				var showArg = 2;
+				switch (browseType.toLowerCase())
+				{
+					case "facility":
+						showArg = 1;
+						break;				
+					case "organisation":
+					case "organization":
+						showArg = 2;
+						break;
+					case "location":	// Both facility and organisation.
+						showArg = 3;
+						break;
+					default:
+						throw "Unknown station browser type '" + browseType + "'";
+				}
+				
+				if (isVisible)
+				{
+					browser.Show(showArg);
+					// Close point browser if its open
+					stationApp.Dictionary.Item("BrowserDialog").Value.Visible = false;
+				}
+				else
+				{
+					browser.Visible = false;
+				}
+			}
+			
+			// Register this button as the target for the current browser.
+			if (isVisible)
+			{
+				PersistData("stationbrowsertarget", element);
+			}
+		}
+		catch(e)
+		{
+			ScriptError("StationBrowser::ShowStationBrowser", e);
+			var userMsg = element.StationBrowseErrorMsg;
+			if (isVisible == true &&
+				typeof(userMsg) == JsTypeString && 
+				userMsg != "")
+			{
+				//  Give feedback to the user to indicate that the browse disloag could not be opened.
+				OperatorMessage(userMsg);
+			}				
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnUserObjectNotify
+	//-----------------------------------------------------------------------
+	// This function catches the event of the same name which is fired
+	// by the Station Event Reflector when a browse-operation is
+	// completed. It works out whether the current button cares about
+	// the event's properties, and fires an OnStationBrowseCompleted
+	// event with the newly-browsed value in a custom attribute by the name 
+	// of "BrowseValue" if we do.
+	//-----------------------------------------------------------------------
+	function OnUserObjectNotify()
+	{
+		try
+		{
+			// Check that we care about notification events.
+			var browseType = new String(element.StationBrowseType);
+			if (browseType == null || browseType.length == 0)
+			{
+				return;	// We were not browsing for anything.
+			}
+			
+			// Check that we are the current target for notification events of this type.
+			var browseTarget = PersistedData("stationbrowsertarget", null);
+			if (browseTarget !=  element)
+			{
+				return;	// We did not start this browse, so we don't get to finish it.
+			}
+
+			// Get the notification info out of the event object.
+			var param = window.event.getAttribute("OnUserObjectNotify_Param", 1);
+			var id = parseInt(window.event.getAttribute("OnUserObjectNotify_ID", 1), 10);
+			
+			// Work out if we care...
+			var eventToFire = OnStationBrowseComplete;
+			switch (browseType.toLowerCase())
+			{
+				case "point":
+					if (id != 6318)
+					{
+						// This is not a point browse notification, so we don't care.
+						return;
+					}
+					break;
+				case "organisation":
+				case "organization":
+				case "facility":
+				case "location":
+					{
+						if (id == 6321)
+						{
+						    eventToFire = OnStationNameBrowseComplete;   
+						}
+						else if (id != 6318)
+						{
+							// This is not a location-browse notification, so we don't care.
+							return;
+						}
+					}
+					break;
+					
+				default:
+					// We are not listening for a notification, so we don't care.
+					break;
+			}
+			
+			//.......................................................................
+			// Fire an event to inform anything that cares...
+			//.......................................................................
+			var objEvent = element.ownerDocument.createEventObject();			
+			objEvent.setAttribute("BrowseValue", param);
+			objEvent.returnValue = true;
+			eventToFire.fire(objEvent);		
+			
+			//.......................................................................
+			// Close the browser.
+			//.......................................................................
+			ShowStationBrowser(false);		
+		}
+		catch(e)
+		{
+			ScriptError("StationBrowser::OnUserObjectNotify", e);
+		}
+	}
+</script>

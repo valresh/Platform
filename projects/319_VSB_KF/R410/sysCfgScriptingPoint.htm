@@ -1,0 +1,1039 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>Server Scripting - Point Scripts</TITLE>
+<SCRIPT language=JScript>
+<!--
+var securityLevel;
+nServerAvailable    = 0;
+nServerUnavailable  = 1;
+nServerSynching     = 2;
+nCombinedScriptEditor = 0;
+nReportScriptEditor   = 1;
+nPointScriptEditor    = 2;
+nAlertScriptEditor    = 3;
+try
+{
+    LastState = window.external.status.FieldState(5);
+}
+catch(e)
+{
+    LastState = nServerAvailable;
+}
+function CStnSpecificGUI()
+{
+    var blnIsConsole;
+    try
+    {
+        blnIsConsole = window.external.status.IsConsoleStation;
+    }
+    catch (e)
+    {
+        blnIsConsole = false;
+    }
+    if (true == blnIsConsole)
+    {
+        CurrentState = window.external.status.FieldState(5);
+        if (CurrentState == nServerUnavailable)
+        {
+            if (EditorType == nCombinedScriptEditor)
+            {
+                if (cboScriptType.selectedIndex != -1)
+                {
+                    cboScriptType.selectedIndex = -1;
+                }
+            }
+            try
+            {
+                // Don't worry about security here
+                CombinedEd.SaveWorking();
+            }
+            catch (e)
+            {
+                cmdSave.style.visibility = "hidden";
+                cmdUndo.style.visibility = "hidden";
+                cmdCommit.style.visibility = "hidden";
+                cmdReset.style.visibility = "hidden";
+                txtCannotSave.style.visibility = "visible";
+                return true;
+            }
+            ReportMessage(GetLocalI18NString(419));
+            CombinedEd.UnsetView();
+            return true;
+        }
+    }
+    return false;
+}
+function IsSecure()
+{
+    try
+    {
+        var SecLevel = window.external.SecurityLevel;
+        if(null == SecLevel)
+        {
+            // Assume not secure if no Station model
+            return false;
+        }
+        else if(SecLevel >= 4)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch(e)
+    {
+        // Assume not secure if errors encountered
+        return false;
+    }
+}
+//
+// Returns true if we are running from a console station
+// that is not connected to the server.
+//
+function IsDisconnectedCStn()
+{
+    var blnIsConsole;
+    try
+    {
+        blnIsConsole = window.external.status.IsConsoleStation;
+    }
+    catch(e)
+    {
+        blnIsConsole = false;
+    }
+    if (true == blnIsConsole)
+    {
+        CurrentState = window.external.status.FieldState(5);
+        if (CurrentState == nServerUnavailable)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+function IsStation()
+{
+    try
+    {
+        var SecLevel = window.external.SecurityLevel;
+        if(null == SecLevel)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    catch(e)
+    {
+        return false;
+    }
+}
+function GetServerName()
+{
+    try
+    {
+    var blnIsConsole;
+    blnIsConsole = window.external.status.IsConsoleStation;
+    if ( true == blnIsConsole )
+    {
+        Name = window.external.Status.ClusterServerName;
+    }
+    if ( (false == blnIsConsole) || ("" == Name) )
+    {
+        Name = window.external.Status.ServerName;
+    }
+        if ( (null == Name) || ("" == Name) )
+        {
+        // Choose a sensible default
+        Name = "localhost";
+        }
+        return Name;
+    }
+    catch(e)
+    {
+        // Choose a sensible default
+        return "localhost";
+    }
+}
+function GetStationNumber()
+{
+    return window.external.Status.StationNumber;
+}
+function ReportMessage(msg)
+{
+    try
+    {
+        // Try to output to station message zone
+        window.external.TemporaryMessageZoneText = msg;
+    }
+    catch(e)
+    {
+    }
+}
+function InSufficientSecurity()
+{
+    ReportMessage(GetLocalI18NString(401));
+}
+function cmdSave_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.SaveWorking();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(402));
+    }
+}
+function cmdCommit_OnClick()
+{
+    if(IsSecure())
+    {
+        try
+        {
+            // Save first
+            CombinedEd.SaveWorking();
+        }
+        catch(e)
+        {
+            ReportMessage(GetLocalI18NString(403));
+            return;
+        }
+        try
+        {
+            // Now commit
+            CombinedEd.CommitToLive();
+        }
+        catch(e)
+        {
+            ReportMessage(GetLocalI18NString(404));
+            return;
+        }
+    }
+    else
+    {
+        InSufficientSecurity();
+    }
+}
+function cmdUndo_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.UndoChanges();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(405));
+    }
+}
+function cmdReset_OnClick()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            CombinedEd.ResetFromLive();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(406));
+    }
+}
+function CombinedEd_OnChangeState()
+{
+    try
+    {
+        var blnSave     = false;
+        var blnCommit   = false;
+        var blnRestore  = false;
+        var blnUndo     = false;
+        switch(CombinedEd.State)
+        {
+        case -1:
+        case 0:
+            // Leave everything disabled
+            break;
+        case 1:
+            blnSave = true
+            blnUndo = true
+            break;
+        case 2:
+            blnRestore = true
+            blnCommit = true
+            break;
+        case 3:
+            blnSave = true
+            blnRestore = true
+            blnCommit = true
+            blnUndo = true
+            break;
+        default:
+            // Leave everything disabled
+            break;
+        }
+        cmdSave.disabled = !blnSave;
+        cmdCommit.disabled = !blnCommit;
+        cmdReset.disabled = !blnRestore;
+        cmdUndo.disabled = !blnUndo;
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(407));
+    }
+}
+function CheckSave()
+{
+    try
+    {
+        var doWeSave = false;
+        var edState;
+        edState = CombinedEd.State;
+        // ISR49581 - do not attempt autosave from a console station
+        // if server is unavailable
+        if (!IsDisconnectedCStn())
+        {
+            // Note that if we don't do this 2 step process
+            // the script engine always throws an error, despite the
+            // catch statement.
+            switch(edState)
+            {
+            case -1:
+            case 0:
+            case 2:
+                // No need to attempt a save
+                break;
+            case 1:
+            case 3:
+                doWeSave = true;
+                break;
+            default:
+                // No need to attempt a save
+                break;
+            }
+        }
+        if(doWeSave)
+        {
+            try
+            {
+                // Don't worry about security here
+                CombinedEd.SaveWorking();
+            }
+            catch(e)
+            {
+                ReportMessage(GetLocalI18NString(408));
+            }
+        }
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security
+    }
+}
+function cmdHelp_OnClick()
+{
+    try
+    {
+		UserAssistanceBrowserNativeWrapper.CallupHelp(0, "serverscript","","");
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(409));
+    }
+}
+function SecurityLevelChanged()
+{
+    try
+    {
+        if(securityLevel != IsSecure())
+        {
+            SetCurrentSecurityLevel();
+            window.external.Application.CurrentPage = window.external.Application.CurrentPage;
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(410));
+    }
+}
+function SetCurrentSecurityLevel()
+{
+    try
+    {
+        securityLevel = IsSecure();
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(411));
+    }
+}
+function GetLocalI18NString(strToGet)
+{
+    try
+    {
+        switch(strToGet)
+        {
+        case 101: return "Save Draft Changes";
+        case 102: return "Cancel Draft Changes";
+        case 103: return "Commit Draft to Online";
+        case 104: return "Reset Draft from Online";
+        case 105: return "Scripting Help";
+        case 201: return "Script Type: ";
+        case 202: return "Server";
+        case 203: return "Library";
+        case 204: return "Periodic Scripts";
+        case 301: return "Station Application Reflector failed to load!\n-- Please check browser security settings.\n";
+        case 302: return "Script Editor control failed to load!\n-- Please check browser security settings.\n";
+        case 401: return "You must be at Manager or Engineer security level to edit scripts.";
+        case 402: return "Error received when attempting to Save Draft Changes.";
+        case 403: return "Error received when attempting to save draft changes before committing them.";
+        case 404: return "Error received when attempting to Commit Draft To Online.";
+        case 405: return "Error received when attempting to Cancel Draft Changes.";
+        case 406: return "Error received when attempting to Reset Draft from Online.";
+        case 407: return "Error received in function CombinedEd_OnChangeState.";
+        case 408: return "Error received when attempting to Save Draft Changes.";
+        case 409: return "Error received when attempting to access help.";
+        case 410: return "Error received when security level changed.";
+        case 411: return "Error received when setting current security level.";
+        case 412: return "General error encountered when communicating with the server. See log for details.";
+        case 413: return "The point name is unknown.";
+        case 414: return "Cannot view or edit server scripts for points of this type.";
+        case 415: return "The server took too long to respond. See log for details.";
+        case 416: return "Could not establish a connection to the server. See log for details.";
+        case 417: return "General error occurred when attempting to retrieve scripts.";
+        case 418: return "General object setup failed";
+        case 419: return "Script editor is not available when server is unavailable.";
+        case 420: return "Error received when disabling editor in response to server becoming unavailable.";
+        case 501: return "Report: ";
+        case 601: return "Point: ";
+        case 701: return "New Alert Source: ";
+        case 702: return "Existing Alert Source: ";
+        case 703: return "New Condition: ";
+        case 704: return "Existing Condition: ";
+        case 705: return "Edit Existing Scripts";
+        case 706: return "Add New Script";
+        case 707: return "Delete Alert Source";
+        case 708: return "Delete Alert Condition";
+        default:
+            // We don't have an appropriate string
+            return "Message: " + strToGet;
+        }
+    }
+    catch(e)
+    {
+        ReportMessage("Error received when getting I18N string.");
+        return "";
+    }
+}
+function SetI18NStrings(objToSet)
+{
+    try
+    {
+        objToSet.I18NString(301) = "Automatically Allocate";
+        objToSet.I18NString(302) = "Testing";
+        objToSet.I18NString(401) = "This event is fired whenever an alarm on the object is raised.";
+        objToSet.I18NString(402) = "This event is fired whenever an alarm on the object ceases to be in alarm.";
+        objToSet.I18NString(403) = "This event is fired whenever a user acknowledges an alarm on the object.";
+        objToSet.I18NString(404) = "This event is fired periodically if a timer has been created for this object.";
+        objToSet.I18NString(405) = "This event is fired whenever the parameter value changes.";
+        objToSet.I18NString(406) = "This event is fired whenever a user changes the parameter value from Station.";
+        objToSet.I18NString(407) = "This event is fired whenever the server is started.";
+        objToSet.I18NString(408) = "This event is fired just before the server shuts down.";
+        objToSet.I18NString(409) = "This event is fired at the start of day.";
+        objToSet.I18NString(410) = "This event is fired at the start of every shift.";
+        objToSet.I18NString(411) = "This event is fired whenever a new message is generated.";
+        objToSet.I18NString(412) = "This event is fired whenever a message is acknowledged.";
+        objToSet.I18NString(413) = "This event is fired whenever a message is confirmed.";
+        objToSet.I18NString(414) = "This event is fired whenever a report is generated.";
+        objToSet.I18NString(501) = "Script Editor - ";
+        objToSet.I18NString(502) = "Event:";
+        objToSet.I18NString(503) = "Parameter:";
+        objToSet.I18NString(504) = "Script Engine:";
+        objToSet.I18NString(505) = "Print";
+        objToSet.I18NString(506) = "OK";
+        objToSet.I18NString(507) = "Cancel";
+        objToSet.I18NString(601) = "Error at line: ";
+        objToSet.I18NString(602) = " - ";
+        objToSet.I18NString(701) = "&Print";
+        objToSet.I18NString(702) = "Draft";
+        objToSet.I18NString(703) = "Online";
+        objToSet.I18NString(704) = "Script Engine:";
+        objToSet.I18NString(801) = "Procedure:";
+        objToSet.I18NString(901) = "&Add";
+        objToSet.I18NString(902) = "&Delete";
+        objToSet.I18NString(903) = "Periodic Script Name";
+        objToSet.I18NString(904) = "Period";
+        objToSet.I18NString(905) = "Units";
+        objToSet.I18NString(906) = "Start Time";
+        objToSet.I18NString(907) = "End Time";
+        objToSet.I18NString(908) = "NewPeriodic";
+        objToSet.I18NString(909) = "Hours";
+        objToSet.I18NString(910) = "Minutes";
+        objToSet.I18NString(911) = "Seconds";
+        objToSet.I18NString(912) = "Script Engine";
+        objToSet.I18NString(1001) = "Event:";
+        objToSet.I18NString(1002) = "Parameters:";
+        objToSet.I18NString(1101) = "&Delete Scripts";
+        objToSet.I18NString(1102) = "The script data below has been corrupted. Click 'Delete Scripts' to delete the corrupted scripts.";
+        objToSet.I18NString(1103) = "Script Data Error";
+        objToSet.I18NString(1201) = "The script editor is not running.";
+        objToSet.I18NString(1202) = "The script editor was unable to retrieve scripts from the server. Please see the log file for details.";
+        objToSet.I18NString(1203) = "The script editor is loading scripts from the server. Please wait.";
+        objToSet.I18NString(1301) = "Server";
+        objToSet.I18NString(1302) = "Report";
+        objToSet.I18NString(1401) = "Ln %l, Col %c";
+        objToSet.I18NString(1501) = "Event_";
+    }
+    catch(e)
+    {
+        ReportMessage("Error received when setting the I18N strings.");
+    }
+}
+function ReportSetViewErrors(e)
+{
+    try
+    {
+        switch(~e.number)
+        {
+        case ~0x80041503:
+            // Hsccli general
+            ReportMessage(GetLocalI18NString(412));
+            break;
+        case ~0x80041504:
+            // Point Name Unknown
+            ReportMessage(GetLocalI18NString(413));
+            break;
+        case ~0x80041505:
+            // Invalid Point Type
+            ReportMessage(GetLocalI18NString(414));
+            break;
+        case ~0x80041506:
+            // Timeout
+            ReportMessage(GetLocalI18NString(415));
+            break;
+        case ~0x80041507:
+            // Connect Failure
+            ReportMessage(GetLocalI18NString(416));
+            break;
+        default:
+            // Ignore errors - they probably mean editor was not allowed to run because of security
+            ReportMessage(GetLocalI18NString(417));
+            break;
+        }
+    }
+    catch(e2)
+    {
+        // Do nothing
+    }
+}
+function AppStatusUpdate()
+{
+    try
+    {
+        var blnIsConsole;
+        try
+        {
+            blnIsConsole = window.external.status.IsConsoleStation;
+        }
+        catch(e)
+        {
+            blnIsConsole = false;
+        }
+        if (true == blnIsConsole)
+        {
+            CurrentState = window.external.status.FieldState(5);
+            if (LastState != CurrentState)
+            {
+                if (CurrentState == nServerUnavailable)
+                {
+                    if (EditorType == nCombinedScriptEditor)
+                    {
+                        if (cboScriptType.selectedIndex > -1)
+                        {
+                            PreviousSelection = cboScriptType.selectedIndex;
+                        }
+                    }
+                    ReportMessage(GetLocalI18NString(419));
+                    SelectEditorType();
+                }
+                else
+                {
+                    if (LastState == nServerUnavailable)
+                    {
+                        if (EditorType == nCombinedScriptEditor)
+                        {
+                            cboScriptType.selectedIndex = PreviousSelection;
+                        }
+                        cmdSave.style.visibility       = "visible";
+                        cmdUndo.style.visibility       = "visible";
+                        cmdCommit.style.visibility     = "visible";
+                        cmdReset.style.visibility      = "visible";
+                        txtCannotSave.style.visibility = "hidden";
+                        SelectEditorType();
+                    }
+                }
+                LastState = CurrentState;
+            }
+        }
+    }
+    catch(e)
+    {
+        ReportMessage(GetLocalI18NString(420));
+    }
+}
+EditorType = nPointScriptEditor;
+function SelectEditorType()
+{
+    try
+    {
+        if(IsSecure())
+        {
+            if(true == CStnSpecificGUI())
+            {
+                return;
+            }
+            // Check if we want to save
+            CheckSave();
+            // Set the pointview
+            if(pointForm.pointName.value.length > 0)
+            {
+                try
+                {
+                    CombinedEd.SetStationNumber(GetStationNumber());
+                }
+                catch(e)
+                {
+                    // ignore error. Most likely mismatched display/Script Editor versions
+                }
+                CombinedEd.SetPointViewByName(GetServerName(), pointForm.pointName.value);
+            }
+            else
+            {
+                CombinedEd.UnsetView();
+            }
+        }
+        else
+        {
+            CombinedEd.UnsetView();
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportSetViewErrors(e);
+    }
+}
+function pointName_onchange()
+{
+    try
+    {
+        SelectEditorType();
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security
+        ReportMessage("pointName_onchange failed");
+    }
+}
+function window_onresize()
+{
+    try
+    {
+        document.body.scroll = "no";
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onresize failed");
+    }
+}
+function window_onload()
+{
+    try
+    {
+        document.body.scroll = "no";
+        try
+        {
+            CombinedEd.FullBackColor = 0x00FFFFFF;
+            alphaPntId.value = "";
+        }
+        catch(e)
+        {
+            // Ignore errors - they probably mean editor was not allowed to run because of security
+            // This allows SelectEditorType() to be executed.
+        }
+        SelectEditorType();
+        if(!IsStation())
+        {
+            // Show the point name
+            pointForm.pointName.runtimeStyle.visibility = "visible";
+        }
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onload failed");
+    }
+}
+function window_onunload()
+{
+    try
+    {
+        // See if we want to save
+        CheckSave();
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security    
+        ReportMessage("window_onunload failed");
+    }
+}
+try
+{
+    window.onload = window_onload;
+    window.onresize = window_onresize;
+    window.onunload = window_onunload;
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage("Window Event Setup failed");
+}
+-->
+</SCRIPT>
+<META content=IE=EmulateIE7 http-equiv=x-ua-compatible>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.31>
+<META name=HMIWebTemplateDescription 
+content="Create a blank HMIWeb Point Detail or Template display.">
+<META name=GENERATOR content="MSHTML 11.00.9600.19081">
+<META name=DTU content=HSCDTU-Mixed>
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<SCRIPT language=javascript src="Scripts/EMScripts.js"></SCRIPT>
+<LINK id=HDXStylesheet rel=stylesheet type=text/css 
+href=".\Styles\SystemDisplay_1276X849.css">
+<SCRIPT language=VBScript for=Page defer event=onpagecomplete>On Error Resume Next
+	Set Dialog = Window.External.Dictionary.Item("BrowserDialog").Value</SCRIPT>
+<SCRIPT language=VBScript for=Page defer event=onunload>On Error Resume Next
+	Dialog.Visible = False</SCRIPT>
+<SCRIPT language=VBScript for=PB defer event=onmouseover>me.style.cursor = "Hand"</SCRIPT>
+<SCRIPT language=VBScript for=PB defer event=onclick>	On Error Resume Next
+	Dialog.Visible = True</SCRIPT>
+<SCRIPT language=VBScript defer>Dim Dialog
+Dim SelectedPoint
+Sub SetNewValue(strVal)
+    On Error Resume Next
+    'Note that seting it programmatically doesn't change it
+    pointForm.pointName.value = strVal
+    'However this should
+    pointForm.pointName.fireEvent "onchange"
+End Sub
+Sub ChangePointName(strPointName)
+    pointForm.pointName.value = strPointName
+End Sub</SCRIPT>
+<SCRIPT language=VBScript for=Page defer event=onuserobjectnotify>On error resume next
+	param = cstr(window.event.getAttribute("OnUserObjectNotify_Param", 1))
+	id = cstr(window.event.getAttribute("OnUserObjectNotify_ID", 1))
+	If ((id = 6318) or (id = 6319)) Then 
+		point = param
+		SelectedPoint = point
+		alphaPntId.value = point
+		SetNewValue point
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=alphaServerType defer event=onupdate>Select Case me.value
+Case 5,6,7		'EBI Security, EBI Buildings, EBI Integrated
+		if IsScriptingLicenced.value = 1 then
+			 hideoption.Objects("visi").value = 0		
+		else
+			combinedEd.style.visibility = "Hidden"
+			 hideoption.Objects("visi").value = 1
+		end if
+Case Else	
+		 hideoption.Objects("visi").value = 0
+End Select</SCRIPT>
+<SCRIPT language=VBScript for=alphaPntId defer event=onchange>SetNewValue me.value</SCRIPT>
+</HEAD>
+<SCRIPT language=VBScript for=hideoption defer event=onshapeload>ntimer = window.setInterval("myfunction(hideoption_group001)",500)</SCRIPT>
+<SCRIPT id=AD889B50-8EDA-4DBB-B5C4-A83B02263985 language=VBScript defer 
+shaperefcount="1">dim ntimer 
+dim sha, obj
+function myfunction(sha)
+set obj = sha.parentelement
+if obj.objects("visi").value =1 then
+	obj.style.visibility="visible"
+	obj.style.Top=0 'position the group besides the navigation pane
+	obj.style.posLeft=55 'position the group below the title bar
+	obj.objects("rect4").style.posLeft=78 'moving the shaects diferently
+	obj.objects("rect4").style.Top=0 'moving rect4 to match top and left coordinate of group
+	obj.objects("pushbutton1").style.posLeft=78 'moving pushbutton1 to match top and left coordinate of group
+	obj.objects("pushbutton1").style.Top=0
+	obj.objects("rect4").style.width=1020 'resizing rect4 to cover the required area without resizing the text
+	obj.objects("rect4").style.height=850
+	obj.objects("pushbutton1").style.width=1020 'resizing rect4 to cover the required area without resizing the text
+	obj.objects("pushbutton1").style.height=850
+	obj.objects("text1").style.posTop=800 'aligning the text middle to the rect4
+	obj.objects("text1").style.posLeft=220 'aligning the text center to the rect4
+	For i=1 to page.all.length-1
+		If (page.all(i).style.posLeft > obj.objects("rect4").style.posLeft) And (page.all(i).style.posTop > obj.objects("rect4").style.posTop) Then
+			page.all(i).style.visibility = "hidden"
+		End If 
+		' this code is used to hide any objects beyond shapes boundary after resizing. 
+	next 
+	obj.objects("text1").style.visibility="visible"
+end if
+window.clearInterval(ntimer)
+end function</SCRIPT>
+<BODY 
+style="OVERFLOW: auto; FONT-SIZE: 8pt; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<DIV id=Background 
+style="HEIGHT: 849px; WIDTH: 1276px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 8pt; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector) url(#DisplayDataRepository); BACKGROUND-COLOR: transparent" 
+PageDescription>
+<DIV tabIndex=-1 id=shpBackground class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: -1px; TOP: 0px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+value = "1" src = "sysBackground_1276X849.sha" parameters = 
+"Value?MenuXML:ConfigMenu.xml;Value?ShowTabs:false;Value?ShowActionBar:false;Value?ShowDisplayTitle:true;Value?TopLeftTitle:;Value?TopLeftIcon:;" 
+linkType = "linked" globalscripts = "CFD45B49-72AB-4fb7-9CC8-A7D18331606B" 
+styleClass = ""></DIV>
+<FORM id=pointForm method=post name=pointForm action=""><INPUT id=pointName 
+style="POSITION: absolute; LEFT: 100px; TOP: 0px; VISIBILITY: hidden" 
+name=pointName></FORM>
+<OBJECT id=Reflector style="VISIBILITY: hidden" 
+classid=clsid:0AE3084B-970E-482B-A4D6-619D6379D1C5><PARAM NAME="_ExtentX" VALUE="1773"><PARAM NAME="_ExtentY" VALUE="1455">
+<SPAN id="txtNoReflect" STYLE="color:red">Station Application Reflector failed 
+to load! -- Please check browser security settings.</SPAN></OBJECT>
+<OBJECT id=CombinedEd 
+style="HEIGHT: 65%; WIDTH: 70%; POSITION: absolute; LEFT: 25%; TOP: 20%" 
+codeBase="Objects\ServerScripting.CAB" 
+classid=clsid:80004EC2-FDF4-4163-918E-79ADA926DF15><PARAM NAME="_ExtentX" VALUE="23627"><PARAM NAME="_ExtentY" VALUE="14605"><PARAM NAME="BackColor" VALUE="-2147483633"><PARAM NAME="EditBackColor" VALUE="-2147483643"><PARAM NAME="ForeColor" VALUE="-2147483630"><PARAM NAME="Enabled" VALUE="-1"><PARAM NAME="FullBackColor" VALUE="-2147483633">
+<SPAN id="txtNoEditor" STYLE="color:red">Script Editor control failed to load! 
+-- Please check browser security settings.</SPAN></OBJECT>
+<OBJECT id=UserAssistanceBrowserNativeWrapper style="VISIBILITY: hidden" 
+classid=clsid:9D1988EE-32BD-467E-BA40-2C31B535A4D4></OBJECT>
+<INPUT disabled id=cmdSave style="WIDTH: 15%; POSITION: absolute; LEFT: 25%; TOP: 90%" type=button value="Save Draft Changes"> 
+<INPUT disabled id=cmdCommit style="WIDTH: 15%; POSITION: absolute; LEFT: 43%; TOP: 90%" type=button value="Commit Draft to Online"> 
+<INPUT disabled id=cmdUndo style="WIDTH: 15%; POSITION: absolute; LEFT: 61%; TOP: 90%" type=button value="Cancel Draft Changes"> 
+<INPUT disabled id=cmdReset style="WIDTH: 15%; POSITION: absolute; LEFT: 79%; TOP: 90%" type=button value="Reset Draft from Online"> 
+<SPAN id=txtCannotSave 
+style="WIDTH: 70%; POSITION: absolute; LEFT: 25%; VISIBILITY: hidden; BOTTOM: 10px"><B><FONT 
+style="COLOR: red; FONT: bold 10pt Arial">Warning:</FONT></B> <FONT 
+style="FONT: 10pt Arial">Draft changes cannot be saved because the server is 
+unavailable. All changes made since the last save will be lost if you leave this 
+page before the server becomes available again. <B>Note:</B> If you need to 
+leave this page, then please copy the changes to another application, eg. 
+notepad. </FONT></SPAN><INPUT id=cmdHelp style="POSITION: absolute; LEFT: 82.45%; TOP: 12.05%" type=button value="Scripting Help">
+<SCRIPT language=JScript>
+<!--
+try
+{
+    cmdSave.value = GetLocalI18NString(101);
+    cmdUndo.value = GetLocalI18NString(102);
+    cmdCommit.value = GetLocalI18NString(103);
+    cmdReset.value = GetLocalI18NString(104);
+    cmdHelp.value = GetLocalI18NString(105);
+    try
+    {
+        SetI18NStrings(CombinedEd);
+    } catch(e) { // This will fail if the editor fails in loading - so ignore
+    }
+    try
+    {
+        txtNoReflect.innerText = GetLocalI18NString(301);
+        txtNoEditor.innerText = GetLocalI18NString(302);
+    } catch(e) { // These will fail if the editor succeeds in loading - so ignore
+    }
+    cmdReset.onclick = cmdReset_OnClick;
+    cmdUndo.onclick = cmdUndo_OnClick;
+    cmdSave.onclick = cmdSave_OnClick;
+    cmdCommit.onclick = cmdCommit_OnClick;
+    cmdHelp.onclick = cmdHelp_OnClick;
+    pointForm.pointName.onchange = pointName_onchange;
+    SetCurrentSecurityLevel();
+    Reflector.SetApp(window.external.Application);
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage(GetLocalI18NString(418));
+}
+-->
+</SCRIPT>
+<SCRIPT language=JScript for=CombinedEd event=OnChangeState>
+<!--
+try
+{
+    CombinedEd_OnChangeState();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("CombinedEd_OnChangeState failed");
+}
+-->
+</SCRIPT>
+<SCRIPT language=JScript for=Reflector event=OnOperatorChange>
+<!--
+try
+{
+    SecurityLevelChanged();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnOperatorChange failed");
+}
+-->
+</SCRIPT>
+<SCRIPT language=JScript for=Reflector event=OnAppStatusUpdate>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+try
+{
+    AppStatusUpdate();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnAppStatusUpdate failed");
+}
+-->
+</SCRIPT>
+ <SPAN tabIndex=-1 id=IsScriptingLicenced class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 21px; WIDTH: 347px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 942px; TOP: 319px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:10;inverseLogic:0;textColor:#ff0000;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN 
+style="COLOR: #ff0000">IsOptionLicenced(LIC_SCRIPTING_ALGOS=Z'AA01')</SPAN></SPAN><TEXTAREA tabIndex=-1 id=alphaServerType class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 18px; FONT-FAMILY: Helvetica; WIDTH: 50px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 90px; BORDER-LEFT-STYLE: none; TOP: 540px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:11;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=hideoption class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 48px; FONT-FAMILY: Arial; WIDTH: 286px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 642px; TOP: 788px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:48;lineColorBlink:False;Width:286;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysCfgScriptingPoint_files\sysOptionNotLicenced2.sha" parameters = "" 
+linkType = "embedded" globalscripts = "AD889B50-8EDA-4DBB-B5C4-A83B02263985" 
+styleClass = "">
+<DIV tabIndex=-1 id=hideoption_group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:48;lineColorBlink:False;Width:286;"><INPUT tabIndex=-1 id=hideoption_pushbutton1 class=hsc.button.1 style="FONT-SIZE: 11pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 1px; HEIGHT: 100%; FONT-FAMILY: Helvetica; BORDER-RIGHT: #ffffff 1px; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; BORDER-LEFT: #ffffff 1px; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: #ffffff" type=button hdxproperties="fillColor:#ffffff;fillColorBlink:False;HDXBINDINGID:0;lineColorBlink:False;textColor:#000000;textColorBlink:False;">
+<DIV tabIndex=-1 id=hideoption_text1 class=hvg.textbox.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; HEIGHT: 41.66%; FONT-FAMILY: Helvetica; WIDTH: 53.14%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 23.42%; TOP: 27.08%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:3;Height:20;indicateAlarmState:0;indicateScanState:0;LineColor:transparent;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:0;value:;Width:152;">Option 
+not licensed</DIV>
+<DIV tabIndex=-1 id=hideoption_rect4 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 97.91%; FONT-FAMILY: Arial; WIDTH: 98.6%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0.69%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:#ffffff;fillColorBlink:False;FillStyle:1;HDXBINDINGID:4;Height:47;indicateAlarmState:0;indicateScanState:0;LineColor:transparent;lineColorBlink:False;Width:282;"></DIV><SPAN 
+tabIndex=-1 id=hideoption_visi class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 37.5%; WIDTH: 24.82%; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 50.69%; TOP: 54.16%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:5;inverseLogic:0;textColor:#ff0000;textColorBlink:False;" 
+printValue="true" printInverse="false"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT><SPAN 
+style="COLOR: #ff0000">Visible</SPAN></SPAN></DIV></DIV>
+<DIV tabIndex=-1 id=txtPoint class="hvg.textbox.1 Field_Label_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 45px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 319px; TOP: 78px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;LineStyle:1;LineWidth:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:45;" 
+HDX_LOCK="-1">Point:</DIV><TEXTAREA tabIndex=0 id=alphaPntId class="hsc.alpha.1 DataEntry_Left_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 176px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 2px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 2px; LEFT: 365px; BORDER-LEFT-STYLE: none; TOP: 79px; PADDING-RIGHT: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Inset;borderWidth:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:1;lineColor:white;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:DataEntry_Left_Alphanumeric_Style;textColor:black;textColorBlink:False;">Parameter</TEXTAREA> 
+<DIV tabIndex=-1 id=PB class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 20px; WIDTH: 26px; POSITION: absolute; LEFT: 543px; TOP: 78px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:20;lineColorBlink:False;Width:26;"><INPUT tabIndex=0 id=pushbutton004 class=hsc.button.1 style="CURSOR: hand; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 92.3%; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: #c0c0c0" type=button hdxproperties="fillColor:#c0c0c0;fillColorBlink:False;HDXBINDINGID:2;lineColorBlink:False;textColor:#000000;textColorBlink:False;"> 
+<DIV tabIndex=-1 id=textbox002 class=hvg.textbox.1 
+style="OVERFLOW: hidden; FONT-SIZE: 8pt; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 92.3%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 7.69%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:20;LineColor:transparent;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:24;">....</DIV></DIV></DIV></BODY></HTML>

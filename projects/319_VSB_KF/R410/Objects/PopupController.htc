@@ -1,0 +1,422 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/_Master/Common/Objects/PopupController.htc $								
+$Workfile: PopupController.htc $												
+$Modtime: 13/10/08 5:21p $											
+$Revision: 13 $
+$Author: Scordon $														
+***************************************************************************
+This behavior associates a popup window with the host element that can
+be controlled by the host element, and be be shown against any element.
+
+The user must specify the URL to be called up in the popup window: the
+default (unspecified) URL is about:blank.
+
+Events fired by the PopupController can be used to track and control the
+appearance or otherwise of the popup window. If the returnValue of the
+event object associated with the OnBeforePopupShown event is set to False,
+then the popup-show action will be aborted.
+***************************************************************************
+The host page must import the Utilities scripts without the defer
+attribute in order to use this behavior.
+***************************************************************************
+If you use this behavior then you need to reference:
+ JSExtensions.js    (parseBoolean)
+ HtmlUtils.js       (HtmlState*, ZoomFactor, ActualLeft, ActualTop
+                     IncludeClassOnElement)
+***************************************************************************
+-->
+<public:component name="PopupController" urn="PopupController">
+	<!-- Readonly properties -->
+	<public:property name="PopupElement" get="getPopupElement"/>
+	<public:property name="PopupBody" get="getPopupBody"/>
+	<public:property name="PopupIsShowing" get="getPopupIsShowing"/>
+	<public:property name="PopupIsLoaded" get="getPopupIsLoaded"/>
+
+	<!-- Read/Write properties -->
+	<public:property name="PopupURL" value="about:blank"/>
+	<public:property name="PopupAlignment" value=""/>
+	<public:property name="ConstrainPopupWidth" value="false" />
+	<public:property name="PopupBodyClass" value="popup" />
+
+	<!-- Methods -->
+	<public:method name="HidePopup"/>
+	<public:method name="ShowPopup"/>
+	<public:method name="TogglePopup"/>
+	<public:method name="ShowPopupAtElement"/>
+	<public:method name="InitializePopup"/>
+	
+	<!-- Events -->
+	<public:event name="OnPopupLoad" id="OnPopupLoad"/>
+	<public:event name="OnBeforePopupShown" id="OnBeforePopupShown"/>
+	<public:event name="OnPopupShown" id="OnPopupShown"/>
+	<public:event name="OnPopupHidden" id="OnPopupHidden"/>
+	
+	<!-- Bindings -->
+	<public:attach event="onpropertychange" onevent="javascript: try{ OnPropertyChange(); }catch(e){}" for="element"/>
+	<public:attach event="oncontentready" onevent="javascript: try{ InitializePopup(); }catch(e){}" for="element" />
+	<public:attach event="onload" onevent="javascript: window.setTimeout(InitializePopup, 10);" for="window" />
+	<public:attach event="ondetach" onevent="javascript: try{ OnDetach(); }catch(e){}" for="element"/>
+</public:component>
+<script language="javascript" type="text/javascript">
+	var m_objPopup = null;
+
+	//-----------------------------------------------------------------------
+	// getPopupElement
+	//-----------------------------------------------------------------------
+	// This is the accessor function for the read-only PopupElement property.
+	//-----------------------------------------------------------------------
+	function getPopupElement()
+	{
+		return m_objPopup;
+	}
+
+	//-----------------------------------------------------------------------
+	// getPopupBody
+	//-----------------------------------------------------------------------
+	// This is the accessor function for the read-only PopupBody property.
+	//-----------------------------------------------------------------------
+	function getPopupBody()
+	{
+		return m_objPopup == null ? null : m_objPopup.contentWindow.document.body;
+	}
+	
+	//-----------------------------------------------------------------------
+	// getPopupIsShowing
+	//-----------------------------------------------------------------------
+	// This function returns True if the Popup is currently displayed, False
+	// otherwise.
+	//-----------------------------------------------------------------------
+	function getPopupIsShowing()
+	{
+		if (m_objPopup == null ||
+			m_objPopup.style.visibility.toLowerCase() == "hidden" ||
+			m_objPopup.style.display.toLowerCase() == "none")
+		{
+			return false;
+		}
+		return true;	
+	}
+
+	//-----------------------------------------------------------------------
+	// getPopupIsLoaded
+	//-----------------------------------------------------------------------
+	// This function returns True if the Popup exists and it document is 
+	//completely loaded, False otherwise.
+	//-----------------------------------------------------------------------
+	function getPopupIsLoaded()
+	{	
+		if (m_objPopup == null || m_objPopup.contentWindow.document.readyState.toLowerCase() != HtmlStateComplete)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnPropertyChange
+	//-----------------------------------------------------------------------
+	// This function is called whenever a property on the host element changes.
+	//-----------------------------------------------------------------------
+	function OnPropertyChange()
+	{
+		//.......................................................................
+		// Act on the property that has changed.
+		//.......................................................................
+		switch(window.event.propertyName.toLowerCase())
+		{
+			case "popupurl":
+			{
+				if (m_objPopup != null)
+				{
+					// Navigate the popup-iframe in a different thread (so the
+					// frame-loading doesn't affect this event handler).
+					// frame_onload will cause OnPopupLoad to fire.	
+					window.setTimeout(function(){ m_objPopup.src = element.PopupURL; }, 100); 
+					window.event.returnValue = true;
+				}				
+				break;
+			}
+			case "popupbodyclass":
+			{
+				if (m_objPopup != null && m_objPopup.contentWindow.document.readyState == HtmlStateComplete)
+				{
+				    IncludeClassOnElement(m_objPopup.contentWindow.document.body, element.PopupBodyClass);
+					window.event.returnValue = true;
+				}				
+				break;
+			}			
+			default:
+			{
+				window.event.returnValue = false;
+			}
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// InitializePopup
+	//-----------------------------------------------------------------------
+	// This function creates the objects needed to display the Popup. It 
+	// should ideally not be called until the popup is first needed, but
+	// should definitely not be called until the host document is completely
+	// loaded, as it modifies the DOM.
+	//
+	// It is not even safe to call this in a window_onload event handler: the
+	// frame-navigation and/or frame-insertion hangs. If anything is blocking 
+	// the loading of the main page, it is almost certainly this (or one
+	// of the other functions that call createElement).
+	//-----------------------------------------------------------------------
+	function InitializePopup()
+	{				
+		//.......................................................................
+		// Make sure the document is complete.
+		//.......................................................................
+		var TargetDoc = window.document;
+		if (TargetDoc.readyState.toLowerCase() != HtmlStateComplete)
+		{
+			//.......................................................................
+			// We absolutely cannot continue until the  proper document is complete. 
+			// We can safely assume that the window_onload event will fire once it
+			// becomes complete, so this function will be called again at that time.
+			//.......................................................................
+			return;
+		}
+		
+		if (m_objPopup == null)
+		{
+			//.......................................................................
+			// Create and initialize the Popup IFrame.
+			//.......................................................................	
+			var objIFrame = TargetDoc.createElement("IFRAME");
+			objIFrame.style.border="none 0px"; 
+			objIFrame.style.visibility = "hidden";
+			objIFrame.style.position = "absolute";
+			objIFrame.style.zIndex = 100;   // hopefully above any other absolutely-positioned windows...
+			                                // and positioned content is already above non-positioned content,
+			                                // and windowed controls (iframe, select) above non-windowed 
+			                                // controls, so this should work out as 'above everything'.
+			objIFrame.frameBorder = "no";
+			//.......................................................................
+			// Put the new IFrame in the right place in the host document, and 
+			// navigate it to the correct URL.
+			//.......................................................................	
+			m_objPopup = TargetDoc.body.insertAdjacentElement("beforeEnd", objIFrame)
+			objIFrame.attachEvent("onload", function(){ try{ OnPopupLoad.fire(); }catch(e){}});			
+			element.PopupURL = element.PopupURL;	// Reapply to force the frame navigation consistently.
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// OnDetach
+	//-----------------------------------------------------------------------
+	// This function is used to clean up any created objects.
+	//-----------------------------------------------------------------------
+	function OnDetach()
+	{
+		if (m_objPopup != null && window.document.readyState.toLowerCase() == HtmlStateComplete)
+		{
+			// Remove the inserted popup frame element from the host document.
+			document.body.removeChild(m_objPopup);
+			m_objPopup = null;
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// HidePopup
+	//-----------------------------------------------------------------------
+	// This function hides the Popup if it is currently displayed.
+	//-----------------------------------------------------------------------
+	function HidePopup()
+	{	
+		if (element.PopupIsShowing)
+		{
+			m_objPopup.style.visibility = "hidden";
+			m_objPopup.style.display = "none";
+			OnPopupHidden.fire();
+		}
+	}
+	
+	//---------------------------------------------------------------
+	// ShowPopupAtElement
+	//---------------------------------------------------------------
+	// This function is called to display the popup aligned with
+	// the specified element.
+	//
+	// Note that if there are messageboxes in here then the event
+	// timing gets decidedly stuffed, and the onclick event which 
+	// actually triggers the Popup doesn't happen. Be careful with
+	// debug paranoids.
+	//---------------------------------------------------------------
+	function ShowPopupAtElement(objElem, strAlign)
+	{
+		if (m_objPopup == null)
+		{
+			//.......................................................................
+			// This is the first time the popup has been shown: create it.
+			//.......................................................................
+			InitializePopup();
+		}
+		else
+		{						
+			//.......................................................................
+			// Make sure the Popup is hidden.
+			//.......................................................................
+			HidePopup();
+		}
+							
+		//.......................................................................
+		// Fire an event that allows the host display to initialize the popup
+		// document, or to cancel the showing of the popup.
+		//.......................................................................
+		var objEvent = element.ownerDocument.createEventObject();	
+		objEvent.returnValue = true;	
+		OnBeforePopupShown.fire(objEvent);
+		if (!objEvent.returnValue)
+		{
+			// ShowPopup cancelled.
+			return;				
+		}
+		
+		//.......................................................................
+		// Allow the popup IFRAME to take up real estate.
+		//.......................................................................			
+		m_objPopup.style.display = "block";
+		
+		//.......................................................................
+		// Make the popup have the same zoom -factor as its host document.							
+		//.......................................................................							
+		var nZoom = ZoomFactor(objElem);
+		m_objPopup.style.zoom = nZoom;
+
+		//.......................................................................
+		// Work out what the width of the popup window should be.
+		//.......................................................................			
+		var objBody = m_objPopup.contentWindow.document.body;
+		IncludeClassOnElement(objBody, element.PopupBodyClass);
+		if (parseBoolean(element.ConstrainPopupWidth, false))
+		{
+			//.......................................................................
+			// Constrain the popup content and window widths to be exactly the width 
+			// of the element it is positioned to.
+			//.......................................................................
+			var bodyBorderWidth = parseInt(objBody.currentStyle.borderWidth, 10);
+			objBody.style.pixelWidth = objElem.offsetWidth - 2* (isNaN(bodyBorderWidth) ? 0 : bodyBorderWidth);
+			
+			var popupBorderWidth = parseInt(m_objPopup.currentStyle.borderWidth, 10);
+			m_objPopup.style.pixelWidth = objElem.offsetWidth - 2 * (isNaN(popupBorderWidth) ? 0 : popupBorderWidth);
+		}
+		else
+		{
+			//.......................................................................
+			// Allow the popup window to be as wide as its content.
+			//.......................................................................
+			m_objPopup.style.pixelWidth = objBody.scrollWidth + 2 * objBody.clientLeft;				
+		}	
+				
+		//.......................................................................
+		// Work out the top-left position that will align the popup properly.
+		//.......................................................................			
+		var nLeft = ActualLeft(objElem);
+		var nTop = ActualTop(objElem);	
+						
+		switch(strAlign)
+		{
+			case "left":
+			{
+				// Showing popup aligned left.
+				nLeft = nLeft - nZoom * m_objPopup.offsetWidth;
+				break;
+			}	
+			case "top":
+			{
+				// Showing popup aligned top.
+				nTop = nTop - nZoom * m_objPopup.offsetHeight;
+				break;
+			}
+			case "right":
+			{
+				// Showing popup aligned right.
+				nLeft = nLeft + nZoom * objElem.offsetWidth;
+				break;
+			}
+			case "bottom":
+			{
+				// Showing popup aligned bottom.
+				nTop = nTop + nZoom * objElem.offsetHeight;
+				break;
+			}
+			default:
+			{	
+				// Default to right over the element: no change to positioning variables.
+			}
+		}
+
+		//.......................................................................
+		// Always make the popup window as tall as its content
+		//.......................................................................							
+		m_objPopup.style.pixelHeight = objBody.scrollHeight + 2 * objBody.clientTop;
+	
+		var bodyElem = objElem.ownerDocument.body;
+		var bodyBounds = bodyElem.getBoundingClientRect();
+
+		//.......................................................................
+		// If this moves the pop-up out of the visible area of the window, bring it in as necessary.
+		//.......................................................................
+		if (nTop + m_objPopup.style.pixelHeight*nZoom > bodyBounds.bottom/nZoom)
+		{
+			nTop = bodyBounds.bottom/nZoom - m_objPopup.style.pixelHeight*nZoom;
+			if (nTop < 0)
+			{
+				nTop = 0;
+			}
+		}
+		if (nLeft + m_objPopup.style.pixelWidth*nZoom > bodyBounds.right/nZoom)
+		{
+			nLeft = bodyBounds.right/nZoom - m_objPopup.style.pixelWidth*nZoom;
+			if (nLeft < 0)
+			{
+				nLeft = 0;
+			}
+		}
+
+		m_objPopup.style.pixelLeft = nLeft;
+		m_objPopup.style.pixelTop = nTop;
+		
+
+
+		//.......................................................................
+		// Display the popup and inform any interested parties of the change.			
+		//.......................................................................			
+		m_objPopup.style.visibility = "visible";
+		OnPopupShown.fire();
+	}
+	
+	//---------------------------------------------------------------
+	// ShowPopup
+	//---------------------------------------------------------------
+	// This function is called to display the popup in the correct
+	// position relative to the host element of this behavior.
+	//---------------------------------------------------------------
+	function ShowPopup()
+	{
+		ShowPopupAtElement(element, element.PopupAlignment);
+	}
+	
+	//-----------------------------------------------------------------------
+	// TogglePopup
+	//-----------------------------------------------------------------------
+	// This function toggles the hide/ show state of the popup.
+	//-----------------------------------------------------------------------
+	function TogglePopup()
+	{
+		if (getPopupIsShowing())
+		{
+			HidePopup();
+		}
+		else
+		{
+			ShowPopup();
+		}
+	}
+</script>

@@ -1,0 +1,2137 @@
+<DATASOURCE version="2">
+<HMIPAGE pageType="0" updateRate="0" forwardAction="1" forwardString="" backwardAction="1" backwardString="" 
+         previousIdleTime="0" areaRequestType="0" areaString="" securityLevel="0" requestTaskOnPageCallup="0" 
+		 callUpTaskSecurityLevel="2" callUpTaskStationIndex="0" callUpTaskTaskLrn="0" callUpTaskTaskParam1="1" 
+		 callUpTaskTaskParam2="11" callUpTaskTaskParam3="0" callUpTaskTaskParam4="0" periodicTaskOnPageCallup="0" 
+		 periodicTaskSecurityLevel="2" periodicTaskStationIndex="0" periodicTaskTaskLrn="0" periodicTaskTaskParam1="1" 
+		 periodicTaskTaskParam2="11" periodicTaskTaskParam3="0" periodicTaskTaskParam4="0" periodicTaskPeriod="60" 
+		 persistFlags="0" safeviewCategory="HW_System_Display" zoomingAllowed="1" singleUse="0" appSetName=""/>
+<DATAOBJECT id="1" type="HMIPage.SOESource" format="propertybag">
+<PROPERTY name="WaitForInit">1</PROPERTY> 
+<PROPERTY name="SummaryType">0</PROPERTY> 
+<PROPERTY name="Version">4.5</PROPERTY> 
+<PROPERTY name="AutoMigrate">0</PROPERTY> 
+<PROPERTY name="CurrentViewName">(all recent events with live updates)</PROPERTY> 
+<PROPERTY name="CurrentViewArea"/> 
+<PROPERTY name="ViewModified">0</PROPERTY> 
+<PROPERTY name="UntitledViewName">(untitled view)</PROPERTY> 
+<PROPERTY name="TemplateXML">
+        <![CDATA[
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="Action"/>
+			<field id="Actor"/>
+			<field id="AlarmLimit"/>
+			<field id="AreaName"/>
+			<field id="Category"/>
+			<field id="CategoryName"/>
+			<field id="ChangedTime"/>
+			<field id="ChangedMicroSeconds"/>
+			<field id="ConditionName"/>
+			<field id="Description"/>
+			<field id="FieldTime"/>
+			<field id="FieldMicroSeconds"/>
+			<field id="GDAConnectionName"/>
+			<field id="GDAConnectionNum"/>
+			<field id="GDAQuality"/>
+			<field id="GDAQualityString"/>
+			<field id="GDAServerName"/>
+			<field id="MainPriority"/>
+			<field id="PrevValue"/>
+			<field id="Priority"/>
+			<field id="Reason"/>
+			<field id="Severity"/>
+			<field id="SignatureMeaning"/>
+			<field id="LocationTagName"/>
+			<field id="LocationFullName"/>
+			<field id="LocationItemName"/>
+			<field id="SourceEntityName"/>
+			<field id="Source"/>
+			<field id="Station"/>
+			<field id="SubConditionName"/>
+			<field id="SubPriority"/>
+			<field id="Time"/>
+			<field id="TimeMicroSeconds"/>
+			<field id="Units"/>
+			<field id="Value"/>
+			<field id="AUX UNIT"/>
+			<field id="TS Reliable"/>
+			<field id="Block"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<script id="xfLocationFormat" language="JScript">
+				var rootLocation = "/Assets";
+				if (Value)
+				{
+					var posn = Value.indexOf( rootLocation );
+					if ( posn == 0 )
+						return Value.substr( rootLocation.length );
+					else
+						return Value;
+				}
+				return "";
+			</script>
+			<script id="xfDTCellFormat" language="jscript">
+				try {
+					return DTFormat.Localize(Value, g_dateTimeFormat);
+				} catch(e) {
+					return "";
+				}
+			</script>
+			<script id="xfDTTooltipFormat" language="jscript">
+				try {
+					return DTFormat.Localize(Value, g_dateTimeFormatTip);
+				} catch(e) {
+					return "";
+				}
+			</script>
+			<script id="xfNumCellFormat" language="jscript">
+				try {
+					return DTFormat.Localize(Value, g_dateTimeFormat);
+				} catch(e) {
+					return "";
+				}
+			</script>
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = "Unselected_Cells"
+				If Value Then
+					If g_bTableIsActive Then 
+						s = "Selected_Active_Cells"
+					Else
+						s = "Selected_Inactive_Cells"
+					End If
+				End If
+				Return = s
+			</script>
+			<enum id="xfPriorityString">
+				<entry value="0" text="J 00"/>
+				<entry value="1" text="J 01"/>
+				<entry value="2" text="J 02"/>
+				<entry value="3" text="J 03"/>
+				<entry value="4" text="J 04"/>
+				<entry value="5" text="J 05"/>
+				<entry value="6" text="J 06"/>
+				<entry value="7" text="J 07"/>
+				<entry value="8" text="J 08"/>
+				<entry value="9" text="J 09"/>
+				<entry value="10" text="J 10"/>
+				<entry value="11" text="J 11"/>
+				<entry value="12" text="J 12"/>
+				<entry value="13" text="J 13"/>
+				<entry value="14" text="J 14"/>
+				<entry value="15" text="J 15"/>
+				<entry value="16" text="L 00"/>
+				<entry value="17" text="L 01"/>
+				<entry value="18" text="L 02"/>
+				<entry value="19" text="L 03"/>
+				<entry value="20" text="L 04"/>
+				<entry value="21" text="L 05"/>
+				<entry value="22" text="L 06"/>
+				<entry value="23" text="L 07"/>
+				<entry value="24" text="L 08"/>
+				<entry value="25" text="L 09"/>
+				<entry value="26" text="L 10"/>
+				<entry value="27" text="L 11"/>
+				<entry value="28" text="L 12"/>
+				<entry value="29" text="L 13"/>
+				<entry value="30" text="L 14"/>
+				<entry value="31" text="L 15"/>
+				<entry value="32" text="H 00"/>
+				<entry value="33" text="H 01"/>
+				<entry value="34" text="H 02"/>
+				<entry value="35" text="H 03"/>
+				<entry value="36" text="H 04"/>
+				<entry value="37" text="H 05"/>
+				<entry value="38" text="H 06"/>
+				<entry value="39" text="H 07"/>
+				<entry value="40" text="H 08"/>
+				<entry value="41" text="H 09"/>
+				<entry value="42" text="H 10"/>
+				<entry value="43" text="H 11"/>
+				<entry value="44" text="H 12"/>
+				<entry value="45" text="H 13"/>
+				<entry value="46" text="H 14"/>
+				<entry value="47" text="H 15"/>
+				<entry value="48" text="U 00"/>
+				<entry value="49" text="U 01"/>
+				<entry value="50" text="U 02"/>
+				<entry value="51" text="U 03"/>
+				<entry value="52" text="U 04"/>
+				<entry value="53" text="U 05"/>
+				<entry value="54" text="U 06"/>
+				<entry value="55" text="U 07"/>
+				<entry value="56" text="U 08"/>
+				<entry value="57" text="U 09"/>
+				<entry value="58" text="U 10"/>
+				<entry value="59" text="U 11"/>
+				<entry value="60" text="U 12"/>
+				<entry value="61" text="U 13"/>
+				<entry value="62" text="U 14"/>
+				<entry value="63" text="U 15"/>
+				<entry value="208" text="L 00"/>
+				<entry value="209" text="L 01"/>
+				<entry value="210" text="L 02"/>
+				<entry value="211" text="L 03"/>
+				<entry value="212" text="L 04"/>
+				<entry value="213" text="L 05"/>
+				<entry value="214" text="L 06"/>
+				<entry value="215" text="L 07"/>
+				<entry value="216" text="L 08"/>
+				<entry value="217" text="L 09"/>
+				<entry value="218" text="L 10"/>
+				<entry value="219" text="L 11"/>
+				<entry value="220" text="L 12"/>
+				<entry value="221" text="L 13"/>
+				<entry value="222" text="L 14"/>
+				<entry value="223" text="L 15"/>
+				<entry value="224" text="H 00"/>
+				<entry value="225" text="H 01"/>
+				<entry value="226" text="H 02"/>
+				<entry value="227" text="H 03"/>
+				<entry value="228" text="H 04"/>
+				<entry value="229" text="H 05"/>
+				<entry value="230" text="H 06"/>
+				<entry value="231" text="H 07"/>
+				<entry value="232" text="H 08"/>
+				<entry value="233" text="H 09"/>
+				<entry value="234" text="H 10"/>
+				<entry value="235" text="H 11"/>
+				<entry value="236" text="H 12"/>
+				<entry value="237" text="H 13"/>
+				<entry value="238" text="H 14"/>
+				<entry value="239" text="H 15"/>
+				<entry value="240" text="U 00"/>
+				<entry value="241" text="U 01"/>
+				<entry value="242" text="U 02"/>
+				<entry value="243" text="U 03"/>
+				<entry value="244" text="U 04"/>
+				<entry value="245" text="U 05"/>
+				<entry value="246" text="U 06"/>
+				<entry value="247" text="U 07"/>
+				<entry value="248" text="U 08"/>
+				<entry value="249" text="U 09"/>
+				<entry value="250" text="U 10"/>
+				<entry value="251" text="U 11"/>
+				<entry value="252" text="U 12"/>
+				<entry value="253" text="U 13"/>
+				<entry value="254" text="U 14"/>
+				<entry value="255" text="U 15"/>
+			</enum>
+			<defaultValue id="EmptyVariantToString" value="" type="string"/>
+			<defaultValue id="EmptyVariantToInteger" value="-1" type="integer"/>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+				<Begin>
+					&lt;div style="position: relative; width: 220px; padding-bottom: 2px; padding-top: 1px; padding-right: 0px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;
+				</Begin>
+				<End>
+					&lt;/div&gt;
+				</End>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+				<Begin>
+					&lt;div class="alarmColHeading"&gt;
+				</Begin>
+				<End>
+					&lt;/div&gt;
+				</End>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+				&amp;nbsp;&lt;img style="position:relative;left:3px;margin:3px 0px 0px 0px !important;" src="Images/SortArrowUp.gif"&gt;
+			</SortAscIndicator>
+			<SortDescIndicator>
+				&amp;nbsp;&lt;img style="position:relative;left:3px;margin:3px 0px 0px 0px !important;" src="Images/SortArrowDown.gif"&gt;
+			</SortDescIndicator>
+			<GroupSeparator>
+				&lt;div style="position:relative; width: 210px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups EventTimeFilter="LIVE">
+			<EntityFilterGroup id="LocationFilterGroup" SelectionPolicy="single" LocationPaneSyncItem="Filter_EntityCustom">
+				<EntityFilterPredefined id="Filter_EntityAll" EntityFilter="" Selected="true">
+					<Selected>
+						&lt;div title="Show events from all locations" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Locations)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from all locations" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Locations)
+						&lt;/div&gt;
+					</NotSelected>
+				</EntityFilterPredefined>
+				<EntityFilterLCS id="Filter_EntityLCS" LocationField="LocationFullName" EntityFilter="" Selected="false">
+					<Selected>
+						&lt;div title="Show events in the same location as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events in the same location as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</EntityFilterLCS>
+				<EntityFilterDialog id="Filter_EntityCustom" EntityFilter="" Selected="false" url="Dialogs/EntityFilterDialog.htm" format="scroll: no; dialogHeight: 300px; dialogWidth: 277px; center: Yes; help: No; resizable: No; status: No;" param="0;(IsAssigned or HasAssignedDescendents) and ((RemoteType != 8) or (SubType != 1001) or (ItemNumber != 2))" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on location" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on location" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</EntityFilterDialog>
+			</EntityFilterGroup>
+			<ETFilterGroup id="PrimaryDateTimeFilterGroup">
+				<ETFilterLive id="Filter_DateTimeLive">
+					<Selected>
+						&lt;div title="Show all recent events (with live updates but no sorting and limited filtering)" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Recent Events - Live)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all recent events (with live updates but no sorting and limited filtering)" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Recent Events - Live)
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterLive>
+				<ETFilterCustom id="Filter_DateTimeCustom" url="Dialogs/EventTimeFilterDialog.htm" format="scroll: no; dialogHeight: 175px; dialogWidth: 480px; center: Yes; help: No; resizable: No; status: No;" param="" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on date and time" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on date and time" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterCustom>
+			</ETFilterGroup>
+			<ETFilterGroup id="SecondaryDateTimeFilterGroup">
+				<ETFilterToday id="Filter_DateTimeToday">
+					<Selected>
+						&lt;div title="Show events that occurred today (up until filter was applied)" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Today (snapshot)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred today (up until filter was applied)" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Today (snapshot)
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterToday>
+				<ETFilterDayOffset id="Filter_DateTimeOffset1" DayOffset="1">
+					<Selected>
+						&lt;div title="Show events that occurred yesterday" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Yesterday
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred yesterday" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Yesterday
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterDayOffset id="Filter_DateTimeOffset2" DayOffset="2">
+					<Selected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterDayOffset id="Filter_DateTimeOffset3" DayOffset="3">
+					<Selected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterDayOffset id="Filter_DateTimeOffset4" DayOffset="4">
+					<Selected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterDayOffset id="Filter_DateTimeOffset5" DayOffset="5">
+					<Selected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterDayOffset id="Filter_DateTimeOffset6" DayOffset="6">
+					<Selected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred on $$ServerDate$$" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last $$DayName$$
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterDayOffset>
+				<ETFilterLastSevenDays id="Filter_DateTimeLast7Days">
+					<Selected>
+						&lt;div title="Show events that occurred in the last 7 days" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Last 7 Days
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred in the last 7 days" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Last 7 Days
+						&lt;/div&gt;
+					</NotSelected>
+				</ETFilterLastSevenDays>
+			</ETFilterGroup>
+			<SQLFilterGroup id="SourceColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_SourceColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show events from all sources" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Sources)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from all sources" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Sources)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_SourceColumnLCS" FilterString="" FilterDescription="" FilterFieldDescription="Source" Selected="false" Template="(('@@Source@@' like '') AND ((Source like '') OR (Source is NULL))) OR ((Source = '@@Source@@') AND not ('@@Source@@' like ''))">
+					<Selected>
+						&lt;div title="Show events from the same source as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from the same source as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_SourceColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the source:$$PARAMDELIM$$Source" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event source" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event source" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ItemColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ItemColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show events from all items" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Items)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from all itemes" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Items)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ItemColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="SourceEntityName" Selected="false" Template="SourceEntityName = '@@SourceEntityName@@'">
+					<Selected>
+						&lt;div title="Show events from the same item as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from the same item as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ItemColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all alarms where the item:$$PARAMDELIM$$SourceEntityName" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the item name" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the item name" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ConditionColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ConditionColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all conditions" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Conditions)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all conditions" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Conditions)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ConditionColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="ConditionName" Selected="false" Template="(('@@ConditionName@@' like '') AND ((ConditionName like '') OR (ConditionName is NULL))) OR ((ConditionName = '@@ConditionName@@') AND not ('@@ConditionName@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same condition as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same condition as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ConditionColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the condition:$$PARAMDELIM$$ConditionName" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event condition" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event condition" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="SubConditionColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_SubConditionColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all sub-conditions" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Sub-Conditions)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all sub-conditions" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Sub-Conditions)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_SubConditionColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="SubConditionName" Selected="false" Template="(('@@SubConditionName@@' like '') AND ((SubConditionName like '') OR (SubConditionName is NULL))) OR ((SubConditionName = '@@SubConditionName@@') AND not ('@@SubConditionName@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same sub-condition as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same sub-condition as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_SubConditionColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the sub-condition:$$PARAMDELIM$$SubConditionName" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event sub-condition" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event sub-condition" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ActionColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ActionColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all actions" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Actions)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all actions" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Actions)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ActionColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Action" Selected="false" Template="(('@@Action@@' like '') AND ((Action like '') OR (Action is NULL))) OR ((Action = '@@Action@@') AND not ('@@Action@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same action as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same action as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ActionColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the action:$$PARAMDELIM$$Action" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event action" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event action" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ActorColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ActorColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all operators" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Operators)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all operators" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Operators)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ActorColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Actor" Selected="false" Template="(('@@Actor@@' like '') AND ((Actor like '') OR (Actor is NULL))) OR ((Actor = '@@Actor@@') AND not ('@@Actor@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same operator as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same operator as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ActorColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the operator:$$PARAMDELIM$$Actor" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event operator" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event operator" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ReasonColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ReasonColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all reasons" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Reasons)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all reasons" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Reasons)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ReasonColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Reason" Selected="false" Template="(('@@Reason@@' like '') AND ((Reason like '') OR (Reason is NULL))) OR ((Reason = '@@Reason@@') AND not ('@@Reason@@' like ''))">
+					<Selected>
+						&lt;div title="Show events that occurred for the same reason as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events that occurred for the same reason as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ReasonColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the reason:$$PARAMDELIM$$Reason" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event reason" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event reason" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="PriorityColumnFilterMainGroup" SelectionPolicy="supersingle" DisableInLive="false">
+				<SQLFilterPredefined id="Filter_PriorityColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show events from all priorities" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Priorities)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from all priorities" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Priorities)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_PriorityColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="PriorityString" Selected="false" Template="(Priority &amp; 255) = ($$Priority$$ &amp; 255)">
+					<Selected>
+						&lt;div title="Show events with the same priority as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same priority as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="DescriptionColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_DescriptionColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all event descriptions" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Descriptions)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all event descriptions" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Descriptions)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_DescriptionColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Description" Selected="false" Template="(('@@Description@@' like '') AND ((Description like '') OR (Description is NULL))) OR ((Description = '@@Description@@') AND not ('@@Description@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same description as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same description as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_DescriptionColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the description:$$PARAMDELIM$$Description" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event description" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event description" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="AlarmLimitColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_AlarmLimitColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all alarm limits" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Alarm Limits)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all alarm limits" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Alarm Limits)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_AlarmLimitColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="AlarmLimit" Selected="false" Template="(('@@AlarmLimit@@' like '') AND ((AlarmLimit like '') OR (AlarmLimit is NULL))) OR ((AlarmLimit like '@@AlarmLimit@@') AND not ('@@AlarmLimit@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same limit as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same limit as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_AlarmLimitColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the alarm limit:$$PARAMDELIM$$AlarmLimit" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the alarm limit" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the alarm limit" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="ValueColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_ValueColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all event values" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Values)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all event values" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Values)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_ValueColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Value" Selected="false" Template="(('@@Value@@' like '') AND ((Value like '') OR (Value is NULL))) OR ((Value like '@@Value@@') AND not ('@@Value@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same value as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same value as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_ValueColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the value:$$PARAMDELIM$$Value" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event value" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event value" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="PrevValueColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_PrevValueColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all previous values" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Previous Values)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all previous values" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Previous Values)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_PrevValueColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="PrevValue" Selected="false" Template="(('$$PrevValue$$' like '') AND ((PrevValue like '') OR (PrevValue is NULL))) OR ((PrevValue like '$$PrevValue$$') AND not ('$$PrevValue$$' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same previous value as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same previous value as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_PrevValueColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the previous value:$$PARAMDELIM$$PrevValue" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the previous value" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the previous value" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="UnitsColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_UnitsColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all event units" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Units)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all event units" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Units)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_UnitsColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Units" Selected="false" Template="(('@@Units@@' like '') AND ((Units like '') OR (Units is NULL))) OR ((Units = '@@Units@@') AND not ('@@Units@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same units as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same units as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_UnitsColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the units:$$PARAMDELIM$$Units" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the event units" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the event units" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="GDAConnectionNameColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_GDAConnectionNameColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all DSA connection name" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All DSA Connection Name)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all DSA connection name" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All DSA Connection Name)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_GDAConnectionNameColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="GDAConnectionName" Selected="false" Template="(('@@GDAServerName@@' like '') AND ((GDAServerName like '') OR (GDAServerName is NULL))) OR ((GDAServerName = '@@GDAServerName@@') AND not ('@@GDAServerName@@' like ''))">
+					<Selected>
+						&lt;div title="Show events from the same DSA connection name as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from the same DSA connection name as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="GDAServerNameColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_GDAServerNameColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all DSA server name" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All DSA Server Name)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all DSA server name" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All DSA Server Name)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_GDAServerNameColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="GDAServerName" Selected="false" Template="(('@@GDAServerName@@' like '') AND ((GDAServerName like '') OR (GDAServerName is NULL))) OR ((GDAServerName = '@@GDAServerName@@') AND not ('@@GDAServerName@@' like ''))">
+					<Selected>
+						&lt;div title="Show events from the same DSA server name as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from the same DSA server name as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="StationColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_StationColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all Stations" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(All Stations)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all Stations" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(All Stations)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_StationColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Station" Selected="false" Template="(('@@Station@@' like '') AND ((Station like '') OR (Station is NULL))) OR ((Station = '@@Station@@') AND not ('@@Station@@' like ''))">
+					<Selected>
+						&lt;div title="Show events from the same Station as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events from the same Station as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_StationColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the Station:$$PARAMDELIM$$Station" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the Station field" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the Station field" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="SignatureMeaningColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_SignatureMeaningColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all Signature Meanings" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Signature Meanings)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all Signature Meanings" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Signature Meanings)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_SignatureMeaningColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="SignatureMeaning" Selected="false" Template="(('@@SignatureMeaning@@' like '') AND ((SignatureMeaning like '') OR (SignatureMeaning is NULL))) OR ((SignatureMeaning = '@@SignatureMeaning@@') AND not ('@@SignatureMeaning@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same signature meaning as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same signature meaning as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_SignatureMeaningColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the signature meaning:$$PARAMDELIM$$SignatureMeaning" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the signature meaning field" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the signature meaning field" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="QualityColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_QualityColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all quality values" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Qualities)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all quality values" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Qualities)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_QualityColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="GDAQualityString" Selected="false" Template="(('@@GDAQualityString@@' like '') AND ((GDAQualityString like '') OR (GDAQualityString is NULL))) OR ((GDAQualityString like '@@GDAQualityString@@') AND not ('@@GDAQualityString@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same quality as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same quality as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_QualityColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the quality:$$PARAMDELIM$$GDAQualityString" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the quality field" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the quality field" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="OPCSeverityColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_OPCSeverityColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all OPC severity values" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Severities)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all OPC severity values" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Severities)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_OPCSeverityColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Severity" Selected="false" Template="(('@@Severity@@' like '') AND ((Severity like '') OR (Severity is NULL))) OR ((Severity like '@@Severity@@') AND not ('@@Severity@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same OPC severity as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same OPC severity as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_OPCSeverityColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the OPC severity:$$PARAMDELIM$$Severity" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the OPC severity field" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the OPC severity field" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="BlockColumnFilterMainGroup" SelectionPolicy="supersingle">
+				<SQLFilterPredefined id="Filter_BlockColumnAll" FilterString="" FilterDescription="" Selected="true">
+					<Selected>
+						&lt;div title="Show all blocks" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(All Blocks)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show all blocks" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(All Blocks)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterLCS id="Filter_BlockColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Block" Selected="false" Template="(('@@Block@@' like '') AND ((Block like '') OR (Block is NULL))) OR ((Block like '@@Block@@') AND not ('@@Block@@' like ''))">
+					<Selected>
+						&lt;div title="Show events with the same block as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show events with the same block as the currently selected event" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Like Currently Selected)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterLCS>
+				<SQLFilterDialog id="Filter_BlockColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all events where the block:$$PARAMDELIM$$Block" modal="true">
+					<Selected>
+						&lt;div title="Define a custom filter based on the block field" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Define a custom filter based on the block field" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"/&gt;
+						(Custom Filter...)
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterDialog>
+			</SQLFilterGroup>
+			<SQLFilterGroup id="PriorityFilterGroup" SelectionPolicy="multi" DisableInLive="false">
+				<SQLFilterPredefined id="Filter_PriorityUrgent" FilterString="((Priority &amp; 0xF0) = 0x30) or ((Priority &amp; 0xF0) = 0xF0)" FilterDescription="Urgent" Selected="false">
+					<Selected>
+						&lt;div title="Show urgent priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Tick.gif"&gt;
+						Urgent
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show urgent priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Urgent
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterPredefined id="Filter_PriorityHigh" FilterString="((Priority &amp; 0xF0) = 0x20) or ((Priority &amp; 0xF0) = 0xE0)" FilterDescription="High" Selected="false">
+					<Selected>
+						&lt;div title="Show high priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Tick.gif"&gt;
+						High
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show high priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						High
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterPredefined id="Filter_PriorityLow" FilterString="((Priority &amp; 0xF0) = 0x10) or ((Priority &amp; 0xF0) = 0xD0)" FilterDescription="Low" Selected="false">
+					<Selected>
+						&lt;div title="Show low priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Tick.gif"&gt;
+						Low
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show low priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Low
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+				<SQLFilterPredefined id="Filter_PriorityJournal" FilterString="(Priority &amp; 0xF0) = 0" FilterDescription="Journal" Selected="false">
+					<Selected>
+						&lt;div title="Show journal priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Tick.gif"&gt;
+						Journal
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Show journal priority events" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Journal
+						&lt;/div&gt;
+					</NotSelected>
+				</SQLFilterPredefined>
+			</SQLFilterGroup>
+			<SortGroup id="DateTimeSortGroup">
+				<SortItem id="Sort_DateTimeAsc" AssociatedColumn="Event Time" SortDir="asc">
+					<Selected>
+						&lt;div title="Sort the events from oldest to newest" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Sort Ascending
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Sort the events from oldest to newest" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Sort Ascending
+						&lt;/div&gt;
+					</NotSelected>
+				</SortItem>
+				<SortItem id="Sort_DateTimeDesc" AssociatedColumn="Event Time" SortDir="desc">
+					<Selected>
+						&lt;div title="Sort the events from newest to oldest" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Sort Descending
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Sort the events from newest to oldest" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Sort Descending
+						&lt;/div&gt;
+					</NotSelected>
+				</SortItem>
+			</SortGroup>
+			<SortGroup id="SourceSortGroup">
+				<SortItem id="Sort_SourceAsc" AssociatedColumn="Source" SortDir="asc">
+					<Selected>
+						&lt;div title="Sort the events in ascending order (A-Z) by source" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Sort Ascending
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Sort the events in ascending order (A-Z) by source" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Sort Ascending
+						&lt;/div&gt;
+					</NotSelected>
+				</SortItem>
+				<SortItem id="Sort_SourceDesc" AssociatedColumn="Source" SortDir="desc">
+					<Selected>
+						&lt;div title="Sort the events in descending order (Z-A) by source" style="width: 100%;"&gt;
+						&lt;img src="Images/Dot.gif"&gt;
+						Sort Descending
+						&lt;/div&gt;
+					</Selected>
+					<NotSelected>
+						&lt;div title="Sort the events in descending order (Z-A) by source" style="width: 100%;"&gt;
+						&lt;img src="Images/Spacer.gif"&gt;
+						Sort Descending
+						&lt;/div&gt;
+					</NotSelected>
+				</SortItem>
+			</SortGroup>
+			<CommandGroup id="ContextMenuGroup">
+				<StandardCommand id="Command_PointDetail" Command="PointDetail">
+					&lt;div title="Navigate to the detail page of the selected event" style="padding: 1px; width: 100%;" class="contextMenu_PointDetail"&gt;
+					&amp;nbsp;Detail Display
+					&lt;/div&gt;
+				</StandardCommand>
+				<StandardCommand id="Command_AssociatedDisplay" Command="AssociatedDisplay">
+					&lt;div title="Navigate to the associated display of the selected event" style="padding: 1px; width: 100%;" class="contextMenu_AssDisplay"&gt;
+					&amp;nbsp;Associated Display
+					&lt;/div&gt;
+				</StandardCommand>
+			</CommandGroup>
+			<CommandGroup id="TableMenuGroup">
+				<ScriptCommand 
+					id="Command_ShowColumnOrganizer"
+					script="ShowColumnOrganizer(this.menu.site.container); return true;"
+					language="jscript">
+					&lt;div title="The column organizer allows you to add and remove columns from view" style="padding: 1px; width: 100%;" class="contextMenu_ColOrganiser"&gt;
+					&amp;nbsp;Show Column Organizer
+					&lt;/div&gt;
+				</ScriptCommand>
+				<StandardCommand id="Command_ClearFilters" Command="ClearFilters">
+					&lt;div title="Clear all filters that are currently applied" style="padding: 1px; width: 100%;" class="contextMenu_ClearFilters"&gt;				
+					&amp;nbsp;Clear All Filters
+					&lt;/div&gt;
+				</StandardCommand>
+			</CommandGroup>
+			<SuperGroup id="LocationColumnFilterSuperGroup" DefaultItem="Filter_EntityAll">
+				<GroupRef GroupId="LocationFilterGroup"/>
+			</SuperGroup>
+			<SuperGroup id="SourceColumnFilterSuperGroup" DefaultItem="Filter_SourceColumnAll">
+				<GroupRef GroupId="SourceColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ItemColumnFilterSuperGroup" DefaultItem="Filter_ItemColumnAll">
+				<GroupRef GroupId="ItemColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ConditionColumnFilterSuperGroup" DefaultItem="Filter_ConditionColumnAll">
+				<GroupRef GroupId="ConditionColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="SubConditionColumnFilterSuperGroup" DefaultItem="Filter_SubConditionColumnAll">
+				<GroupRef GroupId="SubConditionColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ActionColumnFilterSuperGroup" DefaultItem="Filter_ActionColumnAll">
+				<GroupRef GroupId="ActionColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ActorColumnFilterSuperGroup" DefaultItem="Filter_ActorColumnAll">
+				<GroupRef GroupId="ActorColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ReasonColumnFilterSuperGroup" DefaultItem="Filter_ReasonColumnAll">
+				<GroupRef GroupId="ReasonColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="PriorityColumnFilterSuperGroup" DefaultItem="Filter_PriorityColumnAll">
+				<GroupRef GroupId="PriorityColumnFilterMainGroup"/>
+				<GroupRef GroupId="PriorityFilterGroup"/>
+			</SuperGroup>
+			<SuperGroup id="DescriptionColumnFilterSuperGroup" DefaultItem="Filter_DescriptionColumnAll">
+				<GroupRef GroupId="DescriptionColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="AlarmLimitColumnFilterSuperGroup" DefaultItem="Filter_AlarmLimitColumnAll">
+				<GroupRef GroupId="AlarmLimitColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="ValueColumnFilterSuperGroup" DefaultItem="Filter_ValueColumnAll">
+				<GroupRef GroupId="ValueColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="PrevValueColumnFilterSuperGroup" DefaultItem="Filter_PrevValueColumnAll">
+				<GroupRef GroupId="PrevValueColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="UnitsColumnFilterSuperGroup" DefaultItem="Filter_UnitsColumnAll">
+				<GroupRef GroupId="UnitsColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="GDAConnectionNameColumnFilterSuperGroup" DefaultItem="Filter_GDAConnectionNameColumnAll">
+				<GroupRef GroupId="GDAConnectionNameColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="GDAServerNameColumnFilterSuperGroup" DefaultItem="Filter_GDAServerNameColumnAll">
+				<GroupRef GroupId="GDAServerNameColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="StationColumnFilterSuperGroup" DefaultItem="Filter_StationColumnAll">
+				<GroupRef GroupId="StationColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="SignatureMeaningColumnFilterSuperGroup" DefaultItem="Filter_SignatureMeaningColumnAll">
+				<GroupRef GroupId="SignatureMeaningColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="QualityColumnFilterSuperGroup" DefaultItem="Filter_QualityColumnAll">
+				<GroupRef GroupId="QualityColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="OPCSeverityColumnFilterSuperGroup" DefaultItem="Filter_OPCSeverityColumnAll">
+				<GroupRef GroupId="OPCSeverityColumnFilterMainGroup"/>
+			</SuperGroup>
+			<SuperGroup id="BlockColumnFilterSuperGroup" DefaultItem="Filter_BlockColumnAll">
+				<GroupRef GroupId="BlockColumnFilterMainGroup"/>
+			</SuperGroup>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef DefaultSortColumn="Event Time" DefaultSortDir="desc">
+			<colref id="Event Time"
+				SortAscString="Time asc"
+				SortDescString="Time desc"
+				SortAscDescription="Event Time ascending"
+				SortDescDescription="Event Time descending"
+				SortDir="desc"
+				SortOrder="1"/>
+			<colref id="Source"
+				SortAscString="Source asc"
+				SortDescString="Source desc"
+				SortAscDescription="Source ascending"
+				SortDescDescription="Source descending"
+				SortDir="none"
+				SortOrder="0"/>
+		</SortDef>
+	</SortXML>
+	<ReportTemplateXML>
+		<ReportTemplate>
+			<colref id="Event Time" header="Event Time" field="TimeString" />
+			<colref id="Field Time" header="Field Time" field="FieldTimeString" />
+			<colref id="Changed Time" header="Changed Time" field="ChangedTimeString" />
+			<colref id="Category" header="Category" field="CategoryName" />
+			<colref id="Location" header="Location" field="LocationFullName" />
+			<colref id="Item" header="Item" field="SourceEntityName" />
+			<colref id="Location Tag" header="Location Tag" field="LocationTagName" />
+			<colref id="Location Item" header="Location Item" field="LocationItemName" />
+			<colref id="Source" header="Source" field="Source" />
+			<colref id="Condition" header="Condition" field="ConditionName" />
+			<colref id="Sub-Condition" header="Sub-Condition" field="SubConditionName" />
+			<colref id="Action" header="Action" field="Action" />
+			<colref id="Operator" header="Operator" field="Actor" />
+			<colref id="Reason" header="Reason" field="Reason" />
+			<colref id="Priority" header="Priority" field="PriorityString" />
+			<colref id="Description" header="Description" field="Description" />
+			<colref id="Alarm Limit" header="Alarm Limit" field="AlarmLimit" />
+			<colref id="Value" header="Value" field="Value" />
+			<colref id="Previous Value" header="Previous Value" field="PrevValue" />
+			<colref id="Units" header="Units" field="Units" />
+			<colref id="DSA Connection Name" header="DSA Connection Name" field="GDAConnectionName" />
+			<colref id="DSA Server Name" header="DSA Server Name" field="GDAServerName" />
+			<colref id="Station" header="Station" field="Station" />
+			<colref id="Signature Meaning" header="Signature Meaning" field="SignatureMeaning" />
+			<colref id="Quality" header="Quality" field="GDAQualityString" />
+			<colref id="OPC Severity" header="OPC Severity" field="Severity" />
+			<colref id="TPS Aux Unit" header="Aux Unit" field="AUX UNIT" />
+			<colref id="TPS TS Reliability" header="TS Reliability" field="TS Reliable" />
+			<colref id="Block" header="Block" field="Block" />
+		</ReportTemplate>
+	</ReportTemplateXML>
+	<ColumnStateXML>
+		<state>
+			<colref id="Event Time" width="150" />
+			<colref id="Field Time" width="150" hidden="true" />
+			<colref id="Changed Time" width="150" hidden="true" />
+			<colref id="Category" width="150" hidden="true" />
+			<colref id="Location Tag" width="150" />
+			<colref id="Source" width="180" />
+			<colref id="Condition" width="60" />
+			<colref id="Item" width="150" hidden="true"/>
+			<colref id="Location" width="150" hidden="true"/>
+			<colref id="Location Item" width="150" hidden="true"/>
+			<colref id="Sub-Condition" width="60" hidden="true" />
+			<colref id="Action" width="60" />
+			<colref id="Operator" width="60" hidden="true" />
+			<colref id="Reason" width="60" hidden="true" />
+			<colref id="Priority" width="70" />
+			<colref id="Description" width="200" />
+			<colref id="Alarm Limit" width="60" hidden="true" />
+			<colref id="Value" width="60" />
+			<colref id="Previous Value" width="60" hidden="true" />
+			<colref id="Units" width="30" />
+			<colref id="DSA Connection Name" width="80" hidden="true" />
+			<colref id="DSA Server Name" width="80" hidden="true" />
+			<colref id="Station" width="80" hidden="true" />
+			<colref id="Signature Meaning" width="80" hidden="true" />
+			<colref id="Quality" width="80" hidden="true" />
+			<colref id="OPC Severity" width="80" hidden="true" />
+			<colref id="TPS Aux Unit" width="60" hidden="true" />
+			<colref id="TPS TS Reliability" width="60" hidden="true" />
+			<colref id="Block" width="100" hidden="true" />
+		</state>
+	</ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu>
+				<GroupRef GroupId="TableMenuGroup"/>
+			</tableMenu>
+			<contextMenu>
+				<GroupRef GroupId="ContextMenuGroup"/>
+			</contextMenu>
+			<columns>
+				<column id="Event Time" name="Event Time">
+					<title tooltip="Click to filter or sort by event time">&lt;span class="textHeader"&gt;Date &amp; Time&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="PrimaryDateTimeFilterGroup"/>
+						<GroupRef GroupId="SecondaryDateTimeFilterGroup"/>
+						<GroupRef GroupId="DateTimeSortGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Time;TimeMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+						<in fields="Time;TimeMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Field Time" name="Field Time" default="false">
+					<title tooltip="Field Time">&lt;span class="textHeader"&gt;Field Time&lt;/span&gt;</title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="FieldTime;FieldMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+						<in fields="FieldTime;FieldMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Changed Time" name="Changed Time" default="false">
+					<title tooltip="Changed Time">&lt;span class="textHeader"&gt;Changed Time&lt;/span&gt;</title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="ChangedTime;ChangedMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+						<in fields="ChangedTime;ChangedMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Category" name="Category" default="false">
+					<title tooltip="Category">&lt;span class="textHeader"&gt;Category&lt;/span&gt;</title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="CategoryName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Location" name="Location" default="false">
+					<title tooltip="Click to filter by location">&lt;span class="textHeader"&gt;Location&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="LocationFilterGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="LocationFullName" xforms="xfLocationFormat;EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Item" name="Item" default="false">
+					<title tooltip="Click to filter or sort by item">&lt;span class="textHeader"&gt;Item&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ItemColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="SourceEntityName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Location Tag" name="Location Tag">
+					<title tooltip="Click to filter or sort by tag">&lt;span class="textHeader"&gt;Location Tag&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="LocationFilterGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="LocationTagName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Location Item" name="Location Item" default="false">
+					<title tooltip="Click to filter or sort by location item">&lt;span class="textHeader"&gt;Location Item&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="LocationFilterGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="LocationItemName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Source" name="Source">
+					<title tooltip="Click to filter or sort by source">&lt;span class="textHeader"&gt;Source&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="SourceColumnFilterMainGroup"/>
+						<GroupRef GroupId="SourceSortGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Source" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Condition" name="Condition">
+					<title tooltip="Click to filter by condition">&lt;span class="textHeader"&gt;Condition&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ConditionColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="ConditionName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Sub-Condition" name="Sub-Condition" default="false">
+					<title tooltip="Click to filter by sub-condition">&lt;span class="textHeader"&gt;Sub-Condition&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="SubConditionColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="SubConditionName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Action" name="Action">
+					<title tooltip="Click to filter by action">&lt;span class="textHeader"&gt;Action&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ActionColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Action" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Operator" name="Operator" default="false">
+					<title tooltip="Click to filter by operator">&lt;span class="textHeader"&gt;Operator&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ActorColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Actor" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Reason" name="Reason" default="false">
+					<title tooltip="Click to filter by reason">&lt;span class="textHeader"&gt;Reason&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ReasonColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Reason" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Priority" name="Priority">
+					<title tooltip="Click to filter by priority">&lt;span class="textHeader"&gt;Priority&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="PriorityColumnFilterMainGroup"/>
+						<GroupRef GroupId="PriorityFilterGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Priority" xforms="EmptyVariantToInteger;xfPriorityString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Description" name="Description">
+					<title tooltip="Click to filter by description">&lt;span class="textHeader"&gt;Description&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="DescriptionColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Description" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Alarm Limit" name="Alarm Limit" default="false">
+					<title tooltip="Click to filter by alarm limit">&lt;span class="textHeader"&gt;Limit&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="AlarmLimitColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px; text-align: right;"/&gt;</content>
+					<bindings>
+						<in fields="AlarmLimit" xforms="xfNumCellFormat;EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Value" name="Value">
+					<title tooltip="Click to filter by value">&lt;span class="textHeader"&gt;Value&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="ValueColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px; text-align: right;"/&gt;</content>
+					<bindings>
+						<in fields="Value" xforms="xfNumCellFormat;EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Previous Value" name="Previous Value" default="false">
+					<title tooltip="Click to filter by previous value">&lt;span class="textHeader"&gt;Previous Value&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="PrevValueColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px; text-align: right;"/&gt;</content>
+					<bindings>
+						<in fields="PrevValue" xforms="xfNumCellFormat;EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Units" name="Units">
+					<title tooltip="Click to filter by units">&lt;span class="textHeader"&gt;Units&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="UnitsColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Units" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="DSA Connection Name" name="DSA Connection Name" default="false">
+					<title tooltip="Click to filter by DSA Connection Name">&lt;span class="textHeader"&gt;DSA Connection Name&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="GDAConnectionNameColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="GDAConnectionName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="DSA Server Name" name="DSA Server Name" default="false">
+					<title tooltip="Click to filter by DSA Server Name">&lt;span class="textHeader"&gt;DSA Server Name&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="GDAServerNameColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="GDAServerName" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Station" name="Station" default="false">
+					<title tooltip="Click to filter by Station">&lt;span class="textHeader"&gt;Station&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="StationColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Station" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Signature Meaning" name="Signature Meaning" default="false">
+					<title tooltip="Click to filter by signature meaning">&lt;span class="textHeader"&gt;Signature Meaning&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="SignatureMeaningColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="SignatureMeaning" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Quality" name="Quality" default="false">
+					<title tooltip="Click to filter by quality">&lt;span class="textHeader"&gt;Quality&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="QualityColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="GDAQualityString" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="OPC Severity" name="OPC Severity" default="false">
+					<title tooltip="Click to filter by OPC severity">&lt;span class="textHeader"&gt;OPC Severity&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="OPCSeverityColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Severity" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="TPS Aux Unit" name="TPS Aux Unit" default="false">
+					<title tooltip="Auxiliary Unit">&lt;span class="textHeader"&gt;Aux Unit&lt;/span&gt;</title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="AUX UNIT" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="TPS TS Reliability" name="TPS TS Reliability" default="false">
+					<title tooltip="Time Stamp Reliability">&lt;span class="textHeader"&gt;TS Reliability&lt;/span&gt;</title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="TS Reliable" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+				<column id="Block" name="Block" default="false">
+					<title tooltip="Click to filter by the block">&lt;span class="textHeader"&gt;Block&lt;/span&gt;</title>
+					<action/>
+					<menu>
+						<GroupRef GroupId="BlockColumnFilterMainGroup"/>
+					</menu>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+					<bindings>
+						<in fields="Block" xforms="EmptyVariantToString" properties="innerText;title" />
+						<in fields="Selected" properties="id" xforms="xfSelection"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+]]></PROPERTY>
+</DATAOBJECT>
+<DATAOBJECT id="2" type="HMIPage.EntitySource" format="propertybag">
+<PROPERTY name="Version">4.5</PROPERTY>
+<PROPERTY name="AutoMigrate">0</PROPERTY>
+<PROPERTY name="WaitForSelectionList">1</PROPERTY>
+<PROPERTY name="StartLocation"></PROPERTY>
+<PROPERTY name="AuxFilter">(IsAssigned or HasAssignedDescendents) and ((RemoteType != 8) or (SubType != 1001) or (ItemNumber != 2))</PROPERTY>
+<PROPERTY name="TemplateXML"><![CDATA[
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="NodeHandle" rowId="true"/>
+			<field id="Depth"/>
+			<field id="Expanded"/>
+			<field id="NumChildren"/>
+			<field id="SiblingNumber"/>
+			<field id="PointNumber"/>
+			<field id="IsAssigned"/>
+			<field id="HasAssignedDescendents"/>
+			<field id="EntityName"/>
+			<field id="TagName"/>
+			<field id="FullName"/>
+			<field id="RemoteType"/>
+			<field id="SubType"/>
+			<field id="ItemNumber"/>
+			<field id="Redundant"/>
+			<field id="Type"/>
+			<field id="DirectConnect"/>
+			<field id="Flags"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = "Unselected_Cells"
+				If Not IsEmpty(Value(0)) Then
+				    If Value(0) Then
+					If g_bAreaTableIsActive Then
+						If Value(1) Then 
+							s = "Selected_Active_Cells"
+						Else
+							s = "Selected_Active_Unassigned_Cells"
+						End If
+					Else
+						If Value(1) Then
+							s = "Selected_Inactive_Cells"
+						Else
+							s = "Selected_Inactive_Unassigned_Cells"
+						End If
+					End If
+				    ElseIf Not Value(1) Then
+					s = "Unassigned_Cells"
+				    End If
+				End If
+				Return = s
+			</script>
+			<script id="xfIconImg" language="VBScript">
+				Return = GetNodeImagePath(Value)
+			</script>
+			<script id="xfPadding" language="VBScript">
+				if ( IsEmpty(Value) ) then
+				    Return = 0
+				else
+				    Return = (Value - 1) * 16
+				end if
+			</script>
+			<script id="xfPlusMinusImg" language="VBScript">
+				On Error Resume Next
+				if (IsEmpty(Value(0)) or (Value(0) = 0)) then
+					Return = "Images/blank.gif"
+				elseif (Value(1)) then
+				    if not window.external.IsOnTouchPanel then
+					    Return = "Images/Collapse.png"
+			        else 
+					    Return = "Images/Collapse_Touch.png"
+					end if
+				else
+				    if not window.external.IsOnTouchPanel then
+					    Return = "Images/Expand.png"
+					else
+					    Return = "Images/Expand_Touch.png"
+					end if
+				end if
+			</script>
+			<script id="xfName" language="VBScript">
+				Return = GetNodeDisplayName(Value)
+			</script>
+			<script id="xfUnavailableImg" language="VBScript">
+				Return = GetUnavailableImagePath(Value)
+			</script>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+				<Begin>
+					&lt;div style="position: relative; width: 170px; padding-bottom: 2px; padding-top: 1px; padding-right: 5px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;&lt;span&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;&lt;/div&gt;
+				</End>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+				<Begin>
+					&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; margin-right: 1px; background-color: mediumblue; color: white; font-weight: bold;"&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;
+				</End>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+				&amp;nbsp;&lt;img src="Images/SortArrowUp.gif"&gt;
+			</SortAscIndicator>
+			<SortDescIndicator>
+				&amp;nbsp;&lt;img src="Images/SortArrowDown.gif"&gt;
+			</SortDescIndicator>
+			<GroupSeparator>
+				&lt;div style="position:relative; width: 160px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef DefaultSortColumn="Tree" DefaultSortDir="asc">
+			<colref id="Tree" 
+				SortAscString="EntityName asc"
+				SortDescString="EntityName desc"
+				SortDir="asc"
+				SortOrder="1"/>
+		</SortDef>
+	</SortXML>
+	<ColumnStateXML>
+		<state>
+			<colref id="Tree" width="100" hidden="false" />
+		</state>
+	</ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu/>
+			<contextMenu/>
+			<columns>
+				<column id="Tree">
+					<title>Tree</title>
+					<action/>
+					<menu/>
+					<content>
+					    &lt;div language="javascript" onmousedown="if( event.button != 1 ) { event.cancelBubble = true; return false; }"
+						    language="javascript" ExpandCollapseTrigger=0&gt;
+					      &lt;div class="TreeNodeGroup"&gt;	    
+						&lt;div class="TreeNodePlusMinus"
+							onmousedown="if( event.button == 1 ) { this.parentElement.parentElement.ExpandCollapseTrigger = 1; event.cancelBubble = true; }"
+							onclick="event.cancelBubble = true; return false;"&gt;
+							&lt;img class="PlusMinusIcon" src="Images/blank.gif"/&gt;
+						&lt;/div&gt;
+					        &lt;div language="javascript" ondblclick="AreaTable.Binding.DataObjects(0).PointDetail();" class="TreeNodeIconGroup"&gt;
+					        &lt;div class="TreeAssetIcon"&gt;
+								&lt;img src="Images/blank.gif"&gt;
+							&lt;/div&gt;
+					        &lt;div class="TreeAssetIcon"&gt;
+								&lt;img src="Images/blank.gif"&gt;
+							&lt;/div&gt;
+						&lt;/div&gt;
+					        &lt;div language="javascript" ondblclick="AreaTable.Binding.DataObjects(0).PointDetail();" class="treeNodeLabel"&gt;&lt;/div&gt;
+					      &lt;/div&gt;  
+					    &lt;/div&gt;
+					</content>
+					<bindings>
+						<in fields="Depth" properties="firstChild.style.pixelLeft" xforms="xfPadding" />
+						<in fields="NumChildren;Expanded" properties="firstChild.firstChild.firstChild.src" xforms="xfPlusMinusImg" />
+						<in fields="RemoteType;SubType;ItemNumber;Redundant;Flags" properties="firstChild.firstChild.nextSibling.firstChild.firstChild.src" xforms="xfIconImg" />
+						<in fields="EntityName;Type;SubType;DirectConnect" properties="firstChild.firstChild.nextSibling.firstChild.nextSibling.firstChild.src" xforms="xfUnavailableImg" />
+						<in fields="EntityName;RemoteType;SubType;ItemNumber" properties="firstChild.lastChild.innerText;title" xforms="xfName" />
+						<in fields="Selected;IsAssigned" properties="firstChild.lastChild.id" xforms="xfSelection"/>
+						<out properties="ExpandCollapseTrigger" fields="Expanded"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+]]></PROPERTY>
+</DATAOBJECT>
+</DATASOURCE>
+

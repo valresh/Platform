@@ -1,0 +1,548 @@
+<HTML>
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE>Custom filter</TITLE>
+
+<style type="text/css">
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+<script language="JScript" src="../Scripts/Common_FilterDialog.js"></script>
+
+<script language="JScript">
+
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+// Date delimiter in the value returned to the TDO
+
+var DATE_DELIM			= "#";
+
+// These values correspond to the order in which the options appear in the
+// option selector
+
+var DT_ANYTIME			= 0;
+var DT_TODAY			= 1;
+var DT_YESTERDAY		= 2;
+var DT_CURRENT_SHIFT	= 3;
+var DT_PREVIOUS_SHIFT	= 4;
+var DT_THIS_WEEK		= 5;
+var DT_LAST_WEEK		= 6;
+var DT_LAST_7_DAYS		= 7;
+var DT_LAST_24_HOURS	= 8;
+var DT_LAST_HOUR		= 9;
+var DT_AFTER			= 10;
+var DT_BEFORE			= 11;
+var DT_BETWEEN			= 12;
+// Insert new fields here.  Unknown and Until RTN vary depending on the field.
+var DT_UNKNOWN			= 13;
+var DT_UNTILRTN			= 14;
+
+var g_rgObjects			= null;
+
+// ----------------------------------------------------------------------------------
+// LoadDialog
+//
+//	Helper routine used to load a previous persistence state and re-configure the 
+//	state of the dialog's components to match.
+// ----------------------------------------------------------------------------------
+
+function LoadDialog()
+{
+	lblI18NText.innerText = g_strI18NText;
+
+	if (g_strFieldName == "ExpiryTime")
+		cboOptions.remove(DT_UNKNOWN);
+	else
+		cboOptions.remove(DT_UNTILRTN);
+
+	g_rgObjects = new Array( dtDATE1, dtDATE2, dtTIME1, dtTIME2 );
+
+	if( g_strFilterState == null )
+	{
+		DoSelect(DT_ANYTIME);
+		return;
+	}
+	
+	var bWait = false;
+
+	for(var i=0; i<g_rgObjects.length; i++ )
+	{
+		if( g_rgObjects[i].readyState != 4 )
+		{
+			g_rgObjects[i].onreadystatechange = ContinueLoadDialog;
+			bWait = true;
+		}
+	}
+
+	if( !bWait ) 
+		ContinueLoadDialog();	
+}
+
+// ----------------------------------------------------------------------------------
+// ContinueLoadDialog
+//
+//	Checks the ready state of the date pickers before continuing to load.
+// ----------------------------------------------------------------------------------
+
+function ContinueLoadDialog()
+{
+	for(var i=0; i<g_rgObjects.length; i++ )
+	{
+		if( g_rgObjects[i].readyState != 4 )
+			return;
+			
+		g_rgObjects[i].onreadystatechange = null;
+	}
+
+	var rgSplit = g_strFilterState.split(DATE_DELIM);
+	var index = parseInt(rgSplit[0]);
+
+	cboOptions.selectedIndex = index;
+
+	switch( index )
+	{
+	case DT_TODAY:
+	case DT_YESTERDAY:
+	case DT_CURRENT_SHIFT:
+	case DT_PREVIOUS_SHIFT:
+	case DT_THIS_WEEK:
+	case DT_LAST_WEEK:
+	case DT_LAST_7_DAYS:
+	case DT_LAST_24_HOURS:
+	case DT_LAST_HOUR:
+	case DT_UNKNOWN:
+	case DT_UNTILRTN:
+	
+		break;
+	
+	case DT_BETWEEN:
+		
+		ApplyDate(rgSplit[2], dtDATE2, dtTIME2);
+
+	case DT_AFTER:
+	case DT_BEFORE:
+
+		ApplyDate(rgSplit[1], dtDATE1, dtTIME1);
+	}	
+
+	DoSelect(index);
+}
+
+// ----------------------------------------------------------------------------------
+// UnloadDialog
+//
+// ----------------------------------------------------------------------------------
+
+function UnloadDialog()
+{
+}
+
+// ----------------------------------------------------------------------------------
+// GetState
+//
+//	Helper routine used to save the current state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function GetState()
+{
+	var s = "";
+	
+	switch( cboOptions.selectedIndex )
+	{
+	case DT_BETWEEN:
+
+		s = FormatDate(dtDATE2, dtTIME2) + DATE_DELIM + s;
+
+	case DT_AFTER:
+	case DT_BEFORE:
+		
+		s = FormatDate(dtDATE1, dtTIME1) + DATE_DELIM + s;		
+	}
+	
+	s = cboOptions.selectedIndex + DATE_DELIM + s;
+
+	return s;
+}
+
+// ----------------------------------------------------------------------------------
+// GetValue
+//
+//	Helper routine used to convert the state of the dialog into an SQL expression 
+//	that is used by the TDO to perform the filtering.
+// ----------------------------------------------------------------------------------
+
+function GetValue()
+{
+	switch( cboOptions.selectedIndex )
+	{
+	case DT_TODAY:
+		return "TODAY(" + g_strFieldName + ")";
+
+	case DT_YESTERDAY:
+		return "YESTERDAY(" + g_strFieldName + ")";
+		
+	case DT_CURRENT_SHIFT:
+		return "CURRENTSHIFT(" + g_strFieldName + ")";
+
+	case DT_PREVIOUS_SHIFT:
+		return "PREVIOUSSHIFT(" + g_strFieldName + ")";
+
+	case DT_THIS_WEEK:
+		return "THISWEEK(" + g_strFieldName + ")";
+	
+	case DT_LAST_WEEK:
+		return "LASTWEEK(" + g_strFieldName + ")";
+
+	case DT_LAST_7_DAYS:
+		return "LASTXHOURS(" + g_strFieldName + ", 168)";
+
+	case DT_LAST_24_HOURS:
+		return "LASTXHOURS(" + g_strFieldName + ", 24)";
+
+	case DT_LAST_HOUR:
+		return "LASTXHOURS(" + g_strFieldName + ", 1)";
+
+	case DT_AFTER:
+		
+		return g_strFieldName + " > " + DATE_DELIM + FormatDate(dtDATE1, dtTIME1) + DATE_DELIM;
+
+	case DT_BEFORE:
+
+		return g_strFieldName + " < " + DATE_DELIM + FormatDate(dtDATE1, dtTIME1) + DATE_DELIM;
+
+	case DT_BETWEEN:
+
+		return "(" + g_strFieldName + " >= " + DATE_DELIM + FormatDate(dtDATE1, dtTIME1) + DATE_DELIM + ")" +
+			   " and " +
+			   "(" + g_strFieldName + " <= " + DATE_DELIM + FormatDate(dtDATE2, dtTIME2) + DATE_DELIM + ")";
+
+	case DT_UNKNOWN:
+
+		if (g_strFieldName != "ExpiryTime")
+			return "UNKNOWN(" + g_strFieldName + ")";
+
+	case DT_UNTILRTN:
+
+		return g_strFieldName + " = 'Until RTN'";
+	}
+	
+	return "";
+}
+
+// ----------------------------------------------------------------------------------
+// GetDescription
+//
+//	Returns a textual description of the filter for displaying as a tooltip on the
+//  '(filter applied)' indicator and in the 'Print as Report' header.
+// ----------------------------------------------------------------------------------
+
+function GetDescription()
+{
+	switch( cboOptions.selectedIndex )
+	{
+	case DT_TODAY:
+		return "Today";
+
+	case DT_YESTERDAY:
+		return "Yesterday";
+		
+	case DT_CURRENT_SHIFT:
+		return "Current Shift";
+
+	case DT_PREVIOUS_SHIFT:
+		return "Previous Shift";
+
+	case DT_THIS_WEEK:
+		return "This Week";
+	
+	case DT_LAST_WEEK:
+		return "Last Week";
+
+	case DT_LAST_7_DAYS:
+		return "Last 7 Days";
+
+	case DT_LAST_24_HOURS:
+		return "Last 24 Hours";
+
+	case DT_LAST_HOUR:
+		return "Last Hour";
+
+	case DT_AFTER:
+		
+		return "After" + " " + FormatLocalizedDate(dtDATE1, dtTIME1);
+
+	case DT_BEFORE:
+
+		return "Before" + " " + FormatLocalizedDate(dtDATE1, dtTIME1);
+
+	case DT_BETWEEN:
+
+		return "Between" + " " + FormatLocalizedDate(dtDATE1, dtTIME1) + " " + "and" + " " + FormatLocalizedDate(dtDATE2, dtTIME2);
+	
+	case DT_UNKNOWN:
+		if (g_strFieldName != "ExpiryTime")
+			return "Unknown";
+
+	case DT_UNTILRTN:
+		return "Until RTN";
+
+	}
+	return "";
+}
+
+// ----------------------------------------------------------------------------------
+// DoSelect
+//
+//	Invoked by the 'onchange' event on the option selector drop-down. This function
+//	determines whether to show|hide certain components that may|may not be required
+//	by the currently selected option.
+// ----------------------------------------------------------------------------------
+
+function DoSelect(value)
+{	
+	var strDisplay_DATE1 = "none";
+	var strDisplay_DATE2 = "none";
+	var strDisplay_TIME1 = "none";
+	var strDisplay_TIME2 = "none";
+	var strDisplay_LBL1  = "none";
+	var strDisplay_LBL2	 = "none";
+	
+	switch( value )
+	{
+	case DT_BETWEEN:
+		
+		strDisplay_DATE2 = "block";
+		strDisplay_TIME2 = "block";
+		strDisplay_LBL1  = "block";
+		strDisplay_LBL2	 = "block";		
+		
+	case DT_AFTER:
+	case DT_BEFORE:
+
+		strDisplay_DATE1 = "block";
+		strDisplay_TIME1 = "block";
+
+	default:
+	}
+	
+	dtDATE1.style.display = strDisplay_DATE1;
+	dtDATE2.style.display = strDisplay_DATE2;
+	dtTIME1.style.display = strDisplay_TIME1;
+	dtTIME2.style.display = strDisplay_TIME2;
+	lblDATETIME1.style.display = strDisplay_LBL1;
+	lblDATETIME2.style.display = strDisplay_LBL2;
+}
+
+</script>
+
+<script language="VBScript">
+' ----------------------------------------------------------------------------------
+' FormatLocalizedDate
+'
+'	Constructs a date format string from two DTPicker controls - one for date, and one
+'	for time. The date will be formatted using the local of the client machine.
+' ----------------------------------------------------------------------------------
+
+Function FormatLocalizedDate(d, t)
+	Dim fulldate
+	fulldate = DateSerial(d.Year, d.Month, d.Day)
+	fulldate = DateAdd("h", t.Hour, fulldate)
+	fulldate = DateAdd("n", t.Minute, fulldate)
+	fulldate = DateAdd("s", t.Second, fulldate)
+	FormatLocalizedDate = CStr(fulldate)
+End Function
+
+' ----------------------------------------------------------------------------------
+' FormatDate
+'
+'	Constructs a date format string from two DTPicker controls - one for date, and one
+'	for time. This date string is used as part of the SQL query, so the US date format
+'   is used (locale 1033).
+' ----------------------------------------------------------------------------------
+
+Function FormatDate(d, t)
+	Dim fulldate
+	fulldate = DateSerial(d.Year, d.Month, d.Day)
+	fulldate = DateAdd("h", t.Hour, fulldate)
+	fulldate = DateAdd("n", t.Minute, fulldate)
+	fulldate = DateAdd("s", t.Second, fulldate)
+	
+	Dim originalLocale
+	originalLocale = SetLocale(1033)
+	FormatDate = CStr(fulldate)
+	SetLocale(originalLocale)
+End Function
+
+' ----------------------------------------------------------------------------------
+' ApplyDate
+'
+'	Populates two DTPicker controls based on a date string. 
+'	NOTE: this will cause an error if the DTPicker is not visible.
+' ----------------------------------------------------------------------------------
+
+Function ApplyDate(strDate, d, t)
+	Dim dt
+	Dim originalLocale
+	originalLocale = SetLocale(1033)
+	dt = CDate(strDate)
+	SetLocale(originalLocale)
+
+	d.Year = Year(dt)
+	d.Month = Month(dt)
+	d.Day = Day(dt)
+	t.Hour = Hour(dt)
+	t.Minute = Minute(dt)
+	t.Second = Second(dt)
+End Function
+</script>
+
+</HEAD>
+<BODY onload="InitializeLogger(); DoLoad()"
+	  onkeypress="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  style="background-color: buttonface;
+			 margin: 5px;">
+
+	<span id="lblI18NText" 
+		  style="position: absolute;
+				 left: 10px;
+				 top: 8px;
+				 width: 200px;
+				 text-align: right;">
+	</span>
+
+	<select id="cboOptions"
+			style="position: absolute;
+				   top: 4px;
+				   width: 250px;
+				   left: 215px;"
+			onchange="DoSelect(this.selectedIndex)" >
+			
+		<option>(Anytime)</option>
+		<option>Today</option>
+		<option>Yesterday</option>
+		<option>In the current shift</option>
+		<option>In the previous shift</option>
+		<option>This week</option>
+		<option>Last week</option>
+		<option>In the last 7 days</option>
+		<option>In the last 24 hours</option>
+		<option>In the last hour</option>
+		<option>After</option>
+		<option>Before</option>
+		<option>Between</option>
+		<option>At an unknown time</option>
+		<option>When returning to normal</option>
+		
+	</select>
+
+
+	<span id="lblDATETIME1"
+		  style="position: absolute;
+				 left: 10px;
+				 top: 47px;
+				 width: 190px;
+				 display: none;
+				 text-align: right;">	
+				   
+		Start date & time:
+	
+	</span>
+
+	<OBJECT id="dtDATE1"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 215px;
+				   top: 43px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="1">
+		
+	</OBJECT>
+
+	<OBJECT id="dtTIME1"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 345px;
+				   top: 43px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="2">
+		
+	</OBJECT>
+
+	<span id="lblDATETIME2"
+		  style="position: absolute;
+				 left: 10px;
+				 top: 81px;
+				 width: 190px;
+				 display: none;
+				 text-align: right;">	
+				   
+		End date & time:
+	
+	</span>
+
+	<OBJECT id="dtDATE2"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 215px;
+				   top: 77px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="1">
+		
+	</OBJECT>
+
+	<OBJECT id="dtTIME2"
+			classid="clsid:5B28F343-8328-48D4-81E4-A6269484A37A"
+			style="position: absolute; 
+				   left: 345px;
+				   top: 77px;
+				   width: 120px;
+				   height: 22px;
+				   display: block;">
+			
+		<PARAM NAME="Format" VALUE="2">
+		
+	</OBJECT>
+
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			style="position: absolute; 
+				   top: 110px;
+				   left: 295px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			onclick="window.close()" 
+			style="position: absolute; 
+				   top: 110px;
+				   left: 385px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</BODY>
+</HTML>

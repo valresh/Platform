@@ -1,0 +1,194 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="1276px" height="850px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[	SL_LogEvent(this, "onshapeload");
+
+	try
+	{
+		// Initially disable all buttons to avoid navigation until the required global values are initialized.
+		SL_DisableButtons(this);
+
+		// Check to see if the FDM Maintenance View files have been loaded onto this client.
+		// Set the visibility and availability of the Maintenace View menu item accordingly.
+		SL_Frame_FDMInstalled = CheckForFDM();
+		SL_SetVisibility(textboxMaintenanceView, SL_Frame_FDMInstalled);
+
+		// Since this shape is contained in all pages, the tab to select when the page loads must be determined.
+		SL_get_Current_Group_and_Expected_Model();
+
+		// The selected tab is highlighted by making the blue line under the text visible (the default is to be hidden).
+		this.objects("line" + SL_Frame_CurrentTab).style.visibility = "visible";
+
+		SL_EnableButtons(this, SL_Frame_CurrentTab);
+
+		// Add trace information to log if enabled.
+		SL_LogDebugLevelMessage(3, "SL_Frame.Page_onshapeload", "CurrentTab = " + SL_Frame_CurrentTab + ", ExpectedModel = " + SL_Frame_ExpectedModel + ", FDMInstalled = " + SL_Frame_FDMInstalled);
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Frame.Page_onshapeload", "CurrentTab = " + SL_Frame_CurrentTab + ", ExpectedModel = " + SL_Frame_ExpectedModel + ", FDMInstalled = " + SL_Frame_FDMInstalled, error);
+	}]]></script><script event="" language="JScript" id="89FD7C44-998E-4AAE-9D2F-B44DB2BA1168"><![CDATA[//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// [RLEAPFI-675]   May   27, 2018      Use the dictionary to provide expected model to Range and MaintenanceView tabs. 
+/// [RLEAPFI-646]   May    3, 2018      Added displaying of Transmitter model mismatch message. 
+/// [RLEAPFI-645]	April 30, 2018		Modified the logic that generates the target display name for all displays in order
+///                                     to support the new display set navigation (see JIRA).
+/// [RLEAPFI-642]	April 25, 2018		Modified the logic that generates the target display name to support the STT700.
+/// EXP510.1-31		April 24, 2018		Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var SL_Frame_CurrentTab = "";
+var SL_Frame_ExpectedModel = "";
+var SL_Frame_FDMInstalled = false;
+
+
+function SL_get_Current_Group_and_Expected_Model()
+{
+	var myName = window.location.pathname.split("/").pop();
+	var full_name_len = myName.length;
+	var name_base_len = myName.indexOf("_");
+
+	try
+	{
+		if (name_base_len > 0)
+		{
+			SL_Frame_CurrentTab = myName.substr(name_base_len + 1, full_name_len - name_base_len - 5);
+
+			// For the "Range" and "MaintenanceView" displays the expected model cannot be determined from the
+			// the file name. For these displays the previously opened "Overview" display should have left a
+			// copy of the expected model type in the dictionary.
+			if (SL_Frame_CurrentTab == "Range" || SL_Frame_CurrentTab == "MaintenanceView")
+				SL_Frame_ExpectedModel = window.external.Dictionary.Item("sysdtlSmartLine_ExpectedModel").value
+			else
+				SL_Frame_ExpectedModel = myName.substr(15, name_base_len - 15);
+		}
+		else
+		{
+			SL_Frame_CurrentTab = "Overview";
+			SL_Frame_ExpectedModel = myName.substr(15, full_name_len - 19);
+		}
+	}
+	catch (error)
+	{
+		SL_LogErrorMessage("SL_get_Current_Group_and_Expected_Model", "Could not update group and model: filename = " + myName, error);
+	}
+}
+
+function SL_DisableButtons(shape)
+{
+	shape.objects("pushbuttonOverview").disabled = true;
+	shape.objects("pushbuttonDeviceDetails").disabled = true;
+	shape.objects("pushbuttonRange").disabled = true;
+	shape.objects("pushbuttonFaultsResolutions").disabled = true;
+	shape.objects("pushbuttonMaintenanceView").disabled = true;
+}
+
+function SL_EnableButtons(shape, except_button)
+{
+	shape.objects("pushbuttonOverview").disabled = false;
+	shape.objects("pushbuttonDeviceDetails").disabled = false;
+	shape.objects("pushbuttonRange").disabled = false;
+	shape.objects("pushbuttonFaultsResolutions").disabled = false;
+	if (SL_Frame_FDMInstalled)
+		shape.objects("pushbuttonMaintenanceView").disabled = false;
+
+	shape.objects("pushbutton" + except_button).disabled = true;
+}
+
+function SL_DeviceTypeIsCorrect()
+{
+	//compare actual model with expected one
+	if (SL_Frame_ExpectedModel == "Any")
+	{
+		var model_is_correct = false;
+
+		for(i=0; i<SL_SmartLineDeviceTypes.length; i++)
+		{
+			var element = SL_SmartLineDeviceTypes[i];
+			if (element.model == SL_Device.type.model)
+			{
+				model_is_correct = true;
+				break;
+			}
+		}
+
+		if (!model_is_correct)
+		{
+			return false;
+		}
+	}
+	else
+	{
+		if (SL_Frame_ExpectedModel != SL_Device.type.model)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function SL_Frame_onclickHandler(pushbutton, groupName)
+{
+	SL_LogEvent(pushbutton, "onclick");
+
+	// Defualt display name beginning for all SmartLine displays
+	var displayName = "sysdtlSmartLine";
+
+	// "Overview", "DeviceDetails", and "FaultsResolutions" display names include the transmitter model.
+	// "Range" and "MaintenanceView" display names do not include the model; those are same for all transmitters.
+	if (groupName == "Overview" || groupName == "DeviceDetails" || groupName == "FaultsResolutions")
+		displayName += SL_Frame_ExpectedModel;
+
+	// The "Overview" display names do not include the display type but all others do.
+	if (groupName != "Overview")
+		displayName += "_" + groupName;
+
+	// Leave a trace of the Expected Model Type in the dictionary so that the "Range" and "MaintenaceView"
+	// displays can figure out the correct display name required to return to either the "Overview",
+	// "FaultsResolutions" or "DeviceDetails" displays for this model if they are selected from the menu.
+
+	// Initially the actual DeviceType read from the transmitter was used for this purpose but if the
+	// communications to the transmitter is down, this value goes to 0 and can not be used for this purpose.
+	// The new method allows the user to navigate through the menu to see the CDA parameters even when the
+	// communication to the transmitter is down.
+	window.external.Dictionary.remove("sysdtlSmartLine_ExpectedModel");
+	window.external.Dictionary.Add("sysdtlSmartLine_ExpectedModel" , SL_Frame_ExpectedModel);
+
+	// Switch to the selected display tab.
+	LoadDisplayTab(displayName + ".htm");
+
+}]]></script></scripts><parameters><parameter name="SLAnalogPoint" type="Point" description="Mapped to the current selected AI Channel." defaultvalue=""/><parameter name="DisplayTab" type="Value" description="Identifies the type of display, such as Overview, that the shape is contained in." defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectSidePanel class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 94.82%; FONT-FAMILY: Cambria; WIDTH: 21.86%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 5.05%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ffffff;fillColorBlink:False;Height:806;LineColor:#ffffff;lineColorBlink:False;Width:279;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectTitleBar class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 5.05%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#000000;fillColorBlink:False;Height:43;LineColor:#000000;lineColorBlink:False;Width:1276;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineHorizontal class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.11%; FONT-FAMILY: Arial; WIDTH: 78.05%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 21.94%; TOP: 13.29%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:996;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaFullItemName class="hsc.alpha.1 SL_PageTitle" style="BORDER-TOP-STYLE: none; FONT-SIZE: 16pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.7%; FONT-FAMILY: arial; WIDTH: 95.61%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 2.19%; TOP: 1.05%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_PageTitle;textColor:#FFFFFF;textColorBlink:False;" HDX_LOCK="-1">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%CurrentPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="FullItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxOverview class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:136;">Overview</DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonOverview title="Provides an overview of the current status of the transmitter and process conditions." class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #ffffe0; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#ffffe0;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	SL_Frame_onclickHandler(this, "Overview");]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="7"/><property name="TaskParam2" varianttype="VT_BSTR" value="SmartLineAnalogPoint_Overview.htm"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineOverview class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:136;" hdx_lock="-1"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupOverview class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 10.65%; POSITION: absolute; LEFT: 22.57%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:136;"></DIV>]]></content></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxFaultsResolutions class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:232;">Faults &amp; Resolutions</DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonFaultsResolutions title="Provide a description of the possible causes and resolutions for each of the active fault conditions." class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	SL_Frame_onclickHandler(this, "FaultsResolutions");]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="7"/><property name="TaskParam2" varianttype="VT_BSTR" value="SmartLineAnalogPoint_FaultsResolutions.htm"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineFaultsResolutions class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:232;" hdx_lock="-1"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupFaultsResolutions class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 18.18%; POSITION: absolute; LEFT: 35.73%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:232;"></DIV>]]></content></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxRange class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:136;">Range</DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonRange title="Displays the range configuration from the transmitter and the I/O channel. Gives a graphical representation of the relationship between the process, loop current and analog PV." class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	SL_Frame_onclickHandler(this, "Range");]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="7"/><property name="TaskParam2" varianttype="VT_BSTR" value="SmartLineAnalogPoint_Range.htm"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineRange class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:136;" hdx_lock="-1"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupRange class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 10.65%; POSITION: absolute; LEFT: 56.42%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:136;"></DIV>]]></content></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxDeviceDetails class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:168;">Device Details</DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonDeviceDetails title="Displays the hardware configuration of the transmitter as well as identification parameters from the transmitter and the I/O channel configuration." class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	SL_Frame_onclickHandler(this, "DeviceDetails");]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="7"/><property name="TaskParam2" varianttype="VT_BSTR" value="SmartLineAnalogPoint_DeviceDetails.htm"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineDeviceDetails class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:168;" hdx_lock="-1"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupDeviceDetails class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 13.16%; POSITION: absolute; LEFT: 69.59%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:168;"></DIV>]]></content></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxMaintenanceView class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:176;">Maintenance View</DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonMaintenanceView title="Provides a window into Field Device Manager (FDM) to allow advanced configuration and maintenance of the transmitter." class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	SL_Frame_onclickHandler(this, "MaintenanceView");]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="7"/><property name="TaskParam2" varianttype="VT_BSTR" value="SmartLineAnalogPoint_Trend.htm"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineMaintenanceView class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:176;" hdx_lock="-1"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupMaintenanceView class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 13.79%; POSITION: absolute; LEFT: 85.26%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:176;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupFrame class="hvg.group.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 0pt; HEIGHT: 850px; WIDTH: 1276px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:850;lineColorBlink:False;Width:1276;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+
+	if (SL_UpdateDeviceType(this, "SLAnalogPoint"))
+	{
+		// If the actual transmitter is not the expected model, disable the navigation buttons and
+		// provide a warning message in the Message Zone.
+		if (SL_Frame_ExpectedModel != SL_Device.type.model)
+		{
+			SL_DisableButtons(this.parentElement);
+
+			var message = "The actual transmitter model (" + SL_Device.type.model + 
+				") does not match the expected model (" + SL_Frame_ExpectedModel +
+				"). Data shown may be invalid.";
+			window.external.MessageZoneText  = message;
+		}
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HDEVTYPE7,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></group></shape></shapes></shapefile>

@@ -1,0 +1,492 @@
+<html>
+
+<head>
+<title>Status Bar</title>
+<OBJECT id="StnEvtReflector" style="position:absolute;top:0px;left:0px;width:0px;height:0px" codeBase="" classid="clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D"></OBJECT>
+</head>
+
+<STYLE type=text/css>
+. {
+font: menu;
+}
+
+.honeywell {
+border: 0px;
+font-family: Arial;
+font-size: 11pt;
+font-weight: bold;
+color: #000000;
+vertical-align: TEXT-TOP;
+}
+.blankPanel {
+font-family: Arial;
+font-size: 11pt;
+font-weight: normal;
+border: 0px;
+padding: 0px;
+MARGIN: 0px;
+}
+.Cell {
+font-family: Arial;
+font-size: 11pt;
+font-weight: normal;
+TEXT-ALIGN: center;
+BACKGROUND-COLOR: buttonface;
+BORDER-WIDTH: 1px;
+BORDER-STYLE: inset;
+BOTTOM: 0px;
+MARGIN: 0px;
+PADDING: 0px;
+WIDTH: 100%;
+HEIGHT: 100%;
+}
+.clusterserver {
+font-family: Arial;
+font-size: 11pt;
+font-weight: normal;
+border: 0px;
+padding: 0px;
+MARGIN: 0px;
+BOTTOM: 0px;
+PADDING: 0px;
+WIDTH: 100%;
+}
+</STYLE>
+
+<body id="body" style="Behavior:url(#StnEvtReflector)" ZoneHeight="19" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" scroll="no">
+
+<table ID="StatusTable" width="100%" height="100%"
+	bgcolor="buttonface" bordercolorlight="buttonhighlight" bordercolordark="buttonshadow"
+	style="BORDER: 0px; margin: 0px; padding:0px;" cellspacing="1" cellpadding="0">
+
+	<tr>
+		<td ID="Title" class="honeywell" width="8%" style="CURSOR: default; padding: 3px 0px 0px 5px;" UNSELECTABLE="on" ><img src="Images/honeywell_logo.png" alt="Honeywell"/></td>
+								
+		<td ID="DateCell" class="blankPanel" width="10%" nowrap>
+			<div ID="Date" class="cell" style="CURSOR: default;" UNSELECTABLE="on"></div>
+		</td>
+
+		<td ID="TimeCell" class="blankPanel" width="10%" nowrap>
+ 			<div ID="Time" class="cell" style="CURSOR: default;" UNSELECTABLE="on"></div>
+		</td>
+
+		<td class="blankPanel" width="2%">
+		</td>
+		<td ID="TpnSysStsCell" class="blankPanel" width="1.5%" style="display:none">
+ 			<div ID="SystemStatus" title="Display TPS System Summary Display" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="TpnConStsCell" class="blankPanel" width="1.5%" style="display:none">
+ 			<div ID="ConsoleStatus" title="Display TPS Console Summary Display" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="AlarmCell" class="blankPanel" width="8%">
+ 			<div ID="Alarm" title="Display Alarm Summary" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="CommsCell" class="blankPanel" width="8%">
+ 			<div ID="Comms" title="Display System Alarm Summary" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="MessageCell" class="blankPanel" width="8%">
+ 			<div ID="Message" title="Display Message Summary" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="DownloadCell" class="blankPanel" width="8%">
+ 			<div ID="Download" title="Display Alert Summary" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td class="blankPanel" width="2%">
+		</td>
+
+		<td ID="ServerCell" class="blankPanel" width="10%" >
+			<div ID="InnerServerCell" class="cell" style="CURSOR: hand; " UNSELECTABLE="on">
+				<table ID="ServerTable" cellspacing="0" cellpadding="0" class="clusterserver">
+					<TR>
+					<TD ID="ServerIconCell" width="30%" style="text-align: RIGHT; vertical-align: TEXT-TOP;" nowrap><img height="98%" ID="ServerIcon" UNSELECTABLE="on"></TD>
+					<TD ID="ServerID" style="text-align: CENTER; vertical-align: TEXT-TOP;" UNSELECTABLE="on" nowrap></TD>
+					<TD ID="ServerSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+			</div>
+		</td>
+
+		<td ID="ProfileCell" class="blankPanel" width="10%" >
+			<div ID="InnerProfileCell" class="cell" style="CURSOR: hand; " UNSELECTABLE="on">
+				<table ID="ProfileTable" cellspacing="0" cellpadding="0" class="clusterserver">
+					<TR>
+						<TD ID="ProfileID" style="text-align: CENTER; vertical-align: TEXT-TOP;" UNSELECTABLE="on" nowrap></TD>
+						<TD ID="ProfileSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+			</div>
+		</td>
+
+		<td ID="ConsoleCell" class="blankPanel" width="10%" >
+			<div ID="InnerConsoleCell" class="cell" style="CURSOR: hand; " UNSELECTABLE="on">
+				<table ID="ConsoleTable" cellspacing="0" cellpadding="0" class="clusterserver">
+					<TR>
+					<TD ID="ConsoleIconCell" width="30%" style="text-align: RIGHT; vertical-align: TEXT-TOP;" nowrap><img height="98%" ID="ConsoleIcon" UNSELECTABLE="on"></TD>
+					<TD ID="ConsoleID" style="text-align: CENTER; vertical-align: TEXT-TOP;" UNSELECTABLE="on" nowrap></TD>
+					<TD ID="ConsoleSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+			</div>
+		</td>
+
+		<td ID="StationCell" class="blankPanel" width="8%" nowrap>
+ 			<div ID="StationID" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td ID="SecurityCell" class="blankPanel" width="8%" nowrap>
+ 			<div ID="Security" class="cell" style="CURSOR: hand; " UNSELECTABLE="on"></div>
+		</td>
+	</tr>
+</table>
+</body>
+
+<SCRIPT LANGUAGE="VBScript">
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+  Dim Bit1
+  Dim Bit2
+  Dim Bit3
+  Dim Bit4
+  Dim Bit5
+  Dim Bit6
+  Dim Bit7
+
+  Bit1 = 1
+  Bit2 = 2
+  Bit3 = 4
+  Bit4 = 8
+  Bit5 = 16
+  Bit6 = 32
+  Bit7 = 64
+
+  SecurityCell.title= "Security Level" & vbCrLf & "[Click to logon]"
+
+
+  StationOnConnect()
+
+' --- Station OnConnect --------------------------------------------- '
+
+  Sub StationOnConnect
+
+	ServerTable.style.display = ""
+
+	If (window.external.status.IsConsoleStation) Then
+		ConsoleStation()
+	Else
+		FlexStation()
+	End If
+
+	StationID.innertext = window.external.status.StationAcronym
+
+  End Sub
+
+' --- Flex Station -- OnConnect Event -------------------------------- '
+
+  Sub FlexStation
+
+	' ToolTips '
+	StationCell.title = "Station ID" &vbCrLf& "[Click to modify station setup]"
+	ServerCell.title  = "Server Name" & vbCrLf & "[Click to display flex station status]"
+
+	' Style '
+	ServerCell.style.display = ""
+
+	' Text on status bar '
+	ServerID.innertext  = LCase(window.external.status.ServerName)
+	StationID.innertext = window.external.status.StationAcronym
+
+	' Hide the Console Field'
+	ConsoleCell.style.display = "none"
+
+	' Hide Icons '
+	HideConsoleIcon()
+	HideServerIcon()
+
+	AssetProfile()
+
+  End Sub
+
+' --- Console Station -- OnConnect Event ----------------------------- '
+
+  Sub ConsoleStation
+
+	' Initialisation '
+
+	Dim ServerState
+	ServerState = window.external.status.FieldState(5)
+
+	Dim str_ConsoleStationName
+	str_ConsoleStationName = LCase(window.external.status.ServerName)
+
+	' Style '
+	ServerCell.style.display = ""
+
+	' ToolTips '
+	StationCell.title = "Console Station ID - (" & str_ConsoleStationName & ")" &vbCrLf& "[Click to modify station setup]"
+
+	' Text on status bar. '
+	StationID.innertext = window.external.status.StationAcronym
+	ServerID.innertext = LCase(window.external.status.ClusterServerName)
+
+	Select Case ServerState
+	Case 0
+		ServerOK()
+	Case 1
+		ServerLost()
+	Case 2
+		ServerSyn()
+	End Select
+
+	Console()
+
+	AssetProfile()
+
+  End Sub
+
+' --- Console Station ------------------------------------------------- '
+
+  Sub Console
+
+	If (window.external.status.ConsoleNumber > 0) Then
+
+		ConsoleCell.style.display = ""
+
+		Dim ConsoleState
+		ConsoleState  = window.external.status.FieldState(6)
+
+		Select Case ConsoleState
+		Case 3
+			ConsoleOK()
+		Case 2
+			ConsoleMarginal()
+		End Select
+
+		ConsoleID.innertext = window.external.status.ConsoleName
+
+
+	Else
+		ConsoleCell.style.display = "none"
+	End If
+
+  End Sub
+
+
+' --- Asset Profile --------------------------------------------------- '
+
+	Sub AssetProfile
+
+'	If (Not(window.external.status.AssetProfileName = "")) Then
+		If (Len(Trim(window.external.status.AssetProfileName)) = 0) Then
+			ProfileSpacerCell.style.width = "0%"
+			ProfileCell.style.display = "none"
+		Else
+			ProfileCell.style.display = ""
+			ProfileID.innertext = window.external.status.AssetProfileName
+		End If
+
+	End Sub
+
+
+' --- UpdateStatus ---------------------------------------------------- '
+
+  Function UpdateStatus(Number)
+
+	If (((Number And Bit5) = Bit5) Or ((Number And Bit6) = Bit6) Or ((Number And Bit7) = Bit7) Or ((Number And Bit8) = Bit8)) Then
+		StationOnConnect()
+	End If
+
+  End Function
+
+' --- Server OK ------------------------------------------------- '
+
+  Sub ServerOK
+
+	UpdateServerTooltip ("Server Available")
+	HideServerIcon()
+	ServerIcon.src=""
+
+  End Sub
+
+' --- Server Lost ------------------------------------------------- '
+
+  Sub ServerLost
+
+	UpdateServerTooltip ("Server Unavailable")
+	ShowServerIcon()
+	ServerIcon.src="RedLED.gif"
+
+  End Sub
+
+' --- Server Syning ----------------------------------------------- '
+
+  Sub ServerSyn
+
+	UpdateServerTooltip ("Synchronizing")
+	ShowServerIcon()
+	ServerIcon.src="YellowLED.gif"
+
+  End Sub
+
+' --- Update Server Tooltip ----------------------------------------------- '
+
+  Function UpdateServerTooltip (strServerState)
+
+	str_ConsoleStationName = LCase(window.external.status.ServerName)
+	ServerCell.title="Server Name -- " & strServerState & vbCrLf & "[Click to display console station status detail for console station " & str_ConsoleStationName & "]"
+
+  End Function
+
+' --- Hide Server Icon ------------------------------------------------------ '
+
+  Sub HideServerIcon()
+	ServerIcon.style.display = "none"
+	ServerIconCell.style.width   = "0%"
+	ServerSpacerCell.style.width = "0%"
+  End Sub
+
+' --- Show Server Icon ------------------------------------------------------ '
+
+  Sub ShowServerIcon()
+	ServerIcon.style.display = ""
+	ServerIconCell.style.width = "18%"
+	ServerSpacerCell.style.width = "18%"
+  End Sub
+
+' --- Console OK ------------------------------------------------- '
+
+  Sub ConsoleOK
+
+	UpdateConsoleTooltip ("Operational")
+	HideConsoleIcon()
+	ConsoleIcon.src=""
+
+  End Sub
+
+' --- Console Marginal ----------------------------------------------- '
+
+  Sub ConsoleMarginal
+
+	UpdateConsoleTooltip ("Marginal")
+	ShowConsoleIcon()
+	ConsoleIcon.src="YellowLED.gif"
+
+  End Sub
+
+' --- Update Console Tooltip ----------------------------------------------- '
+
+  Function UpdateConsoleTooltip (strConsoleState)
+
+	str_ConsoleName = window.external.status.ConsoleName
+	ConsoleCell.title="Console Name -- " & strConsoleState & vbCrLf & "[Click to display console status detail for " & str_ConsoleName & "]"
+
+  End Function
+
+
+' --- Hide Console Icon ------------------------------------------------------ '
+
+  Sub HideConsoleIcon()
+	ConsoleIcon.style.display = "none"
+	ConsoleIconCell.style.width   = "0%"
+	ConsoleSpacerCell.style.width = "0%"
+  End Sub
+
+' --- Show Console Icon ------------------------------------------------------ '
+
+  Sub ShowConsoleIcon()
+	ConsoleIcon.style.display = ""
+	ConsoleIconCell.style.width = "18%"
+	ConsoleSpacerCell.style.width = "18%"
+  End Sub
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnDisconnect" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	ServerTable.style.display = "none"
+
+	' Text on status bar '
+	ServerID.innertext=""
+	ConsoleID.innertext=""
+	StationID.innertext=""
+
+	' Tooltips '
+	ServerCell.title=""
+	ConsoleCell.title=""
+	StationCell.title=""
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnConnect" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	StationOnConnect()
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="ServerCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+
+	If (window.external.status.IsConsoleStation) Then
+		Window.external.RequestTask 21, "sysStsCstnDetail", window.external.status.ConsoleStationNumber, "0", "0", ""
+	Else
+		Window.external.InvokeCommand "Status Flex Stations"
+	End If
+
+-->
+</SCRIPT>
+
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="ConsoleCell" defer>
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="TpnSysStsCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.RequestTask 21, "tpn_sys_stat", 0, "0", "0", ""
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="TpnConStsCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.RequestTask 21, "TPN_ConsStat", 0, "0", "0", ""
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="StationCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.InvokeCommand "Open Connection"
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnAppStatusUpdate" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Dim nFieldChanged
+	nFieldChanged = window.event.getAttribute("OnAppStatusUpdate", 0)
+	UpdateStatus(nFieldChanged)
+
+-->
+</SCRIPT>
+
+
+
+</html>

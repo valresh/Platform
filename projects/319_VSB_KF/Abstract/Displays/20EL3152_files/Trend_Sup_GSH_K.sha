@@ -1,0 +1,292 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="106px" height="670px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeload" language="VBScript" id=""><![CDATA[on error resume next:Page.SetAttribute "Trend_Sup_GSH",me.id]]></script><script event="" language="VBScript" id="2323F590-AA88-4454-AE52-8E4F915B2FB7"><![CDATA['This shape provides the ability to view, edit and invoke trend groups.
+dim tid				'Timer ID
+dim bGroupSelected	'Used if All_TrdSel_lib_h_01_R300.sha is missing to ensure the operator responce
+dim sParameter		'Used to store the parameter to be added in the selected trend group
+dim bLoaded			'Used to to ensure once off update of the chart shape if present 
+dim oWindow_Tnd			'Used to reload trend in SafeView Environment when trace added
+dim selrecoffset	'Used to reload trend in SafeView Environment when trace added
+dim bTrendSet		'Used to set the trend number to the last selected trend
+
+'Check the number of empty pens left in the currently selected trend group. Called within AlpTrendGrp.onupdate
+sub is_empty
+	dim tagn, e_pl, pointpar, oShape, oShape_sel
+	on error resume next
+	if isnull(page.getattribute("TrdSel")) then exit sub
+	set oshape=document.getelementbyid(page.getattribute("Trend_Sup_GSH"))
+	set oshape_sel=document.getelementbyid(page.getattribute("trdsel"))
+	if oShape.objects("alpisprotected").value = 1 and window.external.securitylevel<4 then 
+   		oShape_sel.title = "Protected"
+		if typename(oShape_sel.objects("TxtFreePens"))<>"Nothing" then oShape_sel.objects("TxtFreePens").value="Protected"
+		if oshape.objects("TrdTbl").style.visibility = "visible" then oshape.objects("RecProtected").style.pixelwidth=400
+		exit sub		 
+	else
+		oshape.objects("RecProtected").style.pixelwidth=0
+	end if	
+	e_pl =0
+	for i= 0 to 31   
+		pointpar = oShape.objects("TrdTbl").fields.item("Point.value").getvalue(i)
+		if pointpar=" " then e_pl=e_pl+1
+	next
+	oShape_sel.title = "Free Pens " & e_pl
+	if typename(oShape_sel.objects("TxtFreePens"))<>"Nothing" then oShape_sel.objects("TxtFreePens").value="Free Pens " & e_pl
+	if err.number <> 0 then window.external.LogMessage "is_empty ->" & oShape.id & " " & err.description 
+end sub
+
+'Update the contents of the chart shape object with the pens in the currently selected trend group. Called within AlpTrendGrp.onupdate
+sub upd_chart
+	dim oShape
+	on error resume next
+	if isnull(page.getattribute("Trend_Sup_GSH")) then exit sub
+	if isnull(page.getattribute("TrdSel")) then exit sub
+	set oshape=document.getelementbyid(page.getattribute("Trend_Sup_GSH"))
+	for each oObj in page.all.tags("DIV")
+  		if oObj.classname="hsc.shape.1" then
+     		if not (oObj.objects("Custtrd") is nothing) then
+				for i=0 to 31
+	      			point = oshape.objects("TrdTbl").fields.item("Point.value").getvalue(i)
+		  			par = oshape.objects("TrdTbl").fields.item("Parameter.value").getvalue(i)		  							
+					if oObj.objects("CustTrd").legend.PointID(i+1)<>"" then oObj.objects("CustTrd").legend.PointID(i+1)=" "					
+					oObj.objects("CustTrd").legend.parameter(i+1)=""
+					if asc(left(point,1))<>32 then
+		     			oObj.objects("CustTrd").legend.PointID(i+1)=point
+		     			oObj.objects("CustTrd").legend.parameter(i+1)=par
+						oObj.objects("CustTrd").legend.PlotVisible(i+1)=true
+		  			end if
+				next    
+     		end if
+  		end if 
+	next
+	if err.number <> 0 then window.external.LogMessage "upd_chart ->" & oShape.id & " " & err.description 
+end sub
+
+'Prompt to select a trend group in case All_TrdSel.sha is not present in the display
+sub trdresp
+	on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+		set oWnd=window.external
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+		set oWnd=window.external.parentdocument.parentwindow.external
+	end if
+	
+	if bCancel=true then 
+    	window.clearinterval(tid)
+		bCancel=false
+		bTrdResp=false
+		bGroupSelected = false
+    	exit sub
+	end if
+	istatus=oWnd.getresponse3 ( "No trend group selected! Please select one. ", 0, resp)
+	if istatus=1 and resp<>"" then 
+		trdg = csng(resp)
+		if err.number = 0 and trdg > 0 then 	
+			set oshape_TrendSup=oPage.document.getelementbyid(oPage.getattribute("Trend_Sup_GSH"))
+			oshape_TrendSup.objects("AlpTrendGrp").value = trdg
+		else
+    		oWnd.messagezonetext "this is not a valid trend number!"
+			istatus=0
+		end if
+		bTrdResp=false
+		bGroupSelected = true
+    	window.clearinterval (tid)
+		call add2trend(sParameter)
+	end if
+	if istatus=0 then window.clearinterval (tid)
+	if err.number <> 0 then window.external.LogMessage "trdresp ->" & oShape.id & " " & err.description
+end sub
+
+'Add the parameter stored in sParameter to the selected trend group
+sub add2trend(sparam)
+	dim oshape, oshape_c, oshape_sel,cm_point, cm_param, trd_num, empty_place, pointpar, tagn
+	on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+		set oWnd=window.external
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+		set oWnd=window.external.parentdocument.parentwindow.external
+	end if
+
+	set oshape_sel=oPage.document.getelementbyid(oPage.getattribute("trdsel"))
+	selrecoffset=oshape_sel.objects("AlpTrendGrp").value
+	set oshape = page.document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	set oshape_c=oPage.document.getelementbyid(oPage.getattribute("Trend_Sup_GSH"))
+	Trd_Par= oShape.GetCustomProperty("Parameter",sParam)
+	DotLoc= Instr(1, Trd_Par,".")
+	sPoint_CP= Mid(Trd_Par,1, DotLoc-1)
+	sParameter_CP = Mid(Trd_Par, DotLoc+1, 24)
+	cm_point = oShape.GetCustomProperty("Point",sPoint_CP)
+	if cm_point = "" then cm_point = sPoint_cp
+	if instr(cm_point,"{%")>0 then cm_point=oShape.objects("ScConAlpPV").datavalue("tagname.name")
+	cm_param = oShape.GetCustomProperty("Parameter",sParameter_CP)
+	if cm_param = "" then cm_param = sParameter_CP
+	trd_num = oShape_c.objects("AlpTrendGrp").value
+	if isnull(oPage.getattribute("TrdSel")) and bGroupSelected = false then 
+		sParameter = sparam 
+		oPage.focus
+		bTrdResp=true
+		tid = window.setinterval ("trdresp",500)
+    	exit sub
+	end if
+	if oShape_c.objects("alpisprotected").value = 1 and oWnd.securitylevel<4 then 
+		oWnd.messagezonetext "The trend group no " & trd_num & " is protected!"
+		exit sub
+	end if	 
+	exist = 0
+	empty_place = -1
+	for i=0 to 31
+		pointpar = oShape_c.objects("TrdTbl").fields.item("Point.value").getvalue(i)
+		if ucase(pointpar) = ucase (cm_point) and ucase(oShape_c.objects("TrdTbl").fields.item("Parameter.value").getvalue(i)) = ucase (cm_param) then exist = 1	
+		if pointpar=" " and empty_place = -1 then empty_place = i 
+	next
+	if exist = 0 then
+		if empty_place >= 0 then
+			oShape_c.objects("TrdTbl").fields.item("Point.value").setvalue empty_place, cm_point
+			oShape_c.objects("TrdTbl").fields.item("Parameter.value").setvalue empty_place, cm_param
+			free = right(oShape_sel.title,2)
+			free=free-1
+        	oShape_sel.title="Free Pens " & free
+			if typename(oShape_sel.objects("TxtFreePens"))<>"Nothing" then oShape_sel.objects("TxtFreePens").value="Free Pens " & free
+			oWnd.messagezonetext ucase(cm_point) & "." & ucase(cm_param) & " Has been added to trend group no " & trd_num
+			set oSview=getobject("","Honeywell.Workspace.Client")
+			If oSview.IsManagerActive = true then
+				reload_trend=false
+				reload_popup=false
+				for each oWndw in ownd.parent.StationWindows
+					recoffset=oWndw.currentrecordoffset
+					currpage=oWndw.currentpage 
+					if lcase(currpage)="systnd03.htm" and cint(recoffset)=cint(selrecoffset) then                      
+					   reload_trend=true
+					   set oWindow_Tnd=oWndw										   
+					elseif lcase(currpage)="chart_popup_cp.htm" then
+						if cint(selrecoffset)=cint(mid(oWndw.document.title,14)) then 
+					   		reload_popup=true
+					   		set oWindow_Pop=oWndw					
+						end if
+					end if
+				next
+				if reload_trend=true then 
+					oSview.setoutputfocuswnd(oWindow_Tnd.AppWindow.HWND)
+					window.setTimeout "reloadTrend", 1000 
+				end if	
+				if reload_popup=true then 
+					oSview.setoutputfocuswnd(oWindow_Pop.AppWindow.HWND)
+					window.setTimeout "reloadPopup", 1000 
+				end if
+			else
+				set chrt_pop=hdxpopupbehavior.findpopup("dummy" & selrecoffset)
+				if typename(chrt_pop)<>"Nothing" then
+					chrt_pop.close
+					window.setTimeout "reloadPopup", 1000
+				end if
+			end if	
+		else 
+			oWnd.messagezonetext "Trend group no " & trd_num & " is full!"
+		end if
+	else
+		oWnd.messagezonetext ucase(cm_point) & "." & ucase(cm_param) & " Has been already configured in trend group no " & trd_num 
+	end if
+	window.settimeout "upd_chart", 1000
+	bGroupSelected = false
+	if err.number <> 0 then oWnd.LogMessage "add2trend ->" & oShape.id & " " & sparam & " " & err.description
+end sub
+
+sub reloadTrend()
+	oWindow_Tnd.requestserverlrn 21, 8, selrecoffset
+end sub
+
+sub reloadPopup()
+	call trd_popup
+end sub]]></script></scripts><parameters><parameter name="Revision" type="Num" description="" defaultvalue="R300, Rev.0"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV ondragstart="javascript:return event.srcElement.isContentEditable;" id=TrdTbl class=hsc.table onselectstart="javascript:return event.srcElement.isContentEditable;" style="FONT-SIZE: 10pt; CURSOR: default; SCROLLBAR-HIGHLIGHT-COLOR: buttonhighlight; TEXT-DECORATION: none; BORDER-TOP: #c0c0c0 1px outset; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-RIGHT: #c0c0c0 1px outset; WIDTH: 11.32%; SCROLLBAR-TRACK-COLOR: buttonface; SCROLLBAR-FACE-COLOR: buttonface; BORDER-BOTTOM: #c0c0c0 1px outset; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; SCROLLBAR-3DLIGHT-COLOR: threedlightshadow; FONT-STYLE: normal; TEXT-ALIGN: left; SCROLLBAR-ARROW-COLOR: windowtext; LEFT: 0%; BORDER-LEFT: #c0c0c0 1px outset; TOP: 0%; BEHAVIOR: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior); VISIBILITY: hidden; SCROLLBAR-SHADOW-COLOR: buttonshadow; BACKGROUND-COLOR: #c0c0c0; SCROLLBAR-DARKSHADOW-COLOR: threeddarkshadow" hdxproperties="HDXBINDINGID:-4;" dummy="" timeoutDelay="0" menuStyle="background-color: menu; color: menutext; border: 2px outset;" headerHeight = "24" rowHeight = "20" displayHeader = "true" horizontalScrollbar = "hidden" verticalScrollbar = "hidden" columnResizing = "compact" headStyle = "" bodyStyle = "" colheadStyle = "border: 1px solid; border-top-color: threedhighlight; border-left-color: threedhighlight; border-right-color: threedshadow; border-bottom-color: threedshadow; padding: 2px; text-overflow: ellipsis; overflow: hidden;" colbodyStyle = "" defaultColumnContent = '<TEXTAREA class=hsc.alpha.1 style="FONT-WEIGHT: normal; FONT-SIZE: 10pt; LEFT: 0px; BEHAVIOR: url(#HDXAlphaBehavior); OVERFLOW: hidden; WIDTH: 100%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Arial; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0px; HEIGHT: 100%; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA>' defaultColumnTitle = "Parameter"><DIV style="HEIGHT: 100%; WIDTH: 100%; WHITE-SPACE: nowrap; POSITION: absolute; LEFT: 0px; TOP: 0px">
+<DIV style="OVERFLOW: hidden; HEIGHT: 24px; WIDTH: 10px; POSITION: absolute; LEFT: 0px; TOP: 0px">
+<DIV style="OVERFLOW: hidden; BORDER-TOP: threedhighlight 1px solid; HEIGHT: 24px; BORDER-RIGHT: threedshadow 1px solid; TEXT-OVERFLOW: ellipsis; BORDER-BOTTOM: threedshadow 1px solid; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 2px; BORDER-LEFT: threedhighlight 1px solid; PADDING-RIGHT: 2px">Parameter</DIV></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 644px; WIDTH: 10px; POSITION: absolute; LEFT: 0px; TOP: 24px">
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV>
+<DIV style="OVERFLOW: hidden; HEIGHT: 20px; BORDER-BOTTOM: threedlightshadow 1px dashed; PADDING-TOP: 1px; PADDING-LEFT: 3px"><TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" unbound="true">Parameter Name</TEXTAREA></DIV></DIV></DIV></DIV>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Table"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="Columns" varianttype="VT_UNKNOWN"><property name="0" type="complex"><propertybag><property name="Bindings">&lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+								&lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+								&lt;in fields="$column$.Quality" properties="quality"/&gt;
+								&lt;out properties="currentValue" fields="$column$.Value"/&gt;
+								&lt;in fields="$column$.SecurityLevel" properties="SecurityLevel"/&gt;</property><property name="Content">&lt;TEXTAREA class=hsc.alpha.1 style="PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FONT-WEIGHT: normal; FONT-SIZE: 10pt; LEFT: 0px; PADDING-BOTTOM: 1px; BEHAVIOR: url(#HDXAlphaBehavior); OVERFLOW: hidden; WIDTH: 100%; COLOR: #000000; BORDER-TOP-STYLE: none; PADDING-TOP: 1px; FONT-STYLE: normal; FONT-FAMILY: Arial; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0px; HEIGHT: 100%; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="borderStyle:None;borderWidth:1px;fillColor:transparent;lineColor:black;numberOfChars:24;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Parameter&lt;/TEXTAREA&gt;</property><property name="FieldObjects" type="complex"><propertybag><property name="0" type="complex"><propertybag><property name="Instance" type="complex"><propertybag><property name="AddressFlags">128</property><property name="AddressType">1</property><property name="CalloutElement"></property><property name="FileRefFile">11</property><property name="FileRefFlags">512</property><property name="FileRefFormat">1</property><property name="FileRefRecord">1</property><property name="FileRefWord">33</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationParamName">NAME</property><property name="PresentationType">5</property><property name="RepeatCount">1</property><property name="RepeatField">2</property><property name="RepeatValueBias">0</property><property name="SecurityLevel">2</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></propertybag></property><property name="Name">dso1</property><property name="Type">HMIPage.Generic</property></propertybag></property><property name="Count">1</property></propertybag></property><property name="Fields">&lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+								&lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+								&lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;</property><property name="Hidden">0</property><property name="Name">Point</property><property name="Resizable">1</property><property name="Title">PointName</property><property name="Type">Alphanumeric</property><property name="Width">60</property><property name="XForms">&lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+								&lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+									If IsEmpty(Value) Then
+										Return = "none"
+									Else
+										Return = ""
+									End If
+								&lt;/script&gt;</property></propertybag></property><property name="1" type="complex"><propertybag><property name="Bindings">&lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+								&lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+								&lt;in fields="$column$.Quality" properties="quality"/&gt;
+								&lt;out properties="currentValue" fields="$column$.Value"/&gt;
+								&lt;in fields="$column$.SecurityLevel" properties="SecurityLevel"/&gt;</property><property name="Content">&lt;TEXTAREA class=hsc.alpha.1 style="FONT-WEIGHT: normal; FONT-SIZE: 10pt; LEFT: 0px; BEHAVIOR: url(#HDXAlphaBehavior); OVERFLOW: hidden; WIDTH: 100%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Arial; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0px; HEIGHT: 100%; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Parameter Name&lt;/TEXTAREA&gt;</property><property name="FieldObjects" type="complex"><propertybag><property name="0" type="complex"><propertybag><property name="Instance" type="complex"><propertybag><property name="AddressFlags">128</property><property name="AddressType">1</property><property name="CalloutElement"></property><property name="FileRefFile">11</property><property name="FileRefFlags">512</property><property name="FileRefFormat">1</property><property name="FileRefRecord">1</property><property name="FileRefWord">65</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationPointWord">33</property><property name="PresentationType">7</property><property name="RepeatCount">1</property><property name="RepeatField">2</property><property name="RepeatValueBias">0</property><property name="SecurityLevel">2</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></propertybag></property><property name="Name">dso1</property><property name="Type">HMIPage.Generic</property></propertybag></property><property name="Count">1</property></propertybag></property><property name="Fields">&lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+								&lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+								&lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;</property><property name="Hidden">0</property><property name="Name">Parameter</property><property name="Resizable">1</property><property name="Title">Parameter</property><property name="Type">Alphanumeric</property><property name="Width">60</property><property name="XForms">&lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+								&lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+									If IsEmpty(Value) Then
+										Return = "none"
+									Else
+										Return = ""
+									End If
+								&lt;/script&gt;</property></propertybag></property><property name="Count">2</property><property name="ShowRowNumber">0</property></property><property name="ScrollerType" varianttype="VT_BSTR" value="DOTable.FileScroller"/><property name="Scroller" varianttype="VT_UNKNOWN"><property name="AddressFlags">1</property><property name="AddressType">2</property><property name="CalloutElement"></property><property name="IndexRefOffset">0</property><property name="IndexRefType">2</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationType">11</property><property name="ScrollbarFile">0</property><property name="ScrollbarMax">32</property><property name="ScrollbarMin">1</property><property name="ScrollbarVisible">0</property><property name="SecurityLevel">2</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></property></dataobjectdef></dataobject><class ID="hsc.table" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=RecProtected class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 0%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:670;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:0;"></DIV>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[window.external.messagezonetext "Higher security level required"]]></script></scripts></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=AlpIsProtected class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 0%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 5.66%; BORDER-RIGHT-COLOR: transparent; TOP: 1.49%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderWidth:;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="11"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="1"/><property name="FileRefFlags" varianttype="VT_UI4" value="512"/><property name="FileRefFormat" varianttype="VT_UI1" value="5"/><property name="FileRefBitFieldStart" varianttype="VT_UI1" value="13"/><property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=AlpTrendGrp class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 0%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 3.77%; BORDER-RIGHT-COLOR: transparent; TOP: 1.49%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderWidth:;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:6;numericDisplayFormat:%.0f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[on error resume next
+	if bTrendset = false then
+		TrendNo = window.external.Dictionary.Item("TrendNo")
+		if err.number<>0 then
+			window.external.Dictionary.Add "TrendNo", 1
+			me.value=1
+		else
+			me.value = TrendNo
+		end if
+		bTrendset = true
+	end if
+	window.external.Dictionary.Item("TrendNo").value=me.value
+	window.settimeout "is_empty", 200
+	if bLoaded=false then
+   		window.settimeout "upd_chart", 1000
+   		bloaded=true
+	end if
+	if document.getelementbyid(page.getattribute("TrdSel"))<>"" then
+   		document.getelementbyid(page.getattribute("TrdSel")& "_AlpTrendGrp").value=me.value
+	end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="2"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="253"/><property name="FileRefFlags" varianttype="VT_UI4" value="2048"/><property name="FileRefFormat" varianttype="VT_UI1" value="2"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<INPUT tabIndex=0 id=PbHide class=hsc.button.1 style="FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 2.98%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 56.6%; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0.59%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: #d4d0c8" type=button value=Hide hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;">]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[Me.style.visibility="hidden"
+me.style.pixelleft=me.style.pixelleft-336
+trdtbl.style.visibility="hidden"
+RecProtected.style.pixelwidth = 0
+window.settimeout "upd_chart", 1000
+window.settimeout "is_empty", 200]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtGSH class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 5.97%; FONT-FAMILY: Arial; WIDTH: 97.16%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #0000ff; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 1.88%; TOP: 0.89%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#ffffff;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:103;" globalscripts>Trend&nbsp;General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group002 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 670px; WIDTH: 106px; POSITION: absolute; LEFT: 40px; TOP: 4px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:670;lineColorBlink:False;Width:106;"></DIV>]]></content></html></group></shape></shapes></shapefile>

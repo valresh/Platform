@@ -1,0 +1,1057 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html xmlns:viewlink="">
+<?import namespace="viewlink" implementation="../Objects/TabSet.htc">
+<?import namespace="viewlink" implementation="../Objects/SystemButton.htc">
+<head>
+    <meta name="VI60_defaultClientScript" content="VBScript">
+    <meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+    <link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="OpciStyles.css" type="text/css">
+    <title></title>
+    <object id="OPCBrowseSrc" style="display: none; left: 0px; top: 0px" classid="CLSID:882B313F-A59C-497A-9D6D-DC4EA72BE3BA"
+        viewastext>
+        <param name="_ExtentX" value="4207">
+        <param name="_ExtentY" value="1270">
+    </object>
+    <object id="OPCBrowseDst" style="display: none; left: 0px; top: 0px" classid="CLSID:882B313F-A59C-497A-9D6D-DC4EA72BE3BA"
+        viewastext>
+        <param name="_ExtentX" value="4207">
+        <param name="_ExtentY" value="1270">
+    </object>
+    <script language="JavaScript" src="../Scripts/Logging.js" type="text/JavaScript"></script>
+    <script language="JavaScript" src="../Scripts/ErrorHandling.js" type="text/JavaScript"></script>
+    <script language="JavaScript" src="../Scripts/JSExtensions.js" type="text/JavaScript"></script>
+    <script language="JavaScript" src="../Scripts/HTMLUtils.js" type="text/JavaScript"></script>
+    <script language="JavaScript" src="../Scripts/Utilities.js" type="text/JavaScript"></script>
+    <script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+    <script id="OpciEvents" language="jscript" src="OpciEvents.js"></script>
+    <script id="OpciFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+    <script id="SecurityFunctions" language="jscript" src="OpciSecurity.js"></script>
+    <script id="clientEventHandlersVBS" language="vbscript">
+<!--
+Dim	g_CurrentProgIDBox
+Dim g_bSettingDirty
+Dim g_GroupDeleted			' Group has just been deleted
+Dim g_Mode				' current mode, config or online
+Dim g_GroupId				' current group id
+Dim g_ItemDetailsTabClicked		' last action was to select item details tab
+
+Sub window_onload
+    Dim strGroupName
+
+    On Error Resume Next
+
+    Err.Clear
+    
+    g_ItemDetailsTabClicked = False
+    
+    ' Check to see that the title frame has connected to the database
+    ' and the mode has been set.  If not then this frame will be reloaded 
+    ' so no need to continue
+    g_Mode = parent.title.g_Mode
+    If (Not parent.title.g_Connected) Or (g_Mode = ERROR_MODE) Then
+        ' Do nothing since we will be reloaded once the title frame is loaded
+        GroupDetails.style.display = "none"
+        WaitingSpan.style.display = "block"
+    Else
+        Err.Clear
+
+        ' Set up the list box in the title
+        If Not Populate_lstGroups Then Exit Sub
+        
+        parent.title.lstGroups.style.display = ""
+        parent.title.txtGroupId.style.display = ""
+        
+        If parent.title.OpciDashboard.CurrentGroup = 0 Then
+            parent.title.txtGroupId_onchange
+            Exit Sub
+        End If	
+
+        ' Load the group data from the database
+        LoadGroupData
+
+        ' show connection details If licensed accordingly
+        If parent.title.OpciDashboard.LicensedConnections > 0 Then
+            rowSourceStart.style.display = ""
+            rowSourceLabel.style.display = ""
+            rowSourceServerType.style.display = ""
+            rowSourceServer.style.display = ""
+            rowSourceProgId.style.display = ""
+            rowDestinationStart.style.display = ""
+            rowDestinationLabel.style.display = ""
+            rowDestinationServerType.style.display = ""
+            rowDestinationServer.style.display = ""
+            rowDestinationProgId.style.display = ""
+        End If
+        
+        lblDirtyText.innerHTML = MSG_COMMIT_REMINDER
+        Call SetVisibilityOfButtons
+        
+        ' Set group globals
+        g_GroupId = parent.title.OpciDashboard.GroupId
+        strGroupName = parent.title.OpciDashboard.GroupName
+        g_GroupDeleted = False
+        g_GroupChange = True
+
+        ' Update Item Count
+        Call UpdateItemCount
+        
+        ' Set up the group details form
+        If (g_Mode = CONFIG_MODE) Then
+            GroupButtons.style.display = ""
+            DisableGroupDetailsForm False
+            Call UpdateSourceServer
+            Call UpdateDestinationServer
+            Call ShowHideStatusItems
+            cmdChangeModes.innerText = LINK_CONFIGURATION_MODE
+        Else
+            Call UpdateSourceServer
+            Call UpdateDestinationServer
+            Call ShowHideStatusItems
+            DisableGroupDetailsForm True
+            cmdChangeModes.innerText = LINK_ONLINE_MODE
+        End If
+        
+        Call SetServerLabels
+        Call ShowErrorText
+    
+        ' Show the GroupDetails section
+        WaitingSpan.style.display = "none"
+        GroupDetails.style.display = "block"
+
+        ' Apply security
+        Call ApplySecurity
+    End If
+    
+    ' set the group status in the title bar
+    ShowGroupStatus
+    
+    ' set the correct application names
+    SetLinkText
+    lblThisSourceServer.innerHTML = "This OPC Server"
+    lblThisDestinationServer.innerHTML = "This OPC Server"
+    
+    document.body.style.cursor = "auto"
+End Sub
+
+Sub Window_OnUnload
+    On Error Resume Next
+    
+    ' If degraded, don't touch anything, just exit
+    If parent.title.g_Degraded Then Exit Sub
+
+    ' If unsaved changes, save all data back to the database
+    If (GroupDirty) Then
+
+        ' check if this page is unloading due to a group list change
+        If (parent.title.lstGroups.options(parent.title.lstGroups.selectedIndex).value <> g_GroupId) Then
+            ' if so, we need to change the current group back to this group before we save
+            parent.title.OpciDashboard.CurrentGroup = g_GroupId
+        End If
+
+        SaveGroupData
+
+        ' now change it back
+        If (parent.title.lstGroups.options(parent.title.lstGroups.selectedIndex).value <> g_GroupId) Then
+            parent.title.OpciDashboard.CurrentGroup = parent.title.lstGroups.options(parent.title.lstGroups.selectedIndex).value
+        End If
+    End If
+End Sub
+
+Sub LoadGroupData
+    On Error Resume Next
+    lblGroupId.innerHTML        = parent.title.OpciDashboard.GroupId
+    txtGroupName.value          = parent.title.OpciDashboard.GroupName
+    chkBidirGroup.checked       = parent.title.OpciDashboard.GroupBidirectional
+    txtDeadband.value           = CSng(parent.title.OpciDashboard.GroupDeadband)
+    txtRefreshInterval.value    = CLng(parent.title.OpciDashboard.GroupRefreshInterval)
+    txtXfrPeriod.value          = CLng(parent.title.OpciDashboard.GroupTransferPeriod)
+    txtDiagnosticInterval.value = CLng(parent.title.OpciDashboard.GroupDiagnosticInterval)
+    chkConvertBool.checked      = parent.title.OpciDashboard.GroupConvertBoolean
+    chkSrcRedun.checked         = parent.title.OpciDashboard.GroupSourceRedundant
+    txtSrcServer.value          = parent.title.OpciDashboard.GroupSourceServer
+    txtRedunSrcServer.value     = parent.title.OpciDashboard.GroupRedundantSourceServer
+    txtSrcProgID.value          = parent.title.OpciDashboard.GroupSourceProgId
+    txtRedunSrcProgID.value     = parent.title.OpciDashboard.GroupRedundantSourceProgId
+    txtSrcStatusItem.value      = parent.title.OpciDashboard.GroupSourceStatusItem
+    chkDstRedun.checked         = parent.title.OpciDashboard.GroupDestinationRedundant
+    txtDstServer.value          = parent.title.OpciDashboard.GroupDestinationServer
+    txtRedunDstServer.value     = parent.title.OpciDashboard.GroupRedundantDestinationServer
+    txtDstProgID.value          = parent.title.OpciDashboard.GroupDestinationProgId
+    txtRedunDstProgID.value     = parent.title.OpciDashboard.GroupRedundantDestinationProgId
+    txtDstStatusItem.value      = parent.title.OpciDashboard.GroupDestinationStatusItem
+    lblErrorString.innerHTML    = parent.title.OpciDashboard.GroupErrorString
+End Sub
+
+' Save group values back to database
+Sub SaveGroupData
+    On Error Resume Next
+    parent.title.OpciDashboard.GroupName                        = CStr(txtGroupName.value)
+    parent.title.OpciDashboard.GroupBidirectional               = chkBidirGroup.checked
+    parent.title.OpciDashboard.GroupDeadband                    = CSng(txtDeadband.value)
+    parent.title.OpciDashboard.GroupRefreshInterval             = CLng(txtRefreshInterval.value)
+    parent.title.OpciDashboard.GroupTransferPeriod              = CLng(txtXfrPeriod.value)
+    parent.title.OpciDashboard.GroupDiagnosticInterval          = CLng(txtDiagnosticInterval.value)
+    parent.title.OpciDashboard.GroupConvertBoolean              = chkConvertBool.checked
+    parent.title.OpciDashboard.GroupSourceRedundant             = chkSrcRedun.checked
+    parent.title.OpciDashboard.GroupSourceServer                = CStr(txtSrcServer.value)
+    parent.title.OpciDashboard.GroupRedundantSourceServer       = CStr(txtRedunSrcServer.value)
+    parent.title.OpciDashboard.GroupSourceProgId                = CStr(txtSrcProgID.value)
+    parent.title.OpciDashboard.GroupRedundantSourceProgId       = CStr(txtRedunSrcProgID.value)
+    parent.title.OpciDashboard.GroupSourceStatusItem            = CStr(txtSrcStatusItem.value)
+    parent.title.OpciDashboard.GroupDestinationRedundant        = chkDstRedun.checked
+    parent.title.OpciDashboard.GroupDestinationServer           = CStr(txtDstServer.value)
+    parent.title.OpciDashboard.GroupRedundantDestinationServer  = CStr(txtRedunDstServer.value)
+    parent.title.OpciDashboard.GroupDestinationProgId           = CStr(txtDstProgID.value)
+    parent.title.OpciDashboard.GroupRedundantDestinationProgId  = CStr(txtRedunDstProgID.value)
+    parent.title.OpciDashboard.GroupDestinationStatusItem       = CStr(txtDstStatusItem.value)
+End Sub
+
+Sub DisableGroupDetailsForm(bDisable)
+    ' Disables Or enables all GroupDetail controls
+    On Error Resume Next	
+    chkDstRedun.disabled = bDisable
+    chkSrcRedun.disabled = bDisable
+    chkBidirGroup.disabled = bDisable
+    chkConvertBool.disabled = bDisable
+    cmdBrowseDstGroup.disabled = bDisable
+    cmdBrowseSrcGroup.disabled = bDisable
+    cmdDeleteGroup.disabled = bDisable
+    cmdImportItems.disabled = bDisable
+    cmdExportItems.disabled = bDisable
+    cmdValidateGroup.disabled = bDisable
+    cmdSrcProgId.disabled = bDisable
+    cmdDstProgID.disabled = bDisable
+    cmdRedunSrcProgID.disabled = bDisable
+    cmdRedunDstProgID.disabled = bDisable
+    txtRefreshInterval.disabled = bDisable
+    txtDeadband.disabled = bDisable
+    txtDiagnosticInterval.disabled = bDisable
+    txtDstProgID.disabled = bDisable
+    txtDstServer.disabled = bDisable
+    txtDstStatusItem.disabled = bDisable
+    txtGroupName.disabled = bDisable
+    txtRedunDstProgID.disabled = bDisable
+    txtRedunDstServer.disabled = bDisable
+    txtRedunSrcProgID.disabled = bDisable
+    txtRedunSrcServer.disabled = bDisable
+    txtSrcProgID.disabled = bDisable
+    txtSrcServer.disabled = bDisable
+    txtSrcStatusItem.disabled = bDisable
+    txtTimeBias.disabled = bDisable
+    txtXfrPeriod.disabled = bDisable
+    rdThisSourceServer.disabled = bDisable
+    rdOtherSourceServer.disabled = bDisable
+    rdThisDestinationServer.disabled = bDisable
+    rdOtherDestinationServer.disabled = bDisable
+
+    If (parent.title.OpciDashboard.GroupDirty) Then
+        cmdCommitGroup.disabled = bDisable
+        cmdCancelGroup.disabled = bDisable
+        lblDirtyText.style.visibility = "visible"
+    Else
+        cmdCommitGroup.disabled = True
+        cmdCancelGroup.disabled = True
+        lblDirtyText.style.visibility = "hidden"
+    End If
+End Sub
+
+Sub chkSrcRedun_onclick
+    UpdateSrcRedun
+    SetGroupDirtyBit
+End Sub
+
+Sub chkDstRedun_onclick
+    UpdateDstRedun
+    SetGroupDirtyBit
+End Sub
+
+Sub UpdateSrcRedun
+    ' Update the visibility of the RedunSrc controls based upon the SourceRedundant value
+    Dim strVisibility
+    On Error Resume Next
+    
+    If (Not chkSrcRedun.checked) Then
+        strVisibility = "hidden"		
+        txtRedunSrcServer.value = ""
+        txtRedunSrcProgId.value = ""	
+    Else
+        strVisibility = "visible"
+        txtRedunSrcProgId.value = txtSrcProgID.value
+    End If
+    
+    lblRedunSrcServer.style.visibility = strVisibility
+    txtRedunSrcServer.style.visibility = strVisibility
+    lblRedunSrcProgID.style.visibility = strVisibility
+    txtRedunSrcProgID.style.visibility = strVisibility
+    cmdRedunSrcProgID.style.visibility = strvisibility
+End Sub
+
+Sub UpdateDstRedun
+    ' Update the visibility of the RedunDst controls based upon the DestinationRedundant value
+    Dim strVisibility
+    On Error Resume Next
+    
+    If (Not chkDstRedun.checked) Then
+        strVisibility = "hidden"		
+        txtRedunDstServer.value = ""
+        txtRedunDstProgId.value = ""	
+    Else
+        strVisibility = "visible"
+        txtRedunDstProgId.value = txtDstProgID.value
+    End If
+
+    lblRedunDstServer.style.visibility = strVisibility
+    txtRedunDstServer.style.visibility = strVisibility
+    lblRedunDstProgID.style.visibility = strVisibility
+    txtRedunDstProgID.style.visibility = strVisibility
+    cmdRedunDStProgID.style.visibility = strvisibility
+End Sub
+
+Sub cmdSrcProgId_onclick
+    Dim strServerNode
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    Set g_CurrentProgIDBox = txtSrcProgID
+    If txtSrcServer.value = "localhost" Then
+        strServerNode = parent.title.opcidashboard.ActiveDatabaseServer
+    Else
+        strServerNode = txtSrcServer.value
+    End If
+    OPCBrowseSrc.ShowOPCProgIDBrowser(strServerNode)
+End Sub
+
+Sub cmdRedunSrcProgID_onclick
+    Dim strServerNode
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    Set g_CurrentProgIDBox = txtRedunSrcProgID
+    If UCase(txtRedunSrcServer.value) = LOCAL_SERVER Then
+        strServerNode = parent.title.opcidashboard.ActiveDatabaseServer
+    Else
+        strServerNode = txtRedunSrcServer.value
+    End If
+    OPCBrowseSrc.ShowOPCProgIDBrowser (strServerNode)
+End Sub
+
+Sub cmdDstProgID_onclick
+    Dim strServerNode
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    Set g_CurrentProgIDBox = txtDstProgID
+    If UCase(txtDstServer.value) = LOCAL_SERVER Then
+        strServerNode = parent.title.opcidashboard.ActiveDatabaseServer
+    Else
+        strServerNode = txtDstServer.value
+    End If
+    OPCBrowseSrc.ShowOPCProgIDBrowser (strServerNode)
+End Sub
+
+Sub cmdRedunDstProgID_onclick
+    Dim strServerNode
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    Set g_CurrentProgIDBox = txtRedunDstProgID
+    If UCase(txtRedunDstServer.value) = LOCAL_SERVER Then
+        strServerNode = parent.title.opcidashboard.ActiveDatabaseServer
+    Else
+        strServerNode = txtRedunDstServer.value
+    End If
+    OPCBrowseSrc.ShowOPCProgIDBrowser (strServerNode)
+End Sub
+
+Sub OPCBrowseSrc_OnProgIDApply (strProgID)
+    On Error Resume Next
+	If (strProgID <> g_CurrentProgIDBox.value) Then
+		Call SetGroupDirtyBit
+    End If
+    g_CurrentProgIDBox.value = strProgID
+    g_CurrentProgIDBox = null
+    ShowHideStatusItems
+End Sub
+
+Sub rdThisSourceServer_onclick
+    On Error Resume Next
+    txtSrcServer.value = LCase(LOCAL_SERVER)
+    txtSrcProgID.value = "HWHsc.OPCServer"
+    chkSrcRedun.checked = False
+    txtRedunSrcServer.value = ""
+    txtRedunSrcProgID.value = ""
+    txtSrcStatusItem.value = ""
+
+    Call UpdateSourceServer
+    Call ShowHideStatusItems
+    Call SetGroupDirtyBit
+End Sub
+
+Sub rdOtherSourceServer_onclick
+    On Error Resume Next
+    txtSrcServer.value = ""
+    txtSrcProgID.value = ""
+    Call UpdateSourceServer
+    Call ShowHideStatusItems
+    Call SetGroupDirtyBit
+End Sub
+
+Sub rdThisDestinationServer_onclick
+    On Error Resume Next
+    txtDstServer.value = LCase(LOCAL_SERVER)
+    txtDstProgID.value = "HWHsc.OPCServer"
+    chkDstRedun.checked = False
+    txtRedunDstServer.value = ""
+    txtRedunDstProgID.value = ""
+    txtDstStatusItem.value = ""
+
+    Call UpdateDestinationServer
+    Call ShowHideStatusItems
+    Call SetGroupDirtyBit
+End Sub
+
+Sub rdOtherDestinationServer_onclick
+    On Error Resume Next
+    txtDstServer.value = ""
+    txtDstProgID.value = ""
+    Call UpdateDestinationServer
+    Call ShowHideStatusItems
+    Call SetGroupDirtyBit
+End Sub
+
+Sub UpdateSourceServer
+    Dim bDisable
+    Dim strDisplay
+    Dim strVisibility
+    
+    On Error Resume Next
+    
+    If ((UCase(CStr(txtSrcServer.value)) = LOCAL_SERVER And _
+        UCase(CStr(txtSrcProgID.value)) = HON_OPC_SERVER_PROGID) And _
+        Not chkSrcRedun.checked) Then
+        bDisable = True
+        strDisplay = "none"
+        strVisibility = "hidden"
+    Else
+        bDisable = False	
+        strDisplay = ""
+        strVisibility = "visible"
+    End If
+
+    
+    rdThisSourceServer.checked = bDisable
+    rdOtherSourceServer.checked = Not bDisable
+    rowSourceServer.style.visibility = strVisibility
+    rowSourceProgId.style.visibility = strVisibility
+    txtSrcServer.disabled = bDisable
+    txtSrcProgID.disabled = bDisable
+    cmdSrcProgID.disabled = bDisable
+    chkSrcRedun.disabled = bDisable
+    chkSrcRedun.style.display = strDisplay
+    lblSrcRedun.style.display = strDisplay
+
+    Call UpdateSrcRedun
+End Sub
+
+Sub UpdateDestinationServer
+    Dim bDisable
+    Dim strDisplay
+    Dim strVisibility
+    
+    On Error Resume Next
+    
+    If ((UCase(CStr(txtDstServer.value)) = LOCAL_SERVER And _
+        UCase(CStr(txtDstProgID.value)) = HON_OPC_SERVER_PROGID) And _
+        Not chkDstRedun.checked) Then
+        bDisable = True
+        strDisplay = "none"
+        strVisibility = "hidden"
+    Else
+        bDisable = False	
+        strDisplay = ""
+        strVisibility = "visible"
+    End If
+    
+    rdThisDestinationServer.checked = bDisable
+    rdOtherDestinationServer.checked = Not bDisable
+    rowDestinationServer.style.visibility = strVisibility
+    rowDestinationProgId.style.visibility = strVisibility
+    txtDstServer.disabled = bDisable
+    txtDstProgID.disabled = bDisable
+    cmdDstProgID.disabled = bDisable
+    chkDstRedun.disabled = bDisable
+    chkDstRedun.style.display = strDisplay
+    lblDstRedun.style.display = strDisplay
+    
+    Call UpdateDstRedun
+End Sub
+
+Sub SetVisibilityForNonStation
+    tdThisSourceServer.style.display = "none" 
+    tdOtherSourceServer.style.visibility = "hidden"
+    tdThisDestinationServer.style.display = "none" 
+    tdOtherDestinationServer.style.visibility = "hidden"
+End Sub
+
+Sub txtSrcServer_onChange
+    SetGroupDirtyBit
+    ShowHideStatusItems
+End Sub
+
+Sub txtSrcProgID_onChange
+    SetGroupDirtyBit
+    ShowHideStatusItems
+End Sub
+
+Sub txtDstServer_onChange
+    SetGroupDirtyBit
+    ShowHideStatusItems
+End Sub
+
+Sub txtDstProgID_onChange
+    SetGroupDirtyBit
+    ShowHideStatusItems
+End Sub
+
+' show Or hide the destination status item If the source 
+' And destination servers are the same
+Sub ShowHideStatusItems
+    
+    Dim strSourceServer
+    Dim strSourceProgId
+    Dim strDestServer
+    Dim strDestProgId
+    Dim blnSrcVisible
+    Dim blnDestVisible
+    Dim blnSrcVisibleCurrent
+    Dim blnDstVisibleCurrent
+    
+    blnSrcVisible = True
+    blnDestVisible = True
+    blnSrcVisibleCurrent = True
+    blnDstVisibleCurrent = True
+    
+    If (rowSourceStatusItem.style.visibility = "hidden") Then blnSrcVisibleCurrent = False
+    If (rowDestinationStatusItem.style.visibility = "hidden") Then blnDstVisibleCurrent = False
+    
+    ' get values needed to determine what is shown
+    strSourceServer = UCase(CStr(txtSrcServer.value))
+    strSourceProgId = UCase(CStr(txtSrcProgID.value))
+    strDestServer = UCase(CStr(txtDstServer.value))
+    strDestProgId = UCase(CStr(txtDstProgID.value))
+    
+    ' Handle source status item first.
+    ' Source item is hidden only If the local honeywell server is selected.
+    If (rdThisSourceServer.checked) Then
+        blnSrcVisible = False
+    ElseIf (rdOtherSourceServer.checked) Then
+        If (strSourceServer = LOCAL_SERVER And strSourceProgId = HON_OPC_SERVER_PROGID) Then
+            blnSrcVisible = False
+        End If
+    End If
+    
+    If (blnSrcVisible And (Not blnSrcVisibleCurrent)) Then 
+        rowSourceStatusItem.style.visibility = "visible"
+    ElseIf ((Not blnSrcVisible) And blnSrcVisibleCurrent) Then
+        rowSourceStatusItem.style.visibility = "hidden"
+        txtSrcStatusItem.value = ""
+    End If
+    
+    ' Handle destination status item.
+    ' Source And destination servers are remote Or 3rd party servers. 
+    ' Hide destination status item If configured to be the same server,
+    ' Or configured to local honeywell server.
+    If (rdOtherDestinationServer.checked) Then 
+        If (rdOtherSourceServer.checked) Then
+            If (strSourceServer = strDestServer And strSourceProgId = strDestProgId) Then
+                blnDestVisible = False
+            End If	
+        End If
+        
+        If (strDestServer = LOCAL_SERVER And strDestProgId = HON_OPC_SERVER_PROGID) Then
+            blnDestVisible = False
+        End If
+        
+    ElseIf (rdThisDestinationServer.checked) Then 
+        blnDestVisible = False
+    End If
+    
+    ' show/hide the table row
+    If (blnDestVisible And (Not blnDstVisibleCurrent)) Then
+        rowDestinationStatusItem.style.visibility = "visible"
+    ElseIf ((Not blnDestVisible) And blnDstVisibleCurrent) Then
+        rowDestinationStatusItem.style.visibility = "hidden"
+        txtDstStatusItem.value = ""
+    End If
+End Sub
+
+'=============================================================
+' OPC Browser handling subs
+'=============================================================
+
+Sub cmdBrowseSrcGroup_onclick
+    Dim strSrcServer, strRedunSrcServer
+    Dim strSrcServerProgId, strRedunSrcServerProgid
+    Dim strServer
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+        
+    strSrcServer = txtSrcServer.value
+    If UCase(strSrcServer) = LOCAL_SERVER Then 
+        strSrcServer = m_ServerName
+        If UCase(strSrcServer) = LOCAL_SERVER Then
+            strSrcServer = LOCAL_IP_ADDRESS
+        End If
+    End If
+    strSrcServerProgId = txtSrcProgID.value
+    
+    If chkSrcRedun.checked Then
+        strRedunSrcServer = txtRedunSrcServer.value
+        If UCase(strRedunSrcServer) = LOCAL_SERVER Then 
+            strRedunSrcServer = m_ServerName
+            If UCase(strRedunSrcServer) = LOCAL_SERVER Then
+                strRedunSrcServer = LOCAL_IP_ADDRESS
+            End If
+        End If
+        strRedunSrcServerProgid = txtRedunSrcProgID.value
+    End If	
+    
+    ' Set the browser server type
+    If (chkBidirGroup.checked) Then
+        strServer = SERVER_TYPE_MASTER
+    Else 
+        strServer = SERVER_TYPE_SOURCE
+    End If
+    
+    If chkSrcRedun.checked Then
+        'include redundant server information
+        OPCBrowseSrc.ShowBrowser 0, CStr(strSrcServerProgId), CStr(strSrcServer), CStr(strServer), CStr(strRedunSrcServerProgid), Cstr(strRedunSrcServer), True
+    Else
+        'omit redundant server information
+        OPCBrowseSrc.ShowBrowser 0, CStr(strSrcServerProgId), CStr(strSrcServer), CStr(strServer), CStr(""), Cstr(""), True
+    End If
+End Sub
+
+Sub cmdBrowseDstGroup_onclick
+    Dim strDstServer, strRedunDstServer
+    Dim strDstServerProgId, strRedunDstServerProgid
+    Dim strServer
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+
+    strDstServer = txtDstServer.value
+    If UCase(strDstServer) = LOCAL_SERVER Then 
+        strDstServer = m_ServerName
+        If UCase(strDstServer) = LOCAL_SERVER Then 
+            strDstServer = LOCAL_IP_ADDRESS 
+        End If
+    End If
+    strDstServerProgId = txtDstProgID.value
+    
+    If chkDstRedun.checked Then
+        strRedunDstServer = txtRedunDstServer.value
+        If UCase(strRedunDstServer) = LOCAL_SERVER Then 
+            strRedunDstServer = m_ServerName
+            If UCase(strRedunDstServer) = LOCAL_SERVER Then 
+                strRedunDstServer = LOCAL_IP_ADDRESS
+            End If
+        End If
+        strRedunDstServerProgid = txtRedunDstProgID.value
+    End If	
+    
+    ' Set the browser server type
+    If (chkBidirGroup.checked) Then
+        strServer = SERVER_TYPE_SLAVE
+    Else 
+        strServer = SERVER_TYPE_DESTINATION
+    End If
+    
+    If chkDstRedun.checked Then
+        'include redundant server information
+        OPCBrowseDst.ShowBrowser 0, Cstr(strDstServerProgId), CStr(strDstServer), CStr(strServer), Cstr(strRedunDstServerProgid), CStr(strRedunDstServer), True
+    Else
+        'omit redundant server information
+        OPCBrowseDst.ShowBrowser 0, Cstr(strDstServerProgId), CStr(strDstServer), CStr(strServer), Cstr(""), CStr(""), True
+    End If
+End Sub
+
+Sub OPCBrowseSrc_OnApply(strItem, bMoveNext)
+    On Error Resume Next
+    txtSrcStatusItem.value = strItem
+    ' If we are only licensed for local data transfer, use the same status item for source And destination
+    If parent.title.OpciDashboard.LicensedConnections = 0 Then
+        txtDstStatusItem.Value = txtSrcStatusItem.Value
+    End If
+End Sub
+
+Sub OPCBrowseDst_OnApply(strItem, bMoveNext)
+    On Error Resume Next
+    txtDstStatusItem.value = strItem
+End Sub
+
+' toggle source and dest server labels
+Sub chkBidirGroup_onclick
+    SetServerLabels
+    SetGroupDirtyBit
+End Sub
+
+Sub SetServerLabels
+    If chkBidirGroup.checked Then
+        lblSource.innerHTML = "<STRONG>Master:</STRONG>"
+        lblDest.innerHTML = "<STRONG>Slave:</STRONG>"
+    Else
+        lblSource.innerHTML = "<STRONG>Source:</STRONG>"
+        lblDest.innerHTML = "<STRONG>Destination:</STRONG>"
+    End If
+End Sub
+
+Sub txtDiagnosticInterval_onchange 
+    On Error Resume next
+    Dim blnConfirm
+    Err.clear
+    blnConfirm = (txtDiagnosticInterval.value = 0)
+    If Err.Number <> 0 Then Exit Sub
+    If blnConfirm Then
+        ConfirmMsg MSG_CONFIRM_DISABLE_DIAGNOSTIC, "DisableDiagnostic", parent.title.OpciDashboard.GroupDiagnosticInterval, "", "", "", ""
+    Else
+        SetGroupDirtyBit
+    End If
+End Sub
+
+Sub txtSrcStatusItem_onchange
+    ' If we are only licensed for local data transfer, use the same status item for source And destination
+    If parent.title.OpciDashboard.LicensedConnections = 0 Then
+        txtDstStatusItem.Value = txtSrcStatusItem.Value
+    End If
+    SetGroupDirtyBit
+End Sub
+
+Sub ItemDetailsTab_Onclick
+    g_ItemDetailsTabClicked = True
+End Sub
+
+Sub ApplySecurity()
+    If g_Mode = CONFIG_MODE Then
+        If m_objStation.RuntimeStatus.securitylevel = SECURITY_LEVEL_MNGR Then
+            ' Apply manager security here
+            bDisabled = False
+        Else
+            ' Apply other-user security here
+                
+            bDisabled = True
+        End If
+        DisableGroupDetailsForm bDisabled
+        SetVisibilityOfButtons
+    End If
+End Sub
+-->
+    </script>
+    <xml id="TabsXml">
+            <tabset selected="GroupDetails.htm">
+                <tab disabled="False" tabid="GroupDetails.htm" title="Group Details">
+                </tab>
+                <tab disabled="False" tabid="ItemDetails.htm" title="Item List">
+                </tab>
+                <tab disabled="False" tabid="GroupStatus.htm" title="Group Status">
+                </tab>
+            </tabset>
+        </xml>
+</head>
+<body scroll="auto">
+    <viewlink:tabset id="TabSet">
+        </viewlink:tabset>
+    <div id="DisplayArea" class="DetailsArea" align="left">
+        <hr />
+        <div id="WaitingSpan">
+            Initializing display...
+        </div>
+        <div id="groupdetails">
+            <table border="0" cellpadding="0" cellspacing="0" style="">
+                <tr>
+                    <td>
+                        Group ID:
+                    </td>
+                    <td>
+                        <span id="lblGroupID"></span>,&nbsp;containing&nbsp;<span id="lblItemCount"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group Name:
+                    </td>
+                    <td>
+                        <input id="txtGroupName" class="clsLarge" onchange="SetGroupDirtyBit()">
+                    </td>
+                    <td>
+                        Bi-directional:
+                    </td>
+                    <td>
+                        <input id="chkBidirGroup" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Deadband:
+                    </td>
+                    <td>
+                        <input id="txtDeadband" class="clsSmall" onchange="SetGroupDirtyBit()">
+                        %
+                    </td>
+                    <td nowrap>
+                        Refresh Interval:
+                    </td>
+                    <td>
+                        <input id="txtRefreshInterval" class="clsSmall" onchange="SetGroupDirtyBit()">
+                        seconds
+                    </td>
+                </tr>
+                <tr>
+                    <td nowrap>
+                        Transfer Period:
+                    </td>
+                    <td>
+                        <input id="txtXfrPeriod" class="clsSmall" onchange="SetGroupDirtyBit()">
+                        msecs
+                    </td>
+                    <td nowrap>
+                        Diagnostic Interval:
+                    </td>
+                    <td>
+                        <input id="txtDiagnosticInterval" class="clsSmall" />
+                        seconds
+                    </td>
+                </tr>
+                <tr>
+                    <td nowrap>
+                        Convert booleans:
+                    </td>
+                    <td colspan="2">
+                        <input id="chkConvertBool" type="checkbox" onclick="SetGroupDirtyBit()" />
+                        <img src="information.png" alt="Converts boolean true to 1 if destination data type is numeric." />
+                    </td>
+                </tr>
+                <tr id="rowSourceStart">
+                    <td colspan="4" height="1">
+                        <hr />
+                    </td>
+                </tr>
+                <tr id="rowSourceLabel" style="display: none">
+                    <td id="lblSource" rowspan="2" valign="top">
+                        <div class="heading">
+                            Source:</div>
+                    </td>
+                    <td id="tdThisSourceServer" valign="top">
+                        <input type="radio" id="rdThisSourceServer" name="rdSourceRadio">
+                        <label id="lblThisSourceServer" for="rdThisSourceServer">
+                        </label>
+                        <label>
+                            &nbsp;</label>
+                        <img src="information.png" alt="Automatically configures HWHsc.OPCServer on Localhost.  To use HWHsc.OPCServer2 through 5, select the other OPC Server option and configure manually." />
+                    </td>
+                </tr>
+                <tr id="rowSourceServerType" style="display: none">
+                    <td id="tdOtherSourceServer" nowrap>
+                        <input type="radio" id="rdOtherSourceServer" name="rdSourceRadio">
+                        <label for="rdOtherSourceServer">
+                            Other OPC Server</label>
+                    </td>
+                    <td id="lblSrcRedun">
+                        Redundant:
+                    </td>
+                    <td nowrap>
+                        <input id="chkSrcRedun" type="checkbox" />
+                    </td>
+                </tr>
+                <tr id="rowSourceServer" style="display: none">
+                    <td id="lblServer">
+                        Server:
+                    </td>
+                    <td nowrap>
+                        <input id="txtSrcServer" class="clsLarge" />
+                    </td>
+                    <td id="lblRedunSrcServer" style="visibility: hidden">
+                        Redundant Server:
+                    </td>
+                    <td nowrap>
+                        <input id="txtRedunSrcServer" style="visibility: hidden" class="clsLarge" onchange="SetGroupDirtyBit()">
+                    </td>
+                </tr>
+                <tr id="rowSourceProgId" style="display: none">
+                    <td id="lblProgId">
+                        ProgID:
+                    </td>
+                    <td nowrap>
+                        <input id="txtSrcProgID" class="clsLarge" />
+                        <input id="cmdSrcProgID" type="button" class="pickerbutton" value="...">
+                    </td>
+                    <td id="lblRedunSrcProgID" style="visibility: hidden">
+                        Redundant ProgID:
+                    </td>
+                    <td nowrap>
+                        <input id="txtRedunSrcProgID" style="visibility: hidden" class="clsLarge" onchange="SetGroupDirtyBit()">
+                        <input id="cmdRedunSrcProgID" class="pickerbutton" style="visibility: hidden" type="button"
+                            value="...">
+                    </td>
+                </tr>
+                <tr id="rowSourceStatusItem" style="visibility: hidden">
+                    <td nowrap>
+                        Status Item:
+                    </td>
+                    <td colspan="3" nowrap="True">
+                        <input id="txtSrcStatusItem" class="clsLarge" />
+                        <input id="cmdBrowseSrcGroup" class="pickerbutton" type="button" value="...">
+                        <img src="information.png" alt="Status items are used to monitor the status of the group on remote or 3rd party servers. If configured, the group status is written as a numeric value to the status item, this value can then be used for alarming on the remote server. Note that only one status item is required for each remote or 3rd party server." />
+                    </td>
+                </tr>
+                <tr id="rowDestinationStart" style="display: none">
+                    <td colspan="4" height="1">
+                        <hr />
+                    </td>
+                </tr>
+                <tr id="rowDestinationLabel" style="display: none">
+                    <td id="lblDest" rowspan="2" nowrap valign="top">
+                        <div class="heading">
+                            Destination:</div>
+                    </td>
+                    <td id="tdThisDestinationServer" nowrap valign="top">
+                        <input type="radio" id="rdThisDestinationServer" name="rdDstRadio" />
+                        <label id="lblThisDestinationServer" for="rdThisDestinationServer">
+                        </label>
+                    </td>
+                </tr>
+                <tr id="rowDestinationServerType" style="display: none">
+                    <td id="tdOtherDestinationServer" nowrap>
+                        <input type="radio" id="rdOtherDestinationServer" name="rdDstRadio" />
+                        <label for="rdOtherDestinationServer">
+                            Other OPC server</label>
+                    </td>
+                    <td id="lblDstRedun" nowrap>
+                        Redundant:
+                    </td>
+                    <td nowrap>
+                        <input id="chkDstRedun" type="checkbox" />
+                    </td>
+                </tr>
+                <tr id="rowDestinationServer" style="display: none">
+                    <td id="lblDstServer">
+                        Server:
+                    </td>
+                    <td>
+                        <input id="txtDstServer" class="clsLarge" />
+                    </td>
+                    <td id="lblRedunDstServer" style="visibility: hidden">
+                        Redundant Server:
+                    </td>
+                    <td>
+                        <input id="txtRedunDstServer" style="visibility: hidden" class="clsLarge" onchange="SetGroupDirtyBit()">
+                    </td>
+                </tr>
+                <tr id="rowDestinationProgId" style="display: none">
+                    <td id="lblDstProgId">
+                        ProgID:
+                    </td>
+                    <td nowrap>
+                        <input id="txtDstProgID" class="clsLarge" />
+                        <input id="cmdDstProgID" class="pickerbutton" type="button" value="...">
+                    </td>
+                    <td id="lblRedunDstProgID" style="visibility: hidden">
+                        Redundant ProgID:
+                    </td>
+                    <td nowrap>
+                        <input id="txtRedunDstProgID" style="visibility: hidden" class="clsLarge" onchange="SetGroupDirtyBit()">
+                        <input id="cmdRedunDstProgID" class="pickerbutton" style="visibility: hidden" type="button"
+                            value="...">
+                    </td>
+                </tr>
+                <tr id="rowDestinationStatusItem" style="visibility: hidden">
+                    <td>
+                        Status Item:
+                    </td>
+                    <td colspan="3" nowrap="True">
+                        <input id="txtDstStatusItem" class="clsLarge" onchange="SetGroupDirtyBit()">
+                        <input id="cmdBrowseDstGroup" class="pickerbutton" type="button" value="...">
+                        <img src="information.png" alt="Status items are used to monitor the status of the group on remote or 3rd party servers. If configured, the group status is written as a numeric value to the status item, this value can then be used for alarming on the remote server. Note that only one status item is required for each remote or 3rd party server." />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div id="lblErrorString" style="visibility: hidden">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="lblDirtyText" style="position: relative; visibility: hidden" colspan="3">
+                    </td>
+                    <td id="PageLinks" colspan="1" align="right" style="height: 100px;">
+                        <span id="cmdConfiguration" class="clsGroupLink"></span>
+                        <br>
+                        <br>
+                        <span id="cmdSysStatus" class="clsGroupLink"></span>
+                        <br>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="GroupButtons" width="40%" valign="top" style="display: none" colspan="2">
+                        <viewlink:systembutton id="cmdValidateGroup" class="pushbutton">
+                        Validate Group
+                    </viewlink:systembutton>
+                        <viewlink:systembutton id="cmdDeleteGroup" class="pushbutton">
+                        Delete Group
+                    </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdCommitGroup" class="pushbutton">
+                        Commit Group
+                    </viewlink:systembutton>
+                        <viewlink:systembutton id="cmdCancelGroup" class="pushbutton">
+                        Cancel Changes
+                    </viewlink:systembutton>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="ItemButtons" width="60%" valign="top" style="display: none" colspan="4">
+                        <p align="left">
+                            <strong><em>Item Functions:</em></strong></p>
+                        <viewlink:systembutton id="cmdBrowseSrcItem" class="pushbutton">
+                        Browse Source...
+                    </viewlink:systembutton>
+                        <viewlink:systembutton id="cmdBrowseDstItem" class="pushbutton">
+                        Browse Destination...
+                    </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdImportItems" class="pushbutton">
+                        Import Text File...
+                    </viewlink:systembutton>
+                        <viewlink:systembutton id="cmdExportItems" class="pushbutton">
+                        Export to Text File...
+                    </viewlink:systembutton>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

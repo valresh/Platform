@@ -1,0 +1,81 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="104px" height="48px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><stylesheets><stylesheet src="..\Styles\SysFaceplate.css"/></stylesheets><scripts><script event="" language="JScript" id="17A05BD8-2C52-40A6-8431-1F9FB7FB8117"><![CDATA[dropdownOpen = false;
+function toggleDropdown(iconDropdown, options)
+{
+	if(iconDropdown.open == false)
+	{
+		iconDropdown.className = "dropdownClose";
+		iconDropdown.open = true;
+		options.style.visibility = "visible";
+	}
+	else if(iconDropdown.open == true)
+	{
+		iconDropdown.className = "dropdownOpen";
+		iconDropdown.open = false;
+		options.style.visibility = "hidden";
+	}
+}]]></script><script event="onshapeload" language="JScript" id=""><![CDATA[iconDropdown.open = false
+txtOption1.value = "{%Value::Option1%}"
+txtOption2.value = "{%Value::Option2%}"]]></script></scripts><parameters><parameter name="AuxPoint" type="Point" description="" defaultvalue=""/><parameter name="AuxParameter" type="Parameter" description="" defaultvalue=""/><parameter name="Option1" type="Value" description="" defaultvalue=""/><parameter name="Option2" type="Value" description="" defaultvalue=""/></parameters><shapes><shape><group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=option1Background class="hvg.base.1 dropdownOption" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;styleClass:dropdownOption;Width:104;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=txtOption1 class="hvg.textbox.1 StatusText" style="FONT-SIZE: 14px; OVERFLOW: hidden; CURSOR: hand; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 90.38%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ffffff; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 4.8%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: inherit" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:StatusText;textColor:#ffffff;textColorBlink:False;TotalRotation:-1;Width:94;">Option 1</DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=option1 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 50%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:104;"></DIV>]]></content><scripts><script event="onmouseover" language="JScript"><![CDATA[if(option1Background.className != "dropdownOptionSelected")
+{
+	option1Background.className = "dropdownOptionHighlight"
+}]]></script><script event="onmouseout" language="JScript"><![CDATA[if(option1Background.className != "dropdownOptionSelected")
+{
+	option1Background.className = "dropdownOption"
+}]]></script><script event="onclick" language="JScript"><![CDATA[txtSelectedOption.SetDataValueSynchronous("AuxPoint.AuxParameter", "{%Value::Option1%}")
+toggleDropdown(iconDropdown, options)]]></script></scripts></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=option2Background class="hvg.base.1 dropdownOption" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;styleClass:dropdownOption;Width:104;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=txtOption2 class="hvg.textbox.1 StatusText" style="FONT-SIZE: 14px; OVERFLOW: hidden; CURSOR: hand; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 90.38%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ffffff; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 4.8%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: inherit" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:StatusText;textColor:#ffffff;textColorBlink:False;TotalRotation:-1;Width:94;">Option 2</DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=option2 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 50%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 50%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:104;"></DIV>]]></content><scripts><script event="onmouseout" language="JScript"><![CDATA[if(option2Background.className != "dropdownOptionSelected")
+{
+	option2Background.className = "dropdownOption"
+}]]></script><script event="onmouseover" language="JScript"><![CDATA[if(option2Background.className != "dropdownOptionSelected")
+{
+	option2Background.className = "dropdownOptionHighlight"
+}]]></script><script event="onclick" language="JScript"><![CDATA[txtSelectedOption.SetDataValueSynchronous("AuxPoint.AuxParameter", "{%Value::Option2%}")
+toggleDropdown(iconDropdown, options)]]></script></scripts></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=options class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 33.33%; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:32;lineColorBlink:False;Width:104;"></DIV>]]></content></html></group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=selectedBackground class="hvg.base.1 dropdownOption" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;styleClass:dropdownOption;Width:104;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=txtSelectedOption class="hvg.textbox.1  HSC.ScriptDataObject.1 StatusText" style="FONT-SIZE: 14px; OVERFLOW: hidden; CURSOR: hand; TEXT-DECORATION: ; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 90.38%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 4.8%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:StatusText;textColor:#ffffff;textColorBlink:False;TotalRotation:-1;Width:94;"></DIV>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[txtSelectedOption.value = txtSelectedOption.DataValue("AuxPoint.AuxParameter")
+option1Background.className = "dropdownOption"
+option2Background.className = "dropdownOption"
+txtOption1.className = "StatusText"
+txtOption2.className = "StatusText"
+if(txtSelectedOption.value == "{%Value::Option1%}")
+{
+	option1Background.className = "dropdownOptionSelected"
+	txtOption1.className = "StatusTextHighlight"
+}
+else if(txtSelectedOption.value == "{%Value::Option2%}")
+{
+	option2Background.className = "dropdownOptionSelected"
+	txtOption2.className = "StatusTextHighlight"
+}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::AuxPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::AuxParameter%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=iconDropdown class="hsc.image.1 dropdownOpen" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image)" hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Src:.\dropdown_files\blank.png;styleClass:dropdownOpen;Width:16;" shapesrc=".\dropdown_files\blank.png"></DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=selectedOption class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 33.33%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)  url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:16;lineColorBlink:False;Width:104;"></DIV>]]></content><scripts><script event="onclick" language="JScript"><![CDATA[toggleDropdown(iconDropdown, options)
+txtSelectedOption.value = txtSelectedOption.DataValue("AuxPoint.AuxParameter")
+option1Background.className = "dropdownOption"
+option2Background.className = "dropdownOption"
+txtOption1.className = "StatusText"
+txtOption2.className = "StatusText"
+if(txtSelectedOption.value == txtOption1.value)
+{
+	option1Background.className = "dropdownOptionSelected"
+	txtOption1.className = "StatusTextHighlight"
+}
+else if(txtSelectedOption.value == txtOption2.value)
+{
+	option2Background.className = "dropdownOptionSelected"
+	txtOption2.className = "StatusTextHighlight"
+}
+if(txtOption1.value == "")
+{
+	option1.style.visibility = "hidden"
+}
+if(txtOption2.value == "")
+{
+	option2.style.visibility = "hidden"
+}]]></script></scripts></html><binding/></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=dropdown class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 48px; WIDTH: 104px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:48;lineColorBlink:False;Width:104;"></DIV>]]></content></html></group></shape></shapes></shapefile>

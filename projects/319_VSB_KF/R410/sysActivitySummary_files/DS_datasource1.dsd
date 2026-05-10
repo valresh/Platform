@@ -1,0 +1,2449 @@
+<DATASOURCE version="2">
+<HMIPAGE pageType="0" updateRate="0" forwardAction="1" forwardString="" backwardAction="1" backwardString="" 
+         previousIdleTime="0" areaRequestType="0" areaString="" securityLevel="0" requestTaskOnPageCallup="0" 
+         callUpTaskSecurityLevel="2" callUpTaskStationIndex="0" callUpTaskTaskLrn="0" callUpTaskTaskParam1="1" 
+         callUpTaskTaskParam2="11" callUpTaskTaskParam3="0" callUpTaskTaskParam4="0" periodicTaskOnPageCallup="0" 
+         periodicTaskSecurityLevel="2" periodicTaskStationIndex="0" periodicTaskTaskLrn="0" periodicTaskTaskParam1="1" 
+         periodicTaskTaskParam2="11" periodicTaskTaskParam3="0" periodicTaskTaskParam4="0" periodicTaskPeriod="60" 
+         persistFlags="0" safeviewCategory="HW_System_Display" zoomingAllowed="1" singleUse="0" appSetName=""/>
+<DATAOBJECT id="1" type="HMIPage.ActivitySource" format="propertybag">
+<PROPERTY name="WaitForInit">1</PROPERTY> 
+<PROPERTY name="SummaryType">6</PROPERTY> 
+<PROPERTY name="Version">4.5</PROPERTY> 
+<PROPERTY name="AutoMigrate">0</PROPERTY> 
+<PROPERTY name="CurrentViewName">(all activities)</PROPERTY> 
+<PROPERTY name="CurrentViewArea"/> 
+<PROPERTY name="ViewModified">0</PROPERTY> 
+<PROPERTY name="UntitledViewName">(untitled view)</PROPERTY> 
+<PROPERTY name="TemplateXML">
+                        <![CDATA[
+<TableTemplate>
+    <FieldXML>
+        <fields>
+            <field id="Selected"/>
+            <field id="Quality"/>
+            <field id="ActivityType"/>
+            <field id="ActivityTypeEnum"/>
+            <field id="ActivityName"/>
+            <field id="ActivityEntity"/>
+            <field id="AssetDeriver"/>
+            <field id="Asset"/>
+            <field id="Description"/>
+            <field id="CreateTime"/>
+            <field id="CreateTimeMicroSeconds"/>
+            <field id="StartTime"/>
+            <field id="StartTimeMicroSeconds"/>
+            <field id="EndTime"/>
+            <field id="EndTimeMicroSeconds"/>
+            <field id="Stage"/>
+            <field id="StageEnum"/>
+            <field id="SubState"/>
+            <field id="Status"/>
+            <field id="StatusDesc"/>
+            <field id="Mode"/>
+            <field id="ModeAttribute"/>
+            <field id="PublicName"/>
+            <field id="ActivityCmdPrmName"/>
+            <field id="SubCommandPrmName"/>
+            <field id="ModePrmName"/>
+            <field id="ModeAttrPrmName"/>
+            <field id="KeyPrm1Label"/>
+            <field id="KeyPrm1"/>
+            <field id="KeyPrm2Label"/>
+            <field id="KeyPrm2"/>
+            <field id="KeyPrm3Label"/>
+            <field id="KeyPrm3"/>
+            <field id="CommandMap"/>
+            <field id="AssetFullItemName"/>
+        </fields>
+    </FieldXML>
+    <XFormXML>
+        <xforms>
+            <script id="xfSelection" language="VBScript">
+                Dim s
+                s = "Unselected_Cells"
+                If Value Then
+                    If g_bTableIsActive Then 
+                        s = "Selected_Active_Cells"
+                    Else
+                        s = "Selected_Inactive_Cells"
+                    End If
+                End If
+                Return = s
+            </script>
+			<script id="xfCentreAlarmIcon" language="jscript">
+				return window.external.IsOnTouchPanel;
+			</script>
+            <defaultValue id="EmptyVariantToString" value="" type="string"/>
+            <script id="xfDTCellFormat" language="jscript">
+                try {
+                    return DTFormat.Localize(Value, g_dateTimeFormat);
+                } catch(e) {
+                    return "";
+                }
+            </script>
+            <script id="xfDTTooltipFormat" language="jscript">
+                try {
+                    return DTFormat.Localize(Value, g_dateTimeFormatTip);
+                } catch(e) {
+                    return "";
+                }
+            </script>
+        </xforms>
+    </XFormXML>
+    <HTMLWrapperXML>
+        <HTMLWrappers>
+            <MenuItemWrapper>
+                <Begin>
+                    &lt;div style="position: relative; width: 220px; padding-bottom: 2px; padding-top: 1px; padding-right: 0px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;
+                </Begin>
+                <End>
+                    &lt;/div&gt;
+                </End>
+            </MenuItemWrapper>
+            <FilterAppliedWrapper>
+                <Begin>
+                    &lt;div class="alarmColHeading"&gt;
+                </Begin>
+                <End>
+                    &amp;nbsp;&lt;/div&gt;
+                </End>
+            </FilterAppliedWrapper>
+            <SortAscIndicator>
+                &amp;nbsp;&lt;img style="position:relative;left:3px;" src="Images/SortArrowUp.gif"&gt;
+            </SortAscIndicator>
+            <SortDescIndicator>
+                &amp;nbsp;&lt;img style="position:relative;left:3px;" src="Images/SortArrowDown.gif"&gt;
+            </SortDescIndicator>
+            <GroupSeparator>
+                &lt;div style="position:relative; width: 210px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+            </GroupSeparator>
+        </HTMLWrappers>
+    </HTMLWrapperXML>
+    <MenuGroupXML>
+        <MenuGroups>
+            <SQLFilterGroup id="ActivityIconColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ActivityIconColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show all activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Activities)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show all activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Activities)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ActivityIconColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Quality" Selected="false" Template="Quality = $$Quality$$">
+                    <Selected>
+                        &lt;div title="Show activities of the same icon as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of the same icon as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>	
+            </SQLFilterGroup>
+            <SQLFilterGroup id="PreDefActIconFilterGroup" SelectionPolicy="single">
+                <SQLFilterPredefined id="Filter_ActivityIconColumnQuestionable" FilterString="Quality = true" FilterDescription="Batch" Selected="false">
+                    <Selected>
+                        &lt;div title="Show questionable activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Bad Quality
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show questionable activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Bad Quality
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="ActivityIconColumnFilterSuperGroup" DefaultItem="Filter_ActivityIconColumnAll">
+                <GroupRef GroupId="ActivityIconColumnFilterMainGroup"/>
+                <GroupRef GroupId="PreDefActIconFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="ActivityIconSortGroup">
+                <SortItem id="Sort_ActivityIconAsc" AssociatedColumn="ActivityIcon" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by quality" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by quality" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ActivityIconDesc" AssociatedColumn="ActivityIcon" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by quality" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by quality" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="ActivityTypeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ActivityTypeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities of all types" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Activity Types)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of all types" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Activity Types)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ActivityTypeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="ActivityType" Selected="false" Template="ActivityTypeEnum = $$ActivityTypeEnum$$">
+                    <Selected>
+                        &lt;div title="Show activities with the same activity type as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same activity type as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>	
+            </SQLFilterGroup>
+            <SQLFilterGroup id="PreDefActTypeFilterGroup" SelectionPolicy="single">
+                <SQLFilterPredefined id="Filter_ActivityTypeColumnBatch" FilterString="ActivityTypeEnum = 1" FilterDescription="Batch" Selected="false">
+                    <Selected>
+                        &lt;div title="Show Batch type activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Batch
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show Batch type activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Batch
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_ActivityTypeColumnProcedure" FilterString="ActivityTypeEnum = 2" FilterDescription="ProcOps" Selected="false">
+                    <Selected>
+                        &lt;div title="Show Procedure type activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Procedure
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show Procedure type activities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Procedure
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="ActivityTypeColumnFilterSuperGroup" DefaultItem="Filter_ActivityTypeColumnAll">
+                <GroupRef GroupId="ActivityTypeColumnFilterMainGroup"/>
+                <GroupRef GroupId="PreDefActTypeFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="ActivityTypeSortGroup">
+                <SortItem id="Sort_ActivityTypeAsc" AssociatedColumn="ActivityType" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity type" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity type" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ActivityTypeDesc" AssociatedColumn="ActivityType" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity type" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity type" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="ActivityNameColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ActivityNameColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities with any batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Batch IDs)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with any batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Batch IDs)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ActivityNameColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="ActivityName" Selected="false" Template="ActivityName = '@@ActivityName@@'">
+                    <Selected>
+                        &lt;div title="Show activities with the same batch ID as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same batch ID as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_ActivityNameColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the batch ID:$$PARAMDELIM$$ActivityName" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="ActivityNameColumnFilterSuperGroup" DefaultItem="Filter_ActivityNameColumnAll">
+                <GroupRef GroupId="ActivityNameColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="ActivityNameSortGroup">
+                <SortItem id="Sort_ActivityNameAsc" AssociatedColumn="ActivityName" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ActivityNameDesc" AssociatedColumn="ActivityName" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by batch ID" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="ActivityEntityColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ActivityEntityColumnAll" FilterString="" FilterDescription="" Selected="true">					<Selected>
+                        &lt;div title="Show activities from all Activity Entities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Activity Entities)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities from all Activity Entities" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Activity Entities)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ActivityEntityColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="ActivityEntity" Selected="false" Template="ActivityEntity = '@@ActivityEntity@@'">
+                    <Selected>
+                        &lt;div title="Show activities of the same activity entity as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of the same activity entity as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_ActivityEntityColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the activity entity:$$PARAMDELIM$$ActivityEntity" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="ActivityEntityColumnFilterSuperGroup" DefaultItem="Filter_ActivityEntityColumnAll">
+                <GroupRef GroupId="ActivityEntityColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="ActivityEntitySortGroup">
+                <SortItem id="Sort_ActivityEntityAsc" AssociatedColumn="ActivityEntity" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ActivityEntityDesc" AssociatedColumn="ActivityEntity" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity entity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <EntityFilterGroup id="AssetFilterGroup" SelectionPolicy="single" LocationPaneSyncItem="Filter_AssetCustom">
+                <EntityFilterPredefined id="Filter_AssetAll" EntityFilter="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities on all assets" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"/&gt;
+                        (All Assets)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities on all assets" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"/&gt;
+                        (All Assets)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </EntityFilterPredefined>
+                <EntityFilterLCS id="Filter_AssetLCS" LocationField="AssetFullItemName" EntityFilter="" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activites on the same asset as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"/&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activites on the same asset as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"/&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </EntityFilterLCS>
+                <EntityFilterDialog id="Filter_AssetCustom" EntityFilter="" Selected="false" url="Dialogs/EntityFilterDialog.htm" format="scroll: no; dialogHeight: 300px; dialogWidth: 277px; center: Yes; help: No; resizable: No; status: No;" param="6;IsAssigned or HasAssignedDescendents" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"/&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"/&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </EntityFilterDialog>
+            </EntityFilterGroup>
+            <SuperGroup id="AssetColumnFilterSuperGroup" DefaultItem="Filter_AssetAll">
+                <GroupRef GroupId="AssetFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="AssetSortGroup">
+                <SortItem id="Sort_AssetAsc" AssociatedColumn="Asset" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_AssetDesc" AssociatedColumn="Asset" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by asset" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="DescriptionColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_DescriptionColumnAll" FilterString="" FilterDescription="" Selected="true">					<Selected>
+                        &lt;div title="Show activities with any description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Descriptions)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with any description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Descriptions)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_DescriptionColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Description" Selected="false" Template="Description = '@@Description@@'">
+                    <Selected>
+                        &lt;div title="Show activities with the same description as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same description as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_DescriptionColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the description:$$PARAMDELIM$$Description" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="DescriptionColumnFilterSuperGroup" DefaultItem="Filter_DescriptionColumnAll">
+                <GroupRef GroupId="DescriptionColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="DescriptionSortGroup">
+                <SortItem id="Sort_DescriptionAsc" AssociatedColumn="Description" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_DescriptionDesc" AssociatedColumn="Description" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by description" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="CreateTimeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_CreateTimeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities created anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_CreateTimeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="CreateDate" Selected="false" Template="CreateDate = #@@CreateDate@@#">
+                    <Selected>
+                        &lt;div title="Show activities created on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_CreateTimeColumnCustom" DialogState="" Selected="false" url="Dialogs/DateTimeFilterDialog.htm" format="scroll: no; dialogHeight: 175px; dialogWidth: 480px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities that were created:$$PARAMDELIM$$CreateTime" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on creation date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on creation date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="CreateTimeFilterGroup" SelectionPolicy="single">
+                <SQLFilterPredefined id="Filter_CreateTimeToday" FilterString="TODAY(CreateTime)" FilterDescription="Today" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimeYesterday" FilterString="YESTERDAY(CreateTime)" FilterDescription="Yesterday" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimeCurrentShift" FilterString="CURRENTSHIFT(CreateTime)" FilterDescription="Current Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimePreviousShift" FilterString="PREVIOUSSHIFT(CreateTime)" FilterDescription="Previous Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimeLast24Hours" FilterString="LASTXHOURS(CreateTime,24)" FilterDescription="Last 24 Hours" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimeThisWeek" FilterString="THISWEEK(CreateTime)" FilterDescription="This Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_CreateTimeLastWeek" FilterString="LASTWEEK(CreateTime)" FilterDescription="Last Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities created last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities created last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="CreateTimeColumnFilterSuperGroup" DefaultItem="Filter_CreateTimeColumnAll">
+                <GroupRef GroupId="CreateTimeColumnFilterMainGroup"/>
+                <GroupRef GroupId="CreateTimeFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="CreateTimeSortGroup">
+                <SortItem id="Sort_CreateTimeAsc" AssociatedColumn="CreateTime" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities from oldest to newest by creation time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from oldest to newest by creation time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_CreateTimeDesc" AssociatedColumn="CreateTime" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities from newest to oldest by creation time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from newest to oldest by creation time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="StartTimeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_StartTimeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities that started anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities that started anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_StartTimeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="StartDate" Selected="false" Template="StartDate = #@@StartDate@@#">
+                    <Selected>
+                        &lt;div title="Show activities started on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_StartTimeColumnCustom" DialogState="" Selected="false" url="Dialogs/DateTimeFilterDialog.htm" format="scroll: no; dialogHeight: 175px; dialogWidth: 480px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities that started:$$PARAMDELIM$$StartTime" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on start date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on start date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="StartTimeFilterGroup" SelectionPolicy="single">
+                <SQLFilterPredefined id="Filter_StartTimeToday" FilterString="TODAY(StartTime)" FilterDescription="Today" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimeYesterday" FilterString="YESTERDAY(StartTime)" FilterDescription="Yesterday" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimeCurrentShift" FilterString="CURRENTSHIFT(StartTime)" FilterDescription="Current Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimePreviousShift" FilterString="PREVIOUSSHIFT(StartTime)" FilterDescription="Previous Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimeLast24Hours" FilterString="LASTXHOURS(StartTime,24)" FilterDescription="Last 24 Hours" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimeThisWeek" FilterString="THISWEEK(StartTime)" FilterDescription="This Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StartTimeLastWeek" FilterString="LASTWEEK(StartTime)" FilterDescription="Last Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities started last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities started last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="StartTimeColumnFilterSuperGroup" DefaultItem="Filter_StartTimeColumnAll">
+                <GroupRef GroupId="StartTimeColumnFilterMainGroup"/>
+                <GroupRef GroupId="StartTimeFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="StartTimeSortGroup">
+                <SortItem id="Sort_StartTimeAsc" AssociatedColumn="StartTime" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities from oldest to newest by start time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from oldest to newest by start time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_StartTimeDesc" AssociatedColumn="StartTime" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities from newest to oldest by start time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from newest to oldest by start time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="EndTimeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_EndTimeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities that ended anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities that ended anytime" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Times)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_EndTimeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="EndDate" Selected="false" Template="EndDate = #@@EndDate@@#">
+                    <Selected>
+                        &lt;div title="Show activities ended on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended on the same day as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_EndTimeColumnCustom" DialogState="" Selected="false" url="Dialogs/DateTimeFilterDialog.htm" format="scroll: no; dialogHeight: 175px; dialogWidth: 480px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities that ended:$$PARAMDELIM$$EndTime" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on end date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on end date and time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="EndTimeFilterGroup" SelectionPolicy="single">
+                <SQLFilterPredefined id="Filter_EndTimeToday" FilterString="TODAY(EndTime)" FilterDescription="Today" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended today" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Today
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimeYesterday" FilterString="YESTERDAY(EndTime)" FilterDescription="Yesterday" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended yesterday" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Yesterday
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimeCurrentShift" FilterString="CURRENTSHIFT(EndTime)" FilterDescription="Current Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended in the current shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Current Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimePreviousShift" FilterString="PREVIOUSSHIFT(EndTime)" FilterDescription="Previous Shift" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended in the previous shift" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Previous Shift
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimeLast24Hours" FilterString="LASTXHOURS(EndTime,24)" FilterDescription="Last 24 Hours" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended in the last 24 hours" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last 24 Hours
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimeThisWeek" FilterString="THISWEEK(EndTime)" FilterDescription="This Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended this week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        This Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_EndTimeLastWeek" FilterString="LASTWEEK(EndTime)" FilterDescription="Last Week" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities ended last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities ended last week" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Last Week
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="EndTimeColumnFilterSuperGroup" DefaultItem="Filter_EndTimeColumnAll">
+                <GroupRef GroupId="EndTimeColumnFilterMainGroup"/>
+                <GroupRef GroupId="EndTimeFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="EndTimeSortGroup">
+                <SortItem id="Sort_EndTimeAsc" AssociatedColumn="EndTime" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities from oldest to newest by end time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from oldest to newest by end time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_EndTimeDesc" AssociatedColumn="EndTime" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities from newest to oldest by end time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities from newest to oldest by end time" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="StageColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_StageColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities in all stages" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Stages)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in all stages" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Stages)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_StageColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Stage" Selected="false" Template="StageEnum = $$StageEnum$$">
+                    <Selected>
+                        &lt;div title="Show activities with the same activity Stage as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same activity Stage as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>	
+                <SQLFilterDialog id="Filter_StageColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the stage:$$PARAMDELIM$$Stage" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="StageFilterGroup" SelectionPolicy="multi">
+                <SQLFilterPredefined id="Filter_StageColumnINIT" FilterString="StageEnum = 1" FilterDescription="INIT" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities in INIT stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        INIT
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in INIT stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        INIT
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StageColumnPreExec" FilterString="StageEnum = 8" FilterDescription="Pre-Exec" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities in PreExecution stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        PreExecution
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in PreExecution stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        PreExecution
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StageColumnExec" FilterString="StageEnum = 16" FilterDescription="Exec" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities in Executing stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Executing
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in Executing stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Executing
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StageColumnPostExec" FilterString="StageEnum = 24" FilterDescription="Post-Exec" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities in PostExecution stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        PostExecution
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in PostExecution stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        PostExecution
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterPredefined id="Filter_StageColumnFAILED" FilterString="StageEnum = 32" FilterDescription="FAILED" Selected="false">
+                    <Selected>
+                        &lt;div title="Show activities in FAILED stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        FAILED
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in FAILED stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        FAILED
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+            </SQLFilterGroup>
+            <SuperGroup id="StageColumnFilterSuperGroup" DefaultItem="Filter_StageColumnAll">
+                <GroupRef GroupId="StageColumnFilterMainGroup"/>
+                <GroupRef GroupId="StageFilterGroup"/>
+            </SuperGroup>
+            <SortGroup id="StageSortGroup">
+                <SortItem id="Sort_StageAsc" AssociatedColumn="Stage" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_StageDesc" AssociatedColumn="Stage" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity stage" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="SubStateColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_SubStateColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities in all states" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All States)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in all states" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All States)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_SubStateColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="SubState" Selected="false" Template="SubState = '@@SubState@@'">
+                    <Selected>
+                        &lt;div title="Show activities with the same activity state as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same activity state as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>	
+                <SQLFilterDialog id="Filter_SubStateColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the state:$$PARAMDELIM$$SubState" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="SubStateColumnFilterSuperGroup" DefaultItem="Filter_SubStateColumnAll">
+                <GroupRef GroupId="SubStateColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="SubStateSortGroup">
+                <SortItem id="Sort_SubStateAsc" AssociatedColumn="SubState" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by activity state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_SubStateDesc" AssociatedColumn="SubState" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by activity state" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="PublicNameColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_PublicNameColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities with any public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Public Names)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with any public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Public Names)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_PublicNameColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="PublicName" Selected="false" Template="PublicName = '@@PublicName@@'">
+                    <Selected>
+                        &lt;div title="Show activities with the same public name as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with the same public name as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_PublicNameColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the public name:$$PARAMDELIM$$PublicName" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="PublicNameColumnFilterSuperGroup" DefaultItem="Filter_PublicNameColumnAll">
+                <GroupRef GroupId="PublicNameColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="PublicNameSortGroup">
+                <SortItem id="Sort_PublicNameAsc" AssociatedColumn="PublicName" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_PublicNameDesc" AssociatedColumn="PublicName" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by public name" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="StatusColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_StatusColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities with any status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Statuses)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with any status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Statuses)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_StatusColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Status" Selected="false" Template="Status = '@@Status@@'">
+                    <Selected>
+                        &lt;div title="Show activities of the same status as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of the same status as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_StatusColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the status:$$PARAMDELIM$$Status" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="StatusColumnFilterSuperGroup" DefaultItem="Filter_StatusColumnAll">
+                <GroupRef GroupId="StatusColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="StatusSortGroup">
+                <SortItem id="Sort_StatusAsc" AssociatedColumn="Status" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_StatusDesc" AssociatedColumn="Status" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by status" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="ModeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ModeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities in all modes" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Modes)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities in all modes" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Modes)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ModeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="Mode" Selected="false" Template="Mode = '@@Mode@@'">
+                    <Selected>
+                        &lt;div title="Show activities of the same mode as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of the same mode as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_ModeColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the mode:$$PARAMDELIM$$Mode" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="ModeColumnFilterSuperGroup" DefaultItem="Filter_ModeColumnAll">
+                <GroupRef GroupId="ModeColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="ModeSortGroup">
+                <SortItem id="Sort_ModeAsc" AssociatedColumn="Mode" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ModeDesc" AssociatedColumn="Mode" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by mode" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <SQLFilterGroup id="ModeAttributeColumnFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterPredefined id="Filter_ModeAttributeColumnAll" FilterString="" FilterDescription="" Selected="true">
+                    <Selected>
+                        &lt;div title="Show activities with any mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (All Mode Attributes)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities with any mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (All Mode Attributes)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterPredefined>
+                <SQLFilterLCS id="Filter_ModeAttributeColumnLCS" FilterString="" FilterDescription="" FilterDescriptionField="ModeAttribute" Selected="false" Template="ModeAttribute = '@@ModeAttribute@@'">
+                    <Selected>
+                        &lt;div title="Show activities of the same mode attribute as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Show activities of the same mode attribute as the currently selected activity" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Like Currently Selected)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterLCS>
+                <SQLFilterDialog id="Filter_ModeAttributeColumnCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="scroll: no; dialogHeight: 210px; dialogWidth: 500px; center: Yes; help: No; resizable: No; status: No;" param="Show all activities where the mode attribute:$$PARAMDELIM$$ModeAttribute" modal="true">
+                    <Selected>
+                        &lt;div title="Define a custom filter based on the mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Define a custom filter based on the mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        (Custom Filter...)
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SuperGroup id="ModeAttributeColumnFilterSuperGroup" DefaultItem="Filter_ModeAttributeColumnAll">
+                <GroupRef GroupId="ModeAttributeColumnFilterMainGroup"/>
+            </SuperGroup>
+            <SortGroup id="ModeAttributeSortGroup">
+                <SortItem id="Sort_ModeAttributeAsc" AssociatedColumn="ModeAttribute" SortDir="asc">
+                    <Selected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in ascending order (A-Z) by mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Ascending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+                <SortItem id="Sort_ModeAttributeDesc" AssociatedColumn="ModeAttribute" SortDir="desc">
+                    <Selected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Dot.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div title="Sort the activities in descending order (Z-A) by mode attribute" style="width: 100%;"&gt;
+                        &lt;img src="Images/Spacer.gif"&gt;
+                        Sort Descending
+                        &lt;/div&gt;
+                    </NotSelected>
+                </SortItem>
+            </SortGroup>
+            <CommandGroup id="ContextMenuGroup">
+                <StandardCommand id="Command_PointDetail" Command="PointDetail">
+                    &lt;div title="Navigate to the detail page of the selected activity" style="padding: 1px; width: 100%;" class="contextMenu_PointDetail"&gt;
+                    &amp;nbsp;Detail Display
+                    &lt;/div&gt;
+                </StandardCommand>
+                <StandardCommand id="Command_AssociatedDisplay" Command="AssociatedDisplay">
+                    &lt;div title="Navigate to the associated display of the selected activity" style="padding: 1px; width: 100%;" class="contextMenu_AssDisplay"&gt;
+                    &amp;nbsp;Associated Display
+                    &lt;/div&gt;
+                </StandardCommand>
+                <ScriptCommand 
+                    id="ContextMenu_ProcedureExplorer"
+                    script="if (InvokeProcedureExplorer){InvokeProcedureExplorer(getActivityPointFromActivitySummary());}"
+                    language="jscript">
+                    &lt;div title="Open the Procedure Explorer" style="padding: 1px; width: 100%;" class="contextMenu_PE"&gt;
+                    &amp;nbsp;Procedure Explorer
+                    &lt;/div&gt;
+                </ScriptCommand>	
+                <ScriptCommand 
+                    id="ContextMenu_Message"
+                    script="if (InvokeMessageDisplayForBatch){InvokeMessageDisplayForBatch();}"
+                    language="jscript">
+                    &lt;div title="View messages for the selected batch" style="padding: 1px; width: 100%;" class="contextMenu_Message"&gt;
+                    &amp;nbsp;Messages
+                    &lt;/div&gt;
+                </ScriptCommand>	
+            </CommandGroup>
+            <CommandGroup id="CommandMenuGroup">
+                <ScriptCommand 
+                    id="ContextMenu_ActivityCommandGo"
+                    script="ActCommandShape.DataValue('ActivityPnt.CommandPrm') = ACT_COMMAND_GO_ENUM;"
+                    language="jscript">
+                    &lt;div title="Send `Start` command to selected activity" style="padding: 1px; width: 100%;" class="contextMenu_ActGo"&gt;
+                    &amp;nbsp;Start
+                    &lt;/div&gt;
+                </ScriptCommand>
+                <ScriptCommand 
+                    id="ContextMenu_ActivityCommandHold"
+                    script="ActCommandShape.DataValue('ActivityPnt.CommandPrm') = ACT_COMMAND_HOLD_ENUM;"
+                    language="jscript">
+                    &lt;div title="Send `Hold` command to selected activity" style="padding: 1px; width: 100%;" class="contextMenu_ActHold"&gt;
+                    &amp;nbsp;Hold
+                    &lt;/div&gt;
+                </ScriptCommand>
+                <ScriptCommand 
+                    id="ContextMenu_ActivityCommandStop"
+                    script="ActCommandShape.DataValue('ActivityPnt.CommandPrm') = ACT_COMMAND_STOP_ENUM;"
+                    language="jscript">
+                    &lt;div title="Send `Stop` command to selected activity" style="padding: 1px; width: 100%;" class="contextMenu_ActStop"&gt;
+                    &amp;nbsp;Stop
+                    &lt;/div&gt;
+                </ScriptCommand>
+                <ScriptCommand 
+                    id="ContextMenu_ActivityCommandRemove"
+                    script="ActCommandShape.DataValue('ActivityPnt.CommandPrm') = ACT_COMMAND_REMOVE_ENUM;"
+                    language="jscript">
+                    &lt;div title="Send `Remove` command to selected activity" style="padding: 1px; width: 100%;" class="contextMenu_ActRemove"&gt;
+                    &amp;nbsp;Remove
+                    &lt;/div&gt;
+                </ScriptCommand>
+                <ScriptCommand 
+                    id="ContextMenu_ActivityCommandAbort"
+                    script="ActCommandShape.DataValue('ActivityPnt.CommandPrm') = ACT_COMMAND_ABORT_ENUM;"
+                    language="jscript">
+                    &lt;div title="Send `Abort` command to selected activity" style="padding: 1px; width: 100%;" class="contextMenu_ActAbort"&gt;
+                    &amp;nbsp;Abort
+                    &lt;/div&gt;
+                </ScriptCommand>
+            </CommandGroup>
+            <CommandGroup id="TableMenuGroup">
+                <ScriptCommand 
+                    id="Command_ShowColumnOrganizer"
+                    script="ShowColumnOrganizer(this.menu.site.container); return true;"
+                    language="jscript">
+                    &lt;div title="The column organizer allows you to add and remove columns from view" style="padding: 1px; width: 100%;" class="contextMenu_ColOrganiser"&gt;
+                    &amp;nbsp;Show Column Organizer
+                    &lt;/div&gt;
+                </ScriptCommand>
+                <StandardCommand id="Command_ClearFilters" Command="ClearFilters">
+                    &lt;div title="Clear all filters that are currently applied" style="padding: 1px; width: 100%;" class="contextMenu_ClearFilters"&gt;				
+                    &amp;nbsp;Clear All Filters
+                    &lt;/div&gt;
+                </StandardCommand>
+            </CommandGroup>
+        </MenuGroups>
+    </MenuGroupXML>
+    <BaseFilterXML>
+        <BaseFilterDef>
+        </BaseFilterDef>
+    </BaseFilterXML>
+    <SortXML>
+        <SortDef DefaultSortColumn="ActivityName" DefaultSortDir="desc">
+            <colref id="ActivityIcon"
+                SortAscString="Quality asc"
+                SortDescString="Quality desc"
+                SortAscDescription="Bad Quality last"
+                SortDescDescription="Bad Quality first"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="ActivityType"
+                SortAscString="ActivityType asc"
+                SortDescString="ActivityType desc"
+                SortAscDescription="Type ascending"
+                SortDescDescription="Type descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="ActivityName"
+                SortAscString="ActivityName asc"
+                SortDescString="ActivityName desc"
+                SortAscDescription="Batch ID ascending"
+                SortDescDescription="Batch ID descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="ActivityEntity"
+                SortAscString="ActivityEntity asc"
+                SortDescString="ActivityEntity desc"
+                SortAscDescription="Activity Entity ascending"
+                SortDescDescription="Activity Entity descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="PublicName"
+                SortAscString="PublicName asc"
+                SortDescString="PublicName desc"
+                SortAscDescription="Public Name ascending"
+                SortDescDescription="Public Name descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="Asset"
+                SortAscString="Asset asc"
+                SortDescString="Asset desc"
+                SortAscDescription="Asset ascending"
+                SortDescDescription="Asset descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="Description"
+                SortAscString="Description asc"
+                SortDescString="Description desc"
+                SortAscDescription="Description ascending"
+                SortDescDescription="Description descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="CreateTime"
+                SortAscString="CreateTime asc"
+                SortDescString="CreateTime desc"
+                SortAscDescription="Create Time ascending"
+                SortDescDescription="Create Time descending"
+                SortDir="desc"
+                SortOrder="1"/>
+            <colref id="StartTime"
+                SortAscString="StartTime asc"
+                SortDescString="StartTime desc"
+                SortAscDescription="Start Time ascending"
+                SortDescDescription="Start Time descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="EndTime"
+                SortAscString="EndTime asc"
+                SortDescString="EndTime desc"
+                SortAscDescription="End Time ascending"
+                SortDescDescription="End Time descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="Stage"
+                SortAscString="Stage asc"
+                SortDescString="Stage desc"
+                SortAscDescription="Stage ascending"
+                SortDescDescription="Stage descending"
+                SortDir="none"
+                SortOrder="0"/>            
+            <colref id="SubState"
+                SortAscString="SubState asc"
+                SortDescString="SubState desc"
+                SortAscDescription="State ascending"
+                SortDescDescription="State descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="Status"
+                SortAscString="Status asc"
+                SortDescString="Status desc"
+                SortAscDescription="Status ascending"
+                SortDescDescription="Status descending"
+                SortDir="none"
+                SortOrder="0"/>    
+            <colref id="StatusDescription"
+                SortAscString="StatusDesc asc"
+                SortDescString="StatusDesc desc"
+                SortAscDescription="Status Description ascending"
+                SortDescDescription="Status Description descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="Mode"
+                SortAscString="Mode asc"
+                SortDescString="Mode desc"
+                SortAscDescription="Mode ascending"
+                SortDescDescription="Mode descending"
+                SortDir="none"
+                SortOrder="0"/>
+            <colref id="ModeAttribute"
+                SortAscString="ModeAttribute asc"
+                SortDescString="ModeAttribute desc"
+                SortAscDescription="Mode Attribute ascending"
+                SortDescDescription="Mode Attribute descending"
+                SortDir="none"
+                SortOrder="0"/>
+        </SortDef>
+    </SortXML>
+    <ReportTemplateXML>
+        <ReportTemplate>
+            <colref id="ActivityIcon" header="" field="Quality" />
+            <colref id="ActivityType" header="Activity Type" field="ActivityType" />
+            <colref id="ActivityName" header="Batch ID" field="ActivityName" />
+            <colref id="ActivityEntity" header="Activity Entity" field="ActivityEntity" />
+            <colref id="PublicName" header="Public Name" field="PublicName" />
+            <colref id="Asset" header="Asset" field="Asset" />
+            <colref id="Description" header="Description" field="Description" />
+            <colref id="CreateTime" header="Create Time" field="CreateTime" />
+            <colref id="StartTime" header="Start Time" field="StartTime" />
+            <colref id="EndTime" header="End Time" field="EndTime" />
+            <colref id="Stage" header="Stage" field="Stage" />
+            <colref id="SubState" header="State" field="SubState" />
+            <colref id="Status" header="Status" field="Status" />
+            <colref id="StatusDescription" header="Status Description" field="StatusDesc" />
+            <colref id="Mode" header="Mode" field="Mode" />
+            <colref id="ModeAttribute" header="Mode Attribute" field="ModeAttribute" />
+        </ReportTemplate>
+    </ReportTemplateXML>
+    <ColumnStateXML>
+        <state>
+            <colref id="ActivityIcon" width="60" />
+            <colref id="ActivityName" width="200" />
+            <colref id="ActivityEntity" width="200" />
+            <colref id="PublicName" width="180" hidden="false" />
+            <colref id="Asset" width="180" />
+            <colref id="ActivityType" width="180" />
+            <colref id="Description" width="480" />
+            <colref id="Stage" width="180"/>
+            <colref id="SubState" width="180"/>
+            <colref id="Status" width="180"/>
+            <colref id="StatusDescription" width="220"/>
+            <colref id="CreateTime" width="360"/>
+            <colref id="StartTime" width="360"/>
+            <colref id="EndTime" width="360"/>
+            <colref id="Mode" width="120" hidden="true" />
+            <colref id="ModeAttribute" width="120" hidden="true" />
+        </state>
+    </ColumnStateXML>
+    <TableDefinitionXML>
+        <table>
+            <tableMenu>
+                <GroupRef GroupId="TableMenuGroup"/>
+            </tableMenu>
+            <contextMenu>
+                <GroupRef GroupId="ContextMenuGroup"/>
+                <GroupRef GroupId="CommandMenuGroup"/>
+            </contextMenu>
+            <columns>
+                <column id="ActivityIcon" name="Activity Icon">
+                    <title tooltip="Click to filter or sort by activity icon">&lt;span class="blankHeader"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ActivityIconColumnFilterMainGroup"/>
+                        <GroupRef GroupId="PreDefActIconFilterGroup"/>
+                        <GroupRef GroupId="ActivityIconSortGroup"/>
+                    </menu>
+                    <content>
+                        &lt;div style="behavior: url(#AlarmStateIconFactory#ActivityIcon); 
+                                   width: 100%; 
+                                   height: 100%;
+                                   position: relative;
+                                   top: 0px;
+                                   white-space: nowrap;
+                                    text-align: center;"&gt;&lt;/div&gt;
+                    </content>
+                    <bindings>
+                        <in fields="Quality" properties="Questionable" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+						<in fields="Selected" properties="centre" xforms="xfCentreAlarmIcon"/>
+                    </bindings>
+                </column>
+                <column id="ActivityType" name="Type">
+                    <title tooltip="Click to filter or sort by activity type">&lt;span class="textHeader"&gt;Type&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ActivityTypeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="PreDefActTypeFilterGroup"/>
+                        <GroupRef GroupId="ActivityTypeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="ActivityType" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="ActivityName" name="Batch ID">
+                    <title tooltip="Click to filter or sort by batch ID">&lt;span class="textHeader"&gt;Batch ID&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ActivityNameColumnFilterMainGroup"/>
+                        <GroupRef GroupId="ActivityNameSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="ActivityName" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="ActivityEntity" name="Activity Entity">
+                    <title tooltip="Click to filter or sort by activity entity">&lt;span class="textHeader"&gt;Activity Entity&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ActivityEntityColumnFilterMainGroup"/>
+                        <GroupRef GroupId="ActivityEntitySortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="ActivityEntity" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="PublicName" name="Public Name">
+                    <title tooltip="Click to filter or sort by public name">&lt;span class="textHeader"&gt;Public Name&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="PublicNameColumnFilterMainGroup"/>
+                        <GroupRef GroupId="PublicNameSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="PublicName" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="Asset" name="Asset">
+                    <title tooltip="Click to filter or sort by asset">&lt;span class="textHeader"&gt;Asset&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="AssetFilterGroup"/>
+                        <GroupRef GroupId="AssetSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="Asset" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="Description" name="Description">
+                    <title tooltip="Click to filter or sort by description">&lt;span class="textHeader"&gt;Description&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="DescriptionColumnFilterMainGroup"/>
+                        <GroupRef GroupId="DescriptionSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="Description" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="CreateTime" name="Create Time">
+                    <title tooltip="Click to filter or sort by activity creation time">&lt;span class="textHeader"&gt;Create Time&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="CreateTimeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="CreateTimeFilterGroup"/>
+                        <GroupRef GroupId="CreateTimeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="CreateTime;CreateTimeMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+                        <in fields="CreateTime;CreateTimeMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="StartTime" name="Start Time">
+                    <title tooltip="Click to filter or sort by activity start time">&lt;span class="textHeader"&gt;Start Time&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="StartTimeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="StartTimeFilterGroup"/>
+                        <GroupRef GroupId="StartTimeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="StartTime;StartTimeMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+                        <in fields="StartTime;StartTimeMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="EndTime" name="End Time">
+                    <title tooltip="Click to filter or sort by activity end time">&lt;span class="textHeader"&gt;End Time&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="EndTimeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="EndTimeFilterGroup"/>
+                        <GroupRef GroupId="EndTimeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="EndTime;StartTimeMicroSeconds" xforms="xfDTCellFormat" properties="innerText" />
+                        <in fields="EndTime;StartTimeMicroSeconds" xforms="xfDTTooltipFormat" properties="title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="Stage" name="Stage">
+                    <title tooltip="Click to filter or sort by activity stage">&lt;span class="textHeader"&gt;Stage&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="StageColumnFilterMainGroup"/>
+                        <GroupRef GroupId="StageFilterGroup"/>
+                        <GroupRef GroupId="StageSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="Stage" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="SubState" name="State">
+                    <title tooltip="Click to filter or sort by activity state">&lt;span class="textHeader"&gt;State&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="SubStateColumnFilterMainGroup"/>
+                        <GroupRef GroupId="SubStateSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="SubState" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="Status" name="Status">
+                    <title tooltip="Click to filter or sort by activity status">&lt;span class="textHeader"&gt;Status&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="StatusColumnFilterMainGroup"/>
+                        <GroupRef GroupId="StatusSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="Status" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="StatusDescription" name="Status Description">
+                    <title>&lt;span class="textHeaderWithoutMenu"&gt;Status Description&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="StatusDesc" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="Mode" name="Mode">
+                    <title tooltip="Click to filter or sort by activity mode">&lt;span class="textHeader"&gt;Mode&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ModeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="ModeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="Mode" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+                <column id="ModeAttribute" name="Mode Attribute">
+                    <title tooltip="Click to filter or sort by activity mode attribute">&lt;span class="textHeader"&gt;Mode Attribute&lt;/span&gt;</title>
+                    <action/>
+                    <menu>
+                        <GroupRef GroupId="ModeAttributeColumnFilterMainGroup"/>
+                        <GroupRef GroupId="ModeAttributeSortGroup"/>
+                    </menu>
+                    <content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px; padding-top: 1px;"/&gt;</content>
+                    <bindings>
+                        <in fields="ModeAttribute" xforms="EmptyVariantToString" properties="innerText;title" />
+                        <in fields="Selected" properties="id" xforms="xfSelection"/>
+                    </bindings>
+                </column>
+            </columns>
+        </table>
+    </TableDefinitionXML>
+</TableTemplate>
+]]></PROPERTY>
+</DATAOBJECT>
+<DATAOBJECT id="2" type="HMIPage.EntitySource" format="propertybag">
+<PROPERTY name="Version">4.5</PROPERTY>
+<PROPERTY name="SummaryType">6</PROPERTY> 
+<PROPERTY name="AutoMigrate">0</PROPERTY>
+<PROPERTY name="WaitForSelectionList">1</PROPERTY>
+<PROPERTY name="StartLocation"></PROPERTY>
+<PROPERTY name="AuxFilter">IsAssigned or HasAssignedDescendents</PROPERTY>
+<PROPERTY name="TemplateXML"><![CDATA[
+<TableTemplate>
+    <FieldXML>
+        <fields>
+            <field id="Selected"/>
+            <field id="NodeHandle" rowId="true"/>
+            <field id="Depth"/>
+            <field id="Expanded"/>
+            <field id="NumChildren"/>
+            <field id="SiblingNumber"/>
+            <field id="PointNumber"/>
+            <field id="IsAssigned"/>
+            <field id="HasAssignedDescendents"/>
+            <field id="EntityName"/>
+            <field id="TagName"/>
+            <field id="FullName"/>
+            <field id="RemoteType"/>
+            <field id="SubType"/>
+            <field id="ItemNumber"/>
+            <field id="Redundant"/>
+            <field id="Type"/>
+            <field id="DirectConnect"/>
+            <field id="Flags"/>
+        </fields>
+    </FieldXML>
+    <XFormXML>
+        <xforms>
+            <defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+            <script id="xfSelection" language="VBScript">
+                Dim s
+                s = "Unselected_Cells"
+                If Not IsEmpty(Value(0)) Then
+                    If Value(0) Then
+                    If g_bAreaTableIsActive Then
+                        If Value(1) Then 
+                            s = "Selected_Active_Cells"
+                        Else
+                            s = "Selected_Active_Unassigned_Cells"
+                        End If
+                    Else
+                        If Value(1) Then
+                            s = "Selected_Inactive_Cells"
+                        Else
+                            s = "Selected_Inactive_Unassigned_Cells"
+                        End If
+                    End If
+                    ElseIf Not Value(1) Then
+                    s = "Unassigned_Cells"
+                    End If
+                End If
+                Return = s
+            </script>
+            <script id="xfBold" language="VBScript">
+                if (true) then
+                    Return = ""
+                else
+                    Return = "bold"
+                end if
+            </script>
+            <script id="xfIconImg" language="VBScript">
+                Return = GetNodeImagePath(Value)
+            </script>
+            <script id="xfIconVisible" language="VBScript">
+                if (true) then
+                    Return = "visible"
+                else
+                    Return = "hidden"
+                end if
+            </script>
+            <script id="xfPadding" language="VBScript">
+                if ( IsEmpty(Value) ) then
+                    Return = "0px"
+                else
+                    Return = CStr((Value - 1) * 16) &amp; "px"
+                end if
+            </script>
+            <script id="xfPlusMinusImg" language="VBScript">
+                On Error Resume Next
+				if (IsEmpty(Value(0)) or (Value(0) = 0)) then
+					Return = "Images/blank.gif"
+				elseif (Value(1)) then
+				    if not window.external.IsOnTouchPanel then
+					    Return = "Images/Collapse.png"
+			        else 
+					    Return = "Images/Collapse_Touch.png"
+					end if
+				else
+				    if not window.external.IsOnTouchPanel then
+					    Return = "Images/Expand.png"
+					else
+					    Return = "Images/Expand_Touch.png"
+					end if
+				end if
+            </script>
+            <script id="xfNameAndCount" language="VBScript">
+                Return = GetNodeDisplayName(Value)
+                if( false ) then
+                    if( Value(4) &gt; 0 ) then
+                    Return = Return &amp; " (" &amp; Value(4) &amp; ")"
+                    end if
+                end if
+            </script>
+            <script id="xfUnavailableImg" language="VBScript">
+                Return = GetUnavailableImagePath(Value)
+            </script>
+        </xforms>
+    </XFormXML>
+    <HTMLWrapperXML>
+        <HTMLWrappers>
+            <MenuItemWrapper>
+                <Begin>
+                    &lt;div style="position: relative; width: 170px; padding-bottom: 2px; padding-top: 1px; padding-right: 5px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;&lt;span&gt;
+                </Begin>
+                <End>
+                    &lt;/span&gt;&lt;/div&gt;
+                </End>
+            </MenuItemWrapper>
+            <FilterAppliedWrapper>
+                <Begin>
+                    &lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; margin-right: 1px; background-color: mediumblue; color: white; font-weight: bold;"&gt;
+                </Begin>
+                <End>
+                    &lt;/span&gt;
+                </End>
+            </FilterAppliedWrapper>
+            <SortAscIndicator>
+                &amp;nbsp;&lt;img src="Images/SortArrowUp.gif"&gt;
+            </SortAscIndicator>
+            <SortDescIndicator>
+                &amp;nbsp;&lt;img src="Images/SortArrowDown.gif"&gt;
+            </SortDescIndicator>
+            <GroupSeparator>
+                &lt;div style="position:relative; width: 160px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+            </GroupSeparator>
+        </HTMLWrappers>
+    </HTMLWrapperXML>
+    <MenuGroupXML>
+        <MenuGroups>
+        </MenuGroups>
+    </MenuGroupXML>
+    <BaseFilterXML>
+        <BaseFilterDef>
+        </BaseFilterDef>
+    </BaseFilterXML>
+    <SortXML>
+        <SortDef DefaultSortColumn="Tree" DefaultSortDir="asc">
+            <colref id="Tree" 
+                SortAscString="EntityName asc"
+                SortDescString="EntityName desc"
+                SortDir="asc"
+                SortOrder="1"/>
+        </SortDef>
+    </SortXML>
+    <ColumnStateXML>
+        <state>
+            <colref id="Tree" width="100" hidden="false" />
+        </state>
+    </ColumnStateXML>
+    <TableDefinitionXML>
+        <table>
+            <tableMenu/>
+            <contextMenu/>
+            <columns>
+                <column id="Tree">
+                    <title>Tree</title>
+                    <action/>
+                    <menu/>
+                    <content>
+                        &lt;div class="TreeNodeContainer" language="javascript" onmousedown="if( window.event.button != 1 ) { window.event.cancelBubble = true; return false; }" ExpandCollapseTrigger=0&gt;
+                            &lt;div class="TreeNodeGroup"&gt;
+                                &lt;div class="TreeNodePlusMinus"
+                                    onmousedown="if( window.event.button == 1 ) { this.parentElement.parentElement.setAttribute('ExpandCollapseTrigger', 1); window.event.cancelBubble = true; }"
+                                    onclick="window.event.cancelBubble = true; return false;"&gt;
+                                    &lt;img class="PlusMinusIcon" src="Images/blank.gif"/&gt;
+                                &lt;/div&gt;
+                                &lt;div language="javascript" ondblclick="AreaTable.Binding.DataObjects(0).PointDetail();" class="TreeNodeIconGroup"&gt;
+                                    &lt;div class="TreeAssetIcon"&gt;
+                                        &lt;img src="Images/blank.gif"/&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class="TreeAssetIcon"&gt;
+                                        &lt;img src="Images/blank.gif"/&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div language="javascript" ondblclick="AreaTable.Binding.DataObjects(0).PointDetail();" class="treeNodeLabel"&gt;&lt;/div&gt;
+                            &lt;/div&gt;  
+                        &lt;/div&gt;
+                    </content>
+                    <bindings>
+                        <in fields="Depth" properties="firstElementChild.style.left" xforms="xfPadding" />
+                        <in fields="NumChildren;Expanded" properties="firstElementChild.firstElementChild.firstElementChild.src" xforms="xfPlusMinusImg" />
+                        <in fields="RemoteType;SubType;ItemNumber;Redundant;Flags" properties="firstElementChild.firstElementChild.nextElementSibling.firstElementChild.firstElementChild.src" xforms="xfIconImg" />
+                        <in fields="EntityName;Type;SubType;DirectConnect" properties="firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.firstElementChild.src" xforms="xfUnavailableImg" />
+                        <in fields="EntityName;RemoteType;SubType;ItemNumber" properties="firstElementChild.lastElementChild.innerText;title" xforms="xfNameAndCount" />
+                        <in fields="Selected" properties="firstElementChild.lastElementChild.style.fontWeight" xforms="xfBold" />
+                        <in fields="Selected;IsAssigned" properties="firstElementChild.lastElementChild.id" xforms="xfSelection"/>
+                        <in fields="Selected" properties="firstElementChild.firstElementChild.nextElementSibling.firstElementChild.style.visibility;firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.style.visibility" xforms="xfIconVisible"/>
+                        <out properties="ExpandCollapseTrigger" fields="Expanded"/>
+                    </bindings>
+                </column>
+            </columns>
+        </table>
+    </TableDefinitionXML>
+</TableTemplate>
+]]></PROPERTY>
+</DATAOBJECT>
+<dataobject id="3" type="HMIPage.Generic" format="propertybag">
+    <property name="AddressFlags">0</property>
+    <property name="AddressType">0</property>
+    <property name="ObjectType">1</property>
+    <property name="PointRefFlags">0</property>
+    <property name="PointRefParamName">{%SubCommandPrm%}</property>
+    <property name="PointRefParamOffset">0</property>
+    <property name="PointRefPointName">{%ActivityPnt%}</property>
+    <property name="PresentationType">1</property>
+    <property name="SecurityLevel">2</property>
+    <property name="UpdatePeriod">0</property>
+    <property name="version">1.2</property>
+</dataobject>
+<dataobject id="4" type="HMIPage.ScriptData" format="propertybag">
+    <property name="CommaDelimitedAllowFastUpdateValues">0,</property>
+    <property name="CommaDelimitedParameters">{%SubCommandPrm%},</property>
+    <property name="CommaDelimitedPointNames">{%ActivityPnt%},</property>
+    <property name="CommaDelimitedPresentationTypes">1,</property>
+    <property name="CommaDelimitedSecurityLevels">2,</property>
+    <property name="CommaDelimitedUpdateRates">0,</property>
+    <property name="version">1.1</property>
+</dataobject>
+<dataobject id="5" type="HMIPage.Generic" format="propertybag">
+    <property name="AddressFlags">0</property>
+    <property name="AddressType">0</property>
+    <property name="ObjectType">1</property>
+    <property name="PointRefFlags">0</property>
+    <property name="PointRefParamName">{%ModePrm%}</property>
+    <property name="PointRefParamOffset">0</property>
+    <property name="PointRefPointName">{%ActivityPnt%}</property>
+    <property name="PresentationType">1</property>
+    <property name="SecurityLevel">2</property>
+    <property name="UpdatePeriod">0</property>
+    <property name="version">1.2</property>
+</dataobject>
+<dataobject id="6" type="HMIPage.ScriptData" format="propertybag">
+    <property name="CommaDelimitedAllowFastUpdateValues">0,</property>
+    <property name="CommaDelimitedParameters">{%ModePrm%},</property>
+    <property name="CommaDelimitedPointNames">{%ActivityPnt%},</property>
+    <property name="CommaDelimitedPresentationTypes">1,</property>
+    <property name="CommaDelimitedSecurityLevels">2,</property>
+    <property name="CommaDelimitedUpdateRates">0,</property>
+    <property name="version">1.1</property>
+</dataobject>
+<dataobject id="7" type="HMIPage.Generic" format="propertybag">
+    <property name="AddressFlags">0</property>
+    <property name="AddressType">0</property>
+    <property name="ObjectType">1</property>
+    <property name="PointRefFlags">0</property>
+    <property name="PointRefParamName">{%ModeAttrPrm%}</property>
+    <property name="PointRefParamOffset">0</property>
+    <property name="PointRefPointName">{%ActivityPnt%}</property>
+    <property name="PresentationType">1</property>
+    <property name="SecurityLevel">2</property>
+    <property name="UpdatePeriod">0</property>
+    <property name="version">1.2</property>
+</dataobject>
+<dataobject id="8" type="HMIPage.ScriptData" format="propertybag">
+    <property name="CommaDelimitedAllowFastUpdateValues">0,</property>
+    <property name="CommaDelimitedParameters">{%ModeAttrPrm%},</property>
+    <property name="CommaDelimitedPointNames">{%ActivityPnt%},</property>
+    <property name="CommaDelimitedPresentationTypes">1,</property>
+    <property name="CommaDelimitedSecurityLevels">2,</property>
+    <property name="CommaDelimitedUpdateRates">0,</property>
+    <property name="version">1.1</property>
+</dataobject>
+<dataobject id="9" type="HMIPage.ScriptData" format="propertybag">
+    <property name="CommaDelimitedAllowFastUpdateValues">0,</property>
+    <property name="CommaDelimitedParameters">{%CommandPrm%},</property>
+    <property name="CommaDelimitedPointNames">{%ActivityPnt%},</property>
+    <property name="CommaDelimitedPresentationTypes">0,</property>
+    <property name="CommaDelimitedSecurityLevels">2,</property>
+    <property name="CommaDelimitedUpdateRates">0,</property>
+    <property name="version">1.1</property>
+</dataobject>
+</DATASOURCE>
+

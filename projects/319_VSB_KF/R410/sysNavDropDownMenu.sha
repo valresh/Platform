@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="sysNavDropDownMenu" description="Drop-down toggle menu for a standard system display." useFirstShapeForBadValue="0" width="240px" height="35px">
+  <versionheaders>
+    <versionheader name="PS" value="5.5"/>
+  </versionheaders>
+  <scripts>
+    <script event="" language="JavaScript" id="DB2EB60B-EB5D-434e-B54F-BA9ACCD3CE78">
+      <![CDATA[       
+        //------------------------------------------------------------------------
+        // ResolveMenuPath
+        //------------------------------------------------------------------------
+        // <summary>
+        // Work out where the menu-hosting document lives and set the popup URL
+        // appropriately.
+        // </summary>
+        // <returns>
+        // true if the path was resolved, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function ResolveMenuPath(popupTrigger, menuFile)
+        {
+          try
+          {
+            if (typeof(window.document.documentElement.SystemDisplayScripts) == "object")
+            {
+              popupTrigger.setAttribute("PopupURL", 
+                                        document.documentElement.ResolveReference("Menus/NavMenu.htm") + "?MenuXML=" + menuFile, 
+                                        1);
+              return true;
+            }
+          }
+          catch(e)
+          {
+            alert("Exception resolving popup menu path for '" + menuFile + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+      ]]>
+    </script>
+    <script event="onshapeload" language="JavaScript" id="">
+      <![CDATA[
+      var fitString = new String("{%Value::SnapToTopLeft%}");
+      if (fitString.toLowerCase() == 'true')
+      {
+        // Give this element to the proper TopLeft appearance and position.
+        this.style.left = "0px";
+        this.style.top = "0px";
+        this.style.height = "35px";
+        this.style.width = "240px";
+        
+        if (this.className.toLowerCase().indexOf("topleft") < 0)
+        {
+          this.className  = this.className + " TopLeft";
+        }
+      }
+    
+      // make sure the popup menu path is resolved.
+      var fnMenuContent = function(){ return ResolveMenuPath(DropDownMenuContainer.children[0], "{%Value::DropDownMenuXML%}"); }
+      if (!fnMenuContent())
+      {
+        document.documentElement.attachEvent("onreadystatechange", fnMenuContent);
+      }
+      ]]>
+    </script>
+  </scripts>
+  <parameters>
+    <parameter name="Caption" type="Value" description="The text that appears in the toggle-button." defaultvalue="System Configuration"/>
+    <parameter name="Icon" type="Value" description="The icon that appears in the toggle-button." defaultvalue="./images/omSystemConfig.gif"/>
+    <parameter name="DropDownMenuXML" type="Value" description="The filename containing the definition of the drop-down menu content" defaultvalue="OperatorsMenu.xml"/>
+    <parameter name="SnapToTopLeft" type="Value" description="True if the drop-down menu should be positioned and styled as the top-left panel for this display." defaultvalue="true"/>
+  </parameters>
+  <shapes>
+    <shape>
+      <group>
+        <html>
+          <content>
+            <![CDATA[<DIV id="DropDownMenuContainer" class="hvg.group.1 TopLeft" 
+              style="BEHAVIOR: url(#HDXVectorFactory#group);
+                    HEIGHT: 35px;
+                    min-height: 35px;
+                    LEFT: 0px;                    
+                    POSITION: relative;
+                    overflow: hidden; 
+                    TOP: 0px; 
+                    WIDTH: 240px;" 
+              tabIndex="-1" 
+              hdxproperties="fillColorBlink:False;Height:35;lineColorBlink:False;Width:240;">
+              <a id="OperatorsMenuButton"
+	              class="ToggleMenuButton"
+                href="" onclick="javascript: return false;"
+	              ConstrainPopupWidth="true"
+	              PopupAlignment="bottom">
+                <img id="TopLeftIcon" src="{%Value::Icon%}"/>
+	              <span id="TopLeftTitle">{%Value::Caption%}</span>
+             </a>
+            </DIV>]]>
+          </content>
+        </html>
+      </group>
+    </shape>
+  </shapes>
+</shapefile>

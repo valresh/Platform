@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+	<TITLE>Batch Selection</TITLE>
+
+	<META content="text/html; charset=unicode" http-equiv=Content-Type>
+	<META name=GENERATOR content="MSHTML 11.00.10570.1001">
+	<META http-equiv="X-UA-Compatible" content="IE=10">
+
+	<OBJECT id=BindingBehavior style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+	<OBJECT id=StnEvtReflector style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+	<OBJECT id=HDXPageBehavior style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codebase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+
+	<STYLE>
+		HTML {
+			OVERFLOW: hidden; HEIGHT: 100%; WIDTH: 100%
+		}
+		BODY {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+		}
+		#Page {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+		}
+		.batchSelectorContainer {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+		}
+		.batchSelectorContent {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+		}
+	</STYLE>
+
+
+	<SCRIPT type=text/javascript>
+		var link = document.createElement("link");
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.href = window.external.FrameworkServices.HMIWebJSBasePath + "/BatchSelector/Styles/batch-selector-light.css";
+		document.head.appendChild(link);
+
+		var oS = document.createElement('script');
+		oS.type = "text/javascript";
+		oS.src = window.external.FrameworkServices.HMIWebJSBasePath + "/BatchSelector/batch-selector.js";
+		document.head.appendChild(oS);
+
+		// handle zoom change or window rezise
+		function resizePage()
+		{
+			try
+			{	
+				// Size the alarm help to the entire client area, and always set the zoom to 100%
+				Page.style.pixelWidth = window.innerWidth - 1;
+				Page.style.pixelHeight = window.innerHeight - 1;
+				Page.style.zoom = 1;
+			}
+			catch (e)
+			{
+				// Don't try anything if we got an exception
+				if (window.external && window.external.logMessage) {
+					window.external.logMessage("sysBatchSummary.htm | resizePage | Exception occurred, " + e.message);
+				}
+			}		
+		}
+
+		function backgroundPropChange()
+		{
+			if (event.propertyName == "style.zoom" || event.propertyName == "style.width" || event.propertyName == "style.height") 
+			{
+				resizePage();
+			}
+		}
+	</SCRIPT>
+	
+</HEAD>
+<BODY onresize=resizePage() onload=resizePage()>
+	<div style="position: absolute; background-color: transparent; zoom: 1; width: 400px; height: 600px;" onpropertychange=backgroundPropChange() id=Background></div>
+	<DIV id=Page style="BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector);
+						width: 400px; height: 600px; zoom: 1; position: absolute; margin: 0;">
+		<div class="batchSelectorContainer" style="position: absolute; height: 100%; width: 100%;">
+				<hn-batch-selector 
+					style="position: absolute; height: 100%; width: 100%;"
+					id="batchSelector001"
+					class="batchSelectorContent"
+					data-batch-selector-silverlight-source="./BatchSelectorSL.xap"
+					tabIndex="-1">
+				</hn-batch-selector> 
+			</div>
+	</DIV>
+</BODY>
+</HTML>

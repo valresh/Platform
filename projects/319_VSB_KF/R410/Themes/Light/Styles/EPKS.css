@@ -1,0 +1,1830 @@
+/*****************************************************************************
+Copyright (C) 2015 HONEYWELL INTERNATIONAL SARL
+								
+$Workfile: EPKS.css $												
+$Modtime: 8/11/16 10:31a $											
+$Revision: $
+$Author: PRai $														
+******************************************************************************
+This stylesheet contains the HTML styles that define the appearance of
+various elements of a standard system display that are peculiar to the 
+'EPKS' branded releases.
+******************************************************************************
+The stylesheet cascade for System Displays is:
+SystemDisplayLayout.css (optional)
+System.css
+EPKS.css
+
+Of the last three, the references should always be present but the only the
+stylesheet for the actual system type should be included.
+*****************************************************************************/
+
+.TitleBar
+{
+	background-color: #eaeaea;
+}
+/*----------------------------------------------------------------------------
+TopLeft
+------------------------------------------------------------------------------
+The TopLeft CSS class is for the element that provides the top-left title for
+the set of displays that this one belongs to.
+----------------------------------------------------------------------------*/ 
+.TopLeft
+{
+
+	background: #B4B4B4 url(..\Images\TopLeftContainer_radius.png) no-repeat 267px 0px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index:4;
+	width: 100%;
+	height: 100%;  
+}
+
+.TopLeftGS
+{
+	background-color: #B4B4B4;
+	background-position: right middle; 
+	background-repeat: no-repeat;
+}
+
+#shpTopLeftMenu {
+	width: 280px !important;
+}
+	
+#shpTopLeftMenu span {
+	padding-left: 25px;
+}
+
+.TopLeft #OperatorsMenuButton
+{
+	margin: 0px 0px;
+}
+	
+.TopLeft .DropDown
+{
+	background-image: url(../Images/menuIcon.png);
+}
+	
+.TopLeft .CloseUp
+{
+	background-image: url(../Images/menuIcon_selected.png);
+}
+
+/*----------------------------------------------------------------------------NavPane------------------------------------------------------------------------------The NavPane element takes up the rest of the left-hand bar of the displaybelow the TopLeft title element.----------------------------------------------------------------------------*/ 
+
+/* Below classes added by Garry KAPOOR*/
+
+.TopHeader{
+background-color: #9DB2C5;
+height:48px;
+width:100%;
+border-bottom:1px solid #b4b4b4;
+}
+
+.TopHeaderPageTitle{
+float:left;
+color:#fff;
+font-weight:bold;
+margin:15px 0px 0px 285px;
+
+}
+ 
+.HDXTBL_BODY{
+margin:5px 0px 5px 5px;
+height:750px !important;
+}
+
+.TableFilters{
+float:right;
+margin:5px 15px 0px 0px;
+}
+
+.TableFilters ul {
+padding:0px;
+margin:0px;
+color:#fff;
+}
+
+.TableFilters ul li{
+list-style:none;
+float:left;
+display:box;
+height:30px;
+line-height:30px;
+margin:0px 10px 0px 10px;
+padding:0px;
+}
+
+.FilterIcon{
+float:left;
+position:relative;
+width:34px;
+height:40px;
+}
+
+.FilterName{
+font-size:12px;
+right:0px;
+margin-top:-8px;
+text-align:left;
+position:inherit;
+}
+
+.FilterCount{
+position:inherit;
+font-size:25px;
+text-align:left;
+margin-top:-10px;
+right:0px;
+}
+
+.FilterAlarmClear,
+.FilterAlarmFailed,
+.FilterAlarmOk,
+.FilterAlarmDisabled,
+.FilterAlarmMarginal,
+.FilterAlarmUnknown,
+.FilterAlarmSimulation{
+	background:url(../Images/scada-header-icons.png) 0 0 no-repeat;
+}
+
+.FilterAlarmClear{
+	background-position:0px 0px;
+}
+.FilterAlarmFailed{
+	background-position:-35px 0px;
+}
+.FilterAlarmOk{
+	background-position:-70px 0px;
+}
+.FilterAlarmDisabled{
+	background-position:-105px 0px;
+}
+.FilterAlarmMarginal{
+	background-position:-140px 0px;
+}
+.FilterAlarmUnknown{
+	background-position:-175px 0px;
+}
+.FilterAlarmSimulation{
+	background-position:-210px 0px;
+}
+.FilterOptions{
+	z-index:1000;
+	position:absolute;
+	width:280px;
+	box-sizing:content-box;
+	background:#e1ebf7;
+	border-top:1px solid #b5c6d3 !important;
+	left:0px;
+	top:50px;
+	text-align:left;
+	padding:0px;
+}
+
+.filterIcon{
+	float:right;
+	width:24px;
+	height:24px;
+	background:url(../Images/DarkTheme/filter.gif) 3px 3px no-repeat;
+	cursor:pointer;
+	cursor:hand;
+}
+.filterIcon:hover{
+	background-color:#7a98b4;
+}
+
+.filterIconAll{
+	float:right;
+	width:24px;
+	height:24px;
+	background:url(../Images/DarkTheme/filter.gif) 3px 3px no-repeat;
+	cursor:pointer;
+	cursor:hand;
+}
+.filterIconAll:hover{
+	background-color:#bccede;
+}
+
+.clearAll{
+	float:right;
+	cursor:pointer;
+	cursor:hand;
+}
+.clearAll:hover{
+	background-color:#bccede;
+}
+
+.clearAllFilter{
+	background:#7a98b4 !important;
+	color:#fff !important;
+}
+
+.leftPanelHeading{
+	background:#bccede;
+	z-index:999999;
+	line-height:25px;
+	font-weight:bold;
+	height:25px;
+	margin-bottom:1px;
+	padding:5px;
+}
+
+.FilterOptions ul {
+	margin:10px 20px 10px 20px;
+	padding:0px;
+}
+.FilterOptions ul li{
+	list-style:none;
+	height:22px;
+}
+
+.FilterOptions ul li input{
+	margin-right:10px;
+}
+
+/* Garry Kapoor - Commented out to revert to old-style checkboxes*/
+
+/* Radio and Checkbox custom styling.*/
+
+.FilterOptions input[type="checkbox"] {
+	display:none;
+} 
+
+.FilterOptions input[type="checkbox"] + label span {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../Images/checkbox-radio-button.png) left top no-repeat;
+	cursor:pointer; } 
+	
+.FilterOptions input[type="checkbox"]:checked + label span {
+	background:url(../Images/checkbox-radio-button.png) -20px top no-repeat;
+} 
+
+.FilterOptions input[type="radio"] {
+	display:none;
+} 
+
+.FilterOptions input[type="radio"] + label span {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../Images/checkbox-radio-button.png) -40px top no-repeat;
+	cursor:pointer; } 
+	
+.FilterOptions input[type="radio"]:checked + label span {
+	background:url(../Images/checkbox-radio-button.png) -60px top no-repeat;
+} 
+
+.TreeNodePlusMinus, .TreeAssetIcon, .TreeNodeAlarmIcon,.treeNodeLabel{
+    float:left;
+    position:relative;
+}
+
+.TreeNodeGroup{
+    position:relative;
+    width: 100%;
+    height:25px;
+}
+
+.TreeNodePlusMinus{
+    width:11px;
+    height:11px;
+    margin:7px 5px 0px 5px;
+    padding:0;
+}
+
+.PlusMinusIcon{
+    position:absolute;
+    top:1px;
+    left:1px;
+}
+
+.TreeAssetIcon{
+    width:19px;
+    height:19px;
+    margin:3px 0px 0px 0px;
+}
+
+.TreeNodeAlarmIcon{
+    width:14px;
+    height:14px;
+    margin-left:-10px;
+}	
+
+.TreeNodeAlarmIcon img{
+    width:14px;
+    height:14px;
+}
+
+.treeNodeLabel{
+    color:#000;
+    width:70%;
+    height:21px;
+    margin-left:5px;
+    padding:4px 0px 0px 5px;
+}
+
+.treeNodeLabelHover{
+    cursor:pointer;
+    background:#767f92;
+}
+
+#tree{
+    scrollbar-3dlight-color:#afbad3;
+    scrollbar-arrow-color:#374460;
+    scrollbar-base-color:#afbad3;
+    scrollbar-darkshadow-color:#afbad3;
+    scrollbar-face-color:#d3cfcc;
+    scrollbar-highlight-color:#afbad3;
+    scrollbar-shadow-color:#afbad3;
+    scrollbar-track-color:#afbad3;
+}
+
+#tree img /*taken from System.css to correct alignment of tree nodes*/
+{
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+#Selected_Active_Cells
+{
+    background-color:#8595ab;
+    color:#fff;
+}
+
+#Selected_Active_Unassigned_Cells
+{
+    background-color:#8595ab;
+    color:#fff;
+}
+
+#Selected_Inactive_Cells
+{
+    background-color:#8595ab !important;
+    color:#fff !important;
+}
+
+#Selected_Inactive_Unassigned_Cells
+{
+    background-color:#8595ab !important;
+    color:#fff !important;
+}
+
+#Unassigned_Cells
+{
+    color:#939fb9;
+}
+
+/* Classes added by Garry KAPOOR ENDS HERE*/
+
+/*----------------------------------------------------------------------------
+NavPane
+------------------------------------------------------------------------------
+The NavPane element takes up the rest of the left-hand bar of the display
+below the TopLeft title element.
+----------------------------------------------------------------------------*/ 
+.NavPane
+{
+	background-image: none;
+	background-color: #EAEAEA; 
+	color:	#303030;
+}
+
+.NavPane a, .NavPane table
+{
+	color:  #303030;
+}
+
+.NavPane .Selected, .NavPane .selected
+{
+	background-color: #505050;
+	color: #bbbbbb !important;
+}
+
+.NavPane h1, .NavPane h2, .NavPane h3, 
+.NavPane h4, .NavPane h4 a, 
+.NavPane h5, .NavPane h5 a, 
+.NavPane h6, .NavPane h6 a, 
+.NavPane .heading, .NavPane .heading a
+.NavPane .Heading, .NavPane .Heading a
+{
+	color: #303030;
+}
+
+.NavPane hr	
+{
+	color: #505050;
+}
+
+.NavPane viewlink\:SystemButton
+{
+}
+
+
+/*----------------------------------------------------------------------------
+.NavPane.popup
+------------------------------------------------------------------------------
+A popup navpane (i.e. the dropdown Operator's menu) has slightly different
+colours so it can be seen over the top of the sidebar NavPane.
+----------------------------------------------------------------------------*/ 
+.popup .NavPane,
+.NavPane[class*=popup],
+#OperatorsMenu.popup
+{
+	background-color: #404040;	
+	border: none !important;
+}
+
+#OperatorsMenu.popup a
+{
+    /* So the hover-border doesn't affect the layout. */
+    border: 0px solid;
+    line-height: 17px;
+    color: #bbb;
+    padding: 2px 0 2px 10px;
+}
+
+.popup #OperatorsMenu.NavPane a
+{
+    color: #bbb;
+}
+
+.popup .NavPane a:hover,
+.NavPane[class*=popup] a:hover,
+#OperatorsMenu.popup a:hover
+{
+	border: 1px solid #303030;
+	background: #303030;
+}
+
+
+/*----------------------------------------------------------------------------
+TitleBar
+------------------------------------------------------------------------------
+The TitleBar element stretches across the top of the display to the right of
+the LeftBar element.
+----------------------------------------------------------------------------*/ 
+/* There are no EPKS specific overrides for the TitleBar styles */
+
+/*----------------------------------------------------------------------------
+TabSet
+------------------------------------------------------------------------------
+The TabSet element stretches across the top of the display under the TitleBar
+and to the right of the LeftBar element. 
+----------------------------------------------------------------------------*/ 
+.TabSet .TabScroller
+{
+	color: #F9F2BC; /* Will be used	as the color of inactive tabs by the TabSet object */
+}
+
+/*----------------------------------------------------------------------------
+ActionBar
+------------------------------------------------------------------------------
+The ActionBar element is an optional region at the right-hand edge of
+the DisplayArea. In EBI, it has the same colour as the tabs, with black text.
+----------------------------------------------------------------------------*/ 
+.ActionBar
+{
+	background-color: #eeeeee;
+	color: #000000;
+}
+
+/*----------------------------------------------------------------------------
+DetailsArea
+------------------------------------------------------------------------------
+The DetailsArea is the main part of the display space under the TabSet and to 
+the right of the NavPane. In EBI, it has the watermark for a background.
+----------------------------------------------------------------------------*/ 
+.DetailsArea
+{
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+/*----------------------------------------------------------------------------
+Button Styles
+------------------------------------------------------------------------------
+The style classes below are for various types of buttons that can be used
+anywhere on the displays.
+----------------------------------------------------------------------------*/ 
+
+/* 
+IE6 annoyance: it would be nice to be able to apply this to .PanelButton.Selected,
+(CSS2 standard for matching multiple class names) but that syntax is not supported
+by IE6: it matches _all_ Selected objects instead. This is fixed in IE7.
+*/
+.NavPane .SelectedPanelButton	
+{
+	background-color: #F9F2BC;
+	color: #808080;
+}
+
+/*-----------------preetham rai check-----------------*/
+.Standard_Button_Style,
+.pushbutton,
+.pushbutton90,
+.pushbutton120,
+.pushbutton140,
+.pushbutton150,
+.pushbutton200,
+.BrowseButton
+{
+	hw-line-style: transparent;
+	hw-text-color: white;
+	hw-text-align: center;
+	hw-text-effect: regular;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	background-color: #959595 !important;
+	background-image: none !important;
+	color: #FFFFFF !important;
+}
+
+.BrowseButton
+{
+	hw-text-effect: bold;
+	background-color: #bbbbbb !important;
+}
+
+
+/*----------------------------------------------------------------------------
+Operators menu style
+------------------------------------------------------------------------------
+The style classes below are used for operators menu created using .JS file.
+----------------------------------------------------------------------------*/ 
+.operatorsMenuDiv
+{
+    /* position the operators menu div in the top left corner */
+    position: absolute;
+    left: 0px;
+    top: 0px;   
+    width: 240px;   
+    z-index: 8;
+   /* border: solid 1px #888888;
+    border-right-color: #555555;
+    border-bottom-color: #555555;  */
+    background-color: transparent;
+}
+
+.operatorsMenuDiv .TopLeft
+{
+	background: #202020 url(/SystemDisplays/Images/TopLeftContainer_radius.png) no-repeat 227px 0px;
+}
+
+/* The class for the toggle button */
+.operatorsMenuToggle
+{
+    position: relative;
+    width: 100%;
+    height: 34px;
+    /* Make the border overlap the outer pixel of this container. */   
+    margin: -1px;
+    border: solid 1px Transparent;  
+    cursor: pointer;
+}
+
+/* The class for the operator menu item list */
+.operatorsMenuList
+{
+    width: 100%; 
+    padding: 0px 0px 5px 0px;
+    margin: 0px;
+    list-style: none;
+    background-color: #404040;
+}
+
+/* The class for an operator menu item separator (fake HR) */
+.operatorsMenuSeparator
+{
+    height: 0px;
+    margin: 8px 8px 0px 8px;
+    padding: 0px 0px 5px 0px;
+    border-top: solid 1px #505050;
+}
+
+/* The class for an operator menu item container */
+.operatorsMenuItem
+{
+    padding: 2px 6px;
+    margin: 0;
+    list-style: none;
+    vertical-align: middle;
+    cursor: pointer;
+    border: solid 1px Transparent;
+}
+
+/* The class for an operator menu item icon */
+.operatorsMenuItemIcon
+{
+    width: 20px;
+    height: 20px;
+    padding-left: 4px;
+    vertical-align: middle;
+}
+
+/* The class for an operator menu item text */
+.operatorsMenuItemText
+{
+    padding-left: 6px;
+    color: #bbb;
+    vertical-align: middle;
+}
+
+/* The class to give to the toggle button when hovering over it. */
+.operatorsMenuToggleHover
+{
+    border: solid 1px White;
+}
+
+/* The class to give to the operator menu items when hovering over them. */
+.operatorsMenuItemHover
+{
+	background: #303030;
+}
+
+/* The drop down and close up arrows in the toggle button. */
+/*.operatorsMenuDropDownArrow, .operatorsMenuCloseUpArrow
+{
+    position: absolute;
+    left: 220px;
+    top: 14px;
+    z-index: 10;
+}*/
+
+/* The icon in the toggle button. */
+.operatorsMenuIcon, .operatorsMenuIcon_selected
+{
+    position: absolute;
+    left: 0px;
+    top: -3px;
+    
+    z-index: 10;
+}
+/*-----------------preetham rai check ends -----------*/
+
+/*----------------------------------------------------------------------------
+PushButton
+------------------------------------------------------------------------------
+A standard-row-height-sized button which  is used for triggering minor
+changes or scripts within a single display that don't affect the way the 
+system works.
+----------------------------------------------------------------------------*/ 
+.PushButton
+{
+	background-color: #F2F2F2;
+}
+
+/*----------------------------------------------------------------------------
+HDL style class for group displays
+------------------------------------------------------------------------------
+To follow HDL styling across group detail displays some of styles has been
+copied from sysFaceplate.css file. The below style classes refer to the same 
+and to overcome some regression caused these style class are moved here
+----------------------------------------------------------------------------*/
+.DataEntry_Alphanumeric_Right_Style	
+{
+	/* Style class applies to all alpha used for numeric values with data entry */
+	hw-text-family: Arial;
+	hw-text-size: 12pt;
+	hw-text-effect: Normal;
+	hw-text-align: Right;
+	hw-text-color: #707070;
+	hw-fill-color: #F0F0F0;
+	hw-line-width: 1;
+	hw-line-style: none;
+	hw-line-color: transparent;
+}
+.Dataentry_Combobox_Style
+{
+	/* Style class applies to all Combobox used with data entry */
+	hw-text-family: Arial;
+	hw-text-size: 12pt;
+	hw-text-effect: Normal;
+	hw-text-align: Left;
+	hw-text-color: #707070;
+	hw-fill-color: #F0F0F0;
+	hw-line-width: 0;
+	hw-line-style: None;
+	hw-line-color: transparent;
+	hw-combo-style: flat;
+	hw-combo-button-arrow-color: #707070;
+	hw-combo-button-color: #F0F0F0 !important;
+}
+.Txt_Header_Bold_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-color: #404040;
+	hw-text-effect: Bold;
+	hw-text-align: left;
+	hw-text-family: Arial;
+	hw-text-size: 10pt;
+}
+.Titlebar_Background_Style
+{
+	hw-fill-color: #D0D0D0;
+	hw-line-width: 0;
+	hw-line-style: none;
+	hw-line-color: #D0D0D0;
+}
+/*----------------------------------------------------------------------------
+position corrective modifications as part of Experion visual refresh project
+----------------------------------------------------------------------------*/ 
+
+/* This element appears in HMIWeb Display Builder pages only */
+#Page {
+	margin: 0px auto !important;
+	}
+
+/* HMI + DSP ... to correct the zoom inconsistency in the dsp screens */
+#LeftBar {
+	zoom: .77;
+	}
+/* Applies to HMI ONLY */
+#Page #LeftBar {
+	zoom: 1;
+	}
+body {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	}
+#Tree {
+        text-align: left !important;
+	}
+#base {
+	position: relative !important;
+	width: 1276px !important;
+	margin: 0px auto !important;
+	}
+
+/* The text in the toggle button. */
+.operatorsMenuTitle
+{
+    position: absolute;
+    left: 50px;
+    top: 10px;
+
+    z-index: 10;
+    
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;    
+    color: #FFFFFF;
+}
+
+/* --- ENDS HERE ----*/
+/*==================== ENDS HERE =====================*/
+
+
+/* tab labels on the root level */
+.Tab_Button__Text_Style,
+.Tab_Button__Text_Style2
+{
+	hw-fill-color: Transparent;
+	hw-text-color: black;
+	hw-text-align: center;           
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-effect: Normal;
+	top: 43px !important;
+	height: 30px !important;
+	line-height: 30px;
+	text-transform: uppercase;
+	font-weight: normal !important;
+}
+
+/* tab group - usually within a shared EBI/EPKS display and usually with ID "tabEBI" or "tabEPKS" */
+.Tab_Group_Style
+{
+	top: 43px !important;
+	left: 279px !important;
+	height: 30px !important;
+}
+	
+/* tab labels within a group - usually within a shared EBI/EPKS display */
+.Tab_Group_Style .Tab_Button__Text_Style2 { 
+	top: 0px !important;
+	padding-top: 0px;
+	height: 30px !important;
+	line-height: 30px;
+}
+
+#NavPane ul {
+	margin:	28px 0px 0px 0px;
+	padding: 0px;
+	border-top: 1px solid #303030;
+	}
+#NavPane ul li {
+	margin:	0px;
+	padding: 0px;
+	border-bottom: 1px solid #303030;
+	}
+#NavPane ul li:focus {
+	outline: 0 !important;
+	border: none !important;
+	}
+#NavPane ul li a {
+	margin:	0px;
+	padding: 8px 0px 8px 44px;
+	font-weight: bold;
+	color: #303030;
+	}
+/* an alternative way of getting at the top level nav links */
+#NavPane li a.heading {}
+
+#NavPane li div.heading {
+padding: 8px 0 8px 44px;
+}
+
+/* wrapper around each nav item (parent of text, child of link) */
+#NavPane ul li a span {}
+
+#NavPane ul li.Selected,
+#NavPane ul li.selected {
+	border:	none !important;
+	font-weight: normal;
+	}
+.NavPane .Selected {
+	border: none !important;
+	}
+#NavPane ul li.Selected a,
+#NavPane ul li.selected a {
+	border:	none !important;
+	background-color: #f4f4f6;
+	}
+
+#NavPane ul li.expanded {
+	background:  url(..\Images\imgCollapse_2.png) no-repeat 25px 11px;
+	}
+#NavPane ul li.collapsed {
+	background:  url(..\Images\imgExpand_2.png) no-repeat 25px 11px;
+	}
+
+#NavPane ul li ul {
+	margin:	0px;
+	border:	none;
+	}
+
+#NavPane ul li ul li {
+	border-bottom: none !important;
+	}
+
+#NavPane ul li ul li a {
+	padding: 3px 0px 7px 44px;
+	font-weight: normal;
+	color:	#303030;
+	}
+#NavPane ul li ul li.expanded {
+	background-position: 25px 8px;
+	}
+#NavPane ul li ul li.collapsed {
+	background-position: 25px 8px;
+	}
+	
+#NavPane ul li ul li ul li a {
+	padding: 3px 0px 7px 64px;
+	}
+
+#PurpleBox {
+	border:	none !important;
+	}
+
+
+#TitleBarBackground span
+{
+	font-size: 12pt !important;
+	padding-top: 10px;
+}
+
+//@import url("EPKS_2.css");
+
+/*****************************************************************************
+Copyright (C) 2008 HONEYWELL INTERNATIONAL SARL
+*****************************************************************************/
+
+/*****************************************************************************
+Copyright (C) 2011 HONEYWELL INTERNATIONAL SARL
+******************************************************************************/
+
+
+
+/* When no OperatorsMenuButton */	
+#TopLeftTitle {
+	margin:	10px 0px 0px 10px;
+	font-size: 12pt;
+	}
+
+a#OperatorsMenuButton {
+	display: block;
+	height:	43px !important;
+/* this height declaration not budging DSP.. */
+	left: 0px !important;
+	border:	none !important;
+	text-align: left;
+	background-position: 0px 0px !important;
+	font-size: 17px !important;
+	letter-spacing:	.4pt;
+	}
+#LeftBar a#OperatorsMenuButton:hover {
+	border:	none !important;
+	}
+#LeftBar a#OperatorsMenuButton:focus {
+	outline: 0 !important;
+	}
+
+/*
+display: none doesn't work on this element.
+It already has this declaration inline, which is then being changed in the code.
+So visibility is the next best way to kill it.
+*/
+#LeftBar a#OperatorsMenuButton img#TopLeftIcon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none !important;
+	visibility: hidden !important;
+	}
+
+#LeftBar a#OperatorsMenuButton span#TopLeftTitle {
+	margin:	0 !important;
+	padding: 10px 10px 10px 43px;
+	}
+
+
+/* Applies to HMI ONLY - I'm yet to find a DSP equivalent.. */
+#RightBar #TitleBarBackground {
+	display: block;
+	height:	43px;
+	letter-spacing:	.4pt !important;
+	background-color: #eaeaea;
+/* to position and format Display Title, eg: syscfgcstnassetasn */
+	padding: 10px 0px 0px 45px !important;
+	color: #202020 !important;
+	font-size: 12pt;
+	}
+
+.Titlebar_Text_Style,
+.Titlebar_Text_Style2 {
+	hw-text-color: #202020;
+	hw-text-align: left;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+	hw-fill-color: Transparent;
+	color: #202020 !important;
+	}
+	
+.TopLeft_Text_Style {
+	hw-text-color: #ffffff;
+	hw-text-align: left;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+	hw-fill-color: Transparent;
+	color: #ffffff !important;
+}
+
+.TitleBar select,
+.Titlebar Input {
+	background-color: #7c8699 !important;
+	}
+
+.Titlebar_AlphaNumeric_Left_Style
+{
+	hw-text-color: Black;
+	hw-fill-color: White;
+	hw-text-effect: Bold;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-line-color: White;
+	hw-line-width: 1;
+	hw-line-style: solid;
+	hw-line-effect: none;
+}
+
+.Titlebar_AlphaNumeric_Right_Style
+{
+	hw-fill-color: White;
+	hw-text-color: Black;
+	hw-text-align: Right;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-line-color: White;
+	hw-line-width: 1;
+	hw-line-style: solid;
+	hw-line-effect: none;
+}
+	
+.Titlebar_Combobox_Style
+{
+	hw-fill-color: white;
+	hw-line-width: 0;
+	hw-line-style: transparent;
+	hw-line-effect: none;
+	hw-text-color: black;
+	hw-text-effect: Bold;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	line-height: 20px;
+	padding-left: 2px !important;
+}
+
+#TabSetBackground
+{
+	background-color: #e3e6e9;
+	height: 30px;
+}
+	
+.TabSet
+{
+/* This stretches to the right edge regardless of scaling */
+	background-color: #dddddd !important;
+}
+
+.TabSet .TabScroller
+{
+	background-color: #dddddd !important;
+}
+
+.tab,
+.tabSet6 .tab,
+.tabSet7 .tab,
+.tabSet8 .tab,
+.tabSet9 .tab,
+.tabSet10 .tab,
+.tabSet11 .tab
+{
+	hw-fill-color: transparent;
+	background-image: none !important;
+	/*border-bottom: 4px solid #adb4c4;*/
+	height: 30px !important;
+}
+	
+.tabSelected,
+.tabSet6 .tabSelected,
+.tabSet7 .tabSelected,
+.tabSet8 .tabSelected,
+.tabSet9 .tabSelected,
+.tabSet10 .tabSelected,
+.tabSet11 .tabSelected  {
+	background-color: #ffffff;
+	background-image: none !important;
+	border: none;
+	height: 30px !important;
+	}
+
+.tabHidden {
+	background-color: #dddddd !important;
+	height: 30px !important;
+}
+
+.TableHeader_Left_Align_Style,
+.TableHeader_Right_Align_Style,
+.TableHeader_center_Align_Style,
+.TableContent_Left_Align_Style,
+.TableContent_Right_Align_Style,
+.TableContent_center_Align_Style
+{
+	hw-text-color: black;
+	hw-text-effect: Bold;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.TableContent_Left_Align_Style,
+.TableContent_Right_Align_Style,
+.TableContent_center_Align_Style
+{
+	hw-text-effect: regular;
+}
+
+.TableHeader_Right_Align_Style,
+.TableContent_Right_Align_Style
+{
+	hw-text-align: Right;
+}
+
+.TableHeader_center_Align_Style,
+.TableContent_center_Align_Style
+{
+	hw-text-align: Center;
+}
+
+
+
+/* Startup Page */
+#btn_base {
+	background:  url(.\sysStartupPage_files\enter_btn.png);
+	}
+#btn_enter_text {
+	text-decoration: underline;
+	}
+
+
+
+/* appears to be the container for "location browser */
+div#divEmBrowser {
+	background: #ffff00;
+	border: 10px solid #00ffcc;
+	}
+
+#Tree {
+	text-align: left !important;
+	border: 1px solid #aaaaaa !important;
+	}
+
+iframe body {
+	background: #ffff00;
+	border: 10px solid #00ffcc;
+	}
+
+#base .DataEntry_Alphanumeric_Style
+{
+	hw-text-color: black;
+	hw-text-effect: bold;
+	hw-fill-color: white;
+	hw-line-width: 1;
+	hw-line-style: Solid;
+	hw-line-effect: none;
+	hw-line-color: #cccccc;
+	hw-text-align: Right;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	padding: 0 5px 0 0 !important;
+	line-height: 22px;
+}
+
+/* Icon shapes in top right corner of TitleBar */
+.sysArrow {
+	visibility: hidden !important;
+}
+.sysArrowNew {
+	visibility: hidden !important;
+}
+
+.Titlebar_Arrow_Up {
+	background:  url(..\Images\sysarrow.png) no-repeat 0px 0px;
+}
+.sysConfigure {
+	visibility: hidden !important;
+}
+.sysConfigureNew {
+	visibility: hidden !important;
+}
+.Titlebar_Configure{
+	background:  url(..\Images\sysconfigure.png) no-repeat 0px 0px;
+}
+
+.Group_Label_Style,
+.Group_Label_Style2 {
+	hw-fill-color: Transparent;
+	hw-text-color: #557788;
+	hw-text-align: left;           
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+	hw-text-effect: Bold;
+	margin-top: -2px;
+	color: #557788 !important;
+	font-size: 12pt !important;
+	font-weight: bold !important;
+	white-space: nowrap;
+	}
+
+.Group_Label_Right_Aligned_Style
+{
+	hw-fill-color: Transparent;
+	hw-text-color: #557788;
+	hw-text-align: right;           
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+	hw-text-effect: Bold;
+}
+	
+.Group_Line_Style
+{
+	display: none !important;
+	visibility: hidden !important;
+}
+		
+#DetailsAreaBackground 
+{
+	background-color: #ffffff;
+}
+
+.Readonly_Titlebar_AlphaNumeric_LeftAlign_Style,
+.Readonly_Titlebar_AlphaNumeric_RightAlign_Style,
+.Location_Alpha_Style 
+{
+	hw-fill-color: Transparent;
+	hw-text-color: white;
+	hw-text-align: Left;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+}
+
+.Readonly_Titlebar_AlphaNumeric_RightAlign_Style
+{
+	hw-text-align: Right;
+}
+
+/* LEDs standard size 16 x 16 px */
+div.led_black,
+div.led_green,
+div.led_yellow,
+div.led_red,
+div.led_dkgreen,
+div.led_grey,
+div.led_ltgrey,
+div.led_white,
+div.led_blue,
+div.led_ltblue,
+div.led_orange {
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+}
+div.led_black div,
+div.led_green div,
+div.led_yellow div,
+div.led_red div,
+div.led_dkgreen div,
+div.led_grey div,
+div.led_ltgrey div,
+div.led_white div,
+div.led_blue div,
+div.led_ltblue div,
+div.led_orange div {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+div.led_black {
+	background:  url(..\Images\led.png) no-repeat 0px 0px;
+}
+div.led_green {
+	background:  url(..\Images\led.png) no-repeat 0px -18px;
+}
+div.led_yellow {
+	background:  url(..\Images\led.png) no-repeat 0px -36px;
+}
+div.led_red {
+	background:  url(..\Images\led.png) no-repeat 0px -54px;
+}
+div.led_dkgreen {
+	background:  url(..\Images\led.png) no-repeat 0px -72px;
+}
+div.led_grey {
+	background:  url(..\Images\led.png) no-repeat 0px -90px;
+}
+div.led_ltgrey {
+	background:  url(..\Images\led.png) no-repeat 0px -108px;
+}
+div.led_white {
+	background:  url(..\Images\led.png) no-repeat 0px -126px;
+}
+div.led_blue {
+	background:  url(..\Images\led.png) no-repeat 0px -144px;
+}
+div.led_ltblue {
+	background:  url(..\Images\led.png) no-repeat 0px -162px;
+}
+div.led_orange {
+	background:  url(..\Images\led.png) no-repeat 0px -180px;
+}
+
+/* LEDs 8 x 8 px */
+div.led_black_8x8,
+div.led_green_8x8,
+div.led_yellow_8x8,
+div.led_red_8x8,
+div.led_dkgreen_8x8,
+div.led_grey_8x8,
+div.led_ltgrey_8x8,
+div.led_white_8x8,
+div.led_blue_8x8,
+div.led_ltblue_8x8,
+div.led_orange_8x8 {
+	width: 8px;
+	height: 8px;
+	overflow: hidden;
+}
+div.led_black_8x8 div,
+div.led_green_8x8 div,
+div.led_yellow_8x8 div,
+div.led_red_8x8 div,
+div.led_dkgreen_8x8 div,
+div.led_grey_8x8 div,
+div.led_ltgrey_8x8 div,
+div.led_white_8x8 div,
+div.led_blue_8x8 div,
+div.led_ltblue_8x8 div,
+div.led_orange_8x8 div {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+div.led_black_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px 0px;
+}
+div.led_green_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -9px;
+}
+div.led_yellow_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -18px;
+}
+div.led_red_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -27px;
+}
+div.led_dkgreen_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -36px;
+}
+div.led_grey_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -45px;
+}
+div.led_ltgrey_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -54px;
+}
+div.led_white_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -63px;
+}
+div.led_blue_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -71px;
+}
+div.led_ltblue_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -81px;
+}
+div.led_orange_8x8 {
+	background:  url(..\Images\led_8x8.png) no-repeat 0px -90px;
+}
+
+/* LEDs 10 x 10 px */
+div.led_black_10x10,
+div.led_green_10x10,
+div.led_yellow_10x10,
+div.led_red_10x10,
+div.led_dkgreen_10x10,
+div.led_grey_10x10,
+div.led_ltgrey_10x10,
+div.led_white_10x10,
+div.led_blue_10x10,
+div.led_ltblue_10x10,
+div.led_orange_10x10 {
+	width: 10px;
+	height: 10px;
+	overflow: hidden;
+}
+div.led_black_10x10 div,
+div.led_green_10x10 div,
+div.led_yellow_10x10 div,
+div.led_red_10x10 div,
+div.led_dkgreen_10x10 div,
+div.led_grey_10x10 div,
+div.led_ltgrey_10x10 div,
+div.led_white_10x10 div,
+div.led_blue_10x10 div,
+div.led_ltblue_10x10 div,
+div.led_orange_10x10 div {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+div.led_black_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px 0px;
+}
+div.led_green_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -11px;
+}
+div.led_yellow_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -22px;
+}
+div.led_red_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -33px;
+}
+div.led_dkgreen_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -44px;
+}
+div.led_grey_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -55px;
+}
+div.led_ltgrey_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -66px;
+}
+div.led_white_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -77px;
+}
+div.led_blue_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -88px;
+}
+div.led_ltblue_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -99px;
+}
+div.led_orange_10x10 {
+	background:  url(..\Images\led_10x10.png) no-repeat 0px -110px;
+}
+
+/* LEDs 12 x 12 px */
+div.led_black_12x12,
+div.led_green_12x12,
+div.led_yellow_12x12,
+div.led_red_12x12,
+div.led_dkgreen_12x12,
+div.led_grey_12x12,
+div.led_ltgrey_12x12,
+div.led_white_12x12,
+div.led_blue_12x12,
+div.led_ltblue_12x12,
+div.led_orange_12x12 {
+	width: 12px;
+	height: 12px;
+	overflow: hidden;
+}
+div.led_black_12x12 div,
+div.led_green_12x12 div,
+div.led_yellow_12x12 div,
+div.led_red_12x12 div,
+div.led_dkgreen_12x12 div,
+div.led_grey_12x12 div,
+div.led_ltgrey_12x12 div,
+div.led_white_12x12 div,
+div.led_blue_12x12 div,
+div.led_ltblue_12x12 div,
+div.led_orange_12x12 div {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+div.led_black_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px 0px;
+}
+div.led_green_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -14px;
+}
+div.led_yellow_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -28px;
+}
+div.led_red_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -42px;
+}
+div.led_dkgreen_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -56px;
+}
+div.led_grey_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -70px;
+}
+div.led_ltgrey_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -84px;
+}
+div.led_white_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -98px;
+}
+div.led_blue_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -112px;
+}
+div.led_ltblue_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -126px;
+}
+div.led_orange_12x12 {
+	background:  url(..\Images\led_12x12.png) no-repeat 0px -140px;
+}
+
+/*----------------------------------------------------------------------------
+
+.hsc.combo.1
+
+------------------------------------------------------------------------------
+
+This class matches every combo box in every page that imports this stylesheet.
+
+----------------------------------------------------------------------------*/ 
+
+.hsc\.combo\.1
+{
+       hw-combo-style: flat;
+}
+
+
+/*****************************************************************************
+Copyright (C) 2011 HONEYWELL INTERNATIONAL SARL
+*****************************************************************************/
+
+#activexdoc002
+{
+    background: #edf1f6;
+}
+
+.DisplayArea_Combobox_Style,
+.DataEntry_Left_Alphanumeric_Style,
+.DataEntry_Center_Alphanumeric_Style
+{
+	hw-fill-color: White;
+	hw-line-color: #cccccc;
+	hw-line-width: 1;
+	hw-line-style: solid;
+	hw-line-effect: none;
+	hw-text-color: Black;
+	hw-text-effect: Bold;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	
+	font-weight: bold;
+}
+
+.DisplayArea_Combobox_Style
+{
+    	padding: 3px 0 0 2px !important;
+}
+
+.DataEntry_Center_Alphanumeric_Style
+{
+	hw-text-align: center;
+}
+
+.DataEntry_Left_Alphanumeric_Style
+{
+    	padding: 3px 0 0 5px !important;
+}
+
+.Readonly_Alpha_LeftAlign_Style,
+.Readonly_Alpha_RightAlign_Style,
+.Sel_Readonly_Alpha_LeftAlign_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Left;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-fill-color: Transparent;
+}
+
+.Readonly_Alpha_RightAlign_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Right;
+}
+
+.ActionButtonStyle, .ActionButton
+{
+    	hw-fill-color: #959595;
+    	background-color: #959595;
+    	color: ffffff;
+}
+
+.Display_Action_Button_Style
+{
+	hw-text-color: White;
+	hw-text-align: center;
+	hw-fill-color: gray;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-line-style: Outset;
+}
+
+.ButtonLeftArrow
+{
+	hw-fill-color: transparent;
+	hw-line-style: none;
+	background:  url(..\Images\button-arrow-left.png) !important;
+}
+
+.ButtonRightArrow
+{
+	hw-fill-color: transparent;
+	hw-line-style: none;
+	background:  url(..\Images\button-arrow-right.png) !important;
+}
+
+
+/*=======================================================================
+Menu screens style.
+======================================================================*/
+
+
+.Menu_Screen_GroupHeading {
+	hw-text-effect: normal;
+	border: 0px;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 14pt;
+	hw-line-width: 0;
+	hw-text-color:#6b8aad;
+}
+
+
+.Menu_Screen_Link {
+	hw-text-effect: normal;
+	border: 0px;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 12pt;
+	hw-line-width: 0;
+	cursor:pointer;
+	hw-text-color:#000000;
+}
+
+.Menu_Screen_Comment {
+	hw-text-effect: normal;
+	border: 0px;
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 9pt;
+	hw-line-width: 0;
+	cursor:pointer;
+	hw-text-color:#444444;
+}
+
+
+
+.DataEntry_Alphanumeric_Style 
+{
+	hw-text-color: black;
+	hw-text-effect: bold;
+	hw-fill-color: white;
+	hw-line-width: 1;
+	hw-line-style: Solid;
+	hw-line-effect: none;
+	hw-line-color: #cccccc;
+	hw-text-align: Right;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+
+	padding: 0 5px 0 0 !important;
+	line-height: 22px;
+}
+
+/* Styles from syspointdetail.css */
+
+.Description_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-line-width: 0;
+	hw-text-color: black;
+	hw-text-effect: none;
+	hw-text-align: left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.Field_Label_Style
+{
+	hw-fill-color: Transparent;
+	hw-text-color: black;
+	hw-text-effect: None;
+	hw-text-align: left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.Check_Option_box_style
+{
+	hw-text-color: black;
+	hw-text-effect: none;
+	hw-text-align: left;
+	hw-fill-style: none;
+	hw-fill-color: Transparent;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	padding-top: 3px;
+}
+
+.Check_Option_box_style input
+{
+	padding:0px !important;
+	margin:0px  10px 0px 0px!important;
+	width:13px !important;
+	height:13px !important;
+}
+
+.Notice_Text_Style
+{
+	hw-fill-color: Transparent;
+	hw-text-color: black;
+	hw-text-effect: None;
+	hw-text-align: center;
+	hw-text-family: arial;
+	hw-text-size: 20pt;
+}
+
+.Location_Text_Style
+{
+	hw-fill-color: Transparent;
+	hw-text-color: white;
+	hw-text-effect: None;
+	hw-text-align: left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.Comments_Style
+{
+	hw-text-color: #808080;
+	hw-text-align: left;
+	hw-text-effect: normal;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-effect: Italic;
+	hw-fill-color: Transparent;
+}
+
+
+.Hyperlink_Alpha_RightAlign_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Right;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-color: Blue;
+	hw-fill-color: Transparent;
+	hw-text-effect: Underline;
+}
+
+.Hyperlink_Alpha_LeftAlign_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Left;
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-color: Blue;
+	hw-fill-color: Transparent;
+	hw-text-effect: Underline;
+
+}
+
+.Dataentry_Titlebar_AlphaNumeric_RightAlign_Style
+{
+	hw-fill-color: white;
+	hw-text-color: black;	
+	hw-text-align: Right;
+	hw-line-style: solid;	
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.Dataentry_Titlebar_AlphaNumeric_LeftAlign_Style
+{
+	hw-fill-color: white;
+	hw-text-color: black;	
+	hw-text-align: Left;
+	hw-line-style: solid;	
+	hw-text-effect: Bold;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+.Hyperlink_RightAlign_Withoutunderline_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Right;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-color: Blue;
+	hw-fill-color: Transparent;
+}
+
+.Hyperlink_LeftAlign_Withoutunderline_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Left;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-color: Blue;
+	hw-fill-color: Transparent;
+}
+
+.Hyperlink_CenterAlign_Withoutunderline_Style
+{
+	/* Style class applies to all elements because no "hw-element-class" attribute is present */
+	hw-text-align: Center;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+	hw-text-color: Blue;
+	hw-fill-color: Transparent;
+}
+
+#MessagePadText {
+	border: 1px solid #cccccc;
+	padding: 10px;
+}
+
+.Selected_Row_Style {
+hw-fill-color: #c0c0c0 !important;
+hw-line-color: transparent !important;
+}

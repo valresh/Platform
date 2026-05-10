@@ -1,0 +1,59 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/HoverButton.htc $								
+$Workfile: HoverButton.htc $												
+$Modtime: 9/20/07 2:47p $											
+$Revision: 5 $
+$Author: Stickell $														
+***************************************************************************
+This lightweight, attached behavior makes an element appear raised when the 
+mouse is over it; depressed when clicked and flat otherwise.
+***************************************************************************
+-->
+<public:component name="HoverButton" urn="HoverButton" lightWeight="true">
+	<public:property name="NormalStyle" value="none"/>
+	<public:property name="MouseoverStyle" value="outset"/>
+	<public:property name="MousedownStyle" value="inset"/>
+	<public:attach event="onreadystatechange" onevent="javascript: try{ SetElementStyle('NormalStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseover" onevent="javascript: try{ SetElementStyle('MouseoverStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseout" onevent="javascript: try{ SetElementStyle('NormalStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmousedown" onevent="javascript: try{ SetElementStyle('MousedownStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseup" onevent="javascript: try{ SetElementStyle('MouseoverStyle'); }catch(e){}" for="element"/>
+</public:component>
+<script language="javascript" type="text/javascript" defer>
+	//-----------------------------------------------------------------------
+	// SetElementStyle
+	//-----------------------------------------------------------------------
+	// Set the element's style properties as requested.
+	//-----------------------------------------------------------------------
+	function SetElementStyle(styleName)
+	{
+		var styleValue = element.getAttribute(styleName);
+	    switch(styleValue.toLowerCase())
+		{
+			case "flat":
+			{
+				element.runtimeStyle.borderStyle = "solid";
+				break;
+			}
+			case "inset":
+			{
+				element.runtimeStyle.borderStyle = "inset";
+				break;
+			}
+			case "none":
+			{
+				element.runtimeStyle.borderStyle = "none";
+				break;
+			}
+			case "outset":
+			{
+				element.runtimeStyle.borderStyle = "outset";
+				break;
+			}
+		}
+	}
+</script>
+
+	

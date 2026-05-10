@@ -1,0 +1,883 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>Series C - IO Module Details</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.11>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb display.">
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=GENERATOR content="MSHTML 11.00.9600.18377"><LINK id=HDXStylesheet 
+rel=stylesheet type=text/css href=".\Styles\SystemDisplay_1276X849.css">
+<SCRIPT language=VBScript for=Page defer event=onpagecomplete>bpageComplete = true</SCRIPT>
+
+<SCRIPT language=VBScript for=sd defer event=ondatachange>if not sd.QualityBad("CurrentPoint.IOPTYPE") then
+	call IOPTYPE_Onupdate()
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=pbChannel1_32 defer event=onclick>for i = 1 to 32
+	DisplaydataRepository.PutValue "ChannelIndex"&i , i
+	Document.getElementById("txtChaNum"&i).value = i
+next</SCRIPT>
+
+<SCRIPT language=VBScript for=pbChannel33_64 defer event=onclick>for i = 1 to 32
+	DisplaydataRepository.PutValue "ChannelIndex"&i , cstr(i+32)
+	Document.getElementById("txtChaNum"&i).value = cstr(i+32)
+next</SCRIPT>
+
+<SCRIPT language=VBScript for=alpCHDesc defer event=onupdate>if not me.QualityBad("CHName.DESC") then
+	Call_Channel_Point_Detail_Dislay
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpCMDesc defer event=onupdate>if not me.QualityBad("CMName.DESC") and alpCHDesc.QualityBad("CHName.DESC") then
+	Call_Channel_Point_Detail_Dislay
+end if</SCRIPT>
+
+<SCRIPT language=VBScript defer>' // IOPTYPE constants are from \db\src\iolim\sc_ioptype.enm. 
+'
+AI_HART       = 51
+AI_LLMUX      = 52
+AO_HART       = 53
+DI_HV         = 54
+DI_24         = 55
+DO_24B        = 56
+DI_SOE        = 57
+AI_HL         = 58
+AO            = 59
+SVP           = 60
+SP            = 61
+PI            = 62
+UIO           = 63
+AI_LLAI       = 64
+SIMIOM        = 65
+UIO_2         = 66
+
+bpageComplete = false
+
+Sub IOPTYPE_Onupdate( )
+'On Error Resume Next
+
+'	 // Make the correct set of channel data me.style.visibility to the user.
+
+	Select Case sd.DataValue("CurrentPoint.IOPTYPE") 
+
+	Case AI_HART,  AI_HL, AI_LLAI
+'		 //  analog input channels
+		numChans = sd.DataValue("CurrentPoint.NUMCHANS")
+		for i = 1 to numChans
+			Document.getElementById("shpChaNum"&i).value = 2
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		for i = numChans+1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+		next
+		shpheader1.value = 2
+		if (numChans >16) then
+			shpheader2.value = 2
+		else
+			shpheader2.value = 1
+		end if
+		shpIODATA.style.visibility = "Hidden"
+	Case  AI_LLMUX
+'		 //  analog input channels
+		for i = 1 to 32
+			Document.getElementById("shpChaNum"&i).value = 2
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		shpheader1.value = 2
+		shpheader2.value = 2
+		shpIODATA.style.visibility = "Hidden"
+		pbChannel1_32.style.visibility = "Inherit"
+		pbChannel33_64.style.visibility = "Inherit"
+
+
+	Case DI_HV, DI_24, DI_SOE
+'		 // digital input channels
+		numChans = sd.DataValue("CurrentPoint.NUMCHANS")
+		for i = 1 to numChans
+			Document.getElementById("shpChaNum"&i).value = 4
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		for i = numChans+1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+		next
+		shpheader1.value = 4
+		shpIODATA.style.visibility = "Hidden"
+		if (numChans >16) then
+			shpheader2.value = 4
+		else
+			shpheader2.value = 1
+		end if
+	
+	Case DO_24B
+'		 // digital output channels
+		numChans = sd.DataValue("CurrentPoint.NUMCHANS")
+		for i = 1 to numChans
+			Document.getElementById("shpChaNum"&i).value = 5
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		for i = numChans+1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+		next
+		shpheader1.value = 5
+		shpIODATA.style.visibility = "Hidden"
+		if (numChans >16) then
+			shpheader2.value = 5
+		else
+			shpheader2.value = 1
+		end if
+
+
+	Case  AO_HART, AO
+'		 // analog output channels
+		numChans = sd.DataValue("CurrentPoint.NUMCHANS")
+		for i = 1 to numChans
+			Document.getElementById("shpChaNum"&i).value = 3
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		for i = numChans+1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+		next
+		shpheader1.value = 3
+		shpIODATA.style.visibility = "Hidden"
+		if (numChans >16) then
+			shpheader2.value = 3
+		else
+			shpheader2.value = 1
+		end if
+
+	Case  AO_HART, AO
+'		 // analog output channels
+		numChans = sd.DataValue("CurrentPoint.NUMCHANS")
+		for i = 1 to numChans
+			Document.getElementById("shpChaNum"&i).value = 3
+			Document.getElementById("txtChaNum"&i).style.visibility = "Inherit"
+		next
+		for i = numChans+1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+		next
+		shpheader1.value = 3
+		shpIODATA.style.visibility = "Hidden"
+		shpPIM.value = 2
+		if (numChans >16) then
+			shpheader2.value = 3
+		else
+			shpheader2.value = 1
+		end if
+
+	Case Else
+'		 // An error... No channel data will be updated/displayed
+		for i = 1 to 32
+			Document.getElementById("shpChaNum"&i).value = 1
+			Document.getElementById("txtChaNum"&i).style.visibility = "Hidden"
+			shpheader1.value = 1
+			shpheader2.value = 1
+		next
+		shpIODATA.style.visibility = "Inherit"
+		shpIODATA.src = "sysSCIOMDefault.sha"
+
+	End Select
+End Sub
+
+Sub Navigate_To_Channel_Detail_Display(oSource)
+DisplayDataRepository.PutValue "CMName" , "."
+DisplayDataRepository.PutValue "CHName" , "."
+DisplayDataRepository.autoReloadContent = true
+	strChname = oSource.value
+	if (instr(strChname, ".") > 0) then
+		str = split(strChname , ".")
+		DisplayDataRepository.PutValue "CMName" , str(0) 'Navigate to CM Detail Display
+		DisplayDataRepository.PutValue "CHName" , str(1) 'Navigate to Channel Detail Display
+		DisplayDataRepository.autoReloadContent = true
+	elseif (instr(strChname, "[") > 0) and (instr(strChname, "]") > 0)then
+		str = split(strChname , "[")
+		DisplayDataRepository.PutValue "CHName" , str(0) 'Navigate to Channel Detail Display
+		str1 = split(str(1) , "]")
+		DisplayDataRepository.PutValue "CMName" , str1(0) 'Navigate to CM Detail Display
+		DisplayDataRepository.autoReloadContent = true
+	else
+		DisplayDataRepository.PutValue "CHName" , strChname
+	end if
+Call_Channel_Point_Detail_Dislay
+End sub
+Sub Call_Channel_Point_Detail_Dislay()
+if not alpCHDesc.QualityBad("CHName.DESC") then
+	window.external.Parent.RequestTask 21, 73, 0, 0, 0, DisplayDataRepository.GetValue("CHName")
+elseif not alpCMDesc.QualityBad("CMName.DESC") then
+	window.external.Parent.RequestTask 21, 73, 0, 0, 0, DisplayDataRepository.GetValue("CMName")
+end if
+End sub</SCRIPT>
+</HEAD>
+<BODY 
+style="OVERFLOW: auto; FONT-SIZE: 12pt; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<DIV id=Background 
+style="HEIGHT: 963px; WIDTH: 1318px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #ffffff"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository); BACKGROUND-COLOR: transparent" 
+PageDescription HelpFileName="operatorsguide.chm" HelpFileTypeList="HTML help" 
+LocateHelpTopicBy HelpTopic>
+<DIV tabIndex=-1 id=shaBackground class="hsc.shape.1 " 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+value = "1" src = "sysBackground_1276X849_CDA.sha" parameters = 
+"Value?ShowTabs:true;" linkType = "linked" globalscripts = 
+"CFD45B49-72AB-4fb7-9CC8-A7D18331606B" styleClass = ""></DIV>
+<DIV tabIndex=-1 id=shpTabBar class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 29px; FONT-FAMILY: Arial; WIDTH: 794px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 283px; TOP: 43px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:794;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\sysstabs4b_1276x849.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpTabBar_group001 class="hvg.group.1 tabSet4" 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:794;">
+<DIV tabIndex=-1 id=shpTabBar_bitmap001 class="hsc.image.1 tab" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 24.68%; POSITION: absolute; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV tabIndex=-1 id=shpTabBar_roundrect5 class="hvg.base.1 tab tabSelected" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 24.68%; POSITION: absolute; FONT-STYLE: normal; LEFT: 25.06%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;" HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=shpTabBar_bitmap1 class="hsc.image.1 tab" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 24.68%; POSITION: absolute; FONT-STYLE: normal; LEFT: 50.12%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV tabIndex=-1 id=shpTabBar_bitmap002 class="hsc.image.1 tab" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 24.68%; POSITION: absolute; FONT-STYLE: normal; LEFT: 75.18%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;"></DIV></DIV></DIV><TEXTAREA tabIndex=-1 id=alpLocation title="" class="hsc.alpha.1 Titlebar_Text_Style2" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 12pt; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-TOP-COLOR: transparent; WIDTH: 704px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; COLOR: white; PADDING-BOTTOM: 0px; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-TOP: 0px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 0px; LEFT: 326px; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: transparent; TOP: 10px; PADDING-RIGHT: 0px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:None;borderWidth:0px;BreakpointType:1;DiscreteColors:16777215_16777215_16777215_16777215_16777215_16777215_16777215_16777215;DiscreteStates:00000000;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:81;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:Titlebar_Text_Style2;textColor:White;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="Acronym">Text</TEXTAREA> 
+
+<DIV tabIndex=-1 id=txtIOChannelData 
+class="hvg.textbox.1 Tab_Button__Text_Style2" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 29px; FONT-FAMILY: arial; WIDTH: 196px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: center; LEFT: 482px; TOP: 43px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:27;Height:29;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;TotalRotation:0;Width:196;" 
+HDX_LOCK="-1">I/O Channel Data</DIV><INPUT tabIndex=-1 id=pbMain class="hsc.button.1 Tab_Button__Text_Style2" style="CURSOR: hand; FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 196px; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; TEXT-ALIGN: center; LEFT: 283px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value=Main hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:75;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1"><INPUT tabIndex=-1 id=pbConfigDetails class="hsc.button.1 Tab_Button__Text_Style2" style="CURSOR: hand; FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; TEXT-ALIGN: center; LEFT: 880px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value="Config Details" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:76;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;ToggleState:False;" HDX_LOCK="-1"><INPUT tabIndex=-1 id=pbCheckpointOperations class="hsc.button.1 Tab_Button__Text_Style2" style="CURSOR: hand; FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; TEXT-ALIGN: center; LEFT: 681px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value="Checkpoint Operations" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:66;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;ToggleState:False;" HDX_LOCK="-1"> 
+
+<DIV tabIndex=-1 id=AxFaceplate 
+class="hsc.groupfaceplate.1 hsc.activexcontrol.1" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 806px; FONT-FAMILY: Arial; WIDTH: 279px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 43px; BEHAVIOR: url(#HDXPopupBehavior#GroupFaceplate) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="HDXBINDINGID:26;"></DIV>
+<DIV tabIndex=-1 id=sd class="hvg.textbox.1 HSC.ScriptDataObject.1" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; HEIGHT: 35px; FONT-FAMILY: Arial; WIDTH: 126px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 326px; TOP: 804px; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:29;Height:35;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:126;" 
+HDX_LOCK="-1">Script Data</DIV>
+<DIV tabIndex=-1 id=line2 class="hvg.base.1 Group_Line_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 1px; FONT-FAMILY: Arial; WIDTH: 947px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 92px; BEHAVIOR: url(#HDXVectorFactory#line) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:2;Height:1;indicateAlarmState:0;indicateScanState:0;LineColor:#c0c0c0;lineColorBlink:False;points:0.000000 0.000000 100.000000 100.000000 ;styleClass:Group_Line_Style;Width:947;"></DIV>
+<DIV tabIndex=-1 id=shpheader1 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 125px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:23;lineColorBlink:False;Width:425;" 
+value = "1" src = ".\sysdtlSCIOMb_files\shpChannelheader.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpheader1_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:425;"></DIV></DIV>
+<DIV tabIndex=-1 id=shpheader2 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 125px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:23;lineColorBlink:False;Width:425;" 
+value = "1" src = ".\sysdtlSCIOMb_files\shpChannelheader.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpheader2_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;LineStyle:0;Width:425;"></DIV></DIV>
+<DIV tabIndex=-1 id=hdrChannelDetails 
+class="hvg.textbox.1 Group_Label_Style2 HSC.ScriptDataObject.1" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 160px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 98px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior)  url(#HSCScriptDataBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:1;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;Width:160;" 
+HDX_LOCK="-1">Channel details</DIV>
+<DIV tabIndex=-1 id=shpChaNum1 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 152px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:49;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex1%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum1_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum2 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 179px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:84;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex2%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum2_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum3 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 206px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:83;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex3%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum3_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum4 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 233px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:82;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex4%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum4_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum5 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 260px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:80;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex5%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum5_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum6 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 287px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:79;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex6%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum6_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum7 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 314px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:78;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex7%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum7_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum8 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 341px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:77;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex8%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum8_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum9 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 368px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:74;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex9%};" linkType 
+= "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum9_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum10 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 395px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:73;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex10%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum10_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum11 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 422px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:72;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex11%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum11_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum12 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 449px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:71;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex12%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum12_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum13 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 476px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:70;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex13%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum13_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum14 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 503px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:69;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex14%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum14_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum15 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 530px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:68;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex15%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum15_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum16 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 557px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:67;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex16%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum16_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum17 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 152px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:65;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex17%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum17_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum18 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 179px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:64;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex18%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum18_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum19 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 206px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:63;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex19%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum19_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum20 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 233px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:62;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex20%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum20_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum21 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 260px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:61;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex21%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum21_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum22 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 287px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:60;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex22%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum22_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum23 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 314px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:59;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex23%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum23_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum24 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 341px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:58;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex24%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum24_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum25 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 368px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:57;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex25%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum25_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum26 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 395px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:56;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex26%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum26_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum27 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 422px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:55;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex27%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum27_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum28 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 449px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:54;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex28%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum28_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum29 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 476px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:53;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex29%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum29_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum30 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 503px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:52;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex30%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum30_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum31 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 530px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:51;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex31%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum31_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shpChaNum32 class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 425px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 800px; TOP: 557px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:50;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlSCIOMb_files\shpChannelData.sha" 
+parameters = 
+"Point?TagName:{%CurrentPoint%};Parameter?ChanIndex:{%ChannelIndex32%};" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shpChaNum32_grpBad class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;LineColor:transparent;lineColorBlink:False;Width:425;" 
+HDX_LOCK="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=txtChaNum32 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 557px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:3;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">32</DIV>
+<DIV tabIndex=-1 id=txtChaNum31 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 530px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:4;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">31</DIV>
+<DIV tabIndex=-1 id=txtChaNum30 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 503px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:5;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">30</DIV>
+<DIV tabIndex=-1 id=txtChaNum29 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 476px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:6;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">29</DIV>
+<DIV tabIndex=-1 id=txtChaNum28 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 449px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:7;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">28</DIV>
+<DIV tabIndex=-1 id=txtChaNum27 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 422px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:8;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">27</DIV>
+<DIV tabIndex=-1 id=txtChaNum26 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 395px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:9;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">26</DIV>
+<DIV tabIndex=-1 id=txtChaNum25 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 368px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:10;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">25</DIV>
+<DIV tabIndex=-1 id=txtChaNum24 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 341px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:11;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">24</DIV>
+<DIV tabIndex=-1 id=txtChaNum23 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 314px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:12;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">23</DIV>
+<DIV tabIndex=-1 id=txtChaNum22 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 287px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:13;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">22</DIV>
+<DIV tabIndex=-1 id=txtChaNum21 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 260px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:14;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">21</DIV>
+<DIV tabIndex=-1 id=txtChaNum20 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 233px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:15;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">20</DIV>
+<DIV tabIndex=-1 id=txtChaNum19 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 206px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:16;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">19</DIV>
+<DIV tabIndex=-1 id=txtChaNum18 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 179px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:17;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">18</DIV>
+<DIV tabIndex=-1 id=txtChaNum17 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 806px; TOP: 152px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:18;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">17</DIV>
+<DIV tabIndex=-1 id=txtChaNum16 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 557px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:19;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">16</DIV>
+<DIV tabIndex=-1 id=txtChaNum15 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 530px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:20;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">15</DIV>
+<DIV tabIndex=-1 id=txtChaNum14 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 503px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:21;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">14</DIV>
+<DIV tabIndex=-1 id=txtChaNum13 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 476px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:22;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">13</DIV>
+<DIV tabIndex=-1 id=txtChaNum12 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 449px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:23;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">12</DIV>
+<DIV tabIndex=-1 id=txtChaNum11 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 422px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:24;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">11</DIV>
+<DIV tabIndex=-1 id=txtChaNum10 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 395px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:25;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">10</DIV>
+<DIV tabIndex=-1 id=txtChaNum9 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 368px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:28;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">9</DIV>
+<DIV tabIndex=-1 id=txtChaNum8 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 341px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:30;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">8</DIV>
+<DIV tabIndex=-1 id=txtChaNum7 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 314px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:31;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">7</DIV>
+<DIV tabIndex=-1 id=txtChaNum6 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 287px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:32;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">6</DIV>
+<DIV tabIndex=-1 id=txtChaNum5 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 260px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:33;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">5</DIV>
+<DIV tabIndex=-1 id=txtChaNum4 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 233px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:34;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">4</DIV>
+<DIV tabIndex=-1 id=txtChaNum3 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 206px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:35;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">3</DIV>
+<DIV tabIndex=-1 id=txtChaNum2 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 179px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:36;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">2</DIV>
+<DIV tabIndex=-1 id=txtChaNum1 
+class="hvg.textbox.1 TableContent_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 25px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 152px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:0;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:TableContent_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">1</DIV>
+<DIV tabIndex=-1 id=shpIODATA class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 715px; FONT-FAMILY: Arial; WIDTH: 947px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 98px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;Height:715;lineColorBlink:False;Width:947;" 
+HDX_LOCK="-1" value = "1" src = "sysSCIOMDefault.sha" parameters = 
+"Point?CurrentPoint:{%CurrentPoint%};Parameter?IOPTYPE:AI_LLMUX;" linkType = 
+"linked" globalscripts = "" styleClass = ""></DIV><INPUT tabIndex=-1 id=pbChannel33_64 class="hsc.button.1 " style="CURSOR: hand; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 2px; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 2px; WIDTH: 168px; BACKGROUND-IMAGE: url(file:./sysdtlSCIOMb_files/btnBase_168x23.png); BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 985px; BORDER-LEFT: #ffffff 2px; TOP: 598px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" type=button value="Channel 33-64" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:39;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColor:#ffffff;lineColorBlink:False;styleClass:;textColor:Black;textColorBlink:False;" HDX_LOCK="-1" shapesrc=".\sysdtlSCIOMb_files\btnBase_168x23.png"><INPUT tabIndex=-1 id=pbChannel1_32 class="hsc.button.1 " style="CURSOR: hand; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 2px; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 2px; WIDTH: 168px; BACKGROUND-IMAGE: url(file:./sysdtlSCIOMb_files/btnBase_168x23.png); BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 806px; BORDER-LEFT: #ffffff 2px; TOP: 598px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" type=button value="Channel 1-32" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:40;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColor:#ffffff;lineColorBlink:False;styleClass:;textColor:Black;textColorBlink:False;" HDX_LOCK="-1" shapesrc=".\sysdtlSCIOMb_files\btnBase_168x23.png"><TEXTAREA tabIndex=-1 id=alpCMDesc class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 35px; FONT-FAMILY: Arial; WIDTH: 151px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 450px; BORDER-LEFT-STYLE: none; TOP: 800px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:37;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%s;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">Text</TEXTAREA><TEXTAREA tabIndex=-1 id=alpCHDesc class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 35px; FONT-FAMILY: Arial; WIDTH: 151px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 400px; BORDER-LEFT-STYLE: none; TOP: 804px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:38;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%s;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">Text</TEXTAREA> 
+</DIV></BODY></HTML>

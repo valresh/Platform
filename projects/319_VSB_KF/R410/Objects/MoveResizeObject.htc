@@ -1,0 +1,408 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/MoveResizeObject.htc $								
+$Workfile: MoveResizeObject.htc $												
+$Modtime: 10/09/07 12:28a $											
+$Revision: 4 $
+$Author: Stickell $														
+***************************************************************************
+This behavior allows its host element to be moved and/or resized, with
+the option of moving the host element as the mouse is dragged, or just 
+dragging a rectangle with the same dimensions, then snapping the host 
+element to the finished position.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JSExtensions.js    (parseBoolean)
+***************************************************************************
+-->
+<public:component name="MoveResizeObject" urn="MoveResizeObject">
+	<public:property name="movevertical" value="False"/>
+	<public:property name="movehorizontal" value="False"/>
+	<public:property name="resizeleft" value="False"/>
+	<public:property name="resizeright" value="True"/>
+	<public:property name="resizetop" value="False"/>
+	<public:property name="resizebottom" value="False"/>
+	<public:property name="livemove" value="False" />
+	
+	<public:attach event="onload" onevent="Initialize" for="window"/>
+	<public:attach event="oncontentready" onevent="Initialize" for="Element"/>
+	<public:attach event="onmousemove" onevent="CheckPermissions" for="Element"/>
+	<public:attach event="onmousedown" onevent="StartDrag" for="Element"/>
+	<public:attach event="ondetach" onevent="Cleanup" for="Element"/>
+	
+	<public:event name="OnBeforePositionChange" id="OnBeforePositionChange"/>
+	<public:event name="OnPositionChange" id="OnPositionChange"/>
+</public:component>
+<script language="vbscript" type="text/vbscript" defer>
+	Option Explicit
+		
+	Const c_nDist = 4
+	
+	Dim dragElement
+	Set dragElement = Nothing
+	
+	Dim m_bOverLeft, m_bOverTop, m_bOverRight, m_bOverBottom
+	m_bOverLeft = False
+	m_bOverTop = False
+	m_bOverRight = False
+	m_bOverBottom = False
+	
+	Dim m_bDragging, m_bMovePermitted
+	m_bDragging = False
+	m_bMovePermitted = False
+		
+	Dim mX, mY
+	mX = 0
+	mY = 0
+	
+	Sub ShowDebugData(strData)
+	On Error Resume Next
+	'	Element.innerText = strData
+	End Sub
+	
+	'---------------------------------------------------------------
+	' Initialize
+	'---------------------------------------------------------------
+	' This function is called when this behavior is first applied 
+	' to the element
+	'---------------------------------------------------------------
+	Sub Initialize()
+	On Error Resume Next
+		
+		'.......................................................................
+		' Make sure the document is complete.
+		'.......................................................................
+		If StrComp(Element.document.readyState, "complete", 1) <> 0 Then
+			Exit Sub
+		End If
+			
+		'.......................................................................
+		' Disable any more-properties which won't work for the host element.
+		'.......................................................................
+		If StrComp(Element.tagName, "td", 1) = 0 Then
+			' Do special disabling for a table element.
+			If Element.cellIndex = 0 Then
+				Element.resizeLeft = False
+			End If
+
+			If Element.cellIndex >= Element.parentElement.cells.length - 1 Then
+				Element.resizeRight = False
+			End If
+			
+			If Element.parentElement.sectionRowIndex = 0 Then
+				Element.resizeTop = False
+			End If
+			
+			If Element.parentElement.sectionRowIndex >= Element.parentElement.parentElement.rows.length - 1 Then
+				Element.resizeBottom = False
+			End If	
+
+			Element.resizeleft = False
+			Element.resizetop = False
+			Element.movehorizontal = False
+			Element.movevertical = False	
+		End If
+		
+		'.......................................................................
+		' Decide which element will actually be moved.
+		'.......................................................................
+		If parseBoolean(Element.livemove, True) Then
+			'.......................................................................
+			' We will be moving the actual element.
+			'.......................................................................
+			Set dragElement = Element
+		Else
+			'.......................................................................
+			' We want to move a shadowed element, then bring the actual element to it.
+			'.......................................................................
+			Set dragElement = Element.document.createElement("DIV")
+			dragElement.style.position = "absolute"
+			dragElement.style.top = ActualTop(Element)
+			dragElement.style.left = ActualLeft(Element)
+			dragElement.style.height = Element.offsetHeight
+			dragElement.style.width = Element.offsetWidth
+			dragElement.style.backgroundColor = "black"
+			dragElement.style.zIndex = "100"
+			dragElement.style.filter = "alpha(opacity=50)"
+			dragElement.style.display = "none"
+			dragElement.style.fontSize = "1px"
+			Element.document.parentWindow.document.body.insertAdjacentElement "beforeEnd", dragElement
+		End If
+	End Sub
+	
+	'-----------------------------------------------------------------------
+	' Cleanup
+	'-----------------------------------------------------------------------
+	' This function is called when the behavior is being detached from its
+	' host element. It is our opportunity to make certain that any elements
+	' and event-subscriptions created by this element are not orphaned.
+	'-----------------------------------------------------------------------
+	Sub Cleanup()
+	On Error Resume Next
+		If Not parseBoolean(Element.livemove, True) _
+		And Not dragElement Is Nothing Then
+			' We made a new div to be the drag element.
+			' Delete this div before it gets orphaned.	
+			dragElement.removeNode True		
+		End If
+		Set dragElement = Nothing
+		
+		If Err.number <> 0 Then
+			Err.Clear
+		End If
+		
+	End Sub
+	
+	'-----------------------------------------------------------------
+	' CheckPermissions
+	'-----------------------------------------------------------------
+	' This function checks which move and resize permissions the
+	' object has, and sets the cursor and the 'Move Permitted' flag
+	' accordingly.
+	' 
+	' Disable logging due to the sheer number of calls to this function.
+	'-----------------------------------------------------------------
+	Sub CheckPermissions()
+	On Error Resume Next
+		If m_bDragging Then
+			Exit Sub
+		End If
+
+		'.......................................................................
+		' Work out where the mouse is.
+		'.......................................................................
+		Dim nLeft, nTop, nRight, nBottom
+		nLeft = abs(window.event.offsetX)
+		nRight = abs(Element.offsetWidth - window.event.offsetX)
+		nTop = abs(window.event.offsetY)
+		nBottom = abs(Element.offsetHeight - window.event.offsetY)
+		
+		m_bOverLeft = (nLeft <= c_nDist)
+		m_bOverRight = (nRight <= c_nDist)
+		m_bOverTop = (nTop <= c_nDist)
+		m_bOverBottom = (nBottom <= c_nDist)
+		
+		'.......................................................................
+		' Set the move-permission and runtime cursor appropriately.
+		'.......................................................................
+		m_bMovePermitted = True
+		If (m_bOverLeft And m_bOverTop And parseBoolean(Element.resizetop, True) And parseBoolean(Element.resizeleft, True)) Then
+			Element.runtimeStyle.cursor = "NW-resize"
+			
+		ElseIf (m_bOverRight And m_bOverBottom And parseBoolean(Element.resizebottom, True) And parseBoolean(Element.resizeright, True)) Then
+			Element.runtimeStyle.cursor = "SE-resize"
+			
+		ElseIf (m_bOverLeft And m_bOverBottom And parseBoolean(Element.resizebottom, True) And parseBoolean(Element.resizeleft, True)) Then
+			Element.runtimeStyle.cursor = "SW-resize"
+			
+		ElseIf (m_bOverRight And m_bOverTop And parseBoolean(Element.resizeright, True) And parseBoolean(Element.resizetop, True)) Then
+			Element.runtimeStyle.cursor = "NE-resize"
+			
+		ElseIf (m_bOverLeft And parseBoolean(Element.resizeleft, True)) Then
+			Element.runtimeStyle.cursor = "W-resize"
+		
+		ElseIf (m_bOverTop And parseBoolean(Element.resizetop, True)) Then
+			Element.runtimeStyle.cursor = "N-resize"
+
+		ElseIf (m_bOverRight And parseBoolean(Element.resizeright, True)) Then
+			Element.runtimeStyle.cursor = "E-resize"
+			
+		ElseIf (m_bOverBottom And parseBoolean(Element.resizebottom, True)) Then
+			Element.runtimeStyle.cursor = "S-resize"
+			
+		ElseIf (parseBoolean(Element.movevertical, True) Or parseBoolean(Element.movehorizontal, True)) Then
+			Element.runtimeStyle.cursor = "move"
+			
+		Else
+			Element.runtimeStyle.cursor = ""
+			m_bMovePermitted = False
+		End If
+		
+		ShowDebugData "left = " & nLeft & vbCrLf & _
+						"right = " & nRight & vbCrLf & _
+						"top = " & nTop & vbCrLf & _
+						"bottom = " & nBottom & vbCrLf & vbCrLf & _
+						"overleft = " & m_bOverLeft & vbCrLf & _
+						"overright = " & m_bOverRight & vbCrLf & _
+						"overtop = " & m_bOverTop & vbCrLf & _
+						"overbottom = " & m_bOverBottom & vbCrLf & vbCrLf & _
+						"cursor = " & CStr(Element.runtimeStyle.cursor)
+	End Sub
+	
+	'---------------------------------------------------------------
+	' StartDrag
+	'---------------------------------------------------------------
+	' This function is called when the user first starts a drag.
+	'---------------------------------------------------------------
+	Sub StartDrag() 
+	On Error Resume Next
+		If Not m_bMovePermitted Then
+			Exit Sub
+		End If		
+			
+		m_bDragging = True	' Prevent permissions from being checked while the drag is in progress.
+				
+		dragElement.setCapture
+		mx = window.event.clientX
+		my = window.event.clientY
+		
+		If Not parseBoolean(Element.livemove, True) Then
+			dragElement.style.top = ActualTop(Element)
+			dragElement.style.left = ActualLeft(Element)
+			dragElement.style.height = Element.offsetHeight
+			dragElement.style.width = Element.offsetWidth
+			dragElement.style.display = ""
+		End If
+		
+		dragElement.onmousemove = GetRef("DoDrag")
+		dragElement.onmouseup = GetRef("EndDrag")
+	End Sub
+		
+	'---------------------------------------------------------------
+	' DoDrag
+	'---------------------------------------------------------------
+	' This function is called to move the element (or its stand-in
+	' shadow to a new position.
+	' 
+	' Disable log messages - too many calls to this.
+	'---------------------------------------------------------------
+	Sub DoDrag()
+	On Error Resume Next
+		
+		Dim dx, dy
+		dx = window.event.clientX - mx
+		dy = window.event.clientY - my
+
+		'.......................................................................
+		' Move the various element coordinates depending on the type of move
+		' we are performing. Note the m_bOver* variables would have been
+		' calculated on the last MouseOver event before the move was started.
+		'.......................................................................
+		Dim bResized
+		bResized = False
+			
+		ShowDebugData ""		
+		If (m_bOverLeft And parseBoolean(Element.resizeleft, True)) Then
+			' resize width from left
+			ShowDebugData Element.innerText & vbCrLf & "resize left"
+			If dragElement.offsetWidth - dx < 2 * c_nDist Then dx = dragElement.offsetWidth - 2 * c_nDist
+			dragElement.style.posLeft = dragElement.style.posLeft + dx
+			dragElement.style.posWidth = dragElement.offsetWidth - dx
+			bResized = True	
+		ElseIf (m_bOverRight And parseBoolean(Element.resizeright, True)) Then
+			' resize width from right
+			ShowDebugData Element.innerText & vbCrLf & "resize right " & dragElement.offsetWidth
+			If dragElement.offsetWidth + dx < 2 * c_nDist Then dx = 2 * c_nDist - dragElement.offsetWidth
+			dragElement.style.posWidth = dragElement.offsetWidth + dx
+			bResized = True
+			
+			' Note: Unfortunately neccessary hack
+			If StrComp(Element.tagName, "td", 1) = 0 And parseBoolean(Element.livemove, True) Then
+				' Update the other table cells to match (because this doesn't seem to work otherwise)
+				Dim objRow
+				For Each objRow In Element.parentElement.parentElement.rows
+					objRow.cells(Element.cellIndex).style.posWidth = Element.style.posWidth
+				Next
+			End If
+		End If
+		
+		If (m_bOverTop And parseBoolean(Element.resizetop, True)) Then
+			' resize height from top
+			ShowDebugData Element.innerText & vbCrLf & "resize top"
+			If dragElement.offsetHeight - dy < 2 * c_nDist Then dy = dragElement.offsetHeight - 2 * c_nDist			
+			dragElement.style.posTop = dragElement.style.posTop + dy
+			dragElement.style.posHeight = dragElement.offsetHeight - dy
+			bResized = True
+		ElseIf (m_bOverBottom And parseBoolean(Element.resizebottom, True)) Then
+			' resize height from bottom
+			ShowDebugData Element.innerText & vbCrLf & "resize bottom"
+			If dragElement.offsetHeight + dy < 2 * c_nDist Then dy = 2 * c_nDist - dragElement.offsetHeight
+			dragElement.style.posHeight = dragElement.offsetHeight + dy	
+			bResized = True		
+		End If
+		
+		If Not bResized Then
+			' We are moving the element - could be horizontal or vertical or both.
+			If parseBoolean(Element.movehorizontal, True) Then
+				' Move the element on the horizontal.
+				ShowDebugData Element.innerText & vbCrLf & "move horizontal"
+				dragElement.style.posLeft = dragElement.style.posLeft + dx
+			End If
+			If parseBoolean(Element.movevertical, True) Then
+				' Move the element on the vertical.
+				ShowDebugData Element.innerText & vbCrLf & "movevertical"
+				dragElement.style.posTop = dragElement.style.posTop + dy
+			End If
+		End If
+
+		mx = window.event.clientX
+		my = window.event.clientY
+	End Sub
+
+	'---------------------------------------------------------------
+	' EndDrag
+	'---------------------------------------------------------------
+	' This function is called when the user stops dragging the
+	' element. The element is moved to its new position, and the
+	' OnPositionChanged event is fired.
+	'---------------------------------------------------------------
+	Sub EndDrag()
+	On Error Resume Next
+		m_bDragging = False
+		ShowDebugData ""
+		dragElement.onmousemove = Null
+		dragElement.onmouseup = Null
+		dragElement.releaseCapture
+		 
+		If Not parseBoolean(Element.livemove, True) Then
+			'.......................................................................
+			' Hide the shadow element.
+			'.......................................................................
+			dragElement.style.display = "none"
+
+			'.......................................................................
+			' Fire an event to warn anyone who cares that the position of the 
+			' element is about to change.
+			'.......................................................................
+			Dim objEvent
+			Set objEvent = Element.ownerDocument.createEventObject
+			If Err.number <> 0 Or objEvent Is Nothing Then
+				ScriptError "MoveResizeObject::EndDrag", Err
+				Err.Clear
+			Else
+				objEvent.returnValue = True					
+				OnBeforePositionChange.fire objEvent
+				If Err.number <> 0 Then
+					ScriptError "MoveResizeObject::EndDrag", Err
+					Err.Clear
+				Else
+					If Not objEvent.returnValue Then
+						Exit Sub
+					End If						
+				End If
+			End If
+			
+			'.......................................................................
+			' We need to bring the actual element to the position and size
+			' we have dragged the shadow element to.
+			'.......................................................................
+			Element.style.posLeft = dragElement.style.posLeft
+			Element.style.posTop = dragElement.style.posTop
+			
+			If StrComp(Element.tagName, "td", 1) = 0 Then 'And parseBoolean(Element.livemove, True) Then
+				' Update the other table cells to match (because this doesn't seem to work otherwise)
+				Dim objRow
+				For Each objRow In Element.parentElement.parentElement.rows
+					objRow.cells(Element.cellIndex).style.posWidth = dragElement.style.posWidth
+				Next
+			Else
+				Element.style.posWidth = dragElement.style.posWidth		
+			End If
+
+			Element.style.posHeight = dragElement.style.posHeight
+		End If
+		OnPositionChange.fire
+	End Sub
+</script>

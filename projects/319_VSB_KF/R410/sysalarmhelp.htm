@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE>Alarm Help</TITLE>
+	
+	<META content="text/html; charset=unicode" http-equiv=Content-Type>
+	<META http-equiv="X-UA-Compatible" content="IE=10">
+	
+	<OBJECT id=BindingBehavior style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+	<OBJECT id=StnEvtReflector style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+	<OBJECT id=HDXPageBehavior style="POSITION: absolute; LEFT: 0px; TOP: 0px; HEIGHT: 0px; WIDTH: 0px" codebase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+
+	<style>
+		html, body, #Page, #Background, .alarmHelpContainer {
+			overflow: hidden !important;
+		}
+	</style>
+
+	<script type=text/javascript>
+        function getColorTheme() {
+            var colorTheme = -1;
+            try {
+                colorTheme = window.external.application.ColorTheme;
+            } catch (err) {
+            }
+            return colorTheme;
+        }
+
+        var cssFile = "alarm-help-dsp";
+        switch (getColorTheme()) {
+            case 2: // light
+                cssFile += "-light";
+                break;
+            case 1: // dark
+                cssFile += "-dark";
+                break;
+            case 0: // classic
+            default:
+                cssFile += "-classic";
+                break;
+        }
+        cssFile += ".css";
+
+        var link = document.createElement("link");
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = "./sysAlarmHelp_files/Styles/" + cssFile;
+        document.head.appendChild(link);
+
+		// handle zoom change or window rezise
+		function resizePage()
+		{
+			try
+			{	
+				// Size the alarm help to the entire client area, and always set the zoom to 100%
+				Page.style.pixelWidth = window.innerWidth - 1;
+				Page.style.pixelHeight = window.innerHeight - 1;
+				Page.style.zoom = 1;
+			}
+			catch (e)
+			{
+				// Don't try anything if we got an exception
+				if (window.external && window.external.logMessage) {
+					window.external.logMessage("sysalarmhelp.htm | resizePage | Exception occurred, " + e.message);
+				}
+			}		
+		}
+
+		function backgroundPropChange()
+		{
+			if (event.propertyName == "style.zoom" || event.propertyName == "style.width" || event.propertyName == "style.height") 
+			{
+				resizePage();
+			}
+		}
+	</script>
+	
+    <script data-main="./sysAlarmHelp_files/scripts/alarm-help-dsp" src="./libs/require.js"></script>
+
+</HEAD>
+<BODY onresize=resizePage() onload=resizePage()>
+	<div style="position: absolute; background-color: transparent; zoom: 1; width: 400px; height: 600px;" onpropertychange=backgroundPropChange() id=Background></div>
+	<div id=Page style="behavior: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository);
+					    width: 400px; height: 600px; zoom: 1; position: absolute; margin: 0;">
+		<div class="alarmHelpContainer" style="position: absolute; height: 100%; width: 100%;">
+			<hn-alarm-help style="position: absolute; height: 100%; width: 100%;">
+			</hn-alarm-help>
+		</div>
+	</DIV>
+</BODY>
+</HTML>

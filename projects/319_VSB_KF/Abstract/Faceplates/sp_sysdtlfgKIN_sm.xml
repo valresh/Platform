@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="M:\Products\VT\R4\Testing\Alpha Tests\contextMenuFiles\contextMenu.xslt"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="160" height="250">                
+	
+
+	<menuitem id="mnu_ack" acceleratorKey="">		       	
+			<script type="onclick">
+				window.external.parentwindow.Acknowledge ();
+				window.external.CloseShortcutMenu()
+	      		</script>
+			<text>AlmAck</text>
+			<image>.\toolbar\tb002.bmp</image>
+	</menuitem>
+	
+	<menuitem id="mnu_trd" acceleratorKey="">		       	
+			<script type="onclick">       
+				window.external.parentwindow.trd_invoke ();
+				window.external.CloseShortcutMenu()
+	      		</script>
+			<text>Trend</text>
+			<image>.\toolbar\tb010.bmp</image>
+		</menuitem>
+	
+	        <menuitem id="mnu_grp" acceleratorKey="">		       	
+			<script type="onclick">       
+				window.external.parentwindow.Grp_Invoke ();			
+				window.external.CloseShortcutMenu()
+	      		</script>
+			<text>Group</text>
+			<image>.\toolbar\tb011.bmp</image>
+	</menuitem>
+	
+	<menuitem id="mnu_hlp" acceleratorKey="">		       	
+			<script type="onclick">       
+				window.external.parentwindow.Help ();
+				window.external.CloseShortcutMenu()
+	    		</script>
+			<script type="onpage"> 
+				window.external.parentwindow.pageload(this);
+			</script>
+			<text>Help</text>	
+			<image>.\toolbar\tb004.bmp</image>
+	</menuitem>
+	
+	<separator/>
+        
+        <menuitem id="mnu_tag00" acceleratorKey="">		       	
+			<script type="onpage"> 
+				window.external.parentwindow.fire_gas_pageload(this);
+			</script>
+			<script type="onclick">       
+				window.external.parentwindow.fire_gas_detail (this);
+				window.external.CloseShortcutMenu()
+	    		</script>
+			<text>Detail Point 1</text>	
+			<image>.\toolbar\tb017.bmp</image>
+	</menuitem>
+	
+        <menuitem id="mnu_tag01" acceleratorKey="">		       	
+		<script type="onpage"> 
+			window.external.parentwindow.fire_gas_pageload(this);
+		</script>
+		<script type="onclick">       
+			window.external.parentwindow.fire_gas_detail (this);
+			window.external.CloseShortcutMenu()
+    		</script>
+		<text>Detail Point 1</text>	
+		<image>.\toolbar\tb017.bmp</image>
+	</menuitem>
+	
+	<separator/>
+
+	<menuitem id="mnu_addPV1" acceleratorKey="">
+	                <script type="onpage"> 
+				window.external.parentwindow.addtrdcnfg(this,"Trd_PointPV1");
+			</script>
+			<script type="onclick">       
+				window.external.parentwindow.add2trend("Trd_PointPV1");				
+				window.external.CloseShortcutMenu();
+	      		</script>
+			<text>Trend Add PV</text>
+			<image>.\toolbar\tb010.bmp</image>
+	</menuitem>
+	
+	<menuitem id="mnu_addPV2" acceleratorKey="">
+	                <script type="onpage"> 
+				window.external.parentwindow.addtrdcnfg(this,"Trd_PointPV2");
+			</script>
+			<script type="onclick">       
+				window.external.parentwindow.add2trend("Trd_PointPV2");				
+				window.external.CloseShortcutMenu();
+	      		</script>
+			<text>Trd Add Inh PV</text>
+			<image>.\toolbar\tb010.bmp</image>
+	</menuitem>
+	
+	<menuitem id="mnu_addOP" acceleratorKey="">
+	                <script type="onpage"> 
+				window.external.parentwindow.addtrdcnfg(this,"Trd_PointOP");
+			</script>
+			<script type="onclick">       
+				window.external.parentwindow.add2trend("Trd_PointOP");				
+				window.external.CloseShortcutMenu();
+	      		</script>
+			<text>Trd Add Inh OP</text>
+			<image>.\toolbar\tb010.bmp</image>
+	</menuitem>	
+	<separator/>
+		
+		<menuitem id="mnu_View_TrdCnf" acceleratorKey="">
+		        <script type="onpage">       
+		         	window.external.parentwindow.view_trd_load(this);
+	      		</script>
+				<script type="onclick">       
+					window.external.parentwindow.view_trd();
+					window.external.CloseShortcutMenu();
+		      		</script>
+				<text>View Trd Cnf </text>
+				<image>.\Images\ViewConfig.gif</image>
+	</menuitem>
+	<menuitem id="mnu_Invoke_Trd_Popup" acceleratorKey="">
+			         <script type="onpage">       
+			         	window.external.parentwindow.view_trd_load(this);
+			      	</script>
+				<script type="onclick">       
+					window.external.parentwindow.trd_popup();
+					window.external.CloseShortcutMenu();
+			      	</script>
+				<text>Invoke Trd Popup </text>
+				<image>.\toolbar\tb010.bmp</image>
+	</menuitem>	
+
+</menu>
+

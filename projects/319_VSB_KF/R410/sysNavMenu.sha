@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="" description="XML-driven menu for a standard system display." useFirstShapeForBadValue="0" width="240px" height="240px">
+  <versionheaders>
+    <versionheader name="PS" value="5.5"/>
+  </versionheaders>
+  <scripts>
+    <script event="" language="JavaScript" id="DB2EB60B-EB5D-434e-B54F-BA9ACCD3CE78">
+      <![CDATA[
+        //------------------------------------------------------------------------
+        // CreateNavPaneExtensions
+        //------------------------------------------------------------------------
+        // <summary>
+        // Create an empty inside the background that matches the NavPane in 
+        // appearance and position, but stretches all the way to the borders of 
+        // the Background.
+        // </summary>
+        // <param name="navPaneId">
+        // The ID of the nav apne element which the extension should match.
+        // </param>
+        // <returns>
+        // true if the extension element was created, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function CreateNavPaneExtensions(navPaneId)
+        {
+          try
+          {
+            if (document.readyState != "complete")
+            {
+              // It is not safe to muck around with the DOM yet. Not an error.
+              return false;
+            }
+            
+            if (typeof(navPaneId) != "string" || navPaneId.length < 1)
+            {
+              // we don't know what element to extend: this is an actual error.
+              throw "Invalid navPaneId '" + navPaneId + "'";
+            }
+              
+            var bgPaneId = navPaneId + "_background";
+            var objBgPane = window.document.getElementById(bgPaneId);            
+            if (objBgPane != null)
+            {
+              // The background-extesion element already exists. Not an error.
+              return true;
+            }
+            
+            var objNavPane = window.document.getElementById(navPaneId);
+            var objPage = window.document.getElementById("Page");
+            var objBackground = window.document.getElementById("Background");
+            if (objNavPane == null || objPage == null || objBackground == null)
+            {
+              // We don't know how to position the extension element.
+              throw "Unable to position the nav pane extension to element '" + navPaneId + "'";
+            }
+            
+            // OK - it is now safe to create a new nav pane extension element.
+            objBgPane = window.document.createElement("div");
+            objBgPane.id = bgPaneId;
+            objBgPane.className = "NavPane";
+            objBgPane.style.position = "absolute";
+            objBgPane.style.left = "0px";
+            objBgPane.style.setExpression("top", navPaneId + ".offsetTop", "JavaScript");
+            objBgPane.style.setExpression("width", navPaneId + ".offsetWidth", "JavaScript");
+            objBgPane.style.setExpression("height", "Background.clientHeight - this.offsetTop", "JavaScript");
+            var fnInsert = function(){ objBackground.appendChild(objBgPane);};
+            window.setTimeout(fnInsert, 5);
+            //fnInsert();
+            return true;
+          }
+          catch(e)
+          {
+            alert("Exception creating nav pane extension: " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+        
+        //------------------------------------------------------------------------
+        // ResolveMenuPaths
+        //------------------------------------------------------------------------
+        // <summary>
+        // Work out where the desired menu definition actually lives and set that 
+        // path on the host element.
+        // </summary>
+        // <returns>
+        // true if the paths were resolved, false otherwise.
+        // </returns>
+        //------------------------------------------------------------------------
+        function ResolveMenuPaths(menuElement, menuFile)
+        {
+          try
+          {
+            if (typeof(window.document.documentElement.SystemDisplayScripts) == "object")
+            {
+              menuElement.setAttribute("IconPath", document.documentElement.ResolveReference("Images/"), 1);
+              menuElement.setAttribute("MenuXML", document.documentElement.ResolveReference("Menus/" + menuFile), 1);
+              return true;
+            }
+          }
+          catch(e)
+          {
+            alert("Exception resolving menu path for '" + menuFile + "': " + (typeof(e) == "string" ? e : e.description));
+          }
+          return false;
+        }
+      ]]>
+    </script>
+    <script event="onshapeload" language="JavaScript" id="">
+      <![CDATA[
+        var fitString = new String("{%Value::UseAsNavPane%}");
+        if (fitString.toLowerCase() == 'true')
+        {
+          // Give this element to the proper NavPane appearance and position.
+          this.style.left = "0px";
+          this.style.top = "35px";
+          this.style.width = "240px";
+          this.style.setExpression("height", "Page.clientHeight - this.offsetTop", "JavaScript");
+          
+          // Create background-extensions that take the navPane colouring to the bottom of the page.
+          // This can only be done after the page is fully loaded, since Bad Things (i.e. Station crashes)
+          // happen if you muck with the DOM before it's fully parsed.
+          var id = this.id;
+          if (!CreateNavPaneExtensions(id))
+          {
+            var fnBg = function(){ CreateNavPaneExtensions(id); };
+            document.attachEvent("onreadystatechange", fnBg);
+          }
+        } 
+        
+        // make sure the menu content is found and loaded as soon as possible.
+        var fnMenuContent = function(){ return ResolveMenuPaths(NavMenuContainer.children[0], "{%Value::MenuXML%}"); }
+        if (!fnMenuContent())
+        {
+          document.documentElement.attachEvent("onreadystatechange", fnMenuContent);
+        }
+        
+      ]]>
+        </script>
+      </scripts>
+      <parameters>
+        <parameter name="MenuXML" type="Value" description="The name of the file that contains the menu definition." defaultvalue="ConfigMenu.xml"/>
+        <parameter name="UseAsNavPane" type="Value" description="True if the menu should be positioned and styled as the navigation pane for this display." defaultvalue="true"/>
+      </parameters>
+      <shapes>
+        <shape>
+          <group>
+            <html>
+              <content>
+                <![CDATA[<DIV id="NavMenuContainer" class="hvg.group.1 NavPane" 
+            style="BEHAVIOR: url(#HDXVectorFactory#group);
+                  HEIGHT: 100%;
+                  LEFT: 0px;                    
+                  POSITION: relative;
+                  TOP: 0px; 
+                  WIDTH: 100%;"
+            tabIndex="-1" 
+            hdxproperties="fillColorBlink:False;Height:240;lineColorBlink:False;Width:240;">
+              <div class="wholearea NavPane NavMenu"></div> 
+              <div style="display: none; padding: 5px; left: 0%; top: 0%; width: 100%; height: 100%; position: absolute;">
+                Menu from {%Value::MenuXML%}<br/>
+                Used as Nav Pane = {%Value::UseAsNavPane%}<br/>
+              </div>
+            </DIV>]]>
+          </content>
+        </html>
+      </group>
+    </shape>
+  </shapes>
+</shapefile>

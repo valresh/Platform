@@ -1,0 +1,144 @@
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="NodeHandle" rowId="true"/>
+			<field id="Depth"/>
+			<field id="Expanded"/>
+			<field id="NumChildren"/>
+			<field id="SiblingNumber"/>
+			<field id="PointNumber"/>
+			<field id="IsAssigned"/>
+			<field id="HasAssignedDescendents"/>
+			<field id="EntityName"/>
+			<field id="TagName"/>
+			<field id="FullName"/>
+			<field id="AlmState"/>
+			<field id="RemoteType"/>
+			<field id="SubType"/>
+			<field id="ItemNumber"/>
+			<field id="Redundant"/>
+			<field id="Flags"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = ""
+				If Value Then
+					s = "Selected_Active_Cells"
+				Else
+					s = "Unassigned_Cells"
+				End If
+				Return = s
+			</script>
+			
+			<script id="xfIconImg" language="VBScript">
+				Return = GetNodeImagePath(Value)
+			</script>
+			<script id="xfIconVisible" language="VBScript">
+				if (Value = Empty or Value = 0) then
+				    Return = "visible"
+				else
+				    Return = "hidden"
+				end if
+			</script>
+			<script id="xfPadding" language="VBScript">
+				Return = (Value - 1) * 16
+			</script>
+			<script id="xfPlusMinusImg" language="VBScript">
+				if (Value(0) = 0) then
+					Return = "Images/blank.gif"
+				elseif (Value(1)) then
+					Return = "Images/minus.gif"
+				else
+					Return = "Images/plus.gif"
+				end if
+			</script>
+			<script id="xfName" language="VBScript">
+				if( IsEmpty(Value) ) then
+					Return = ""
+				else
+					Return = CStr(Value)
+				end if
+			</script>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+			</SortAscIndicator>
+			<SortDescIndicator>
+			</SortDescIndicator>
+			<GroupSeparator>
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef>
+		</SortDef>
+	</SortXML>
+	<ColumnStateXML><state><colref id="Tree" width="300" hidden="false"></colref></state></ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu/>
+			<contextMenu/>
+			<columns>
+				<column id="Tree">
+					<title>Tree</title>
+					<action/>
+					<menu/>
+					<content>
+						&lt;div style="padding-left: 0; position: absolute; padding-top: 3px; width: 100%; height: 100%;" 
+							language="javascript" ExpandCollapseTrigger=0
+							ondrag="jscript: fnCancelDefault();" ondragleave="jscript: fnCancelDefault();"
+							ondragstart="jscript: fnDragPoint(this.title, '', g_LastSelectedFullname, 'entity');" 
+						&gt;
+							&lt;div style="position: relative; display: inline; padding-left: 2px;"
+								onmousedown="if( event.button == 1 ) { this.parentElement.ExpandCollapseTrigger = 1; event.cancelBubble = true; }"&gt;
+								&lt;img style="position: relative; top: -3px; width: 9px; height: 9px;" src="Images/blank.gif"/&gt;
+							&lt;/div&gt;
+
+							&lt;div style="position: relative; display: inline;"&gt;
+								&lt;img style="position: relative; left: 0px; width: 16px; height: 16px; z-index: 2;" src="Images/blank.gif"/&gt;
+							&lt;/div&gt;
+
+							&lt;a style="position: relative; text-decoration: none; cursor: default;
+								overflow: hidden; text-overflow: ellipsis; 
+								width: 100%; height: 100%; padding-left: 1px; padding-top: 1px; padding-bottom: 2px; display: inline;" 
+								href="javascript:;" 
+								onclick="jscript: fnEntityCellSelect(JsTrim(this.innerText))"
+							&gt;
+							&lt;/a&gt;
+						&lt;/div&gt;
+					</content>
+					<bindings>
+						<in fields="Depth" properties="style.paddingLeft" xforms="xfPadding" />
+						<in fields="Selected" properties="lastChild.id" xforms="xfSelection"/>
+						<in fields="NumChildren;Expanded" properties="firstChild.firstChild.src" xforms="xfPlusMinusImg" />
+						<in fields="RemoteType;SubType;ItemNumber;Redundant;Flags" properties="firstChild.nextSibling.firstChild.src" xforms="xfIconImg" />
+						<in fields="EntityName" properties="lastChild.innerText;title" xforms="xfName" />
+						<out properties="ExpandCollapseTrigger" fields="Expanded"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+
+

@@ -1,0 +1,515 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>Client Data Services Configuration</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 11.00.9600.19081">
+<SCRIPT language=VBScript for=alpConfiguredBit1 defer event=onupdate>call UpdateStatus(1)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit2 defer event=onupdate>call UpdateStatus(2)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit3 defer event=onupdate>call UpdateStatus(3)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit4 defer event=onupdate>call UpdateStatus(4)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit5 defer event=onupdate>call UpdateStatus(5)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit6 defer event=onupdate>call UpdateStatus(6)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit7 defer event=onupdate>call UpdateStatus(7)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit8 defer event=onupdate>call UpdateStatus(8)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit9 defer event=onupdate>call UpdateStatus(9)</SCRIPT>
+<SCRIPT language=VBScript for=alpConfiguredBit10 defer event=onupdate>call UpdateStatus(10)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit1 defer event=onupdate>call UpdateStatus(1)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit2 defer event=onupdate>call UpdateStatus(2)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit3 defer event=onupdate>call UpdateStatus(3)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit4 defer event=onupdate>call UpdateStatus(4)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit5 defer event=onupdate>call UpdateStatus(5)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit6 defer event=onupdate>call UpdateStatus(6)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit7 defer event=onupdate>call UpdateStatus(7)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit8 defer event=onupdate>call UpdateStatus(8)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit9 defer event=onupdate>call UpdateStatus(9)</SCRIPT>
+<SCRIPT language=VBScript for=alpConnectiondBit10 defer event=onupdate>call UpdateStatus(10)</SCRIPT>
+<SCRIPT language=VBScript defer>Sub UpdateStatus(index)
+ConfiguredBit = document.getElementById("alpConfiguredBit"&index).value
+ConnectionBit = document.getElementById("alpConnectiondBit"&index).value
+if (ConfiguredBit = 0 and (ConnectionBit = 1 or ConnectionBit = 0)) then
+	document.getElementById("shaConnectionStatus"&index).value = 1 'Not Configured
+Elseif (ConfiguredBit = 1 and ConnectionBit = 1) then
+	document.getElementById("shaConnectionStatus"&index).value = 2 'OK
+Elseif (ConfiguredBit = 1 and ConnectionBit = 0) then
+	document.getElementById("shaConnectionStatus"&index).value = 3 'Failed
+Else 
+document.getElementById("shaConnectionStatus"&index).value = 1 'Not Configured
+End if
+End Sub</SCRIPT>
+</HEAD>
+<BODY 
+style="OVERFLOW: auto; FONT-SIZE: 12pt; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">﻿ 
+<META name=DisplayVersion-PS content=6.31>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb display.">
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=GENERATOR content="MSHTML 11.00.10551.0"><LINK id=HDXStylesheet 
+rel=stylesheet type=text/css href=".\Styles\SystemDisplay_1276X849.css">
+<DIV id=Background 
+style="HEIGHT: 849px; WIDTH: 1276px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #ffffff"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository); BACKGROUND-COLOR: transparent" 
+PageDescription>
+<DIV tabIndex=-1 id=shaBackground class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+value = "1" src = "sysBackground_1276X849.sha" parameters = 
+"Value?MenuXML:ConfigMenu.xml;Value?ShowTabs:auto;Value?ShowActionBar:false;Value?ShowDisplayTitle:false;Value?TopLeftTitle:;Value?TopLeftIcon:;" 
+linkType = "linked" globalscripts = "CFD45B49-72AB-4fb7-9CC8-A7D18331606B" 
+styleClass = ""></DIV>
+<DIV ondragstart="javascript:return event.srcElement.isContentEditable;" 
+tabIndex=1 id=tblPlexusHosts class=hsc.table 
+onselectstart="javascript:return event.srcElement.isContentEditable;" 
+style="CURSOR: default; SCROLLBAR-HIGHLIGHT-COLOR: buttonhighlight; FONT-SIZE: 10pt; TEXT-DECORATION: none; BORDER-TOP: 1px; HEIGHT: 540px; FONT-FAMILY: Arial; BORDER-RIGHT: 1px; WIDTH: 900px; SCROLLBAR-TRACK-COLOR: buttonface; SCROLLBAR-FACE-COLOR: buttonface; BORDER-BOTTOM: 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: black; SCROLLBAR-3DLIGHT-COLOR: threedlightshadow; FONT-STYLE: normal; TEXT-ALIGN: center; SCROLLBAR-ARROW-COLOR: windowtext; LEFT: 326px; BORDER-LEFT: 1px; TOP: 125px; BEHAVIOR: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior); SCROLLBAR-SHADOW-COLOR: buttonshadow; BACKGROUND-COLOR: white; SCROLLBAR-DARKSHADOW-COLOR: threeddarkshadow" 
+HDX_LOCK="-1" hdxproperties="HDXBINDINGID:8;" dummy="" timeoutDelay="0" 
+menuStyle="background-color: menu; color: menutext; border: 2px outset;" 
+headerHeight = "24" rowHeight = "27" displayHeader = "false" horizontalScrollbar 
+= "auto" verticalScrollbar = "visible" columnResizing = "compact" headStyle = "" 
+bodyStyle = "" colheadStyle = 
+"border: 1px solid; border-top-color: threedhighlight; border-left-color: threedhighlight; border-right-color: threedshadow; border-bottom-color: threedshadow; padding: 2px; text-overflow: ellipsis; overflow: hidden;" 
+colbodyStyle = "" defaultColumnContent = 
+'<TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: underline; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: black; PADDING-BOTTOM: 1px; FONT-STYLE: normal; TEXT-ALIGN: left; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 0px; TOP: 0px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:None;borderWidth:1px;durationFormat:-1;fillColor:transparent;fillColorBlink:False;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;textColor:black;textColorBlink:False;" unbound="true">Text</TEXTAREA>' 
+defaultColumnTitle = ""></DIV>
+<DIV tabIndex=-1 id=grpDetailButtons class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 270px; WIDTH: 196px; POSITION: absolute; LEFT: 364px; TOP: 125px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:270;lineColorBlink:False;Width:196;"><INPUT tabIndex=0 id=pbStatus10 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 90%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:162;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus09 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 80%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:160;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus08 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 70%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:159;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus07 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 60%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:158;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus06 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 50%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:157;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus05 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 40%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:156;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=0 id=pbStatus04 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 30%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:154;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=3 id=pbStatus03 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 20%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:153;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=2 id=pbStatus02 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 10%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:152;lineColorBlink:False;textColor:#000000;textColorBlink:False;"><INPUT tabIndex=1 id=pbStatus01 class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 10%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 99.48%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button HDX_LOCK="-1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:150;lineColorBlink:False;textColor:#000000;textColorBlink:False;"></DIV>
+<DIV tabIndex=-1 id=tblHdrSent class="hvg.textbox.1 " 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 35px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 1074px; TOP: 34px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:black;textColorBlink:False;TotalRotation:0;Width:35;">Sent</DIV>
+<DIV tabIndex=-1 id=tblHdrReceived class="hvg.textbox.1 " 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 87px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 1139px; TOP: 35px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:black;textColorBlink:False;TotalRotation:0;Width:87;">Received</DIV>
+<DIV tabIndex=-1 id=tblHdrConnected class="hvg.textbox.1 " 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 79px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 1110px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:black;textColorBlink:False;TotalRotation:0;Width:79;">Connected</DIV>
+<DIV tabIndex=-1 id=tblHdrConfigured class="hvg.textbox.1 " 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 80px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: center; LEFT: 1005px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:black;textColorBlink:False;TotalRotation:0;Width:80;">Configured</DIV>
+<DIV tabIndex=-1 id=tblHdrEnabled class="hvg.textbox.1 " 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 80px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 983px; TOP: 32px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:black;textColorBlink:False;TotalRotation:0;Width:80;">Enabled</DIV>
+<DIV tabIndex=-1 id=tblHdrHostName 
+class="hvg.textbox.1 TableHeader_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 100px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 345px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:100;">Host 
+name</DIV>
+<DIV tabIndex=-1 id=linePageBody class="hvg.base.1 Group_Line_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 1px; FONT-FAMILY: Arial; WIDTH: 947px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 326px; TOP: 68px; BEHAVIOR: url(#HDXVectorFactory#line) url(#BindingBehavior); VISIBILITY: visible" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:7;Height:1;indicateAlarmState:0;indicateScanState:0;LineColor:#c0c0c0;lineColorBlink:False;points:0.000000 0.000000 100.000000 100.000000 ;styleClass:Group_Line_Style;Width:947;"></DIV>
+<DIV tabIndex=-1 id=titlePlexusHosts class="hvg.textbox.1 titleBar_text_style2" 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 258px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 326px; TOP: 10px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+HDX_LOCK="-1" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:titleBar_text_style2;textColor:White;textColorBlink:False;TotalRotation:0;Width:258;">Client 
+Data Services</DIV>
+<DIV tabIndex=-1 id=tblHdrCommunicationPort 
+class="hvg.textbox.1 TableHeader_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 135px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 550px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:135;">Communication 
+port</DIV>
+<DIV tabIndex=-1 id=tblHdrInitializationPort 
+class="hvg.textbox.1 TableHeader_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 122px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 700px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:122;">Initialization 
+&nbsp;port</DIV>
+<DIV tabIndex=-1 id=tblHdrStatus 
+class="hvg.textbox.1 TableHeader_Left_Align_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 20px; FONT-FAMILY: arial; WIDTH: 135px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 850px; TOP: 97px; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_Left_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:135;">Status</DIV>
+<DIV tabIndex=-1 id=grpLedStatus class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 272px; WIDTH: 194px; POSITION: absolute; LEFT: 890px; TOP: 125px; BEHAVIOR: url(#HDXVectorFactory#group) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:31;Height:272;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus1 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:118;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus1_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus1_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus1_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus1_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus1_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus1_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus1_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus2 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 10.29%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:117;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus2_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus2_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus2_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus2_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus2_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus2_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus2_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus3 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 20.22%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:116;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus3_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus3_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus3_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus3_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus3_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus3_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus3_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus4 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 30.14%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:115;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus4_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus4_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus4_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus4_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus4_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus4_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus4_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus5 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 39.7%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:114;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus5_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus5_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus5_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus5_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus5_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus5_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus5_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus6 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 50%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:113;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus6_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus6_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus6_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus6_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus6_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus6_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus6_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus7 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 60.29%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:112;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus7_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus7_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus7_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus7_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus7_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus7_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus7_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus8 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 70.22%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:108;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus8_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus8_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus8_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus8_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus8_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus8_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus8_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus9 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 80.51%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:107;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus9_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus9_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus9_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus9_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus9_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus9_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus9_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus10 
+class="hsc.shape.1 hsc.shapeanimation.1" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.82%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 90.8%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HSCShapeLinkBehavior#shapelinkanimator) url(#HDXFaceplateBehavior) url(#HDXVectorFactory#shapelink) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:106;Height:24;lineColorBlink:False;Width:194;" 
+value = "1" src = ".\syscfgPlexusHostsSummary_files\syssLED_k_g_r_labels.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "" 
+numberOfShapesAnimated = "3">
+<DIV tabIndex=-1 id=shaConnectionStatus10_group02 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+HDX_LOCK="-1" 
+hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:194;">
+<DIV tabIndex=-1 id=shaConnectionStatus10_textbox001 
+class="hvg.textbox.1 Readonly_Alpha_LeftAlign_Style" 
+style="OVERFLOW: hidden; FONT-SIZE: 10pt; TEXT-DECORATION: ; HEIGHT: 95.83%; FONT-FAMILY: arial; WIDTH: 82.47%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; TEXT-ALIGN: left; LEFT: 17.01%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;styleClass:Readonly_Alpha_LeftAlign_Style;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:160;">Not 
+configured</DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus10_group01 class="hvg.group.1 led_black" 
+style="FONT-SIZE: 0pt; HEIGHT: 66.66%; WIDTH: 8.76%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;styleClass:led_black;Width:17;">
+<DIV tabIndex=-1 id=shaConnectionStatus10_Object class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:15;indicateAlarmState:0;indicateScanState:0;LineColor:#808080;lineColorBlink:False;LineWidth:2;Width:17;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus10_wedge001 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 55%; FONT-FAMILY: Arial; WIDTH: 50%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50%; TOP: 40%; BEHAVIOR: url(#HDXVectorFactory#wedge); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:9;indicateAlarmState:0;indicateScanState:0;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;Quadrant:2;Width:9;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus10_oval002 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Arial; WIDTH: 90%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 5%; TOP: 5%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;HDXBINDINGID:-4;Height:14;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;Width:15;"></DIV>
+<DIV tabIndex=-1 id=shaConnectionStatus10_oval003 class=hvg.base.1 
+style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 25%; FONT-FAMILY: Arial; WIDTH: 20%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 25%; TOP: 25%; BEHAVIOR: url(#HDXVectorFactory#oval); VISIBILITY: inherit" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:4;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;Width:3;"></DIV></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=grpConfigureddata class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 264px; WIDTH: 88px; POSITION: absolute; LEFT: 1015px; TOP: 126px; BEHAVIOR: url(#HDXVectorFactory#group) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:32;Height:264;lineColorBlink:False;Width:88;"><TEXTAREA tabIndex=0 id=alpConfiguredBit1 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 5.68%; FONT-FAMILY: Arial; WIDTH: 95.45%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:11;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit2 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 10.6%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:12;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit3 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 20.83%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:13;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit4 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 31.06%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:14;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit5 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 42.42%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:15;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit6 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 52.27%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:16;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit7 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 62.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:17;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit8 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 71.96%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:18;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit9 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 82.57%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:19;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConfiguredBit10 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 92.8%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:20;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA></DIV>
+<DIV tabIndex=-1 id=grpConnecteddata class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 264px; WIDTH: 88px; POSITION: absolute; LEFT: 1110px; TOP: 125px; BEHAVIOR: url(#HDXVectorFactory#group) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:33;Height:264;lineColorBlink:False;Width:88;"><TEXTAREA tabIndex=0 id=alpConnectiondBit1 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 5.68%; FONT-FAMILY: Arial; WIDTH: 95.45%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:34;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit2 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 10.6%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:35;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit3 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 20.83%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:36;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit4 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 31.06%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:37;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit5 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 6.81%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 42.42%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:38;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit6 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 52.27%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:39;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit7 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 62.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:40;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit8 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 71.96%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:41;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit9 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 82.57%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:42;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=alpConnectiondBit10 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 7.19%; FONT-FAMILY: Arial; WIDTH: 98.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 92.8%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:43;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA></DIV></DIV></BODY></HTML>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sample Name="Разгерметизация выкида Р-3001A_S с проливом вакуумного остатка" Start="" Config="N" State="N" Comment="" Model="319_VSB_KF" Time="3600" Acceleration="1" Param="" IsPause="0"><Defects><Defect State="0" Name="Разгерметизация" Obj="V-3001_7155" Model="Трубопроводы" Params="Слив в % текущего	1	50" StatusCond="" ActionCond="" Time="60" ScenarioID="0"/></Defects><Scenarios/></Sample>

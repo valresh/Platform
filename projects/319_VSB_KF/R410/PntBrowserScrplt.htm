@@ -1,0 +1,354 @@
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2008 - 2009    HONEYWELL INTERNATIONAL SARL     ****/
+/************************************************************************/
+-->
+<!-- "PntBrowserScrplt.htm" -->
+<!-- $Revision: 14 $ -->
+
+<HTML>
+
+<script language="JScript">
+
+    // Public interface for EM Browser Prototype
+    public_description = new CreateEmBrowser();
+    function CreateEmBrowser() 
+    {
+        // methods
+        this.SetStationObject = fnSetStationObject;
+        this.SetServerName = fnSetServerName;
+        this.GetServerName = fnGetServerName;
+        this.ConnectServer = fnConnectServer;
+        this.ReconnectServer = fnReconnectServer;
+        this.DisconnectServer = fnDisconnectServer;
+        this.GetServerStatus = fnGetServerStatus;
+        this.GetTagName = fnGetTagName;
+		this.GetTagName2 = fnGetTagName2;
+        this.GetPointDescription = fnGetPointDescription;
+        this.GetFullPointName = fnGetFullPointName;
+        this.Refresh = fnRefresh;
+        this.SetBackgroundColor = fnSetBackgroundColor;
+
+        // Events raised via the container's onscriptletevent:
+        // onready
+        // onpointselect
+        // onserverstatuschange
+        this.event_onready = "";
+        this.event_onpointselect = "";
+        this.event_onserverstatuschange = "";
+
+        // Raise event that EM browser is created
+        // 
+        if (window.external.frozen == false) {
+            window.external.raiseEvent("event_onemcreated", "");
+        }
+    }
+
+    function fnSetStationObject() {
+        PBControlObject.SetExtStnDoc();
+        mfnStationConnectServer();
+    }
+
+    function fnSetServerName(sServerName) {
+        mfnSetServerName(sServerName);
+    }
+
+    function fnGetServerName() {
+        return mfnGetServerName();
+    }
+
+    function fnConnectServer() {
+        return mfnConnectServer();
+    }
+
+    function fnReconnectServer() {
+        return mfnReconnectServer();
+    }
+
+    function fnDisconnectServer() {
+        return mfnDisconnectServer();
+    }
+
+    function fnGetServerStatus() {
+        return mfnGetServerStatus();
+    }
+
+    function fnGetTagName() {
+        return mfnGetTagName();
+    }
+    function fnGetTagName2(){
+	    return mfnGetTagName2();
+	}
+    function fnGetPointDescription() {
+        return mfnGetPointDescription();
+    }
+
+    function fnGetFullPointName() {
+        return mfnGetFullPointName();
+    }
+
+    function fnRefresh() {
+        return mfnRefresh();
+    }
+
+    function fnSetBackgroundColor(sColor) {
+        g_strBckgndColor = sColor;
+        scrpltBody.style.backgroundColor = sColor;
+        txtFullName.firstChild.style.backgroundColor = sColor;
+        txtDescription.firstChild.style.backgroundColor = sColor;
+    }
+
+    function fnEvent_onpointselect() {
+        if (window.external.frozen == false) {
+            window.external.raiseEvent(EVENT_ONPOINTSELECT, "");
+        }
+    }
+
+    function fnEvent_onserverstatuschange() {
+        if (window.external.frozen == false) {
+            window.external.raiseEvent(EVENT_ONSERVERSTATUSCHANGE, "");
+        }
+    }
+</script>
+
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+
+    <LINK type="text/css" rel="stylesheet" href="Styles/PntBrowserScrplt.css">
+    <script language="VBScript" src="Scripts/PntBrowserScrplt.vbs"></script>
+    <script language="JScript" src="Scripts/PntBrowserScrplt.js"></script>
+    <script language="VBScript" src="Scripts/EMScripts.vbs"></script>
+
+    <DIV id=divText style="visibility: hidden"></DIV>
+
+    <OBJECT id=PBControlObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:F294C996-D9DB-11D3-80A3-00C04F9A66E9 VIEWASTEXT>
+    </OBJECT>
+
+    <OBJECT id=HDXVectorFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; 
+        TOP: 0px; HEIGHT: 0px" codeBase="" 
+        classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9 VIEWASTEXT>
+    </OBJECT>
+
+    <script language="vbscript" for="PBControlObject" event="OnConnect(status, name)">
+        Handle_OnConnect status, name
+    </script>
+
+    <OBJECT id=HDXElementsFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1 VIEWASTEXT>
+    </OBJECT>
+
+    <OBJECT id=EntityDataObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:8BF3033E-F348-4ba0-8E6C-992AA2DAFB02 VIEWASTEXT>
+    </OBJECT>
+
+    <OBJECT id=TagDataObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px;" 
+        codeBase="" classid=clsid:BB1E3C8D-7951-4d3f-B372-AD163DDA1BBC VIEWASTEXT>
+    </OBJECT>
+
+    <xml id="xmlEntityTemplate" src="EntityTemplate.xml"></xml>
+    <xml id="xmlTagTemplate" src="TagTemplate.xml"></xml>
+
+    <script language="JScript">
+        function EntityDataObject::OnSelectionChange(DetailsXML, bSelectionChange, bSelectedRowDataChange)
+        {
+            Handle_OnEntitySelectionChange();
+        }
+
+        function Handle_OnConnect(status, name) 
+        {
+            mfnConnectServerGUIDisabled(status, name);
+        }
+
+        function TagDataObject::OnClearSelection()
+        {
+            Handle_OnTagClearSelection();
+        }
+    </script>   
+
+</HEAD>
+
+
+<BODY id=scrpltBody onload="OnPageLoad(); fnPositionAll();" onunload="OnPageUnload();">
+
+	<div id=assBtn type=button value="Assets" style="font:'10pt MS Sans Serif';border-width: 1px;border-style: solid;border-color: #707070; width:93px; height:16px; top:15px; background-color:#707070; color:#f0f0f0; position:absolute; top:0px;" onclick= "javascript:fnToggleAsset()" align = "center"> Assets </div>
+	<div id=sysBtn type=button value="System" style="font:'10pt MS Sans Serif';border-width: 1px;border-style: solid;border-color: #707070; width:93px; height:16px; top:15px; background-color:#f0f0f0; color:#707070; position:absolute; top:0px;" onclick= "javascript:fnToggleSystem()" align="center"> System </div>
+
+
+    <INPUT ID=txtTagName VALUE="" NAME=ntxtTagName
+        style="font:'8pt MS Sans Serif'; position: absolute;border-style:none; left: 0px; height: 20px; background-image:url('../R440/Images/search_fill.png'); background-repeat:no-repeat;"
+		onblur="if(this.value ==''){this.style.backgroundImage='url(Images/search_fill.png)'}"
+		onclick="{this.style.backgroundImage = 'none';}"
+    />
+
+    <table id="tblStatus" align=center 
+            bgcolor=window
+            style="top:120px; left:20px; width:180px; height:100px;
+                        border-color:activeborder;
+                        border-style:double;
+                        font:'8pt MS Sans Serif';
+                        overflow:auto; 
+                        position: absolute;
+                        visibility: hidden;
+                        word-wrap:break-word;"
+    > <tr height=100% width=100% valign=middle> <td align=center bgcolor=window height=100% width=100%>
+    </td></tr>
+    </table>
+
+   <div 
+        id="TagTable"
+        onselectstart="javascript: return false;"
+        ondragstart="javascript: return false;"
+        dataSrc="#TagDataObject"
+        rowHeight="19"
+        displayHeader="false"
+        verticalScrollbar="auto"
+        horizontalScrollbar="auto"
+        columnResizing="compact"
+        bodyStyle=""
+        colbodyStyle=""
+        menuStyle="background-color: menu; 
+                    color: menutext; 
+                    border: 1px solid buttonshadow;"
+        style="border: 0px solid threedshadow;
+                position: absolute;
+                behavior: url(#HDXElementsFactory#Table#MSHTMLBinding);
+                overflow: visible;
+                z-index: 1; 
+                top: 40px;
+                left: 0px; 
+                width: 180px;
+                height: 90px;
+                bottom: 10px;
+                cursor: default;
+                font-family: 'MS Sans Serif';
+                font-size: 8;
+                <!--[if gt IE 8]>;font-size: 11;<![endif]-->; 
+                scrollbar-face-color: threedface;
+                scrollbar-arrow-color: buttontext;
+                scrollbar-track-color: scrollbar;
+                scrollbar-highlight-color: threedhighlight;
+                scrollbar-3dlight-color: threedlightshadow;
+                scrollbar-shadow-color: threedshadow;
+                scrollbar-darkshadow-color: threeddarkshadow;
+                background-color: buttonhighlight;"
+    >
+    </div>
+
+
+    <DIV id=lblFullName 
+        style="font:'8pt MS Sans Serif'; position: absolute; left: 0px; height: 15px; width: 50px;"
+        title="Full Name of the selected point in the point tagname list results pane"
+        nowrap=true>
+        Full Name:
+    </DIV> 
+
+    <DIV ID=txtFullName 
+        nowrap=true
+        title=""
+        NAME=ntxtFullName
+        style="font:'8pt MS Sans Serif'; text-overflow: ellipsis; overflow: hidden; position: absolute; height: 15px;"
+    >
+        <a id=Unassigned_Cells style="position: relative; text-decoration: none; cursor: default;
+            overflow: hidden; text-overflow: ellipsis; 
+            width: 100%; height: 100%; padding-left: 1px; padding-top: 1px; padding-bottom: 2px; display: inline;" 
+            href="javascript:;" ondrag="fnCancelDefault();"
+            ondragleave="fnCancelDefault()"             
+            ondragstart="jscript: fnDragPoint(g_LastSelectedTagname, g_LastSelectedPointTypeAndSubType, this.innerText, 'fullname');"
+        >
+        </a>
+    </DIV>
+
+    <DIV id="lblDescription" 
+        style="font:'8pt MS Sans Serif'; position: absolute; left: 0px; height: 15px;"
+        title="Description associated with the selected point in the point tagname list results pane" 
+        nowrap=true>
+        Description:
+    </DIV> 
+
+    <DIV ID="txtDescription" 
+        nowrap=true 
+        title=""
+        NAME=ntxtDescription
+        style="font:'8pt MS Sans Serif'; text-overflow: ellipsis; overflow: hidden; position: absolute; height: 15px;"
+    > 
+        <a id=Unassigned_Cells style="position: relative; text-decoration: none; cursor: default;
+            overflow: hidden; text-overflow: ellipsis; 
+            width: 100%; height: 100%; padding-left: 1px; padding-top: 1px; padding-bottom: 2px; display: inline;" 
+            href="javascript:;" ondrag="fnCancelDefault();"
+            ondragleave="fnCancelDefault()"             
+            ondragstart="jscript: fnSetInfo(JsTrim(this.innerText));"
+        >
+        </a>
+    </DIV>
+
+    <div 
+        id="EntityTable"
+        onselectstart="javascript: return false;"
+        ondragstart="javascript: return false;"
+        dataSrc="#EntityDataObject" 
+        rowHeight="19"
+        displayHeader="false"
+        verticalScrollbar="auto"
+        horizontalScrollbar="auto"
+        columnResizing="compact"
+        bodyStyle=""
+        colbodyStyle=""
+        menuStyle="background-color: menu; 
+                    color: menutext; 
+                    border: 1px solid buttonshadow;"
+        style="border: 1px solid threedshadow;
+                position: absolute;
+                behavior: url(#HDXElementsFactory#Table#MSHTMLBinding); 
+                overflow: visible;
+                z-index: 1; 
+                top: 150px;
+                left: 0px; 
+                width: 185px;
+                height: 59px;
+                bottom: 10px;
+                cursor: default;
+                font-family: 'MS Sans Serif';
+                font-size: 8;
+                <!--[if gt IE 8]>;font-size: 11;<![endif]-->; 
+                scrollbar-face-color: threedface;
+                scrollbar-arrow-color: buttontext;
+                scrollbar-track-color: scrollbar;
+                scrollbar-highlight-color: threedhighlight;
+                scrollbar-3dlight-color: threedlightshadow;
+                scrollbar-shadow-color: threedshadow;
+                scrollbar-darkshadow-color: threeddarkshadow;
+                background-color: buttonhighlight;
+                visibility: hidden">
+    </div>
+    
+    <input id=chkFilter type=checkbox checked=true
+            style="position: absolute; left: 0 px; width: 15px; top: 210px; height: 15px; visibility: hidden;" 
+            onclick="javascipt:fnToggleChecked()" name=nchkFilter />
+
+    <DIV id=lblFilter nowrap=true style="font:'8pt MS Sans Serif'; position: absolute; 
+        left: 16px; top: 210px; height: 15px; visibility: hidden;"
+        onclick="javascipt:fnToggleChecked()"
+    > 
+        Include Child Points
+    </DIV> 
+
+
+	<div id=btnClearFilter type=button onclick= "javascript:fnClearFilter();" style="position: absolute; left: 60px; top: 250px; height: 15px;">
+		<img src="Images/filter_clear_ico.png" alt="Clear filter" ondrag="javascript: return false;">
+	</div>
+	
+	<div id=btnToggleTree type=button onclick= "javascript:fnToggleTree();" style="position: absolute; left: 0px; top: 250px; height: 15px;">
+		<img src="Images/filter_ico.png" alt="Show filter" ondrag="javascript: return false;" >
+	</div>
+
+
+
+    
+</BODY>
+</HTML>
+
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2008 - 2009    HONEYWELL INTERNATIONAL SARL     ****/
+/************************************************************************/
+-->

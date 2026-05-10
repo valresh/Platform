@@ -1,0 +1,1019 @@
+<HTML xmlns:v="urn:schemas-microsoft-com:vml">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META http-equiv="X-UA-Compatible" content="IE=5"> 
+            <TITLE>Message Summary</TITLE>
+           
+                    <LINK type="text/css" rel="stylesheet" id="masterTheme" href="Styles/SummaryStyle.css">
+            <LINK type="text/css" rel="stylesheet" id="theme" href="Styles/Summary_Dark.css">
+                  
+            <script language="JScript" src="Scripts/Version.js"></script>
+
+            <!-- Logging routines -->
+            <script language="JScript" src="Scripts/Logging.js"></script>
+
+            <!-- Error handling routines -->
+            <script language="JScript" src="Scripts/ErrorHandling.js"></script>
+
+            <!-- HTML Utility routines -->
+            <script language="JScript" src="Scripts/HTMLUtils.js"></script>
+
+            <!-- Pane definition -->
+            <script language="JScript" src="Scripts/Pane.js"></script>
+
+            <script language="JScript" src="Scripts/SummaryScript.js"></script>
+
+            <script language="VBScript" src="Scripts/SummaryScript.vbs"></script>
+
+            <script language="VBScript" src="Scripts/EMScripts.vbs"></script>
+
+            <script language="JScript" src="Scripts/EMScripts.js"></script>
+
+            <!-- Required by HTMLUtils.js -->
+            <script language="JScript" src="Scripts/JSExtensions.js"></script>
+
+    
+    	
+                <script language="JScript" src="Scripts/jquery-1.12.4.min.js"></script>
+              
+            <script language="JScript" >
+            /*
+                The two variables g_dateTimeFormat, and g_dateTimeFormatTip can take any of the following values:
+                    SHOW_TIME
+                    SHOW_TIME_MS
+                    SHOW_DATE
+                    SHOW_DATE_TIME
+                    SHOW_DATE_TIME_MS
+
+                NOTE: SHOW_TIME_MS and SHOW_DATE_TIME_MS will display milliseconds to 3 decimal places by default. If
+                      this needs to be modified, then the SHOW_DATE_TIME value can be bit-wise OR'd with the number of
+                      decimal places desired (up to 3).
+
+                      For example, the value (SHOW_DATE_TIME | 0x01) will show milliseconds to 1 decimal place
+                                   the value (SHOW_DATE_TIME | 0x02) will show milliseconds to 2 decimal places
+                                   the value (SHOW_DATE_TIME | 0x03) will show milliseconds to 3 decimal places
+            */
+
+            var g_EBILocalization = 0x80;
+
+            // adjustment such that a full row are always shown on the last row of the grid
+                    var g_lGridHeightAdjustment	= 0;
+                
+            </script>
+         
+            <!-- Globals -->
+            <script language="JScript" >
+
+            var g_dateTimeFormat	= SHOW_DATE_TIME;	// Date & time format for the cells in the column
+            var g_dateTimeFormatTip = SHOW_DATE_TIME_MS;	// Date & time format for the tooltip on the cells
+
+            // Identifies the type of the summary (alarm, event, message, SOE, system alarm, alert)
+            var g_SummaryType = SUMMARY_MESSAGE;
+
+            // The name to which the persistence information is saved
+            var PROP_Cache_View = "MessageSummaryCacheView";
+            var PROP_Cache_Layout = "MessageSummaryCacheLayout";
+
+            </script>
+          </HEAD>
+<BODY style="overflow: auto;" onload="javascript:OnPageLoad()" onunload="javascript:OnPageUnload()" ondragstart="javascript:return CheckDrag()" onselectstart="javascript:return CheckSelect();" onfocusout="javascript:FocusObjectOnFocusOut();" ondblclick="javascript:FocusObjectOnDblClick();" onclick="javascript:FocusObjectOnClick();" onresize="javascript:DelayedZoomSummary()"> 
+            <div id="MessageSummaryCacheView"
+                 style="display: none; behavior: url(#default#userData);">
+            </div>
+            <div id="MessageSummaryCacheLayout"
+                 style="display: none; behavior: url(#default#userData);">
+            </div>
+          
+            <OBJECT id="HDXPageBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:56144F51-84F2-11D3-8114-00C04F68E0F9"></OBJECT>
+            <OBJECT id="HDXVectorFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:45A29A51-418F-11D4-816B-00C04F68E0F9"></OBJECT>
+            <OBJECT id="HDXAlphaBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:00FD97E5-43FE-11D3-964E-00609738C4CB"></OBJECT>
+            <OBJECT id="HDXPushButtonBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA"></OBJECT>
+            <OBJECT id="HSCComboboxBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B"></OBJECT>
+            <OBJECT id="HSCCheckBoxBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238"></OBJECT>
+            <OBJECT id="HSCIndicatorBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73"></OBJECT>
+            <OBJECT id="HoverBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D"></OBJECT>
+            <OBJECT id="HDXPopupBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE"></OBJECT>
+            <OBJECT id="BindingBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2"></OBJECT>
+            <OBJECT id="HSCShapeLinkBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D"></OBJECT>
+            <OBJECT id="HSCActiveXDocumentBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A"></OBJECT>
+            <OBJECT id="HSCBreakpointBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5"></OBJECT>
+            <OBJECT id="HDXLevelFillBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:9E860844-C032-46A8-A3F7-FB950475A292"></OBJECT>
+            <OBJECT id="HDXElementsFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase=""	classid="clsid:2592890C-11DD-4818-BB62-9640E4A050D1"></OBJECT>
+            <OBJECT id="TableSourceHelper" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:d7c5c9d3-7e9b-4d9d-b815-d3f67016cf54"></OBJECT>
+            <OBJECT id="DTFormat" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB"></OBJECT>
+            <OBJECT id="AlarmStateIconFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:32C06040-FF05-4F15-90EB-9C56D098D188"></OBJECT>
+            <OBJECT id="DisplayDataRepository" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:0113964D-CFC2-453a-BA5F-DF740C170064"></OBJECT>
+            <OBJECT id="HSCScriptDataBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F codebase></OBJECT>
+            <OBJECT id="StnEvtReflector" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D codebase></OBJECT>
+           
+            <DIV id="Background"
+                  onpropertychange="BackgroundPropChange()"
+                  style="top: 0px; left: 0px;
+                        overflow: hidden;
+                        MARGIN: 0px;
+                        WIDTH: 1276px;
+                        HEIGHT: 845px;
+                        BACKGROUND-REPEAT: no-repeat;
+                        ZOOM: 1;
+                        POSITION: absolute">
+            </DIV>
+         <DIV id="Page" style="font-family: 'Helvetica';
+                     font-size: 10pt;
+                     margin: 0px;
+                     padding: 0px;
+                     cursor: default;
+                     behavior: url(#HDXPageBehavior) url(#DisplayDataRepository) url(#StnEvtReflector);
+                     overflow: visible;
+                     display: inline;
+                     position: absolute;
+                     height: 845px;
+                     width: 1276px;
+                     left: 0px;
+                     top: 0px;" HelpFileName="DocumentationSet" HelpFileTypeList="HTML help" LocateHelpTopicBy="Topic number" HelpTopic="406"> 
+            <div id="PaneResizer"
+                 style="display: none;
+                        z-index: 75;
+                        position: absolute;
+                        overflow: hidden;
+                        background-color: buttontext;">
+            </div>
+          
+            <span id="spnViewList"
+                  class="spanViewListClass"
+                  style="visibility: hidden;
+                         top:75px;
+                         z-index: 50;">
+            </span>
+         <xml id="xmlViewListItemTemplate"><item><![CDATA[ 
+                <div onmouseenter="this.className='MENUITEM_HOVER'"
+                     onmouseleave="this.className='MENUITEM'"
+                     class="MENUITEM"
+                     onmouseup="OnViewSelect(this)"
+                     >
+                </div>
+         ]]></item></xml> 
+                <div class="sysSumTopBand">
+                    <div class="displayTitle">
+         
+                    Messages
+         
+                    </div>
+                </div>
+              
+                        <div id="AreaAndViewToolbar"
+                        style="position: absolute;
+                        z-index: 1;
+                        left: 10px;
+                        top: 48px;
+                        width: 650px;
+                        height: 28px;
+                        overflow: hidden;
+                        ">
+                            <span>
+                    <div id="btnDropAreaPane"
+                         buttonMode="option"
+                         motif="web"
+                                     onhdxclick="javascript:FloatAreaPane()"
+                                     onclick="javascript:window.event.cancelBubble='true';"
+                         title="Show location pane"
+                                     onmouseover="javascript:overEffect('btnDropAreaPane', 'dropAreaPaneEnabled dropAreaPaneEnabled');"
+                         onmouseout="javascript:outEffect('btnDropAreaPane', 'dropAreaPaneEnabled dropAreaPaneEnabled', '');"
+                         class="dropAreaPaneEnabled">
+            
+                            <span id="spnAreaButtonTitle"
+                                  style="position: relative;
+                                        left: 0px;
+                                        top: 0px;">
+                                Location
+                            </span>
+                            <div class="downArrow"
+                                        hdxproperties="FillColor:#000000;LineStyle:0;points:100.000000 0.000000 0.000000 0.000000 50.000000 100.000000;styleClass:downArrow;">
+                            </div>
+                    </div>
+
+                    <span id="spnDropAreaPane"
+                                class="dropAreaPaneEnabled"
+                                style="display:none;
+                                       padding:0px 0px 0px 5px !Important;
+                                       cursor:auto !Important;">
+
+                            <span id="spnAreaPaneTitle"
+                                  style="position: relative;
+                                        left: 0px;
+                                        top: 0px;">
+                                Location
+                            </span>
+                    </span>
+                </span>
+
+                <span id="btnDropViewListWrapper" onclick="window.event.cancelBubble='true';">
+
+                    <span id="spnViewLabel"
+                                     class="spnViewLabel">
+                        View:
+                    </span>
+
+                    <div id="btnDropViewList"
+                         buttonMode="option"
+                         motif="web"
+                         title="Click to load a view"
+                         onmouseover="javascript:overEffect('btnDropViewList', 'btnDropViewList btnDropViewList');"
+                         onmouseout="javascript:outEffect('btnDropViewList', 'btnDropViewList btnDropViewList', '');"
+                         onhdxclick="javascript: DropViewList();"
+                         onclick="javascript: if( !this.selected ) window.event.cancelBubble=true;"
+                                     class="btnDropViewList">
+
+                            <span id="spnCurrentView"
+                                   class = "spnDropdownSelection">&nbsp;
+                            </span>
+                            <div class="downArrow"
+                                        hdxproperties="FillColor:#000000;LineStyle:0;points:100.000000 0.000000 0.000000 0.000000 50.000000 100.000000;styleClass:downArrow;">
+                            </div>
+                    </div>
+                </span>
+            </div>
+          
+            <div id="lblFilterApplied"
+                 filterApplied="false"
+                 onpropertychange="javascript:FilterAppliedUpdate();"
+                 style="z-index: 4;
+                        top: 53px;      
+                            right: 510px"
+                     class="lblFilter"
+            >
+                 (Filter applied)
+            </div>
+         <DIV id="toolbar" onpropertychange="javascript:SetToolbar()" btnPrintAsReportDisabled="false" btnPrintPreviewDisabled="false" btnCsvExportDisabled="false" style="width:490px;
+                        top: 48px;
+                        z-index: 4;" class="summaryToolbar"> 
+            <div id="btnClearFilter"
+                    motif="web"
+                    onclick="javascript:ClearFilters();"
+                    onmouseover="javascript:overEffect('btnClearFilter', 'toolBarBtn ClearFilter');"
+                    onmouseout="javascript:outEffect('btnClearFilter', 'toolBarBtn ClearFilter', '');"
+                            title="Show all messages"
+                                style="
+                                behavior: url(#HDXElementsFactory#Button);"
+                    class="toolBarBtn ClearFilter">
+                    <span style="position: relative; left: 4px; top: 0px; ">Clear All Filters</span>
+            </div>
+          
+            <div id="btnResetView"
+                    motif="web"
+                    title="Reset to default view"
+    	                    onmouseover="javascript:overEffect('btnResetView', 'toolBarBtn resetViewClass');"
+                    onmouseout="javascript:outEffect('btnResetView', 'toolBarBtn resetViewClass', '');"
+                    onclick="javascript:ResetViewWarning();"
+                    class="toolBarBtn resetViewClass">
+                    <span style="position: relative; left: 4px; top: 0px; ">Reset View</span>
+            </div>
+            
+            <div id="btnViewConfigPane"
+                    onclick="javascript:ToggleViewConfigPane();"
+                    motif="web"
+                    buttonMode="option"
+                    title="Show view configuration pane"
+                                        onpropertychange="javascript:HighlightPaneButton('btnViewConfigPane', 'toolBarBtn viewConfigPaneEnabled', 'ViewConfigPane');"
+                    onmouseover="javascript:overEffect('btnViewConfigPane', 'toolBarBtn viewConfigPaneEnabled');"
+                    onmouseout="javascript:outEffect('btnViewConfigPane', 'toolBarBtn viewConfigPaneEnabled', 'ViewConfigPane');"
+                    class="toolBarBtn viewConfigPaneEnabled">
+                    </div>
+          
+            <div id="btnAreaPane"
+                    motif="web"
+                    buttonMode="option"
+                    title="Show location pane"
+                        onpropertychange="javascript:HighlightPaneButton('btnAreaPane', 'toolBarBtn areaPaneEnabled', 'AreaPane');"
+                    onmouseover="javascript:overEffect('btnAreaPane', 'toolBarBtn areaPaneEnabled');"
+                    onmouseout="javascript:outEffect('btnAreaPane', 'toolBarBtn areaPaneEnabled', 'AreaPane');"
+                    onclick="javascript:ToggleAreaPane();"
+                    class="toolBarBtn areaPaneEnabled">
+                </div>
+          
+            <div id="btnStatusPane"
+                    motif="web"
+                    buttonMode="option"
+                    title="Show status pane"
+                    disabled="true"
+                                onpropertychange="javascript:HighlightPaneButton('btnStatusPane', 'toolBarBtnDisabled statusPaneDisabled', 'StatusPane');"
+                    onmouseover="javascript:overEffect('btnStatusPane', 'toolBarBtnDisabled statusPaneDisabled');"
+                    onmouseout="javascript:outEffect('btnStatusPane', 'toolBarBtnDisabled statusPaneDisabled', 'StatusPane');"
+                    onclick="javascript:ToggleStatusPane();"
+                    class="toolBarBtnDisabled statusPaneDisabled">
+                </div>
+          
+            <div id="btnDetailsPane"
+                    motif="web"
+                    buttonMode="option"
+                    title="Show details pane"
+                        onclick="javascript:ToggleDetailsPane();"
+                    onpropertychange="javascript:HighlightPaneButton('btnDetailsPane', 'toolBarBtn detailsPaneEnabled', 'DetailsPane');"
+                    onmouseover="javascript:overEffect('btnDetailsPane', 'toolBarBtn detailsPaneEnabled');"
+                    onmouseout="javascript:outEffect('btnDetailsPane', 'toolBarBtn detailsPaneEnabled', 'DetailsPane');"
+                            class="toolBarBtn detailsPaneEnabled">
+                </div>
+          
+            <div id="btnColumnOrganizer"
+                    motif="web"
+                    title="Show column organizer"
+                        onclick="javascript:ShowColumnOrganizer(Table); window.event.cancelBubble='true';"
+                    onmouseover="javascript:overEffect('btnColumnOrganizer', 'toolBarBtn columnOrganizerEnabled');"
+                    onmouseout="javascript:outEffect('btnColumnOrganizer', 'toolBarBtn columnOrganizerEnabled', '');"
+                    class="toolBarBtn columnOrganizerEnabled">
+                </div>
+          
+            <div id="btnCsvExport"
+                    motif="web"
+                    title="Export to CSV"
+                                onclick="javascript:HandleCsvExport(); window.event.cancelBubble='true';"
+                    onmouseover="javascript:overEffect('btnCsvExport', 'toolBarBtn csvExportEnabled');"
+                    onmouseout="javascript:outEffect('btnCsvExport', 'toolBarBtn csvExportEnabled', '');"
+                    class="toolBarBtn csvExportEnabled">
+                </div>
+          
+            <div id="btnPrintAsReport"
+                    motif="web"
+                                onclick="javascript:HandlePrintAsReport()"
+                    onmouseover="javascript:overEffect('btnPrintAsReport', 'toolBarBtn printAsReportEnabled'); PrinterTooltip();"
+                    onmouseout="javascript:outEffect('btnPrintAsReport', 'toolBarBtn printAsReportEnabled', '');"
+                    class="toolBarBtn printAsReportEnabled">
+                </div>
+          
+            <div id="btnPrintPreview"
+                    motif="web"
+                    title="Print Preview"
+                                onclick="javascript:HandlePrintPreview(); window.event.cancelBubble='true';"
+                    onmouseover="javascript:overEffect('btnPrintPreview', 'toolBarBtn printPreviewEnabled');"
+                    onmouseout="javascript:outEffect('btnPrintPreview', 'toolBarBtn printPreviewEnabled', '');"
+                    class="toolBarBtn printPreviewEnabled">
+                </div>
+         </DIV>  
+            <div id="AreaPane"
+                 onclick="javascript:if( AreaPane.style.display != 'none' ){g_FocusedObject=AreaTable;AreaTable.setActive();window.event.cancelBubble='true';}"
+                 class="AreaPaneClass"
+                 style="display: none;
+                        width: 240px;
+                        top:81px;
+                        height: 100px;">
+                <div class="PANE_HEADER">
+
+                    Location Pane
+
+                    <span class="PANE_CLOSE_BUTTON">
+                        <div id="btnAreaPaneClose"
+                             OnHDXClick="javascript:ToggleAreaPane()"
+                             title="Hide location pane"
+                             motif="web"
+                             onmouseover="javascript:overEffect('btnAreaPaneClose', 'areaPaneClose areaPaneClose');"
+                             onmouseout="javascript:outEffect('btnAreaPaneClose', 'areaPaneClose areaPaneClose', '');"
+                             class="areaPaneClose">
+                        </div>
+                    </span>
+                </div>
+
+                <div id="btnSelectNone"
+         
+                     title="Show messages from all locations"
+         
+                     class="selectNoneBtn">
+
+                    <span style="position: relative; top: 1px;">Show All Locations</span>
+            </div>
+
+                <div id="AreaTableWrapper" class="PANE_BODY" style="overflow: visible; padding-top: 60px; padding-bottom: 0px;">
+                    <div id="AreaTable"
+                         rowHeight="24"
+                         timeoutDelay="0"
+                         displayHeader="false"
+                         verticalScrollbar="auto"
+                         onbeforeactivate="javascript:HandleActivate(this)"
+                         onbeforedeactivate="javascript:HandleDeactivate(this)"
+                         hdxproperties="HDXBINDINGID:1;"
+                         style="position: relative;
+                                overflow: visible;
+                                white-space: nowrap;
+                                z-index: 50;
+                                top: 0px;
+                                left: 0px;
+                                height: 100%;
+                                width: 100%;
+                                 behavior: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior);
+                                 cursor: default;">
+                    </div>
+                </div>
+         
+            </div>
+          
+            <div id="AreaPaneDropBorder"
+                 class="PANE_HEADER"
+                 style="display: none;
+                        position: absolute;
+                        z-index: 10;
+                        left: 10px;
+                        top: 80px;
+                        width: 200px;
+                        height: 100%;">
+            </div>
+          
+            <div id="VerticalResizePad"
+                 class="PANE_RESIZER_PAD"
+                 direction="v"
+                 max="800"
+                 min="150"
+                 onmousedown="Pane_OnStartResize(this)"
+                 style="cursor: col-resize;
+                        z-index: 75;
+                        left: 10px;
+                        top: 80px;
+                        height: 100px;
+                        width: 4px;">
+            </div>
+          
+            <div
+                 id="Table"
+                 onkeydown="javascript:return HandleKeyDown()"
+                 ondblclick="javascript:CheckDoubleClick()"
+                 onbeforeactivate="javascript:HandleActivate(this)"
+                 onbeforedeactivate="javascript:HandleDeactivate(this)"
+                 onclick="javascript:if(g_FocusedObject!=Table){g_FocusedObject=Table;}window.event.cancelBubble='true';"
+                 timeoutDelay="0"
+                 hdxproperties="HDXBINDINGID:0;"
+                 headerMode="menubar"
+                 rowHeight="22"
+                 headerHeight="24"
+                             style="right: 11px;
+                        width: 1260px;
+                                behavior: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior);
+                                position: absolute;
+                        white-space: nowrap;
+                        z-index: 5;
+                        visibility: hidden;
+                        cursor: default;">
+            </div>
+          
+            <div id="StatusPane"
+                 SelectedEntity=""
+                 FaceplateName =""
+                 class="PANE"
+                 style="display: none;
+                        position: absolute;
+                        z-index: 5;
+                        left: 10px;
+                        top: 80px;
+                        overflow: visible;
+                        width: 165px;
+                        height: 100px;">
+
+                <div class="PANE_HEADER">
+
+                    Status Pane
+
+                    <span class="PANE_CLOSE_BUTTON">
+                        <div id="btnStatusPaneClose"
+                             OnHDXClick="javascript:ToggleStatusPane()"
+                             onmouseover="javascript:overEffect('btnStatusPaneClose', 'areaPaneClose areaPaneClose');"
+                             onmouseout="javascript:outEffect('btnStatusPaneClose', 'areaPaneClose areaPaneClose', '');"
+                             title="Hide status pane"
+                             motif="web"
+                             class="areaPaneClose">
+                        </div>
+                    </span>
+                </div>
+                <div class="PANE_BODY"  style="position: relative;">
+                    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 style="width: 100%; height: 100%;">
+                        <TR><TD valign="top" style="height: 100%;">
+                            <iframe id="faceplateiframe" scrolling="no" frameborder="0" src="about:blank" style="POSITION: relative; zoom: 100%; width:100%; height:100%; visibility: hidden;">
+                            </iframe>
+                        </TD></TR>
+                    </TABLE>
+                </div>
+            </div>
+         <DIV id="PaneContainer" paddingTop="80" paddingBottom="75" paddingLeft="10" paddingRight="8" style="display: inline;
+                        position: absolute;
+                        left: 10px;
+                        top: 80px;
+                        height: 740px;
+                        z-index: 3;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 1258px;">
+<DIV id="InnerPaneContainer" style="display: inline;
+                            position: absolute;
+                            left: 0px;
+                            top: 0px;
+                            z-index: 3;
+                            width: 1258px;
+                            height: 100%;">   
+            <div id="ViewConfigPane"
+                 class="ViewConfigPaneClass"
+                 onclick="javascript:if( ViewConfigPane.style.display != 'none' ){g_FocusedObject=window.event.srcElement;window.event.cancelBubble='true';}"
+                 style="display: none;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        z-index: 1;
+                        height: 136px;
+                        border:1px solid;
+                        width: 100%;">
+
+                <div id="ViewConfigHeader" class="PANE_HEADER">
+
+                    View Configuration Pane
+
+                    <span class="PANE_CLOSE_BUTTON">
+                        <div id="ViewConfigHeaderClose"
+                             OnHDXClick="javascript:ToggleViewConfigPane()"
+                             onmouseover="javascript:overEffect('ViewConfigHeaderClose', 'areaPaneClose areaPaneClose');"
+                             onmouseout="javascript:outEffect('ViewConfigHeaderClose', 'areaPaneClose areaPaneClose', '');"
+                             motif="web"
+                             title="Hide view configuration pane"
+                             class="areaPaneClose">
+                        </div>
+                    </span>
+
+                </div>
+
+                <div id="ViewConfigBody" class="PANE_BODY">
+
+                    <img src="Images/DarkTheme/information.png"
+                         width='18px'
+                         height='17px'
+                         style="position: absolute;
+                                top: 35px;
+                                left: 10px;" />
+                    <span style="position: absolute;
+                                 top: 35px;
+                                 left: 35px;
+                                 width: 480px;
+                                 height: 40px;">
+                        Click on the column headers to define the filter and sort order for the view.	Resize column widths using the mouse. Use the column organizer to add and remove columns.
+                    </span>
+
+                    <div id="ViewConfigRight" style="position: absolute; top: 0px; right: 0px; width: 470px;">
+
+                        <span style="position: absolute;
+                                     top: 35px;
+                                     left: 5px;">
+                            Save current view as:
+                        </span>
+
+                        <input id="txtViewName"
+                               onkeyup="javascript:CheckViewName('value')"
+                               onpropertychange="javascript:CheckViewName()"
+                               type="text"
+                               maxLength="40"
+                               class="inputValue"
+                               style="position: absolute;
+                                      top: 56px;
+                                      left: 5px;
+                                      width: 357px;">
+                        </input>
+
+                        <span style="position: absolute;
+                                     top: 83px;
+                                     left: 0px;">
+                            <input id="chkIncludeArea" checked type="checkbox"> Include location filter in view definition </input>
+                        </span>
+
+                        <span style="position: absolute;
+                                     top: 103px;
+                                     left: 0px;">
+                            <input id="chkAssignArea" onpropertychange="javascript:AreaAssignChange()"
+                                   type="checkbox"> Assign view to location: </input>
+                        </span>
+
+                         <input id="txtAreaName"
+                               type="text"
+                               maxLength="256"
+                               disabled="true"
+                               class="viewTxtAreaNameDisabled">
+                        </input>
+
+                    </div>
+
+                    <div id="btnSaveView"
+                         title="Save view"
+                         readonly="true"
+                         onclick="javascript:SaveCurrentView()"
+                         onmouseover="if (!this.readonly) javascript:overEffect('btnSaveView', 'saveViewBtnEnabled saveViewBtnEnabled');"
+                         onmouseout="if (!this.readonly) javascript:outEffect('btnSaveView', 'saveViewBtnEnabled saveViewBtnEnabled', '');"
+                         class="saveViewBtnDisabled">
+                        Save
+                    </div>
+
+                    <div id="btnDeleteView"
+                         title="Delete view"
+                         btndisabled="false"
+						 readonly="true"
+                         onpropertychange="javascript:if (event.propertyName == 'btndisabled' && g_bSaveViewsEnabled) CheckViewDelete(btndisabled);"
+                         onclick="javascript:DeleteCurrentView()"
+                         onmouseover="if (!this.readonly) javascript:overEffect('btnDeleteView', 'deleteViewEnabled deleteViewEnabled');"
+                         onmouseout="if (!this.readonly) javascript:outEffect('btnDeleteView', 'deleteViewEnabled deleteViewEnabled', '');"
+                         class="deleteViewEnabled">
+                        Delete
+                    </div>
+                </div>
+
+            </div>
+          
+            <div id="GridPane"
+                 onresize="javascript:SetTableSize();"
+                 class="PANE"
+                 style="display: inline;
+                        z-index: 3;
+                        position: absolute;
+                        left: 0px;
+                            top: 0px;
+                                height: 100%;
+                        width: 100%;">
+         
+            </div>
+          
+            <div id="HorizontalResizePad_BOTTOM"
+                 class="PANE_RESIZER_PAD"
+                 direction="h"
+                 max="550"
+                 min="200"
+                 onmousedown="Pane_OnStartResize(this)"
+                 style="cursor: row-resize;
+                        height: 35px;
+                        z-index: 2;
+                        left: 0px;
+                        top: 0px;
+                        width: 100%;">
+            </div>
+         <DIV id="DetailsPane" class="DetailsPaneClass" onclick="javascript:HandleDetailsPaneFocus();" style="display: none;
+                                position: absolute;
+                                left: 0px;
+                                top: 0px;
+                                z-index: 1;
+                                height: 350px;
+                                border:1px solid;
+                                width: 100%;"> 
+            <div class="PANE_HEADER">
+         
+                Message Details
+         
+                <span class="PANE_CLOSE_BUTTON">
+                    <div id="btnCloseDetailsPane"
+                                 OnHDXClick="javascript:ToggleDetailsPane()"
+                                 motif="web"
+                         title="Hide details pane"
+                         onmouseover="javascript:overEffect('btnCloseDetailsPane', 'areaPaneClose areaPaneClose');"
+                         onmouseout="javascript:outEffect('btnCloseDetailsPane', 'areaPaneClose areaPaneClose', '');"
+                         class="areaPaneClose">
+                    </div>
+                </span>
+            </div>
+          
+            <div id="btnGeneralTab"
+                 onmousedown="javascript:TabDetailsPane(0)"
+         
+                 title="Show general information about the selected message"
+         
+                        class="summaryBtnTabSelected">
+                General
+            </div>
+              
+            <div id="btnInstructionsTab" onmousedown="javascript:TabDetailsPane(5)" title="Show instructions for the selected message" style="left:105px;"class="summaryBtnTab" readonly=true>
+                Instructions
+            </div>
+         <DIV id="DetailsPaneBody" class="PANE_BODY">
+<TABLE style="width: 100%; height: 100%;">
+<TR>
+<TD valign="top" style="height: 100%; padding-top: 22px;">
+<DIV class="summaryTabContainer">  
+                        <div id="SelectedRowData" class="summaryTabContent" style="overflow-y: scroll; display: inline;">
+                            <div id="DefaultData">
+                            </div>
+                        </div>
+              
+       <div id="divInstructionWrapper">
+          <iframe id = "instructioniframe" style="height: 100%; width: 100%; position:absolute; backgroundColor:transparent; zoom:1.00;" scrolling="no" frameborder="0" src="about:blank">
+          </iframe>
+       </div>
+     </DIV>
+</TD>
+<TD style="color: blue; width: 170px; vertical-align: top;">
+<DIV id="divDetailsSidePanel" style="visibility: hidden; position: relative; top: 0px; left: 0px; width: 100%; height: 100%;"> 
+                            <div style="position: absolute;
+                                    top: 0px;
+                                    padding-top: 24px;
+                                    padding-bottom:30px;
+                                        font-size: 9pt;
+                                        width: 100%;
+                                    height: 100%;">
+                                <div id="divLinks" style="width: 100%; height: 100%; overflow-y: auto;">
+                                <span id="lnkPointDetail"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+         
+                                      title="Navigate to the detail display of the selected message"
+         
+                                        class="pointDetailIcon linkTextHidden">
+                                        Detail Display
+                                </span>
+                                <span id="lnkAssociatedDisplay"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+         
+                                      title="Navigate to the associated display of the selected message"
+         
+                                        class="assDisplayIcon linkTextHidden">
+                                        Associated Display
+                                </span>
+         
+                                <span id="lnkCardHolderDetail"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+         
+                                      title="Navigate to the card holder detail display associated with the selected message"
+         
+                                      class="crdHldrIcon linkTextHidden">
+                                    Card Holder Detail
+                                </span>
+
+         
+                                <span id="lnkCustomLink1"
+                                      title="Custom link 1"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+                                      class="linkTextHidden">
+                                    <span style="overflow: hidden; width:22px;">
+                                        <img id="lnkCustomLink1Image" style="position: relative; top: 3px;" src="Images/Link.gif"/>
+                                    </span>
+                                    <span id="lnkCustomLink1Name"
+                                          style="overflow: hidden;
+                                                 text-overflow: ellipsis;
+                                                 position: relative;
+                                                 height:17px;
+                                                 width: 150px;
+                                                 padding-left: 2px;
+                                                 text-decoration: underline;
+                                                 white-space: nowrap;">
+                                        Custom Link 1
+                                    </span>
+                                </span>
+                                <span id="lnkCustomLink2"
+                                      title="Custom link 2"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+                                      class="linkTextHidden">
+                                    <span style="overflow: hidden; width:22px;">
+                                        <img id="lnkCustomLink2Image" style="position: relative; top: 3px;" src="Images/Link.gif"/>
+                                    </span>
+                                    <span id="lnkCustomLink2Name"
+                                          style="overflow: hidden;
+                                                 text-overflow: ellipsis;
+                                                 position: relative;
+                                                 height:17px;
+                                                 width: 150px;
+                                                 padding-left: 2px;
+                                                 text-decoration: underline;
+                                                 white-space: nowrap;">
+                                        Custom Link 2
+                                    </span>
+                                </span>
+                                <span id="lnkCustomLink3"
+                                      title="Custom link 3"
+                                      onpropertychange="javascript:LinksAppliedUpdate(this);"
+                                      linkDisabled = "true"
+                                      class="linkTextHidden">
+                                    <span style="overflow: hidden; width:22px;">
+                                        <img id="lnkCustomLink3Image" style="position: relative; top: 3px;" src="Images/Link.gif"/>
+                                    </span>
+                                    <span id="lnkCustomLink3Name"
+                                          style="overflow: hidden;
+                                                 text-overflow: ellipsis;
+                                                 position: relative;
+                                                 height:17px;
+                                                 width: 150px;
+                                                 padding-left: 2px;
+                                                 text-decoration: underline;
+                                                 white-space: nowrap;">
+                                        Custom Link 3
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+          </DIV>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+</DIV>
+</DIV> 
+            <div id="lblUnackLabel" style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        z-index: 1;
+                        left: 10px;
+                        bottom: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        width: 215px;
+                        height: 25px;">
+                Unacknowledged messages:
+            </div>
+
+            <div id="divUnackFilteredTotal"
+                 style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 200px;
+                        text-align: right;
+                        z-index: 1;
+                        bottom: 30px;
+                        font-weight: bold;
+                        overflow: hidden;
+                        width: 35px;
+                        height: 25px;">
+                 0
+            </div>
+
+            <div id="lblOfUnackTotal"
+                 style="display: none;
+                        white-space: nowrap;
+                        position: absolute;
+                        z-index: 1;
+                        cursor: default;
+                        left: 240px;
+                        bottom: 30px;
+                        text-align: center;
+                        overflow: hidden;
+                        width: 15px;
+                        height: 25px;">
+                of
+            </div>
+
+            <div id="divUnackUnfilteredTotal"
+                 style="display: none;
+                        position: absolute;
+                        cursor: default;
+                        left: 257px;
+                        bottom: 30px;
+                        text-align: right;
+                        border: 0px;
+                        z-index: 1;
+                        font-weight: bold;
+                        background-color: transparent;
+                        width: 35px;
+                        height: 25px;
+                        overflow: hidden;">
+                0
+            </div>
+
+            <div id="lblAckLabel" style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 10px;
+                        bottom: 4px;
+                        overflow: hidden;
+                        z-index: 1;
+                        text-overflow: ellipsis;
+                        width: 200px;
+                        height: 25px;">
+                Acknowledged messages:
+            </div>
+
+            <div id="divAckFilteredTotal"
+                 style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        text-align: right;
+                        left: 200px;
+                        z-index: 1;
+                        font-weight: bold;
+                        bottom: 4px;
+                        overflow: hidden;
+                        width: 35px;
+                        height: 25px;">
+                0
+            </div>
+
+            <div id="lblOfAckTotal"
+                 style="display: none;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 240px;
+                        z-index: 1;
+                        bottom: 4px;
+                        overflow: hidden;
+                        text-align: center;
+                        width: 15px;
+                        height: 25px;">
+                of
+            </div>
+
+            <div id="divAckUnfilteredTotal"
+                 style="display: none;
+                        position: absolute;
+                        left: 257px;
+                        border: 0px;
+                        cursor: default;
+                        font-weight: bold;
+                        text-align: right;
+                        bottom: 4px;
+                        z-index: 1;
+                        background-color: transparent;
+                        width: 35px;
+                        height: 25px;
+                        overflow: hidden;">
+                0
+            </div>
+            
+            <div id="btnSilenceAudible"
+                 onclick="javascript:g_TDO.SilenceAudible()"
+                 onmouseover="javascript:overEffect('btnSilenceAudible', 'silenceAudible silenceAudible');"
+                 onmouseout="javascript:outEffect('btnSilenceAudible', 'silenceAudible silenceAudible', '');"
+                 title="Silence Station audible"
+                 class="silenceAudible"
+                 style="behavior: url(#HDXElementsFactory#Button)">
+                Silence
+            </div>
+             
+            <div id="divPaused"
+                 class="pauseBtnMsg"
+                 style="right: 465px !important;
+                        bottom: 13px;">
+                    (Paused)
+            </div>
+
+            <div id="btnPauseResume"
+                 onpropertychange="javascript:SetPauseResumeDisable()"
+                 btnPauseResumeDisabled="true"
+                 style="display: inline;
+                        position: absolute;
+                        right: 210px;
+                        bottom: 14px;
+                        height: 27px;
+                        width: 250px;
+                        z-index: 1;">
+
+                <div id="btnPause"
+                     onhdxclick="javascript: OnPauseClicked();"
+                     onmouseover="if (!this.readonly) javascript:overEffect('btnPause', 'pauseEnabled pauseEnabled');"
+                     onmouseout="if (!this.readonly) javascript:outEffect('btnPause', 'pauseEnabled', '');"
+                     readonly="true"
+                     title="Pause updates"
+                     class="pauseEnabled">
+                    Pause
+                </div>
+
+                <div id="btnResume"
+                     onhdxclick="javascript: onResumeClicked();"
+                     onmouseover="if (!this.readonly) javascript:overEffect('btnResume', 'resumeEnabled resumeEnabled');"
+                     onmouseout="if (!this.readonly) javascript:outEffect('btnResume', 'resumeEnabled', '');"
+                     readonly="true"
+                     title="Resume updates"
+                     class="resumeDisabled">
+                    Resume
+                </div>
+            </div>
+          
+            <div id="btnAckPage"
+                 title="Acknowledge page"
+                 onhdxclick="javascript: onAckPageClicked();"
+                 onpropertychange="javascript:OnAckPageStateChange()"
+                 onmouseover="if (!this.readonly) javascript:overEffect('btnAckPage', 'AcknowledgePageEnabled AcknowledgePageEnabled');"
+                 onmouseout="if (!this.readonly) javascript:outEffect('btnAckPage', 'AcknowledgePageEnabled', '');"
+                 readonly="true"
+                 class="AcknowledgePageEnabled">
+                 Acknowledge Page
+            </div>
+          
+            <div id="btnClearPage"
+                 title="Clear page"
+                 pageClearDisabled="true"
+                 onmouseover="javascript:overEffect('btnClearPage', 'clearPageEnabled clearPageEnabled');" 
+                 onmouseout="javascript:outEffect('btnClearPage', 'clearPageEnabled', '');" 
+                 onpropertychange="javascript:SetClearPageState();"
+                 class="clearPageEnabled">
+            Clear Page
+            </div>
+           
+        <DIV id="divEntityFilter"
+            filter=""
+                onpropertychange="javascript:OnFilterChange();"
+            style="position: absolute;
+                white-space: nowrap;
+                background-color: threedshadow;
+                color: window;
+                border: 1px solid buttontext;
+                left: 276px;
+                top: 60px;
+                width: 310px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                z-index: 50;
+                visibility: hidden;">
+        </DIV>
+      </DIV>
+</BODY>
+</HTML>

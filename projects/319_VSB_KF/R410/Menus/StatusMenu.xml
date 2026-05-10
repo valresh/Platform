@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+************************************************************************
+*****     COPYRIGHT 2008 - 2016    HONEYWELL INTERNATIONAL SARL     ****
+************************************************************************
+
+$Archive: /System Displays/Experion PKS R400/Menus/StatusMenu.xml $								
+$Workfile: StatusMenu.xml $												
+$Modtime: 3/22/10 9:53p $											
+$Revision: 9 $
+$Author: Adubey $														
+***************************************************************************
+This file contains the definition of the links that should appear in the
+System Status Navigation menu and the action that should be taken for each link.
+***************************************************************************
+This menu deliberately contains no content in EBI R400. This is by design: 
+almost all of the status displays have been superseeded by the top-level
+system status display, and so this menu is just a placeholder for
+backwards compatibility until the remaining displays are removed entirely.
+***************************************************************************
+-->
+<Menu Caption="System Status" Icon="omSystemStatus_30x30.png" xmlns="http://tempuri.org/SystemMenu.xsd">
+  <Item Caption="System Hardware">
+    <Item Caption="Controller Interfaces">
+      <Item Caption="System Interfaces" ActionID="Callup Page" ActionArguments="page://sysstssumpntsrv">
+        <Item Caption="Point Server" ActionID="Callup Page" ActionArguments="page://sysStsDataPntSrv" Hidden="" />
+        <Item Caption="OMA Point Server" ActionID="Callup Page" ActionArguments="page://sysstsoma" Hidden="" />
+        <Item Caption="OPC Advanced Connection" ActionID="Callup Page" ActionArguments="page://sysStsOPC" Hidden="" />
+        <Item Caption="OPC Display Data Client" ActionID="Callup Page" ActionArguments="page://sysStsOPCDisplay" Hidden="" />
+        <Item Caption="PHD Server" ActionID="Callup Page" ActionArguments="page://sysStsPHD" Hidden="" />
+        <Item Caption="PHD Point Server" ActionID="Callup Page" ActionArguments="page://sysStsPHDPntSrv" Hidden="" />
+        <Item Caption="Point Server" ActionID="Callup Page" ActionArguments="page://sysStsPntSrv" Hidden="" />
+        <Item Caption="PMD Server" ActionID="Callup Page" ActionArguments="page://sysStsPntSrvPMD" Hidden="" />
+        <Item Caption="OPC Display Data Client" ActionID="Callup Page" ActionArguments="page://sysStsOPCDisplay" Hidden="" />
+        <Item Caption="Relational Point Server" ActionID="Callup Page" ActionArguments="page://sysStsRelPntSrv" Hidden="" />
+        <Item Caption="System Management Servers" ActionID="Callup Page" ActionArguments="page://sysStsSYSMGT" Hidden="" />
+        <Item Caption="TPS Connection" ActionID="Callup Page" ActionArguments="page://sysStsTPS" Hidden="" />
+      </Item>
+	  <Item Caption="SCADA Controllers" ActionID="Callup Page" ActionArguments="page://sysSCADAControllers">
+      <Item Caption="Channel" ActionID="Callup Page" ActionArguments="page://sysCfgChannelSts" Hidden="" />
+	  <Item Caption="Controller" ActionID="Callup Page" ActionArguments="page://sysCfgControllerSts" Hidden="" />
+	</Item>
+      <Item Caption="OPC Integrator" ActionID="Callup Page" ActionArguments="page://sysOPCintegrator" Licence="OPCIntegratorLicence==True" />
+    </Item>
+    <Item Caption="Stations">
+      <Item Caption="Flex Stations" ActionID="Callup Page" ActionArguments="page://sysstsflexsummary" />
+      <Item Caption="Console Stations" ActionID="Callup Page" ActionArguments="page://sysstscstnsummary" Licence="ConsoleStationLicence==True">
+        <Item Caption="Console Station" ActionID="Callup Page" ActionArguments="page://sysstscstndetail" Hidden="" />
+      </Item>
+    </Item>
+    <Item Caption="Consoles" ActionID="Callup Page" ActionArguments="page://sysstsconsummary" Licence="ConsoleStationLicence==True">
+      <Item Caption="Console" ActionID="Callup Page" ActionArguments="page://sysstscondetail" Hidden="" />
+    </Item>
+    <Item Caption="Printers" ActionID="Callup Page" ActionArguments="page://sysstsPrntSummary"></Item>
+    <Item Caption="Server Redundancy" ActionID="Callup Page" ActionArguments="page://sysServersRedSts" Licence="DualLicence==True">
+      <Item Caption="Server Redundancy" ActionID="Callup Page" ActionArguments="page://sysServersRedStsInterface" Hidden="" />
+    </Item>
+    <Item Caption="Distributed Servers" ActionID="Callup Page" ActionArguments="page://sysstsdstsummary" Licence="DSA==True">
+      <Item Caption="Distributed Server" ActionID="Callup Page" ActionArguments="page://sysserverslclnolic" Hidden="" />
+      <Item Caption="Distributed Server" ActionID="Callup Page" ActionArguments="page://sysserverslclsts" Hidden="" />
+      <Item Caption="Distributed Server" ActionID="Callup Page" ActionArguments="page://sysServersSts" Hidden="" />
+    </Item>
+    <Item Caption="Experion Server Peer Responder" ActionID="Callup Page" ActionArguments="page://sysstsceepeercomms"></Item>
+	<Item Caption="Limit Repository" ActionID="Callup Page" ActionArguments="page://sysstsLR" Licence="LRLicence==True"></Item>
+  </Item>
+  <Item Caption="Operational Security">
+    <Item Caption="Asset Profiles" ActionID="Callup Page" ActionArguments="page://sysStsAssetProfileSummary">
+      <Item Caption="Asset Profile" ActionID="Callup Page" ActionArguments="page://sysStsAssetProfileDetail" Hidden="" />
+    </Item>
+  </Item>
+</Menu>
+
+<!--
+************************************************************************
+*****     COPYRIGHT 2008 - 2016    HONEYWELL INTERNATIONAL SARL     ****
+************************************************************************
+-->

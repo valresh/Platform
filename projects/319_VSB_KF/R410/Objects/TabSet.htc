@@ -1,0 +1,620 @@
+<!--
+***************************************************************************
+Copyright (C) 2006 Honeywell Limited
+$Archive: /System Displays/_Master/Common/Objects/TabSet.htc $								
+$Workfile: TabSet.htc $												
+$Modtime: 4/02/09 10:30a $											
+$Revision: 21 $
+$Author: Jcheung $														
+***************************************************************************
+This Viewlink (element behavior) provides the styled layout and appearance
+of a tabstrip for an EBI or SymmetrE display. 
+
+Tabs are provided as an IXMLDOMNodeList where the caption for the tab is
+provided as the 'title' attribute of each node, with the corresponding
+url in the 'src' attribute. The URL for the selected tab will be called
+up in a frame with id 'frmMain' that must be in the same document as the
+host element.
+***************************************************************************
+If you use this behavior then you need to reference:
+ JSExtensions.js    (JsType*, String.htmlEncode, parseBoolean)
+ HtmlUtils.js       (CurrentFileName)
+ Utilities.js       (PersistData, PersistedData, Translate)
+***************************************************************************
+-->
+<public:component name="TabSet" urn="TabSet" tagName="TabSet">
+	<public:defaults canHaveHTML="false" viewLinkContent="true" viewInheritStyle="true"/>
+	<public:property name="SelectedTabID" get="PersistedTabID" />
+	<public:method name="SetDisabled"/>
+	<public:method name="InitContent"/>
+	<public:method name="TabElementByIndex"/>
+	<public:method name="TabElementByID"/>
+	<public:method name="SelectTab"/>
+	<public:method name="ShowTabSelection"/>
+	<public:method name="AllowForActionBar" />
+	<public:event id="OnTabSelected" name="OnTabSelected"/>
+	<public:attach event="oncontentready" onevent="javascript: try{ InitContent(element.firstChild); }catch(e){}" for="element"/>
+	<public:attach event="onload" onevent="javascript: try{ AllowForActionBar(); }catch(e){}" for="window"/>
+</public:component>
+<html xmlns:v = "urn:schemas-microsoft-com:vml" >
+	<head>
+		<link href="../Styles/SystemDisplayAppearance.css" rel="stylesheet" type="text/css" />
+		<script language="javascript" type="text/javascript">
+		    // This empty script block is here because if it doesn't appear,
+		    // The oncontentready fires before the scripts referenced in the host
+		    // document are properly parsed, and you get a script error due to
+		    // the htmlEncode function not being defined.
+		</script>
+		<style>
+			.tabset div
+			{
+				overflow-x:		auto;
+				overflow-y:		hidden;
+				height: 50px; 
+				vertical-align: top;
+				width: 100%;
+			}
+
+			.tabset table
+			{
+				height: 100%;
+				table-layout: fixed;
+				width: 100%;
+			}
+
+			.tabset td
+			{
+				overflow: hidden;
+			}
+
+			.tabset .tab
+			{
+				height: 50px;
+				margin: 0;
+				overflow: hidden;
+				vertical-align: top;
+			}
+			
+			.tabscroller
+			{
+				height: 23px;
+				overflow: visible;
+				width: 12px;
+				vertical-align: top; 
+			}			
+			#PageEdge
+			{
+				border: none;
+				display: expression(ActionBarSpace.style.display);
+				height: 3px;
+				left: expression(0 - ActionBarSpace.offsetWidth);
+				width: 100%;
+				margin: 0px;
+				padding: 0px;
+				position: absolute;
+				top: expression(this.parentElement.offsetHeight - 6);
+			}
+		</style>
+		<script language="JavaScript" type="text/JavaScript" defer>
+			var KEY_ID = CurrentFileName() + "_TabID";
+
+			function PersistedTabID()
+			{
+				return PersistedData(KEY_ID, "");
+			}	
+		
+			function PersistTabID(strID)
+			{
+				PersistData(KEY_ID, strID);			
+				return PersistedData(KEY_ID, "");
+			}
+			
+			//----------------------------------------------------------
+			// SetDisabled
+			//----------------------------------------------------------
+			// This function is called to enable or disable user
+			// interaction with the tabs (tab-scrolling will be unaffected)
+			//----------------------------------------------------------
+			function SetDisabled(bDisabled)
+			{
+				var objNode = null;
+				var bAlwaysDisabled = false;
+				for (var i = 0; i < divTabs.getElementsByTagName("roundrect").length; i++)
+				{
+					objNode = divTabs.getElementsByTagName("roundrect").item(i);
+					objNode.disabled = (bDisabled || parseBoolean(objNode.getAttribute("alwaysDisabled"), false));
+					if (objNode.disabled)
+					{
+						objNode.runtimeStyle.cursor = "wait";
+					}
+					else
+					{
+						objNode.runtimeStyle.cursor = "hand";
+					}
+				}
+			}
+			
+			//----------------------------------------------------------
+			// AllowForActionBar
+			//----------------------------------------------------------
+			// This function is called to make certain that the tabs
+			// leave enough space on the right to align properly with
+			// any action bar in the host page.
+			//----------------------------------------------------------
+			function AllowForActionBar()
+			{
+				//..........................................................
+				// Determine whether there is an 'ActionBar' element on
+				// the host page: if so, don't overlap the top of it.
+				//..........................................................
+				var objActionBar = window.document.getElementById("ActionBar");
+				if (objActionBar != null && objActionBar.offsetWidth > 0)
+				{
+					ActionBarSpace.style.width = objActionBar.offsetWidth;
+					ActionBarSpace.style.display = "inline";
+				}
+				else
+				{
+					ActionBarSpace.style.display = "none";
+				}
+				UpdateScrollIndicators();
+			}	
+			
+			//----------------------------------------------------------
+			// InitContent
+			//----------------------------------------------------------
+			// This function is called to load a set of tabs into the
+			// tabset.
+			//
+			// Tabs are provided as a 'Tabset' Node containing child 
+			// 'tab' nodes where the caption for each tab is provided as 
+			// the 'title' attribute, and the corresponding url in the 
+			// 'src' attribute. 
+			// 
+			// Note that tabs are initially disabled: you must call 
+			// SetDisabled (false) to permit the user to make tab
+			// selections.
+			//
+			// As soon as tabs are loaded, the one that matches the
+			// tab specified in the tabset node as 'selected' (if valid)
+			// or the last page viewed (if none is specified), or the 
+			// first tab (if there is no match) will be activated.
+			//
+			// The function returns the URL of the initially activated tab.
+			//----------------------------------------------------------
+			function InitContent(xmlTabset)
+			{
+				//..........................................................
+				// Stop the user from interfering.
+				//..........................................................
+				SetDisabled(true);
+
+				//..........................................................
+				// Retrieve the tab-definitions from the parameter.
+				//..........................................................
+				var xmlTabs = null;
+		        var selectedTabID = PersistedTabID();   // Default to whatever we last had selected.
+				
+				if (typeof(xmlTabset) == JsTypeObject && xmlTabset != null)
+				{
+					xmlTabs = xmlTabset.selectNodes("//tab");
+					if (xmlTabs != null)
+					{
+						var requestedTabNode = xmlTabset.selectSingleNode("//*[@selected and tab]");
+						var requestedTabID = (requestedTabNode == null ? null : requestedTabNode.getAttribute("selected"));
+						if (typeof(requestedTabID) == JsTypeString && requestedTabID != "")
+						{
+						    // Verify that the requested tabID is valid before allowing it to be used.
+						    var requestedTab = xmlTabset.selectSingleNode("//tab[@tabid='" + requestedTabID + "']");
+						    if (requestedTab != null)
+						    {
+						        // A tab with this ID does exist - allow it to be the initial selection.
+						        selectedTabID = requestedTabID;
+						    }
+						}
+					}
+				}
+													
+				//..........................................................
+				// Generate the HTML for the display set's tabs, in the
+				// process deciding on the index of the initial tab.
+				//..........................................................
+				var strHTML = new String("");
+				var nInitialTab = 0;
+				var strTabColor = tdScrollLeft.currentStyle.color;	// Set in the stylesheet cascade.
+					
+				if (xmlTabs != null)
+				{
+					//alert("TabSet::InitContent for " + xmlTabs.length + " tabs");
+					var strTitle = new String();
+					var strID = new String();
+					var strAlwaysDisabled = new String();
+									
+					for (var iTab = 0; iTab < xmlTabs.length; iTab++)
+					{
+						//..........................................................
+						// Get the interesting properties of this tab.
+						//..........................................................
+						strTitle = xmlTabs.item(iTab).getAttribute("title");
+						strTitle = Translate(strTitle);		// In case of I18N tags (won't do anything if translation is not required).
+						strTitle = strTitle.htmlEncode();
+						
+						strID = xmlTabs.item(iTab).getAttribute("tabid");		
+						if (strID.toLowerCase() == selectedTabID.toLowerCase())
+						{
+							nInitialTab = iTab;	// Matches the previously selected tab.
+						}
+						strID = escape(strID);
+						
+						bAlwaysDisabled = parseBoolean(xmlTabs.item(iTab).getAttribute("disabled"), false);
+
+						//..........................................................
+						// Create the HTML for this Tab.
+						//..........................................................
+						strHTML = strHTML.concat("<v:roundrect class=\"tab\" ");
+						strHTML = strHTML.concat("disabled=\"true\" alwaysDisabled=\"" + bAlwaysDisabled + "\" ");
+						strHTML = strHTML.concat("fillcolor=\"" + strTabColor + "\" ");
+						strHTML = strHTML.concat("title=\"" + strTitle + "\" ");
+						strHTML = strHTML.concat("tabid=\"" + strID + "\" ");
+           
+                        var onclickScript = "SelectTab(TabElementByIndex(" + iTab + "));";
+		                var xmlTabScripts = xmlTabs.item(iTab).selectNodes("script/*");
+		                if (xmlTabScripts != null)
+		                {
+		                    for (var iScript = 0; iScript < xmlTabScripts.length; iScript++)
+		                    {
+        		                var scriptType   = xmlTabScripts.item(iScript).nodeName;
+        		                var scriptAction = 'try { ' + xmlTabScripts.item(iScript).text + ' } catch(e){ ScriptError(\'Custom script for tab ' + strID + '\', e); };';   // Protect from dodgy scripts.
+        		                if (scriptType.toLowerCase() == 'onclick')
+        		                {
+        		                    onclickScript += scriptAction;  // Append custom onclick scripts.
+        		                }
+        		                else
+        		                {
+        			                strHTML = strHTML.concat(scriptType +"=\"" + scriptAction + "\" ");		    
+        			            }
+		                    }
+		                }
+			            strHTML = strHTML.concat("onclick=\"javascript: " + onclickScript + "\">");		
+                        if (tdScrollLeft.currentStyle.type != undefined && tdScrollLeft.currentStyle.type.toLowerCase()=="gradient")
+                        {
+                            strHTML = strHTML.concat("<v:fill ");
+                            strHTML = strHTML.concat("type=\""   + tdScrollLeft.currentStyle.type   + "\" ");
+                            strHTML = strHTML.concat("color2=\"#FFFFFF\" />");
+                            // for simplicity, the top part of the gradient is always white, which matches the color for the selected tab.
+                            // This allows the ShowTabSelection code to continue to work without any changes.
+                        }
+						strHTML = strHTML.concat(strTitle + "</v:roundrect>");
+					}
+				}
+				
+				//..........................................................
+				// Create the tabs in the displayed document.
+				//..........................................................
+				divTabs.innerHTML = strHTML;
+
+				//..........................................................
+				// Make sure the spacing is up to date 
+				// (also updates the scroll indicators).
+				//..........................................................
+				AllowForActionBar();
+				
+				if (strHTML != "" && strHTML != null)
+				{					
+					//..........................................................
+					// Make the initial tab selection.
+					//..........................................................
+					return SelectTab(TabElementByIndex(nInitialTab));
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			//----------------------------------------------------------
+			// UpdateScrollIndicators
+			//----------------------------------------------------------
+			// This function hides or displays the scroll indicators as
+			// appropriate for which tabs are currently visible.
+			//
+			// If a call to this function is triggered by the onresize 
+			// event, then it should not actually be called until after
+			// the onresize event finishes, as the new size is not
+			// guaranteed to have been calculated on all child elements
+			// until the event cascade is done. This can be achieved by
+			// calling this from a one-shot timer with a few milliseconds 
+			// lag after the event.
+			//----------------------------------------------------------
+			function UpdateScrollIndicators()
+			{	
+				//..........................................................
+				// Hide the indicators by default.
+				//..........................................................
+				tdScrollLeft.style.visibility = "hidden";
+				tdScrollRight.style.visibility = "hidden";
+				
+				//..........................................................
+				// Make sure tabs exist.
+				//..........................................................
+				var objTabElems = divTabs.getElementsByTagName("roundrect");
+				if (objTabElems == null || objTabElems.length == 0)
+				{
+					return;
+				}
+								
+				//..........................................................
+				// Show the left scroll-arrow if appropriate.
+				//..........................................................
+				if (divTabs.scrollLeft > 0)
+				{
+					tdScrollLeft.style.visibility = "visible";
+				}
+				
+				//..........................................................
+				// Show the right scroll-arrow if appropriate.
+				//..........................................................
+				if ((divTabs.scrollLeft + divTabs.clientWidth) < divTabs.scrollWidth)
+				{
+					tdScrollRight.style.visibility = "visible";
+				}
+			}	
+			
+			//----------------------------------------------------------
+			// ScrollTabs
+			//----------------------------------------------------------
+			// This function scrolls the tabs by multiples of a single
+			// tab's width.
+			//----------------------------------------------------------
+			function ScrollTabs(nDelta)
+			{
+				//..........................................................
+				// Make sure tabs exist.
+				//..........................................................
+				var objTabElems = divTabs.getElementsByTagName("roundrect");
+				if (objTabElems == null || objTabElems.length == 0)
+				{
+					return;
+				}
+									
+				//..........................................................
+				// Calculate the scroll offset changed by nDelta tab widths.
+				//..........................................................
+				var nWidth = divTabs.getElementsByTagName("roundrect").item(0).offsetWidth;
+				var nScroll = divTabs.scrollLeft + nDelta * nWidth;
+				
+				//..........................................................
+				// Round down to the nearest whole tab width
+				//..........................................................
+				//nScroll = Math.floor(nScroll / nWidth) * nWidth
+				
+				//..........................................................
+				// Apply the scroll offset.
+				//..........................................................
+				divTabs.scrollLeft = nScroll;
+				
+				//..........................................................
+				// Correct the indicators
+				//..........................................................
+				UpdateScrollIndicators();
+			}
+			
+			//----------------------------------------------------------
+			// TabElementByIndex
+			//----------------------------------------------------------
+			// Returns a tab element by index.
+			//----------------------------------------------------------
+			function TabElementByIndex(tabIndex)
+			{
+				//..........................................................
+				// Make sure tabs exist.
+				//..........................................................
+				var objTabElems = divTabs.getElementsByTagName("roundrect");
+				if (objTabElems == null || objTabElems.length == 0)
+				{
+					return null;
+				}
+				
+				tabIndex = parseInt(tabIndex, 10);
+				if (!isNaN(tabIndex))
+				{
+					//..........................................................
+					// We have been asked for the tab by index.
+					//..........................................................				
+					if (tabIndex < 0)
+					{
+						tabIndex = 0;
+					}
+					else if (tabIndex >= objTabElems.length)
+					{
+						tabIndex = objTabElems.length - 1;
+					}
+				}
+					
+				return objTabElems.item(tabIndex);				
+			}	
+			
+			//----------------------------------------------------------
+			// TabElementByID
+			//----------------------------------------------------------
+			// Returns a tab element by matching 'tabid' attribute.
+			//----------------------------------------------------------
+			function TabElementByID(tabID)
+			{
+				//..........................................................
+				// Make sure tabs exist.
+				//..........................................................
+				var objTabElems = divTabs.getElementsByTagName("roundrect");
+				if (objTabElems == null || objTabElems.length == 0)
+				{
+					return null;
+				}
+				
+				//..........................................................
+				// Look for the first tab with a matching tabID
+				//..........................................................
+				var searchID = new String(tabID);
+				var foundID = new String();
+				for (var i = 0; i < objTabElems.length; i++)
+				{
+					foundID = unescape(objTabElems.item(i).getAttribute("tabid"));
+					if (foundID.toLowerCase() == searchID.toLowerCase())
+					{
+						return objTabElems.item(i);	
+					}
+				}
+				return null;				
+			}	
+			
+			//----------------------------------------------------------
+			// ShowTabSelection
+			//----------------------------------------------------------
+			// Makes the tab with the matching index appear selected.
+			//
+			// Returns True if the matching tab was selected, False
+			// otherwise.
+			//----------------------------------------------------------
+			function ShowTabSelection(objTab)
+			{				
+				//..........................................................
+				// Make all the tabs appear unselected.
+				//..........................................................
+				var objTabSet = divTabs.getElementsByTagName("roundrect");
+				var strTabColor = tdScrollLeft.currentStyle.color;	// Set in the stylesheet cascade.
+				for (var i = 0; i < objTabSet.length; i++)
+				{
+					objTabSet.item(i).fillcolor = strTabColor;		
+				}
+				
+				//..........................................................
+				// Check that we can select this tab.
+				//..........................................................
+				if (objTab == null)
+				{
+					return false;
+				}
+																		
+				//..........................................................
+				// Make the tab appear selected and scroll it into view.
+				//..........................................................
+				objTab.fillcolor = "#FFFFFF";		// Selected tab is always white.
+
+				var nTabLeft = objTab.offsetLeft;
+				var nTabRight = nTabLeft + objTab.offsetWidth;			
+				if (nTabLeft < divTabs.scrollLeft)
+				{
+					// The tab is off the LHS. Put it at the LHS.
+					divTabs.scrollLeft = nTabLeft;
+				}
+				else if (nTabRight > (divTabs.scrollLeft + divTabs.clientWidth))
+				{
+					// The tab is off the RHS. Put it at the RHS
+					divTabs.scrollLeft = nTabRight - divTabs.clientWidth;
+				}
+				else
+				{
+					// The tab is already visible.
+				}
+								
+				//..........................................................
+				// Make sure the correct scroll indicators are showing.
+				//..........................................................
+				UpdateScrollIndicators();
+			}
+		
+			//----------------------------------------------------------
+			// SelectTab
+			//----------------------------------------------------------
+			// This function is called to request that the tab which has
+			// the specified index or 'arg' attribute should be selected.
+			//
+			// An event will be fired to inform any interested parties
+			// of the URL of the selected tab.
+			//
+			// This function returns true if the tab was selected, false
+			// otherwise.
+			//----------------------------------------------------------
+			function SelectTab(objTab)
+			{			
+				//..........................................................
+				// Determine whether the tab exists.
+				//..........................................................
+				if (objTab == null || typeof(objTab) == JsTypeUndefined)
+				{
+					return false;
+				}
+				
+				//..........................................................
+				// Verify that the tab can be selected.
+				//..........................................................
+				var isDisabled = parseBoolean(objTab.getAttribute("alwaysDisabled"), false);
+				if (isDisabled)
+				{
+				    return false;
+				}
+				
+				//..........................................................
+				// Prevent any tab changes 
+				// until the tab has been successfully selected.
+				//..........................................................
+				SetDisabled(true);
+											
+				//.......................................................................
+				// Fire an event to ask the host display to display the tab content.
+				//.......................................................................
+				var tabID = objTab.getAttribute("tabid");		
+				var objEvent = element.ownerDocument.createEventObject();			
+				objEvent.setAttribute("tabID", tabID);
+				objEvent.returnValue = true;
+				OnTabSelected.fire(objEvent);
+				if (objEvent.returnValue)
+				{
+					//.......................................................................
+					// The event-handler has dealt with the tab-selection: make the tab
+					// appear to be selected.
+					//.......................................................................
+					ShowTabSelection(objTab);
+					
+					//.......................................................................
+					// Persist the tab-selection for later restoration.
+					//.......................................................................
+					PersistTabID(tabID);
+					
+					//.......................................................................
+					// Allow the tabs to be interacted with.
+					//.......................................................................
+					SetDisabled(false);
+				}
+				return objEvent.returnValue;
+			}		
+		</script>
+	</head>
+	<body class="TabSet" scroll="no">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td id="tdScrollLeft" class="TabScroller ScrollLeft" 
+					title="<<"
+					onclick="javascript: ScrollTabs(-1);">
+					&nbsp;
+				</td>
+				<td id="tdTabs">
+					<div id="divTabs" 
+						onresize="javascript: window.setTimeout(UpdateScrollIndicators, 5);"
+						nowrap>
+						&nbsp;
+					</div>
+				</td>
+				<td id="tdScrollRight" class="TabScroller ScrollRight"
+					title=">>" 
+					onclick="javascript: ScrollTabs(1);">
+					&nbsp;
+				</td>
+				<td id="ActionBarSpace" style="display: none;">
+					&nbsp;
+				</td>
+			</tr>
+		</table>
+		
+		<v:roundrect id="PageEdge" strokecolor="#FFFFFF" fillcolor="#FFFFFF" arcsize="0.5"></v:roundrect>
+	</body>
+</html>

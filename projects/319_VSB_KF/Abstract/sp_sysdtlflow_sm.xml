@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="140" height="150">                
+
+	<menuitem id="mnu_det" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.flowDetail ();
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Detail</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+	<menuitem id="mnu_fp" acceleratorKey="">
+		<script type="onclick">
+		  window.external.parentwindow.flowFaceplate ();
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Faceplate</text>
+		<image>.\Toolbar\tb011.png</image>
+	</menuitem>
+
+	<menuitem id="mnu_asd" acceleratorKey="">
+		<script type="onclick">
+			var lastsel=window.external.parentwindow.Page.getAttribute('lastselection');
+			var scrollDiv=window.external.parentwindow.document.getElementById(lastsel);
+			//alert ("h: " + (scrollDiv.offsetWidth - scrollDiv.clientWidth) +"\r\n"+ "v: " + (scrollDiv.offsetHeight - scrollDiv.clientHeight) );
+			window.external.parentwindow.AscDsp ();			
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>AssocDsp</text>
+		<image>.\Toolbar\tb003.png</image>
+	</menuitem>
+	
+	<menuitem id="sup_dsp" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.SupDsp ();
+			window.external.CloseShortcutMenu()
+		</script>
+		<script type="onpage"> 
+			window.external.parentwindow.pageloadSupDsp(this);
+		</script>
+		<text>SupDsp</text>	
+		<image>.\images\areapane.png</image>
+	</menuitem>
+	<menuitem id="mnu_hlp" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.Help();
+			window.external.CloseShortcutMenu()
+		</script>
+		<script type="onpage">
+			window.external.parentwindow.pageload(this);
+		</script>
+		<text>Help</text>
+		<image>.\images\sysIconSNO_04.png</image>
+	</menuitem>
+
+	<separator/>
+
+	<menuitem id="mnu_prev" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.showPrevious();
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">
+			window.external.parentwindow.AbletoHighlightPath(this);
+		</script>
+		<text>showPrevious</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+
+	<menuitem id="mnu_nxt" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.showNext();
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">
+			window.external.parentwindow.AbletoHighlightPath(this);
+		</script>
+		<text>showNext</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+
+	<separator/>
+
+	<menuitem id="mnu_expnd" acceleratorKey="">
+		<script type="onclick">
+			window.external.parentwindow.flowExpand ();
+			window.external.CloseShortcutMenu()
+		</script>
+		<script type="onpage">
+			if(window.external.parentWindow.Page.cmenusource) {
+				if(window.external.parentWindow.myDebug){window.external.parentWindow.debugWrite("cmenusource = ", window.external.parentWindow.Page.cmenusource);}
+				if(window.external.parentWindow.Page.getAttribute('cmenusource').indexOf(':X:')>-1){this.disabled=false}else{this.disabled=true};
+			}else{this.disabled=true}
+		</script>
+		<text>Expand</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+
+	<menuitem id="mnu_reload" acceleratorKey="">
+		<script type="onclick">
+			var lastsel=window.external.parentwindow.Page.getAttribute('lastselection');
+			var obj=window.external.parentwindow.document.getElementById(lastsel);
+			obj.fireEvent('ondblclick');
+			window.external.CloseShortcutMenu()
+		</script>
+		<script type="onpage">
+			var lastsel=window.external.parentwindow.Page.getAttribute('lastselection');
+			if (lastsel.search(':')>-1){this.disabled=true}else{this.disabled=false}
+		</script>
+		<text>Reload</text>
+		<image>.\Toolbar\tb009.png</image>
+	</menuitem>
+	
+	<separator/>
+	
+	<menuitem id="mnu_gotoactive" acceleratorKey="">
+		<script type="onclick">
+			var oPage = window.external.parentwindow.Page;
+			var oShape = window.external.parentwindow.document.getElementById(oPage.getAttribute('lastselectionseq')).parentElement.parentElement;
+			var tmpName=oShape.GetCustomProperty('Point','pointName');
+			if(tmpName.indexOf("%")>0){
+				var pntName = window.external.parentwindow.DisplayDataRepository.GetValue(tmpName.split("%")[1]);
+			}else{
+				var pntName = tmpName;
+			}
+			window.external.parentwindow.DisplayDataRepository.PutValue("ACTSEL",pntName);
+			//call "showActiveList" function with timeout to allow the "ActiveSteps" shape to populate the data.
+			window.external.parentwindow.setTimeout(function(){window.external.parentwindow.showActiveList();},1000);
+			window.external.CloseShortcutMenu()
+		</script>
+		<script type="onpage">
+			
+		</script>
+		<text>Goto Active...</text>
+		<image>.\Toolbar\tb009.png</image>
+	</menuitem>
+</menu>

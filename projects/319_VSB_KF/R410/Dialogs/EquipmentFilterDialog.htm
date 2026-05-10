@@ -1,0 +1,126 @@
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2010           HONEYWELL INTERNATIONAL SARL     ****/
+/************************************************************************/
+-->
+<!-- $Archive:  $ -->
+<!-- $Revision: $ -->
+<HTML>
+<HEAD>
+<TITLE>Custom filter</TITLE>
+
+<style type="text/css">
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+<script language="JScript" src="../Scripts/Common_FilterDialog.js"></script>
+
+<script language="JScript">
+
+// ----------------------------------------------------------------------------------
+// DoLoad
+//
+//	Invoked by the 'onload' event of the body element. It is responsible for 
+//	retrieving and restoring the previous state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function DoLoad()
+{
+    var strParam = "";
+    var strValue = "";
+
+	if ( window.dialogArguments.param != null )
+	{
+        var item = window.dialogArguments;
+        var strParam = item.Param;
+        var strValue = item.Value;
+        
+    }
+    
+	// Set the cancel value to 'true' in case we terminate early
+	window.returnValue = true;
+
+    txtValue.value = strValue;
+    txtValue.select();
+}
+
+// ----------------------------------------------------------------------------------
+// DoUnload
+//
+//	Invoked by the user clicking the 'OK' button to apply a filter. 
+// ----------------------------------------------------------------------------------
+
+function DoUnload()
+{
+	var item = window.dialogArguments;	
+
+	// Set the new value
+	item.Value = txtValue.value;
+	
+	// Set the cancel value to 'false' since we're setting a new value
+	window.returnValue = false;
+	
+	window.close();
+}
+
+</script>
+</HEAD>
+
+<BODY onload="InitializeLogger(); DoLoad()"
+	  onkeypress="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  style="background-color: buttonface;
+			margin: 5px;
+			white-space: nowrap;">
+
+	<span id="lblI18NText" 
+		  style="position: absolute;
+				 left: 10px;
+				 top: 5px;
+				 width: 315px;">
+		Show all alarms raised for equipment:
+	</span>
+
+	<input id="txtValue" 
+	  	   type="text" 
+	  	   tabIndex=1
+		   style="position: absolute; 
+				  top: 30px;
+				  left: 10px;
+				  width: 315px;">
+	</input>
+
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			tabIndex=2
+			style="position: absolute; 
+				   top: 65px;
+				   left: 155px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			tabIndex=3
+			onclick="window.close()" 
+			style="position: absolute; 
+				   top: 65px;
+				   left: 245px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</BODY>
+</HTML>

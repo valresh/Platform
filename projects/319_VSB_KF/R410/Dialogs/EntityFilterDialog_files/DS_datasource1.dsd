@@ -1,0 +1,190 @@
+<PSDATASOURCE version="1.0">
+
+<PAGE wType="0" wUpdate="5" wPrevious="0" area_byRequestType="0" area_bstrArea="" area_wFile="0" area_wWord="0"
+      byForwardAction="1" bstrForward="bstrForward" byBackwardAction="1" bstrBackward="bstrBackward" 
+      bRequestTaskOnPageCallup="0" callUpTask_byLevel="2" callUpTask_byStnidx="0" callUpTask_ts_iLrm="0" 
+      callUpTask_ts_bstrParam1="1" callUpTask_ts_bstrParam2="11" callUpTask_ts_bstrParam3="0" 	      	      
+      callUpTask_ts_bstrParam4="0" bRequestPeriodicTask="0" periodicTask_byLevel="2" periodicTask_byStnidx="0"
+      periodicTask_ts_iLrm="0" periodicTask_ts_iPeriod="60" periodicTask_ts_bstrParam1="1" 
+      periodicTask_ts_bstrParam2="11" periodicTask_ts_bstrParam3="0" periodicTask_ts_bstrParam4="0"/>
+
+<TABLESOURCE TableSourceType="HMIPage.EntitySource" lBindingID="1" Version="3.0" AutoMigrate="false" WaitForInit="1">
+<![CDATA[
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="NodeHandle" rowId="true"/>
+			<field id="Depth"/>
+			<field id="Expanded"/>
+			<field id="NumChildren"/>
+			<field id="SiblingNumber"/>
+			<field id="PointNumber"/>
+			<field id="IsAssigned"/>
+			<field id="HasAssignedDescendents"/>
+			<field id="EntityName"/>
+			<field id="TagName"/>
+			<field id="FullName"/>
+			<field id="RemoteType"/>
+			<field id="SubType"/>
+			<field id="ItemNumber"/>
+			<field id="Redundant"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = ""
+				If Not IsEmpty(Value(0)) Then
+				    If Value(0) Then
+					If g_bAreaTableIsActive Then
+						If Value(1) Then 
+							s = "Selected_Active_Cells"
+						Else
+							s = "Selected_Active_Unassigned_Cells"
+						End If
+					Else
+						If Value(1) Then
+							s = "Selected_Inactive_Cells"
+						Else
+							s = "Selected_Inactive_Unassigned_Cells"
+						End If
+					End If
+				    ElseIf Not Value(1) Then
+					s = "Unassigned_Cells"
+				    End If
+				End If
+				Return = s
+			</script>
+			<script id="xfIconImg" language="VBScript">
+				Return = "../" + GetNodeImagePath(Value)
+			</script>
+			<script id="xfPadding" language="VBScript">
+				if ( IsEmpty(Value) ) then
+				    Return = 0
+				else
+				    Return = (Value - 1) * 16
+				end if
+			</script>
+			<script id="xfPlusMinusImg" language="VBScript">
+				if (IsEmpty(Value(0)) or (Value(0) = 0)) then
+					Return = "../Images/blank.gif"
+				elseif (Value(1)) then
+					Return = "../Images/minus.gif"
+				else
+					Return = "../Images/plus.gif"
+				end if
+			</script>
+			<script id="xfName" language="VBScript">
+				if( IsEmpty(Value) ) then
+					Return = ""
+				else
+					Return = Value
+				end if
+			</script>
+			<script id="xfDisplay" language="VBScript">
+				if( IsEmpty(Value) ) then
+					Return = "none"
+				else
+					Return = "inline"
+				end if
+			</script>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+				<Begin>
+					&lt;div style="position: relative; width: 170px; padding-bottom: 2px; padding-top: 1px; padding-right: 5px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;&lt;span&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;&lt;/div&gt;
+				</End>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+				<Begin>
+					&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; margin-right: 1px; background-color: mediumblue; color: white; font-weight: bold;"&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;
+				</End>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+				&amp;nbsp;&lt;img src="../Images/SortArrowUp.gif"&gt;
+			</SortAscIndicator>
+			<SortDescIndicator>
+				&amp;nbsp;&lt;img src="../Images/SortArrowDown.gif"&gt;
+			</SortDescIndicator>
+			<GroupSeparator>
+				&lt;div style="position:relative; width: 160px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef DefaultSortColumn="Tree" DefaultSortDir="asc">
+			<colref id="Tree" 
+				SortAscString="EntityName asc"
+				SortDescString="EntityName desc"
+				SortDir="asc"
+				SortOrder="1"/>
+		</SortDef>
+	</SortXML>
+	<ColumnStateXML>
+		<state>
+			<colref id="Tree" width="100" hidden="false" />
+		</state>
+	</ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu/>
+			<contextMenu/>
+			<columns>
+				<column id="Tree">
+					<title>Tree</title>
+					<action/>
+					<menu/>
+					<content>
+					    &lt;div style="position: absolute; padding-top: 3px;" language="javascript" ExpandCollapseTrigger=0&gt;
+						&lt;div style="position: absolute; display: inline; left: 2px; top: 3px;"
+							onmousedown="if( event.button == 1 ) { this.parentElement.ExpandCollapseTrigger = 1; event.cancelBubble = true; }"&gt;
+							&lt;img style="position: relative; top: -3px; width: 9px; height: 9px;" src="../Images/blank.gif"/&gt;
+						&lt;/div&gt;
+					        &lt;div style="position: absolute; left: 15px; top: 1px; display: inline;"&gt;
+							&lt;img style="position: relative; 
+								       left: 0px;
+								       width: 16px; 
+								       height: 16px; 
+ 								       z-index: 2;" 
+								src="../Images/blank.gif"/&gt;
+						&lt;/div&gt;
+					        &lt;div style="position: absolute; left: 36px; top: 0px; display: inline;"&gt;&lt;/div&gt;
+					    &lt;/div>
+					</content>
+					<bindings>
+						<in fields="Depth" properties="style.pixelLeft" xforms="xfPadding" />
+						<in fields="Depth" properties="style.display" xforms="xfDisplay" />
+						<in fields="NumChildren;Expanded" properties="firstChild.firstChild.src" xforms="xfPlusMinusImg" />
+						<in fields="RemoteType;SubType;ItemNumber;Redundant" properties="firstChild.nextSibling.firstChild.src" xforms="xfIconImg" />
+						<in fields="EntityName" properties="lastChild.innerText" xforms="xfName" />
+						<in fields="Selected;IsAssigned" properties="lastChild.id" xforms="xfSelection"/>
+						<out properties="ExpandCollapseTrigger" fields="Expanded"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+]]>
+</TABLESOURCE>
+
+</PSDATASOURCE>

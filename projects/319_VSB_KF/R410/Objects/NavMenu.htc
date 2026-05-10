@@ -1,0 +1,719 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Objects/NavMenu.htc $								
+$Workfile: NavMenu.htc $												
+***************************************************************************
+This behavior transforms an XML-definition of an hierarchical menu into
+an expandable HTML tree which calls up the appropriate targets when each
+link is clicked.
+
+The menu definition may be provided either as a URI for an external 
+definition file or as a parsed document. The definition must conform to
+the schema in /SystemDisplays/Menus/SystemMenu.xsd.
+
+A sample menu definition may have the structure:
+<?xml version="1.0" encoding="utf-8" ?>
+<Menu Caption="Sample Menu" xmlns="http://tempuri.org/SystemMenu.xsd">
+  <Item Caption="Item 1" Icon="Img1.gif" ActionID="Callup Page" ActionArguments="page://Test1">
+    <Item Caption="Item 2" Icon="Img2.gif">
+      <Tab Caption="Tab 2.1" ActionID="Callup Page" ActionArguments="page://Test2_1"/>
+      <Tab Caption="Tab 2.2" ActionID="Callup Page" ActionArguments="page://Test2_2"/>
+      <Tab Caption="Tab 2.3" ActionID="Callup Page" ActionArguments="page://Test2_3"/>
+    </Item>
+    <Item Caption="Item 3" Icon="Img3.gif">
+      <Item Caption="Item 3.1" Icon="Img3.gif" ActionID="Callup Page" ActionArguments="page://Test3_1"/>
+      <Item Caption="Item 3.2" Icon="Img3.gif" ActionID="Callup Page" ActionArguments="page://Test3_2">
+        <Item Caption="Item 3.3" Icon="Img3.gif" ActionID="Callup Page" ActionArguments="page://Test3_3" Hidden=""/>
+      </Item>
+    </Item>
+  </Item>
+</Menu>
+
+This input XML will be transformed into a nested HTML list which contains
+a hyperlink for each Item which has ActionArguments (or has a Tabs or
+hidden child-Item with ActionArguments. The output HTML looks like the 
+following:
+
+<li xmlns:in="http://tempuri.org/SystemMenu.xsd" xmlns="http://schemas.microsoft.com/intellisense/xhtml-11">
+    <a target="_top" class="menu heading" href="page://Test1" onclick="javascript: window.CallupPage('page://Test1', '_stationdisplay'); EndEventHandling();"
+        hiddendescendants="">
+        <img src="Img1.gif" />
+        <span>Item 1</span> </a>
+    <ul style="display: none;">
+        <li><a target="_top" class="menu" href="page://Test2_1" onclick="javascript: window.CallupPage('page://Test2_1', '_stationdisplay'); EndEventHandling();"
+            hiddendescendants="page://Test2_1,page://Test2_2,page://Test2_2,">
+            <img src="Img2.gif" />
+            <span>Item 2</span> </a></li>
+        <li><a target="_top" class="menu heading" hiddendescendants="">
+            <img src="Img3.gif" />
+            <span>Item 3</span> </a>
+            <ul style="display: none;">
+                <li><a target="_top" class="menu" href="page://Test3_1" onclick="javascript: window.CallupPage('page://Test3_1', '_stationdisplay'); EndEventHandling();"
+                    hiddendescendants="">
+                    <img src="Img3.gif" />
+                    <span>Item 3.1</span> </a></li>
+                <li><a target="_top" class="menu" href="page://Test3_2" onclick="javascript: window.CallupPage('page://Test3_2', '_stationdisplay'); EndEventHandling();"
+                    hiddendescendants="page://Test3_3,">
+                    <img src="Img3.gif" />
+                    <span>Item 3.2</span> </a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+The ListToggle behavior may be applied via CSS to the LI elements in the
+output if the child lists should be able to expand and collapse.
+
+Once the menu is loaded, this behavior will look for the URL of the
+current display in  both the href and the hiddendescendants
+attributes of the menu-links in the otput HTML. If a match is
+found (indicating that the current display belongs to the menu) then
+the matching link will be given the "selected" css class.
+
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JsExtensions.js    (JsType*)
+ HtmlUtils.js       (HtmlState*, StripPath, EndEventHandling
+                     IncludeClassOnElement, RemoveClassFromElement)
+ Utilities,js       (LoadXmlDocument, Translate, CallupPage, 
+                     CurrentTopDisplay)
+***************************************************************************
+-->
+<public:component name="NavMenu" urn="NavMenu" tagName="NavMenu">
+	<public:defaults canHaveHTML="true" viewLinkContent="true" viewInheritStyle="true"/>
+	<public:property name="MenuXML" value=""/>
+	<public:property name="IconPath" value="../Images/"/>
+	<public:property name="LicenceValues" value="" />
+	<public:property name="CurrentDisplay" value="" />
+	<public:property name="MenuTitle" id="MenuTitle" get="getTitle" value=""/>
+	<public:property name="MenuIcon" id="MenuIcon" get="getIcon" value=""/>
+	<public:attach event="oncontentready" onevent="javascript: try{ LoadDefinedMenu(); }catch(e){}" for="element"/>
+	<public:attach event="onpropertychange" onevent="javascript: try{ OnPropertyChange(); }catch(e){}" for="element"/>
+</public:component>
+<xml id="xslDataToHTML">
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	    xmlns:in="http://tempuri.org/SystemMenu.xsd"
+	    xmlns="http://schemas.microsoft.com/intellisense/xhtml-11">
+		<xsl:output method="html" omit-xml-declaration="yes" indent="yes"/>
+		
+		<xsl:template match="in:Item[@Hidden] | in:Item[@Hidden]//in:Item | in:Tab" mode="HiddenDescendents">
+		    <!-- 
+		    This non-default template causes the ActionArguments attribute of every 
+		    tab or hidden item in the subtree to be added to a comma-seperated list. 
+		    It does a preorder traversal of the nodes in the subtree.
+		    -->
+		    <xsl:if test="@ActionID and @ActionArguments and string(@ActionID)=string('Callup Page')">
+		        <xsl:value-of select="@ActionArguments" />
+		        <xsl:text>,</xsl:text>
+		    </xsl:if>
+		    <xsl:apply-templates select="child::in:*" mode="HiddenDescendents"/>
+		</xsl:template>
+		
+		<xsl:template match="in:*[@ActionArguments and not(string(@ActionArguments)=string(''))]" mode="Action">
+		    <!-- 
+		    This non-default template creates various attributes in the output HTML 
+		    which cause the appropriate action to occur when an output-link is clicked. 
+		    It can act on any input-node which has an ActionArguments attribute, and 
+		    will take the optional ActionID attribute into account when choosing an action.
+		    -->
+			<xsl:attribute name="href">
+			    <xsl:value-of select="@ActionArguments" />
+			</xsl:attribute>
+		    <xsl:attribute name="onclick">
+				<xsl:text>javascript: window.CallupPage('</xsl:text>
+				<xsl:value-of select="@ActionArguments"/>
+				<xsl:text>', '</xsl:text>
+				<xsl:choose>
+					<xsl:when test="string(@ActionID)=string('Callup Page')">
+						<xsl:text>_stationdisplay</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'Callup Popup'">
+						<xsl:text>_stationpopup</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'Request Point Detail'">
+						<xsl:text>_stationdetail</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'Request Task'">
+						<xsl:text>_stationtask</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'Invoke Menu'">
+						<xsl:text>_stationmenu</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'New Help Window'">
+						<xsl:text>_newhelpwindow</xsl:text>
+					</xsl:when>
+					<xsl:when test="@ActionID = 'New Window'">
+						<xsl:text>_newwindow</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>_parent</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:text>'); EndEventHandling();</xsl:text>
+			</xsl:attribute>		
+		</xsl:template>	
+			
+		<xsl:template match="in:Item[@Caption and not(@Hidden)]">
+		    <!-- 
+		    This default template will match any non-hidden Item in the menu.
+		    It creates a list-item in the output HTML, and recurses down the
+		    subtree to create child-lists for any descendent Items.
+		    -->
+			<li>
+			    <xsl:if test="count(child::in:Item[not(@Hidden)]) &gt; 0">
+				    <xsl:attribute name="class">
+    				    <xsl:text>collapsed toggle</xsl:text>
+				    </xsl:attribute>
+				</xsl:if>
+				<a target="_top"> 
+					<xsl:attribute name="class">
+						<xsl:choose>
+							<xsl:when test="count(child::in:Item[not(@Hidden)]) &gt; 0">
+								<xsl:text>menu heading</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>menu</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+		            <xsl:attribute name="tabindex">
+			            <xsl:text>0</xsl:text>
+		            </xsl:attribute>
+					<xsl:choose>
+					    <xsl:when test="@ActionArguments and not(string(@ActionArguments)=string(''))">
+					        <!-- This node has a defined action, so use it. -->
+					        <xsl:apply-templates select="." mode="Action" />
+					    </xsl:when>
+					    <xsl:when test="count(child::in:Item[not(@Hidden)]) = 0">
+					        <!-- This node has no defined action and no visible children. Use the first descendant action (could be hidden item or tab). -->
+        					<xsl:apply-templates select="descendant::in:*[@ActionArguments and not(string(@ActionArguments)=string(''))][position()=1]" mode="Action"/>
+					    </xsl:when>
+					    <xsl:otherwise>
+					        <!-- There will be no action for this node. -->
+					    </xsl:otherwise>
+					</xsl:choose>
+					
+					<xsl:attribute name="hiddendescendants">
+					    <!-- List the ActionArguments of every hidden child-Item or Tab -->
+					    <xsl:apply-templates select="child::in:Item[@Hidden] | child::in:Tab" mode="HiddenDescendents"/>
+					</xsl:attribute>
+					<xsl:if test="@Icon and not(string(@Icon)=string(''))">
+					    <!-- Include an img tag if there is an Icon specified for this Item -->
+						<img>
+							<xsl:attribute name="src">
+								<xsl:value-of select="@Icon"/>
+							</xsl:attribute>
+						</img>
+					</xsl:if>
+					<span>
+						<xsl:value-of select="@Caption"/>
+					</span>
+				</a>
+				<xsl:if test="count(child::in:Item[not(@Hidden)]) &gt; 0">
+				    <!-- Include a child-list only if there are un-hidden child-items. -->
+					<ul style="display: none;">
+						<xsl:apply-templates select="in:Item[not(@Hidden)]" />
+					</ul>
+				</xsl:if>
+			</li>
+		</xsl:template>
+		
+		<xsl:template match="in:Separator">
+		    <!--
+		    This default template will match any Seperator in the menu.
+		    It creates a horizontal line in the HTML output.
+		    -->
+			<hr/>
+		</xsl:template>
+		
+		<xsl:template match="/">
+		    <!-- 
+		    This default template matches the root node of the menu. 
+		    It will  be executed by default when the trensform is applied 
+		    to the input XML, and just requests that the appropriate 
+		    default template be called for each of its children.
+		    -->
+		    <ul>
+			    <xsl:apply-templates select="/in:*"/>
+			</ul>
+		</xsl:template>	
+	</xsl:stylesheet>
+</xml>
+<script language="javascript" type="text/javascript">
+
+    // <summary>
+    // This object holds the XML representation of the Menu.
+    // </summary>
+    var m_objMenuXML = null;
+	
+	//----------------------------------------------------------
+	// LoadMenuFromXML
+	//----------------------------------------------------------
+	// This procedure transforms a menu definition document 
+	// (which can be provided either as a URI or a DOMDocument) 
+	// into the appropriate output HTML and injects that
+	//----------------------------------------------------------
+	function LoadMenuFromXML(varXML)
+	{
+	    // Retrieve and cache the menu definition.
+	    m_objMenuXML = null;    // Reset to a known-safe state.
+	    if (varXML != null & varXML != "")
+	    {
+	        try
+	        {	
+			    if (typeof(varXML) == JsTypeObject)
+			    {
+				    // MenuXML provided in Node format.
+				    m_objMenuXML = varXML;
+			    }
+			    else
+			    {   
+			        // menu provided as a string.
+				    m_objMenuXML = LoadXMLDocument(varXML, true);
+			    }
+		    }
+		    catch(e)
+		    {
+		        ScriptError("NavMenu::LoadMenuFromXML - parsing menu definition.", e);
+		        m_objMenuXML = null;
+		    }
+    	}
+    	
+    	// Pre-process the menu definition beyond what can be done in the XSLT.
+    	if (m_objMenuXML != null)
+    	{
+ 	        try
+	        {
+	            // Ensure the correct IconPath is being used.
+	            var iconPath = element.IconPath;
+	            var iconElements = m_objMenuXML.selectNodes("//*[@Icon and not(string(@Icon)=string(''))]");
+	            var iconElement = null;
+	            var iconFile = "";
+	            for (var i = 0; i < iconElements.length; i++)
+	            {
+	                iconElement = iconElements.item(i);
+	                iconFile = iconElement.getAttribute("Icon");
+	                iconFile = CombinePath(iconPath, StripPath(iconFile));
+	                iconElement.setAttribute("Icon", iconFile);
+	            }
+	            	            
+	            // Ensure the license restrictions are obeyed.
+	            var licenceValues = GetURLParameters(element.LicenceValues);
+	            var licensedElements = m_objMenuXML.selectNodes("//*[@Licence]");
+                var licenceExpression = new RegExp("(^|and|&&|or|\|\|)[ \t]*([A-Za-z0-9_]+)[ \t]*([!=<>]=|[<>])[ \t]*([A-Za-z0-9_]+)[ \t]*", "ig");
+                
+                // Bring the loop-variable declarations out of the loop for maximum speed 
+                // (menus have to be as fast as possible because their initialization affects page-load time).
+                var licensedElement;
+                var licenceAttribute;
+                var expressionResult;
+                var licenceParts;
+                var subExpression;
+                var partCombination;  
+                var partKey;                         
+                var partComparison;   
+                var partValue;                      
+                var licenceValue;
+                var subExpressionResult;
+                
+                for (var j = 0; j < licensedElements.length; j++)
+                {
+                    licensedElement = licensedElements.item(j);
+                    licenceAttribute = new String(licensedElement.getAttribute("Licence"));
+                    if (licenceAttribute == "")
+                    {
+                        // Ignore this attribute - blank LicenceExpressions are allowed to be shown.
+                        continue;   // With the next element.   
+                    }
+                    //LogErrorMessage("NavMenu::LoadMenuFromXML", "Parsing licence expression '" + licenceAttribute + "'");
+                    
+                    expressionResult = false;   // Hide licenced items unless the expression evaluates true.
+                    licenceExpression.lastIndex = 0;// Because the search starts at lastIndex, which will be > 0 if we found a match in the last attribute.
+                    while (true)
+                    {
+                        licenceParts = licenceExpression.exec(licenceAttribute);
+                        if (licenceParts == null)
+                        {  
+                            LogErrorMessage("NavMenu::LoadMenuFromXML", "Invalid licence expression '" + licenceAttribute + "'");
+                            expressionResult = false;   // Make sure the element will be hidden.
+                            break;                      // Out of the while loop - can't continue with any remaining expressions.
+                        }
+                        
+                        // Extract the parts of the expression
+                        subExpression = licenceParts[0];
+                        partCombination = licenceParts[1];  
+                        partKey = licenceParts[2];                         
+                        partComparison = licenceParts[3];   
+                        partValue = licenceParts[4];                      
+                        //LogErrorMessage("NavMenu::LoadMenuFromXML", "evaluating subexpression '" + subExpression + "' => [" + partCombination + "], [" + partKey + "], [" + partComparison + "], [" + partValue + "]");
+                                                
+                        // Find the actual licence value for the identified key.
+                        licenceValue = "0";
+                        if (licenceValues != null && typeof(licenceValues[partKey]) != JsTypeUndefined)
+                        {
+                            // We have an override value for this licence key. use it.
+                            licenceValue = licenceValues[partKey];
+                        }
+                        else
+                        {
+                            // Try to retrieve the licence value from the Station Dictionary,
+                            // as hopefully the SSO has cached it there as Station was opened.
+                            licenceValue = PersistedData(partKey, "0");
+                        }
+                        //LogErrorMessage("NavMenu::LoadMenuFromXML", "current value of '" + partKey + "' is '" + licenceValue + "'");
+                         
+                        // Find the value of this subexpression. 
+                        // Note that we know the comparison operator is safe, because the regular expression
+                        // used to extract it only permits a few known operators through. 
+                        // The licenceValue and expressionValue are compared as case-sensitive strings.
+                        subExpressionResult = false;
+                        eval("subExpressionResult = ('" + licenceValue + "' " + partComparison + " '" + partValue + "');");
+                        
+                        // Combine this subexpression with the result so far.
+                        // Note that we know the combination operator is safe, due to the regExp filtering.
+                        if (partCombination.toLowerCase() == "and" || partCombination == "&&")
+                        {
+                            expressionResult = (expressionResult && subExpressionResult);
+                        }
+                        else
+                        {
+                            // Either this is the first sub-expression (no combiner) or 
+                            // we have been asked to 'or' the subexpression.
+                            expressionResult = (expressionResult || subExpressionResult);
+                        }
+                        
+                        // Check if we have run out of string to check for subexpressions
+                        if (licenceExpression.lastIndex == licenceAttribute.length)
+                        {
+                            // We are done. Stop looping now.
+                            //LogErrorMessage("NavMenu::LoadMenuFromXML", "licence subexpression '" + subExpression + "' is " + subExpressionResult + ", cumulative expression result is " + expressionResult + ".");
+                            break;
+                        }
+                    }
+                    
+                    // OK - we have evaluated the Licence expression, so now show or hide the
+                    // element it belongs to as appropriate.                                
+                    if (expressionResult)
+                    {
+                        // This element is allowed to be shown.
+                        licensedElement.removeAttribute("Hidden");
+                        //LogErrorMessage("NavMenu::LoadMenuFromXML", "licence expression '" + licenceAttribute + "' with result '" + expressionResult + "' means the element can be shown.");
+                    }
+                    else
+                    {
+                        // The license condition is not met, so remove this element from the tree entirely 
+                        // (it should not even be a hidden element).
+                        //LogErrorMessage("NavMenu::LoadMenuFromXML", "licence expression '" + licenceAttribute + "' with result '" + expressionResult + "' means the element should be hidden.");
+                        licensedElement.parentNode.removeChild(licensedElement);
+                    }
+                }
+                
+                // Ensure that the caption-text of non-hidden items and tabs is localized
+	            var captionElements = m_objMenuXML.selectNodes("//*[@Caption and (starts-with(string(@Caption), string('I18N(')) or starts-with(string(@Caption), string('Translate(')))]");
+	            var captionElement = null;
+	            for (var k = 0; k < captionElements.length; k++)
+	            {
+	                captionElement = captionElements.item(k);
+	                captionElement.setAttribute("Caption", Translate(captionElement.getAttribute("Caption")));
+	            }
+		    }
+		    catch(e)
+		    {
+		        ScriptError("NavMenu::LoadMenuFromXML - processing menu definition.", e);
+		    }
+    	}
+    	
+		// Transform the menu-definition into HTML.
+	    var strMenuHTML = "";
+	    if (m_objMenuXML != null)
+	    {
+ 	        try
+	        {	
+		        //Workaround to avoid "It is an error to mix objects from different versions of MSXML" error due to MSXML6 migration. 
+				var xslDoc = new ActiveXObject("MSXML2.FreeThreadedDOMDocument.6.0");
+				xslDoc.load(xslDataToHTML);
+				strMenuHTML = m_objMenuXML.transformNode(xslDoc);
+			}
+		    catch(e)
+		    {
+				try
+				{
+					//Workaround to avoid error on above script. Behavior is not consistent accross different OS and IE platf
+					strMenuHTML = m_objMenuXML.transformNode(xslDataToHTML);
+				}
+				catch(e)
+				{
+					ScriptError("NavMenu::LoadMenuFromXML - transforming menu definition.", e);
+					strMenuHTML = "";
+				}
+		    }
+    	} 
+    	
+    	// Insert the transformed HTML into the host element, then expand it to
+    	// select and show the currently-targetted element.
+	    element.innerHTML = strMenuHTML;	
+	    SelectCurrentDisplay();
+	}
+	
+
+	//-----------------------------------------------------------------------
+	// CorrectIcons
+	//-----------------------------------------------------------------------
+	// This function ensures that every img in the HTML representation of
+	// the menu is referencing location specified by the IconPath property.
+	//-----------------------------------------------------------------------
+	function CorrectIcons()
+	{
+	    var iconPath = element.IconPath;    // cache for loop performance.	    
+		var images = element.getElementsByTagName("img");
+		for (var i = 0; i < images.length; i++)
+		{	
+			images.item(i).src = CombinePath(iconPath, StripPath(images.item(i).src));
+		}		
+	}
+
+	//-----------------------------------------------------------------------
+	// LoadDefinedMenu
+	//-----------------------------------------------------------------------
+	// This function is called to initialize the HTML menu from the XML
+	// definition file specified by the MenuXML property, or failing that,
+	// from any XML specified in the content of the host element.
+	//
+	// This function should be called as the NavManu behavior is applied.
+	//-----------------------------------------------------------------------
+	function LoadDefinedMenu()
+	{
+	    var menuXML = element.MenuXML; 
+		if (typeof(menuXML) == JsTypeObject || (typeof(menuXML) == JsTypeString && menuXML != ""))
+		{
+		    // The menu definition has been provided via the MenuXML property.
+			LoadMenuFromXML(menuXML);
+		}
+		else if (element.firstChild != null && element.firstChild.tagName.toLowerCase() == "xml")
+		{
+		    // The menu definition has been provided as an XML data island
+		    // which is the first child of the host element.
+			LoadMenuFromXML(element.firstChild);
+		}
+		else
+		{
+		    // No menu definition has been provided. Initialize for blank content.
+			LoadMenuFromXML(null);
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// OnPropertyChange
+	//-----------------------------------------------------------------------
+	// This function is called whenever a property on the host element changes.
+	//-----------------------------------------------------------------------
+	function OnPropertyChange()
+	{
+		switch(window.event.propertyName.toLowerCase())
+		{
+			case "menuxml":
+			case "licencevalues":
+			{
+				LoadDefinedMenu();
+				element.fireEvent("onreadystatechange");    // So that interested parties can know that the menu is now available.
+				break;
+			}
+			case "iconpath":
+			{
+				CorrectIcons();
+				break;
+			}
+			case "currentdisplay":
+			{
+			    SelectCurrentDisplay();
+			    break;
+			}
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// getTitle
+	//-----------------------------------------------------------------------
+	// This is the read-accessor for the 'Title' property. It retrieves the
+	// caption of the root node of the currently-loaded menu definition.
+	//-----------------------------------------------------------------------
+	function getTitle()
+	{
+	    try
+	    {
+	        if (m_objMenuXML != null)
+	        {
+	            var rootNode = m_objMenuXML.selectSingleNode("/*[@Caption]");
+	            if (rootNode != null)
+	            {
+	                return Translate(rootNode.getAttribute("Caption"));
+	            }
+	        }
+	    }
+	    catch(e)
+	    {
+	        ScriptError("NavMenu::getTitle", e);
+	    }
+	    return "";
+	}
+	
+	//-----------------------------------------------------------------------
+	// getIcon
+	//-----------------------------------------------------------------------
+	// This is the read-accessor for the 'Icon' property. It retrieves the
+	// relative path from the host-document to the icon specified for the 
+	// root node of the currently-loaded menu definition, or an empty
+	// string if no icon is specified.
+	//-----------------------------------------------------------------------
+	function getIcon()
+	{
+	    try
+	    {
+	        if (m_objMenuXML != null)
+	        {
+	            var rootNode = m_objMenuXML.selectSingleNode("/*[@Icon]");
+	            if (rootNode != null)
+	            {
+	                var iconFile =  StripPath(rootNode.getAttribute("Icon"));
+	                if (iconFile.length > 0)
+	                {
+	                    return CombinePath(element.IconPath, iconFile);
+	                }
+	            }
+	        }
+	    }
+	    catch(e)
+	    {
+	        ScriptError("NavMenu::getTitle", e);
+	    }
+	    return "";	
+	}
+	
+	//-----------------------------------------------------------------------
+	// SelectCurrentDisplay
+	//-----------------------------------------------------------------------
+	// This function is called to select the menu-link which has an
+	// href argument matching the URL of the current top-level display.
+	//-----------------------------------------------------------------------
+	function SelectCurrentDisplay()
+	{
+		try
+		{	
+			// Select only the link which matches the URL of either the display we
+			// have been told is the current one, or the current top-level display 
+			// if we have not been told to watch for something in particular.
+			var displayURL = StripPath(element.CurrentDisplay).toLowerCase();
+			if (displayURL == null || displayURL.length == 0)
+			{
+			    // We have not been told about any particular display to select,
+			    // so find out what the current display is and loof=k for that one.
+			    displayURL = CurrentTopDisplay().toLowerCase();
+			}
+			var displayFile = displayURL.substr(0, displayURL.indexOf("."));    // Just the filename with no extension or query.
+			var selectedLink = null;
+			var navLinks = element.getElementsByTagName("a");
+			for (var i = 0; i < navLinks.length; i++)
+			{
+			    var navLink = navLinks.item(i);
+				var linkSelected = false;
+
+				// Work out which URLs are matched by this link.
+			    var navUrl = navLink.getAttribute("href", 2);   // IE tries to be helpful if the default flag of '0' is used, but can't cope with the %servername% wildcard. Don't let it.
+			    var hiddenDescendents = navLink.getAttribute("hiddendescendants");
+				var matchURLs = (typeof(hiddenDescendents) == JsTypeString ? hiddenDescendents.split(",") : new Array());
+				if (typeof(navUrl) == JsTypeString)
+				{
+				    matchURLs.push(navUrl);	
+				}				
+			    for (var j in matchURLs)
+			    {
+			        try
+			        {
+			            var linkURL = StripPath(matchURLs[j]).toLowerCase();
+			            if ((linkURL.length > 0) && 
+			                (linkURL.indexOf(".") < 0 && linkURL == displayFile))
+			            {
+				            // We have found a link url which is completely contained in
+				            // the url of the current page. It must therefore be the link.
+				            linkSelected = true;
+				            break;
+				    }
+
+				    // special check for matching the equipment or location detail displays
+				    if ((linkURL.length > 0 ) && (linkURL.indexOf("?hscpoint=") == 0))
+				    {
+					var point = linkURL.substr(linkURL.indexOf("=")+1);
+					var dispPoint = displayURL.substr(displayURL.length - point.length);
+			                
+					if (point == dispPoint)
+					{
+						linkSelected = true;
+				        	break;
+					}
+				    }
+
+				}
+				catch(e)
+				{
+				    ScriptError("NavMenu::SelectCurrentDisplay - testing url " + j, e); 
+				}
+	            }
+	            
+	            // Make sure the 'selected' style is applied to the parent
+	            // list-item appropriately.
+	            if (linkSelected)
+	            { 
+				    selectedLink = navLink;
+				    IncludeClassOnElement(navLink, "selected");
+			    }
+			    else
+			    {
+				    RemoveClassFromElement(navLink, "selected");
+			    }
+			}
+			
+			// Expand only the group which contains the selected link (if any).
+			var navGroups = element.getElementsByTagName("ul");
+			var navGroup = null;
+			var groupLinks = null;
+			var groupLinkIsSelected = false;
+			for (var j=0; j < navGroups.length; j++)
+			{
+				navGroup = navGroups.item(j);				
+				groupLinkIsSelected = false;
+				if (selectedLink != null)
+				{
+					// Check whether the selected link belongs to this group.
+					groupLinks = navGroup.getElementsByTagName("a");
+					for (var k = 0; k < groupLinks.length; k++)
+					{
+						if (groupLinks.item(k) == selectedLink)
+						{
+							groupLinkIsSelected = true;
+							break;	
+						} 
+					}
+				}
+				
+				// Make sure the group with the selected link is expanded
+				// (but don't change the state of any other groups)
+				if (groupLinkIsSelected)
+				{
+					navGroup.style.display = "block";
+				}
+				if (typeof(navGroup.parentElement.ListToggle) != JsTypeUndefined)
+				{
+					// The toggle behavior has been applied to this group: 
+					// make sure its idicator-image is up to date.
+					navGroup.parentElement.ListToggle.DoListImage();	
+				}
+			}
+		}
+		catch(e)
+		{
+			ScriptError("NavMenu::SelectCurrentDisplay", e);
+		}
+	}
+</script>

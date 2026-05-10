@@ -1,0 +1,261 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="24px" height="24px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><stylesheets><stylesheet src="D:\WORK\KIRISHI\Displays\CSS\sp.css"/></stylesheets><scripts><script event="" language="VBScript" id="5A6D0F37-B6C4-4C29-9634-58BAAFFA91F4"><![CDATA[Sub Scd_CETF1_AlpPV_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iPV=oSource.value
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+	  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+	else
+	  		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+	  		if (oSource.quality and iQualityGood)<>iQualityGood then iPV=2	
+    end if
+	if oShape.getcustomproperty("parameter","cp_mode")<>"" then
+		iMode=oSource.datavalue("tagname1.cp_mode")
+		if iMode=1 and iPV<>2 then oShape.objects("RecMode").style.visibility="inherit" else oShape.objects("RecMode").style.visibility="hidden"	
+	end if
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("RecPV").styleclass="RecPV_" & index
+	if instr(lcase(oShape.src),"scd_cetp_lib_h_pai_") then
+		sp=right(oShape.src,12)
+		if left(sp,1)="_" then 
+			N=cint(left(right(oShape.src,11),2))
+        else
+			N=cint(left(right(oShape.src,12),2))
+        end if
+		for i=1 to N
+			oShape.objects("TxtCText" & i).styleclass="TxtCText_" & index
+		Next
+	else
+		oShape.objects("TxtCText").styleclass="TxtCText_" & index
+	end if
+	if typename(oShape.objects("TxtPName"))<>"Nothing" then 
+		oShape.objects("TxtPName").styleclass="TxtPName_" & index	
+		sTxt=oShape.objects("TxtPName").value
+		if right(sTxt,3)="_CA" then 
+			sTxt=mid(sTxt,1,len(stxt)-3)
+			oShape.objects("TxtPName").value = sTxt
+		end if
+    end if
+	if iPV<2 then 
+	   oShape.objects("RecPV").alarm=oSource.alarm
+    else
+	   oShape.objects("RecPV").alarm=2048
+    end if
+	if typename(oShape.objects("TxtAnValue"))<>"Nothing" then
+		iAType=cint(right(oShape.getcustomproperty("Parameter","cp_tp"),1))
+		select case iAType
+			case 1: sLim="HH"
+			case 2: sLim="HH"
+			case 3: sLim="L"
+			case 4: sLim="LL"
+		end select	   
+		sEuDesc=oSource.datavalue("tagnameA.cp_eudesc")
+		iPVFrmt=oShape.getcustomproperty("Text","cp_pvformat")
+		fAnValue=oSource.datavalue("tagnameA.cp_pv")
+		fTP=oSource.datavalue("tagnameA.cp_tp")
+		oShape.objects("TxtAnValue").value=FormatNumber(fAnValue,iPVFrmt) & "   " & sEuDesc 	
+		oShape.objects("TxtAnValue").styleclass="TxtCText_" & index
+		oShape.objects("TxtTpValue").value = FormatNumber(fTP,iPVFrmt) & "   " & sLim
+		oShape.objects("TxtTpValue").styleclass="TxtCText_" & index
+	end if
+	if instr(lcase(oShape.src),"cause")>0 or instr(lcase(oShape.src),"effect")>0 then oShape.objects("TxtCText").value=oSource.datavalue("tagname1.cp_desc")
+	if err.number<>0 then window.external.LogMessage "Scd_CETF1_AlpPV_OnUpdate ->" & oSource.id & " " & err.description                
+end sub
+
+
+Sub Scd_CETF2_AlpPV_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iPV=oSource.value
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+	  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+	else
+	  		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+	  		if (oSource.quality and iQualityGood)<>iQualityGood then iPV=2	
+    end if
+	if oShape.getcustomproperty("parameter","cp_mode")<>"" then
+		iMode=oSource.datavalue("tagname2.cp_mode")
+		if iMode=1 and iPV<>2 then oShape.objects("RecMode").style.visibility="inherit" else oShape.objects("RecMode").style.visibility="hidden"	
+	end if
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("RecPV").styleclass="RecPV_" & index
+	if instr(lcase(oShape.src),"scd_cetp_lib_h_pai_") then
+		sp=right(oShape.src,12)
+		if left(sp,1)="_" then 
+			N=cint(left(right(oShape.src,11),2))
+        else
+			N=cint(left(right(oShape.src,12),2))
+        end if
+		for i=1 to N
+			oShape.objects("TxtCText" & i).styleclass="TxtCText_" & index
+		Next
+	else
+		oShape.objects("TxtCText").styleclass="TxtCText_" & index
+	end if
+	if typename(oShape.objects("TxtPName"))<>"Nothing" then 
+		oShape.objects("TxtPName").styleclass="TxtPName_" & index	
+		sTxt=oShape.objects("TxtPName").value
+		if right(sTxt,3)="_CA" then 
+			sTxt=mid(sTxt,1,len(stxt)-3)
+			oShape.objects("TxtPName").value = sTxt
+		end if
+    end if
+	if iPV<2 then 
+	   oShape.objects("RecPV").alarm=oSource.alarm
+    else
+	   oShape.objects("RecPV").alarm=2048
+    end if
+	if typename(oShape.objects("TxtAnValue"))<>"Nothing" then
+		iAType=cint(right(oShape.getcustomproperty("Parameter","cp_tp"),1))
+		select case iAType
+			case 1: sLim="HH"
+			case 2: sLim="HH"
+			case 3: sLim="L"
+			case 4: sLim="LL"
+		end select	   
+		sEuDesc=oSource.datavalue("tagnameA.cp_eudesc")
+		iPVFrmt=oShape.getcustomproperty("Text","cp_pvformat")
+		fAnValue=oSource.datavalue("tagnameA.cp_pv")
+		fTP=oSource.datavalue("tagnameA.cp_tp")
+		oShape.objects("TxtAnValue").value=FormatNumber(fAnValue,iPVFrmt) & "   " & sEuDesc 	
+		oShape.objects("TxtAnValue").styleclass="TxtCText_" & index
+		oShape.objects("TxtTpValue").value = FormatNumber(fTP,iPVFrmt) & "   " & sLim
+		oShape.objects("TxtTpValue").styleclass="TxtCText_" & index
+	end if
+	if instr(lcase(oShape.src),"cause")>0 or instr(lcase(oShape.src),"effect")>0 then oShape.objects("TxtCText").value=oSource.datavalue("tagname2.cp_desc")
+	if err.number<>0 then window.external.LogMessage "Scd_CETF2_AlpPV_OnUpdate ->" & oSource.id & " " & err.description                
+end sub
+
+
+sub TF_OnClick1(oSource) 
+	dim oShape,soldsel
+  	on error resume next
+	set oPrntSrc=window.external
+	if bTrdResp=true then bCancel=true	' Check to prevent message zone flickering, when All_TrdSel_lib_h_01_R300.sha is not present in the current display.
+										' See Trend_Sup_GSH.sha trdresp subroutine
+	set oShape=oSource.parentnode.parentnode
+	call SelectBox_Color(oSource)
+    set otarget=oshape.objects("ScConAlpPV1")
+    sfaceplatefile=oshape.getcustomproperty("text","faceplatefile")
+    if sfaceplatefile="" then
+   	   set oSource.onfocus = nothing
+       otarget.click 
+	   oTarget.style.color = oTarget.textcolor
+    elseif sfaceplatefile="-" then
+       if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+       oSource.focus
+    else
+       scurrentpoint=oshape.getcustomproperty("point","tagname1")
+       sPoints= "?CurrentPoint=" & sCurrentPoint 
+       for n=1 to oshape.customProperties.Count -1
+  	      if oshape.customProperties.Item(n).type = "Point" or oshape.customProperties.Item(n).type = "Parameter" then 
+    	    sPoints = sPoints & "&" & oshape.customProperties.Item(n).name & "=" & oshape.customProperties.Item(n).value
+	      end if
+		  if oShape.getcustomproperty("Text","cp_pvformat")<>"" then sPoints=sPoints & "&cp_pvformat=" & oShape.getcustomproperty("Text","cp_pvformat")
+       next	   
+       sfaceplatefile = mid(sfaceplatefile,1,instr(1,sfaceplatefile,".htm")+3)
+	   if oTarget.quality = 0  then 
+	   		if ucase(Left(oShape.customproperties.Item(1).Name,3))="TAG" then
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_Tag1_pv" ) ' Used for F&G Shapes
+			else
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_AlmPar1" ) ' Used for Multialarm shapes
+			end if
+	   else
+	   		Quality = oTarget.quality
+	   end if
+       if instr(sfaceplatefile,"sysPUP")>0 then 
+	   		ifpmode=0
+			set oPop=hdxpopupbehavior.findpopup("1oo1")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("1oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo3")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo8")
+			if typename(oPop)<>"Nothing" then oPop.close  
+	   else 
+	   		ifpmode=1 
+	   end if
+       if (Quality and iQualityAccessNotPermitted) <> iQualityAccessNotPermitted then call hdxpopupbehavior.createpopupwindow(sfaceplatefile & spoints,0,0,ifpmode)
+    end if 
+end sub
+
+sub TF_OnClick2(oSource) 
+	dim oShape,soldsel
+  	on error resume next
+	set oPrntSrc=window.external
+	if bTrdResp=true then bCancel=true	' Check to prevent message zone flickering, when All_TrdSel_lib_h_01_R300.sha is not present in the current display.
+										' See Trend_Sup_GSH.sha trdresp subroutine
+	set oShape=oSource.parentnode.parentnode
+	call SelectBox_Color(oSource)
+    set otarget=oshape.objects("ScConAlpPV2")
+    sfaceplatefile=oshape.getcustomproperty("text","faceplatefile")
+    if sfaceplatefile="" then
+   	   set oSource.onfocus = nothing
+       otarget.click 
+	   oTarget.style.color = oTarget.textcolor
+    elseif sfaceplatefile="-" then
+       if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+       oSource.focus
+    else
+       scurrentpoint=oshape.getcustomproperty("point","tagname2")
+       sPoints= "?CurrentPoint=" & sCurrentPoint 
+       for n=1 to oshape.customProperties.Count -1
+  	      if oshape.customProperties.Item(n).type = "Point" or oshape.customProperties.Item(n).type = "Parameter" then 
+    	    sPoints = sPoints & "&" & oshape.customProperties.Item(n).name & "=" & oshape.customProperties.Item(n).value
+	      end if
+		  if oShape.getcustomproperty("Text","cp_pvformat")<>"" then sPoints=sPoints & "&cp_pvformat=" & oShape.getcustomproperty("Text","cp_pvformat")
+       next	   
+       sfaceplatefile = mid(sfaceplatefile,1,instr(1,sfaceplatefile,".htm")+3)
+	   if oTarget.quality = 0  then 
+	   		if ucase(Left(oShape.customproperties.Item(1).Name,3))="TAG" then
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_Tag1_pv" ) ' Used for F&G Shapes
+			else
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_AlmPar1" ) ' Used for Multialarm shapes
+			end if
+	   else
+	   		Quality = oTarget.quality
+	   end if
+       if instr(sfaceplatefile,"sysPUP")>0 then 
+	   		ifpmode=0
+			set oPop=hdxpopupbehavior.findpopup("1oo1")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("1oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo2")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo3")
+			if typename(oPop)<>"Nothing" then oPop.close
+			set oPop=hdxpopupbehavior.findpopup("2oo8")
+			if typename(oPop)<>"Nothing" then oPop.close  
+	   else 
+	   		ifpmode=1 
+	   end if
+       if (Quality and iQualityAccessNotPermitted) <> iQualityAccessNotPermitted then call hdxpopupbehavior.createpopupwindow(sfaceplatefile & spoints,0,0,ifpmode)
+    end if 
+end sub]]></script></scripts><parameters><parameter name="tagname1" type="Point" description="Tagname TF for first ESD point" defaultvalue=""/><parameter name="tagname_res" type="Point" description="Reset tagname" defaultvalue=""/><parameter name="cp_pv" type="Parameter" description="PV" defaultvalue="pv"/><parameter name="cp_CText" type="Text" description="Custom text max 2 chars" defaultvalue="TF"/><parameter name="cp_StyleForPV0" type="Style" description="CSS style for State 0" defaultvalue="Fail"/><parameter name="cp_StyleForPV1" type="Style" description="CSS style for State 1" defaultvalue="Normal"/><parameter name="cp_StyleForPV2" type="Style" description="CSS style for Communication or Configuration Error" defaultvalue="Bad"/><parameter name="Trd_PointPV" type="Parameter" description="Trace to be added to trend group" defaultvalue="Tagname.cp_pv"/><parameter name="FaceplateFile" type="Text" description="Custom Faceplate File" defaultvalue="sysdtlsta_TF2_fp.htm"/><parameter name="cp_custtrd" type="Num" description="Custom Trend Group Number" defaultvalue=""/><parameter name="cp_custgrp" type="Num" description="Custom Group Number" defaultvalue=""/><parameter name="cm_label" type="Text" description="Context Menu Help Item Text" defaultvalue="Help"/><parameter name="cm_file" type="Text" description="Help File Name" defaultvalue=""/><parameter name="ContextMenuFile" type="Text" description="Context Menu Filename" defaultvalue="-"/><parameter name="Revision" type="Num" description="Revision" defaultvalue="R300 Rev.0"/><parameter name="tagname2" type="Point" description="Tagname TF for second ESD point" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=ScConAlpPV2 class="hsc.alpha.1 hsc.faceplate.1 ScConAlpPV" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 0%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 66.66%; BORDER-RIGHT-COLOR: transparent; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)   url(#HDXPopupBehavior#Faceplate); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderWidth:;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:-1;indicateScanState:0;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;styleClass:ScConAlpPV;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If me.value = 0 then 
+  call Scd_CETF2_AlpPV_OnUpdate(me)
+else
+  call Scd_CETF1_AlpPV_OnUpdate(ScConAlpPV1)
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname2%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::cp_pv%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=ScConAlpPV1 class="hsc.alpha.1 hsc.faceplate.1 ScConAlpPV" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; BORDER-LEFT-STYLE: none; HEIGHT: 0%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; COLOR: #000000; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 33.33%; BORDER-RIGHT-COLOR: transparent; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)   url(#HDXPopupBehavior#Faceplate); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderWidth:;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:-1;indicateScanState:0;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;styleClass:ScConAlpPV;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If me.value = 0 then 
+  call Scd_CETF1_AlpPV_OnUpdate(me)
+else
+  call Scd_CETF2_AlpPV_OnUpdate(ScConAlpPV2)
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname1%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::cp_pv%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=RecFrame class="hvg.base.1 RecFrame" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior)" hdxproperties="FillColor:#DDDDDD;fillColorBlink:False;FillStyle:0;HDXBINDINGID:-4;Height:24;indicateAlarmState:True;LineColor:#969696;lineColorBlink:False;styleClass:RecFrame;Width:24;" globalscripts></DIV>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="PV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.HVG" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=RecPV class="hvg.base.1 RecPV_Normal" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 87.5%; FONT-FAMILY: Arial; WIDTH: 87.5%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 8.33%; TOP: 8.33%; BEHAVIOR: url(#HDXVectorFactory#rect) url(#BindingBehavior)" hdxproperties="FillColor:#696969;fillColorBlink:False;HDXBINDINGID:-4;Height:21;indicateAlarmState:True;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:RecPV_Normal;Width:21;"></DIV>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="PV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.HVG" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtCText class="hvg.textbox.1 TxtCText_Normal" style="FONT-SIZE: 10pt; OVERFLOW: hidden; HEIGHT: 66.66%; FONT-FAMILY: Arial; WIDTH: 83.33%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #8c8c8c; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 12.5%; TOP: 20.83%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:16;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:TxtCText_Normal;textColor:#8C8C8C;textColorBlink:False;TotalRotation:-1;Width:20;">{%text::cp_CText%} </DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=LinExecState class="hvg.base.1 LinExecState_OnScan_Active" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 79.16%; FONT-FAMILY: Arial; WIDTH: 79.16%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 12.5%; TOP: 12.5%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:19;LineColor:#000000;lineColorBlink:False;LineWidth:2;ObjectType:10;points:0 100 101.8868 0 0 0 101.8868 100 ;PointTypes:m l m l ;styleClass:LinExecState_OnScan_Active;Width:19;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ScTxtSelectBox class="hvg.textbox.1 ScTxtSelectBox_NotSelected" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 91.66%; FONT-FAMILY: Arial; WIDTH: 91.66%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 4.16%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="fillColorBlink:False;FillStyle:1;Height:22;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:ScTxtSelectBox_NotSelected;textColorBlink:False;TotalRotation:-1;value:;Width:22;" globalscripts SHORTCUTMENUCUSTOM="0"></DIV>]]></content><scripts><script event="oncontextmenu" language="VBScript"><![CDATA[call All_OnCMenu(me)]]></script><script event="onclick" language="VBScript"><![CDATA[If ScConAlpPV2.value = 0 and ScConAlpPV1.value = 1 then 
+  call TF_OnClick2(ScConAlpPV2)
+else
+  call TF_OnClick1(ScConAlpPV1)
+end if]]></script></scripts></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 24px; WIDTH: 24px; POSITION: absolute; LEFT: 104px; TOP: 56px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:24;"></DIV>]]></content></html></group></shape></shapes></shapefile>

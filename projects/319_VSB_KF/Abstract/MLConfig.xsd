@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:mstns="MLConfig.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="MLConfig.xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="MLConfig.xsd" id="MLConfiguration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element msdata:IsDataSet="true" name="MLConfiguration">
+    <xs:complexType>
+		<xs:sequence>
+	<!--  <xs:choice minOccurs="1" maxOccurs="1"> -->
+	     <xs:element name="ChannelInfo">
+	      <xs:complexType>
+	      <xs:sequence>
+	     <xs:element minOccurs="0" maxOccurs="99" name="MLChannel">
+	      <xs:complexType>
+	      <xs:sequence>
+	      <xs:element name="PLCInfo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="MLPLC">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="MLMonitorInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="IOReadEnable" type="mstns:YesNo_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="StatusReadEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EPKSWriteEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="AlarmRasingEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="RTCReadWriteEnable" type="mstns:YesNo_Validation" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="MLServerLog">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="RequestLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ResponseLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MLMonitorLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="TraceLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogFolderPath" type="mstns:LogFolderPath_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="MLProtocolInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="RequestLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ResponseLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="HexLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="TraceLog" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogFolderPath" type="mstns:LogFolderPath_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="PLCCommandTimeout" type="mstns:PLCCommandTimeout_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumOfConnectionAttempts" type="mstns:NumOfConnectionAttempts_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ConnectAttemptGap" type="mstns:ConnectAttemptGap_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ErrorLogInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="InitialHistoryEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogToFile" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventsInDCS" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventCategoryInDCS" type="mstns:EventCategoryInDCS_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="SystemLogInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="InitialHistoryEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogToFile" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventsInDCS" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventCategoryInDCS" type="mstns:EventCategoryInDCS_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ModeLogInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="InitialHistoryEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogToFile" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventsInDCS" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventCategoryInDCS" type="mstns:EventCategoryInDCS_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ShutdownLogInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="InitialHistoryEnable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogToFile" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventsInDCS" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="EventCategoryInDCS" type="mstns:EventCategoryInDCS_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute form="unqualified" name="Name" type="mstns:PLCName_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ID" type="mstns:PLCID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="Type" type="mstns:PLCType_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="IPAddress1" type="mstns:IPAddress_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="IPAddress2" type="mstns:IPAddress_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="IPAddress3" type="mstns:IPAddress_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="IPAddress4" type="mstns:IPAddress_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="RTCSyncInterval" type="mstns:RTCSyncInterval_Validation" use="optional" />
+                  <xs:attribute form="unqualified" name="RTCDeadband" type="mstns:RTCDeadband_Validation" use="optional" />
+                  <xs:attribute form="unqualified" name="HeartBeatTimeout" type="mstns:HeartBeatTimeout_Validation" use="optional" />
+                  <xs:attribute form="unqualified" name="InitialAddSubscription" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="EPKSAssetName" type="mstns:EPKSAssetName_Validation" use="required" />
+	   <xs:attribute form="unqualified" name="ConnectPort" type="mstns:ConnectionPort_Validation" use="optional" />
+	   <xs:attribute form="unqualified" name="ConfiguredBases" use="optional" />
+	   	   <xs:attribute form="unqualified" name="IsBuilt" type="mstns:YesNo_Validation" use="required" />
+	        </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+			<xs:attribute form="unqualified" name="NumOfPLC" type="mstns:NumOfPLC_Validation" use="required" /> 
+         </xs:complexType>
+        </xs:element><!-- End of PLC Info-->
+	</xs:sequence>
+		<xs:attribute form="unqualified" name="Name" use="required" />
+		<xs:attribute form="unqualified" name="ProgID" use="required" />
+                <xs:attribute form="unqualified" name="CLSID" use="required" />
+                <xs:attribute form="unqualified" name="IsRegistered" type="mstns:YesNo_Validation" use="required" />
+		<xs:attribute form="unqualified" name="QBChannelName" use="required" />
+	</xs:complexType>
+	</xs:element> <!-- End of MLChannel nodes-->
+	</xs:sequence>
+		<xs:attribute form="unqualified" name="NumOfChannels" use="required" />
+	</xs:complexType>
+        </xs:element> <!-- End of Channel Info -->
+		</xs:sequence>
+<!--      </xs:choice> -->
+    </xs:complexType>
+    </xs:element>
+  <xs:simpleType name="ScanPeriod_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="NumOfPLC_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="99" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="PLCID_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="4" />
+      <xs:maxLength value="4" />
+      <xs:pattern value="[A-Za-z][A-Za-z]+[0-9][0-9]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCCommandTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="60000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NumOfConnectionAttempts_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectAttemptGap_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCName_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RTCSyncInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RTCDeadband_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="60" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ML100R" />
+      <xs:enumeration value="ML200-NonIEC" />
+      <xs:enumeration value="ML200-IEC" />
+      <xs:enumeration value="ML200R" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="IPAddress_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="HeartBeatTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EPKSAssetName_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YesNo_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[Yy][Ee][Ss]|[Nn][Oo]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LogFolderPath_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EventCategoryInDCS_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="System Alarm" />
+      <xs:enumeration value="System Event" />
+      <xs:enumeration value="SOE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectionPort_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="65536" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

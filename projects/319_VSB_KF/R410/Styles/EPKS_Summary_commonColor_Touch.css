@@ -1,0 +1,834 @@
+/*=======================================================================
+Alarm, Events and System Summary style
+======================================================================*/
+
+html, body, #background
+{
+	color:#000;
+	scrollbar-3dlight-color:#bcb9b5;
+	scrollbar-arrow-color:#999189;
+	scrollbar-base-color:#bcb9b5;
+	scrollbar-darkshadow-color:#bcb9b5;
+	scrollbar-face-color:#d3cfcc;
+	scrollbar-highlight-color:#bcb9b5;
+	scrollbar-shadow-color:#bcb9b5;
+	scrollbar-track-color:#bcb9b5;
+	background:#d4cfc9;
+	overflow:auto;
+}
+
+.summaryToolbar, #AreaAndViewToolbar
+{
+	background:transparent;
+	border-color:transparent;
+}
+
+.systemContentBackground
+{
+	hw-fill-color:#d4cfc9;
+	hw-line-color:transparent;
+}
+
+.SYSTEM_LINK
+{
+	color: #444444;
+}
+
+.DTLPANE_FIELD
+{
+	color:#000;
+}
+
+.DTLPANE_VALUE
+{
+	color:#000;
+}
+
+.ViewConfigPaneClass
+{
+	border-color:#c4bdbc;
+}
+
+.GridPaneClass
+{
+	border-color:#b1b7ba;
+	background:#f0f0f0;
+}
+.PANE_RESIZER_PAD
+{
+	background-color:transparent;
+}
+
+.PANE_HEADER
+{
+	border-color:#c4bdbc;
+	background:#beb9b4;
+	color:#000;
+	text-align:left;
+}
+
+.PANE_BODY
+{
+	background-color:#dad6d1;
+	color:#000;
+}
+
+.PANE_BODY table
+{
+	color:#000;
+}
+
+.MENUITEM_HOVER
+{
+	background-color:#b7b3ac;
+	color:#000;
+}
+
+.HDXTBL_COLHEAD
+{
+	border-color:#d4cfc9;
+	background:#beb9b4;
+	color:#000;
+}
+
+.HDX_MENU
+{
+	background:#dddad5;
+	border-color:#d0ccc8;
+	color: #000;
+}
+
+.summaryBtnTab
+{
+	border-color:#dad6d1;
+	background-color:#c9c5c1;
+}
+
+.summaryBtnTabSelected
+{
+	border-color:#c4c1bd;
+	background-color:#dad5d0;
+}
+
+.summaryTabContainer
+{
+	border-color:#c4c1bd;
+	background:#dad5d0;
+}
+
+.DetailsPaneClass
+{
+	border-color:#c4bdbc;
+}
+
+.existCommentsClass
+{
+	background:transparent;
+	border-color:#c4c1bd;
+}
+
+.downArrow
+{
+	hw-fill-color: #000;
+	hw-line-color: transparent;
+}
+
+.lblFilter
+{
+	color:#24407f; /*/314142*#e0d48e; - Changed off-yellow to charcoal as per Graeme's request [DMS] */
+}
+
+.AreaPaneClass
+{
+	border-color:#c4bdbc;
+}
+
+.shelveAlarm, .shelveAlarm_ovr, .unshelveAlarm, .unshelveAlarm_ovr,
+.pauseEnabled, .pauseEnabled_ovr, .AcknowledgePageEnabled, .AcknowledgePageEnabled_ovr,
+.dialogShelveAlarm, .dialogShelveAlarm_ovr, .resumeEnabled, .resumeEnabled_ovr,
+.generateEventEnabled, .generateEventEnabled_ovr, .clearPageEnabled, .clearPageEnabled_ovr, .alarmOverFlowAck_ovr,
+.audibleSuppressionEnabled, .audibleSuppressionEnabled_ovr
+{
+	color:#000;
+}
+
+.shelveAlarm, .unshelveAlarm, .pauseEnabled, .AcknowledgePageEnabled, .dialogShelveAlarm,
+.resumeEnabled, .generateEventEnabled, .clearPageEnabled, .shelveAlarmDisabled, .unshelveAlarmDisabled,
+.pauseDisabled, .AcknowledgePageDisabled, .dialogShelveAlarmDisabled, .resumeDisabled,
+.generateEventDisabled, .clearPageDisabled, .alarmOverFlowAckDisabled, .alarmOverFlowAck,
+.audibleSuppressionEnabled, .audibleSuppressionDisabled
+{
+	border-color:transparent !Important;
+}
+
+.unshelveAlarm_ovr, .pauseEnabled_ovr, .AcknowledgePageEnabled_ovr,
+.dialogShelveAlarm_ovr, .resumeEnabled_ovr, .generateEventEnabled_ovr, .clearPageEnabled_ovr,
+.audibleSuppressionEnabled_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#b9b3ac !important;
+}
+
+.shelveAlarmDisabled, .unshelveAlarmDisabled, .AcknowledgePageDisabled,
+.dialogShelveAlarmDisabled, .resumeDisabled, .generateEventDisabled, .clearPageDisabled, .alarmOverFlowAckDisabled,
+.audibleSuppressionDisabled
+{
+	color:#a0a0a0;
+}
+
+.unshelveAlarm
+{
+	background:url(../Images/DarkTheme/Unshelve.gif) 10px center no-repeat !important;
+}
+
+.unshelveAlarm_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#b9b3ac !important;
+	background-image:url(../Images/DarkTheme/Unshelve.gif) 10px center no-repeat !important;
+}
+
+.unshelveAlarmDisabled
+{
+	background:url(../Images/DarkTheme/unshelveDisabled.gif) 10px center no-repeat !important;
+}
+
+.alarmOverFlowAck
+{
+	background:url(../Images/DarkTheme/Recover_Overflow.gif) 10px center no-repeat !important;
+}
+
+.alarmOverFlowAck_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#b9b3ac !important;
+	background-image:url(../Images/DarkTheme/Recover_Overflow.gif) 10px center no-repeat !important;
+}
+
+.alarmOverFlowAckDisabled
+{
+	background:url(../Images/DarkTheme/Recover_Overflow.gif) 10px center no-repeat !important;
+}
+
+.shelveAlarm, .dialogShelveAlarm
+{
+	background:url(../Images/DarkTheme/Shelve.gif) 10px center no-repeat !important;
+}
+
+.shelveAlarm_ovr, .dialogShelveAlarm_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#b9b3ac !important;
+	background-image:url(../Images/DarkTheme/Shelve.gif) 10px center no-repeat !important;
+}
+
+.shelveAlarmDisabled, .dialogShelveAlarmDisabled
+{
+	background:url(../Images/DarkTheme/shelveDisabled.gif) 10px center no-repeat !important;
+}
+
+.pauseEnabled
+{
+	background:url(../Images/DarkTheme/Pause.gif) 10px center no-repeat;
+}
+
+.pauseEnabled_ovr
+{
+	background-image:url(../Images/DarkTheme/Pause.gif) 10px center no-repeat !important;
+}
+
+.pauseDisabled
+{
+	color:#e5e5e5;
+	background:url(../Images/DarkTheme/PauseDisabled.png) 10px center no-repeat !important;
+}
+
+.AcknowledgePageEnabled
+{
+	background:url(../Images/DarkTheme/Ack.png) 10px center no-repeat;
+}
+
+.AcknowledgePageEnabled_ovr
+{
+	background-image: url(../Images/DarkTheme/Ack.png) 10px center no-repeat !important;
+}
+
+.AcknowledgePageDisabled
+{
+	background:url(../Images/DarkTheme/AckDisabled.png) 10px center no-repeat;
+}
+
+.resumeEnabled
+{
+	background:url(../Images/DarkTheme/Resume.gif) 10px center no-repeat;
+}
+
+.resumeEnabled_ovr
+{
+	background-image:url(../Images/DarkTheme/Resume.gif) 10px center no-repeat !Important;
+}
+
+.resumeDisabled
+{
+	background:url(../Images/DarkTheme/ResumeDisabled.png) 10px center no-repeat !important;
+}
+
+.generateEventEnabled
+{
+	background:url(../Images/DarkTheme/generateEvents.gif) 2px 4px no-repeat;
+}
+
+.generateEventEnabled_ovr
+{
+	border-color:#a8a099 !Important;
+	color:#000;
+	background:#b9b3ac url(../Images/DarkTheme/generateEvents.gif) 2px 4px no-repeat;
+}
+
+.generateEventDisabled
+{
+	background:url(../Images/DarkTheme/generateEventsDisabled.gif) 2px 4px no-repeat;
+}
+
+.clearPageEnabled
+{
+	background:url(../Images/DarkTheme/clearPageEnabled.gif) 2px 4px no-repeat;
+}
+
+.clearPageEnabled_ovr
+{
+	background-image: url(../Images/DarkTheme/clearPageEnabled.gif) 2px 4px no-repeat !Important;
+}
+
+.clearPageDisabled
+{
+	background:url(../Images/DarkTheme/clearPageDisabled.gif) 2px 4px no-repeat;
+}
+
+.ClearFilter
+{
+	border-color:transparent !Important;
+	background:url(../Images/DarkTheme/Filter.png) 10px center no-repeat;
+}
+
+.ClearFilter_ovr
+{
+	border-color:#a8a099 !Important;
+	color:#000;
+	background:#b9b3ac url(../Images/DarkTheme/Filter.png) 10px center no-repeat;
+}
+
+.FilterDisabled
+{
+	background:url(../Images/DarkTheme/FilterDisabled.png) 10px center no-repeat;
+}
+
+.resetViewClass
+{
+	border-color:transparent !Important;
+	background:url(../Images/DarkTheme/ResetView.png) 10px center no-repeat;
+}
+
+.resetViewClass_ovr
+{
+	border-color:#a8a099 !Important;
+	color:#000;
+	background:#b9b3ac url(../Images/DarkTheme/ResetView.png) 10px center no-repeat;
+}
+
+.resetViewDisabled
+{
+	background:url(../Images/DarkTheme/ResetViewDisabled.png) 3px 4px no-repeat;
+}
+
+.linkText
+{
+	color:#000;
+}
+
+.alarmTrendEnabled
+{
+	background:url(../Images/DarkTheme/alarmTrend.png) center center no-repeat;
+}
+
+.alarmTrendEnabled_ovr, .alarmTrendSelected
+{
+	background:#a8a099 url(../Images/DarkTheme/alarmTrend.png) center center no-repeat;
+}
+
+.alarmTrendDisabled
+{
+	background:url(../Images/DarkTheme/alarmTrendDisabled.png) center center no-repeat;
+}
+
+.viewConfigPaneEnabled
+{
+	background:url(../Images/DarkTheme/ViewConfig.gif) center center no-repeat;
+}
+
+.viewConfigPaneEnabled_ovr, .viewConfigPaneSelected
+{
+	background:#a8a099 url(../Images/DarkTheme/ViewConfig.gif) center center no-repeat;
+}
+
+#btnViewConfigPane.viewConfigPaneEnabled:hover
+{
+	background: url(../Images/DarkTheme/ViewConfig.gif) center center no-repeat;
+}
+
+.viewConfigPaneDisabled
+{
+	background:url(../Images/DarkTheme/ViewConfigDisabled.png) center center no-repeat;
+}
+
+.areaPaneEnabled
+{
+	background:url(../Images/DarkTheme/AreaPane.gif) center center no-repeat;
+}
+
+.areaPaneEnabled_ovr, .areaPaneEnabledSelected
+{
+	background:#a8a099 url(../Images/DarkTheme/AreaPane.gif) center center no-repeat;
+}
+
+.areaPaneDisabled
+{
+	background:url(../Images/DarkTheme/AreaPaneDisabled.png) center center no-repeat;
+}
+
+.statusPaneEnabled
+{
+	background:url(../Images/DarkTheme/StatusPaneEnabled.gif) center center no-repeat;
+}
+
+.statusPaneEnabled_ovr
+{
+	background:#a8a099 url(../Images/DarkTheme/StatusPaneEnabled.gif) center center no-repeat;
+}
+
+.statusPaneDisabled
+{
+	background:url(../Images/DarkTheme/StatusPaneDisabled.png) center center no-repeat;
+}
+
+.detailsPaneEnabled
+{
+	background:url(../Images/DarkTheme/Details.gif) center center no-repeat;
+}
+
+.detailsPaneEnabled_ovr
+{
+	background:#a8a099 url(../Images/DarkTheme/Details.gif) center center no-repeat;
+}
+
+.detailsPaneDisabled
+{
+	background:url(../Images/DarkTheme/DetailsDisabled.png) center center no-repeat;
+}
+
+.columnOrganizerEnabled
+{
+	background:url(../Images/DarkTheme/ColumnOrganizer.gif) center center no-repeat;
+}
+
+.columnOrganizerEnabled_ovr
+{
+	background:#a8a099 url(../Images/DarkTheme/ColumnOrganizer.gif) center center no-repeat;
+}
+
+.columnOrganizerDisabled
+{
+	background:url(../Images/DarkTheme/ColumnOrganizerDisabled.png) center center no-repeat;
+}
+
+.printAsReportEnabled
+{
+	background:url(../Images/DarkTheme/Print.gif) no-repeat center center;
+}
+
+.printAsReportEnabled_ovr
+{
+	background:#a8a099 url(../Images/DarkTheme/Print.gif) center center no-repeat;
+}
+
+.printAsReportDisabled
+{
+	background:url(../Images/DarkTheme/PrintDisabled.png) center center no-repeat;
+}
+
+.printPreviewEnabled
+{
+	background:url(../Images/DarkTheme/Preview.gif) center center no-repeat;
+}
+
+.printPreviewEnabled_ovr
+{
+	background:#a8a099 url(../Images/DarkTheme/Preview.gif) center center no-repeat;
+}
+
+.printPreviewDisabled
+{
+	background:url(../Images/DarkTheme/PreviewDisabled.png) center center no-repeat;
+}
+
+.spanViewListClass
+{
+	background:#dddad5;
+	border-color:#d0ccc8;
+}
+
+.pauseBtnMsg
+{
+	background: transparent;
+	color:#24407f;
+}
+
+.filter_text
+{
+	color:#24407f; /*#e0d48e; - Changed off-yellow to charcoal as per Graeme's request [DMS] */
+}
+
+.unfilter_text
+{
+	color:#000000;
+}
+
+.saveDetailsDisabled
+{
+	color:#444444;
+	border-color:transparent;
+	background:url(../Images/DarkTheme/SaveDisabled.png) 2px 5px no-repeat;
+}
+
+.saveDetailsEnabled
+{
+	color:#444444;
+	border-color:transparent;
+	background:url(../Images/DarkTheme/Save.gif) 2px 5px no-repeat;
+}
+
+.saveDetailsEnabled_ovr
+{
+	color:#000;
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/Save.gif) 2px 5px no-repeat;
+}
+
+input.inputValue, .inputValue, .gsInputValue, select .gsInputValue, .viewTxtAreaName
+{
+	color:#000;
+	background:#eeece9;
+	border-color:#beb9b4;
+}
+
+.TabSet
+{
+	background:#f4f4ee;
+}
+
+.viewTxtAreaNameDisabled
+{
+	color:#000;
+	background:#cfcbc6;
+	border-color:#c4c0bc;
+}
+
+.locationBrowserDisabled
+{
+	color:#acb5b9;
+	background:#d7dcde;
+	border-color:#d3d6d8;
+}
+
+.locationBrowserEnabled
+{
+	background:#dddce3 !important;
+	border-color:#cdcab9 !important;
+	color:#000 !important;
+}
+
+.addCommentsTxt
+{
+	background:#eeece9;
+	border-color:#beb9b4;
+	color:#000;
+}
+
+.dropAreaPaneEnabled, .btnDropViewList
+{
+	border-color:transparent !Important;
+}
+
+.dropAreaPaneEnabled_ovr, .btnDropViewList_ovr
+{
+	color:#000;
+	border-color:#a8a099 !Important;
+	background:#b9b3ac !important;
+}
+
+.saveViewBtnDisabled
+{
+	background:url(../Images/DarkTheme/SaveDisabled.png) 10px center no-repeat;
+	color:#717171;
+	border-color:transparent;
+}
+
+.saveViewBtnEnabled
+{
+	background:url(../Images/DarkTheme/Save.gif) 10px center no-repeat;
+	border-color:transparent;
+	color:#000;
+}
+
+.saveViewBtnEnabled_ovr
+{
+	color:#000;
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/Save.gif) 10px center no-repeat !important;
+}
+
+.deleteViewEnabled
+{
+	color:#000;
+	border-color:transparent;
+	background:url(../Images/DarkTheme/Delete.gif) 10px center no-repeat;
+}
+
+.deleteViewEnabled_ovr
+{
+	color:#000;
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/Delete.gif) 10px center no-repeat;
+}
+
+.deleteViewDisabled
+{
+	color:#717171;
+	border-color:transparent;
+	background:url(../Images/DarkTheme/DeleteDisabled.png) 10px center no-repeat;
+}
+
+.areaPaneClose
+{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/Close.gif) center center no-repeat;
+}
+
+.areaPaneClose_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#dad6d1 !important;
+	background-image:url(../Images/DarkTheme/Close.gif) center center no-repeat;
+}
+
+.areaPaneOpen
+{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/PinUp.gif) center center no-repeat;
+}
+
+.areaPaneOpen_ovr
+{
+	border-color:#a8a099 !Important;
+	background-color:#dad6d1 !important;
+	background-image:url(../Images/DarkTheme/PinUp.gif) center center no-repeat;
+}
+
+.pointDetailIcon
+{
+	background:url(../Images/DarkTheme/PointDetails.gif) 4px 2px no-repeat;
+}
+
+.assDisplayIcon
+{
+	background:url(../Images/DarkTheme/AssociatedDisplay.gif) 4px 2px no-repeat;
+}
+
+.crdHldrIcon
+{
+	background:url(../Images/DarkTheme/CardHolderDetails.gif) 4px 2px no-repeat;
+}
+
+.suppStatusIcon
+{
+	background:url(../Images/DarkTheme/SuppressionStatus.gif) 4px 2px no-repeat;
+}
+
+.lnkCustomIcon
+{
+	background:url(../Images/DarkTheme/Link.gif) 4px 2px no-repeat;
+}
+
+.sysSumTopBand
+{
+	background: #8a95aa !important;
+}
+
+.displayTitle
+{
+	color: #ffffff;
+}
+
+.selectNoneBtn
+{
+	background:#c6c0bb;
+	color:#000;
+	border-color: #afa9a3;
+}
+
+.linkTextVisible
+{
+	color:#000;
+}
+
+.alarmColHeading
+{
+	background:#beb9b4;
+	color: #24407f;
+}
+
+.alarmColHeading .blankHeader
+{
+	color: #ffffff;
+	background:#24407f;
+}
+
+
+.btnGoEnabled, .btnGoDisabled, .btnHoldEnabled, .btnStopEnabled, .btnAbortEnabled, .btnRemoveEnabled,
+.btnHoldDisabled, .btnStopDisabled, .btnAbortDisabled, .btnRemoveDisabled{
+	border-color:#b8a8a5;
+}
+
+
+.btnGoEnabled
+{
+	background:url(../Images/DarkTheme/act_go.gif) 5px 4px no-repeat;
+}
+
+.btnHoldEnabled
+{
+	background:url(../Images/DarkTheme/act_hold.gif) 5px 4px no-repeat;
+}
+
+.btnStopEnabled
+{
+	background:url(../Images/DarkTheme/act_stop.gif) 5px 4px no-repeat;
+}
+
+.btnAbortEnabled
+{
+	background:url(../Images/DarkTheme/act_abort.gif) 5px 4px no-repeat;
+}
+
+.btnRemoveEnabled
+{
+	background:url(../Images/DarkTheme/act_remove.gif) 5px 4px no-repeat;
+}
+
+
+.btnGoEnabled_ovr{
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/act_go.gif) 5px 4px no-repeat !important;
+}
+
+.btnHoldEnabled_ovr{
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/act_hold.gif) 5px 4px no-repeat !important;
+}
+
+.btnStopEnabled_ovr{
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/act_stop.gif) 5px 4px no-repeat !important;
+}
+
+.btnAbortEnabled_ovr{
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/act_abort.gif) 5px 4px no-repeat !important;
+}
+
+.btnRemoveEnabled_ovr{
+	border-color:#a8a099 !Important;
+	background:#b9b3ac url(../Images/DarkTheme/act_remove.gif) 5px 4px no-repeat !important;
+}
+
+
+.btnGoDisabled
+{
+	background:url(../Images/DarkTheme/act_go_Disabled.png) 5px 4px no-repeat;
+}
+
+.btnHoldDisabled
+{
+	background:url(../Images/DarkTheme/act_hold_Disabled.png) 5px 4px no-repeat;
+}
+
+.btnStopDisabled
+{
+	background:url(../Images/DarkTheme/act_stop_Disabled.png) 5px 4px no-repeat;
+}
+
+.btnAbortDisabled
+{
+	background:url(../Images/DarkTheme/act_abort_disabled.gif) 5px 4px no-repeat;
+}
+
+.btnRemoveDisabled
+{
+	background:url(../Images/DarkTheme/act_remove_disabled.gif) 5px 4px no-repeat;
+}
+
+.btnNewActDList{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_activity.png) 3px 2px no-repeat;
+	}
+
+.btnNewActDisabledList{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_activity_disabled.png) 3px 2px no-repeat;
+	}
+
+.btnNewActDList_ovr{
+	border-color:#a8a099 !important;
+	background:#b9b3ac url(../Images/DarkTheme/act_new_activity.png) 3px 2px no-repeat !important;
+	}
+
+.newActOptList{
+	border-color:transparent;
+	background:#dedbd6;
+	}
+
+.newBatchBtn_ovr, .newProcedureBtn_ovr{
+	background:#b5b2ad;
+	}
+
+.btnNewBatch{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_batch.png) 3px 2px no-repeat;
+	}
+
+.btnNewBatchDisabled{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_batch_disabled.png) 3px 2px no-repeat;
+	}
+
+.btnNewBatch_ovr{
+	border-color:#a8a099 !important;
+	background:#b9b3ac url(../Images/DarkTheme/act_new_batch.png) 3px 2px no-repeat !important;
+	}
+
+.btnNewProcedure{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_procedure.png) 3px 2px no-repeat;
+	}
+
+.btnNewProcedureDisabled{
+	border-color:transparent;
+	background:url(../Images/DarkTheme/act_new_procedure_disabled.png) 3px 2px no-repeat;
+	}
+
+.btnNewProcedure_ovr{
+	border-color:#a8a099 !important;
+	background:#b9b3ac url(../Images/DarkTheme/act_new_procedure.png) 3px 2px no-repeat !important;
+	}
+
+/*================ Ends Here =================================*/

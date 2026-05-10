@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<!-- MLPLC Server Application level Settings-->
+<MLApplicationSettings xmlns="MLAppSettings.xsd">
+	<!-- MLServer Code Related Settings-->
+	<MLServerSettings>
+		<!-- MLServerInfo: MLServer Related Settings-->
+		<!-- ModuleName  : Used as the prefix for the log file names for ML Server generated logs-->
+		<!-- PLCIDPrefix : Used as the prefix for the PLC IDs configured in MLConfig XML file-->
+		<!-- ConfigXMLFile: XML file containing the PLC configuration settings. Also the features of MLServer such as IORead, Status, etc are enabled/disabled based on the configuration in this XML file-->
+		<!-- MonitorXMLFile: XML file containing the common settings for the ML server and the Graphics-->
+		<!--SOEConfigXMLFile: XML file containing the SOE settings for the ML server and the Graphics-->
+		<!-- CommandSeparator: Separator used to identify Command from Item ID (Default is $)-->
+		<!-- DataTypeSeparator: Separator used to identify Datatype from Item ID (Default is #)-->
+		<!-- DirectVariableSymbol: Symbol used as the prefix for Direct variables (Default is %)-->
+		<!-- RequestLog: If yes, info about each Request sent by MLServer (not specific to a PLC) is logged-->
+		<!-- ResponseLog: If yes, info about each Response received by MLServer (not specific to a PLC) is logged-->
+		<!-- MLMonitorLog: If yes, info about each EPKS Write or Alarm raising by MLServer (not specific to a PLC) is logged-->
+		<!-- TraceLog: If yes, the ML Server trace messages (not specific to a PLC) are logged-->
+		<!-- LogFolderPath: Folder Path where all these general MLServer logs (not specific to a PLC) are stored-->
+		<!-- PLCInfoUpdateRate: Rate at which the changes made in MLConfig XML parameters related to Enabling/Disabling of logs are recognized by the ML Server-->
+		<!-- DemoCertificateFilePath: Path of the Demo license certificate file which is used when the actual ML Server license is not installed-->
+		<!-- LogRetentionDays: Number of days for which the log files under the PLC (or General) Logs directory will be retained. After this period, all the logs in that directory will be removed -->
+		<!-- LogLevel - To set the Paranoid level for MLServer logs -->
+        <MLServerInfo ModuleName="MLServer" PLCIDPrefix="ML" ConfigXMLFile="MLConfig.xml" MonitorXMLFile="MLMonitor.xml" SOEConfigXMLFile="MLSOEConfig.xml" CommandSeparator="$" DataTypeSeparator="#" DirectVariableSymbol="%" RequestLog="Yes" ResponseLog="Yes" MLMonitorLog="Yes" TraceLog="Yes" LogFolderPath="C:\\ProgramData\\Honeywell\\MasterLogicServer\\" PLCInfoUpdateRate="30" DemoCertificateFilePath="MLPLC_Demo.cert" LogRetentionDays="30" MaxNumOfPLCs="25" MaxNumOfMLChannels="15" WriteLogFrequency="10"/>
+		<!-- ProtocolInfo: Protocol Stack Related Settings-->
+		<!-- ModuleName  : Used as the prefix for the log file names for Protocol Stack generated logs-->
+		<!-- LogFolderPath: Folder Path where all these general Protocol Stack logs (not specific to a PLC) are stored-->
+        <ProtocolInfo ModuleName="MLProtocol" RequestLog="Yes" ResponseLog="Yes" HexLog="Yes" TraceLog="Yes" LogFolderPath="C:\\ProgramData\\Honeywell\\MasterLogicServer\\GeneralLogs\\">
+			<!-- ProtocolSettings : Protocol Stack Settings-->
+			<!-- MaxNoofChannels: Maximum Number of Channels that can be created-->
+			<!-- MaxNoofDevices: Maximum Number of Device that can be created-->
+			<!-- MaxNoofSmallBuffers: Maximum number of Small buffers-->
+			<!-- MaxNoofMediumBuffers: Maximum number of Medium buffers-->
+			<!-- MaxNoofLargeBuffers: Maximum number of Large buffers-->
+			<!-- SizeofSmallBuffers: Buffers below this size (number of bytes) are considered as Small Buffers-->
+			<!-- SizeofMediumBuffers: Buffers below this size (number of bytes), but more than Small Buffer size are considered as Medium Buffers-->
+			<!-- SizeofLargeBuffers: Buffers more than Medium Buffer size (number of bytes) are considered as Large Buffers-->
+			<!-- SizeofEventQueue: Maximum Size of the Queue maintaining the requests at each PLC level-->
+			<!-- PLCHeartBeatTimeout: Frequency at which the PLC threads send heartbeat to the Thread manager -->
+			<!-- ThreadMaxCount: Maximum number of Threads that can be created-->
+			<!-- StatusPollingFreq: Frequency at which the status requests are sent for each PLC-->
+			<!-- HeartBeatUpdateTimeout: Frequency at which the internal threads send heartbeat to the Thread manager -->
+			<ProtocolSettings MaxNoofChannels="1" MaxNoofDevices="20" MaxNoofSmallBuffers="1000" MaxNoofMediumBuffers="60000" MaxNoofLargeBuffers="1000" SizeofSmallBuffers="256" SizeofMediumBuffers="512" SizeofLargeBuffers="2000" SizeofEventQueue="50000" PLCHeartBeatTimeout="5000" ThreadMaxCount="500" StatusPollingFreq="10000" HeartBeatUpdateTimeout="1000"/>
+			<!-- QueueSettings : Protocol Stack Queue Related Settings-->
+			<!-- MainResponseQueueSize: Maximum Size of the Queue maintained for the main thread respones-->
+			<QueueSettings MainResponseQueueSize="5000"/>
+		</ProtocolInfo>
+		<!-- EPKSServerInfo : EPKS Server Related Settings-->
+		<!-- ServerName: EPKS Server Name used for Point Building-->
+		<!-- Area: Area/Asset Name for server level Alarms/Events raising-->
+		<!-- AlarmPriority: Default Alarm Priority for server level Alarms/Events raising-->
+		<!-- AlarmSubPriority: Default alarm sub priority for server level Alarms/Events raising-->
+		<!-- PointBuildFileName: Prefix part of the Point Build File Name -->
+		<!-- PointBuildTemplateName: Name of Point Build Template text file for the .pnt file to be generated, used by the Point Build Utility-->
+		<EPKSServerInfo ServerName="localhost" Area="System" AlarmPriority="3" AlarmSubPriority="1" PointBuildFileName="PointBuildFile" PointBuildTemplateName="StatusPointBuildTemplate.txt"/>
+		<!-- XMLPathInfo : Installation Related Settings in the Registry used for identifying the location of the configuration XML files-->
+		<!-- RegKeyPath: Registry key containing the Experion installation settings-->
+		<!-- InstallDriveValue: Registry value within the Registry key containing the Experion installation drive-->
+		<!-- FolderPathValue: Registry value within the Registry key containing the Experion installation common folder path-->
+		<!-- SubFolderPath: Subfolder path which needs to be added to the Experion installation common folder path-->
+		<!-- Below line has been changed - Hema -->
+		<!--<XMLPathInfo RegKeyPath="SOFTWARE\Honeywell\TPS50\InstallInfo" InstallDriveValue="InstallDrive" FolderPathValue="InstallCommonDir" SubFolderPath="Client\Abstract"/>-->
+		<!-- Siva MLServer Backward Compatibility Changes NFR6 -->
+		<XMLPathInfo RegKeyPath="SOFTWARE\Honeywell\">
+			<XMLPath EPKSVersion="R100" FolderPathValue="DisplayDirectoryAbstract" SubFolderPath=""/>
+			<XMLPath EPKSVersion="R311" FolderPathValue="IPS Path" SubFolderPath="Abstract"/>
+			<XMLPath EPKSVersion="R400" FolderPathValue="DisplayDirectoryAbstract" SubFolderPath=""/>
+		</XMLPathInfo>
+		<!-- PLCLogInfo: PLC Log Related Settings-->
+		<PLCLogInfo>
+			<!-- ShutdownLogInfo: PLC Shutdown log Related Settings-->
+			<!-- Name: Name of the Log which is used for logging the PLC events if the LogToFile option is set-->
+			<!-- LogSize: Size of each log record as per the protocol-->
+			<!-- NumberOfLogRequest: Maximum Number of Log Requests per packet-->
+			<!-- MaxLogPosition: Maximum Log position in PLC. After this, the RotateFlag is set and the logs wrap around (i.e. start from beginning)-->
+			<ShutdownLogInfo Name="PLCShutdown" LogSize="8" NumberOfLogRequest="128" MaxLogPosition="1024">
+				<!-- Shutdown : PLC Shutdown log code Related Settings-->
+				<!-- Source: Source field of the log, used while raising the corresponding event in Experion also-->
+				<!-- Code  : Code for the log message, used to interpret the log message-->
+				<!-- Desc  : Description for the corresponding log code-->
+				<Shutdown Source="MAIN_BASE_SHUT_DOWN" Code="1" Desc="Main Base Shut Down"/>
+				<Shutdown Source="EXT_BASE_1_SHUT_DOWN" Code="2" Desc="Extended Base 1 Shut Down"/>
+				<Shutdown Source="EXT_BASE_2_SHUT_DOWN" Code="4" Desc="Extended Base 2 Shut Down"/>
+				<Shutdown Source="EXT_BASE_3_SHUT_DOWN" Code="8" Desc="Extended Base 3 Shut Down"/>
+				<Shutdown Source="EXT_BASE_4_SHUT_DOWN" Code="16" Desc="Extended Base 4 Shut Down"/>
+				<Shutdown Source="EXT_BASE_5_SHUT_DOWN" Code="32" Desc="Extended Base 5 Shut Down"/>
+				<Shutdown Source="EXT_BASE_6_SHUT_DOWN" Code="64" Desc="Extended Base 6 Shut Down"/>
+				<Shutdown Source="EXT_BASE_7_SHUT_DOWN" Code="128" Desc="Extended Base 7 Shut Down"/>
+			</ShutdownLogInfo>
+			<!-- ModeLogInfo: PLC Mode log Related Settings-->
+			<!-- Name: Name of the Log which is used for logging the PLC events if the LogToFile option is set-->
+			<!-- LogSize: Size of each log record as per the protocol-->
+			<!-- NumberOfLogRequest: Maximum Number of Log Requests per packet-->
+			<!-- MaxLogPosition: Maximum Log position in PLC. After this, the RotateFlag is set and the logs wrap around (i.e. start from beginning)-->
+			<ModeLogInfo Name="PLCMode" LogSize="16" NumberOfLogRequest="64" MaxLogPosition="1024">
+				<!-- Mode : PLC Mode log code Related Settings-->
+				<!-- Source: Source field of the log, used while raising the corresponding event in Experion also-->
+				<!-- Code  : Code for the log message, used to interpret the log message-->
+				<!-- Desc  : Description for the corresponding log code-->
+				<Mode Source="STATE_MOD_RUN" Code="1" Desc="State Mode Run"/>
+				<Mode Source="STATE_MOD_STOP" Code="2" Desc="State Mode Stop"/>
+				<Mode Source="STATE_MOD_ERROR" Code="4" Desc="State Mode Error"/>
+				<Mode Source="STATE_MOD_DEBUG" Code="8" Desc="State Mode Debug"/>
+				<!-- Type : PLC Mode Type Related Settings, indicates the reason for the Mode log message-->
+				<!-- Source: Source field of the log, used while raising the corresponding event in Experion also-->
+				<!-- Code  : Code for the log message, used to interpret the log message-->
+				<!-- Desc  : Description for the corresponding log code-->
+				<Type Source="MODE_TYPE_LOCAL_KEY" Code="1" Desc="Mode Type Local Key"/>
+				<Type Source="MODE_TYPE_LOCAL_PADT" Code="2" Desc="Mode Type Local PADT"/>
+				<Type Source="MODE_TYPE_REMOTE_PADT" Code="3" Desc="Mode Type Remote PADT"/>
+			</ModeLogInfo>
+			<!-- ErrorLogInfo: PLC Error log Related Settings-->
+			<!-- Name: Name of the Log which is used for logging the PLC events if the LogToFile option is set-->
+			<!-- LogSize: Size of each log record as per the protocol-->
+			<!-- NumberOfLogRequest: Maximum Number of Log Requests per packet-->
+			<!-- MaxLogPosition: Maximum Log position in PLC. After this, the RotateFlag is set and the logs wrap around (i.e. start from beginning)-->
+			<ErrorLogInfo Name="PLCError" LogSize="16" NumberOfLogRequest="128" MaxLogPosition="2048">
+				<!-- Error : PLC Error log code Related Settings-->
+				<!-- Source: Source field of the log, used while raising the corresponding event in Experion also-->
+				<!-- Code  : Code for the log message, used to interpret the log message-->
+				<!-- Desc  : Description for the corresponding log code-->
+				<Error Source="ROMPACK" Code="22" Desc="Invalid User Program(Memory Module)"/>
+				<Error Source="PROG" Code="23" Desc="Invalid User Program"/>
+				<Error Source="IO_TYER" Code="30" Desc="IO Mismatch">
+					<!-- ErrorSCode0 : PLC Error log sub code Related Settings-->
+					<!-- Code  : Sub Code for the log message, used to interpret the log message-->
+					<!-- Desc  : Description for the corresponding log sub code-->
+					<ErrorSCode0 Code="-1" Desc="Slot Information"/>
+				</Error>
+				<Error Source="IO_DEER" Code="31" Desc="Detach Error">
+					<ErrorSCode0 Code="-1" Desc="Slot Information"/>
+				</Error>
+				<Error Source="IO_FUER" Code="32" Desc="Fuse Error">
+					<ErrorSCode0 Code="-1" Desc="Slot Information"/>
+				</Error>
+				<Error Source="IO_RWER" Code="33" Desc="IO Verify Error">
+					<ErrorSCode0 Code="-1" Desc="Slot Information"/>
+				</Error>
+				<Error Source="IO_IFER" Code="34" Desc="IP Initialization Error">
+					<ErrorSCode0 Code="-1" Desc="Slot Information"/>
+				</Error>
+				<Error Source="SCANWDT" Code="40" Desc="Scan Watch Dog"/>
+				<Error Source="INVALID_OP" Code="41" Desc="Invalid Exe Code">
+					<ErrorSCode0 Code="0" Desc="Step Num Error">
+						<!-- ErrorSCode1: PLC Error log sub code (for Code 0) Related Settings-->
+						<!-- Code  : Sub Code (for Code 0) for the log message, used to interpret the log message-->
+						<!-- Desc  : Description for the corresponding log sub code-->
+						<ErrorSCode1 Code="16" Desc="HIS_SCODE1_INDEX_ER"/>
+						<ErrorSCode1 Code="17" Desc="HIS_SCODE1_GROUP_ER"/>
+						<ErrorSCode1 Code="18" Desc="HIS_SCODE1_DIVIDE_ER"/>
+						<ErrorSCode1 Code="19" Desc="HIS_SCODE1_BCD_ER"/>
+						<ErrorSCode1 Code="20" Desc="HIS_SCODE1_FILE_ER"/>
+						<ErrorSCode1 Code="21" Desc="HIS_SCODE1_FPU_ER"/>
+						<ErrorSCode1 Code="22" Desc="HIS_SCODE1_TCAST_ER"/>
+						<ErrorSCode1 Code="23" Desc="HIS_SCODE1_AREA_ER"/>
+						<ErrorSCode1 Code="26" Desc="HIS_SCODE1_PAXIS_ER"/>
+					</ErrorSCode0>
+				</Error>
+				<Error Source="STACK" Code="42" Desc="Stack Overflow"/>
+				<Error Source="ANNUM" Code="50" Desc="User Defined Error"/>
+				<Error Source="QOVF" Code="55" Desc="Task Queue Overflow"/>
+				<Error Source="ESTOP" Code="60" Desc="User Emergency Stop"/>
+				<Error Source="RESOURCE" Code="220" Desc="Resource Number, CPU Position Mismatch"/>
+				<Error Source="MULTI_ERR" Code="230" Desc="Some CPU has Error"/>
+				<Error Source="BAT" Code="502" Desc="Battery Low"/>
+				<Error Source="CALENDER" Code="501" Desc="Calender Data Crash"/>
+				<Error Source="UNKNOWN" Code="999" Desc="Unknown yet,But Error"/>
+			</ErrorLogInfo>
+			<!-- SystemLogInfo: PLC System log Related Settings-->
+			<!-- Name: Name of the Log which is used for logging the PLC events if the LogToFile option is set-->
+			<!-- LogSize: Size of each log record as per the protocol-->
+			<!-- NumberOfLogRequest: Maximum Number of Log Requests per packet-->
+			<!-- MaxLogPosition: Maximum Log position in PLC. After this, the RotateFlag is set and the logs wrap around (i.e. start from beginning)-->
+			<SystemLogInfo Name="PLCSystem" LogSize="16" NumberOfLogRequest="64" MaxLogPosition="1024">
+				<!-- System : PLC System log code Related Settings-->
+				<!-- Source: Source field of the log, used while raising the corresponding event in Experion also-->
+				<!-- Code  : Code for the log message, used to interpret the log message-->
+				<!-- Desc  : Description for the corresponding log code-->
+				<System Source="SYS_HIS_PADT" Code="1" Desc="PADT">
+					<!-- SystemSCode0 : PLC System log sub code Related Settings-->
+					<!-- Code  : Sub Code for the log message, used to interpret the log message-->
+					<!-- Desc  : Description for the corresponding log sub code-->
+					<SystemSCode0 Code="1" Desc="Connect">
+						<!-- SystemSCode1: PLC System log sub code (for Code 0) Related Settings-->
+						<!-- Code  : Sub Code (for Code 0) for the log message, used to interpret the log message-->
+						<!-- Desc  : Description for the corresponding log sub code-->
+						<SystemSCode1 Code="1" Desc="RS-232C"/>
+						<SystemSCode1 Code="2" Desc="USB"/>
+						<SystemSCode1 Code="3" Desc="REMOTE"/>
+					</SystemSCode0>
+					<SystemSCode0 Code="2" Desc="Disconnect">
+						<SystemSCode1 Code="1" Desc="RS-232C">
+							<SystemSCode2 Code="0" Desc="Normal"/>
+							<SystemSCode2 Code="4" Desc="Abnormal"/>
+						</SystemSCode1>
+						<SystemSCode1 Code="2" Desc="USB">
+							<SystemSCode2 Code="0" Desc="Normal"/>
+							<SystemSCode2 Code="4" Desc="Abnormal"/>
+						</SystemSCode1>
+						<SystemSCode1 Code="3" Desc="REMOTE">
+							<SystemSCode2 Code="0" Desc="Normal"/>
+							<SystemSCode2 Code="4" Desc="Abnormal"/>
+						</SystemSCode1>
+					</SystemSCode0>
+					<SystemSCode0 Code="3" Desc="Write">
+						<SystemSCode1 Code="1" Desc="Basic Parameter"/>
+						<SystemSCode1 Code="2" Desc="I/O Parameter"/>
+						<SystemSCode1 Code="3" Desc="Program"/>
+					</SystemSCode0>
+					<SystemSCode0 Code="4" Desc="Set">
+						<SystemSCode1 Code="1" Desc="Forced Input">
+							<SystemSCode2 Code="1" Desc="Enable"/>
+							<SystemSCode2 Code="2" Desc="Disable"/>
+						</SystemSCode1>
+						<SystemSCode1 Code="2" Desc="Forced Output">
+							<SystemSCode2 Code="1" Desc="Enable"/>
+							<SystemSCode2 Code="2" Desc="Disable"/>
+						</SystemSCode1>
+						<SystemSCode1 Code="3" Desc="I/O Skip">
+							<SystemSCode2 Code="1" Desc="Enable"/>
+							<SystemSCode2 Code="2" Desc="Disable"/>
+						</SystemSCode1>
+						<SystemSCode1 Code="3" Desc="Fault Mask">
+							<SystemSCode2 Code="1" Desc="Enable"/>
+							<SystemSCode2 Code="2" Desc="Disable"/>
+						</SystemSCode1>
+					</SystemSCode0>
+				</System>
+				<System Source="SYS_HIS_RUN_EDIT" Code="2" Desc="Online Edit">
+					<SystemSCode0 Code="1" Desc="Start"/>
+					<SystemSCode0 Code="2" Desc="End"/>
+					<SystemSCode0 Code="3" Desc="Error"/>
+				</System>
+				<System Source="SYS_HIS_HS" Code="3" Desc="HS">
+					<SystemSCode0 Code="1" Desc="Enable High Speed Link"/>
+					<SystemSCode0 Code="2" Desc="Disable High Speed Link"/>
+					<SystemSCode0 Code="3" Desc="High Speed Link Error Occurred"/>
+				</System>
+				<System Source="SYS_HIS_P2P" Code="4" Desc="P2P">
+					<SystemSCode0 Code="1" Desc="Enable P2P Link"/>
+					<SystemSCode0 Code="2" Desc="Disable P2P Link"/>
+					<SystemSCode0 Code="3" Desc="Error Occurred in P2P Link"/>
+				</System>
+				<System Source="SYS_HIS_USER_EVENT" Code="5" Desc="User Defined Event">
+					<SystemSCode0 Code="1" Desc="Use"/>
+					<SystemSCode0 Code="2" Desc="Disable"/>
+					<SystemSCode0 Code="3" Desc="Pause"/>
+					<SystemSCode0 Code="4" Desc="Error"/>
+				</System>
+				<System Source="SYS_HIS_DATA_TRACE" Code="6" Desc="Data Trace">
+					<SystemSCode0 Code="1" Desc="Use"/>
+					<SystemSCode0 Code="2" Desc="Disable"/>
+					<SystemSCode0 Code="3" Desc="Pause"/>
+					<SystemSCode0 Code="4" Desc="Error"/>
+				</System>
+				<System Source="SYS_HIS_DATA_RESET" Code="7" Desc="Reset">
+					<SystemSCode0 Code="1" Desc="Reset">
+						<SystemSCode1 Code="1" Desc="PADT"/>
+						<SystemSCode1 Code="2" Desc="Key"/>
+					</SystemSCode0>
+					<SystemSCode0 Code="2" Desc="Overall Reset">
+						<SystemSCode1 Code="1" Desc="PADT"/>
+						<SystemSCode1 Code="2" Desc="Key"/>
+					</SystemSCode0>
+				</System>
+				<System Source="SYS_HIS_DATA_DCLR" Code="8" Desc="Data Clear">
+					<SystemSCode0 Code="1" Desc="Latch1">
+						<SystemSCode1 Code="1" Desc="PADT"/>
+						<SystemSCode1 Code="2" Desc="Key"/>
+					</SystemSCode0>
+					<SystemSCode0 Code="2" Desc="Latch2">
+						<SystemSCode1 Code="1" Desc="PADT"/>
+						<SystemSCode1 Code="2" Desc="Key"/>
+					</SystemSCode0>
+				</System>
+				<System Source="SYS_HIS_SYSTEM" Code="9" Desc="System">
+					<SystemSCode0 Code="1" Desc="Momently Shutdown"/>
+					<SystemSCode0 Code="2" Desc="Momently Shutdown is Recovered"/>
+					<SystemSCode0 Code="3" Desc="Boot System"/>
+					<SystemSCode0 Code="4" Desc="Keep Run Mode">
+						<SystemSCode1 Code="1" Desc="Arithmetic Error"/>
+						<SystemSCode1 Code="2" Desc="Floating Point Error"/>
+						<SystemSCode1 Code="3" Desc="Blown Fuse Error"/>
+						<SystemSCode1 Code="4" Desc="I/O Module Error"/>
+						<SystemSCode1 Code="5" Desc="Special Module Error"/>
+						<SystemSCode1 Code="6" Desc="Communication Moudle Error"/>
+						<SystemSCode1 Code="7" Desc="Special Communication Module Error"/>
+						<SystemSCode1 Code="8" Desc="Module Detach Error"/>
+					</SystemSCode0>
+				</System>
+				<System Source="SYS_HIS_FLASH" Code="16" Desc="Flash"/>
+			</SystemLogInfo>
+		</PLCLogInfo>
+		<!-- IntervalInfo : Interval Related Settings, internal to the ML Server-->
+		<!-- MainResponseInterval  : Interval at which the main thread responses need to be checked -->
+		<!-- PLCConnectionInterval  : PLC Connection Interval-->
+		<!-- WriteResponseInterval  : Represents the Write Response Interval-->
+		<!-- MonitorRequestInterval : Represents the Monitor Request Interval-->
+		<!-- ReadRequestInterval: Represents the Read Request Interval-->
+		<!-- HCICallBackInterval: Represents the HCI CallBack Interval-->
+		<!-- DisableDeviceInterval: Represents the Disable Device Interval-->
+		<!-- DeleteDeviceInterval: Represents the Delete Device Interval-->
+		<!-- DisableChannelInterval: Represents the Disable Channel Interval-->
+		<!-- DeleteChannelInterval: Represents the Delete Channel Interval-->
+		<!-- CreateChannelInterval: Represents the Create Channel Interval-->
+		<!-- EnableChannelInterval: Represents the Enable Channel Interval-->
+		<IntervalInfo MainResponseInterval="500" PLCConnectionInterval="500" WriteResponseInterval="500" MonitorRequestInterval="500" ReadRequestInterval="500" HCICallBackInterval="500" DisableDeviceInterval="500" DeleteDeviceInterval="500" DisableChannelInterval="500" DeleteChannelInterval="500" CreateChannelInterval="500" EnableChannelInterval="1000"/>
+		<!-- StaticRequestIDInfo : Request ID ranges for the static requests (i.e. requests which are created once and resent at the configured interval)-->
+		<!-- GeneralReqIDStart: Starting Request ID for the General Static Requests-->
+		<!-- GeneralReqIDEnd: Ending Request ID for the General Static Requests-->
+		<!-- DeviceReqIDStart: Starting Request ID for the PLC Static Requests (Same for all the PLCs, will not clash since the requests are maintained at PLC level)-->
+		<!-- DeviceReqIDEnd: Ending Request ID for the PLC Static Requests (Same for all the PLCs, will not clash since the requests are maintained at PLC level)-->
+		<StaticRequestIDInfo GeneralReqIDStart="1000" GeneralReqIDEnd="5000" DeviceReqIDStart="5000" DeviceReqIDEnd="10000"/>
+		<!-- DynamicRequestIDInfo : Request ID ranges for the Dynamic requests (i.e. requests which are created and not valid once the response is received for the request)-->
+		<!-- GeneralReqIDStart: Starting Request ID for the General Dynamic Requests-->
+		<!-- GeneralReqIDEnd: Ending Request ID for the General Dynamic Requests-->
+		<!-- DeviceReqIDStart: Starting Request ID for the PLC Dynamic Requests (Same for all the PLCs, will not clash since the requests are maintained at PLC level)-->
+		<!-- DeviceReqIDEnd: Ending Request ID for the PLC Dynamic Requests (Same for all the PLCs, will not clash since the requests are maintained at PLC level)-->
+		<DynamicRequestIDInfo GeneralReqIDStart="15000" GeneralReqIDEnd="20000" DeviceReqIDStart="25000" DeviceReqIDEnd="30000"/>
+	</MLServerSettings>
+	<!-- MLPLC Related Settings-->
+	<MLPLCSettings>
+		<!-- PLCFamily Settings, contains the configuration for each PLC type. So there should be one PLC family for each PLC type-->
+		<!-- PLCType: PLC Type for which the configuration is being defined, no specific restriction on the string that can be given here. But the PLC type configured in MLConfig XML should match this-->
+		<!-- DefaultCommand: Default command, to be used when the command is not specified for a PLC item of this PLC type-->
+		<!-- DefaultDataType: Default data type, to be used when the data type is not specified for a PLC item of this PLC type-->
+		<!-- ConnectPort: TCP/IP Port to be used by ML Server for connecting with the PLC-->
+		<!-- RequestHeader: Request Header string included in the header for each PLC request command -->
+		<!-- RequestHeader: Response Header string included in the header, to be used for interpreting each PLC response-->
+		<PLCFamily PLCType="ML200" DefaultCommand="DEV" DefaultDataType="WORD" ConnectPort="2004" RequestHeader="LSIS-XGT" ResponseHeader="LSIS-XGT">
+			<CommandSupported Name="SEP" MaxPacketSize="1024" NumberOfVariables="16" CommandType="Command"/>
+			<CommandSupported Name="CON" MaxPacketSize="1024" NumberOfVariables="1" CommandType="Command"/>
+			<CommandSupported Name="DEV" MaxPacketSize="1400" NumberOfVariables="80" CommandType="Command"/>
+			<CommandSupported Name="TB" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="500" NumberOfTransactionID="8" NumberOfCycles="3" CommandType="Command"/>
+			<CommandSupported Name="COS" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="600" NumberOfTransactionID="8" CommandType="Command"/>
+			<CommandSupported Name="IO" MaxPacketSize="512" MaxPerPacketSize="512" ResponseReadDataType="WORD" CommandType="Data"/>
+			<CommandSupported Name="L" MaxPacketSize="120" ReadOffset="3755" CommandType="Data"/>
+			<MemoryInfo Area="P" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdl" AddressFormat="wwwwB"/>
+			<MemoryInfo Area="M" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdl" AddressFormat="wwwwB" CustomAreaType="COMMON_AREA"/>
+			<MemoryInfo Area="L" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="11263F" DataTypesSupported="XBWDLwdl" AddressFormat="wwwwwB"/>
+			<MemoryInfo Area="K" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdl" AddressFormat="wwwwB"/>
+			<MemoryInfo Area="F" Readable="Yes" Writeable="No" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdl" AddressFormat="wwwwB"/>
+			<MemoryInfo Area="T" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0000" BitHigh="2047" DataTypesSupported="XWDLwdl" AddressFormat="cccc" CustomAreaType="BIT_WORD_AREA"/>
+			<MemoryInfo Area="C" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0000" BitHigh="2047" DataTypesSupported="XWDLwdl" AddressFormat="cccc" CustomAreaType="BIT_WORD_AREA"/>
+			<MemoryInfo Area="S" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="000.00" BitHigh="127.99" DataTypesSupported="X" AddressFormat="www.ww"/>
+			<MemoryInfo Area="D" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="19999" DataTypesSupported="WDLwdl" AddressFormat="wwwww"/>
+			<MemoryInfo Area="R" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="32767" DataTypesSupported="WDLwdl" AddressFormat="wwwww"/>
+			<MemoryInfo Area="U" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00.00.0" BitHigh="3F.31.F" DataTypesSupported="XWDLwdl" AddressFormat="WW.ww.B"/>
+			<MemoryInfo Area="N" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="21503" DataTypesSupported="WDLwdl" AddressFormat="wwwww"/>
+			<MemoryInfo Area="Z" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="000" BitHigh="127" DataTypesSupported="WDLwdl" AddressFormat="www"/>
+			<MemoryInfo Area="W" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="32767" DataTypesSupported="WDLwdl" AddressFormat="wwwww"/>
+			<QueueSettings DeviceResponseQueueSize="10000"/>
+			<CPUType Code="A001" CPUName="2MLK-CPUH"/>
+			<CPUType Code="A002" CPUName="2MLK-CPUS"/>
+		</PLCFamily>
+		<PLCFamily PLCType="ML200-IEC" DefaultCommand="DEV" DefaultDataType="WORD" ConnectPort="2004" RequestHeader="LSIS-XGT" ResponseHeader="LSIS-XGT">
+			<CommandSupported Name="SEP" MaxPacketSize="1024" NumberOfVariables="16" CommandType="Command"/>
+			<CommandSupported Name="CON" MaxPacketSize="1024" NumberOfVariables="1" CommandType="Command"/>
+			<CommandSupported Name="DEV" MaxPacketSize="1400" NumberOfVariables="80" CommandType="Command"/>
+			<CommandSupported Name="TB" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="500" NumberOfTransactionID="8" NumberOfCycles="3" CommandType="Command"/>
+			<CommandSupported Name="COS" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="600" NumberOfTransactionID="8" CommandType="Command"/>
+			<CommandSupported Name="IO" MaxPacketSize="512" MaxPerPacketSize="512" ResponseReadDataType="WORD" CommandType="Data"/>
+			<CommandSupported Name="L" MaxPacketSize="120" ReadOffset="3755" CommandType="Data"/>
+			<MemoryInfo Area="I" Readable="Yes" Writeable="No" ScanPeriod="10" BitLow="00.00.00" BitHigh="127.15.63" DataTypesSupported="XBWDLrR" AddressFormat="ww.ww.bb" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="Q" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00.00.00" BitHigh="127.15.63" DataTypesSupported="XBWDLrR" AddressFormat="ww.ww.bb" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="M" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0000000" BitHigh="131071F" DataTypesSupported="XBWDLrR" AddressFormat="wwwwwwB"/>
+			<MemoryInfo Area="L" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="11263F" DataTypesSupported="XBWDLwdlrR" AddressFormat="wwwwwB"/>
+			<MemoryInfo Area="F" Readable="Yes" Writeable="No" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdlrR" AddressFormat="wwwwB"/>
+			<MemoryInfo Area="R" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="32767" DataTypesSupported="WDLwdlrR" AddressFormat="wwwww"/>
+			<MemoryInfo Area="U" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0.00.000" BitHigh="7.15.511" DataTypesSupported="XWDLwdlrR" AddressFormat="w.ww.BBB" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="W" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="65535" DataTypesSupported="WDLwdlrR" AddressFormat="wwwww"/>
+			<QueueSettings DeviceResponseQueueSize="10000"/>
+			<CPUType Code="A405" CPUName="2MLI-CPUU"/>
+			<!-- Added new IEC CPU type in the Appsettings XML-->
+			<CPUType Code="A401" CPUName="2MLI-CPUH"/>
+		</PLCFamily>
+		<PLCFamily PLCType="ML200R" DefaultCommand="DEV" DefaultDataType="WORD" ConnectPort="2004" RequestHeader="LSIS-XGT" ResponseHeader="LSIS-XGT">
+			<CommandSupported Name="SEP" MaxPacketSize="1024" NumberOfVariables="16" CommandType="Command"/>
+			<CommandSupported Name="CON" MaxPacketSize="1024" NumberOfVariables="1" CommandType="Command"/>
+			<CommandSupported Name="DEV" MaxPacketSize="1400" NumberOfVariables="80" CommandType="Command"/>
+			<CommandSupported Name="TB" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="500" NumberOfTransactionID="8" NumberOfCycles="3" CommandType="Command"/>
+			<CommandSupported Name="COS" MaxPacketSize="1024" NumberOfVariables="64" StartTransactionID="600" NumberOfTransactionID="8" CommandType="Command"/>
+			<CommandSupported Name="IO" MaxPacketSize="2048" MaxPerPacketSize="512" ResponseReadDataType="BYTE" CommandType="Data"/>
+			<CommandSupported Name="L" MaxPacketSize="28" ReadOffset="3750" CommandType="Data"/>
+			<MemoryInfo Area="I" Readable="Yes" Writeable="No" ScanPeriod="10" BitLow="00.00.00" BitHigh="127.15.63" DataTypesSupported="XBWDLrR" AddressFormat="ww.ww.bb" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="Q" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00.00.00" BitHigh="127.15.63" DataTypesSupported="XBWDLrR" AddressFormat="ww.ww.bb" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="M" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0000000" BitHigh="131071F" DataTypesSupported="XBWDLrR" AddressFormat="wwwwwwB"/>
+			<MemoryInfo Area="L" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="11263F" DataTypesSupported="XBWDLwdlrR" AddressFormat="wwwwwB"/>
+			<MemoryInfo Area="F" Readable="Yes" Writeable="No" ScanPeriod="10" BitLow="00000" BitHigh="2047F" DataTypesSupported="XBWDLwdlrR" AddressFormat="wwwwB"/>
+			<MemoryInfo Area="R" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="32767" DataTypesSupported="WDLwdlrR" AddressFormat="wwwww"/>
+			<MemoryInfo Area="U" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00.00.000" BitHigh="31.15.511" DataTypesSupported="XWDLwdlrR" AddressFormat="ww.ww.BBB" CustomAreaType="BASE_SLOT_AREA"/>
+			<MemoryInfo Area="W" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="65535" DataTypesSupported="WDLwdlrR" AddressFormat="wwwww"/>
+			<MemoryInfo Area="A" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="0000000" BitHigh="262143F" DataTypesSupported="XBWDLrR" AddressFormat="wwwwwwB"/>
+			<MemoryInfo Area="N" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="000000" BitHigh="21503F" DataTypesSupported="XBWDLrR" AddressFormat="wwwwwB"/>
+			<MemoryInfo Area="K" Readable="Yes" Writeable="Yes" ScanPeriod="10" BitLow="00000" BitHigh="8399F" DataTypesSupported="XBWDLrR" AddressFormat="wwwwB"/>
+			<QueueSettings DeviceResponseQueueSize="10000"/>
+			<!--change done for 1-DIXIB8-->
+
+			<CPUType Code="A801" CPUName="2MLR-CPUH"/>
+		</PLCFamily>
+		<!-- BadPVInfo: Bad PV Related Settings-->
+		<BadPVInfo>
+			<!-- BadPVSupported : Input Ranges for which Bad PV is supported-->
+			<!-- InputRange: Input Range of the I/O Channel for which Bad PV is supported-->
+			<BadPVSupported InputRange="1v~5v"/>
+			<BadPVSupported InputRange="4mA~20mA"/>
+			<!-- SpecialModuleMap: Special Module Status memory address bit for the I/O Channel vs the Data Address for that I/O Channel mapping-->
+			<SpecialModuleMap>
+				<!-- SpecialChannel: Channel Status vs Data Address mapping-->
+				<!-- StatusAddress: Status memory Address bit for the I/O Channel -->
+				<!-- DataAddress: Data Address for the I/O Channel (If this PLC point is configured in Experion, Bad Quality is set)-->
+				<SpecialChannel StatusAddress="UX.Y.10.0" DataAddress="UX.Y.02"/>
+				<SpecialChannel StatusAddress="UX.Y.10.1" DataAddress="UX.Y.03"/>
+				<SpecialChannel StatusAddress="UX.Y.10.2" DataAddress="UX.Y.04"/>
+				<SpecialChannel StatusAddress="UX.Y.10.3" DataAddress="UX.Y.05"/>
+				<SpecialChannel StatusAddress="UX.Y.10.4" DataAddress="UX.Y.06"/>
+				<SpecialChannel StatusAddress="UX.Y.10.5" DataAddress="UX.Y.07"/>
+				<SpecialChannel StatusAddress="UX.Y.10.6" DataAddress="UX.Y.08"/>
+				<SpecialChannel StatusAddress="UX.Y.10.7" DataAddress="UX.Y.09"/>
+ 				<!--Channels 8-15 was added to support AI16 module(PAR : CR#830)-->
+				<SpecialChannel StatusAddress="UX.Y.10.8" DataAddress="UX.Y.10"/>
+ 				<SpecialChannel StatusAddress="UX.Y.10.9" DataAddress="UX.Y.11"/>
+				<SpecialChannel StatusAddress="UX.Y.10.10" DataAddress="UX.Y.12"/>
+				<SpecialChannel StatusAddress="UX.Y.10.11" DataAddress="UX.Y.13"/>
+				<SpecialChannel StatusAddress="UX.Y.10.12" DataAddress="UX.Y.14"/>
+				<SpecialChannel StatusAddress="UX.Y.10.13" DataAddress="UX.Y.15"/>
+				<SpecialChannel StatusAddress="UX.Y.10.14" DataAddress="UX.Y.16"/>
+				<SpecialChannel StatusAddress="UX.Y.10.15" DataAddress="UX.Y.17"/>
+				
+ 				
+			</SpecialModuleMap>
+		</BadPVInfo>
+	</MLPLCSettings>
+</MLApplicationSettings>

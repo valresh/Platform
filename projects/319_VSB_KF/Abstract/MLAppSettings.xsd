@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:mstns="MLAppSettings.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="MLAppSettings.xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="MLAppSettings.xsd" id="MLApplicationSettings" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element msdata:IsDataSet="true" name="MLApplicationSettings">
+    <xs:complexType>
+      <xs:choice minOccurs="2" maxOccurs="2">
+        <xs:element minOccurs="1" maxOccurs="1" name="MLServerSettings">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="MLServerInfo">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="ModuleName" type="mstns:Name_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="PLCIDPrefix" type="mstns:PLCIDPrefix_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="LogFolderPath" type="mstns:LogFolderPath_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ConfigXMLFile" type="mstns:XMLFile_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="MonitorXMLFile" type="mstns:XMLFile_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="SOEConfigXMLFile" type="mstns:XMLFile_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="CommandSeparator" type="mstns:Separator_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DataTypeSeparator" type="mstns:Separator_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DirectVariableSymbol" type="mstns:DirectVariableSymbol_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="RequestLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ResponseLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="MLMonitorLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="TraceLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="PLCInfoUpdateRate" type="mstns:PLCInfoUpdateRate_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DemoCertificateFilePath" type="mstns:DemoCertificateFilePath_Validation" use="required" />
+				  <xs:attribute form="unqualified" name="LogRetentionDays" type="mstns:LogRetentionDays_Validation" use="required" />
+				  <xs:attribute form="unqualified" name="MaxNumOfPLCs" type="mstns:MaxNumOfPLCs_Validation" use="required" />
+ 		<xs:attribute form="unqualified" name="MaxNumOfMLChannels" type="mstns:MaxNumOfMLChannels_Validation" use="required" />		  		  <xs:attribute form="unqualified" name="WriteLogFrequency" type="mstns:WriteLogFrequency_Validation" use="required" />               
+		</xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="ProtocolInfo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="ProtocolSettings">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="MaxNoofChannels" type="mstns:MaxNoofChannels_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxNoofDevices" type="mstns:MaxNoofDevices_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxNoofSmallBuffers" type="mstns:MaxNoofSmallBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxNoofMediumBuffers" type="mstns:MaxNoofMediumBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxNoofLargeBuffers" type="mstns:MaxNoofLargeBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="SizeofSmallBuffers" type="mstns:SizeofSmallBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="SizeofMediumBuffers" type="mstns:SizeofMediumBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="SizeofLargeBuffers" type="mstns:SizeofLargeBuffers_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="SizeofEventQueue" type="mstns:SizeofQueue_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="PLCHeartBeatTimeout" type="mstns:PLCHeartBeatTimeout_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ThreadMaxCount" type="mstns:ThreadMaxCount_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="StatusPollingFreq" type="mstns:StatusPollingFreq_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="HeartBeatUpdateTimeout" type="mstns:HeartBeatUpdateTimeout_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="QueueSettings">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="MainResponseQueueSize" type="mstns:SizeofQueue_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute form="unqualified" name="ModuleName" type="mstns:Name_Validation" use="required" />
+				<xs:attribute form="unqualified" name="RequestLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ResponseLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="HexLog" type="mstns:YesNo_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="TraceLog" type="mstns:YesNo_Validation" use="required" />
+                   <xs:attribute form="unqualified" name="LogFolderPath" type="mstns:LogFolderPath_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="EPKSServerInfo">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="ServerName" type="mstns:Name_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="Area" type="mstns:EPKSArea_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="AlarmPriority" type="mstns:Priority_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="AlarmSubPriority" type="mstns:SubPriority_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="PointBuildFileName" type="mstns:Name_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="PointBuildTemplateName" type="mstns:Name_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="XMLPathInfo">
+                <xs:complexType>
+		<!-- Siva MLServer Backward Compatibility Changes NFR6 -->
+				  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="XMLPath">
+                        <xs:complexType>
+                            <xs:attribute form="unqualified" name="EPKSVersion" type="mstns:Name_Validation" use="required" />
+                            <xs:attribute form="unqualified" name="FolderPathValue" type="mstns:FolderPathValue_Validation" use="required" />
+							<xs:attribute form="unqualified" name="SubFolderPath" type="mstns:SubFolderPath_Validation" use="required" />
+                        </xs:complexType>
+                    </xs:element>
+				  </xs:sequence>
+                  <xs:attribute form="unqualified" name="RegKeyPath" type="mstns:RegKeyPath_Validation" use="required" />
+                  <!-- Below line has been commented - Hema -->
+			<!--<xs:attribute form="unqualified" name="InstallDriveValue" type="mstns:InstallDriveValue_Validation" use="required" />-->
+                  
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="PLCLogInfo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="ShutdownLogInfo">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="Shutdown">
+                            <xs:complexType>
+                              <xs:attribute form="unqualified" name="Source" type="mstns:Source_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute form="unqualified" name="Name" type="mstns:Name_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogSize" type="mstns:LogSize_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumberOfLogRequest" type="mstns:NumberOfLogRequest_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxLogPosition" type="mstns:MaxLogPosition_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="ModeLogInfo">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="Mode">
+                            <xs:complexType>
+                              <xs:attribute form="unqualified" name="Source" type="mstns:Source_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="Type">
+                            <xs:complexType>
+                              <xs:attribute form="unqualified" name="Source" type="mstns:Source_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute form="unqualified" name="Name" type="mstns:Name_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogSize" type="mstns:LogSize_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumberOfLogRequest" type="mstns:NumberOfLogRequest_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxLogPosition" type="mstns:MaxLogPosition_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="ErrorLogInfo">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="Error">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="ErrorSCode0">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element minOccurs="0" maxOccurs="unbounded" name="ErrorSCode1">
+                                        <xs:complexType>
+                                          <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                                          <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                                    <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute form="unqualified" name="Source" type="mstns:Source_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute form="unqualified" name="Name" type="mstns:Name_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogSize" type="mstns:LogSize_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumberOfLogRequest" type="mstns:NumberOfLogRequest_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxLogPosition" type="mstns:MaxLogPosition_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="SystemLogInfo">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="System">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="SystemSCode0">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element minOccurs="0" maxOccurs="unbounded" name="SystemSCode1">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element minOccurs="0" maxOccurs="unbounded" name="SystemSCode2">
+                                              <xs:complexType>
+                                                <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                                                <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                                          <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                                    <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute form="unqualified" name="Source" type="mstns:Source_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Code" type="mstns:Code_Validation" use="required" />
+                              <xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute form="unqualified" name="Name" type="mstns:Name_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="LogSize" type="mstns:LogSize_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumberOfLogRequest" type="mstns:NumberOfLogRequest_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxLogPosition" type="mstns:MaxLogPosition_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="IntervalInfo">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="MainResponseInterval" type="mstns:MainResponseInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="PLCConnectionInterval" type="mstns:PLCConnectionInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="WriteResponseInterval" type="mstns:WriteResponseInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="MonitorRequestInterval" type="mstns:MonitorRequestInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ReadRequestInterval" type="mstns:ReadRequestInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="HCICallBackInterval" type="mstns:HCICallBackInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DisableDeviceInterval" type="mstns:DisableDeviceInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeleteDeviceInterval" type="mstns:DeleteDeviceInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DisableChannelInterval" type="mstns:DisableChannelInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeleteChannelInterval" type="mstns:DeleteChannelInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="CreateChannelInterval" type="mstns:CreateChannelInterval_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="EnableChannelInterval" type="mstns:EnableChannelInterval_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="StaticRequestIDInfo">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="GeneralReqIDStart" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="GeneralReqIDEnd" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeviceReqIDStart" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeviceReqIDEnd" type="mstns:RequestID_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="DynamicRequestIDInfo">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="GeneralReqIDStart" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="GeneralReqIDEnd" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeviceReqIDStart" type="mstns:RequestID_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DeviceReqIDEnd" type="mstns:RequestID_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="1" maxOccurs="1" name="MLPLCSettings">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="unbounded" name="PLCFamily">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="CommandSupported">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="Name" type="mstns:Command_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="MaxPacketSize" type="mstns:MaxPacketSize_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="NumberOfVariables" type="mstns:NumberOfVariables_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="StartTransactionID" type="mstns:StartTransactionID_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="NumberOfTransactionID" type="mstns:NumberOfTransactionID_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="NumberOfCycles" type="mstns:NumberOfCycles_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="MaxPerPacketSize" type="mstns:MaxPerPacketSize_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="ReadOffset" type="xs:string" use="optional" />
+				<xs:attribute form="unqualified" name="ResponseReadDataType" type="mstns:DataType_Validation" use="optional" />
+                        <xs:attribute form="unqualified" name="CommandType" type="mstns:CommandType_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="MemoryInfo">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="Area" type="mstns:Area_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="Readable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="Writeable" type="mstns:YesNo_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="BitLow" type="mstns:BitRange_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="BitHigh" type="mstns:BitRange_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="DataTypesSupported" type="mstns:DataTypeSupported_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="AddressFormat" type="mstns:AddressFormat_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="CustomAreaType" type="mstns:CustomAreaType_Validation" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="QueueSettings">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="DeviceResponseQueueSize" type="mstns:SizeofQueue_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="CPUType">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="Code" type="mstns:CPUCode_Validation" use="required" />
+                        <xs:attribute form="unqualified" name="CPUName" type="mstns:CPUName_Validation" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute form="unqualified" name="PLCType" type="mstns:PLCType_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DefaultCommand" type="mstns:Command_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="DefaultDataType" type="mstns:DataType_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ConnectPort" type="mstns:ConnectionPort_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="RequestHeader" type="mstns:Header_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="ResponseHeader" type="mstns:Header_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="BadPVInfo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="BadPVSupported">
+                      <xs:complexType>
+                        <xs:attribute form="unqualified" name="InputRange" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="SpecialModuleMap">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="1" maxOccurs="unbounded" name="SpecialChannel">
+                            <xs:complexType>
+                              <xs:attribute form="unqualified" name="StatusAddress" type="xs:string" use="required" />
+                              <xs:attribute form="unqualified" name="DataAddress" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="Separator_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="1" />
+      <xs:pattern value="[#$]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DirectVariableSymbol_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="1" />
+      <xs:pattern value="[%]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Priority_Validation">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SubPriority_Validation">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="15" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Area_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ScanPeriod_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YesNo_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[Y/y][E/e][S/s]|[N/n][O/o]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DataType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BIT" />
+      <xs:enumeration value="BYTE" />
+      <xs:enumeration value="WORD" />
+      <xs:enumeration value="DWORD" />
+      <xs:enumeration value="LWORD" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Command_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SEP" />
+      <xs:enumeration value="CON" />
+      <xs:enumeration value="TB" />
+      <xs:enumeration value="COS" />
+      <xs:enumeration value="DEV" />
+	<xs:enumeration value="IO" />
+	<xs:enumeration value="L" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Name_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EPKSArea_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCIDPrefix_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="8" />
+      <xs:pattern value="[A-Za-z][A-Za-z]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LogFolderPath_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RegKeyPath_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="XMLFile_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="40" />
+      <xs:pattern value="[A-Za-z]+(.xml|.XML)" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCInfoUpdateRate_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxNoofChannels_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxNoofDevices_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxNoofSmallBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxNoofMediumBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxNoofLargeBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SizeofSmallBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="256" />
+      <xs:maxInclusive value="1024" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SizeofMediumBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="512" />
+      <xs:maxInclusive value="10240" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SizeofLargeBuffers_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1024" />
+      <xs:maxInclusive value="1048576" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SizeofQueue_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCHeartBeatTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="5000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ThreadMaxCount_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="1000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NoResponseTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="3600" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StatusPollingFreq_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1000" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="HeartBeatUpdateTimeout_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1000" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="InstallDriveValue_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FolderPathValue_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SubFolderPath_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MainResponseInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCConnectionInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="WriteResponseInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MonitorRequestInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ReadRequestInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="HCICallBackInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DisableDeviceInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DeleteDeviceInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DisableChannelInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DeleteChannelInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CreateChannelInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EnableChannelInterval_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="100" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxPacketSize_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="20" />
+      <xs:maxInclusive value="2500" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NumberOfVariables_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="1000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StartTransactionID_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="500" />
+      <xs:maxInclusive value="3600000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NumberOfTransactionID_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NumberOfCycles_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="1000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PLCType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ML100R" />
+      <xs:enumeration value="ML200" />
+      <xs:enumeration value="ML200-IEC" />
+	<xs:enumeration value="ML200R" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectionPort_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="65536" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Header_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="20" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CPUName_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="20" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BitRange_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="20" />
+      <xs:pattern value="[A-f/a-f/0-9/.]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DataTypeSupported_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[X/B/D/W/L/d/w/l/r/R]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AddressFormat_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[B/b/C/c/W/w/.]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CustomAreaType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BASE_SLOT_AREA" />
+      <xs:enumeration value="COMMON_AREA" />
+      <xs:enumeration value="BIT_WORD_AREA" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CPUCode_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-f/a-f/0-9]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Desc_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Source_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Code_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="-1" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LogSize_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NumberOfLogRequest_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxLogPosition_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="10000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RequestID_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="4294967295" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DemoCertificateFilePath_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LogRetentionDays_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="365" />
+    </xs:restriction>
+  </xs:simpleType>
+ <xs:simpleType name="MaxNumOfPLCs_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="99" />
+    </xs:restriction>
+ </xs:simpleType>
+<xs:simpleType name="MaxNumOfMLChannels_Validation"><xs:restriction base="xs:long">	<xs:minInclusive value="1" />	<xs:maxInclusive value="99" />	</xs:restriction>	</xs:simpleType>	<xs:simpleType name="WriteLogFrequency_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="600" />
+    </xs:restriction>
+ </xs:simpleType>
+  <xs:simpleType name="CommandType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Data" />
+      <xs:enumeration value="Command" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaxPerPacketSize_Validation">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="1024" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

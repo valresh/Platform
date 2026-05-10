@@ -1,0 +1,32 @@
+<HTC URN="ex">
+
+<!-- ---------------------------------------------------------------------
+'
+'  Copyright 2001 Honeywell Pacific.  All Rights Reserved.
+'
+'  File:         Tabs.htc
+'
+'  Description:  Tab behaviour
+'
+'-------------------------------------------------------------------- -->
+
+	
+<PUBLIC:ATTACH EVENT="ontabselected" FOR="element" ONEVENT="OnTabSelected" />
+<SCRIPT LANGUAGE="VBscript">
+
+Option Explicit
+
+sub OnTabSelected
+	On Error Resume Next
+	Dim tabUrl
+	tabUrl = window.event.tabid
+
+	If InStr(1, window.location.href, tabUrl, 1) <= 0 Then
+		window.navigate tabUrl
+	End If
+end sub
+
+
+</SCRIPT>
+
+</HTC>

@@ -1,0 +1,847 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>System Configuration</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 11.00.10570.1001">
+<SCRIPT language=VBScript for=Page defer event=onpagecomplete>' By default the objects are invisible.
+' Rearrange before putting them visible so it look better
+' Move Preview first to keep valid top Pausing position before moving it too
+' Did not use Group because peope usually loose the script
+'Use Else if in case someone change the visible attributes by mistake.
+If chkUL.value Then
+	txtPreviewLabel.style.Top = txtPausingLabel.style.Top
+	cboPreview.style.Top = cboPausing.style.Top
+	txtPausingLabel.style.Top = txtPageAckLabelEPKS.style.Top
+	cboPausing.style.Top = cboPageAck.style.Top
+	txtPageAckLabelEBI.style.visibility = "Hidden"
+	txtPageAckLabelEPKS.style.visibility = "Hidden"
+	cboPageAck.style.visibility = "Hidden"
+	txtFilterLabel.style.visibility = "Hidden"
+	cboFilter.style.visibility = "Hidden"
+	txtColumnLabel.style.visibility = "Hidden"
+	cboColumn.style.visibility = "Hidden"
+	txtViewsLabel.style.visibility = "Hidden"
+	cboViews.style.visibility = "Hidden"
+Else 
+	cboPageAck.style.visibility = "Inherit"
+	txtFilterLabel.style.visibility = "Inherit"
+	cboFilter.style.visibility = "Inherit"
+	txtColumnLabel.style.visibility = "Inherit"
+	cboColumn.style.visibility = "Inherit"
+	txtViewsLabel.style.visibility = "Inherit"
+	cboViews.style.visibility = "Inherit"
+End If
+' Turn Common items visible
+txtPausingLabel.style.visibility = "Inherit"
+cboPausing.style.visibility = "Inherit"
+txtPreviewLabel.style.visibility = "Inherit"
+cboPreview.style.visibility = "Inherit"
+MinSecTitle.style.visibility = "Inherit"
+If ( ServerTypeRaw.value  = 5 Or ServerTypeRaw.value = 6 Or ServerTypeRaw.value = 7 ) Then
+    EBISummaryRestrictionsTitle.style.visibility = "Inherit"
+	PersistenceItems.style.visibility = "Inherit"
+	tooltipLayoutPersistenceWarning.style.visibility = "hidden"
+	chkLayoutPersistenceEnabled.style.visibility = "hidden"
+	LiveValue.style.visibility = "hidden"
+	If not chkUL.value Then
+		txtPageAckLabelEBI.style.visibility = "Inherit"
+	End If
+Else
+	txtPageAckLabelEPKS.style.visibility = "Inherit"
+    EPKSSummaryRestrictionsTitle.style.visibility = "Inherit"
+    EPKSSummaryRestrictionsTitle2.style.visibility = "Inherit"
+	EPKSAppearanceItems.style.visibility = "Inherit"
+	PersistenceItems.style.visibility = "Inherit"
+	LiveValue.style.visibility = "inherit"
+End If
+tooltipItemNameFilter.title = txtCDAFilterInfoText1.value & vbnewline & txtCDAFilterInfoText2.value & vbnewline & txtCDAFilterInfoText3.value & vbnewline & txtCDAFilterInfoText4.value & vbnewline & txtCDAFilterInfoText5.value</SCRIPT>
+<SCRIPT language=VBScript for=chkPharmabit defer event=onupdate>' Removed for ISR208357 fix
+' If me.value = 1 and fullopername.value <> 1 then
+' 	fullopername.value = 1
+' end if</SCRIPT>
+<SCRIPT language=VBScript for=alphaTimelineDelayTolerance defer event=onchange>	If IsNumeric(me.value) Then
+		On Error Resume Next
+		TempVal = CInt(me.value)
+		If Err.Number <> 0 Then
+			Err.Clear
+			me.CancelChange
+		ElseIf TempVal > 100 Or TempVal < 0 Then
+			me.CancelChange
+		End If
+	Else
+		me.CancelChange
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=alphaTimelineMinDelay defer event=onchange>	If IsNumeric(me.value) Then
+		On Error Resume Next
+		TempVal = CInt(me.value)
+		If Err.Number <> 0 Then
+			Err.Clear
+			me.CancelChange
+		ElseIf TempVal > 1440 Or TempVal < 0 Then
+			me.CancelChange
+		End If
+	Else
+		me.CancelChange
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=alphaTimelineMaxDelay defer event=onchange>	If IsNumeric(me.value) Then
+		On Error Resume Next
+		TempVal = CInt(me.value)
+		If Err.Number <> 0 Then
+			Err.Clear
+			me.CancelChange
+		ElseIf TempVal > 1440 Or TempVal < 0 Then
+			me.CancelChange
+		End If
+	Else
+		me.CancelChange
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=alphaStale defer event=onchange>	If IsNumeric(me.value) Then
+		On Error Resume Next
+		TempVal = CInt(me.value)
+		If Err.Number <> 0 Then
+			Err.Clear
+			me.CancelChange
+		ElseIf TempVal > 365 Or TempVal < 0 Then
+			me.CancelChange
+		End If
+	Else
+		me.CancelChange
+	End If</SCRIPT>
+</HEAD>
+<BODY 
+style="FONT-SIZE: 12pt; OVERFLOW: auto; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<META content=IE=EmulateIE7 http-equiv=x-ua-compatible>
+<META content=IE=5 http-equiv=x-ua-compatible>
+<META name=DisplayVersion-PS content=6.32>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb display.">
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=GENERATOR content="MSHTML 11.00.10244.0"><LINK id=HDXStylesheet 
+rel=stylesheet type=text/css href=".\Styles\SystemDisplay_1276X849.css">
+<SCRIPT language=VBScript for=CpoLic defer event=onupdate>Select Case ServerTypeRaw.value 
+	Case 5,6,7
+		' EBI Server types
+		If value  =1 Then 
+			other1.style.top= chkopc.style.top
+		Else
+			chkopc.style.visibility = "Visible"
+		End If
+	Case Else
+		chkopc.style.visibility = "Visible"		
+End Select
+ other1.style.visibility = "Inherit"</SCRIPT>
+<SCRIPT language=VBScript for=IsAdvAlmLicenced defer event=onupdate>' CAUTION: Also check UL Script on Page Load
+' if not licenced or on an EPKS system hide options
+If ((IsAdvAlmLicenced.value=False) Or (ServerTypeRaw.value  < 5) Or (ServerTypeRaw.value > 7)) Then
+	txtPageAck.style.visibility = "Hidden"
+	pbPageAck.style.visibility = "Hidden"
+Else
+	if chkUL.value = 0 then
+		txtPageAck.style.visibility = "Visible"
+		pbPageAck.style.visibility = "Visible"
+	end if
+End If</SCRIPT>
+<SCRIPT language=VBScript for=txtMaxLiveGlobalEvents defer event=onupdate>	' Snap values to the limits
+	' Attempted to perform data validation via OnChange/CancelChange but it would send data to the Server anyway
+	' so we'll do it here.
+	If (txtMaxLiveGlobalEvents.value < 1) Then
+		txtMaxLiveGlobalEvents.value = 1
+	ElseIf  (txtMaxLiveGlobalEvents.value > 32000) Then
+		txtMaxLiveGlobalEvents.value = 32000
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=txtMaxGlobalEventSnapshots defer event=onupdate>	' Snap values to the limits
+	' Attempted to perform data validation via OnChange/CancelChange but it would send data to the Server anyway
+	' so we'll do it here.
+	If (txtMaxGlobalEventSnapshots.value < 1) Then
+		txtMaxGlobalEventSnapshots.value = 1
+	ElseIf  (txtMaxGlobalEventSnapshots.value > 32000) Then
+		txtMaxGlobalEventSnapshots.value = 32000
+	End If</SCRIPT>
+<SCRIPT language=VBScript for=ServerTypeRaw defer event=onupdate>Select Case ServerTypeRaw.value 
+	Case 5,6,7
+		' EBI Server types
+             pbEPKSHistoryBackfill.style.visibility = "Hidden"
+			 pbEPKSOPCOptions.style.visibility = "Hidden"
+			 pbEPKSIKBSettings.style.visibility = "Hidden"
+			 textEPKSSummaryDisplays.style.visibility = "Hidden"
+			 pbEPKSSecurity.style.visibility = "Hidden"
+			 pbEPKSGeneral.style.visibility = "Hidden"
+			 shpEPKSTabs.style.visibility = "Hidden"
+			 pbEBISecurity.style.visibility = "Visible"
+			 pbEBIGeneral.style.visibility = "Visible"
+			 textEBISummaryDisplays.style.visibility = "Visible"
+			 shpEBITabs.style.visibility = "Visible"
+			 checkbox1.style.visibility = "Hidden"
+		'system alarms on alarm summary - but only on non-UL systems.
+		If Not ChkUL.value Then
+			checkbox5.style.visibility = "Visible"
+		End If
+		ComboboxAlm1.style.visibility = "Visible"
+		ComboboxAlm1.style.left= ComboboxPr.style.left
+		text5.style.visibility = "Visible"
+		text5.style.left=  text31.style.left	
+		If (IsAlarmTrackerLicencedEBI.value = False) Then
+			text12.style.visibility = "Hidden"
+			combobox2.style.visibility = "Hidden"
+		Else
+			text12.style.visibility = "Visible"
+			combobox2.style.visibility = "Visible"
+		End If
+	Case Else
+             pbEPKSHistoryBackfill.style.visibility = "Visible"
+			 pbEPKSOPCOptions.style.visibility = "Visible"
+			 pbEPKSIKBSettings.style.visibility = "Visible"
+			 textEPKSSummaryDisplays.style.visibility = "Visible"
+			 pbEPKSSecurity.style.visibility = "Visible"
+			 pbEPKSGeneral.style.visibility = "Visible"
+			 shpEPKSTabs.style.visibility = "Visible"
+			 pbEBISecurity.style.visibility = "Hidden"
+			 pbEBIGeneral.style.visibility = "Hidden"
+			 textEBISummaryDisplays.style.visibility = "Hidden"
+			 shpEBITabs.style.visibility = "Hidden"
+      		checkbox4.style.visibility = "Visible"
+		ComboboxPr.style.visibility = "Visible"
+		text31.style.visibility = "Visible"
+		ComboboxAlm1.style.visibility = "Visible"
+		text6.style.visibility = "Visible"
+		ComboboxAlm2.style.visibility = "Visible"
+		text5.style.visibility = "Visible"
+		If (IsAlarmTrackerLicencedEPKS.value = False) Then
+			text12.style.visibility = "Hidden"
+			combobox2.style.visibility = "Hidden"
+		Else
+			text12.style.visibility = "Visible"
+			combobox2.style.visibility = "Visible"
+		End If
+End Select</SCRIPT>
+<DIV id=Background 
+style="HEIGHT: 976px; WIDTH: 1639px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #ffffff"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository); BACKGROUND-COLOR: transparent" 
+PageDescription HelpFileName="DocumentationSet.htm" HelpFileTypeList="HTML help" 
+LocateHelpTopicBy="Topic number" HelpTopic="13" data-print-method="Station" 
+data-background-color="transparent">
+<DIV tabIndex=-1 id=sysBackground class="hsc.shape.1 " 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 28px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+value = "1" src = "sysBackground_1276X849.sha" parameters = 
+"Value?MenuXML:ConfigMenu.xml;Value?ShowTabs:true;Value?ShowActionBar:false;Value?ShowDisplayTitle:false;Value?TopLeftTitle:;Value?TopLeftIcon:;" 
+linkType = "linked" globalscripts = "CFD45B49-72AB-4fb7-9CC8-A7D18331606B" 
+styleClass = ""></DIV>
+<DIV tabIndex=-1 id=text19 class="hvg.textbox.1 Titlebar_Text_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 250px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #808080; TEXT-ALIGN: left; LEFT: 326px; TOP: 10px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:0;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Titlebar_Text_Style2;textColor:#808080;textColorBlink:False;TotalRotation:0;value:;Width:250;" 
+HDX_LOCK="-1">Server Wide Settings</DIV><SPAN tabIndex=-1 id=IsAdvAlmLicenced 
+class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 27px; WIDTH: 284px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1179px; TOP: 398px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:4;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">IsOption(LIC_ADVANCED_ALM = 
+Z'2601')</SPAN></SPAN><TEXTAREA tabIndex=-1 id=ServerTypeRaw class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 22px; FONT-FAMILY: Helvetica; WIDTH: 37px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 1153px; TOP: 164px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:Solid;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:5;indicateAlarmState:-1;indicateScanState:-1;lineColor:transparent;lineColorBlink:False;numberOfChars:4;numericDisplayFormat:%.4f;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=textEventSumm class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 200px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 240px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:17;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:200;" 
+HDX_LOCK="-1">Event Summary options</DIV><SPAN tabIndex=-1 
+id=IsPharmaOptionLicenced class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 21px; WIDTH: 347px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1179px; TOP: 427px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:18;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">IsOptionLicenced(LIC_PHARMA = 
+Z'DB01')</SPAN></SPAN> <SPAN tabIndex=7 id=chkopc 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 325px; POSITION: absolute; TEXT-ALIGN: left; LEFT: 326px; LINE-HEIGHT: normal; TOP: 267px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:28;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Log OPC Server changes to the 
+database as events </SPAN></SPAN><SPAN tabIndex=-1 id=EPKSpharmabit 
+class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 22px; WIDTH: 180px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1375px; TOP: 518px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:29;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">Experion PKS pharma 
+bit</SPAN></SPAN><SPAN tabIndex=1 id=checkbox4 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 21px; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 317px; POSITION: absolute; TEXT-ALIGN: left; LEFT: 326px; LINE-HEIGHT: normal; TOP: 125px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:30;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Show system alarms on Process 
+Alarm Summary</SPAN></SPAN> <SPAN tabIndex=0 id=checkbox5 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 21px; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 275px; POSITION: absolute; TEXT-ALIGN: left; LEFT: 326px; LINE-HEIGHT: normal; TOP: 125px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:32;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=0 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT><SPAN 
+style="COLOR: black">Show system alarms on Alarm Summary</SPAN></SPAN> 
+<DIV tabIndex=-1 id=text1 class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 200px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 98px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:47;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:200;" 
+HDX_LOCK="-1">Alarm Summary options</DIV><INPUT tabIndex=-1 id=pushbutton1 class="hsc.button.1 Hyperlink_LeftAlign_Withoutunderline_Style" style="FONT-SIZE: 10pt; TEXT-DECORATION: none underline; BORDER-TOP: #ffffff 1px; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 116px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: blue; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 710px; BORDER-LEFT: #ffffff 1px; TOP: 109px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value="Alarm Processing" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:49;lineColorBlink:False;styleClass:Hyperlink_LeftAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""> 
+<DIV tabIndex=-1 id=text3 class="hvg.textbox.1 Instructions_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 23px; POSITION: absolute; COLOR: #000000; FONT-STYLE: italic; TEXT-ALIGN: left; LEFT: 684px; TOP: 113px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:50;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Instructions_Text_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:23;" 
+HDX_LOCK="-1">See</DIV>
+<DIV tabIndex=-1 id=text4 class="hvg.textbox.1 Instructions_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 241px; POSITION: absolute; COLOR: #000000; FONT-STYLE: italic; TEXT-ALIGN: left; LEFT: 684px; TOP: 129px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:51;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Instructions_Text_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:241;" 
+HDX_LOCK="-1">server wide alarm generation processing</DIV>
+<DIV tabIndex=-1 id=text7 class="hvg.textbox.1 Instructions_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 70px; POSITION: absolute; COLOR: #000000; FONT-STYLE: italic; TEXT-ALIGN: left; LEFT: 818px; TOP: 113px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:52;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Instructions_Text_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:70;" 
+HDX_LOCK="-1">for defining </DIV><TEXTAREA tabIndex=-1 id=CpoLic class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 22px; FONT-FAMILY: Helvetica; WIDTH: 38px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 1215px; TOP: 165px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:Solid;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:57;indicateAlarmState:-1;indicateScanState:-1;lineColor:transparent;lineColorBlink:False;numberOfChars:4;numericDisplayFormat:%.4f;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<SPAN tabIndex=2 id=checkbox1 class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 21px; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 275px; POSITION: absolute; TEXT-ALIGN: left; LEFT: 326px; LINE-HEIGHT: normal; TOP: 179px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:62;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Treat unsuppressed alarms as 
+new alarms</SPAN></SPAN> <SPAN tabIndex=6 id=combobox2 title="" 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 225px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 485px; TOP: 206px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:74;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=text12 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 141px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 206px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:75;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:141;" 
+HDX_LOCK="-1">Alarm tracker labels:</DIV><SPAN tabIndex=-1 
+id=IsAlarmTrackerLicencedEPKS class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 21px; WIDTH: 347px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1179px; TOP: 458px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:77;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">IsOptionLicenced EPKS 
+(LIC_ALM_TRND=Z'1F21')</SPAN></SPAN> 
+<DIV tabIndex=-1 id=text27 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 109px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 154px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:16;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:109;" 
+HDX_LOCK="-1">Alarm line shows:</DIV>
+<DIV tabIndex=-1 id=text31 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 45px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 570px; TOP: 154px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:36;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:45;" 
+HDX_LOCK="-1">priority,</DIV><SPAN tabIndex=3 id=ComboboxPr 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 102px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 451px; TOP: 154px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:37;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=text5 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 32px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 984px; TOP: 154px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:43;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:32;" 
+HDX_LOCK="-1">alarm</DIV>
+<DIV tabIndex=-1 id=text6 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 97px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 751px; TOP: 154px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:44;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:97;" 
+HDX_LOCK="-1">unacknowledged</DIV><SPAN tabIndex=4 id=ComboboxAlm1 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 102px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 632px; TOP: 154px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:45;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN><SPAN tabIndex=5 id=ComboboxAlm2 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 102px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 865px; TOP: 154px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:46;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=shpEBITabs class="hsc.shape.1 Tab_Group_Style" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 29px; FONT-FAMILY: Arial; WIDTH: 594px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 279px; TOP: 43px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:594;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysCfgAlarmEventDisplays_files\sysstabs3c_1276X849.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "Tab_Group_Style">
+<DIV tabIndex=-1 id=shpEBITabs_group002 class="hvg.group.1 tabSet3" 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:594;">
+<DIV tabIndex=-1 id=shpEBITabs_bitmap001 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 32.99%; POSITION: absolute; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV tabIndex=-1 id=shpEBITabs_bitmap1 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 32.99%; POSITION: absolute; FONT-STYLE: normal; LEFT: 33.5%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV tabIndex=-1 id=shpEBITabs_roundrect5 class="hvg.base.1 tab tabSelected" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 32.99%; POSITION: absolute; FONT-STYLE: normal; LEFT: 67%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:196;" HDX_LOCK="-1"></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=textEBISummaryDisplays 
+class="hvg.textbox.1 Tab_Button__Text_Style2" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 29px; FONT-FAMILY: arial; WIDTH: 196px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: center; LEFT: 677px; TOP: 43px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:65;Height:29;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:196;" 
+HDX_LOCK="-1">Summary Displays</DIV><INPUT tabIndex=30 id=pbEBIGeneral class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 279px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value="General " hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:66;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><INPUT tabIndex=31 id=pbEBISecurity class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 196px; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 478px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value=Security hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:68;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""> 
+<DIV tabIndex=-1 id=shpEPKSTabs class="hsc.shape.1 Tab_Group_Style" 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 29px; FONT-FAMILY: Arial; WIDTH: 994px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 283px; TOP: 43px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:994;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysCfgAlarmEventDisplays_files\sysstabs6d_1276X849.sha" parameters = "" 
+linkType = "embedded" globalscripts = "" styleClass = "Tab_Group_Style">
+<DIV tabIndex=-1 id=shpEPKSTabs_group002 class="hvg.group.1 tabSet6" 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:994;">
+<DIV tabIndex=-1 id=shpEPKSTabs_bitmap001 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;"></DIV>
+<DIV tabIndex=-1 id=shpEPKSTabs_bitmap1 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 16.7%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;"></DIV>
+<DIV tabIndex=-1 id=shpEPKSTabs_bitmap002 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 33.4%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;"></DIV>
+<DIV tabIndex=-1 id=shpEPKSTabs_roundrect5 class="hvg.base.1 tab tabSelected" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 50.1%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;" HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=shpEPKSTabs_bitmap003 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 66.8%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;"></DIV>
+<DIV tabIndex=-1 id=shpEPKSTabs_bitmap004 class="hsc.image.1 tab" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 16.39%; POSITION: absolute; FONT-STYLE: normal; LEFT: 83.5%; TOP: 0%; VISIBILITY: inherit" 
+hdxproperties="Height:29;Width:163;"></DIV></DIV></DIV><INPUT tabIndex=24 id=pbEPKSGeneral class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 160px; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 279px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value=General hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:80;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><INPUT tabIndex=26 id=pbEPKSSecurity class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 160px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 611px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value="Security " hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:81;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""> 
+<DIV tabIndex=-1 id=textEPKSSummaryDisplays 
+class="hvg.textbox.1 Tab_Button__Text_Style2" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 29px; FONT-FAMILY: arial; WIDTH: 160px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: center; LEFT: 777px; TOP: 43px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:83;Height:29;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:160;" 
+HDX_LOCK="-1">Summary Displays</DIV><INPUT tabIndex=27 id=pbEPKSIKBSettings class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 160px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 943px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value="IKB/OEP/OTP Settings" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:84;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><INPUT tabIndex=25 id=pbEPKSOPCOptions class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 160px; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 445px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value="OPC Options" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:86;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><INPUT tabIndex=29 id=pbEPKSHistoryBackfill class="hsc.button.1 Tab_Button__Text_Style2" style="FONT-SIZE: 10pt; TEXT-DECORATION: ; BORDER-TOP: #ffffff 1px; HEIGHT: 29px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 160px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; COLOR: black; TEXT-ALIGN: center; LEFT: 1109px; BORDER-LEFT: #ffffff 1px; TOP: 43px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value="History Backfill " hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:88;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""> 
+<DIV tabIndex=-1 id=text18 class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 250px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 800px; TOP: 498px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:53;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:250;" 
+HDX_LOCK="-1">Date and time formats</DIV><SPAN tabIndex=17 
+id=checkLocaleTimeEnabled class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 265px; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 800px; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 525px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:54;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Display time and date in 
+local time format</SPAN></SPAN> 
+<DIV tabIndex=-1 id=text8 class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 82px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 800px; TOP: 567px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:55;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:82;" 
+HDX_LOCK="-1">Tooltips</DIV><SPAN tabIndex=18 id=checkbox8 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 213px; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 800px; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 594px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:56;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Enable tooltips in Location 
+pane</SPAN></SPAN> 
+<DIV tabIndex=-1 id=text9 class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 100px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 800px; TOP: 637px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:63;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:100;">Appearance</DIV><SPAN 
+tabIndex=19 id=ComboBoxFontSize class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 150px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 1020px; TOP: 664px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:71;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;">Combobox</SPAN> 
+<DIV tabIndex=-1 id=text10 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 800px; TOP: 664px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:72;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:80;">Font 
+size:</DIV><SPAN tabIndex=-1 id=IsNetworkServerLicenced class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 21px; WIDTH: 347px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1181px; TOP: 489px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:90;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN 
+style="COLOR: #ff0000">IsOptionLicenced(LIC_NET_SERVER=Z'1801')</SPAN></SPAN><SPAN 
+tabIndex=-1 id=IsAlarmTrackerLicencedEBI class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 21px; WIDTH: 347px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1166px; TOP: 556px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:91;inverseLogic:0;textColor:#ff0000;textColorBlink:False;"><INPUT 
+tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">IsOptionLicenced EBI 
+(LIC_ALM_TRND=Z'3021')</SPAN></SPAN> <SPAN tabIndex=-1 id=chkUL 
+class=hsc.checkbox.1 
+style="OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: none; HEIGHT: 18px; WIDTH: 93px; POSITION: absolute; TEXT-ALIGN: left; FONT: 8pt Helvetica; LEFT: 1107px; TOP: 754px; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:1;inverseLogic:0;textColor:#ff0000;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=0 style="MARGIN: 1px; BACKGROUND-COLOR: white" 
+type=checkbox></INPUT><SPAN style="COLOR: #ff0000">UL Invisible</SPAN></SPAN> 
+<DIV tabIndex=-1 id=txtPageAck class="hvg.textbox.1 Instructions_Text_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 16px; FONT-FAMILY: arial; WIDTH: 246px; POSITION: absolute; COLOR: #000000; FONT-STYLE: italic; TEXT-ALIGN: left; LEFT: 326px; TOP: 739px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:2;Height:16;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Instructions_Text_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:246;" 
+HDX_LOCK="-1">Full page acknowledgements will bypass </DIV><INPUT tabIndex=-1 id=pbPageAck class="hsc.button.1 Hyperlink_LeftAlign_Withoutunderline_Style" style="FONT-SIZE: 10pt; TEXT-DECORATION: none underline; BORDER-TOP: #ffffff 1px; HEIGHT: 21px; FONT-FAMILY: arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 235px; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: blue; FONT-STYLE: italic; TEXT-ALIGN: left; LEFT: 565px; BORDER-LEFT: #ffffff 1px; TOP: 739px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" type=button value="Advanced alarm management" hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:64;lineColorBlink:False;styleClass:Hyperlink_LeftAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""> 
+<DIV tabIndex=-1 id=txtCDAFilterInfoText1 class=hvg.textbox.1 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 10px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1175px; TOP: 675px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:10;" 
+HDX_LOCK="-1">Specify text to remove from automatically generated item names on 
+CDA system points</DIV>
+<DIV tabIndex=-1 id=txtCDAFilterInfoText2 class=hvg.textbox.1 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 10px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1175px; TOP: 675px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:10;" 
+HDX_LOCK="-1">This only applies when the item name is blank or identical to the 
+tag name.</DIV>
+<DIV tabIndex=-1 id=txtCDAFilterInfoText3 class=hvg.textbox.1 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 10px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1175px; TOP: 675px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:10;" 
+HDX_LOCK="-1">Value of “SFLNG_*” would remove “SFLNG_” if found at the start of 
+the point name.</DIV>
+<DIV tabIndex=-1 id=txtCDAFilterInfoText4 class=hvg.textbox.1 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 10px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1175px; TOP: 675px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:10;" 
+HDX_LOCK="-1">Value of “*_SFLNG” would remove “_SFLNG” from the end of the point 
+name.</DIV>
+<DIV tabIndex=-1 id=txtCDAFilterInfoText5 class=hvg.textbox.1 
+style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: Arial; WIDTH: 10px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1175px; TOP: 675px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:10;" 
+HDX_LOCK="-1">Value of “*SFLNG*” or “SFLNG” would remove “SFLNG” from anywhere 
+in the point name.</DIV>
+<DIV tabIndex=-1 id=text26 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 84px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 798px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:21;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:84;" 
+HDX_LOCK="-1">Event queries:</DIV><TEXTAREA tabIndex=21 id=cmbeventqueries class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 507px; TOP: 798px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:22;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=text29 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 15px; FONT-FAMILY: arial; WIDTH: 21px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 592px; TOP: 798px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:23;Height:15;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:21;" 
+HDX_LOCK="-1">sec</DIV>
+<DIV tabIndex=-1 id=text30 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 14px; FONT-FAMILY: arial; WIDTH: 162px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 825px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:24;Height:14;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:162;" 
+HDX_LOCK="-1">Event archive configuration:</DIV><TEXTAREA tabIndex=22 id=alpha003 class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 507px; TOP: 825px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:25;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=text32 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 15px; FONT-FAMILY: arial; WIDTH: 21px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 592px; TOP: 825px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:26;Height:15;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:21;" 
+HDX_LOCK="-1">sec</DIV>
+<DIV tabIndex=-1 id=text33 class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 770px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:27;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:80;" 
+HDX_LOCK="-1">Timeouts</DIV>
+<DIV tabIndex=-1 id=EPKSAppearanceItems class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 50px; WIDTH: 392px; POSITION: absolute; LEFT: 800px; TOP: 693px; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:50;lineColorBlink:False;Width:392;" 
+HDX_LOCK="-1">
+<DIV tabIndex=-1 id=txtItemNameFilter class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 46%; FONT-FAMILY: arial; WIDTH: 63.77%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:61;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:250;" 
+HDX_LOCK="-1">CDA system point item name filter:</DIV><SPAN tabIndex=7 
+id=chkItemNameAsSource class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 46%; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 94.38%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; LINE-HEIGHT: normal; TOP: 54%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:69;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Show 
+item name as source for System Alarms and Events</SPAN></SPAN> 
+<DIV tabIndex=-1 id=tooltipItemNameFilter title="" class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32%; FONT-FAMILY: Arial; WIDTH: 4.08%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 95.66%; TOP: 4%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV><TEXTAREA tabIndex=21 id=alpItemNameFilter title="" class="hsc.alpha.1 DataEntry_Left_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 46%; FONT-FAMILY: arial; WIDTH: 38.26%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 56.12%; TOP: 0%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:solid;borderWidth:1;durationFormat:-1;fillColor:White;fillColorBlink:False;HDXBINDINGID:95;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:DataEntry_Left_Alphanumeric_Style;textColor:Black;textColorBlink:False;" HDX_LOCK="-1">Text</TEXTAREA></DIV>
+<DIV tabIndex=-1 id=PersistenceItems class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 78px; WIDTH: 336px; POSITION: absolute; LEFT: 800px; TOP: 770px; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:78;lineColorBlink:False;Width:336;" 
+HDX_LOCK="-1"><SPAN tabIndex=23 id=chkContentPersistenceEnabled 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 29.48%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 92.26%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 35.89%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:35;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Enable content persistence on 
+summary displays</SPAN></SPAN> 
+<DIV tabIndex=-1 id=txtPersistence class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 29.48%; FONT-FAMILY: arial; WIDTH: 29.76%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:42;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:100;" 
+HDX_LOCK="-1">Persistence</DIV>
+<DIV tabIndex=-1 id=tooltipContentPersistenceWarning 
+title="Check this box to persist the content of previous session. Uncheck this box to load the default content for each summary display." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 20.51%; FONT-FAMILY: Arial; WIDTH: 4.76%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 95.23%; TOP: 42.3%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+HDX_LOCK="-1" 
+shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV><SPAN 
+tabIndex=23 id=chkLayoutPersistenceEnabled 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 29.48%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 92.26%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 70.51%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:48;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Enable layout persistence on 
+summary displays</SPAN></SPAN> 
+<DIV tabIndex=-1 id=tooltipLayoutPersistenceWarning 
+title="Check this box to persist the pane layout of previous screen." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 20.51%; FONT-FAMILY: Arial; WIDTH: 4.76%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 95.23%; TOP: 70.51%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+HDX_LOCK="-1" 
+shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV></DIV>
+<DIV tabIndex=-1 id=LiveValue class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 48px; WIDTH: 350px; POSITION: absolute; LEFT: 800px; TOP: 431px; BEHAVIOR: url(#HDXVectorFactory#group); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:48;lineColorBlink:False;Width:350;" 
+HDX_LOCK="-1">
+<DIV tabIndex=-1 id=lblLiveValueDisplay class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 47.91%; FONT-FAMILY: arial; WIDTH: 71.42%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:67;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:250;" 
+HDX_LOCK="-1">Live value display</DIV><SPAN tabIndex=17 
+id=checkLiveValuePVFormat class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 47.92%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 97.71%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 52.08%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:70;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Format live values in Alarm 
+Summary using PV format</SPAN></SPAN></DIV>
+<DIV tabIndex=-1 id=EPKSSummaryRestrictionsTitle 
+class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 25px; FONT-FAMILY: arial; WIDTH: 424px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 496px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:6;Height:25;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:424;" 
+HDX_LOCK="-1">Alarm, Alert, Event, SOE, Message, Batch, Procedure</DIV>
+<DIV tabIndex=-1 id=EBISummaryRestrictionsTitle 
+class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 390px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 496px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:20;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:390;" 
+HDX_LOCK="-1">Alarm, Event and Message Summary Restrictions</DIV>
+<DIV tabIndex=-1 id=EPKSSummaryRestrictionsTitle2 
+class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 279px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 326px; TOP: 516px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:78;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:279;" 
+HDX_LOCK="-1">and Activity Summary Restrictions</DIV><SPAN tabIndex=11 
+id=cboPageAck class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 570px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:7;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=txtPageAckLabelEPKS class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 282px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 570px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:8;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:282;" 
+HDX_LOCK="-1">Full page and alarm cluster acknowledgement:</DIV><SPAN 
+tabIndex=13 id=cboFilter title="" class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 624px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:9;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=txtFilterLabel class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 120px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 624px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:10;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:120;" 
+HDX_LOCK="-1">Filtering and sorting:</DIV>
+<DIV tabIndex=-1 id=txtColumnLabel class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 120px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 678px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:11;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:120;" 
+HDX_LOCK="-1">Organizing columns:</DIV><SPAN tabIndex=15 id=cboViews 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 678px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:12;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=txtViewsLabel class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 79px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 651px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:3;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:79;" 
+HDX_LOCK="-1">Saving views:</DIV><SPAN tabIndex=12 id=cboPausing 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 597px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:14;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=txtPausingLabel class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 96px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 597px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:15;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:96;" 
+HDX_LOCK="-1">Pausing:</DIV>
+<DIV tabIndex=-1 id=txtPreviewLabel class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 152px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 706px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:19;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:152;" 
+HDX_LOCK="-1">Print preview and printing:</DIV>
+<DIV tabIndex=-1 id=MinSecTitle class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 200px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 526px; TOP: 543px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:38;Height:23;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:1;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:200;" 
+HDX_LOCK="-1">Minimum security level required</DIV><SPAN tabIndex=14 
+id=cboColumn class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 651px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:13;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN><SPAN tabIndex=16 id=cboPreview title=Combobox 
+class="hsc.combo.1 DisplayArea_Combobox_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 90px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: left; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 620px; TOP: 706px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:solid;borderWidth:1;fillColor:White;fillColorBlink:False;HDXBINDINGID:40;indicateAlarmState:False;indicateScanState:False;lineColor:#cccccc;lineColorBlink:False;sort:False;styleClass:DisplayArea_Combobox_Style;textColor:Black;textColorBlink:False;" 
+HDX_LOCK="-1">Combobox</SPAN> 
+<DIV tabIndex=-1 id=lblMaxLiveGlobalEvents 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 300px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 439px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:33;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:300;" 
+HDX_LOCK="-1">Maximum live system wide events returned:</DIV>
+<DIV tabIndex=-1 id=lblMaxGlobalEventSnapshots 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 300px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 466px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:34;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:300;" 
+HDX_LOCK="-1">Maximum system wide event snapshots returned:</DIV><TEXTAREA tabIndex=21 id=txtMaxLiveGlobalEvents title="" class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 630px; TOP: 439px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:39;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA><TEXTAREA tabIndex=21 id=txtMaxGlobalEventSnapshots class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 80px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 630px; TOP: 466px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:41;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=tooltipMaxLiveGlobalEvents 
+title="This setting applies to system wide events only. Maximum live system wide events must be between 1 and 32000." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 16px; FONT-FAMILY: Arial; WIDTH: 16px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 725px; TOP: 442px; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV>
+<DIV tabIndex=-1 id=tooltipMaxGlobalEventSnapshots 
+title="This setting applies to system wide events only. Maximum system wide event snapshots must be between 1 and 32000." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 16px; FONT-FAMILY: Arial; WIDTH: 16px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 725px; TOP: 469px; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+HDX_LOCK="-1" shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV>
+<DIV tabIndex=-1 id=txtPageAckLabelEBI class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 282px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 326px; TOP: 570px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:97;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:282;" 
+HDX_LOCK="-1">Full page&nbsp;alarm acknowledgement:</DIV><TEXTAREA tabIndex=-1 id=fullopername class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 18px; FONT-FAMILY: Helvetica; WIDTH: 50px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 1267px; TOP: 527px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:85;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=Other1 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 136px; WIDTH: 450px; POSITION: absolute; LEFT: 326px; TOP: 291px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:136;lineColorBlink:False;Width:450;" 
+HDX_LOCK="-1"><SPAN tabIndex=10 id=chkPrintedName 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 16.91%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 68.22%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 18.38%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:58;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Show 
+operators full name in the event summary</SPAN></SPAN><SPAN tabIndex=9 
+id=checkbox2 class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 16.91%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 78%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 54.41%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:59;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Log all 
+Network API changes to the database as events</SPAN></SPAN><SPAN tabIndex=8 
+id=checkbox6 class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 26.47%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 80.67%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 72.79%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:60;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Log 
+Network API changes with security information to the 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;database as events</SPAN></SPAN><SPAN tabIndex=10 
+id=chkSortSecondColumn class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 16.91%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 53.78%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 36.03%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:79;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Enable 
+sorting by secondary column</SPAN></SPAN><SPAN tabIndex=3 id=chkPharmabit 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 16.91%; FONT-FAMILY: arial; FONT-VARIANT: normal; WIDTH: 92.44%; POSITION: absolute; TEXT-ALIGN: left; LEFT: 0%; LINE-HEIGHT: normal; TOP: 0%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:82;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT tabIndex=-1 
+style="MARGIN: 1px; BACKGROUND-COLOR: transparent" type=checkbox></INPUT 
+tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Log point changes that are 
+modified by engineering tools as events</SPAN></SPAN></DIV>
+<DIV tabIndex=-1 id=text012 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 225px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 800px; TOP: 203px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:31;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:225;">Stale 
+Alarm Period(0-365 days)</DIV><TEXTAREA tabIndex=21 id=alphaStale title="" class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 91px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 1020px; TOP: 203px; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:76;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=text013 class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 23px; FONT-FAMILY: arial; WIDTH: 37px; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 1117px; TOP: 203px; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:73;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:37;">days</DIV>
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 178px; WIDTH: 440px; POSITION: absolute; LEFT: 798px; TOP: 240px; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:178;lineColorBlink:False;Width:440;"><SPAN 
+tabIndex=18 id=chkPreventStopCommand 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 77.72%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 85.96%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: visible; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:113;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Prevent 
+execution of Stop command</SPAN></SPAN> 
+<DIV tabIndex=-1 id=lblLiveValueDisplay001 
+class="hvg.textbox.1 Group_Label_Style2" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 56.81%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #557788; TEXT-ALIGN: left; LEFT: 0.45%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:99;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;value:;Width:250;" 
+HDX_LOCK="-1">Batch</DIV>
+<DIV tabIndex=-1 id=lblTimelineDelayTolerance 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 68.18%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; TOP: 16.29%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:101;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:300;">Delay 
+tolerance (0-100%)</DIV><TEXTAREA tabIndex=21 id=alphaTimelineDelayTolerance title="" class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 18.18%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 69.54%; TOP: 16.29%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:102;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=tooltipTimelineDelayTolerance 
+title="Procedural element time delay, as a percetage of the prediction, before showing delay indication." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 8.98%; FONT-FAMILY: Arial; WIDTH: 3.63%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 96.13%; TOP: 17.97%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV>
+<DIV tabIndex=-1 id=lblTimelineMinDelay class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 68.18%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; TOP: 31.46%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:103;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:300;">Minimum 
+delay before indication (0-1440 minutes)</DIV><TEXTAREA tabIndex=21 id=alphaTimelineMinDelay title="" class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 18.18%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 69.54%; TOP: 31.46%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:104;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=tooltipTimelineMinDelay 
+title="The amount of time delay before delay indication is shown, regardless of delay tolerance setting." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 8.98%; FONT-FAMILY: Arial; WIDTH: 3.63%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 96.13%; TOP: 33.14%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV>
+<DIV tabIndex=-1 id=unitsTimelineDelayTolerance 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.42%; FONT-FAMILY: arial; WIDTH: 4.77%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 88.86%; TOP: 17.97%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:105;Height:15;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:21;">%</DIV>
+<DIV tabIndex=-1 id=unitsTimelineMinDelay 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.42%; FONT-FAMILY: arial; WIDTH: 4.77%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 88.86%; TOP: 32.58%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:106;Height:15;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:21;">min</DIV>
+<DIV tabIndex=-1 id=lblTimelineMaxDelay class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 68.18%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; TOP: 46.62%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:107;Height:23;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:300;">Maximum 
+delay without indication (0-1440 minutes)</DIV><TEXTAREA tabIndex=21 id=alphaTimelineMaxDelay title="" class="hsc.alpha.1 DataEntry_Alphanumeric_Style" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 12.92%; FONT-FAMILY: arial; WIDTH: 18.18%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: black; PADDING-BOTTOM: 1px; TEXT-ALIGN: right; PADDING-TOP: 1px; BORDER-RIGHT-STYLE: none; PADDING-LEFT: 1px; LEFT: 69.54%; TOP: 46.62%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: visible; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:Solid;borderWidth:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:108;indicateAlarmState:0;indicateScanState:0;lineColor:#cccccc;lineColorBlink:False;numberOfChars:100;numericDisplayFormat:%.0f;styleClass:DataEntry_Alphanumeric_Style;textColor:black;textColorBlink:False;">9999.99</TEXTAREA> 
+<DIV tabIndex=-1 id=tooltipTimelineMaxDelay 
+title="The amount of time delay after which delay indication is always shown regardless of delay tolerance setting." 
+class=hsc.image.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 8.98%; FONT-FAMILY: Arial; WIDTH: 3.63%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 96.13%; TOP: 48.31%; BEHAVIOR: url(#HDXVectorFactory#image)" 
+hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;PrintFillColor:16777215;Src:.\sysCfgAlarmEventDisplays_files\information.png;Width:16;" 
+shapesrc=".\sysCfgAlarmEventDisplays_files\information.png"></DIV>
+<DIV tabIndex=-1 id=unitsTimelineMaxDelay 
+class="hvg.textbox.1 Field_Label_Style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 8.42%; FONT-FAMILY: arial; WIDTH: 4.77%; POSITION: absolute; COLOR: #000000; TEXT-ALIGN: left; LEFT: 88.86%; TOP: 47.75%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: visible" 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:109;Height:15;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Field_Label_Style;textColor:black;textColorBlink:False;TotalRotation:0;value:;Width:21;">min</DIV><SPAN 
+tabIndex=17 id=chkTimelineEnableDelay 
+class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 77.72%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 58.98%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:100;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Enable 
+delay indicator in Station status bar</SPAN></SPAN><SPAN tabIndex=17 
+id=chkBatchShowMRColumn class="hsc.checkbox.1 Check_Option_box_style" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; HEIGHT: 12.92%; FONT-FAMILY: arial; BORDER-TOP-COLOR: #000000; FONT-VARIANT: normal; WIDTH: 77.72%; POSITION: absolute; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LEFT: 0.45%; BORDER-RIGHT-COLOR: #000000; LINE-HEIGHT: normal; TOP: 72.47%; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:87;inverseLogic:0;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;"><INPUT 
+tabIndex=-1 style="MARGIN: 1px; BACKGROUND-COLOR: transparent" 
+type=checkbox></INPUT tabIndex=-1><SPAN tabIndex=-1 style="COLOR: black">Show 
+master recipe value column in batch 
+parameters</SPAN></SPAN></DIV></DIV></BODY></HTML>

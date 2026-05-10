@@ -1,0 +1,148 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/860/Common/menus/NavMenu.htm $								
+$Workfile: NavMenu.htm $												
+$Modtime: 11/25/08 1:26a $											
+$Revision: 16 $
+$Author: Stickell $														
+***************************************************************************
+This page can display any menu which is defined in an XML file that is
+passed in as the MenuXML search-parameter. This menu will have the
+appearance of a standard navigation(left-pane) menu, and is suitable for
+use in a frame or IFrame.
+***************************************************************************
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" SystemDisplaysPath="../">
+	<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+		<title>Generic Navigation Menu Display</title>
+		<link href="../Styles/SystemDisplayLayout.css" rel="stylesheet" type="text/css" />
+		<link href="../Styles/SystemDisplayAppearance.css" rel="stylesheet" type="text/css" />
+		<link href="../Styles/SystemDisplayStrict.css" rel="stylesheet" type="text/css" />
+		<script language="JavaScript" type="text/JavaScript" src="../Scripts/Logging.js"></script>
+		<script language="JavaScript" type="text/JavaScript" src="../Scripts/ErrorHandling.js"></script>
+		<script language="JavaScript" type="text/JavaScript" src="../Scripts/JSExtensions.js"></script>
+		<script language="JavaScript" type="text/JavaScript" src="../Scripts/HTMLUtils.js"></script>
+		<script language="JavaScript" type="text/JavaScript" src="../Scripts/Utilities.js"></script>
+		<script language="javascript" type="text/javascript">
+		
+            function SetBodyClass(bodyClass)
+            {
+                if (typeof(bodyClass) != JsTypeUndefined)
+                {
+                    // Ensure the named css class is added to the body of this document.
+	                IncludeClassOnObject(document.body, bodyClass);
+                }
+            }
+            
+            function SetCurrentDisplay(currentDisplay)
+            {
+                if (typeof(currentDisplay) != JsTypeUndefined)
+                {
+                    // Advise the menu behaviors that this is the display which should be selected..
+                    OperatorsMenu.CurrentDisplay = currentDisplay;
+                    NavPane.CurrentDisplay = currentDisplay;
+                }
+            }
+            
+            function Initialize(menuXml, licenceValues)
+            {
+                if (typeof(menuXml) != JsTypeUndefined)
+                {
+                    // Advise the behavior element of which menu to load, passing the full
+                    // querystring (which may contain licence values) before the menu definition is processed.
+                    NavPane.LicenceValues = licenceValues;
+	                NavPane.MenuXML = menuXml;
+                }
+            }
+            
+            function ShowTopLeft(show, licenceValues)
+            {
+                if (typeof(show) != JsTypeUndefined && 
+                    parseBoolean(show, true))
+                {
+                    // Make the TopLeft section visible and functional.
+                    OperatorsMenu.LicenceValues = licenceValues;
+                    IncludeClassOnElement(OperatorsMenu, "NavMenu");  // To make it actually render the menu
+                    TopLeft.style.display = "block";
+	            }
+	            else
+	            {
+                    TopLeft.style.display = "none";
+	            }                
+            }
+             
+		    function ToggleOperatorsMenu()
+		    {
+		        try
+		        { 
+		            ToggleDropDownMenu(OperatorsMenu, OperatorsMenuButton); 
+		        } 
+		        catch(e)
+		        { 
+		            ScriptError('OperatorsMenuButton Click', e); 
+		        } 
+		    }
+		</script>
+		<style type="text/css">
+		    #OperatorsMenu
+		    {
+                position: absolute; 
+                display: none; 
+                left: expression(OperatorsMenuButton.currentStyle.marginLeft);
+                top: expression(OperatorsMenuButton.offsetTop + OperatorsMenuButton.offsetHeight);
+                width: expression(OperatorsMenuButton.offsetWidth);
+		    }
+		    
+		    /*
+		    ISR92002. Station is ignoring the 'strict' doctype for this display, while
+		    browser is not. Use a strict-mode-only selector to make sure the correction
+		    factor for the padding in strict mode is only applied if strict mode is actually working.
+		    */
+		    #OperatorsMenu[class*=NavPane]
+		    {
+                width: expression(OperatorsMenuButton.offsetWidth - 14);
+		    }
+		</style>
+	</head>
+	<body id="LeftBar" scroll="no">
+        <div id="TopLeft" class="TopLeft" style="display: none;">
+            <a id="OperatorsMenuButton"
+                class="DropDown"
+                href=""
+                onclick="javascript: try{ ToggleDropDownMenu(OperatorsMenu, this); return false; } catch(e){}"
+                onmouseleave="javascript: try{ if (OperatorsMenu.currentStyle.display.toLowerCase() == 'block') { ToggleDropDownMenu(OperatorsMenu, this);}  return false; } catch(e){}">
+                <img id="TopLeftIcon" src=""/>
+                <span id="TopLeftTitle"></span>
+            </a>
+        </div>
+        <div id="NavPane" class="NavPane NavMenu" 
+            MenuXML=""
+		    IconPath="../Images/" 
+		    onreadystatechange="javascript: try{ ApplyMenuText(this, TopLeftTitle, TopLeftIcon); } catch(e){}">
+        </div>
+        <div id="OperatorsMenu"
+            class="NavPane popup"
+            MenuXML="OperatorsMenu.xml"
+            IconPath="../Images/"
+            onmouseenter ="javascript: try{ ToggleDropDownMenu(OperatorsMenu, OperatorsMenuButton);  return false; } catch(e){}"
+            onmouseleave = "javascript: try{ if (OperatorsMenu.currentStyle.display.toLowerCase() == 'block') { ToggleDropDownMenu(OperatorsMenu, OperatorsMenuButton);}  return false; } catch(e){}">
+        </div>
+		<script language="javascript" type="text/javascript">
+		    var searchString = document.location.search;
+		    if( (searchString != null) && (searchString.length > 0) )
+            {
+		        // Parse any URL parameters out of the QueryString, then
+                // act on each one that we actually care about.
+                var parameters = GetURLParameters(searchString, true);
+                if (parameters != null)
+                {
+                    SetBodyClass(parameters["bodyclass"]);               
+	                SetCurrentDisplay(parameters["currentdisplay"]);	                
+	                Initialize(parameters["menuxml"], searchString);                
+	                ShowTopLeft(parameters["showtopleft"], searchString);
+	            }
+            }           
+		</script>
+	</body>
+</html>

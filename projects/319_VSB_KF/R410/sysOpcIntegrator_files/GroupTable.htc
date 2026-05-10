@@ -1,0 +1,253 @@
+<HTC URN="ex">
+
+<!-- ---------------------------------------------------------------------
+'
+'  Copyright 2001 Honeywell Pacific.  All Rights Reserved.
+'
+'  File:         GroupTable.htc
+'
+'  Description:  The expand behavior that shows the groups
+'                configured in the OPC Integrator
+'
+'-------------------------------------------------------------------- -->
+
+<PUBLIC:METHOD	 NAME="Draw"	/>
+<PUBLIC:METHOD   NAME="Initialise"  />
+<PUBLIC:ATTACH	 EVENT="onclick" FOR="element" ONEVENT="OnClick" />
+
+<SCRIPT ID=OpciClientConstants LANGUAGE=vbscript src="OpciConst.vbs"></SCRIPT>
+<SCRIPT ID=OpciClientFunctions LANGUAGE=vbscript src="OpciFunctions.vbs"></SCRIPT>
+<SCRIPT LANGUAGE="VBscript">
+
+Option Explicit
+
+dim m_OpciDashboard
+
+sub Initialise(newOpciDashboard)
+	Set m_OpciDashboard = nothing
+	Set m_OpciDashboard = newOpciDashboard
+end sub
+
+sub Draw
+	if not IsEmpty(m_OpciDashboard) then
+		call ClearGroupList
+		call DrawGroupListHeader
+		call DrawGroupListBody
+	end if
+end sub
+
+sub OnClick
+
+	On Error Resume Next
+	
+	' check if already processing a command
+	if m_OpciDashboard.IssuingCommand Then 
+		Window.Event.ReturnValue = false
+		Exit Sub
+	End If
+	
+	dim e 
+	set e = window.event.srcElement
+	
+	if e.className = "GroupEnabled" then
+		m_OpciDashboard.CurrentGroup = CLng(e.id)
+		if m_OpciDashboard.GroupEnabled then
+			e.checked = true
+			If Not CheckSecurity Then Exit Sub
+			window.document.body.style.cursor = "wait"
+			e.disabled = true
+			m_OpciDashboard.DisableGroup CLng(e.id), e.name
+			e.disabled = false
+			'e.checked = false
+		else
+			e.checked = false
+			If Not CheckSecurity Then Exit Sub
+			window.document.body.style.cursor = "wait"
+			e.disabled = true
+			m_OpciDashboard.EnableGroup CLng(e.id), e.name
+			e.disabled = false
+			'e.checked = true
+		end if
+		window.document.body.style.cursor = "auto"
+	elseif e.className = "GroupTraced" then
+		m_OpciDashboard.CurrentGroup = CLng(e.id)
+		if m_OpciDashboard.GroupTraced then
+			e.checked = true
+			If Not CheckSecurity Then Exit Sub
+			window.document.body.style.cursor = "wait"
+			if m_OpciDashboard.TraceGroupOff(CLng(e.id), e.name) = 0 then
+				e.checked = false
+			end if
+		else
+			e.checked = false
+			If Not m_OpciDashboard.GroupEnabled Then Exit Sub
+			If Not CheckSecurity Then Exit Sub
+			window.document.body.style.cursor = "wait"
+			if m_OpciDashboard.TraceGroupOn(CLng(e.id), e.name) = 0 then
+				e.checked = true
+			end if
+		end if
+		window.document.body.style.cursor = "auto"
+		
+	elseif e.className = "clsGroupLink" then
+		If m_OpciDashboard.Mode = CONFIG_MODE Then
+			' restrict access to config pages
+			If Not CheckSecurity Then Exit Sub
+		End If
+		m_OpciDashboard.CurrentGroup = CLng(e.id)
+		navigate ("GroupDetails.htm")
+	end	if
+end sub
+
+sub ClearGroupList
+	dim i
+	
+	for i = 1 to element.rows.length
+		element.deleteRow()
+	next
+end sub
+
+sub DrawGroupListHeader
+	dim NewRow
+	dim NewCell
+	dim NewHead
+
+	set NewHead = element.createTHead
+	
+	set NewRow = NewHead.insertRow()
+	
+	set NewCell = NewRow.insertCell()
+	NewCell.width = "5%"
+
+	set NewCell = NewRow.insertCell()
+	NewCell.width = "10%"
+	NewCell.align = "center"
+	NewCell.nowrap = "True"
+	
+	if m_OpciDashboard.Mode = ONLINE_MODE then
+		NewCell.innerHTML = "<STRONG>Enable</STRONG>"
+	end if
+	
+	set NewCell = NewRow.insertCell()
+	NewCell.innerHTML = "<STRONG>Group Name</STRONG>"
+	NewCell.width = "60%"
+	NewCell.align = "left"
+	NewCell.nowrap = "True"
+	
+	if m_OpciDashboard.Mode = ONLINE_MODE then
+		set NewCell = NewRow.insertCell()
+		NewCell.innerHTML = "<STRONG>Status</STRONG>"
+		NewCell.width = "20%"
+		NewCell.align = "center"
+		NewCell.nowrap = "True"
+		NewCell.ColSpan = 2
+
+		set NewCell = NewRow.insertCell()
+		NewCell.innerHTML = "<STRONG>Trace</STRONG>"
+		NewCell.width = "10%"
+		NewCell.align = "center"
+		NewCell.nowrap = "True"
+	end if
+end sub
+
+sub DrawGroupListBody
+	dim i
+	dim GroupState
+	dim NewRow
+	dim GroupStateCell
+	dim GroupStateTextCell
+	dim GroupNameCell
+	dim GroupEnabledCell
+	dim NewCell
+	dim GroupTraceCell
+	dim GroupDirtyCell
+
+	If m_OpciDashboard.MoveFirst = False Then
+		set NewRow = element.insertRow()
+		
+		set NewCell = NewRow.insertCell()
+		if m_OpciDashboard.Mode = ONLINE_MODE then
+			NewCell.innerText = "There are no Online groups.  Configure and commit working groups to create them."
+			NewCell.colspan = 5
+		else
+			NewCell.innerText = "There are no Working groups.  Click the Add New Group button to add one."
+			NewCell.colspan = 3
+		end if		
+	
+        exit sub
+    End If
+    
+    i = 1
+    Do
+    	if m_OpciDashboard.GroupName <> "-" And Not m_OpciDashboard.GroupIsSlave then
+			set NewRow = element.insertRow()
+			
+			set NewCell = NewRow.insertCell()
+			NewCell.innerText = m_OpciDashboard.GroupId
+			NewCell.align = "right"
+	
+			set GroupEnabledCell = NewRow.InsertCell()	 
+			if m_OpciDashboard.Mode = ONLINE_MODE then
+				if m_OpciDashboard.GroupEnabled then
+					GroupEnabledCell.innerHTML = "<INPUT type=checkbox checked class=GroupEnabled id=" & m_OpciDashboard.GroupId & " name=""" & m_OpciDashboard.GroupName & """'>"
+				else
+					GroupEnabledCell.innerHTML = "<INPUT type=checkbox class=GroupEnabled id=" & m_OpciDashboard.GroupId & " name=""" & m_OpciDashboard.GroupName & """'>"
+				end if
+				GroupEnabledCell.align = "center"
+			end if
+	
+			set GroupNameCell = NewRow.InsertCell()
+			if m_OpciDashboard.Mode = ONLINE_MODE and m_OpciDashboard.GroupUpdateRate <> "" then
+				GroupNameCell.innerHTML = "<span id=" & m_OpciDashboard.GroupId & " class=clsGroupLink>" & m_OpciDashboard.GroupName & "</span>" & " <span class=clsNormal>(" & m_OpciDashboard.GroupUpdateRate &")</span>"
+			elseif m_OpciDashboard.Mode = CONFIG_MODE and m_OpciDashboard.GroupDirty then
+				GroupNameCell.innerHTML = "<span id=" & m_OpciDashboard.GroupId & " class=clsGroupLink>" & m_OpciDashboard.GroupName & "</span>" & " <span class=clsNormal>*</span>"
+			else
+				GroupNameCell.innerText = m_OpciDashboard.GroupName
+				GroupNameCell.className = "clsGroupLink"
+				GroupNameCell.id = m_OpciDashboard.GroupId
+			end if
+			
+			GroupNameCell.nowrap = "True"
+			GroupNameCell.align = "left"
+			
+			if m_OpciDashboard.Mode = ONLINE_MODE then
+				set GroupStateCell = NewRow.insertCell()
+				set GroupStateTextCell = NewRow.insertCell()
+				if m_OpciDashboard.GroupStatus = "" then
+					If Not m_OpciDashboard.GroupEnabled Then
+						GroupStateCell.innerHTML = "<img src = ""GroupDisabled.gif"" width=20 height=20 alt="""">"
+						GroupStateTextCell.innerHTML = GROUP_DISABLED
+					Else
+					        GroupStateCell.innerHTML = "<img src = ""GroupUnknown.gif"" width=20 height=20 alt="""">"
+					        GroupStateTextCell.innerHTML = ""
+					End If
+				else
+					GroupStateCell.innerHTML = "<img src = ""Group" & m_OpciDashboard.GroupStatus & ".gif"" width=20 height=20 alt="""" title=""" & m_OpciDashboard.GroupStatus & """>"
+					GroupStateTextCell.innerHTML = m_OpciDashboard.GroupStatus
+				end if
+				GroupStateCell.align = "center"
+				GroupStateTextCell.align = "left"
+				
+				set GroupTraceCell = NewRow.InsertCell()
+				if m_OpciDashboard.GroupTraced then
+					GroupTraceCell.innerHTML = "<INPUT type=checkbox checked class=GroupTraced id=" & m_OpciDashboard.GroupId & " name=""" & m_OpciDashboard.GroupName & """'>"
+				else
+					GroupTraceCell.innerHTML = "<INPUT type=checkbox class=GroupTraced id=" & m_OpciDashboard.GroupId & " name=""" & m_OpciDashboard.GroupName & """'>"
+				end if
+				GroupTraceCell.align = "center"
+			end if
+		end if	
+		i = i + 1
+    Loop While m_OpciDashboard.MoveNext
+
+    if m_opciDashboard.Mode = CONFIG_MODE And element.cells.length <=3 then
+		set NewRow = element.insertRow()
+		set NewCell = NewRow.insertCell()
+		NewCell.innerText = "There are no Working groups.  Click the Add New Group button to add one."
+		NewCell.colspan = 3
+    end if
+end sub
+
+</SCRIPT>
+
+</HTC>

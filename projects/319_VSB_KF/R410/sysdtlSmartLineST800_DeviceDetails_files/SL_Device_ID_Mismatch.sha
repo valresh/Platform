@@ -1,0 +1,70 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="496px" height="28px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><parameters><parameter name="SLAnalogPoint" type="Point" description="Point Name" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<INPUT tabIndex=0 id=pushbuttonAcceptTransmitterId title="Click to copy the Device ID from the transmitter to the I/O Channel Configuration." class="hsc.button.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 39.31%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: 400; COLOR: #ffffff; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; LEFT: 60.68%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #414c56" type=button value="Accept Transmitter ID" hdxproperties="fillColor:#414c56;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#ffffff;textColorBlink:False;" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter="">]]></content><scripts><script event="onclick" language="JScript"><![CDATA[	// Disable the button so that it can only be pushed once.
+	this.disabled = true;
+
+	// Write to the point parameter that will trigger the action to update the Device ID.
+	this.DataValue("SLAnalogPoint.ACCEPTDEV") = 1;]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="ACCEPTDEV,HDEVIDCD,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,3,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ovalAlarmMismatch class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 2.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 14.28%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ffc627;fillColorBlink:False;Height:12;LineColor:#ffc627;lineColorBlink:False;LineWidth:3;Width:12;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxMismatch class="hvg.textbox.1  HSC.ScriptDataObject.1 " style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 96.42%; FONT-FAMILY: arial; WIDTH: 50.2%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 5.44%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:27;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:249;">Mismatch</DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	// Disable the pushbutton so that it is not clicked during an update of input parameters.
+	pushbuttonAcceptTransmitterId.disabled = true;
+
+	// Local variables defaulted to the "No Errror" condition.
+	var mismatchText = "";
+	var textAndOvalVisibility = "hidden";
+	var acceptTransmitterIdButtonVisibility = "hidden";
+
+	// First, check for a Device ID mismatch condition.
+	if (this.DataValue("SLAnalogPoint.HDEVIDFL"))
+	{
+		mismatchText = mismatchText + "Device ID";
+		textAndOvalVisibility = "visible";
+		acceptTransmitterIdButtonVisibility = "visible";
+	}
+
+	// Second, check for a Device Type mismatch condition.
+	// If there is a Device Type mismatch the Device Revision value is ignored.
+	if (this.DataValue("SLAnalogPoint.HDEVMISM"))
+	{
+		if (mismatchText == "")
+		{
+			mismatchText = "Device Type";
+		}
+		else
+		{
+			mismatchText = mismatchText + " & Type";
+		}
+
+		textAndOvalVisibility = "visible";
+	}
+	// Third, check for a Device Revision mismatch condition.
+	// This can only happen if there is no Device Type mismatch.
+	else if (this.DataValue("SLAnalogPoint.HREVMISM"))
+	{
+		if (mismatchText == "")
+		{
+			mismatchText = "Device Revision";
+		}
+		else
+		{
+			mismatchText = mismatchText + " & Revision";
+		}
+
+		textAndOvalVisibility = "visible";
+	}
+
+	if (mismatchText != "")
+	{
+		mismatchText = mismatchText + " Mismatch";
+	}
+
+	// Update the user controls based on the new input parameters.
+	textboxMismatch.value = mismatchText;
+	pushbuttonAcceptTransmitterId.style.visibility = acceptTransmitterIdButtonVisibility;
+	textboxMismatch.style.visibility = textAndOvalVisibility;
+	ovalAlarmMismatch.style.visibility = textAndOvalVisibility;
+
+	// Enable the pushbutton so that it may be clicked if visible.
+	if (acceptTransmitterIdButtonVisibility)
+	{
+		pushbuttonAcceptTransmitterId.disabled = false;
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HDEVIDFL,HDEVMISM,HREVMISM,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="2,2,2,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupDeviceMismatch class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 28px; WIDTH: 496px; POSITION: absolute; LEFT: 8px; TOP: 13px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:28;lineColorBlink:False;Width:496;"></DIV>]]></content></html></group></shape></shapes></shapefile>

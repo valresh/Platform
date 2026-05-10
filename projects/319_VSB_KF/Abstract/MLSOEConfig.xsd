@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:mstns="MLSOEConfig.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="MLSOEConfig.xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="MLSOEConfig.xsd" id="MLSOEConfiguration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element msdata:IsDataSet="true" name="MLSOEConfiguration">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SOEInfo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="SOE">
+                <xs:complexType>
+                  <xs:attribute form="unqualified" name="DeviceAddress" type="mstns:DeviceAddress_Validation" use="required" />
+                  <xs:attribute form="unqualified" name="SOEOption" type="mstns:SOEOption_Validation" use="optional" />
+                  <xs:attribute form="unqualified" name="Description" type="mstns:Description_Validation" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute form="unqualified" name="PLCID" type="mstns:PLCID_Validation" use="required" />
+            <xs:attribute form="unqualified" name="SOEOption" type="mstns:SOEOption_Validation" use="required" />
+            <xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="PLCID_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="4" />
+      <xs:maxLength value="4" />
+      <xs:pattern value="[A-Za-z][A-Za-z]+[0-9][0-9]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DataType_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="3" />
+      <xs:maxLength value="3" />
+      <xs:pattern value="[Bb][Ii][Tt]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SOEOption_Validation">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[1]|[0]|[cC]|[fF]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Description_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DeviceAddress_Validation">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

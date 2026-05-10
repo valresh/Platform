@@ -1,0 +1,1198 @@
+<?xml version="1.0"?>
+<!-- MLMonitor XML File for configuring the EPKS parameters between ML Server and Graphics-->
+<MLMonitor xmlns="MLMonitor.xsd">
+	<!-- PLCInfo: Configuration related to ML200 PLC type and some settings common to ML100R and ML200-->
+	<PLCInfo>
+		<!-- DiagnosticsInfo: Parameters in EPKS representing the status of ML Server communications with PLC and EPKS-->
+		<DiagnosticsInfo>
+			<!-- PLCDisplayParameters: MLServer Display Settings -->
+			<!-- EPKSPointName: Name of the point in EPKS which holds all parameters related to displays-->
+			<!-- ScanPeriod: Frequency at which Diagnostics parameters value is written to EPKS-->
+			<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+			<PLCDisplayParameters EPKSPointName="MLServer" ScanPeriod="20" DataType="CHAR">
+				<!-- MLPLCDisplay: Parameter which holds the PLC IDs of currently running MLServer Instances -->
+				<MLPLCDisplay>
+					<!-- <MLPLCIDList: List of PLCIDs goverened by a Instance-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the PLCIDList-->
+					<MLPLCIDList ParameterToUpdate="D_MLPLCIDList" DataType="CHAR"/>
+				</MLPLCDisplay>
+				<UpdatedTime>
+					<!-- DiagnosticsUDPUpdation: Last time when the Display parameters were written into EPKS-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Diagnostics UDP updation time-->
+					<DiagnosticsUDPUpdation ParameterToUpdate="D_DisplayDiagnosticsUDPUpdatedTime" DataType="CHAR"/>
+				</UpdatedTime>
+			</PLCDisplayParameters>
+			<!-- PLCGeneralParameters: MLServer General Diagnostics parameters settings-->
+			<!-- ScanPeriod: Frequency at which Diagnostics parameters value is written to EPKS-->
+			<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+			<PLCGeneralParameters ScanPeriod="20" DataType="INT2">
+				<!-- MLServerInitStatusParameters: Parameters representing the status of ML Server initialization-->
+				<MLServerInitStatusParameters DataType="CHAR">
+					<!-- MLConfigXML: Status value of 1 indicates that MLConfig XML reading was successful -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the MLConfig XML reading status-->
+					<MLConfigXML ParameterToUpdate="D_MLConfigXMLStatus"/>
+					<!-- MLSOEConfigXML: Status value of 1 indicates that MLSOEConfig XML reading was successful -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the MLSOEConfig XML reading status-->
+					<MLSOEConfigXML ParameterToUpdate="D_MLSOEConfigXMLStatus"/>
+					<!-- MLMonitorXML: Status value of 1 indicates that MLMonitor XML reading was successful -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the MLMonitor XML reading status-->
+					<MLMonitorXML ParameterToUpdate="D_MLMonitorXMLStatus"/>
+					<!-- MLAppSettingsXML: Status value of 1 indicates that MLAppSettings XML reading was successful -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the MLAppSettings XML reading status-->
+					<MLAppSettingsXML ParameterToUpdate="D_MLAppSettingsXMLStatus"/>
+					<!-- MLServerStart: Latest Time when the ML Server was  started-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the ML Server start time-->
+					<MLServerStart ParameterToUpdate="D_MLServerStartTime"/>
+				</MLServerInitStatusParameters>
+				<!-- MLServerInitStatusParameters: Parameters representing the status of ML Server connection-->
+				<ConnectionStatus DataType="CHAR">
+					<!-- PSCommunicationStatus: MLserver to Protocol Stack communication status -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Protocol Stack Communication Status-->
+					<PSCommunication ParameterToUpdate="D_PSCommunicationStatus"/>
+				</ConnectionStatus>
+				<!-- ThreadStatus: Parameters representing the status of general ML Server threads -->
+				<ThreadStatus DataType="CHAR">
+					<!-- MainResponseThread: MLServer Main Response thread Status (1 indicates running) -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Main Response thread status-->
+					<MainResponseThread ParameterToUpdate="D_MainResponseThreadStatus"/>
+					<!-- HCICallBackThread: MLServer Main Response thread Status  (1 indicates running)-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the HCI CallBack thread status-->
+					<HCICallBackThread ParameterToUpdate="D_HCICallBackThreadStatus"/>
+					<!-- EPKSCommunicatorThread: EPKS Communicator thread Status  (1 indicates running)-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the EPKS Commuincator thread status-->
+					<EPKSCommunicatorThread ParameterToUpdate="D_EPKSCommunicatorThreadStatus"/>
+					<!-- EngineThread: MLProtocol Engine thread Status  (1 indicates running)-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Protocol Stack's Engine thread status-->
+					<EngineThread ParameterToUpdate="D_EngineThreadStatus"/>
+				</ThreadStatus>
+				<!-- QueueSize: Parameters representing MLServer Queue size-->
+				<QueueSize>
+					<!-- MainResponseQueue: MLServer Main Response Queue size-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Protocol Stack's Engine thread status-->
+					<MainResponseQueue ParameterToUpdate="D_MainResponseQueueSize" DataType="INT4"/>
+				</QueueSize>
+				<!-- UpdatedTime: Parameters representing the last time when the UDP parameters were written into EPKS-->
+				<UpdatedTime>
+					<!-- DiagnosticsUDPUpdation: Last time when the General Diagnostics parameters were written into EPKS-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Diagnostics UDP updation time-->
+					<DiagnosticsUDPUpdation ParameterToUpdate="D_GeneralDiagnosticsUDPUpdatedTime" DataType="CHAR"/>
+				</UpdatedTime>
+				<!-- RequestID: Request IDs assigned to commands sent to PLC -->
+				<RequestID DataType="INT4">
+					<!-- StaticRequest: Request ID that will be assigned to the next command to be sent to PLC. This ID is static in the sense that ML Server resends these-->
+					<!--commands as required with these same Request IDs-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Request ID that will be assigned to the next command statically-->
+					<StaticRequest ParameterToUpdate="D_CurrentStaticRequestID_General"/>
+					<!-- DynamicRequest: Request ID that will be assigned to the next command to be sent to PLC. This ID is dynamic in the sense that once the command-->
+					<!--is sent, the same Request IDs will not be used again even if the same command is resent-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Request ID that will be assigned to the next command dynamically-->
+					<DynamicRequest ParameterToUpdate="D_CurrentDynamicRequestID_General"/>
+				</RequestID>
+				<!-- PerformanceParameters: Parameters that indicate the performance of ML server at a general level-->
+				<PerformanceParameters DataType="INT4">
+					<!-- Request: Number of requests sent to Protocol Stack so far-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the number of requests-->
+					<Request ParameterToUpdate="D_NumberOfRequests"/>
+					<!-- Response: Number of responses received from Protocol Stack so far-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the number of responses-->
+					<Response ParameterToUpdate="D_NumberOfResponses"/>
+				</PerformanceParameters>
+				<!-- LicenseParameters: Parameters that indicate the License Information-->
+				<LicenseParameters DataType="CHAR">
+					<!-- LicensedNumberOfPLCs: Licensed Number of PLCs for the ML Server-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Licensed Number of PLCs-->
+					<LicensedNumberOfPLCs ParameterToUpdate="D_LicensedNumberOfPLCs"/>
+					<!-- LicensedNumberOfPLCPoints: Licensed Number of Points for the ML Server-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Licensed Number of PLC Points-->
+					<LicensedNumberOfPLCPoints ParameterToUpdate="D_LicensedNumberOfPLCPoints"/>
+					<!-- Response: Licensed Mode-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Licensed Mode-->
+					<LicensedMode ParameterToUpdate="D_LicensedMode" DataType="CHAR"/>
+				</LicenseParameters>
+			</PLCGeneralParameters>
+			<!-- PLCSpecificParameters related to MLPLCServer Device Specific Diagnostics parameters settings-->
+			<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value-->
+			<PLCSpecificParameters ScanPeriod="30" DataType="INT2">
+				<!-- ConnectionStatus: Parameters that indicate Connection Status -->
+				<ConnectionStatus>
+					<!-- PLCConnection: ML Server Connection Status to PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the PLC Connection Status (Connected / Disconnected)-->
+					<PLCConnection ParameterToUpdate="D_PLCConnectionStatus" DataType="CHAR"/>
+				</ConnectionStatus>
+				<!-- ThreadStatus: Parameters that indicate the status of MLServer threads-->
+				<ThreadStatus DataType="CHAR">
+					<!-- RequestThread: Status of thread that sends requests to Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of ML Server Request thread (Running/Stopped)-->
+					<RequestThread ParameterToUpdate="D_RequestThreadStatus"/>
+					<!-- ResponseThread: Status of thread that processes responses from Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of ML Server Response thread (Running/Stopped)-->
+					<ResponseThread ParameterToUpdate="D_ResponseThreadStatus"/>
+					<!-- MonitorThread: Status of thread that sends Status, BaseSlotInfo, ADModule, etc requests to Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of ML Monitor thread (Running/Stopped)-->
+					<MonitorThread ParameterToUpdate="D_MonitorThreadStatus"/>
+				</ThreadStatus>
+				<!-- QueueSize: Current Queue size settings for the queues used in ML Server-->
+				<QueueSize>
+					<!-- ResponseQueue: Queue that holds the responses from Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the current Response Queue Size-->
+					<ResponseQueue ParameterToUpdate="D_ResponseQueueSize" DataType="INT4"/>
+					<!-- EPKSWriteQueue: Queue that holds the UDP values to be written to EPKS-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the current EPKS Write Queue Size-->
+					<EPKSWriteQueue ParameterToUpdate="D_EPKSWriteQueueSize" DataType="INT4"/>
+					<!-- EPKSAlarmQueue: Queue that holds the Alarms to be raised in EPKS-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the current EPKS Alarm Queue Size-->
+					<EPKSAlarmQueue ParameterToUpdate="D_EPKSAlarmQueueSize" DataType="INT4"/>
+				</QueueSize>
+				<!-- RequestID: Unique IDs of Requests sent to the Protocol Stack (also PLC)-->
+				<RequestID>
+					<!-- StaticRequest: Request ID that will be assigned to the next command to be sent to PLC. This ID is static in the sense that ML Server resends these-->
+					<!-- commands as required with these same Request IDs-->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Request ID that will be assigned to the next command statically-->
+					<StaticRequest ParameterToUpdate="D_CurrentStaticRequestID_Specific" DataType="INT4"/>
+					<!-- DynamicRequest: Request ID that will be assigned to the next command to be sent to PLC. This ID is dynamic in the sense that once the command-->
+					<!-- is sent, the same Request IDs will not be used again even if the same command is resent (For example, Write commands) -->
+					<!-- ParameterToUpdate: EPKS parameter which is updated with the Request ID that will be assigned to the next command dynamically-->
+					<DynamicRequest ParameterToUpdate="D_CurrentDynamicRequestID_Specific" DataType="INT4"/>
+				</RequestID>
+				<!-- PerformanceParameters: Parameters that indicate the performance of ML server at PLC level-->
+				<PerformanceParameters>
+					<!-- Request: Number of requests sent to protocol stack per second-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the number of requests per second-->
+					<Request ParameterToUpdate="D_NumberOfRequestsPerSec"/>
+					<!-- Responses: Number of responses received from protocol stack per second-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the number of responses per second-->
+					<Response ParameterToUpdate="D_NumberOfResponsesPerSec"/>
+					<!-- EPKSWrite: Number of EPKS UDP Writes per second-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the number of EPKS Writes per second-->
+					<EPKSWrite ParameterToUpdate="D_NumberOfEPKSWritesPerSec"/>
+					<!-- EPKSWrite: Number of EPKS Alarms raised per second-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the number of EPKS Alarms raised per second-->
+					<EPKSAlarm ParameterToUpdate="D_NubmerOfEPKSAlarmsPerSec"/>
+				</PerformanceParameters>
+				<!-- UpdatedTime: Parameters that denote the updation time of the UDP parameters-->
+				<UpdatedTime DataType="CHAR">
+					<!-- StatusUDPUpdation: Time when the Status related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the Status UDP updated time-->
+					<StatusUDPUpdation ParameterToUpdate="D_StatusUDPUpdatedTime"/>
+					<!-- BaseSlotUDPUpdation: Time when the BaseSlot related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the BaseSlot UDP updated time-->
+					<BaseSlotUDPUpdation ParameterToUpdate="D_BaseSlotUDPUpdatedTime"/>
+					<!-- ADModuleUDPUpdation: Time when the AD Module related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the AD Module UDP updated time-->
+					<ADModuleUDPUpdation ParameterToUpdate="D_ADModuleUDPUpdatedTime"/>
+					<!-- SpecialModuleUDPUpdation: Time when the Special Module related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the Special Module UDP updated time-->
+					<SpecialModuleUDPUpdation ParameterToUpdate="D_SpecialModuleUDPUpdatedTime"/>
+					<!-- ADModuleUDPUpdation: Time when the Miscellaneous EPKS UDP parameters (IP Addresses, etc) were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the Miscellaneous UDP updated time-->
+					<MiscellaneousUDPUpdation ParameterToUpdate="D_MiscellaneousUDPUpdatedTime"/>
+					<!-- RTCReadUDPUpdation: Time when the RTC Read related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the RTC Read UDP updated time-->
+					<RTCReadUDPUpdation ParameterToUpdate="D_RTCReadUDPUpdatedTime"/>
+					<!-- DiagnosticsUDPUpdation: Time when the Diagnostics related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the Diagnostics UDP updated time-->
+					<DiagnosticsUDPUpdation ParameterToUpdate="D_SpecificDiagnosticsUDPUpdatedTime"/>
+					<!-- RTCWriteUDPUpdation: Time when the RTC Write related EPKS UDP parameters were last written by ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which stores the RTC Write UDP updated time-->
+					<RTCWriteUDPUpdation ParameterToUpdate="D_RTCWriteUpdatedTime"/>
+				</UpdatedTime>
+				<!-- ProtocolStackParameters: Parameters related to Protcol Stack -->
+				<ProtocolStackParameters DataType="INT4">
+					<!-- RequestQueueSize: Size of the Request queue maintained by Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which stores the current size of the Request Queue-->
+					<RequestQueueSize ParameterToUpdate="D_RequestQueueSize"/>
+					<!-- LargeBuffer: Large Buffers maintained by the Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the available number of Large Buffers-->
+					<LargeBuffer ParameterToUpdate="D_LargeBuffersAvailable"/>
+					<!-- SmallBuffer: Small Buffers maintained by the Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the available number of Small Buffers-->
+					<SmallBuffer ParameterToUpdate="D_SmallBuffersAvailable"/>
+					<!-- MediumBuffer: Medium Buffers maintained by the Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the available number of Medium Buffers-->
+					<MediumBuffer ParameterToUpdate="D_MediumBuffersAvailable"/>
+					<!-- ThreadCount: Number of threads spawned in the Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the number of threads in Protocol Stack-->
+					<ThreadCount ParameterToUpdate="D_PSThreadCount"/>
+					<!-- RequestThread: Status of thread that processes requests in Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of Protocol Stack Request thread (Running/Stopped)-->
+					<RequestThreadStatus ParameterToUpdate="D_PSRequestThreadStatus" DataType="CHAR"/>
+					<!-- ResponseThread: Status of thread that processes Responses in Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of Protocol Stack Response thread (Running/Stopped)-->
+					<ResponseThreadStatus ParameterToUpdate="D_PSResponseThreadStatus" DataType="CHAR"/>
+					<!-- TBCOSThread: Status of thread that processes TBCOS responses in Protocol Stack-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the status of Protocol Stack TBCOS thread (Running/Stopped)-->
+					<TBCOSThreadStatus ParameterToUpdate="D_PSTBCOSThreadStatus" DataType="CHAR"/>
+					<!-- ResponseReceived: Time when last Response was received from the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last Response Received time-->
+					<ResponseReceived ParameterToUpdate="D_LastResponseReceivedTime" DataType="CHAR"/>
+					<!-- RequestSent: Time when last Request was sent to the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last Request Sent time-->
+					<RequestSent ParameterToUpdate="D_LastRequestSentTime" DataType="CHAR"/>
+					<!-- TBResponseReceived: Time when last TB Response was received from the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last TB Response Received time-->
+					<TBResponseReceived ParameterToUpdate="D_LastTBResponseReceivedTime" DataType="CHAR"/>
+					<!-- COSResponseReceived: Time when last COS Response was received from the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last COS Response Received time-->
+					<COSResponseReceived ParameterToUpdate="D_LastCOSResponseReceivedTime" DataType="CHAR"/>
+					<!-- MinRequest: Minimum time taken for sending the Request to PLC after receiving from ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the minimum request processing time-->
+					<MinRequest ParameterToUpdate="D_MinRequestTime"/>
+					<!-- MinResponse: Minimum time taken for receiving the response from PLC after sending request to PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the minimum response time-->
+					<MinResponse ParameterToUpdate="D_MinResponseTime"/>
+					<!-- MaxRequest: Maximum time taken for sending the Request to PLC after receiving from ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the maximum request processing time-->
+					<MaxRequest ParameterToUpdate="D_MaxRequestTime"/>
+					<!-- MaxResponse: Maximum time taken for receiving the response from PLC after sending request to PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the maximum response time-->
+					<MaxResponse ParameterToUpdate="D_MaxResponseTime"/>
+					<!-- AvgRequest: Average time taken for sending the Request to PLC after receiving from ML Server-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the Average request processing time-->
+					<AvgRequest DataType="REAL" ParameterToUpdate="D_AvgRequestTime"/>
+					<!-- AvgResponse: Average time taken for receiving the response from PLC after sending request to PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the average response time-->
+					<AvgResponse ParameterToUpdate="D_AvgResponseTime"/>
+					<!-- PLCConnected: Last time when Protocol stack was connected to the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last PLC connected time-->
+					<PLCConnected ParameterToUpdate="D_LastPLCConnectedTime" DataType="CHAR"/>
+					<!-- PLCDisconnected: Last time when Protocol stack was disconnected from the PLC socket-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last PLC disconnected time-->
+					<PLCDisconnected ParameterToUpdate="D_LastPLCDisconnectedTime" DataType="CHAR"/>
+					<!-- HBSentTime: Last Time when Heartbeat message (TB/COS related Heartbeat) was sent to the PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last HB sent time-->
+					<HBSentTime ParameterToUpdate="D_LastHBSentTime" DataType="CHAR"/>
+					<!-- StatusReceivedTime: Last Time when Status Response was received from the PLC-->
+					<!-- ParameterToUpdate: Epks parameter which is updated with the last Status response received time-->
+					<StatusReceivedTime ParameterToUpdate="D_LastStatusReceivedTime" DataType="CHAR"/>
+				</ProtocolStackParameters>
+			</PLCSpecificParameters>
+		</DiagnosticsInfo>
+		<!-- ADModuleInfo: Determines how AD Module responses are written to EPKS, represents a mapping between offset in the response to the corresponding EPKS UDP parameter.-->
+		<!-- Parameters are generated for each BaseSlot by appending this parameter name to the BaseSlot parameter name. For example, B0S0_ChannelStatus-->
+		<!-- NumberOfParameter: Default Number of parameters of that type (size of more than 1 indicates an array parameter). NumberOfParameters attribute can be defined -->
+		<!-- at any subnode level to over-ride this default value -->
+		<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+		<ADModuleInfo ScanPeriod="10" NumberOfParameter="1" DataType="INT2">
+			<!-- ADRead: Individual mapping between offset in the response to the corresponding EPKS UDP parameter-->
+			<!-- Offset: Offset within the particular AD Module response -->
+			<!-- ParameterToUpdate: Epks parameter which is updated with the AD response value at that offset -->
+			<ADRead Offset="08" ParameterToUpdate="ChannelStatus"/>
+			<ADRead Offset="0C" ParameterToUpdate="InputRange"/>
+		</ADModuleInfo>
+		<!-- SpecialModuleInfo: Determines how Special Module values in U Area are written to EPKS, represents a mapping between the address in U Area to the corresponding EPKS UDP parameter.-->
+		<!-- The U Area location read will always be UXY.10.<Address> where X is Base number, Y is Slot position, <Address> is the address configured below-->
+		<!-- Parameters are generated for each BaseSlot by appending this parameter name to the BaseSlot parameter name. For example, B0S0_ChannelRun-->
+		<!-- ScanPeriod: Frequency at which the U Area needs to be scanned in seconds. The values are written to EPKS parameters only if values have changed since last write-->
+		<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- HOOROffset: Offset address for High out of range information- This is defined as UX.Y.320 from LSIS. CHnages for DREQ311-bhuvana-->
+		<!-- LOOROffset: Offset address for Low out of range information- This is defined as UX.Y.336 from LSIS. CHnages for DREQ311-bhuvana-->
+		<SpecialModuleInfo ScanPeriod="10" DataType="INT2" HOOROffset="20" LOOROffset="21">
+			<!-- SpecialModule: Individual mapping between the address in U memory Area to the corresponding EPKS UDP parameter-->
+			<!-- Address: Address within the particular U memory Area for that Base Slot -->
+			<!-- ParameterToUpdate: Epks parameter which is updated with the value stored in U Area at that offset -->
+			<SpecialModule ModuleID="5A80" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="15A81" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="5A81" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="5A84" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="5A85" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="15A85" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="35A8B" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="5A8B" Address="10" ParameterToUpdate="ChannelConnection"/>
+			<SpecialModule ModuleID="5A8A" Address="18" ParameterToUpdate="ChannelConnection"/>
+		</SpecialModuleInfo>
+		<!-- PLCSpecificConfigInfo: PLC based monitor settings.-->
+		<PLCSpecificConfigInfo>
+			<!-- PLCFamily: Settings are different for different PLC Types.-->
+			<!-- PLCType: Gives PLC type. When this value is ML200, it is common to both ML200 IEC and ML200 Non IEC PLCs.-->
+			<PLCFamily PLCType="ML200">
+				<!-- AllModuleInfo: General information common to all the IO Modules, obtained by reading the F area-->
+				<!-- This gives information such as the Number of slots in each Base, the PLC CPU Scan periods, various types of module errors at each slot level-->
+				<!-- Alarms are raised in Experion corresponding to the module errors with full description -->
+				<!-- ScanPeriod: Frequency at which the F Area needs to be scanned in seconds. The values are written to EPKS parameters only if values have changed since last write-->
+				<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+				<AllModuleInfo ScanPeriod="10" ParameterToUpdate="ModuleError" DataType="INT2">
+					<!-- BaseModule: F Area Address range and the corresponding description used for raising the alarms in Experion-->
+					<!-- StartAddress: Starting Address within the F memory Area for all the Bases (starts from Base 0) -->
+					<!-- EndAddress: Ending Address within the F memory Area for all the Bases (ends at Base 7) -->
+					<!-- Description: Used for raising the Alarm in Experion corresponding to the error. Base no. and Slot no. are prefixed to give full information -->
+					<BaseModule StartAddress="F0150" EndAddress="F0157" Description="Number of slots in base"/>
+					<BaseModule StartAddress="F0050" EndAddress="F0052" Description="PLC Scan Periods"/>
+					<BaseModule StartAddress="F0096" EndAddress="F0103" Description="Module mismatch error"/>
+					<BaseModule StartAddress="F0104" EndAddress="F0111" Description="Module detachment/disconnection error"/>
+					<BaseModule StartAddress="F0112" EndAddress="F0119" Description="Module blown fuse error"/>
+					<BaseModule StartAddress="F0120" EndAddress="F0127" Description="Digital I/O read/write error"/>
+					<BaseModule StartAddress="F0128" EndAddress="F0135" Description="Special/Communication module interface error"/>
+				</AllModuleInfo>
+				<!-- BaseSlotInfo : Base Slot Configuration related to ML200 and above PLC type -->
+				<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+				<!-- ScanPeriod: Frequency at which base slot information is read from PLC in seconds-->
+				<!-- NumberOfBasesParameter: Epks parameter which stores the Number of bases-->
+				<BaseSlotInfo DataType="INT4" ScanPeriod="600" NumberOfBasesParameter="NumBases">
+					<!-- Base : Parameters related to a particular Base -->
+					<!-- ID: Base number for which the parameters are being configured-->
+					<!-- NumberOfSlotsParameter: Epks parameter which stores the number of slots in this base -->
+					<Base ID="0" NumberOfSlotsParameter="B0NumSlots">
+						<!-- Slot : Parameter related to a particular slot-->
+						<!-- ID: Slot position within the particular base for which the parameters are being configured-->
+						<!-- ParameterToUpdate: Epks parameter name which stores the value representing a particular module in that slot. To know the meaning of values written into -->
+						<!-- this parameter, refer the IOModuleInfo XML node defined later in this XML-->
+						<Slot ID="0" ParameterToUpdate="B0S0"/>
+						<Slot ID="1" ParameterToUpdate="B0S1"/>
+						<Slot ID="2" ParameterToUpdate="B0S2"/>
+						<Slot ID="3" ParameterToUpdate="B0S3"/>
+						<Slot ID="4" ParameterToUpdate="B0S4"/>
+						<Slot ID="5" ParameterToUpdate="B0S5"/>
+						<Slot ID="6" ParameterToUpdate="B0S6"/>
+						<Slot ID="7" ParameterToUpdate="B0S7"/>
+						<Slot ID="8" ParameterToUpdate="B0S8"/>
+						<Slot ID="9" ParameterToUpdate="B0S9"/>
+						<Slot ID="10" ParameterToUpdate="B0S10"/>
+						<Slot ID="11" ParameterToUpdate="B0S11"/>
+					</Base>
+					<Base ID="1" NumberOfSlotsParameter="B1NumSlots">
+						<Slot ID="0" ParameterToUpdate="B1S0"/>
+						<Slot ID="1" ParameterToUpdate="B1S1"/>
+						<Slot ID="2" ParameterToUpdate="B1S2"/>
+						<Slot ID="3" ParameterToUpdate="B1S3"/>
+						<Slot ID="4" ParameterToUpdate="B1S4"/>
+						<Slot ID="5" ParameterToUpdate="B1S5"/>
+						<Slot ID="6" ParameterToUpdate="B1S6"/>
+						<Slot ID="7" ParameterToUpdate="B1S7"/>
+						<Slot ID="8" ParameterToUpdate="B1S8"/>
+						<Slot ID="9" ParameterToUpdate="B1S9"/>
+						<Slot ID="10" ParameterToUpdate="B1S10"/>
+						<Slot ID="11" ParameterToUpdate="B1S11"/>
+					</Base>
+					<Base ID="2" NumberOfSlotsParameter="B2NumSlots">
+						<Slot ID="0" ParameterToUpdate="B2S0"/>
+						<Slot ID="1" ParameterToUpdate="B2S1"/>
+						<Slot ID="2" ParameterToUpdate="B2S2"/>
+						<Slot ID="3" ParameterToUpdate="B2S3"/>
+						<Slot ID="4" ParameterToUpdate="B2S4"/>
+						<Slot ID="5" ParameterToUpdate="B2S5"/>
+						<Slot ID="6" ParameterToUpdate="B2S6"/>
+						<Slot ID="7" ParameterToUpdate="B2S7"/>
+						<Slot ID="8" ParameterToUpdate="B2S8"/>
+						<Slot ID="9" ParameterToUpdate="B2S9"/>
+						<Slot ID="10" ParameterToUpdate="B2S10"/>
+						<Slot ID="11" ParameterToUpdate="B2S11"/>
+					</Base>
+					<Base ID="3" NumberOfSlotsParameter="B3NumSlots">
+						<Slot ID="0" ParameterToUpdate="B3S0"/>
+						<Slot ID="1" ParameterToUpdate="B3S1"/>
+						<Slot ID="2" ParameterToUpdate="B3S2"/>
+						<Slot ID="3" ParameterToUpdate="B3S3"/>
+						<Slot ID="4" ParameterToUpdate="B3S4"/>
+						<Slot ID="5" ParameterToUpdate="B3S5"/>
+						<Slot ID="6" ParameterToUpdate="B3S6"/>
+						<Slot ID="7" ParameterToUpdate="B3S7"/>
+						<Slot ID="8" ParameterToUpdate="B3S8"/>
+						<Slot ID="9" ParameterToUpdate="B3S9"/>
+						<Slot ID="10" ParameterToUpdate="B3S10"/>
+						<Slot ID="11" ParameterToUpdate="B3S11"/>
+					</Base>
+					<Base ID="4" NumberOfSlotsParameter="B4NumSlots">
+						<Slot ID="0" ParameterToUpdate="B4S0"/>
+						<Slot ID="1" ParameterToUpdate="B4S1"/>
+						<Slot ID="2" ParameterToUpdate="B4S2"/>
+						<Slot ID="3" ParameterToUpdate="B4S3"/>
+						<Slot ID="4" ParameterToUpdate="B4S4"/>
+						<Slot ID="5" ParameterToUpdate="B4S5"/>
+						<Slot ID="6" ParameterToUpdate="B4S6"/>
+						<Slot ID="7" ParameterToUpdate="B4S7"/>
+						<Slot ID="8" ParameterToUpdate="B4S8"/>
+						<Slot ID="9" ParameterToUpdate="B4S9"/>
+						<Slot ID="10" ParameterToUpdate="B4S10"/>
+						<Slot ID="11" ParameterToUpdate="B4S11"/>
+					</Base>
+					<Base ID="5" NumberOfSlotsParameter="B5NumSlots">
+						<Slot ID="0" ParameterToUpdate="B5S0"/>
+						<Slot ID="1" ParameterToUpdate="B5S1"/>
+						<Slot ID="2" ParameterToUpdate="B5S2"/>
+						<Slot ID="3" ParameterToUpdate="B5S3"/>
+						<Slot ID="4" ParameterToUpdate="B5S4"/>
+						<Slot ID="5" ParameterToUpdate="B5S5"/>
+						<Slot ID="6" ParameterToUpdate="B5S6"/>
+						<Slot ID="7" ParameterToUpdate="B5S7"/>
+						<Slot ID="8" ParameterToUpdate="B5S8"/>
+						<Slot ID="9" ParameterToUpdate="B5S9"/>
+						<Slot ID="10" ParameterToUpdate="B5S10"/>
+						<Slot ID="11" ParameterToUpdate="B5S11"/>
+					</Base>
+					<Base ID="6" NumberOfSlotsParameter="B6NumSlots">
+						<Slot ID="0" ParameterToUpdate="B6S0"/>
+						<Slot ID="1" ParameterToUpdate="B6S1"/>
+						<Slot ID="2" ParameterToUpdate="B6S2"/>
+						<Slot ID="3" ParameterToUpdate="B6S3"/>
+						<Slot ID="4" ParameterToUpdate="B6S4"/>
+						<Slot ID="5" ParameterToUpdate="B6S5"/>
+						<Slot ID="6" ParameterToUpdate="B6S6"/>
+						<Slot ID="7" ParameterToUpdate="B6S7"/>
+						<Slot ID="8" ParameterToUpdate="B6S8"/>
+						<Slot ID="9" ParameterToUpdate="B6S9"/>
+						<Slot ID="10" ParameterToUpdate="B6S10"/>
+						<Slot ID="11" ParameterToUpdate="B6S11"/>
+					</Base>
+					<Base ID="7" NumberOfSlotsParameter="B7NumSlots">
+						<Slot ID="0" ParameterToUpdate="B7S0"/>
+						<Slot ID="1" ParameterToUpdate="B7S1"/>
+						<Slot ID="2" ParameterToUpdate="B7S2"/>
+						<Slot ID="3" ParameterToUpdate="B7S3"/>
+						<Slot ID="4" ParameterToUpdate="B7S4"/>
+						<Slot ID="5" ParameterToUpdate="B7S5"/>
+						<Slot ID="6" ParameterToUpdate="B7S6"/>
+						<Slot ID="7" ParameterToUpdate="B7S7"/>
+						<Slot ID="8" ParameterToUpdate="B7S8"/>
+						<Slot ID="9" ParameterToUpdate="B7S9"/>
+						<Slot ID="10" ParameterToUpdate="B7S10"/>
+						<Slot ID="11" ParameterToUpdate="B7S11"/>
+					</Base>
+				</BaseSlotInfo>
+			</PLCFamily>
+			<PLCFamily PLCType="ML200R">
+				<AllModuleInfo ScanPeriod="10" ParameterToUpdate="ModuleError" DataType="INT2">
+					<BaseModule StartAddress="F0600" EndAddress="F0631" Description="Number of slots in base"/>
+					<BaseModule StartAddress="F0386" EndAddress="F0388" Description="PLC Scan Periods"/>
+					<BaseModule StartAddress="F0424" EndAddress="F0455" Description="Module mismatch error"/>
+					<BaseModule StartAddress="F0456" EndAddress="F0487" Description="Module detachment/disconnection error"/>
+					<BaseModule StartAddress="F0488" EndAddress="F0519" Description="Module blown fuse error"/>
+					<!--					<BaseModule StartAddress="F0120" EndAddress="F0127" Description="Digital I/O read/write error"/>-->
+					<!--					<BaseModule StartAddress="F0128" EndAddress="F0135" Description="Special/Communication module interface error"/>-->
+				</AllModuleInfo>
+				<BaseSlotInfo DataType="INT4" ScanPeriod="600" NumberOfBasesParameter="NumBases">
+					<Base ID="0" NumberOfSlotsParameter="B0NumSlots">
+						<Power ParameterToUpdate="B0P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B0S0"/>
+						<Slot ID="1" ParameterToUpdate="B0S1"/>
+						<Slot ID="2" ParameterToUpdate="B0S2"/>
+						<Slot ID="3" ParameterToUpdate="B0S3"/>
+						<Slot ID="4" ParameterToUpdate="B0S4"/>
+						<Slot ID="5" ParameterToUpdate="B0S5"/>
+						<Slot ID="6" ParameterToUpdate="B0S6"/>
+						<Slot ID="7" ParameterToUpdate="B0S7"/>
+						<Slot ID="8" ParameterToUpdate="B0S8"/>
+						<Slot ID="9" ParameterToUpdate="B0S9"/>
+						<Slot ID="10" ParameterToUpdate="B0S10"/>
+						<Slot ID="11" ParameterToUpdate="B0S11"/>
+					</Base>
+					<Base ID="1" NumberOfSlotsParameter="B1NumSlots">
+						<Power ParameterToUpdate="B1P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B1S0"/>
+						<Slot ID="1" ParameterToUpdate="B1S1"/>
+						<Slot ID="2" ParameterToUpdate="B1S2"/>
+						<Slot ID="3" ParameterToUpdate="B1S3"/>
+						<Slot ID="4" ParameterToUpdate="B1S4"/>
+						<Slot ID="5" ParameterToUpdate="B1S5"/>
+						<Slot ID="6" ParameterToUpdate="B1S6"/>
+						<Slot ID="7" ParameterToUpdate="B1S7"/>
+						<Slot ID="8" ParameterToUpdate="B1S8"/>
+						<Slot ID="9" ParameterToUpdate="B1S9"/>
+						<Slot ID="10" ParameterToUpdate="B1S10"/>
+						<Slot ID="11" ParameterToUpdate="B1S11"/>
+					</Base>
+					<Base ID="2" NumberOfSlotsParameter="B2NumSlots">
+						<Power ParameterToUpdate="B2P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B2S0"/>
+						<Slot ID="1" ParameterToUpdate="B2S1"/>
+						<Slot ID="2" ParameterToUpdate="B2S2"/>
+						<Slot ID="3" ParameterToUpdate="B2S3"/>
+						<Slot ID="4" ParameterToUpdate="B2S4"/>
+						<Slot ID="5" ParameterToUpdate="B2S5"/>
+						<Slot ID="6" ParameterToUpdate="B2S6"/>
+						<Slot ID="7" ParameterToUpdate="B2S7"/>
+						<Slot ID="8" ParameterToUpdate="B2S8"/>
+						<Slot ID="9" ParameterToUpdate="B2S9"/>
+						<Slot ID="10" ParameterToUpdate="B2S10"/>
+						<Slot ID="11" ParameterToUpdate="B2S11"/>
+					</Base>
+					<Base ID="3" NumberOfSlotsParameter="B3NumSlots">
+						<Power ParameterToUpdate="B3P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B3S0"/>
+						<Slot ID="1" ParameterToUpdate="B3S1"/>
+						<Slot ID="2" ParameterToUpdate="B3S2"/>
+						<Slot ID="3" ParameterToUpdate="B3S3"/>
+						<Slot ID="4" ParameterToUpdate="B3S4"/>
+						<Slot ID="5" ParameterToUpdate="B3S5"/>
+						<Slot ID="6" ParameterToUpdate="B3S6"/>
+						<Slot ID="7" ParameterToUpdate="B3S7"/>
+						<Slot ID="8" ParameterToUpdate="B3S8"/>
+						<Slot ID="9" ParameterToUpdate="B3S9"/>
+						<Slot ID="10" ParameterToUpdate="B3S10"/>
+						<Slot ID="11" ParameterToUpdate="B3S11"/>
+					</Base>
+					<Base ID="4" NumberOfSlotsParameter="B4NumSlots">
+						<Power ParameterToUpdate="B4P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B4S0"/>
+						<Slot ID="1" ParameterToUpdate="B4S1"/>
+						<Slot ID="2" ParameterToUpdate="B4S2"/>
+						<Slot ID="3" ParameterToUpdate="B4S3"/>
+						<Slot ID="4" ParameterToUpdate="B4S4"/>
+						<Slot ID="5" ParameterToUpdate="B4S5"/>
+						<Slot ID="6" ParameterToUpdate="B4S6"/>
+						<Slot ID="7" ParameterToUpdate="B4S7"/>
+						<Slot ID="8" ParameterToUpdate="B4S8"/>
+						<Slot ID="9" ParameterToUpdate="B4S9"/>
+						<Slot ID="10" ParameterToUpdate="B4S10"/>
+						<Slot ID="11" ParameterToUpdate="B4S11"/>
+					</Base>
+					<Base ID="5" NumberOfSlotsParameter="B5NumSlots">
+						<Power ParameterToUpdate="B5P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B5S0"/>
+						<Slot ID="1" ParameterToUpdate="B5S1"/>
+						<Slot ID="2" ParameterToUpdate="B5S2"/>
+						<Slot ID="3" ParameterToUpdate="B5S3"/>
+						<Slot ID="4" ParameterToUpdate="B5S4"/>
+						<Slot ID="5" ParameterToUpdate="B5S5"/>
+						<Slot ID="6" ParameterToUpdate="B5S6"/>
+						<Slot ID="7" ParameterToUpdate="B5S7"/>
+						<Slot ID="8" ParameterToUpdate="B5S8"/>
+						<Slot ID="9" ParameterToUpdate="B5S9"/>
+						<Slot ID="10" ParameterToUpdate="B5S10"/>
+						<Slot ID="11" ParameterToUpdate="B5S11"/>
+					</Base>
+					<Base ID="6" NumberOfSlotsParameter="B6NumSlots">
+						<Power ParameterToUpdate="B6P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B6S0"/>
+						<Slot ID="1" ParameterToUpdate="B6S1"/>
+						<Slot ID="2" ParameterToUpdate="B6S2"/>
+						<Slot ID="3" ParameterToUpdate="B6S3"/>
+						<Slot ID="4" ParameterToUpdate="B6S4"/>
+						<Slot ID="5" ParameterToUpdate="B6S5"/>
+						<Slot ID="6" ParameterToUpdate="B6S6"/>
+						<Slot ID="7" ParameterToUpdate="B6S7"/>
+						<Slot ID="8" ParameterToUpdate="B6S8"/>
+						<Slot ID="9" ParameterToUpdate="B6S9"/>
+						<Slot ID="10" ParameterToUpdate="B6S10"/>
+						<Slot ID="11" ParameterToUpdate="B6S11"/>
+					</Base>
+					<Base ID="7" NumberOfSlotsParameter="B7NumSlots">
+						<Power ParameterToUpdate="B7P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B7S0"/>
+						<Slot ID="1" ParameterToUpdate="B7S1"/>
+						<Slot ID="2" ParameterToUpdate="B7S2"/>
+						<Slot ID="3" ParameterToUpdate="B7S3"/>
+						<Slot ID="4" ParameterToUpdate="B7S4"/>
+						<Slot ID="5" ParameterToUpdate="B7S5"/>
+						<Slot ID="6" ParameterToUpdate="B7S6"/>
+						<Slot ID="7" ParameterToUpdate="B7S7"/>
+						<Slot ID="8" ParameterToUpdate="B7S8"/>
+						<Slot ID="9" ParameterToUpdate="B7S9"/>
+						<Slot ID="10" ParameterToUpdate="B7S10"/>
+						<Slot ID="11" ParameterToUpdate="B7S11"/>
+					</Base>
+					<Base ID="8" NumberOfSlotsParameter="B8NumSlots">
+						<Power ParameterToUpdate="B8P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B8S0"/>
+						<Slot ID="1" ParameterToUpdate="B8S1"/>
+						<Slot ID="2" ParameterToUpdate="B8S2"/>
+						<Slot ID="3" ParameterToUpdate="B8S3"/>
+						<Slot ID="4" ParameterToUpdate="B8S4"/>
+						<Slot ID="5" ParameterToUpdate="B8S5"/>
+						<Slot ID="6" ParameterToUpdate="B8S6"/>
+						<Slot ID="7" ParameterToUpdate="B8S7"/>
+						<Slot ID="8" ParameterToUpdate="B8S8"/>
+						<Slot ID="9" ParameterToUpdate="B8S9"/>
+						<Slot ID="10" ParameterToUpdate="B8S10"/>
+						<Slot ID="11" ParameterToUpdate="B8S11"/>
+					</Base>
+					<Base ID="9" NumberOfSlotsParameter="B9NumSlots">
+						<Power ParameterToUpdate="B9P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B9S0"/>
+						<Slot ID="1" ParameterToUpdate="B9S1"/>
+						<Slot ID="2" ParameterToUpdate="B9S2"/>
+						<Slot ID="3" ParameterToUpdate="B9S3"/>
+						<Slot ID="4" ParameterToUpdate="B9S4"/>
+						<Slot ID="5" ParameterToUpdate="B9S5"/>
+						<Slot ID="6" ParameterToUpdate="B9S6"/>
+						<Slot ID="7" ParameterToUpdate="B9S7"/>
+						<Slot ID="8" ParameterToUpdate="B9S8"/>
+						<Slot ID="9" ParameterToUpdate="B9S9"/>
+						<Slot ID="10" ParameterToUpdate="B9S10"/>
+						<Slot ID="11" ParameterToUpdate="B9S11"/>
+					</Base>
+					<Base ID="10" NumberOfSlotsParameter="B10NumSlots">
+						<Power ParameterToUpdate="B10P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B10S0"/>
+						<Slot ID="1" ParameterToUpdate="B10S1"/>
+						<Slot ID="2" ParameterToUpdate="B10S2"/>
+						<Slot ID="3" ParameterToUpdate="B10S3"/>
+						<Slot ID="4" ParameterToUpdate="B10S4"/>
+						<Slot ID="5" ParameterToUpdate="B10S5"/>
+						<Slot ID="6" ParameterToUpdate="B10S6"/>
+						<Slot ID="7" ParameterToUpdate="B10S7"/>
+						<Slot ID="8" ParameterToUpdate="B10S8"/>
+						<Slot ID="9" ParameterToUpdate="B10S9"/>
+						<Slot ID="10" ParameterToUpdate="B10S10"/>
+						<Slot ID="11" ParameterToUpdate="B10S11"/>
+					</Base>
+					<Base ID="11" NumberOfSlotsParameter="B11NumSlots">
+						<Power ParameterToUpdate="B11P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B11S0"/>
+						<Slot ID="1" ParameterToUpdate="B11S1"/>
+						<Slot ID="2" ParameterToUpdate="B11S2"/>
+						<Slot ID="3" ParameterToUpdate="B11S3"/>
+						<Slot ID="4" ParameterToUpdate="B11S4"/>
+						<Slot ID="5" ParameterToUpdate="B11S5"/>
+						<Slot ID="6" ParameterToUpdate="B11S6"/>
+						<Slot ID="7" ParameterToUpdate="B11S7"/>
+						<Slot ID="8" ParameterToUpdate="B11S8"/>
+						<Slot ID="9" ParameterToUpdate="B11S9"/>
+						<Slot ID="10" ParameterToUpdate="B11S10"/>
+						<Slot ID="11" ParameterToUpdate="B11S11"/>
+					</Base>
+					<Base ID="12" NumberOfSlotsParameter="B12NumSlots">
+						<Power ParameterToUpdate="B12P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B12S0"/>
+						<Slot ID="1" ParameterToUpdate="B12S1"/>
+						<Slot ID="2" ParameterToUpdate="B12S2"/>
+						<Slot ID="3" ParameterToUpdate="B12S3"/>
+						<Slot ID="4" ParameterToUpdate="B12S4"/>
+						<Slot ID="5" ParameterToUpdate="B12S5"/>
+						<Slot ID="6" ParameterToUpdate="B12S6"/>
+						<Slot ID="7" ParameterToUpdate="B12S7"/>
+						<Slot ID="8" ParameterToUpdate="B12S8"/>
+						<Slot ID="9" ParameterToUpdate="B12S9"/>
+						<Slot ID="10" ParameterToUpdate="B12S10"/>
+						<Slot ID="11" ParameterToUpdate="B12S11"/>
+					</Base>
+					<Base ID="13" NumberOfSlotsParameter="B13NumSlots">
+						<Power ParameterToUpdate="B13P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B13S0"/>
+						<Slot ID="1" ParameterToUpdate="B13S1"/>
+						<Slot ID="2" ParameterToUpdate="B13S2"/>
+						<Slot ID="3" ParameterToUpdate="B13S3"/>
+						<Slot ID="4" ParameterToUpdate="B13S4"/>
+						<Slot ID="5" ParameterToUpdate="B13S5"/>
+						<Slot ID="6" ParameterToUpdate="B13S6"/>
+						<Slot ID="7" ParameterToUpdate="B13S7"/>
+						<Slot ID="8" ParameterToUpdate="B13S8"/>
+						<Slot ID="9" ParameterToUpdate="B13S9"/>
+						<Slot ID="10" ParameterToUpdate="B13S10"/>
+						<Slot ID="11" ParameterToUpdate="B13S11"/>
+					</Base>
+					<Base ID="14" NumberOfSlotsParameter="B14NumSlots">
+						<Power ParameterToUpdate="B14P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B14S0"/>
+						<Slot ID="1" ParameterToUpdate="B14S1"/>
+						<Slot ID="2" ParameterToUpdate="B14S2"/>
+						<Slot ID="3" ParameterToUpdate="B14S3"/>
+						<Slot ID="4" ParameterToUpdate="B14S4"/>
+						<Slot ID="5" ParameterToUpdate="B14S5"/>
+						<Slot ID="6" ParameterToUpdate="B14S6"/>
+						<Slot ID="7" ParameterToUpdate="B14S7"/>
+						<Slot ID="8" ParameterToUpdate="B14S8"/>
+						<Slot ID="9" ParameterToUpdate="B14S9"/>
+						<Slot ID="10" ParameterToUpdate="B14S10"/>
+						<Slot ID="11" ParameterToUpdate="B14S11"/>
+					</Base>
+					<Base ID="15" NumberOfSlotsParameter="B15NumSlots">
+						<Power ParameterToUpdate="B15P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B15S0"/>
+						<Slot ID="1" ParameterToUpdate="B15S1"/>
+						<Slot ID="2" ParameterToUpdate="B15S2"/>
+						<Slot ID="3" ParameterToUpdate="B15S3"/>
+						<Slot ID="4" ParameterToUpdate="B15S4"/>
+						<Slot ID="5" ParameterToUpdate="B15S5"/>
+						<Slot ID="6" ParameterToUpdate="B15S6"/>
+						<Slot ID="7" ParameterToUpdate="B15S7"/>
+						<Slot ID="8" ParameterToUpdate="B15S8"/>
+						<Slot ID="9" ParameterToUpdate="B15S9"/>
+						<Slot ID="10" ParameterToUpdate="B15S10"/>
+						<Slot ID="11" ParameterToUpdate="B15S11"/>
+					</Base>
+					<Base ID="16" NumberOfSlotsParameter="B16NumSlots">
+						<Power ParameterToUpdate="B16P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B16S0"/>
+						<Slot ID="1" ParameterToUpdate="B16S1"/>
+						<Slot ID="2" ParameterToUpdate="B16S2"/>
+						<Slot ID="3" ParameterToUpdate="B16S3"/>
+						<Slot ID="4" ParameterToUpdate="B16S4"/>
+						<Slot ID="5" ParameterToUpdate="B16S5"/>
+						<Slot ID="6" ParameterToUpdate="B16S6"/>
+						<Slot ID="7" ParameterToUpdate="B16S7"/>
+						<Slot ID="8" ParameterToUpdate="B16S8"/>
+						<Slot ID="9" ParameterToUpdate="B16S9"/>
+						<Slot ID="10" ParameterToUpdate="B16S10"/>
+						<Slot ID="11" ParameterToUpdate="B16S11"/>
+					</Base>
+					<Base ID="17" NumberOfSlotsParameter="B17NumSlots">
+						<Power ParameterToUpdate="B17P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B17S0"/>
+						<Slot ID="1" ParameterToUpdate="B17S1"/>
+						<Slot ID="2" ParameterToUpdate="B17S2"/>
+						<Slot ID="3" ParameterToUpdate="B17S3"/>
+						<Slot ID="4" ParameterToUpdate="B17S4"/>
+						<Slot ID="5" ParameterToUpdate="B17S5"/>
+						<Slot ID="6" ParameterToUpdate="B17S6"/>
+						<Slot ID="7" ParameterToUpdate="B17S7"/>
+						<Slot ID="8" ParameterToUpdate="B17S8"/>
+						<Slot ID="9" ParameterToUpdate="B17S9"/>
+						<Slot ID="10" ParameterToUpdate="B17S10"/>
+						<Slot ID="11" ParameterToUpdate="B17S11"/>
+					</Base>
+					<Base ID="18" NumberOfSlotsParameter="B18NumSlots">
+						<Power ParameterToUpdate="B18P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B18S0"/>
+						<Slot ID="1" ParameterToUpdate="B18S1"/>
+						<Slot ID="2" ParameterToUpdate="B18S2"/>
+						<Slot ID="3" ParameterToUpdate="B18S3"/>
+						<Slot ID="4" ParameterToUpdate="B18S4"/>
+						<Slot ID="5" ParameterToUpdate="B18S5"/>
+						<Slot ID="6" ParameterToUpdate="B18S6"/>
+						<Slot ID="7" ParameterToUpdate="B18S7"/>
+						<Slot ID="8" ParameterToUpdate="B18S8"/>
+						<Slot ID="9" ParameterToUpdate="B18S9"/>
+						<Slot ID="10" ParameterToUpdate="B18S10"/>
+						<Slot ID="11" ParameterToUpdate="B18S11"/>
+					</Base>
+					<Base ID="19" NumberOfSlotsParameter="B19NumSlots">
+						<Power ParameterToUpdate="B19P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B19S0"/>
+						<Slot ID="1" ParameterToUpdate="B19S1"/>
+						<Slot ID="2" ParameterToUpdate="B19S2"/>
+						<Slot ID="3" ParameterToUpdate="B19S3"/>
+						<Slot ID="4" ParameterToUpdate="B19S4"/>
+						<Slot ID="5" ParameterToUpdate="B19S5"/>
+						<Slot ID="6" ParameterToUpdate="B19S6"/>
+						<Slot ID="7" ParameterToUpdate="B19S7"/>
+						<Slot ID="8" ParameterToUpdate="B19S8"/>
+						<Slot ID="9" ParameterToUpdate="B19S9"/>
+						<Slot ID="10" ParameterToUpdate="B19S10"/>
+						<Slot ID="11" ParameterToUpdate="B19S11"/>
+					</Base>
+					<Base ID="20" NumberOfSlotsParameter="B20NumSlots">
+						<Power ParameterToUpdate="B20P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B20S0"/>
+						<Slot ID="1" ParameterToUpdate="B20S1"/>
+						<Slot ID="2" ParameterToUpdate="B20S2"/>
+						<Slot ID="3" ParameterToUpdate="B20S3"/>
+						<Slot ID="4" ParameterToUpdate="B20S4"/>
+						<Slot ID="5" ParameterToUpdate="B20S5"/>
+						<Slot ID="6" ParameterToUpdate="B20S6"/>
+						<Slot ID="7" ParameterToUpdate="B20S7"/>
+						<Slot ID="8" ParameterToUpdate="B20S8"/>
+						<Slot ID="9" ParameterToUpdate="B20S9"/>
+						<Slot ID="10" ParameterToUpdate="B20S10"/>
+						<Slot ID="11" ParameterToUpdate="B20S11"/>
+					</Base>
+					<Base ID="21" NumberOfSlotsParameter="B21NumSlots">
+						<Power ParameterToUpdate="B21P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B21S0"/>
+						<Slot ID="1" ParameterToUpdate="B21S1"/>
+						<Slot ID="2" ParameterToUpdate="B21S2"/>
+						<Slot ID="3" ParameterToUpdate="B21S3"/>
+						<Slot ID="4" ParameterToUpdate="B21S4"/>
+						<Slot ID="5" ParameterToUpdate="B21S5"/>
+						<Slot ID="6" ParameterToUpdate="B21S6"/>
+						<Slot ID="7" ParameterToUpdate="B21S7"/>
+						<Slot ID="8" ParameterToUpdate="B21S8"/>
+						<Slot ID="9" ParameterToUpdate="B21S9"/>
+						<Slot ID="10" ParameterToUpdate="B21S10"/>
+						<Slot ID="11" ParameterToUpdate="B21S11"/>
+					</Base>
+					<Base ID="22" NumberOfSlotsParameter="B22NumSlots">
+						<Power ParameterToUpdate="B22P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B22S0"/>
+						<Slot ID="1" ParameterToUpdate="B22S1"/>
+						<Slot ID="2" ParameterToUpdate="B22S2"/>
+						<Slot ID="3" ParameterToUpdate="B22S3"/>
+						<Slot ID="4" ParameterToUpdate="B22S4"/>
+						<Slot ID="5" ParameterToUpdate="B22S5"/>
+						<Slot ID="6" ParameterToUpdate="B22S6"/>
+						<Slot ID="7" ParameterToUpdate="B22S7"/>
+						<Slot ID="8" ParameterToUpdate="B22S8"/>
+						<Slot ID="9" ParameterToUpdate="B22S9"/>
+						<Slot ID="10" ParameterToUpdate="B22S10"/>
+						<Slot ID="11" ParameterToUpdate="B22S11"/>
+					</Base>
+					<Base ID="23" NumberOfSlotsParameter="B23NumSlots">
+						<Power ParameterToUpdate="B23P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B23S0"/>
+						<Slot ID="1" ParameterToUpdate="B23S1"/>
+						<Slot ID="2" ParameterToUpdate="B23S2"/>
+						<Slot ID="3" ParameterToUpdate="B23S3"/>
+						<Slot ID="4" ParameterToUpdate="B23S4"/>
+						<Slot ID="5" ParameterToUpdate="B23S5"/>
+						<Slot ID="6" ParameterToUpdate="B23S6"/>
+						<Slot ID="7" ParameterToUpdate="B23S7"/>
+						<Slot ID="8" ParameterToUpdate="B23S8"/>
+						<Slot ID="9" ParameterToUpdate="B23S9"/>
+						<Slot ID="10" ParameterToUpdate="B23S10"/>
+						<Slot ID="11" ParameterToUpdate="B23S11"/>
+					</Base>
+					<Base ID="24" NumberOfSlotsParameter="B24NumSlots">
+						<Power ParameterToUpdate="B24P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B24S0"/>
+						<Slot ID="1" ParameterToUpdate="B24S1"/>
+						<Slot ID="2" ParameterToUpdate="B24S2"/>
+						<Slot ID="3" ParameterToUpdate="B24S3"/>
+						<Slot ID="4" ParameterToUpdate="B24S4"/>
+						<Slot ID="5" ParameterToUpdate="B24S5"/>
+						<Slot ID="6" ParameterToUpdate="B24S6"/>
+						<Slot ID="7" ParameterToUpdate="B24S7"/>
+						<Slot ID="8" ParameterToUpdate="B24S8"/>
+						<Slot ID="9" ParameterToUpdate="B24S9"/>
+						<Slot ID="10" ParameterToUpdate="B24S10"/>
+						<Slot ID="11" ParameterToUpdate="B24S11"/>
+					</Base>
+					<Base ID="25" NumberOfSlotsParameter="B25NumSlots">
+						<Power ParameterToUpdate="B25P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B25S0"/>
+						<Slot ID="1" ParameterToUpdate="B25S1"/>
+						<Slot ID="2" ParameterToUpdate="B25S2"/>
+						<Slot ID="3" ParameterToUpdate="B25S3"/>
+						<Slot ID="4" ParameterToUpdate="B25S4"/>
+						<Slot ID="5" ParameterToUpdate="B25S5"/>
+						<Slot ID="6" ParameterToUpdate="B25S6"/>
+						<Slot ID="7" ParameterToUpdate="B25S7"/>
+						<Slot ID="8" ParameterToUpdate="B25S8"/>
+						<Slot ID="9" ParameterToUpdate="B25S9"/>
+						<Slot ID="10" ParameterToUpdate="B25S10"/>
+						<Slot ID="11" ParameterToUpdate="B25S11"/>
+					</Base>
+					<Base ID="26" NumberOfSlotsParameter="B26NumSlots">
+						<Power ParameterToUpdate="B26P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B26S0"/>
+						<Slot ID="1" ParameterToUpdate="B26S1"/>
+						<Slot ID="2" ParameterToUpdate="B26S2"/>
+						<Slot ID="3" ParameterToUpdate="B26S3"/>
+						<Slot ID="4" ParameterToUpdate="B26S4"/>
+						<Slot ID="5" ParameterToUpdate="B26S5"/>
+						<Slot ID="6" ParameterToUpdate="B26S6"/>
+						<Slot ID="7" ParameterToUpdate="B26S7"/>
+						<Slot ID="8" ParameterToUpdate="B26S8"/>
+						<Slot ID="9" ParameterToUpdate="B26S9"/>
+						<Slot ID="10" ParameterToUpdate="B26S10"/>
+						<Slot ID="11" ParameterToUpdate="B26S11"/>
+					</Base>
+					<Base ID="27" NumberOfSlotsParameter="B27NumSlots">
+						<Power ParameterToUpdate="B27P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B27S0"/>
+						<Slot ID="1" ParameterToUpdate="B27S1"/>
+						<Slot ID="2" ParameterToUpdate="B27S2"/>
+						<Slot ID="3" ParameterToUpdate="B27S3"/>
+						<Slot ID="4" ParameterToUpdate="B27S4"/>
+						<Slot ID="5" ParameterToUpdate="B27S5"/>
+						<Slot ID="6" ParameterToUpdate="B27S6"/>
+						<Slot ID="7" ParameterToUpdate="B27S7"/>
+						<Slot ID="8" ParameterToUpdate="B27S8"/>
+						<Slot ID="9" ParameterToUpdate="B27S9"/>
+						<Slot ID="10" ParameterToUpdate="B27S10"/>
+						<Slot ID="11" ParameterToUpdate="B27S11"/>
+					</Base>
+					<Base ID="28" NumberOfSlotsParameter="B28NumSlots">
+						<Power ParameterToUpdate="B28P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B28S0"/>
+						<Slot ID="1" ParameterToUpdate="B28S1"/>
+						<Slot ID="2" ParameterToUpdate="B28S2"/>
+						<Slot ID="3" ParameterToUpdate="B28S3"/>
+						<Slot ID="4" ParameterToUpdate="B28S4"/>
+						<Slot ID="5" ParameterToUpdate="B28S5"/>
+						<Slot ID="6" ParameterToUpdate="B28S6"/>
+						<Slot ID="7" ParameterToUpdate="B28S7"/>
+						<Slot ID="8" ParameterToUpdate="B28S8"/>
+						<Slot ID="9" ParameterToUpdate="B28S9"/>
+						<Slot ID="10" ParameterToUpdate="B28S10"/>
+						<Slot ID="11" ParameterToUpdate="B28S11"/>
+					</Base>
+					<Base ID="29" NumberOfSlotsParameter="B29NumSlots">
+						<Power ParameterToUpdate="B29P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B29S0"/>
+						<Slot ID="1" ParameterToUpdate="B29S1"/>
+						<Slot ID="2" ParameterToUpdate="B29S2"/>
+						<Slot ID="3" ParameterToUpdate="B29S3"/>
+						<Slot ID="4" ParameterToUpdate="B29S4"/>
+						<Slot ID="5" ParameterToUpdate="B29S5"/>
+						<Slot ID="6" ParameterToUpdate="B29S6"/>
+						<Slot ID="7" ParameterToUpdate="B29S7"/>
+						<Slot ID="8" ParameterToUpdate="B29S8"/>
+						<Slot ID="9" ParameterToUpdate="B29S9"/>
+						<Slot ID="10" ParameterToUpdate="B29S10"/>
+						<Slot ID="11" ParameterToUpdate="B29S11"/>
+					</Base>
+					<Base ID="30" NumberOfSlotsParameter="B30NumSlots">
+						<Power ParameterToUpdate="B30P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B30S0"/>
+						<Slot ID="1" ParameterToUpdate="B30S1"/>
+						<Slot ID="2" ParameterToUpdate="B30S2"/>
+						<Slot ID="3" ParameterToUpdate="B30S3"/>
+						<Slot ID="4" ParameterToUpdate="B30S4"/>
+						<Slot ID="5" ParameterToUpdate="B30S5"/>
+						<Slot ID="6" ParameterToUpdate="B30S6"/>
+						<Slot ID="7" ParameterToUpdate="B30S7"/>
+						<Slot ID="8" ParameterToUpdate="B30S8"/>
+						<Slot ID="9" ParameterToUpdate="B30S9"/>
+						<Slot ID="10" ParameterToUpdate="B30S10"/>
+						<Slot ID="11" ParameterToUpdate="B30S11"/>
+					</Base>
+					<Base ID="31" NumberOfSlotsParameter="B31NumSlots">
+						<Power ParameterToUpdate="B31P" DataType="INT2"/>
+						<Slot ID="0" ParameterToUpdate="B31S0"/>
+						<Slot ID="1" ParameterToUpdate="B31S1"/>
+						<Slot ID="2" ParameterToUpdate="B31S2"/>
+						<Slot ID="3" ParameterToUpdate="B31S3"/>
+						<Slot ID="4" ParameterToUpdate="B31S4"/>
+						<Slot ID="5" ParameterToUpdate="B31S5"/>
+						<Slot ID="6" ParameterToUpdate="B31S6"/>
+						<Slot ID="7" ParameterToUpdate="B31S7"/>
+						<Slot ID="8" ParameterToUpdate="B31S8"/>
+						<Slot ID="9" ParameterToUpdate="B31S9"/>
+						<Slot ID="10" ParameterToUpdate="B31S10"/>
+						<Slot ID="11" ParameterToUpdate="B31S11"/>
+					</Base>
+				</BaseSlotInfo>
+				<MasterInfo ScanPeriod="10" DataType="INT2">
+					<MasterRead Address="F2048" ParameterToUpdate="MSTR_SYS_STATE_RUN"/>
+					<MasterRead Address="F2049" ParameterToUpdate="MSTR_SYS_STATE_STOP"/>
+					<MasterRead Address="F2050" ParameterToUpdate="MSTR_SYS_STATE_ERROR"/>
+					<MasterRead Address="F0066" ParameterToUpdate="MSTR_SYS_STATE_WAR" DataType="INT4"/>
+					<MasterRead Address="F2054" ParameterToUpdate="MSTR_SYS_STATE_REMOTE_CON"/>
+				</MasterInfo>
+				<StandbyInfo ScanPeriod="10" DataType="INT2">
+					<StandbyRead Address="F4096" ParameterToUpdate="STBY_SYS_STATE_RUN"/>
+					<StandbyRead Address="F4097" ParameterToUpdate="STBY_SYS_STATE_STOP"/>
+					<StandbyRead Address="F4098" ParameterToUpdate="STBY_SYS_STATE_ERROR"/>
+					<StandbyRead Address="F0130" ParameterToUpdate="STBY_SYS_STATE_WAR" DataType="INT4"/>
+					<StandbyRead Address="F4102" ParameterToUpdate="STBY_SYS_STATE_REMOTE_CON"/>
+				</StandbyInfo>
+				<RedundancyStatusInfo ScanPeriod="10" DataType="INT2">
+					<RedantRead Address="F2123" ParameterToUpdate="RING_TOPOLOGY"/>
+					<RedantRead Address="F2121" ParameterToUpdate="REDUNDANCY"/>
+					<RedantRead Address="F2074" ParameterToUpdate="CPU_SIDE_A_B"/>
+					<RedantRead Address="F83" ParameterToUpdate="BOTH_POWER_MODULE_DETACH_ERR" DataType="INT4"/>
+					<!--IO redundancy module support FEAT13-->
+					<RedantRead Address="F2016" ParameterToUpdate="MSTR_EXTN_REDUN"/>
+					<RedantRead Address="F2017" ParameterToUpdate="SB_EXTN_REDUN"/>
+					<RedantRead Address="F4171" ParameterToUpdate="SB_RING_WAR" Description="Standby Ring Topology Failed"/>
+					<RedantRead Address="F2111" ParameterToUpdate="SYS_CON_ER" Description="Redundancy system configuration Error"/>
+					<RedantRead Address="F2138" ParameterToUpdate="SYS_CON_WAR" Description="Redundancy system configuration Warning"/>
+				</RedundancyStatusInfo>
+			</PLCFamily>
+		</PLCSpecificConfigInfo>
+		<!-- AlarmInfo: Status UDP updation and Alarm Configuration related to ML200 and above PLC type (Total of 24 bytes of Status response is received from PLC) -->
+		<!-- Value0ShapeIndex: Default Index of the shape (StsIndication1.Sha) to be used when the value of the bit is 0. This is a configuration for the colors to be used for displaying -->
+		<!-- the status in MLPLC_Status Graphics page. Value0ShapeIndex attribute can be defined at any subnode level to over-ride this default value-->
+		<!-- Value1ShapeIndex: Default Index of the shape (StsIndication1.Sha) to be used when the value of the bit is 1. This is a configuration for the colors to be used for displaying -->
+		<!-- the status in MLPLC_Status Graphics page. Value0ShapeIndex attribute can be defined at any subnode level to over-ride this default value-->
+		<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- Priority: Default Priority for Alarms raised based on the present value of that Bit. Priority attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- 0 - Low, 1 - Normal, 2 - High, 3 - Urgent -->
+		<!-- Alarm: Default setting for raising Alarms based on the present value of that Bit. Alarm attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- F - Don't raise Alarm for this status Bit,  1 - Raise Alarm for this Status Bit when the value is 1,  0 - Raise Alarm for this Status Bit when the value is 0, -->
+		<!-- C - Raise Alarm for this Status Bit when the value changes (either from 0 to 1 or 1 to 0) -->
+		<AlarmInfo Value0ShapeIndex="1" Value1ShapeIndex="3" DataType="INT2" Priority="2" Alarm="F">
+			<!-- ID: Bit position within the Status Response for which the parameters are being configured-->
+			<!-- Desc: Description for the status bit -->
+			<!-- ParameterToUpdate: Epks Parameter which is updated with the value of the Status Bit -->
+			<!--	_SLOT_INFO_	-->
+			<Bit ID="0" Desc="Slot 0 info on remote connection from local port to other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_LOC_0"/>
+			<Bit ID="1" Desc="Slot 1 info on remote connection from local port to other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_LOC_1"/>
+			<Bit ID="2" Desc="Slot 2 info on remote connection from local port to other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_LOC_2"/>
+			<Bit ID="3" Desc="Slot 3 info on remote connection from local port to other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_LOC_3"/>
+			<Bit ID="4" Desc="Base 0 info on remote connection from local port to other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_0"/>
+			<Bit ID="5" Desc="Base 1 info on remote connection from local port to other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_1"/>
+			<Bit ID="6" Desc="Base 2 info on remote connection from local port to other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_2"/>
+			<Bit ID="7" Desc="Base 3 info on remote connection from local port to other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_3"/>
+			<Bit ID="8" Desc="Slot 0 info on remote connection from other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_OTH_0"/>
+			<Bit ID="9" Desc="Slot 1 info on remote connection from other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_OTH_1"/>
+			<Bit ID="10" Desc="Slot 2 info on remote connection from other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_OTH_2"/>
+			<Bit ID="11" Desc="Slot 3 info on remote connection from other ports" ParameterToUpdate="SLOT_INFO_REMOTE_CON_OTH_3"/>
+			<Bit ID="12" Desc="Base 0 info on remote connection from other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_0"/>
+			<Bit ID="13" Desc="Base 1 info on remote connection from other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_1"/>
+			<Bit ID="14" Desc="Base 2 info on remote connection from other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_2"/>
+			<Bit ID="15" Desc="Base 3 info on remote connection from other ports" ParameterToUpdate="BASE_INFO_REMOTE_CON_LOC_3"/>
+			<Bit ID="16" Desc="Bit 0 of Module built-in slot information" ParameterToUpdate="MOD_BUILT_IN_SLOT_INFO_0"/>
+			<Bit ID="17" Desc="Bit 1 of Module built-in slot information" ParameterToUpdate="MOD_BUILT_IN_SLOT_INFO_1"/>
+			<Bit ID="18" Desc="Bit 2 of Module built-in slot information" ParameterToUpdate="MOD_BUILT_IN_SLOT_INFO_2"/>
+			<Bit ID="19" Desc="Bit 3 of Module built-in slot information" ParameterToUpdate="MOD_BUILT_IN_SLOT_INFO_3"/>
+			<Bit ID="20" Desc="Bit 0 of Module built-in base information" ParameterToUpdate="MOD_BUILT_IN_BASE_INFO_0"/>
+			<Bit ID="21" Desc="Bit 1 of Module built-in base information" ParameterToUpdate="MOD_BUILT_IN_BASE_INFO_1"/>
+			<Bit ID="22" Desc="Bit 2 of Module built-in base information" ParameterToUpdate="MOD_BUILT_IN_BASE_INFO_2"/>
+			<Bit ID="23" Desc="Bit 3 of Module built-in base information" ParameterToUpdate="MOD_BUILT_IN_BASE_INFO_3"/>
+			<!-- Bit ID="24 - 31" Reserved -->
+			<!--	 _CPU_TYPE_	-->
+			<Bit ID="32-47" Desc="CPU Type" DataType="CHAR" ParameterToUpdate="CPU_TYPE"/>
+			<!-- 	_PADT_CNF	 -->
+			<Bit ID="48" Desc="PADT_CNF_0" ParameterToUpdate="PADT_CNF_0"/>
+			<Bit ID="49" Desc="PADT_CNF_1" ParameterToUpdate="PADT_CNF_1"/>
+			<Bit ID="50" Desc="PADT_CNF_2" ParameterToUpdate="PADT_CNF_2"/>
+			<Bit ID="51" Desc="PADT_CNF_3" ParameterToUpdate="PADT_CNF_3"/>
+			<Bit ID="52" Desc="PADT_CNF_4" ParameterToUpdate="PADT_CNF_4"/>
+			<Bit ID="53" Desc="PADT_CNF_5" ParameterToUpdate="PADT_CNF_5"/>
+			<Bit ID="54" Desc="PADT_CNF_6" ParameterToUpdate="PADT_CNF_6"/>
+			<Bit ID="55" Desc="PADT_CNF_7" ParameterToUpdate="PADT_CNF_7"/>
+			<Bit ID="56" Desc="PADT_CNF_8" ParameterToUpdate="PADT_CNF_8"/>
+			<Bit ID="57" Desc="PADT_CNF_9" ParameterToUpdate="PADT_CNF_9"/>
+			<Bit ID="58" Desc="PADT_CNF_10" ParameterToUpdate="PADT_CNF_10"/>
+			<Bit ID="59" Desc="PADT_CNF_11" ParameterToUpdate="PADT_CNF_11"/>
+			<Bit ID="60" Desc="PADT_CNF_12" ParameterToUpdate="PADT_CNF_12"/>
+			<Bit ID="61" Desc="PADT_CNF_13" ParameterToUpdate="PADT_CNF_13"/>
+			<Bit ID="62" Desc="PADT_CNF_14" ParameterToUpdate="PADT_CNF_14"/>
+			<Bit ID="63" Desc="PADT_CNF_15" ParameterToUpdate="PADT_CNF_15"/>
+			<!--	 _SYS_STATE_	-->
+			<Bit ID="64" Desc="CPU Operation - RUN Mode" ParameterToUpdate="SYS_STATE_RUN"/>
+			<Bit ID="65" Desc="CPU Operation - STOP Mode" ParameterToUpdate="SYS_STATE_STOP" Value0ShapeIndex="1" Value1ShapeIndex="2"/>
+			<Bit ID="66" Desc="CPU Operation - ERROR Mode" ParameterToUpdate="SYS_STATE_ERROR" Value0ShapeIndex="1" Value1ShapeIndex="2" Alarm="1"/>
+			<Bit ID="67" Desc="CPU Operation - CPU module's operation DEBUG Mode" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_DEBUG"/>
+			<Bit ID="68" Desc="Local Control Mode" ParameterToUpdate="SYS_STATE_LOCAL_CON"/>
+			<Bit ID="69" Desc="Modbus Mode" ParameterToUpdate="SYS_STATE_MODBUS_CON"/>
+			<Bit ID="70" Desc="REMOTE Mode" ParameterToUpdate="SYS_STATE_REMOTE_CON"/>
+			<!-- Bit ID="71" Reserved -->
+			<Bit ID="72" Desc="Revising on the Run (Program Download)" ParameterToUpdate="SYS_STATE_RUN_EDIT_ST"/>
+			<Bit ID="73" Desc="Revising on the Run (Internal processing)" ParameterToUpdate="SYS_STATE_RUN_EDIT_CHK"/>
+			<Bit ID="74" Desc="Revising Completion on the Run" ParameterToUpdate="SYS_STATE_RUN_EDIT_DONE"/>
+			<Bit ID="75" Desc="Revising on the Run/Internal Flag" ParameterToUpdate="SYS_STATE_RUN_EDIT_END"/>
+			<Bit ID="76" Desc="Operation Mode change by key" ParameterToUpdate="SYS_STATE_CMOD_KEY"/>
+			<Bit ID="77" Desc="Operation Mode change by Local PADT" ParameterToUpdate="SYS_STATE_CMOD_LPADT"/>
+			<Bit ID="78" Desc="Operation Mode change by Remote PADT" ParameterToUpdate="SYS_STATE_CMOD_RPADT"/>
+			<Bit ID="79" Desc="Operation Mode change by Remote Communication module" ParameterToUpdate="SYS_STATE_CMOD_RLINK"/>
+			<Bit ID="80" Desc="Force On/Off by input points" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_FORCE_IN"/>
+			<Bit ID="81" Desc="Force On/Off by output points" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_FORCE_OUT"/>
+			<Bit ID="82" Desc="Input/Output Skip running" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_SKIP_ON"/>
+			<Bit ID="83" Desc="Trouble Mask Running" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_EMASK_ON"/>
+			<Bit ID="84" Desc="Monitor Running" ParameterToUpdate="SYS_STATE_MON_ON"/>
+			<Bit ID="85" Desc="Stop by Stop function" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_USTOP_ON"/>
+			<Bit ID="86" Desc="Stop by ESTOP function" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="SYS_STATE_ESTOP_ON"/>
+			<Bit ID="87" Desc="Compile Running" ParameterToUpdate="SYS_STATE_COMPILE_MODE"/>
+			<Bit ID="88" Desc="Initializing Task" ParameterToUpdate="SYS_STATE_INIT_RUN"/>
+			<!-- Bit ID="89 - 91" Reserved -->
+			<Bit ID="92" Desc="#1 Program code running" ParameterToUpdate="SYS_STATE_PB1"/>
+			<Bit ID="93" Desc="#2 Program code running" ParameterToUpdate="SYS_STATE_PB2"/>
+			<Bit ID="94" Desc="#1 Compile code running" ParameterToUpdate="SYS_STATE_CB1"/>
+			<Bit ID="95" Desc="#2 Compile code running" ParameterToUpdate="SYS_STATE_CB2"/>
+			<!-- 	_CNF_ER_	-->
+			<Bit ID="96" Desc="CPU configuration error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_CPU_ER" Alarm="1"/>
+			<Bit ID="97" Desc="Module type discordance error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_IO_TY_ER" Priority="3" Alarm="1"/>
+			<Bit ID="98" Desc="Module disconnection error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_IO_DE_ER" Priority="3" Alarm="1"/>
+			<Bit ID="99" Desc="Fuse short error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_FUSE_ER" Priority="3" Alarm="1"/>
+			<Bit ID="100" Desc="I/O Module Read/Write error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_IO_RW_ER" Alarm="1"/>
+			<Bit ID="101" Desc="Special/Communication module interface error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_IP_IF_ER" Priority="3" Alarm="1"/>
+			<Bit ID="102" Desc="Serious trouble in external equipments" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_ANNUM_ER" Priority="3" Alarm="1"/>
+			<!-- Bit ID="103" Reserved -->
+			<Bit ID="104" Desc="Basic parameter error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_BPRM_ER" Alarm="1"/>
+			<Bit ID="105" Desc="I/O Configuration parameter error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_IOPRM_ER" Alarm="1"/>
+			<Bit ID="106" Desc="Special module parameter error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_SPPRM_ER" Alarm="1"/>
+			<Bit ID="107" Desc="Communication module parameter error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_CPPRM_ER" Alarm="1"/>
+			<Bit ID="108" Desc="Program error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_PGM_ER" Alarm="1"/>
+			<Bit ID="109" Desc="Program code error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_CODE_ER" Alarm="1"/>
+			<Bit ID="110" Desc="System watch dog error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_SWDT_ER" Priority="3" Alarm="1"/>
+			<Bit ID="111" Desc="Base Power error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_BASE_POWER_ER" Priority="3" Alarm="1"/>
+			<Bit ID="112" Desc="Scan watch dog error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_ER_WDT_ER" Priority="3" Alarm="1"/>
+			<!-- Bit ID="113 - 127" Reserved -->
+			<!--	_CNF_WAR_	-->
+			<Bit ID="128" Desc="RTC data error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_RTC_ER" Alarm="1"/>
+			<Bit ID="129" Desc="Data Backup error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_DBCK_ER" Alarm="1"/>
+			<Bit ID="130" Desc="Hot restart error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_HBCK_ER" Alarm="1"/>
+			<Bit ID="131" Desc="Abnormal operation stop" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_ABSD_ER" Priority="3" Alarm="1"/>
+			<Bit ID="132" Desc="Task collision" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_TASK_ER" Priority="3" Alarm="1"/>
+			<Bit ID="133" Desc="Battery error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_BAT_ER" Priority="3" Alarm="1"/>
+			<Bit ID="134" Desc="External equipments warning" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_ANNUM_ER" Alarm="1"/>
+			<Bit ID="135" Desc="Log memory full warning" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_LOG_FULL" Alarm="1"/>
+			<!--Fix for PAR 1-EC29CH,1-I76B0I ML shall not raise HSL warnings Removed HSL Bits-->
+			<!--Fix for PAR 1-HXCFEH Changed the fixed cycle error alarm priroity-->
+			<Bit ID="156" Desc="Fixed cycle error" Value0ShapeIndex="1" Value1ShapeIndex="2" ParameterToUpdate="CNF_WAR_CONSTANT_ER" Priority="3" Alarm="1"/>
+			<!-- Bit ID="157-159" Reserved -->
+			<!--	 _VER_NUM_	-->
+			<Bit ID="160-175" Desc="Version" DataType="CHAR" ParameterToUpdate="VER_NUM"/>
+			<!--	 _RESERVED_	-->
+			<!-- Bit ID="176-191" Reserved -->
+		</AlarmInfo>
+		<!-- IOModuleInfo : Configuration of the IO Modules used within the ML200 and above PLC types-->
+		<!-- ShapeIndex: Default Index of the shape (ShapeSlot.Sha) to be used for the IO Module. ShapeIndex attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- ADModule: Default setting for whether the particular module is AD Module or not. ADModule attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- SpecialModule: Default setting for whether the particular module is SpecialModule or not. SpecialModule attribute can be defined at any subnode level to over-ride this default value-->
+		<!-- NumberOfChannels: Default Number Of Channels (useful only if the modules is a Special module). NumberOfChannels attribute can be defined at any subnode level to over-ride this default value -->
+		<!-- FirstColumn: Represents the header name to be displayed for First column in MLPLC_Info graphics page -->
+		<!-- SecondColumn: Represents the header name to be displayed for Second column in MLPLC_Info graphics page -->
+		<!-- ThirdColumn: Represents the header name to be displayed for Third column in MLPLC_Info graphics page -->
+		<IOModuleInfo ShapeIndex="1" ADModule="No" SpecialModule="No" NumberOfChannels="1" FirstColumn="Module#" SecondColumn="Address Information" ThirdColumn="Module Description">
+			<!--Module id for DISOE shape added- FEAT59-->
+			<Module ID="5ABC" Name="2MLF-DISOE" Description="DISOE Module" ShapeIndex="38"/>
+			<Module ID="5A40" Name="2MLL-CH2A" Description="Snet Module, RS-232C/RS-422" ShapeIndex="2"/>
+			<Module ID="25A40" Name="2MLL-CH2A" Description="Snet Module, RS-232C/RS-422" ShapeIndex="2"/>
+			<!--Fix for 1-IC1LQD Module ID for EFMT module is 5A01-->
+			<Module ID="5A01" Name="2MLL-EFMT" Description="Fast Ethernet Module, Optical Master" ShapeIndex="3"/>
+			<Module ID="15A01" Name="2MLL-EFMT" Description="Fast Ethernet Module, Optical Master" ShapeIndex="3"/>
+			<Module ID="5A2F" Name="2MLL-EDSF" Description="Dedicated Ethernet Module, Optical Slave" ShapeIndex="1"/>
+			<Module ID="5A20" Name="2MLL-EDMF" Description="Dedicated Ethernet Module, Optical Master" ShapeIndex="20"/>
+			<Module ID="5A30" Name="2MLL-RMEA" Description="Rnet Module, Rnet Master" ShapeIndex="22"/>
+			<Module ID="5A50" Name="2MLL-FMEA" Description="Fnet Module, Fnet Master" ShapeIndex="1"/>
+			<Module ID="5A10" Name="2MLL-DMEA" Description="Dnet Module, DeviceNet Master" ShapeIndex="19"/>
+			<Module ID="5A1F" Name="2MLL-PMEA" Description="Pnet Module, Profibus-DP Master" ShapeIndex="21"/>
+			<Module ID="35A1F" Name="2MLL-PMEA" Description="Pnet Module, Profibus-DP Master" ShapeIndex="21"/>
+			<Module ID="5A08" Name="2MLL-ESHF" Description="Fast Ethernet Optical Switch Module" ShapeIndex="1"/>
+			<Module ID="A500" Name="2MLI-D21A" Description="DC 24V Input, 8 Contacts (Current Source/Sink Input)" ShapeIndex="13"/>
+			<Module ID="A501" Name="2MLI-D22A" Description="DC 24V Input, 16 Contacts (Current Source Sink Input/Current Source Input)" ShapeIndex="14"/>
+			<Module ID="A502" Name="2MLI-D24A" Description="DC 24V Input, 32 Contacts (Current Source Sink Input/Current Source Input)" ShapeIndex="15"/>
+			<Module ID="1A502" Name="2MLI-D24A" Description="DC 24V Input, 32 Contacts (Current Source Sink Input/Current Source Input)" ShapeIndex="15"/>
+			<Module ID="A503" Name="2MLI-D28A" Description="DC 24V Input, 64 Contacts (Current Source Sink Input/Current Source Input)" ShapeIndex="16"/>
+			<Module ID="A591" Name="2MLI-A12A" Description="AC 110V Input, 16 Contacts" ShapeIndex="30"/>
+			<Module ID="A580" Name="2MLL-A21A" Description="AC 220V Input, 8 Contacts" ShapeIndex="31"/>
+			<Module ID="A50C" Name="2MLQ-RY1A" Description="Relay Output, 8 Contacts (2A, Single COM.)" ShapeIndex="32"/>
+			<Module ID="A50D" Name="2MLQ-RY2A" Description="Relay Output, 16 Contacts (2A, No Varistor/Varistor)" ShapeIndex="23"/>
+			<Module ID="A52D" Name="2MLQ-TR2A" Description="Transistor Output, 16 Contacts (0.5A, Sink Output/Source Output)" ShapeIndex="33"/>
+			<Module ID="A52E" Name="2MLQ-TR4A" Description="Transistor Output, 32 Contacts (0.1A, Sink Output/Source Output)" ShapeIndex="5"/>
+			<Module ID="1A52E" Name="2MLQ-TR4A" Description="Transistor Output, 32 Contacts (0.1A, Sink Output/Source Output)" ShapeIndex="5"/>
+			<Module ID="2A52E" Name="2MLQ-TR4A" Description="Transistor Output, 32 Contacts (0.1A, Sink Output/Source Output)" ShapeIndex="5"/>
+			<Module ID="A52F" Name="2MLQ-TR8A" Description="Transistor Output, 64 Contacts (0.1A, Sink Output/Source Output)" ShapeIndex="24"/>
+			<Module ID="A51D" Name="2MLQ-SS2A" Description="Triac Output, 16 Contacts (1A)" ShapeIndex="39"/>
+			<Module ID="A52A" Name="2MLH-DT4A" Description="DC 24V Input, Transistor Output, 32 Contacts" ShapeIndex="12"/>
+			<Module ID="55F5" Name="2ML-IN16" Description="Default Input 16 Contacts" ShapeIndex="1"/>
+			<Module ID="55F6" Name="2ML-IN32" Description="Default Input 32 Contacts" ShapeIndex="1"/>
+			<Module ID="55F7" Name="2ML-IN64" Description="Default Input 64 Contacts" ShapeIndex="1"/>
+			<Module ID="5A80" Name="2MLF-AV4A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="4" Description="A/D Voltage Input Type(4 Channels)" ShapeIndex="1"/>
+			<Module ID="15A81" Name="2MLF-AV8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Voltage Input Type(8 Channels)" ShapeIndex="4"/>
+			<Module ID="5A81" Name="2MLF-AV8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Voltage Input Type(8 Channels)" ShapeIndex="4"/>
+			<Module ID="5A84" Name="2MLF-AC4A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="4" Description="A/D Current Input Type(4 Channels)" ShapeIndex="1"/>
+			<Module ID="5A85" Name="2MLF-AC8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Current Input Type(8 Channels)" ShapeIndex="25"/>
+			<Module ID="5A8A" Name="2MLF-AD16A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="16" Description="A/D Current Input Type(16 Channels)" ShapeIndex="29"/>
+			<Module ID="15A85" Name="2MLF-AC8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Current Input Type(8 Channels)" ShapeIndex="25"/>
+			<Module ID="5A90" Name="2MLF-DV4A" Description="D/A Voltage Output Type(4 Channels)" ShapeIndex="34"/>
+			<Module ID="5A91" Name="2MLF-DV8A" Description="D/A Voltage Output Type(8 Channels)" ShapeIndex="6"/>
+			<Module ID="5A94" Name="2MLF-DC4A" Description="D/A Current Output Type(4 Channels)" ShapeIndex="26"/>
+			<Module ID="15A94" Name="2MLF-DC4A" Description="D/A Current Output Type(4 Channels)" ShapeIndex="26"/>
+			<Module ID="5A95" Name="2MLF-DC8A" Description="D/A Current Output Type(8 Channels)" ShapeIndex="35"/>
+			<Module ID="5AC0" Name="2MLF-HO2A" Description="High Speed Counter Pulse(OC), Input Type(2 Channels)" ShapeIndex="8"/>
+			<Module ID="5AC4" Name="2MLF-HD2A" Description="High Speed Counter Pulse(LD), Input Type(2 Channels)" ShapeIndex="7"/>
+			<Module ID="5AD0" Name="2MLF-PO1A" Description="Position Control  Pulse(OC), Output Type(1 axis)" ShapeIndex="1"/>
+			<Module ID="5AD1" Name="2MLF-PO2A" Description="Position Control  Pulse(OC), Output Type(2 axis)" ShapeIndex="1"/>
+			<Module ID="5AD2" Name="2MLF-PO3A" Description="Position Control  Pulse(OC), Output Type(3 axis)" ShapeIndex="10"/>
+			<Module ID="5AD4" Name="2MLF-PD1A" Description="Position Control  Pulse(LD), Output Type(1 axis)" ShapeIndex="1"/>
+			<Module ID="5AD5" Name="2MLF-PD2A" Description="Position Control  Pulse(LD), Output Type(2 axis)" ShapeIndex="1"/>
+			<Module ID="5AD6" Name="2MLF-PD3A" Description="Position Control  Pulse(LD), Output Type(3 axis)" ShapeIndex="1"/>
+			<Module ID="5AF2" Name="2MLF-M16M" Description="Motion Control  M-II Type(16 axis)" ShapeIndex="9"/>
+			<Module ID="5AA8" Name="2MLF-RD4A" Description="Temperature Input Type(4 Channels)" ShapeIndex="28"/>
+			<Module ID="5A89" Name="2MLF-AD4S" Description="Isolated-type analog Input Type(4 Channels)" ShapeIndex="37"/>
+			<Module ID="5A9B" Name="2MLF-DC4S" Description="Isolated-type analog Output Type(4 Channels)" ShapeIndex="36"/>
+			<Module ID="35A8B" Name="2MLF-AD8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Voltage Input Type(8 Channels)" ShapeIndex="27"/>
+			<Module ID="5A8B" Name="2MLF-AD8A" ADModule="Yes" SpecialModule="Yes" NumberOfChannels="8" Description="A/D Voltage Input Type(8 Channels)" ShapeIndex="27"/>
+			<!--TC4S added to fix the PAR-1-BY0J7Z-->
+			<Module ID="5AA5" Name="2MLF-TC4S" Description="Temperature Input Type(Isolated Type,4 Channels)" ShapeIndex="11"/>
+			<Module ID="5AA1" Name="2MLL-A21C" Description="Isoalted DI Module" ShapeIndex="40"/>
+		</IOModuleInfo>
+		<!-- MiscellaneousInfo : Miscellaneous PLC Configuration information such as RTC Time and IP Addresses -->
+		<!-- DataType: Default datatype for the parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value -->
+		<MiscellaneousInfo DataType="CHAR">
+			<!-- RTCTimeInfo  : RTC Time Info read from the PLC using RTC Read command -->
+			<!-- ParameterToUpdate: Epks parameter which is updated with the last read RTC time-->
+			<RTCTimeInfo ParameterToUpdate="RTCTime"/>
+			<!-- Parameters Added to avoid Display dependency -->
+			<PLCTypeInfo PLCNameParameter="PLCName" PLCIDParameter="PLCID" PLCTypeParameter="PLCType" NUMOFPLCParameter="NumOfPLC"/>
+			<!--changes for PB based on IO bases-->
+			<ConfiguredBasesInfo ParameterToUpdate="ConfiguredBases"/>
+			<!-- IPAddressInfo : IPAddresses configured for this PLC in MLConfig XML file-->
+			<!-- ParameterToUpdate1: Epks parameter which is updated with Ipaddress1 -->
+			<!-- ParameterToUpdate2: Epks parameter which is updated with Ipaddress2 -->
+			<!-- ParameterToUpdate3: Epks parameter which is updated with Ipaddress3 -->
+			<!-- ParameterToUpdate4: Epks parameter which is updated with Ipaddress4 -->
+			<!-- ActiveDataType: DataType for the EPKS parameter defined by ActiveIPAddress attribute -->
+			<!-- ActiveIPAddress: Epks parameter which is updated with the index of the ActiveIPAddress -->
+			<IPAddressInfo ParameterToUpdate1="IPAddress1" ParameterToUpdate2="IPAddress2" ParameterToUpdate3="IPAddress3" ParameterToUpdate4="IPAddress4" ActiveDataType="INT2" ActiveIPAddress="ActiveIPAddress"/>
+			<PLCScanPeriodInfo DataType="REAL">
+				<MinScanPeriod ParameterToUpdate="MinScanPeriod"/>
+				<MaxScanPeriod ParameterToUpdate="MaxScanPeriod"/>
+				<CurrentScanPeriod ParameterToUpdate="CurrentScanPeriod"/>
+			</PLCScanPeriodInfo>
+		</MiscellaneousInfo>
+	</PLCInfo>
+</MLMonitor>

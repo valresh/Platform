@@ -1,0 +1,72 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="Copyright © 2004-2019 Honeywell International Sàrl.,&#xA;All Rights Reserved." useFirstShapeForBadValue="0" width="103px" height="40px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><scripts><script event="" language="JScript" id="8788F784-6D9F-4B26-8C2D-8E56500B3D52"><![CDATA[var scrFileName = "sp_GSH.js";
+
+var addExternalScript = function(strId,attrSrc,strType) {
+	var name, scriptElement, value;
+	scriptElement = document.createElement('script');
+	scriptElement.id = strId;
+	scriptElement.src =  attrSrc;
+	scriptElement.language = strType;
+	return document.getElementsByTagName('head')[0].appendChild(scriptElement);
+	};
+//Script file location
+if(window.external.Application.environment == 0){ 
+	var re = /(.*\\)[^.]+\\.*\.css/ig;
+	var cssPath = document.getElementById("HDXStylesheet").href;
+	cssPath = cssPath.replace(/\//g,'\\');
+	var tmpURL = re.exec(cssPath)[1] 
+	scrURL = tmpURL+ "Scripts\\" + scrFileName;
+	//auto update CSS Theme
+	var themeCSS = document.getElementById('HDXStylesheet');
+	if (themeCSS)
+	{
+		try
+		{
+			var colorTheme = window.external.application.ColorTheme;
+			var tmpCSSPath = tmpURL + "\CSS";
+			switch ( colorTheme ){
+				case 2:
+					themeCSS.href = tmpCSSPath + "/sp_Light.css";
+					break;
+				case 1:   
+					themeCSS.href = tmpCSSPath + "/sp_Dark.css";
+					break;
+				default:
+					//default to classic theme
+					themeCSS.href = tmpCSSPath + "/sp_Classic.css";
+			}
+		}
+		catch (e)
+		{
+			window.external.Application.LogMessage(">> CSS not configured!");
+		}
+	}
+	//end auto update CSS Theme
+}else{
+	scrURL = window.location.protocol+"//"+window.location.host+"/abstractdisplays/Scripts/" + scrFileName;	
+}
+//Script language
+if(scrURL.indexOf(".vbs")>0){
+	var scriptType = "VBScript.Encode";
+}else if(scrURL.indexOf("_enc.js")>0){
+	var scriptType = "Jscript.Encode";
+}else if(scrURL.indexOf(".js")>0){
+	var scriptType = "Jscript";
+}else{
+	var scriptType ="";
+}
+//Load external script
+var scrobj = addExternalScript("sp_common_gsh",scrURL,scriptType);
+//Debug successful script load
+if((typeof iQualityGood)=='undefined'){
+	var errStr= window.external.Application.CurrentPage + " : >>> " + scrFileName + " : script not imported! path= " + scrURL;
+}else{
+	var errStr = window.external.Application.CurrentPage + " : >>> "  + scrFileName + ": script imported successfully! path= " + scrURL;
+}
+try{
+	var spDebug = /yes|true|on/.test(document.getElementById("page").getStyleClassProperty("SP_Options","hw-sp-debug-enable").toLowerCase());
+}catch(e){
+	var spDebug = false;
+}
+if (window.external.Application.environment == 0 && spDebug){window.external.Application.LogMessage(errStr);}]]></script><script event="onshapeload" language="JScript" id=""><![CDATA[	//Added for backward compatibility with CMenu GSH
+	Page.setAttribute("CMenu_GSH",this.id);]]></script></scripts><parameters><parameter name="Revision" type="Num" description="R511 Rev.1 (Loader)" defaultvalue="R511 Rev.1"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtGSH class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 40px; FONT-FAMILY: Arial; WIDTH: 103px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #0000ff; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 8px; TOP: 8px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" globalscripts hdxproperties="FillColor:#afeeee;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:103;">Common General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

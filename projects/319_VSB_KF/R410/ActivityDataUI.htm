@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+    <TITLE></TITLE>
+
+    <META content="text/html; charset=unicode" http-equiv=Content-Type>
+    <META http-equiv="X-UA-Compatible" content="IE=10">
+
+    <STYLE>
+        HTML {
+            OVERFLOW: hidden; HEIGHT: 100%; WIDTH: 100%
+        }
+        BODY {
+            OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+        }
+        #Page {
+            OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; ZOOM: 1; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+        }
+        .activityDataContainer {
+            OVERFLOW: hidden !important; POSITION: relative; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+        }
+        .activityDataContent {
+            DISPLAY: none; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+        }
+    </STYLE>
+
+    <script type=text/javascript>
+        function getColorTheme() {
+            var colorTheme = -1;
+            try {
+                colorTheme = window.external.application.ColorTheme;
+            } catch (err) {
+            }
+            return colorTheme;
+        }
+
+        var cssFile = "activity-data-ui";
+        switch (getColorTheme()) {
+            case 2: // light
+                cssFile += "-light";
+                break;
+            case 1: // dark
+                cssFile += "-dark";
+                break;
+            case 0: // classic
+            default:
+                cssFile += "-classic";
+                break;
+        }
+        cssFile += ".css";
+
+        var link = document.createElement("link");
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = "./ActivityDataUI_files/Styles/" + cssFile;
+        document.head.appendChild(link);
+
+        // handle zoom change or window rezise
+        function resizePage()
+        {
+            try
+            {	
+                // Size the activity data UI to the entire client area, and always set the zoom to 100%
+                Page.style.pixelWidth = window.innerWidth;
+                Page.style.pixelHeight = window.innerHeight;
+                Page.style.zoom = 1;
+            }
+            catch (e)
+            {
+                // Don't try anything if we got an exception
+                if (window.external && window.external.logMessage) {
+                    window.external.logMessage("ActivityDataUI.htm | resizePage | Exception occurred, " + e.message);
+                }
+            }		
+        }
+
+        function backgroundPropChange()
+        {
+            if (event.propertyName == "style.zoom" || event.propertyName == "style.width" || event.propertyName == "style.height") 
+            {
+                resizePage();
+            }
+        }
+    </script>
+
+    <script data-main="./ActivityDataUI_files/scripts/activity-data-ui" src="./libs/require.js"></script>
+
+	<OBJECT id=HDXPageBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+	<OBJECT id=HDXVectorFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+	<OBJECT id=HDXAlphaBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+	<OBJECT id=HDXPushButtonBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+	<OBJECT id=HSCComboboxBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+	<OBJECT id=HSCCheckBoxBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+	<OBJECT id=HSCIndicatorBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+	<OBJECT id=HoverBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+	<OBJECT id=HDXPopupBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+	<OBJECT id=BindingBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+	<OBJECT id=HSCShapeLinkBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+	<OBJECT id=HSCActiveXDocumentBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+	<OBJECT id=HSCBreakpointBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+	<OBJECT id=HDXLevelFillBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+	<OBJECT id=HDXElementsFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+	<OBJECT id=AlarmStateIconFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+	<OBJECT id=DTFormat style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+	<OBJECT id=HSCScriptDataBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+	<OBJECT id=StnEvtReflector style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+	<OBJECT id=DisplayDataRepository style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>	
+</HEAD>
+
+<BODY style="OVERFLOW: auto" onresize="resizePage()" onload="resizePage()">
+    <DIV id=Page style="HEIGHT: 320px; WIDTH: 800px; ZOOM: 1; BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector) url(#DisplayDataRepository)">
+        <div class="activityDataContainer">
+            <hn-activity-data
+                id="activityData"
+                class="activityDataContent"
+                tabIndex="-1"
+                data-is-popup>
+            </hn-activity-data>
+        </div>
+    </DIV>
+</BODY>
+</HTML>

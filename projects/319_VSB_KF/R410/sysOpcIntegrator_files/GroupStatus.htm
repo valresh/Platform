@@ -1,0 +1,267 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html xmlns:viewlink="">
+    <?import namespace="viewlink" implementation="../Objects/TabSet.htc"> 
+    <?import namespace="viewlink" implementation="../Objects/SystemButton.htc">
+    <head>
+        <meta name="VI60_defaultClientScript" content="VBScript">
+        <meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+        <link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="OpciStyles.css" type="text/css">
+        <title></title>
+        <script language="JavaScript" src="../Scripts/Logging.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/ErrorHandling.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/JSExtensions.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/HTMLUtils.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/Utilities.js" type="text/JavaScript"></script>
+        <script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+        <script id="OpciFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+        <script id="clientEventHandlersVBS" language="vbscript">
+<!--
+Dim g_CurrentProgIDBox
+Dim g_bSettingDirty
+Dim g_Mode
+
+Sub window_onload
+
+    on error resume next
+    Err.Clear
+    
+    ' Check to see that the title frame has connected to the database
+    ' and the mode has been set.  If not then this frame will be reloaded 
+    ' so no need to continue
+    g_Mode = parent.title.g_Mode
+    If (Not parent.title.g_Connected) Or (g_Mode = ERROR_MODE) Then
+        ' Do nothing since we will be reloaded once the title frame is loaded
+        GroupDetails.style.display = "none"
+        WaitingSpan.style.display = "block"
+    Else
+        ' Set up the list box in the title
+        If Not Populate_lstGroups Then Exit Sub
+        parent.title.lstGroups.style.display = ""	
+        parent.title.txtGroupId.style.display = ""	
+        
+        If parent.title.OpciDashboard.CurrentGroup = 0 Then
+            parent.title.txtGroupId_onchange
+            Exit Sub
+        End If
+
+        ' Show the GroupDetails section
+        WaitingSpan.style.display = "none"
+        GroupDetails.style.display = "block"
+    End If
+    
+    If (parent.title.OpciDashboard.GroupBidirectinal) Then
+        lblSrcPrimary1.innerHTML    = "Master Primary:"
+        lblDstPrimary1.innerHTML    = "Slave Primary:"
+        lblSrcBackup1.innerHTML     = "Master Backup:"
+        lblDstBackup1.innerHTML     = "Slave Backup:"
+        lblSrcPrimary2.innerHTML    = "Master Primary:"
+        lblDstPrimary2.innerHTML    = "Slave Primary:"
+        lblSrcBackup2.innerHTML     = "Master Backup:"
+        lblDstBackup2.innerHTML     = "Slave Backup:"
+    End If
+    
+    'set the group status in the title bar
+    ShowGroupStatus
+    
+    ' set the correct link text
+    SetLinkText
+
+    ' set the status values
+    lblStatus.innerHTML                 = parent.title.OpciDashboard.GroupStatus
+    lblStartTime.innerHTML              = parent.title.OpciDashboard.GroupStartTime
+    lblGoodWrites.innerHTML             = parent.title.OpciDashboard.GroupGoodWrites
+    lblErrors.innerHTML                 = parent.title.OpciDashboard.GroupErrors
+    lblNumberOfValidItems.innerHTML     = parent.title.OpciDashboard.GroupValidItems
+    lblActualPeriod.innerHTML           = parent.title.OpciDashboard.GroupActualPeriod
+    lblConnectedSrcPrimary.innerHTML    = parent.title.OpciDashboard.GroupConnectedSrcPrimary
+    lblConnectedDstPrimary.innerHTML    = parent.title.OpciDashboard.GroupConnectedDestPrimary
+    lblConnectedSrcBackup.innerHTML     = parent.title.OpciDashboard.GroupConnectedSrcBackup
+    lblConnectedDstBackup.innerHTML     = parent.title.OpciDashboard.GroupConnectedDestBackup
+    lblhResultSrcPrimary.innerHTML      = parent.title.OpciDashboard.GroupHResultSrcPrimary
+    lblhResultDstPrimary.innerHTML      = parent.title.OpciDashboard.GroupHResultDestPrimary
+    lblhResultSrcBackup.innerHTML       = parent.title.OpciDashboard.GroupHResultSrcBackup
+    lblhResultDstBackup.innerHTML       = parent.title.OpciDashboard.GroupHResultDestBackup
+End Sub
+
+Sub cmdRefresh_onclick
+    window.navigate("GroupStatus.htm")
+End Sub
+
+-->
+        </script>
+    </head>
+    <body scroll="no">
+        <viewlink:tabset id="TabSet">
+            <xml id="TabsXml">
+                <tabset selected="GroupStatus.htm">
+                    <tab disabled="false" tabid="GroupDetails.htm" title="Group Details">
+                    </tab>
+                    <tab disabled="false" tabid="ItemDetails.htm" title="Item List">
+                    </tab>
+                    <tab disabled="false" tabid="GroupStatus.htm" title="Group Status">
+                    </tab>
+                </tabset>
+            </xml>
+        </viewlink:tabset>
+        <div id="DisplayArea" class="DetailsArea" align="left">
+            <hr />
+            <div id="WaitingSpan">
+                Initializing display...
+            </div>
+            <table id="GroupDetails" cellpadding="0" callspacing="0" border="0">
+                <tr>
+                    <td colspan="4">
+                        <div class="heading">
+                            General:
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Status:
+                    </td>
+                    <td>
+                        <div id="lblStatus">
+                        </div>
+                    </td>
+                    <td>
+                        Start Time:
+                    </td>
+                    <td>
+                        <div id="lblStartTime">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Good Writes:
+                    </td>
+                    <td>
+                        <div id="lblGoodWrites">
+                        </div>
+                    </td>
+                    <td>
+                        Errors:
+                    </td>
+                    <td>
+                        <div id="lblErrors">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Valid Items:
+                    </td>
+                    <td>
+                        <div id="lblNumberOfValidItems">
+                        </div>
+                    </td>
+                    <td>
+                        Actual Period:
+                    </td>
+                    <td>
+                        <span id="lblActualPeriod"></span>
+                        &nbsp;msecs
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <hr />
+                        <div class="heading">
+                            Connected Status:
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="lblSrcPrimary1">
+                        Source Primary:
+                    </td>
+                    <td>
+                        <div id="lblConnectedSrcPrimary">
+                        </div>
+                    </td>
+                    <td id="lblDstPrimary1">
+                        Destination Primary:
+                    </td>
+                    <td>
+                        <div id="lblConnectedDstPrimary">
+                        </div>
+                    </td>
+                    <tr>
+                        <td id="lblSrcBackup1">
+                            Source Backup:
+                        </td>
+                        <td>
+                            <div id="lblConnectedSrcBackup">
+                            </div>
+                        </td>
+                        <td id="lblDstBackup1">
+                            Destination Backup:
+                        </td>
+                        <td>
+                            <div id="lblConnectedDstBackup">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <hr />
+                            <div class="heading">
+                                Error Code:
+                            </div>
+                        </td>
+                    </tr>
+                <tr>
+                    <td id="lblSrcPrimary2">
+                        Source Primary:
+                    </td>
+                    <td>
+                        <div id="lblhResultSrcPrimary">
+                        </div>
+                    </td>
+                    <td id="lblDstPrimary2">
+                        Destination Primary:
+                    </td>
+                    <td>
+                        <div id="lblhResultSrcBackup">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="lblSrcBackup2">
+                        Source Backup:
+                    </td>
+                    <td>
+                        <div id="lblhResultDstPrimary">
+                        </div>
+                    </td>
+                    <td id="lblDstBackup2">
+                        Destination Backup:
+                    </td>
+                    <td>
+                        <div id="lblhResultDstBackup">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!-- End of GroupDetails -->
+            <br />
+            <viewlink:systembutton id="cmdRefresh" class="pushbutton">
+                Refresh
+            </viewlink:systembutton>
+            <div id="PageLinks">
+                <span id="cmdConfiguration" class="clsGroupLink"></span>
+                <br />
+                <br />
+                <span id="cmdSysStatus" class="clsGroupLink"></span>
+                <br />
+                <br />
+            </div>
+        </div>
+    </body>
+</html>

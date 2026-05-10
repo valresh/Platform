@@ -1,0 +1,28 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="116px" height="16px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="JScript" id="8715E8B2-8A8D-45C3-A756-18B69C561ABA"><![CDATA[function checkDashboardGlobalScripts()
+{
+	try 
+	{
+		if (isDashboardGlobalScriptLinked == true)
+		{
+			return;
+		}
+	}
+	catch (err){}
+
+	var element_head=document.getElementsByTagName("HEAD")[0];
+	if(element_head != null)
+	{
+		var scriptLink = document.createElement("script");
+		scriptLink.language = "JScript";
+	
+		var systemSummaryPath = window.external.parent.FindFile("sysSystemSummary.htm");
+		systemSummaryPath = systemSummaryPath.substr(0, systemSummaryPath.lastIndexOf("\\") + 1); 
+		var scriptFilePath = systemSummaryPath + "/Scripts/DashboardScripts.js";
+
+		scriptLink.src = scriptFilePath;
+		element_head.appendChild(scriptLink);
+	}
+}
+
+checkDashboardGlobalScripts();]]></script></scripts><parameters><parameter name="AuxPoint" type="Point" description="" defaultvalue=""/><parameter name="" type="Point" description="Automatically added Point" defaultvalue=""/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=description class="hvg.textbox.1 HSC.ScriptDataObject.1 menuDescription" style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 16px; FONT-FAMILY: Arial; WIDTH: 116px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:16;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:116;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[description.value = description.DataValue("AuxPoint.DESC");]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::AuxPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="DESC,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element></shape></shapes></shapefile>

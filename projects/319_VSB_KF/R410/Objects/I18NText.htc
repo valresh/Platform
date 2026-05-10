@@ -1,0 +1,97 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/I18NText.htc $								
+$Workfile: I18NText.htc $												
+$Modtime: 9/20/07 2:46p $											
+$Revision: 3 $
+$Author: Stickell $														
+***************************************************************************
+This behavior translates the text of the elements to which it is attached
+when it thinks that text may have changed.
+
+This is a lightweight behavior because it does not need to track any state
+associated with the host element, nor does it need to respond to any
+bubbled events where the window.event.srcElement object might be something
+other than the host object.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JsExtensions.js    (parseBoolean)
+ HtmlUtils.js       (HtmlState*)
+ Utilities.js       (TranslateElementtext)
+***************************************************************************
+-->
+<public:component name="I18NText" urn="I18NText" lightWeight="True">
+	<public:property name="translating" value="0"/>
+	<public:property name="I18NValue" value=""/>	
+	<public:property name="L10NProperty" value=""/>
+	<public:attach event="onreadystatechange" onevent="javascript: try{ OnReadyStateChange();  }catch(e){}" for="element"/>
+	<public:attach event="onpropertychange" onevent="javascript: try{ OnPropertyChange();  }catch(e){}" for="element"/>
+</public:component>
+<script language="javascript" type="text/javascript">
+	//-----------------------------------------------------------------------
+	// OnReadyStateChange
+	//-----------------------------------------------------------------------
+	// This function is called when the host element is completely loaded.
+	// Note that we do not use OnContentReady because that will only fire
+	// on the first element to which this lightweight behavior is attached.
+	//-----------------------------------------------------------------------
+	function OnReadyStateChange()
+	{
+		try
+		{
+			var source = window.event.srcElement;
+			if (source != null && source.readyState.toLowerCase() == HtmlStateComplete)
+			{
+				//alert("translating '" + source.id + "' for readyState change to complete");
+				TranslateElementText(source);
+			}
+		}
+		catch(e)
+		{
+			ScriptError("I18NText::OnReadyStateChange", e);
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnPropertyChange
+	//-----------------------------------------------------------------------
+	// This function is called whenever a property on the host element 
+	// changes. We perform translation on the element when either its
+	// text property changes, or when it is 'undisabled' - the latter in case
+	// the text property has changed while it was disabled and thus not
+	// sending events.
+	//-----------------------------------------------------------------------
+	function OnPropertyChange()
+	{
+		try
+		{
+			var source = window.event.srcElement;
+			if (source != null && 
+				source.readyState.toLowerCase() == HtmlStateComplete &&
+				!parseBoolean(source.translating, false))
+			{
+				var strPropertyName = window.event.propertyName.toLowerCase();
+				var hostTag = source.tagName.toLowerCase();
+				
+				if (strPropertyName == element.L10NProperty ||
+					strPropertyName == "innertext" ||
+					strPropertyName == "disabled" ||
+					strPropertyName == "title" ||
+					(hostTag == "input" && strPropertyName == "value") ||
+					(hostTag == "option" && strPropertyName == "text"))
+				{
+					//alert("translating '" + source.id + "' with tag '" + hostTag + "' for changed property '" + strPropertyName + "'");
+					TranslateElementText(source);
+					return true;
+				}	
+			}		
+		}
+		catch(e)
+		{
+			ScriptError("I18NText::OnPropertyChange", e);
+		}
+		return false;
+	}
+</script>

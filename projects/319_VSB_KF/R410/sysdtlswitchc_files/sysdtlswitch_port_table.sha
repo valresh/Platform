@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="90px" height="16px"><versionheaders><versionheader name="PS" value="5.1"/></versionheaders><scripts><script event="" language="VBScript" id="94F7F76E-3734-4838-ACCF-F006838F23E7"><![CDATA['
+' General Section (sysdtlswitch_port_table.sha)
+option explicit
+Dim sPartPath
+
+Sub InitPortTable(objShape, sSwitch)
+	sPartPath = "localhost.[ROOT\SNMP\" & sSwitch & "].SNMP_RFC1213_MIB_IFTABLE.__branchenum."
+	objShape.autoReloadContent = false
+	objShape.SetCustomProperty "Parameter", "paramPortCount", sPartPath & "#"
+	objShape.SetCustomProperty "Point", "pointPortCount", sPoint
+	objShape.ReloadContent		' trigger fetch of interface count
+end sub
+' End General Section (sysdtlswitch_port_table.sha)
+']]></script><script event="" language="VBScript" id="1258BCC9-5FE9-4E87-B719-BE8478BD3442"><![CDATA['
+' General Section (sysdtlswitch_port_table.sha)
+option explicit
+Dim nRememberedCount
+
+Sub InitPortList(objShape)
+Dim ix
+'	on error resume next
+	if nRememberedCount = nPortCount then exit sub
+	nRememberedCount = nPortCount
+	objShape.autoReloadContent = false
+	for ix = 0 to nPortCount - 1
+		objShape.SetCustomProperty "Parameter", "paramPort" & ix, sPartPath & ix
+	next
+	for ix = nPortCount to 49
+		objShape.SetCustomProperty "Parameter", "paramPort" & ix, ""
+	next
+	objShape.SetCustomProperty "Point", "pointTable", sPoint
+	objShape.ReloadContent
+end sub
+' End General Section (sysdtlswitch_port_table.sha)
+']]></script></scripts><parameters><parameter name="paramPortCount" type="Parameter" description="" defaultvalue=""/><parameter name="pointPortCount" type="Point" description="" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA class=hsc.alpha.1 id=alphaPortCount style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); OVERFLOW: hidden; WIDTH: 44.44%; COLOR: #00bfff; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:transparent;HDXBINDINGID:-4;indicateAlarmState:0;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#00bfff;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[Dim ix
+	nPortCount = me.value
+	for ix = 0 to 49
+		PortNames(ix) = "<none>"
+	next
+	InitPortList shpPortNames]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::pointPortCount%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramPortCount%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="Hsc.AlphaReadOnly" refcount="1"/></binding></element><group><group><element><html><content><![CDATA[<TEXTAREA class="hsc.alpha.1 HSC.ScriptDataObject.1" id=shpPortNames_alphaPortFetch style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); OVERFLOW: hidden; WIDTH: 100%; COLOR: #00bfff; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:transparent;HDXBINDINGID:-4;lineColor:black;numberOfChars:40;numericDisplayFormat:%s;textColor:#00bfff;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="VBScript"><![CDATA[Dim ix, sFullPath, fQual
+	on error resume next
+	for ix = 0 to nRememberedCount - 1
+		sFullPath = sPoint & "." & sPartPath & ix
+		err.clear
+		fQual = me.QualityGood(sFullPath)
+		if (err.number = 0) and fQual and me.DataChanged(sFullPath) then PortNames(ix) = me.DataValue(sFullPath)
+	next
+	UpdatePortList]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV class=hvg.group.1 id=shpPortNames_grpPortTable style="FONT-SIZE: 0pt; LEFT: 0%; BEHAVIOR: url(#HDXVectorFactory#group); WIDTH: 100%; POSITION: absolute; TOP: 0%; HEIGHT: 100%" tabIndex=-1 hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:40;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV class=hsc.shape.1 id=shpPortNames style="FONT-WEIGHT: 400; FONT-SIZE: 0px; LEFT: 55.55%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); WIDTH: 44.44%; FONT-STYLE: normal; FONT-FAMILY: Arial; POSITION: absolute; TOP: 0%; HEIGHT: 100%; TEXT-DECORATION: none" tabIndex=-1 hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:40;" value = "1" src = ".\sysdtlswitch_port_table_files\sysdtlswitch_port_names.sha" parameters = "Parameter?paramPort0:;Parameter?paramPort1:;Parameter?paramPort2:;Parameter?paramPort3:;Parameter?paramPort4:;Parameter?paramPort5:;Parameter?paramPort6:;Parameter?paramPort7:;Parameter?paramPort8:;Parameter?paramPort9:;Parameter?paramPort10:;Parameter?paramPort11:;Parameter?paramPort12:;Parameter?paramPort13:;Parameter?paramPort14:;Parameter?paramPort15:;Parameter?paramPort16:;Parameter?paramPort17:;Parameter?paramPort18:;Parameter?paramPort19:;Parameter?paramPort20:;Parameter?paramPort21:;Parameter?paramPort22:;Parameter?paramPort23:;Parameter?paramPort24:;Parameter?paramPort25:;Parameter?paramPort26:;Parameter?paramPort27:;Parameter?paramPort28:;Parameter?paramPort29:;Parameter?paramPort30:;Parameter?paramPort31:;Parameter?paramPort32:;Parameter?paramPort33:;Parameter?paramPort34:;Parameter?paramPort35:;Parameter?paramPort36:;Parameter?paramPort37:;Parameter?paramPort38:;Parameter?paramPort39:;Parameter?paramPort40:;Parameter?paramPort41:;Parameter?paramPort42:;Parameter?paramPort43:;Parameter?paramPort44:;Parameter?paramPort45:;Parameter?paramPort46:;Parameter?paramPort47:;Parameter?paramPort48:;Parameter?paramPort49:;Point?pointTable:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV class=hvg.group.1 id=grpPortTable style="FONT-SIZE: 0pt; LEFT: 0px; BEHAVIOR: url(#HDXVectorFactory#group); WIDTH: 90px; POSITION: absolute; TOP: 0px; HEIGHT: 16px" tabIndex=-1 hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:90;"></DIV>]]></content></html></group></shape></shapes></shapefile>

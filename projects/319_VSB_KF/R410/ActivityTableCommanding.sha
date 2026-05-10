@@ -1,0 +1,148 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="Activity Table Commanding Shape" description="Set of Buttons and Comboboxes used for commanding the selected activity in an Activity Table" useFirstShapeForBadValue="0" width="684px" height="36px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders>
+<scripts>
+<script event="" language="VBScript" id="3CE49B45-BD0A-4F81-ABAB-80A9573A7F6D">
+<![CDATA[
+'MASKS for interpretting Activity Commmand Map
+Dim ACT_COMMAND_GO
+Dim ACT_COMMAND_HOLD
+Dim ACT_COMMAND_STOP
+Dim ACT_COMMAND_ABORT
+Dim ACT_COMMAND_REMOVE
+
+ACT_COMMAND_GO = 1
+ACT_COMMAND_HOLD = 2
+ACT_COMMAND_STOP = 4
+ACT_COMMAND_ABORT = 8
+ACT_COMMAND_REMOVE = 16
+
+'Constant for Activity Commmands
+Dim ACT_COMMAND_GO_ENUM
+Dim ACT_COMMAND_HOLD_ENUM
+Dim ACT_COMMAND_STOP_ENUM
+Dim ACT_COMMAND_ABORT_ENUM
+Dim ACT_COMMAND_REMOVE_ENUM
+ACT_COMMAND_GO_ENUM = 1
+ACT_COMMAND_HOLD_ENUM = 2
+ACT_COMMAND_STOP_ENUM = 3
+ACT_COMMAND_ABORT_ENUM = 4
+ACT_COMMAND_REMOVE_ENUM = 5
+
+]]></script><script event="onshapeload" language="Javascript" id=""><![CDATA[	
+    var Table = document.getElementById( group001.parentElement.GetCustomProperty("Value", "ActivityTableID") );
+    
+    //if there is a later activity selection in queue reload the shapelink agian
+    if ( (Table != null) && (Table.SelectionInQueue == true ) ) {
+        Table.SelectionInQueue = false;
+        group001.parentElement.ReloadContent();
+    }
+    //otherwise finish loading and set the correct icons for the activity commanding buttons and visibility for the comboboxes
+    else {
+        if ( Table != null ) {
+            Table.ShapeLinkLoading=false;
+        }
+    
+        validCommands = group001.parentElement.GetCustomProperty ("Value", "CommandMap");
+        
+        if (validCommands == "") {
+            validCommands = 0;
+        }
+
+        if ( (validCommands & ACT_COMMAND_GO) != 0) {
+            GoButton.disabled = false;
+            GoButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#324)";
+        } else {
+            GoButton.disabled = true;
+            GoButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#325)";
+        }
+        
+        if ( (validCommands & ACT_COMMAND_HOLD) != 0) {
+            HoldButton.disabled = false;
+            HoldButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#326)";
+        } else {
+            HoldButton.disabled = true;
+            HoldButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#327)";
+        }
+        
+        if ( (validCommands & ACT_COMMAND_STOP) != 0) {
+            StopButton.disabled = false;
+            StopButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#330)";
+        } else {
+            StopButton.disabled = true;
+            StopButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#331)";
+        }
+
+        if ( (validCommands & ACT_COMMAND_ABORT) != 0) {
+            AbortButton.disabled = false;
+            AbortButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#322)";
+        } else {
+            AbortButton.disabled = true;
+            AbortButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#323)";
+        }
+        
+        if ( (validCommands & ACT_COMMAND_REMOVE) != 0) {
+            RemoveButton.disabled = false;
+            RemoveButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#328)";
+        } else {
+            RemoveButton.disabled = true;
+            RemoveButton.style.backgroundImage = "url(res://AlarmStateIcon/GIF/#329)";
+        }
+        
+        //if Activity Tagname is an empty string hide the comboboxes
+        Tagname = group001.parentElement.GetCustomProperty("Point", "ActivityPnt");
+        if (Tagname == "") {
+            cmbSubCommand.style.visibility = "hidden";
+            cmbMode.style.visibility = "hidden";
+            cmbModeAttr.style.visibility = "hidden";
+            lblSubCommand.style.visibility = "hidden";
+            lblMode.style.visibility = "hidden";
+            lblModeAttr.style.visibility = "hidden";
+        }
+        
+    }
+    
+    ]]>
+</script>
+</scripts>
+<parameters>
+	<parameter name="ActivityTableID" type="Value" description="(don`t Manually Edit) The Activity Table this set of combo boxes are to be linked to" defaultvalue=""/>
+	<parameter name="ActivityPnt" type="Point" description="(don`t Manually Edit) ActivityPoint for combo boxes to bind to" defaultvalue=""/>
+	<parameter name="SubCommandPrm" type="Parameter" description="(don`t Manually Edit) SubCommand Pararmeter  me for subcommand combo box to bind to" defaultvalue=""/>
+	<parameter name="ModePrm" type="Parameter" description="(don`t Manually Edit) Mode pararmeter  me for subcommand combo box to bind to" defaultvalue=""/>
+	<parameter name="ModeAttrPrm" type="Parameter" description="(don`t Manually Edit) Mode Attribute Pararmeter  me for subcommand combo box to bind to" defaultvalue=""/>
+	<parameter name="CommandPrm" type="Parameter" description="(don`t Manually Edit) Activity Commanding Parameter for VCR buttons" defaultvalue=""/>
+	<parameter name="CommandMap" type="Value" description="(don`t Manually Edit) Activity Command Map for VCR buttons" defaultvalue=""/>
+</parameters>
+<shapes>
+<shape>
+<group>
+
+	<element><html><content><![CDATA[<DIV style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 14.06%; FONT-FAMILY: Arial; HEIGHT: 27px; VISIBILITY: hidden; FONT-SIZE: 12pt; OVERFLOW: hidden; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect) url(#HSCScriptDataBehavior) url(#BindingBehavior); LEFT: 0px" id=HiddenActCommandShape class="hvg.base.1 HSC.ScriptDataObject.1" tabIndex=-1 hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:21;LineColor:transparent;lineColorBlink:False;Width:135;"></DIV>]]></content></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::ActivityPnt%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::CommandPrm%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element>
+
+	<element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-COLOR: #ffffff; BACKGROUND-COLOR: #d4d0c8; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; WIDTH: 27px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BACKGROUND-POSITION: center center; HEIGHT: 27px; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; FONT-SIZE: 11pt; BORDER-LEFT-COLOR: #ffffff; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); LEFT: 0px" id=GoButton class=hsc.button.1 title="Send `Start` Command" tabIndex=0 type=button hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;" BindingDef='<binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding>'>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[HiddenActCommandShape.DataValue("ActivityPnt.CommandPrm")=ACT_COMMAND_GO_ENUM]]></script></scripts></html><binding/></element>
+	<element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-COLOR: #ffffff; BACKGROUND-COLOR: #d4d0c8; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; WIDTH: 27px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BACKGROUND-POSITION: center center; HEIGHT: 27px; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; FONT-SIZE: 11pt; BORDER-LEFT-COLOR: #ffffff; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); LEFT: 30px" id=HoldButton class=hsc.button.1 title="Send `Hold` Command" tabIndex=0 type=button hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;" BindingDef='<binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding>'>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[HiddenActCommandShape.DataValue("ActivityPnt.CommandPrm")=ACT_COMMAND_HOLD_ENUM]]></script></scripts></html><binding/></element>
+	<element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-COLOR: #ffffff; BACKGROUND-COLOR: #d4d0c8; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; WIDTH: 27px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BACKGROUND-POSITION: center center; HEIGHT: 27px; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; FONT-SIZE: 11pt; BORDER-LEFT-COLOR: #ffffff; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); LEFT: 60px" id=StopButton class=hsc.button.1 title="Send `Stop` Command" tabIndex=0 type=button hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;" BindingDef='<binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding>'>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[HiddenActCommandShape.DataValue("ActivityPnt.CommandPrm")=ACT_COMMAND_STOP_ENUM]]></script></scripts></html><binding/></element>
+	<element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-COLOR: #ffffff; BACKGROUND-COLOR: #d4d0c8; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; WIDTH: 27px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BACKGROUND-POSITION: center center; HEIGHT: 27px; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; FONT-SIZE: 11pt; BORDER-LEFT-COLOR: #ffffff; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); LEFT: 90px" id=RemoveButton class=hsc.button.1 title="Send `Remove` Command" tabIndex=0 type=button hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;" BindingDef='<binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding>'>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[HiddenActCommandShape.DataValue("ActivityPnt.CommandPrm")=ACT_COMMAND_REMOVE_ENUM]]></script></scripts></html><binding/></element>
+    <element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-COLOR: #ffffff; BACKGROUND-COLOR: #d4d0c8; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; WIDTH: 27px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BACKGROUND-POSITION: center center; HEIGHT: 27px; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; FONT-SIZE: 11pt; BORDER-LEFT-COLOR: #ffffff; TOP: 7px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); LEFT: 120px" id=AbortButton class=hsc.button.1 title="Send `Abort` Command" tabIndex=0 type=button hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColorBlink:False;" BindingDef='<binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding>'>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[HiddenActCommandShape.DataValue("ActivityPnt.CommandPrm")=ACT_COMMAND_ABORT_ENUM]]></script></scripts></html><binding/></element>
+
+	<element><html><content><![CDATA[<SPAN style="POSITION: absolute; BACKGROUND-COLOR: white; FONT-STYLE: normal; TEXT-INDENT: 2px; WIDTH: 21.64%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 17px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 32.89%" id=cmbSubCommand class=hsc.combo.1 tabIndex=0 hdxproperties="borderStyle:inset;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;">Combobox</SPAN>]]></content>
+    <scripts><script event="onupdate" language="VBScript"><![CDATA[lblSubCommand.style.visibility = cmbSubCommand.style.visibility]]></script></scripts>
+    </html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="1"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::ActivityPnt%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::SubCommandPrm%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.ComboBox" refcount="1"/></binding></element>	
+    <element><html><content><![CDATA[<DIV style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 21.19%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: 400; BEHAVIOR: url(#HDXVectorFactory#text); LEFT: 33.04%" id=lblSubCommand class=hvg.textbox.1 tabIndex=-1 hdxproperties="fillColorBlink:False;FillStyle:1;Height:18px;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:145;">Subcommand:</DIV>]]></content></html></element>
+    
+	<element><html><content><![CDATA[<SPAN style="POSITION: absolute; BACKGROUND-COLOR: white; FONT-STYLE: normal; TEXT-INDENT: 2px; WIDTH: 21.64%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 17px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 55.56%" id=cmbMode class=hsc.combo.1 tabIndex=0 hdxproperties="borderStyle:inset;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;">Combobox</SPAN>]]></content>
+    <scripts><script event="onupdate" language="VBScript"><![CDATA[lblMode.style.visibility = cmbMode.style.visibility]]></script></scripts>
+    </html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="1"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::ActivityPnt%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::ModePrm%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.ComboBox" refcount="1"/></binding></element>
+	<element><html><content><![CDATA[<DIV style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 21.19%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: 400; BEHAVIOR: url(#HDXVectorFactory#text); LEFT: 55.7%" id=lblMode class=hvg.textbox.1 tabIndex=-1 hdxproperties="fillColorBlink:False;FillStyle:1;Height:18px;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:145;">Mode:</DIV>]]></content></html></element>
+    
+    <element><html><content><![CDATA[<SPAN style="POSITION: absolute; BACKGROUND-COLOR: white; FONT-STYLE: normal; TEXT-INDENT: 2px; WIDTH: 21.64%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 17px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 78.22%" id=cmbModeAttr class=hsc.combo.1 tabIndex=0 hdxproperties="borderStyle:inset;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;">Combobox</SPAN>]]></content>
+    <scripts><script event="onupdate" language="VBScript"><![CDATA[lblModeAttr.style.visibility = cmbModeAttr.style.visibility]]></script></scripts>
+    </html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="1"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::ActivityPnt%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::ModeAttrPrm%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.ComboBox" refcount="1"/></binding></element>
+    <element><html><content><![CDATA[<DIV style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 21.19%; FONT-FAMILY: Arial; HEIGHT: 18px; COLOR: #000000; FONT-SIZE: 11pt; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: 400; BEHAVIOR: url(#HDXVectorFactory#text); LEFT: 78.36%" id=lblModeAttr class=hvg.textbox.1 tabIndex=-1 hdxproperties="fillColorBlink:False;FillStyle:1;Height:18px;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:145;">Mode Attribute:</DIV>]]></content></html></element>
+    
+	<html><content><![CDATA[<DIV style="POSITION: absolute; WIDTH: 684px; HEIGHT: 36px; FONT-SIZE: 11pt; TOP: 31px; BEHAVIOR: url(#HDXVectorFactory#group); LEFT: 40px" id=group001 class=hvg.group.1 tabIndex=-1 hdxproperties="fillColorBlink:False;Height:36;lineColorBlink:False;Width:684;"></DIV>]]></content></html>
+
+</group>
+</shape>
+</shapes>
+
+</shapefile>

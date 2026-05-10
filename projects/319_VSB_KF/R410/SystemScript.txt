@@ -1,0 +1,87 @@
+[(General)]=Rem Global Operator Messages
+Public Const HigherSecReqdMsg = "Higher security level required"
+
+Rem ====================================
+Rem	System Script
+Rem 	ver 750.1
+Rem
+Rem	Copyright 2000 Honeywell Ltd.
+Rem
+Rem ====================================
+
+Public Const HSC_HKEY_LOCAL_MACHINE = &H80000002
+Public Const ProfUse     = "Profile"
+Public Const PSTShare    = "PersonalFldr"
+ 
+Public BaseProfileName
+Public hsc_InitComplete    
+Public MailEnabled
+Public MailStandalone
+Public MailPSTPath
+Public NumProfiles
+Public objModProfile
+Public objErrorLog
+Public ProfileName
+Public ProfInUse(100)
+Public RegProf
+Public TimerPeriod 
+Public StationRef
+Public hsc_UserDoc
+Public WAVFilename
+Public WAVplayer
+Public FirstTime
+Public objGlobal
+Public blnDoStartup
+Public blnGlobalInitialized 
+Public hWin
+
+Rem ====================================[OnAppStartup]=Rem ---- System Script ----
+'Global Dictionary Variables used for system Search Display sysSearch.dsp
+'Used to store the search type index
+On Error Resume Next
+
+Application.Dictionary.Remove("ODRHTMLObject")
+Application.Dictionary.Add "ODRHTMLObject", Nothing
+Application.Dictionary.Remove("SearchForIndex")
+Application.Dictionary.Add "SearchForIndex", -1
+[OnMenu]=Rem ---- System Script ----
+
+Dim hsc_Tag
+
+On Error Resume Next
+hsc_Tag = cint(lMenuTag)
+If hsc_Tag = 31998 Then
+ 	Rem check stations security level is at least ENGR before launching dspbld %DisplayName%
+	If Application.SecurityLevel < 4 Then
+		Application.MessageZoneText = HigherSecReqdMsg
+	Else
+		InvokeMenu(20500)
+	End If
+ElseIf hsc_Tag = 31997 Then
+ 	Rem check stations security level is at least ENGR before launching dspbld
+	If Application.SecurityLevel < 4 Then
+		Application.MessageZoneText = HigherSecReqdMsg
+	Else
+		InvokeMenu(20499)
+	End If
+ElseIf hsc_Tag = 31996 Then
+ 	Rem check stations security level is at least ENGR before launching qckbld
+	If Application.SecurityLevel < 4 Then
+		Application.MessageZoneText = HigherSecReqdMsg
+	Else
+		InvokeMenu(20498)
+	End If
+ElseIf hsc_Tag = 31992 Then
+ 	Rem Request Display task for Trend Prompt
+	Application.RequestServerLRN 21, 11,3
+ElseIf hsc_Tag = 31991 Then
+ 	Rem Request Display task for Group Prompt
+	Application.RequestServerLRN 21, 11,4
+ElseIf hsc_Tag = 31982 Then
+ 	Rem check stations security level is MNGR before launching configure Distributed Server Settings
+	If Application.SecurityLevel < 5 Then
+		Application.MessageZoneText = HigherSecReqdMsg
+	Else
+		Application.CurrentPage = "http://%ServerName%/cms/WebPages/administration.asp?Page=3"
+	End If
+End If

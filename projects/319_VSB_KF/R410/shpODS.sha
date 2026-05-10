@@ -1,0 +1,39 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="168px" height="26px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><parameters><parameter name="Server" type="Value" description="" defaultvalue=""/><parameter name="QueryName" type="Value" description="" defaultvalue=""/><parameter name="Label" type="Value" description="" defaultvalue="Search"/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: right; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: white; BORDER-LEFT-STYLE: none; PADDING-LEFT: 2px; WIDTH: 5.95%; PADDING-RIGHT: 2px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 38.46%; VISIBILITY: hidden; COLOR: black; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; PADDING-TOP: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 19.23%; LEFT: 2.97%; ROWS: 1" id=alpLocalServerNodeName class="hsc.alpha.1 " title="" tabIndex=-1 hdxproperties="borderStyle:None;borderWidth:2px;dateFormat:0;dateTimeFormat:1;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateScanState:0;lineColor:white;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:;textColor:black;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="5"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="21"/><property name="FileRefFlags" varianttype="VT_UI4" value="0"/><property name="FileRefFormat" varianttype="VT_UI1" value="0"/><property name="FileRefStrRefLength" varianttype="VT_UI2" value="20"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 5.95%; FONT-FAMILY: Arial; HEIGHT: 38.46%; VISIBILITY: hidden; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: normal; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 19.23%; LEFT: 2.97%" id=txtSearch class=hvg.textbox.1 tabIndex=-1 hdxproperties="fillColorBlink:False;FillStyle:1;Height:10;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:10;">Search</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 100%; FONT-FAMILY: Arial; HEIGHT: 96.15%; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#roundrect); TOP: 0%; LEFT: 0%" id=roundrect class=hvg.base.1 tabIndex=-1 hdxproperties="FillColor:#e7e7de;fillColorBlink:False;FillStyle:2;GradientFillColor:#d3d3d3;GradientFillFocus:70;Height:25;LineColor:#909090;lineColorBlink:False;Roundness:50;Width:168;"></DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; FONT-STYLE: normal; BORDER-TOP-COLOR: #ffffff; BORDER-LEFT-STYLE: none; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BORDER-TOP-STYLE: none; HEIGHT: 96.15%; COLOR: #000000; BORDER-RIGHT-COLOR: #ffffff; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 0%; LEFT: 0%" id=pbODS class=hsc.button.1 tabIndex=-1 value="{%Value::Label%}    " type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter="">]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[	'initialization
+	Dim strPath
+	Dim nodename
+	Dim Name
+
+	'assigning the values of Node Name and Operator ID 
+	nodename = alpLocalServerNodeName.value
+	Name = Mid( window.external.Application.OperatorID,3)
+	
+	'checking for the security level
+	if  window.external.Application.SecurityType = 1 then
+		strUserName = Name
+	else
+		strUserName = ""
+	end if
+
+	'getting the values of server name and query file name from custom properties of shape
+	Server = group002.parentElement.GetCustomProperty("Value", "Server")
+	QueryName = group002.parentElement.GetCustomProperty("Value", "QueryName")
+	
+	
+
+	'checking for the various condition of nodename and query file name
+	if Server = "" And QueryName = "" then
+	strPath = "OdsApp.exe" & " " & "/s:" & nodename & " " & "/u:"& strUserName & " " & "/q:"
+	ElseIf Server <> "" And QueryName = "" then
+	strPath = "OdsApp.exe" & " " & "/s:" & Server & " " & "/u:"& strUserName & " " & "/q:"
+	ElseIf Server = "" And QueryName <> "" then
+    strPath = "OdsApp.exe" & " " & "/s:" & nodename & " " & "/u:"& strUserName & " " & "/q:" & chr(34) & QueryName & chr(34)
+	else
+    strPath = "OdsApp.exe" & " " & "/s:" & Server & " " & "/u:"& strUserName & " " & "/q:"  & chr(34) & QueryName & chr(34)
+	End if
+
+	
+    'to run the ODS App
+	window.external.CreateWhitelistedObject strPath,0]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV style="POSITION: absolute; WIDTH: 168px; HEIGHT: 26px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 10px; LEFT: 10px" id=group002 class=hvg.group.1 tabIndex=-1 hdxproperties="fillColorBlink:False;Height:26;lineColorBlink:False;Width:168;"></DIV>]]></content></html></group></shape></shapes></shapefile>

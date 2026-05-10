@@ -1,0 +1,124 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /Server/780/GlobalSchedules/UI/Web/objects/LED.htc $								
+$Workfile: LED.htc $												
+$Modtime: 10/12/05 7:41p $											
+$Revision: 2 $
+$Author: Stickell $														
+***************************************************************************
+This behavior draws a LED with the appropriate background colours within
+its host element.
+***************************************************************************
+The host page must import the Utilities scripts without the defer
+attribute in order to use this behavior.
+***************************************************************************
+-->
+<public:component name="LED">
+	<public:property name="LEDColor" value="#FF0000"/>
+	<public:property name="State" value="True"/>
+	<public:attach event="oncontentready" onevent="InitLED" for="Element"/>
+	<public:attach event="onpropertychange" onevent="OnPropertyChange" for="Element"/>
+</public:component>
+<script language="vbscript" type="text/vbscript" defer>
+	'-----------------------------------------------------------------------
+	' InitLED
+	'-----------------------------------------------------------------------
+	' Called to create the vector shapes that make up the LED.
+	'-----------------------------------------------------------------------
+	Sub InitLED()
+	On Error Resume Next		
+		Element.style.backgroundColor = "transparent"
+		Element.style.BorderStyle = "none"
+		Element.innerHTML = "<v:oval strokeweight='1' " & _
+							"fillcolor='#FFFFFF' stroked='False' " & _
+							"style='position: absolute; left: 0%; top: 0%; height: 100%; width: 100%;' >" & _
+								"<v:fill color2='#C0C0C0' method='linear' opacity='0.1' focus='100%' type='gradientRadial' " & _
+								"focusposition='0.7,0.7' " & _
+								"focussize='0.5,0.5'/>" & _
+							"</v:oval>" & _
+							"<v:oval strokeweight='1' " & _
+							"fillcolor='" & Element.LEDColor & "' strokeColor='#000000' " & _
+							"style='position: absolute; left: 15%; top: 15%; height: 70%; width: 70%;' >" & _
+								"<v:fill color2='#494949' method='sigma' focus='100%' type='gradientRadial' " & _
+								"focusposition='0.1,0.1' " & _
+								"focussize='0.7,0.7'/>" & _
+							"</v:oval>" & _
+							"<v:oval strokeweight='1' " & _
+							"fillcolor='#FFFFFF' stroked='False' " & _
+							"style='position: absolute; left: 30%; top: 30%; height: 30%; width: 30%;' >" & _
+								"<v:fill color2='" & Element.LEDColor & "' method='sigma' opacity='0.8' focus='100%' type='gradientRadial' " & _
+								"focusposition='0.2,0.2' " & _
+								"focussize='0.4,0.4'/>" & _
+							"</v:oval>"
+		UpdateColors
+	End Sub
+
+	'-----------------------------------------------------------------------
+	' UpdateColors
+	'-----------------------------------------------------------------------
+	' Called to update the colors used for the LED.
+	'-----------------------------------------------------------------------
+	Sub UpdateColors()
+	On Error Resume Next
+		Dim strHighlightColor, strMainColor, strEdgeColor
+		
+		If Not Element.disabled And CBool(Element.State) Then
+			' The LED should be on.
+			strHighlightColor = "#FFFFFF"
+			strMainColor = Element.LEDColor
+			strEdgeColor = "#000000"
+		Else
+			' The LED is off.
+			strHighlightColor = "#DDDDDD"
+		'	strHighlightColor = "#C0C0C0"
+			strMainColor = "#C0C0C0"
+			strEdgeColor = "#494949"
+		End If
+		
+		Element.childNodes(1).fillColor = strMainColor
+		Element.childNodes(1).strokeColor = strEdgeColor
+		Element.childNodes(2).fillColor = strHighlightColor
+		Element.childNodes(2).firstChild.color2 = strMainColor
+	End Sub
+
+	'-----------------------------------------------------------------------
+	' OnPropertyChange
+	'-----------------------------------------------------------------------
+	' This function is called whenever a property on the host element changes.
+	'-----------------------------------------------------------------------
+	Function OnPropertyChange()
+	On Error Resume Next
+		'.......................................................................
+		' Retrieve the name of the property that has changed.
+		'.......................................................................
+		Dim strProperty
+		strProperty = window.event.propertyName
+		
+		Select Case LCase(strProperty)
+			Case "state":
+				If Not IsNumeric(Element.State) Then
+					If StrComp(CStr(Element.State), CStr(True), 1) = 0 _
+					Or StrComp(CStr(Element.State), "on", 1) = 0 Then
+						Element.State = 1
+					Else
+						Element.State = 0
+					End If
+				Else
+					UpdateColors
+				End If
+				OnPropertyChange = True		' We have handled the event.
+
+			Case "disabled", "ledcolor":
+				'.......................................................................
+				' Update the colors used.
+				'.......................................................................
+				UpdateColors
+				OnPropertyChange = True		' We have handled the event.
+			Case Else
+				OnPropertyChange = False
+		End Select
+	End Function
+</script>
+
+

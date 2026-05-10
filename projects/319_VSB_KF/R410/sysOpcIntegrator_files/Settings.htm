@@ -1,0 +1,256 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html xmlns:viewlink="">
+	<?import namespace="viewlink" implementation="../Objects/TabSet.htc">
+	<?import namespace="viewlink" implementation="../Objects/SystemButton.htc">
+	<head>
+		<meta name="VI60_defaultClientScript" content="VBScript">
+		<meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+		<link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+		<link href="OpciStyles.css" rel="stylesheet" type="text/css">
+		<title></title>
+		<script language="JavaScript" src="../Scripts/Logging.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/ErrorHandling.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/JSExtensions.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/HTMLUtils.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/Utilities.js" type="text/JavaScript"></script>
+                <script id="OpciEvents" language="jscript" src="OpciEvents.js"></script>
+		<script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+		<script id="OpciClientFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+                <script id="SecurityFunctions" language="jscript" src="OpciSecurity.js"></script>
+		<script id="clientEventHandlersVBS" language="vbscript">
+<!--
+
+' *******************************************************************************************************
+' ISR174732 - OPC Integrator should only do numeric bad value substitution on floating point numbers only
+' 
+' Commented out the non-numeric bad value functionality as part of this ISR.  This will be re-instated
+' at a later date when we add support for other data types (int, enum, bool).
+' This comment should be removed when that work is done.
+' *******************************************************************************************************
+
+Dim g_Mode
+
+Sub window_onload
+	
+	'on error resume next
+	Err.Clear
+	
+	g_Mode = parent.title.OpciDashboard.Mode
+
+	' set the correct link text
+	SetLinkText
+	
+	cmdCommit.Disabled = true
+	cmdCancel.Disabled = true
+	
+	WaitingSpan.style.display = "none"
+	SettingsData.style.display = "block"
+
+	If (parent.title.OpciDashboard.BadValueSubstitutionEnabled) Then
+        chkBadValueSubstitution.checked = true
+        txtBadValueNumeric.value = parent.title.OpciDashboard.NumericBadValueSubstitute
+        'txtBadValueNonNumeric.value = parent.title.OpciDashboard.NonNumericBadValueSubstitute
+		BadValueNumeric.Style.Visibility = ""
+		'BadValueNonNumeric.Style.Visibility = ""
+	Else
+        chkBadValueSubstitution.checked = false
+		BadValueNumeric.Style.Visibility = "hidden"
+		'BadValueNonNumeric.Style.Visibility = "hidden"
+	End If
+
+        ' Apply security
+	Call ApplySecurity
+	
+End Sub
+
+Sub cmdCommit_OnClick
+	Dim strMessage
+	Dim bValidationFailed
+	
+	strMessage = ""
+	bValidationFailed = false
+	
+	' check permissions
+	If Not CheckSecurity Then Exit Sub
+	
+	' validate inputs
+	If (chkBadValueSubstitution.checked) Then
+		If (txtBadValueNumeric.value = "") Then
+			strMessage = MSG_NUMERIC_VALUE_NOT_PROVIDED
+			bValidationFailed = true
+		'ElseIf (txtBadValueNonNumeric.value = "") Then
+		'	strMessage = MSG_NONNUMERIC_VALUE_NOT_PROVIDED
+		'	bValidationFailed = true
+		ElseIf ((Not IsNumeric(txtBadValueNumeric.value)) And (LCase(txtBadValueNumeric.value) <> "nan")) Then
+			strMessage = MSG_NUMERIC_VALUE_INVALID
+			bValidationFailed = true	
+		End If
+		
+		If (bValidationFailed) Then
+			Window.External.TemporaryMessageZoneText = strMessage
+			Exit Sub
+		End If
+	End If
+
+	'If parent.title.OpciDashboard.CommitSettings(chkBadValueSubstitution.checked, txtBadValueNumeric.value, txtBadValueNonNumeric.value) = 0 Then
+        If parent.title.OpciDashboard.CommitSettings(chkBadValueSubstitution.checked, txtBadValueNumeric.value, "") = 0 Then
+		lblDirtyText.Style.Visibility = "hidden"
+		cmdCommit.Disabled = true
+		cmdCancel.Disabled = true
+	End If
+	
+End Sub
+
+Sub cmdCancel_Onclick
+	' check permissions
+	If Not CheckSecurity Then Exit Sub
+	
+	lblDirtyText.Style.Visibility = "hidden"
+	cmdCommit.Disabled = true
+	cmdCancel.Disabled = true
+	Window.External.TemporaryMessageZoneText = MSG_CHANGES_CANCELLED
+	window_onload
+End Sub
+
+Sub chkBadValueSubstitution_onclick
+	' check permissions
+	If Not CheckSecurity Then Exit Sub
+
+	If (chkBadValueSubstitution.checked) Then
+		BadValueNumeric.Style.Visibility = ""
+		'BadValueNonNumeric.Style.Visibility = ""
+	Else
+		BadValueNumeric.Style.Visibility = "hidden"
+		'BadValueNonNumeric.Style.Visibility = "hidden"
+        txtBadValueNumeric.value = ""
+        'txtBadValueNonNumeric.value = ""
+	End If
+
+    lblDirtyText.Style.Visibility = ""
+	cmdCommit.Disabled = false
+	cmdCancel.Disabled = false
+End Sub
+
+Sub txtBadValueNumeric_onchange
+    ' check permissions
+	If Not CheckSecurity Then Exit Sub
+
+    lblDirtyText.Style.Visibility = ""
+	cmdCommit.Disabled = false
+	cmdCancel.Disabled = false
+End Sub
+
+Sub txtBadValueNonNumeric_onchange
+    ' check permissions
+	If Not CheckSecurity Then Exit Sub
+
+    lblDirtyText.Style.Visibility = ""
+	cmdCommit.Disabled = false
+	cmdCancel.Disabled = false
+End Sub
+
+Sub ApplySecurity()
+	If g_Mode = CONFIG_MODE Then
+		If m_objStation.RuntimeStatus.securitylevel = SECURITY_LEVEL_MNGR Then
+			' Apply manager security here
+			bDisabled = false
+		Else
+			' Apply other-user security here
+			bDisabled = true
+		End If
+		DisableForm bDisabled
+	End If
+End Sub
+
+Sub DisableForm(bDisabled)
+	chkBadValueSubstitution.Disabled = bDisabled
+	txtBadValueNumeric.Disabled = bDisabled
+	'txtBadValueNonNumeric.Disabled = bDisabled
+	cmdCommit.Disabled = bDisabled
+	cmdCancel.Disabled = bDisabled
+End Sub
+
+-->
+		</script>
+	</head>
+	<body scroll="no">
+		<viewlink:tabset id="TabSet">
+			<xml id="TabsXml">
+				<tabset selected="Settings.htm">
+					<tab disabled="false" tabid="GroupTable.htm" title="Group List">
+					</tab>
+					<tab disabled="false" tabid="Settings.htm" title="Settings">
+					</tab>
+				</tabset>
+			</xml>
+		</viewlink:tabset>
+		<div id="DisplayArea" class="DetailsArea" align="left">
+			<hr />
+			<div id="WaitingSpan">
+				Initializing display...
+			</div>
+			<div id="SettingsData" style="width: 500px;">
+				<br />
+				<div class="heading">
+					Bad Value Configuration
+				</div>
+				<hr />
+				<table id="BadValueTable" style="width: 100%;">
+					<tr>
+						<td>
+							Enable bad value substitution:
+						</td>
+						<td>
+							<input id="chkBadValueSubstitution" type="checkbox" />
+							<img src="information.png" alt="Source values received with bad quality are substituted with the configured values before being transferred to the destination." />
+						</td>
+					</tr>
+					<tr id="BadValueNumeric" style="visibility: hidden;">
+						<td nowrap="true">
+							Substitute value for floating point numbers:
+						</td>
+						<td nowrap="true">
+							<input id="txtBadValueNumeric" class="clsLarge" />
+                            <img src="information.png" alt="Source values for float32 and float64 parameters will be substituted with the configured value.  Other parameters will not be substituted." />
+						</td>
+					</tr>
+                    <!--
+					<tr id="BadValueNonNumeric" style="visibility: hidden;">
+						<td>
+							Substitute value for non-numerics:
+						</td>
+						<td>
+							<input id="txtBadValueNonNumeric" class="clsLarge">
+						</td>
+					</tr>
+                    -->
+				</table>
+				<div id="lblDirtyText" style="visibility: hidden;">
+						Configuration changes have been made. Remember to commit or cancel them.
+				</div>
+				<hr />
+				<div id="Buttons">
+					<viewlink:systembutton id="cmdCommit" class="pushbutton">
+						Commit
+					</viewlink:systembutton>
+					<br>
+					<viewlink:systembutton id="cmdCancel" class="pushbutton">
+						Cancel
+					</viewlink:systembutton>
+				</div>
+			</div>
+			<div id="PageLinks">
+				<span id="cmdConfiguration" class="clsGroupLink"></span>
+				<br />
+                <br />
+				<span id="cmdSysStatus" class="clsGroupLink"></span>
+                <br />
+                <br />
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="200" height="80">
+
+    <menuitem id="mnu_det" acceleratorKey="">
+        <script type="onclick">
+            window.external.application.InvokeCommand('Request Point Detail');
+            window.external.CloseShortcutMenu();
+        </script>
+        <script type="onpage">
+          if (!window.external.IsAccessPermitted(window.external.parentWindow.document.activeElement))
+              this.disabled=true;
+          var name = String(window.external.parentWindow.document.activeElement);
+          if (name.substring(23,46) == "ProcSeqTKT.PhaseControl" || name.substring(23,55) == "ProcSeqTKT.ProcedurePanelControl" || name.substring(23,57) == "ProcSeqTKT.StepAndPhaseListControl")
+          {
+              var navigationAllowed = String(window.external.parentWindow.document.activeElement.NavigationAllowed);
+              if (navigationAllowed == "false") this.disabled=true;
+          }
+          return true;
+        </script>
+        <text>Detail Display</text>
+        <image>.\Toolbar\tb017.gif</image>
+    </menuitem>
+
+    <menuitem id="mnu_assoc" acceleratorKey="">
+        <script type="onclick">
+            window.external.application.InvokeCommand('Associated Display');
+            window.external.CloseShortcutMenu();
+        </script>
+        <script type="onpage">
+            if (!window.external.IsAccessPermitted(window.external.parentWindow.document.activeElement))
+                this.disabled=true;
+            var name = String(window.external.parentWindow.document.activeElement);
+            if (name.substring(23,46) == "ProcSeqTKT.PhaseControl" || name.substring(23,55) == "ProcSeqTKT.ProcedurePanelControl" || name.substring(23,57) == "ProcSeqTKT.StepAndPhaseListControl")
+            {
+                var navigationAllowed = String(window.external.parentWindow.document.activeElement.NavigationAllowed);
+                if (navigationAllowed == "false") this.disabled=true;
+            }
+            return true;
+        </script>
+        <text>Associated Display</text>
+        <image>.\Toolbar\tb003.gif</image>
+    </menuitem>
+  
+    <menuitem id="mnu_ProcedureExplorer" acceleratorKey="">
+        <script type="onclick">
+			var objHdxPopup;
+			objHdxPopup = window.external.parentWindow.document.getElementById("HDXPopupBehavior");
+			if (objHdxPopup!= null)
+			{
+			    objHdxPopup.CreatePopupWindow3("sysProcedureExplorer.htm?ProcedureName=" + window.external.parentWindow.document.activeElement.ProcedureName,
+			        window.external.parentWindow.document.body.offsetWidth / 2 - 650 / 2, window.external.parentWindow.document.body.offsetHeight /2 - 700 / 2, 650, 700, 0, false, true);
+			}
+			window.external.CloseShortcutMenu();
+		</script>
+        <script type="onpage">
+            if (!window.external.IsAccessPermitted(window.external.parentWindow.document.activeElement) ||
+                window.external.parentWindow.document.activeElement.ProcedureName == "")
+                this.disabled = true;
+            return true;
+        </script>
+        <text>Procedure Explorer</text>
+    </menuitem>
+
+    <!-- Need to check controlType string length before using it (multiple places in this file) --> 
+    <menuitem id="mnu_ChartView" acceleratorKey="">
+        <script type="onclick">
+            var strPointName,objPopupWindow,objHdxPopup;
+            objHdxPopup = window.external.parentWindow.document.getElementById("HDXPopupBehavior");
+            if (objHdxPopup!= null)
+            { 
+                var controlType = String(window.external.parentWindow.document.activeElement);
+                if (controlType.substring(23,45) == "ProcSeqTKT.UnitControl" || controlType.substring(23,49) == "ProcSeqTKT.UnitListControl")
+                {
+                    strPointName = window.external.parentWindow.document.activeElement.UnitName;
+                    if (strPointName == "")
+                    {
+                        alert("UnitName is empty!!! Need to decide what to do here...");
+                    }
+                }
+                else
+                {
+                    strPointName = window.external.parentWindow.document.activeElement.ProcedureName;
+                    if (strPointName == "")
+                    {
+                        alert("ProcedureName is empty!!! Need to decide what to do here...");
+                    }
+                }
+                
+                if (strPointName != "")
+                {
+                    objPopupWindow = objHdxPopup.FindPopup("sysPopUpChartView.htm");						
+                    if (objPopupWindow == null)
+                    {
+                        objHdxPopup.CreatePopupWindow("sysPopUpChartView.htm?CurrentPoint=" + strPointName, 1, 1, 1);
+                    }
+                    else
+                    {
+                        objPopupWindow.close();
+                        objHdxPopup.CreatePopupWindow("sysPopUpChartView.htm?CurrentPoint=" + strPointName, 1, 1, 1);
+                    }
+                 }
+            }
+            window.external.CloseShortcutMenu();			
+        </script>
+        <script type="onpage">
+            if (!window.external.IsAccessPermitted(window.external.parentWindow.document.activeElement))
+                this.disabled=true;
+            return true;
+        </script>
+        <text>Chart View Popup</text>
+    </menuitem>
+
+</menu>

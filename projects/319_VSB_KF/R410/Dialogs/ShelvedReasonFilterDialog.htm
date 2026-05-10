@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml">
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE>Shelved Reason Custom Filter</TITLE>
+
+
+<style type="text/css">
+
+v\:* 
+{
+	behavior:url(#default#VML);
+}
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+<script language="JScript" src="../Scripts/Common_FilterDialog.js"></script>
+
+<script language="VBScript">
+Function PopulateReasons()
+	On Error Resume Next
+	Dim Reasons
+	Reasons = window.dialogArguments.ArrayItems
+	for i = 0 to UBound(Reasons)
+		Dim strReason
+		strReason = Reasons(i)
+
+		if strReason <> " " then
+			if Len(strReason) > 0 then
+				Dim optOption
+				Set optOption = document.createElement("option")
+				selReasons.options.add(optOption)
+				optOption.innerText = strReason
+				optOption.value = strReason
+			end if
+		end if
+	Next
+End Function
+</script>
+
+
+<script language="JScript">
+
+var NOT_DELIM = "$$NOTDELIM$$";
+
+// ----------------------------------------------------------------------------------
+// LoadDialog
+//
+//	Helper routine used to load a previous persistence state and re-configure the 
+//	state of the dialog's components to match.
+// ----------------------------------------------------------------------------------
+
+function LoadDialog()
+{
+	lblI18NText.innerText = g_strI18NText;
+
+	if( g_strFilterState == null )
+		return;
+		
+	var rgValue = g_strFilterState.split(NOT_DELIM);
+	for (var i = 0; i < rgValue.length - 1; i++)
+	{
+		selReasons.options[rgValue[i]].selected = true;
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// UnloadDialog
+//
+// ----------------------------------------------------------------------------------
+
+function UnloadDialog()
+{
+}
+
+// ----------------------------------------------------------------------------------
+// GetState
+//
+//	Helper routine used to save the current state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function GetState()
+{
+	var s = "";
+	for (var i = 0; i < selReasons.options.length; i++)
+	{
+		if (selReasons.options[i].selected)
+		{
+			s = s + i + NOT_DELIM;
+		}
+	}
+
+	return s;
+}
+
+// ----------------------------------------------------------------------------------
+// GetValue
+//
+//	Helper routine used to convert the state of the dialog into an SQL expression 
+//	that is used by the TDO to perform the filtering.
+// ----------------------------------------------------------------------------------
+
+function GetValue()
+{
+	var s = ""
+	if (selReasons.value == '')
+		return "";
+	else
+	{	
+		for (var i = 0; i < selReasons.options.length; i++)
+		{
+			if (selReasons.options[i].selected)
+			{
+				// Escape the quote character
+				var re = /(['])/g;
+				var s1 = selReasons.options[i].value.replace(re, "\'\'");
+				// SQL uses the '%' and '_' characters to represent
+				// wildcards instead of '*' and '?'.\
+				re = /(\[)/g;
+				s1 = s1.replace(re, "[[]");
+				re = /(\%)/g;
+				s1 = s1.replace(re, "[%]");
+				re = /(\_)/g;
+				s1 = s1.replace(re, "[_]");
+				re = /(\*)/g;
+				s1 = s1.replace(re, "%");
+				re = /(\?)/g;
+				s1 = s1.replace(re, "_");
+				s1 = g_strFieldName + " like \'" + s1 + "\'";
+				
+				if( s.length == 0 )
+					s = "(" + s1 + ")";
+				else
+					s = s + " or (" + s1 + ")";
+			}
+		}		
+	}
+	return s;
+}
+
+// ----------------------------------------------------------------------------------
+// GetDescription
+//
+//	Returns a textual description of the filter for displaying as a tooltip on the
+//  '(filter applied)' indicator and in the 'Print as Report' header.
+// ----------------------------------------------------------------------------------
+
+function GetDescription()
+{
+	var s = "";
+	for (var i = 0; i < selReasons.options.length; i++)
+	{
+		if (selReasons.options[i].selected)
+		{
+			if (s.length > 0)
+				s = s + " OR '" +selReasons.options[i].value + "'";
+			else
+				s = "'" + selReasons.options[i].value + "'";
+		}
+	}
+
+	return s;
+}
+
+</script>
+
+</HEAD>
+<BODY onload="PopulateReasons(); InitializeLogger(); DoLoad()"
+	onkeypress="DoKeyPress()"
+	onunload="TerminateLogger()"
+	style="background-color: buttonface;
+			 margin: 5px;">
+
+	<span id="lblI18NText" 
+		  style="position: absolute;
+				 left: 10px;
+				 top: 5px;
+				 width: 300px;">
+	</span>
+
+	<select id="selReasons"
+			multiple="yes"
+			size="5"
+			style="display: inline;
+				   position: absolute;
+				   width: 200px;
+				   height: 100px;
+				   top: 40px;
+				   left: 5px;">
+	</select>
+	
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			style="position: absolute; 
+				   bottom: 5px;
+				   right: 90px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			onclick="window.close()" 
+			style="position: absolute; 
+				   bottom: 5px;
+				   right: 5px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</BODY>
+
+</HTML>

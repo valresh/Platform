@@ -1,0 +1,268 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="46px" height="14px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><stylesheets><stylesheet src="..\Styles\SysFaceplate.css"/></stylesheets><scripts><script event="" language="JScript" id="44E2F4AF-016E-4438-83E1-2015B17A2118"><![CDATA[var centerPanelCurrentPage = 1;
+centerPanelCurrentDot = 1;
+var centerPanelMaxPage = 5;
+var centerPanelMaxPageConfigured = 5;
+var oShape
+var ColorTheme = 'Light';
+var colorTheme = 1;
+var bshow2ndPage = true;
+var bshow3rdPage = true;
+var bshow4thPage = true;
+var PageContentBaseId = 'CenterPanelPage';
+
+function calculateActualDots()
+{
+
+	//Calculate actual dots as per the boolean configured like show2ndPage, show3rdPage
+	if (bshow2ndPage != true && centerPanelMaxPageConfigured >= 2)
+	{
+		centerPanelMaxPage = centerPanelMaxPage - 1
+	}
+	if (bshow3rdPage != true && centerPanelMaxPageConfigured >= 3)
+	{
+		centerPanelMaxPage = centerPanelMaxPage - 1
+	}
+	if (bshow4thPage != true && centerPanelMaxPageConfigured >= 4)
+	{
+		centerPanelMaxPage = centerPanelMaxPage - 1
+	}
+
+	//Once Actual dots calculated initialize the Navigation button with dots
+	initializeNavButton()
+}
+
+function initializeNavButton()
+{
+
+	//Default hide all and show only dots which are applicable
+	oShape.objects("btn" + ColorTheme + 'Closed').style.visibility = "inherit";
+
+	switch (centerPanelMaxPage)
+	{
+		case 2:
+			oShape.objects("dotSelected" + ColorTheme + 21).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 22).style.visibility = "inherit";
+			break;
+		case 3:
+			oShape.objects("dotSelected" + ColorTheme + 31).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 32).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 33).style.visibility = "inherit";
+			break;
+		case 4:
+			oShape.objects("dotSelected" + ColorTheme + 41).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 42).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 43).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 44).style.visibility = "inherit";
+			break;
+		case 5:
+			oShape.objects("dotSelected" + ColorTheme + 51).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 52).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 53).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 54).style.visibility = "inherit";
+			oShape.objects("dotUnselected" + ColorTheme + 55).style.visibility = "inherit";
+			break;
+		default:
+			oShape.style.visibility = 'hidden';
+	}
+}
+
+function PanelNavigation()
+{
+
+	// centerPanelCurrentDot to handle current dots to be selected.
+	// centerPanelCurrentPage page to handle current Page to be shwon
+
+	//Hide all
+	centerPanelCurrentPage = centerPanelCurrentPage + 1;
+	centerPanelCurrentDot = centerPanelCurrentDot + 1;
+
+
+	//skipping current page based on the boolean configured like show2ndPage, show3rdPage and show4thPage
+	if (bshow2ndPage != true && centerPanelCurrentPage < centerPanelMaxPageConfigured && centerPanelCurrentPage == 2)
+	{
+		centerPanelCurrentPage = centerPanelCurrentPage + 1;
+
+	}
+	if (bshow3rdPage != true && centerPanelCurrentPage < centerPanelMaxPageConfigured && centerPanelCurrentPage == 3)
+	{
+		centerPanelCurrentPage = centerPanelCurrentPage + 1;
+
+	}
+	if (bshow4thPage != true && centerPanelCurrentPage < centerPanelMaxPageConfigured && centerPanelCurrentPage == 4)
+	{
+		centerPanelCurrentPage = centerPanelCurrentPage + 1;
+	}
+	//Resetting the centerPanelCurrentPage to default in case centerPanelCurrentPage crossed the limit as per the boolean configured like show2ndPage, show3rdPage and show4thPage
+	if (bshow2ndPage != true && centerPanelCurrentPage >= centerPanelMaxPageConfigured && centerPanelCurrentPage == 2)
+	{
+		centerPanelCurrentPage = 1
+	}
+	if (bshow3rdPage != true && centerPanelCurrentPage >= centerPanelMaxPageConfigured && centerPanelCurrentPage == 3)
+	{
+		centerPanelCurrentPage = 1
+	}
+	if (bshow4thPage != true && centerPanelCurrentPage >= centerPanelMaxPageConfigured && centerPanelCurrentPage == 4)
+	{
+		centerPanelCurrentPage = 1
+	}
+
+	//Applying the style to the button as per the Closed and Open Status, If the selected dots is other than 1 then its open button.
+	if (centerPanelCurrentDot == 1)
+	{
+		oShape.objects("btn" + ColorTheme + 'Closed').style.visibility = "inherit";
+	}
+	else
+	{
+		oShape.objects("btn" + ColorTheme + 'Open').style.visibility = "inherit";
+	}
+	//Applying the style to the dots as per selected/unselected dots.
+	for (var i = 1; i <= centerPanelMaxPage; i++)
+	{
+		if (i == centerPanelCurrentDot)
+		{
+			oShape.objects("dotSelected" + ColorTheme + centerPanelMaxPage + i).style.visibility = "inherit";
+		}
+		else
+		{
+			oShape.objects("dotUnselected" + ColorTheme + centerPanelMaxPage + i).style.visibility = "inherit";
+		}
+	}
+	// Showing only the applicable page as per the selected dots
+	for (obj in oShape.parentElement.children)
+	{
+		if (obj.toUpperCase().indexOf(PageContentBaseId) !== -1)
+		{
+			if (obj.slice(-1) == centerPanelCurrentPage)
+			{
+				document.getElementById(obj).style.display = "block"
+				document.getElementById(obj).style.visibility = "Inherit";
+			}
+			else
+			{
+				document.getElementById(obj).style.display = "None"
+				document.getElementById(obj).style.visibility = "Hidden";
+			}
+		}
+	}
+	// Resetting the centerPanelCurrentPage in case it ha crossed the max of configured page
+	if (centerPanelCurrentPage >= centerPanelMaxPageConfigured)
+	{
+		centerPanelCurrentPage = 0;
+	}
+	// Resetting the dots in case it ha crossed the max of configured page
+	if (centerPanelCurrentDot >= centerPanelMaxPage)
+	{
+		centerPanelCurrentDot = 0;
+	}
+}]]></script><script event="onshapeload" language="JScript" id=""><![CDATA[this.style.height = "13px";
+this.style.width = "46px";
+oShape = this;
+//Read the custom propetry
+centerPanelMaxPage = parseInt(oShape.GetCustomProperty("Value", "NumOfPages"))
+centerPanelMaxPageConfigured = parseInt(oShape.GetCustomProperty("Value", "NumOfPages"))
+PageContentBaseId = this.GetCustomProperty("Value", "CenterPanelPageBaseId").toUpperCase();
+if (oShape.GetCustomProperty("Value", "show2ndPage").toUpperCase() != 'TRUE')
+{
+	bshow2ndPage = false
+}
+else
+{
+	bshow2ndPage = true
+}
+if (oShape.GetCustomProperty("Value", "show3rdPage").toUpperCase() != 'TRUE')
+{
+	bshow3rdPage = false
+}
+else
+{
+	bshow3rdPage = true
+}
+if (oShape.GetCustomProperty("Value", "show4thPage").toUpperCase() != 'TRUE')
+{
+	bshow4thPage = false
+}
+else
+{
+	bshow4thPage = true
+}
+
+if (window.external.application.ColorTheme == 1)
+{
+	ColorTheme = 'Dark';
+}
+else
+{
+	ColorTheme = 'Light';
+}
+calculateActualDots();]]></script></scripts><parameters><parameter name="NumOfPages" type="Value" description="Number of pages" defaultvalue="5"/><parameter name="show2ndPage" type="Value" description="Set to True or False to show the 2nd page" defaultvalue="True"/><parameter name="show3rdPage" type="Value" description="Set to True or False to show the 3rd page" defaultvalue="True"/><parameter name="show4thPage" type="Value" description="Set to True or False to show the 4th page" defaultvalue="True"/><parameter name="CenterPanelPageBaseId" type="Value" description="Panel page base id" defaultvalue="CenterPanelPage"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=btnDarkClosed class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:13;lineColorBlink:False;Src:.\shaPanelNavigation_files\btn-closed-dark.png;Width:46;" shapesrc=".\shaPanelNavigation_files\btn-closed-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=btnLightClosed class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:13;lineColorBlink:False;Src:.\shaPanelNavigation_files\btn-closed-light.png;Width:46;" shapesrc=".\shaPanelNavigation_files\btn-closed-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=btnDarkOpen class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:13;lineColorBlink:False;Src:.\shaPanelNavigation_files\btn-open-dark.png;Width:46;" shapesrc=".\shaPanelNavigation_files\btn-open-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=btnLightOpen class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:13;lineColorBlink:False;Src:.\shaPanelNavigation_files\btn-open-light.png;Width:46;" shapesrc=".\shaPanelNavigation_files\btn-open-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark22 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 54.34%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight22 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 54.34%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark22 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 54.34%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight22 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 54.34%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark21 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 32.6%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight21 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 32.6%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark21 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 32.6%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight21 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 32.6%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark31 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight31 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark31 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight31 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark32 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 45.65%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight32 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 45.65%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark32 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 45.65%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight32 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 45.65%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark33 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 65.21%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight33 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 65.21%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark33 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 65.21%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight33 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 65.21%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark41 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 17.39%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight41 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 17.39%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark41 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 17.39%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight41 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 17.39%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark42 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 34.78%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight42 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 34.78%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark42 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 34.78%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight42 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 34.78%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark43 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 52.17%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight43 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 52.17%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark43 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 52.17%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight43 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 52.17%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark44 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 69.56%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight44 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 69.56%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark44 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 69.56%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight44 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 69.56%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark51 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 8.69%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight51 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 8.69%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark51 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 8.69%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight51 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 8.69%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark52 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight52 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark52 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight52 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 26.08%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark53 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 43.47%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight53 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 43.47%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark53 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 43.47%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight53 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 43.47%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark54 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 60.86%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight54 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 60.86%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark54 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 60.86%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight54 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 60.86%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedDark55 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 78.26%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotSelectedLight55 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 78.26%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-selected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-selected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedDark55 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 78.26%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-dark.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-dark.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=dotUnselectedLight55 class=hsc.image.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 42.85%; FONT-FAMILY: Arial; WIDTH: 13.04%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 78.26%; TOP: 21.42%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:6;lineColorBlink:False;Src:.\shaPanelNavigation_files\dot-unselected-light.png;Width:6;" shapesrc=".\shaPanelNavigation_files\dot-unselected-light.png"></DIV>]]></content></html></element><element><html><content><![CDATA[<INPUT tabIndex=-1 id=btnNavButton class=hsc.button.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 92.85%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#000000;textColorBlink:False;" BaseFilter="" BaseFilterXML="" BaseFilterTranslateSQLchars="">]]></content><scripts><script event="onclick" language="JScript"><![CDATA[//1st hide all
+for (obj in this.parentElement.children) 
+{
+if (obj != 'length')
+{
+ document.getElementById(obj).style.visibility = "hidden";
+ this.style.visibility = "inherit"
+ }
+
+}
+PanelNavigation();]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=grpNavButton class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 14px; WIDTH: 46px; POSITION: absolute; LEFT: 110px; TOP: 110px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:14;lineColorBlink:False;Width:46;"></DIV>]]></content></html></group></shape></shapes></shapefile>

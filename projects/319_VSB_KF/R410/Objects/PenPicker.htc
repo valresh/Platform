@@ -1,0 +1,337 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited                      
+$Archive: /System Displays/Web Application Displays/Objects/PenPicker.htc $ 
+$Workfile: PenPicker.htc $ 
+$Modtime: 10/09/07 12:27a $ 
+$Revision: 2 $ 
+***************************************************************************
+This behavior provides the UI for a simple pen-color and line-style
+picker. It fires events when the color and style selections are changed.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+***************************************************************************
+-->
+<public:component name="PenPicker" urn="PenPicker">
+	<public:property name="DoColorPicker" value="True"/>
+	<public:property name="DoLinePicker" value="True"/>
+	<public:property name="color" id="color" value="#FFFFFF" get="getColor" put="setColor"/>
+	<public:property name="linestyle" id="style" value="solid" get="getStyle" put="setStyle"/>
+	<public:property name="colordepth" value="6"/>
+	<public:method name="InitPickerProperties"/>
+	<public:event name="oncolorchange" id="colorchange"/>
+	<public:event name="onstylechange" id="stylechange"/>
+	<public:attach event="oncontentready" onevent="DrawPicker" for="Element"/>
+	<public:attach event="onpropertychange" onevent="OnPropertyChange" for="Element"/>
+</public:component>
+<script language="vbscript" type="text/vbscript" defer>
+	Option Explicit
+	
+	Dim g_arrColors(5, 5)
+	g_arrColors(1, 0) = "FF"
+	g_arrColors(1, 1) = "00"
+	
+	g_arrColors(2, 0) = "FF"
+	g_arrColors(2, 1) = "99"
+	g_arrColors(2, 2) = "00"
+	
+	g_arrColors(3, 0) = "FF"
+	g_arrColors(3, 1) = "99"
+	g_arrColors(3, 2) = "66"
+	g_arrColors(3, 3) = "00"
+	
+	g_arrColors(4, 0) = "FF"
+	g_arrColors(4, 1) = "CC"
+	g_arrColors(4, 2) = "99"
+	g_arrColors(4, 3) = "66"
+	g_arrColors(4, 4) = "00"
+	
+	g_arrColors(5, 0) = "FF"
+	g_arrColors(5, 1) = "CC"
+	g_arrColors(5, 2) = "99"
+	g_arrColors(5, 3) = "66"
+	g_arrColors(5, 4) = "33"
+	g_arrColors(5, 5) = "00"
+	
+	Dim g_arrStyles(2, 1)	' First column is value, second is label. _Only_ the label should be I18Nd.
+	g_arrStyles(0, 0) = "solid"
+	g_arrStyles(0, 1) = Translate("Solid")
+	g_arrStyles(1, 0) = "dashed"
+	g_arrStyles(1, 1) = Translate("Dashed")
+	g_arrStyles(2, 0) = "dotted"
+	g_arrStyles(2, 1) = Translate("Dotted")
+	
+	Dim m_objColor, m_objStyle
+	Set m_objColor = Nothing
+	Set m_objStyle = Nothing
+	
+	Dim m_bInitializing
+	m_bInitializing = False
+	
+	'-----------------------------------------------------------------------
+	' getColor, setColor
+	'-----------------------------------------------------------------------
+	' These functions are accessors for the color property.
+	'-----------------------------------------------------------------------
+	Function getColor()
+	On Error Resume Next
+    	getColor = "#FFFFFF"
+		If m_objColor Is Nothing Then
+			getColor = Trim(Element.attributes("color").value)  ' Note: DON'T use getAttribute => stack overflow!
+			If Err.number <> 0 Then
+				ScriptError "PenPicker::getColor", Err
+				Err.Clear
+			End If
+		Else
+			getColor = m_objColor.style.backgroundColor
+		End If
+	End Function
+	
+	Sub setColor(varColor)
+	On Error Resume Next
+		Dim bColorFound
+		bColorFound = False
+		
+		Dim objRow, objCell
+		For Each objRow In tbColor.rows
+			For Each objCell In objRow.cells
+				If StrComp(objCell.style.backgroundColor, varColor, 1) = 0 Then
+					' We have found the color element.
+					bColorFound = True
+					objCell.style.border = "2px inset"
+					If Not m_objColor Is objCell Then
+						' This is a different color element than we had before.
+						Set m_objColor = objCell
+						color.fireChange
+						colorchange.fire
+					End If
+				Else
+					objCell.style.border = "2px outset"
+				End If
+			Next
+		Next
+		
+		If Not bColorFound Then
+			Set m_objColor = Nothing
+		End If
+	End Sub
+	
+	'-----------------------------------------------------------------------
+	' getStyle, setStyle
+	'-----------------------------------------------------------------------
+	' These functions are accessors for the linestyle property.
+	'-----------------------------------------------------------------------
+	Function getStyle()
+	On Error Resume Next
+	    getStyle = "solid"
+		If m_objStyle Is Nothing Then
+			Dim attr
+			Set attr = Element.attributes("linestyle")
+			If Not attr Is Nothing Then
+			    getStyle = Trim(attr.value)  ' Note: DON'T use getAttribute => stack overflow!
+			    If Err.number <> 0 Then
+				    ScriptError "PenPicker::getStyle", Err
+				    Err.Clear
+			    End If
+			End If
+		Else
+			getStyle = m_objStyle.firstChild.value
+		End If
+	End Function
+	
+	Sub setStyle(varStyle)
+	On Error Resume Next
+		Dim bStyleFound
+		bStyleFound = False
+		
+		Dim objRow, objCell
+		For Each objRow In tbStyle.rows
+			For Each objCell In objRow.cells
+				If StrComp(objCell.firstChild.value, varStyle, 1) = 0 Then
+					' We have found the Style element.
+					bStyleFound = True
+					objCell.firstChild.checked = True
+					If Not m_objStyle Is objCell Then
+						' This is a different style element than we had before.
+						Set m_objStyle = objCell
+						style.fireChange
+						stylechange.fire
+					End If
+				Else
+					objCell.firstChild.checked = False
+				End If
+			Next
+		Next
+		
+		If Not bStyleFound Then
+			Set m_objStyle = Nothing
+		End If
+	End Sub
+			
+	'-----------------------------------------------------------------------
+	' DrawPicker
+	'-----------------------------------------------------------------------
+	' This function initializes the content of the Pen Picker dialog. It is
+	' called when the 'OnContentReady' event fires on the host element.
+	'-----------------------------------------------------------------------
+	Function DrawPicker()
+	On Error Resume Next
+		If m_bInitializing Then
+			Exit Function	' DrawPicker will be called again as soon as Initialization is complete.
+		End If
+		
+		'.......................................................................
+		' Cache the initial / previous property values.
+		'.......................................................................
+		Dim strInitialColor, strInitialStyle
+		strInitialColor = Element.color
+		strInitialStyle = Element.linestyle
+		
+		'.......................................................................
+		' Release the cached objects
+		'.......................................................................
+		Set m_objColor = Nothing
+		Set m_objStyle = Nothing
+		
+		'.......................................................................
+		' Add a table to the host element.
+		'.......................................................................
+		Element.innerHTML = "<table id='tblPicker'><tbody id='tbColor'></tbody><tbody id='tbStyle'></tbody></table>"
+			
+		If parseBoolean(Element.DoColorPicker, True) Then					
+			'.......................................................................
+			' Add the color-cells to the table.
+			'.......................................................................
+			Dim nDepth, nIndex
+			nDepth = CLng(Element.colordepth)
+			nIndex = nDepth - 1
+			
+			Dim iRow, objRow, iCell, objCell, strRed, strGreen, strBlue, strHTMLColor
+			For iRow = 0 To nIndex
+				Set objRow = tbColor.insertRow
+				objRow.style.pixelHeight = 10
+							
+				For iCell = 0 To (nDepth ^ 2) - 1
+				
+					strRed = g_arrColors(nIndex, iRow)
+					strGreen = g_arrColors(nIndex, Fix(iCell /nDepth))
+					strBlue = g_arrColors(nIndex, iCell Mod nDepth)
+					strHTMLColor = "#" & strRed & strGreen & strBlue
+					
+					Set objCell = objRow.insertCell
+					objCell.className = "pickme"
+					If StrComp(strHTMLColor, strInitialColor, 1) = 0 Then
+						' This is the current color.
+						Set m_objColor = objCell
+						objCell.style.border = "2px inset"
+					End If
+					objCell.style.backgroundColor = strHTMLColor
+					objCell.innerHTML = "&nbsp;&nbsp;&nbsp;"
+					objCell.attachEvent "onclick", GetRef("OnColorSelected")
+					Set objCell = Nothing
+				Next
+				Set objRow = Nothing
+			Next
+		End If
+				
+		If parseBoolean(Element.DoLinePicker, True) Then					
+			'.......................................................................
+			' Add the style-rows to the table.
+			'.......................................................................
+			Dim iStyle
+			For iStyle = 0 To UBound(g_arrStyles)
+				Set objRow = tbStyle.insertRow
+				Set objCell = objRow.insertCell
+				objCell.colSpan = nDepth ^ 2
+				objCell.innerHTML = "<input type='radio' name='radLineStyle' style='width: 20px;'>&nbsp;" & g_arrStyles(iStyle, 1)
+				objCell.firstChild.value = g_arrStyles(iStyle, 0)
+				If StrComp(g_arrStyles(iStyle, 0), strInitialStyle, 1) = 0 Then
+					' This is the selected style.
+					Set m_objStyle = objCell
+					objCell.firstChild.checked = True
+				Else
+					objCell.firstChild.checked = False
+				End If
+				objCell.firstChild.attachEvent "onclick", GetRef("OnStyleSelected")
+				Set objCell = Nothing
+				Set objRow = Nothing
+			Next
+		End If
+	End Function
+	
+	'-----------------------------------------------------------------------
+	' InitPickerProperties
+	'-----------------------------------------------------------------------
+	' This function allows all the properties to be initialized with the 
+	' picker only being redrawn once.
+	'-----------------------------------------------------------------------
+	Sub InitPickerProperties(strColor, strStyle, strDepth, strPickColors, strPickStyles)
+	On Error Resume Next
+		m_bInitializing = True	' To stop the picker being redrawn till it's safe.
+		Element.color = strColor
+		Element.linestyle = strStyle
+		Element.colordepth = strDepth
+		Element.DoColorPicker = strPickColors
+		Element.DoLinepicker = strPickStyles
+		m_bInitializing = False
+		DrawPicker
+	End Sub
+	
+	'-----------------------------------------------------------------------
+	' OnPropertyChanged
+	'-----------------------------------------------------------------------
+	' This function is called whenever a property on the host element changes.
+	'-----------------------------------------------------------------------
+	Function OnPropertyChange()
+	On Error Resume Next
+		
+		'.......................................................................
+		' Retrieve the name of the property that has changed.
+		'.......................................................................
+		Dim strProperty, iRow, iCell, objCell
+		strProperty = window.event.propertyName
+		Select Case LCase(strProperty)								
+			Case "colordepth":
+				'.......................................................................
+				' We want to change the number of colors being shown: this means that
+				' the whole table has to be rebuilt.
+				'.......................................................................
+				Dim nColorDepth
+				nColorDepth = CInt(Element.colordepth)
+				If nColorDepth < 2 Or nColorDepth > 6 Then
+					LogErrorMessage "PenPicker::OnPropertyChange", "Invalid color depth " & Element.colordepth & "'"
+				Else
+					If nColorDepth <> tbColor.rows.length Then
+						DrawPicker
+					End If
+				End If
+				OnPropertyChange = True
+				
+			Case Else:
+				OnPropertyChange = False			
+		End Select
+	End Function
+	
+	'-----------------------------------------------------------------------
+	' OnColorSelected
+	'-----------------------------------------------------------------------
+	' This function is called whenever the user selects a new colour from 
+	' the palette in the picker dialog.
+	'-----------------------------------------------------------------------
+	Function OnColorSelected()
+	On Error Resume Next
+		Element.color = UCase(window.event.srcElement.style.backgroundColor)
+	End Function
+	
+	'-----------------------------------------------------------------------
+	' OnStyleSelected
+	'-----------------------------------------------------------------------
+	' This function is called when a line-style is selected from the
+	' options in the picker dialog.
+	'-----------------------------------------------------------------------
+	Function OnStyleSelected()	
+	On Error Resume Next	
+		Element.linestyle = LCase(window.event.srcElement.value)
+	End Function
+</script>

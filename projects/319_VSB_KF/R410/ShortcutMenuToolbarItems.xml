@@ -1,0 +1,99 @@
+<toolbar id="toolbar">
+	<script>
+		window.hideCell = function (elem) {
+			while(elem != null &amp;&amp; elem.nodeName.toLowerCase() != 'tr')
+				elem = elem.ParentNode;
+			
+			if(elem != null)
+				elem.style.display = 'none';
+		};
+		</script>
+	<separator id="toolbarsep"/>
+	<menuitem id="tb_fast" acceleratorKey=""> 
+		<script type="onclick"> 
+			window.external.application.AppWindow.ToggleFastMode();
+			window.external.CloseShortcutMenu();
+		</script>
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy === 0) 
+			{ 
+				var sep = document.getElementById('toolbarsep');
+				if (sep != null)
+				{
+					sep.style.display = 'none';
+				}
+				window.hideCell(this); 
+			}
+		</script> 
+		<text>FAST Mode</text> 
+		<image>.\Toolbar\fast.png</image> 
+	</menuitem>	
+	<menuitem id="tb_lock" acceleratorKey=""> 
+		<script type="onclick"> 
+			window.external.application.AppWindow.ToggleLocked();
+			window.external.CloseShortcutMenu();
+		</script>
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy !== 1) { window.hideCell(this); }
+		</script> 
+		<text>Lock</text> 
+		<image>.\Toolbar\lock.png</image> 
+	</menuitem>
+	<menuitem id="tb_outputfocus" acceleratorKey=""> 
+		<script type="onclick"> 
+			window.external.application.AppWindow.SetOutputFocus();
+			window.external.CloseShortcutMenu();
+		</script>
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy !== 1) { window.hideCell(this); }
+		</script> 
+		<text>Next display here</text> 
+		<image>.\Toolbar\focus.png</image> 
+	</menuitem>	
+	<menuitem id="tb_globalfocus" acceleratorKey=""> 
+		<script type="onclick"> 
+			window.external.application.AppWindow.ToggleGlobalFocus();
+			window.external.CloseShortcutMenu();
+		</script>
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy !== 1 || 
+				window.external.application.AppWindow.GetWorkspaceConfigValue('globalfocus') === false) 
+			{ 
+				window.hideCell(this); 
+			}
+		</script> 
+		<text>Global focus here</text> 
+		<image>.\Toolbar\globalfocus.png</image> 
+	</menuitem>	
+ 	<menuitem id="tb_maximize" acceleratorKey=""> 
+		<script type="onclick"> 
+			window.external.application.AppWindow.ToggleMaximizeRestore();
+			window.external.CloseShortcutMenu();
+		</script>
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy !== 1 || 
+				window.external.application.AppWindow.GetWorkspaceConfigValue('maximizable') === false) 
+			{ 
+				window.hideCell(this); 
+			}
+		</script> 
+		<text>Maximize this display</text> 
+		<image>.\Toolbar\maximize.png</image> 
+	</menuitem>
+ 	<menuitem id="tb_close" acceleratorKey="">
+		<script type="onclick"> 
+			window.external.application.AppWindow.Close();
+			window.external.CloseShortcutMenu(); 
+		</script> 
+ 		<script type="onpage"> 
+			if(window.external.application.AppWindow.ManagedBy !== 1 || 
+				window.external.application.AppWindow.GetWorkspaceConfigValue('closable') === false) 
+			{ 
+				window.hideCell(this); 
+			}
+		</script> 		
+		<text>Close this display</text> 
+		<image>.\Toolbar\close.png</image>
+	</menuitem>
+
+</toolbar>

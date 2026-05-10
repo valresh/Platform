@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="Version: 303 Last Change: 11. Jan. 2011" useFirstShapeForBadValue="0" width="109px" height="29px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="VBScript" id="B075809C-4EAA-4DD3-8B5F-242082B7688F"><![CDATA['-------------------------------------
+'Interlock Aufruf
+'-------------------------------------
+sub Interlock_OnClick
+	dim oSource, oShape, sFaceplateFile, sCurrentPoint, sParameterName, sColorSet, sObjPopupWindow, sAllowSimultan
+	on error resume next
+	set oSource=window.event.srcelement
+	set oShape=oSource.parentnode.parentnode
+
+	sFaceplateFile=oShape.getcustomproperty("Text","FaceplateFile")
+	sCurrentPoint=oShape.getcustomproperty("Point", "CmName")
+	sParameterName=oShape.getcustomproperty("Point", "InterlockName")
+	sColorSet=oShape.getcustomproperty("Point", "ColorSet")
+
+	if not page.stylesheetSrc = "" then
+		sAllowSimultan=page.GetStyleClassProperty("Default_Style", "AllowSimultaneousFP")
+		if sAllowSimultan = "0" or sAllowSimultan = "1" then
+			if oShape.GetStyleClassProperty("Default_Style", "AllowSimultaneousFP") = "0" then
+				set sObjPopupWindow = HDXPopupBehavior.FindPopup("interlock")
+				if NOT sObjPopupWindow is nothing then
+					sObjPopupWindow.close
+				End if
+				call document.getelementbyid("HDXPopupBehavior").CreatePopupWindow(sFaceplateFile & "?CurrentPoint=" & sCurrentPoint & "&InterlockName=" & sParameterName & "&ColorSet=" & sColorSet,0,0,1)
+			Else
+				call document.getelementbyid("HDXPopupBehavior").CreatePopupWindow(sFaceplateFile & "?CurrentPoint=" & sCurrentPoint & "&InterlockName=" & sParameterName & "&ColorSet=" & sColorSet,0,0,1)
+			end if
+		Else
+			call document.getelementbyid("HDXPopupBehavior").CreatePopupWindow(sFaceplateFile & "?CurrentPoint=" & sCurrentPoint & "&InterlockName=" & sParameterName & "&ColorSet=" & sColorSet,0,0,1)
+		end if
+	else
+		call document.getelementbyid("HDXPopupBehavior").CreatePopupWindow(sFaceplateFile & "?CurrentPoint=" & sCurrentPoint & "&InterlockName=" & sParameterName & "&ColorSet=" & sColorSet,0,0,1)
+	end if
+end sub]]></script></scripts><parameters><parameter name="Version" type="Num" description="11. Jan. 2011" defaultvalue="Ver 303"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV style="POSITION: absolute; TEXT-ALIGN: center; FONT-STYLE: normal; WIDTH: 109px; FONT-FAMILY: Arial; HEIGHT: 29px; VISIBILITY: hidden; COLOR: #0000ff; FONT-SIZE: 8pt; OVERFLOW: hidden; TOP: 16px; FONT-WEIGHT: bold; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#text); LEFT: 15px" id=TxtGSH001 class=hvg.textbox.1 tabIndex=-1 hdxproperties="FillColor:#afeeee;fillColorBlink:False;FillStyle:0;Height:29;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:109;" globalscripts>ILock GSH<BR>{%Num::Version%} </DIV>]]></content></html></element></shape></shapes></shapefile>

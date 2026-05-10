@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:mstns="MLMonitor.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+	xmlns="MLMonitor.xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="MLMonitor.xsd"
+	id="MLMonitor" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element msdata:IsDataSet="true" name="MLMonitor">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="2">
+				<xs:element minOccurs="1" maxOccurs="1" name="PLCInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" maxOccurs="1" name="DiagnosticsInfo">
+								<xs:complexType>
+									<xs:choice minOccurs="1" maxOccurs="3">
+										<xs:element minOccurs="1" maxOccurs="1" name="PLCDisplayParameters">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="1" maxOccurs="1" name="MLPLCDisplay">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLPLCIDList">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="UpdatedTime">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="DiagnosticsUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>	
+												<xs:attribute form="unqualified" name="EPKSPointName" type="mstns:Name_Validation" use="required" />
+
+												<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" /> 
+  												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+											</xs:complexType>
+										</xs:element>
+
+								<xs:element minOccurs="1" maxOccurs="1" name="PLCGeneralParameters">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="1" maxOccurs="1" name="MLServerInitStatusParameters">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLConfigXML">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																		</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLSOEConfigXML">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLMonitorXML">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLAppSettingsXML">
+																				<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MLServerStart">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="ConnectionStatus">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="PSCommunication">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="ThreadStatus">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="MainResponseThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="HCICallBackThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EPKSCommunicatorThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EngineThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="QueueSize">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="MainResponseQueue">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="UpdatedTime">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="DiagnosticsUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="RequestID">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="StaticRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="DynamicRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="PerformanceParameters">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="Request">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="Response">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+				  <xs:element minOccurs="1" maxOccurs="1" name="LicenseParameters">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="1" maxOccurs="1" name="LicensedNumberOfPLCs">
+                                  <xs:complexType>
+                                    <xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+                                    <xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="LicensedNumberOfPLCPoints">
+                                  <xs:complexType>
+                                    <xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+                                    <xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+                                  </xs:complexType>
+                                </xs:element>
+					  <xs:element minOccurs="1" maxOccurs="1" name="LicensedMode">
+                                  <xs:complexType>
+                                    <xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+                                    <xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+												</xs:sequence>
+																			<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="1" maxOccurs="1" name="PLCSpecificParameters">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="1" maxOccurs="1" name="ConnectionStatus">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="PLCConnection">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="ThreadStatus">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="RequestThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="ResponseThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MonitorThread">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="QueueSize">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="ResponseQueue">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EPKSWriteQueue">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EPKSAlarmQueue">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="RequestID">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="StaticRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="DynamicRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="PerformanceParameters">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="Request">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="Response">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EPKSWrite">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="EPKSAlarm">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="UpdatedTime">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="StatusUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="BaseSlotUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="ADModuleUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="SpecialModuleUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MiscellaneousUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="RTCReadUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="DiagnosticsUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="RTCWriteUDPUpdation">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="ProtocolStackParameters">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="1" name="RequestQueueSize">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="LargeBuffer">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="SmallBuffer">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MediumBuffer">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="ThreadCount">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="RequestThreadStatus">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="ResponseThreadStatus">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="TBCOSThreadStatus">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="ResponseReceived">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="RequestSent">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="TBResponseReceived">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="COSResponseReceived">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MinRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MinResponse">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MaxRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="MaxResponse">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="AvgRequest">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="AvgResponse">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="PLCConnected">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="PLCDisconnected">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="HBSentTime">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="1" maxOccurs="1" name="StatusReceivedTime">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" />
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="ADModuleInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="ADRead">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="Offset" type="xs:hexBinary" use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="NumberOfParameter" type="mstns:NumberOfParameter_Validation"
+													use="optional" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+									<xs:attribute form="unqualified" name="NumberOfParameter" type="mstns:NumberOfParameter_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="SpecialModuleInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="SpecialModule">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="ModuleID" type="xs:string" use="required" />
+
+												<xs:attribute form="unqualified" name="Address" type="xs:string" use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="HOOROffset" type="xs:string" use="optional" />
+									<xs:attribute form="unqualified" name="LOOROffset" type="xs:string" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="ScanPeriod" type="xs:string" use="required" />
+									<xs:attribute form="unqualified" name="DataType" type="xs:string" use="required" />
+									<xs:attribute form="unqualified" name="HOOROffset" type="xs:string" use="required" />
+									<xs:attribute form="unqualified" name="LOOROffset" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="PLCSpecificConfigInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="0" maxOccurs="2" name="PLCFamily">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="0" maxOccurs="1" name="AllModuleInfo">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="unbounded" name="BaseModule">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="StartAddress" type="xs:string" use="required" />
+																		<xs:attribute form="unqualified" name="EndAddress" type="xs:string" use="required" />
+																		<xs:attribute form="unqualified" name="Description" type="mstns:Desc_Validation" use="required" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+															<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" maxOccurs="1" name="BaseSlotInfo">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="32" name="Base">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element minOccurs="0" maxOccurs="1" name="Power">
+																				<xs:complexType>
+																					<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																						use="required" />
+																					<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element minOccurs="1" maxOccurs="12" name="Slot">
+																				<xs:complexType>
+																					<xs:attribute form="unqualified" name="ID" type="mstns:SlotID_Validation" use="required" />
+																					<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																						use="required" />
+																					<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute form="unqualified" name="ID" type="mstns:BaseID_Validation" use="required" />
+																		<xs:attribute form="unqualified" name="NumberOfSlotsParameter" type="mstns:ParameterToUpdate_Validation"
+																			use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+															<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+															<xs:attribute form="unqualified" name="NumberOfBasesParameter" type="mstns:ParameterToUpdate_Validation"
+																use="required" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" maxOccurs="1" name="MasterInfo">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="unbounded" name="MasterRead">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="Address" type="xs:string" use="required" />
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" maxOccurs="1" name="StandbyInfo">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="unbounded" name="StandbyRead">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="Address" type="xs:string" use="required" />
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" maxOccurs="1" name="RedundancyStatusInfo">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="1" maxOccurs="unbounded" name="RedantRead">
+																	<xs:complexType>
+																		<xs:attribute form="unqualified" name="Address" type="xs:string" use="required" />
+																		<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation" use="required" />
+																		<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional"/>
+																	        <xs:attribute form="unqualified" name="Description" type="xs:string" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute form="unqualified" name="ScanPeriod" type="mstns:ScanPeriod_Validation" use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute form="unqualified" name="PLCType" type="mstns:PLCType_Validation" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="AlarmInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="Bit">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="ID" type="mstns:BitID_Validation" use="required" />
+												<xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="Value0ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+													use="optional" />
+												<xs:attribute form="unqualified" name="Value1ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+													use="optional" />
+												<xs:attribute form="unqualified" name="Priority" type="mstns:Priority_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="Alarm" type="mstns:Alarm_Validation" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="Value0ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="Value1ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+									<xs:attribute form="unqualified" name="Priority" type="mstns:Priority_Validation" use="required" />
+									<xs:attribute form="unqualified" name="Alarm" type="mstns:Alarm_Validation" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="IOModuleInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="Module">
+											<xs:complexType>
+											<!-- Changes for MSXML6.0 Migration -->
+												<xs:attribute form="unqualified" name="ID" type="mstns:Module_Validation" use="required" />
+												<xs:attribute form="unqualified" name="Name" type="mstns:Name_Validation" use="required" />
+												<xs:attribute form="unqualified" name="Description" type="mstns:Desc_Validation" use="required" />
+												<xs:attribute form="unqualified" name="ShapeIndex" type="mstns:ShapeIndex_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="ADModule" type="mstns:YesNo_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="SpecialModule" type="mstns:YesNo_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="NumberOfChannels" type="mstns:NumberOfChannels_Validation"
+													use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="ShapeIndex" type="mstns:ShapeIndex_Validation" use="required" />
+									<xs:attribute form="unqualified" name="ADModule" type="mstns:YesNo_Validation" use="required" />
+									<xs:attribute form="unqualified" name="SpecialModule" type="mstns:YesNo_Validation" use="required" />
+									<xs:attribute form="unqualified" name="NumberOfChannels" type="mstns:NumberOfChannels_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="FirstColumn" type="xs:string" use="required" />
+									<xs:attribute form="unqualified" name="SecondColumn" type="xs:string" use="required" />
+									<xs:attribute form="unqualified" name="ThirdColumn" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="1" maxOccurs="1" name="MiscellaneousInfo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="0" maxOccurs="1" name="RTCTimeInfo">
+
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="1" maxOccurs="1" name="PLCTypeInfo">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="PLCNameParameter" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="PLCIDParameter" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="PLCTypeParameter" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="NUMOFPLCParameter" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="0" maxOccurs="1" name="ConfiguredBasesInfo">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="1" maxOccurs="1" name="IPAddressInfo">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate1" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate2" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate3" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate4" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="ActiveDataType" type="mstns:DataType_Validation" use="required" />
+												<xs:attribute form="unqualified" name="ActiveIPAddress" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="1" maxOccurs="1" name="PLCScanPeriodInfo">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="1" maxOccurs="1" name="MinScanPeriod">
+														<xs:complexType>
+															<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="MaxScanPeriod">
+														<xs:complexType>
+															<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="1" maxOccurs="1" name="CurrentScanPeriod">
+														<xs:complexType>
+															<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+																use="required" />
+															<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element msdata:IsDataSet="true" minOccurs="1" maxOccurs="1" name="PLCInfo100">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="1">
+							<xs:element minOccurs="1" maxOccurs="1" name="AlarmInfo100">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="Bit">
+											<xs:complexType>
+												<xs:attribute form="unqualified" name="ID" type="mstns:BitID_Validation" use="required" />
+												<xs:attribute form="unqualified" name="Desc" type="mstns:Desc_Validation" use="required" />
+												<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="ParameterToUpdate" type="mstns:ParameterToUpdate_Validation"
+													use="required" />
+												<xs:attribute form="unqualified" name="Value0ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+													use="optional" />
+												<xs:attribute form="unqualified" name="Value1ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+													use="optional" />
+												<xs:attribute form="unqualified" name="Priority" type="mstns:Priority_Validation" use="optional" />
+												<xs:attribute form="unqualified" name="Alarm" type="mstns:Alarm_Validation" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute form="unqualified" name="Value0ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="Value1ShapeIndex" type="mstns:ValueShapeIndex_Validation"
+										use="required" />
+									<xs:attribute form="unqualified" name="DataType" type="mstns:DataType_Validation" use="required" />
+									<xs:attribute form="unqualified" name="Priority" type="mstns:Priority_Validation" use="required" />
+									<xs:attribute form="unqualified" name="Alarm" type="mstns:Alarm_Validation" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+<!-- Changes for MSXML6.0 Migration - HexBinary will not accept value like 25A40
+	In order to accept those values, custom validation is done here -->
+	<xs:simpleType name="Module_Validation">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]|[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Alarm_Validation">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[F/f]|[1]|[0]|[C/c]" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Priority_Validation">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataType_Validation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INT2" />
+			<xs:enumeration value="INT4" />
+			<xs:enumeration value="CHAR" />
+			<xs:enumeration value="REAL" />
+			<xs:enumeration value="DBLE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YesNo_Validation">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[Y/y][E/e][S/s]|[N/n][O/o]" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ScanPeriod_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="3600" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParameterToUpdate_Validation">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="40" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Name_Validation">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="40" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BitID_Validation">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([01]?[0-9][0-9]?)|([01]?[0-9][0-9]?-[01]?[0-9][0-9]?)" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Desc_Validation">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="255" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ValueShapeIndex_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="10" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ShapeIndex_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="1000" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumberOfChannels_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="1024" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BaseID_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="31" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SlotID_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="11" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumberOfParameter_Validation">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="1" />
+			<xs:maxInclusive value="255" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PLCType_Validation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ML100R" />
+			<xs:enumeration value="ML200" />
+			<xs:enumeration value="ML200-IEC" />
+			<xs:enumeration value="ML200R" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

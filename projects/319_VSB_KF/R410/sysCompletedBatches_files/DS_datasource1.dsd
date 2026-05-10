@@ -1,0 +1,623 @@
+<datasource version="2">
+  <hmipage pageType="0" updateRate="60" forwardAction="1" forwardString="" backwardAction="1" backwardString="" previousIdleTime="0" areaRequestType="0" areaString="" securityLevel="0" requestTaskOnPageCallup="0" callUpTaskSecurityLevel="2" callUpTaskStationIndex="0" callUpTaskTaskLrn="0" callUpTaskTaskParam1="1" callUpTaskTaskParam2="11" callUpTaskTaskParam3="0" callUpTaskTaskParam4="0" periodicTaskOnPageCallup="0" periodicTaskSecurityLevel="2" periodicTaskStationIndex="0" periodicTaskTaskLrn="0" periodicTaskTaskParam1="1" periodicTaskTaskParam2="11" periodicTaskTaskParam3="0" periodicTaskTaskParam4="0" periodicTaskPeriod="60" persistFlags="0" safeviewCategory="" pageTitle="" pageKey="0" pageFlags="1" zoomingAllowed="1" singleUse="0" appSetName="" associateWithAlarmGroup="0" useDefaultAlarmGroup="1" alarmGroup="%Display Name%_almgrp"/>
+  <dataobject id="1" type="HMIPage.Generic" format="propertybag">
+    <property name="AddressFlags">0</property>
+    <property name="AddressType">0</property>
+    <property name="CalloutElement"></property>
+    <property name="ObjectType">0</property>
+    <property name="ParameterFormat">0</property>
+    <property name="PointRefFlags">0</property>
+    <property name="PointRefParamName">NumberOfBatchesToDisplay</property>
+    <property name="PointRefParamOffset">0</property>
+    <property name="PointRefPointName">{%CurrentPoint%}</property>
+    <property name="PresentationType">0</property>
+    <property name="SecurityLevel">0</property>
+    <property name="UpdatePeriod">0</property>
+    <property name="version">1.3</property>
+  </dataobject>
+  <dataobject id="9" type="HMIPage.Table" format="propertybag">
+    <property name="Columns" type="complex">
+      <propertybag>
+        <property name="0" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;   BORDER-RIGHT-STYLE: none; BEHAVIOR: url(#HDXAlphaBehavior); background-color: #f9f9f9; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Text&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">BatchIdArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">12</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">BatchId</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Batch ID</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">180</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="1" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none;OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Text&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">StartTimeArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">12</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">StartTime</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Start Time</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">150</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="2" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none;OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); background-color: #f9f9f9; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Text&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">EndTimeArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">12</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">EndTime</property>
+            <property name="Resizable">1</property>
+            <property name="Title">End Time</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">150</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="3" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); background-color: #f9f9f9; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Text&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">ProductArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">12</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">Product</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Product</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">80</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="4" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none;OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numericDisplayFormat:%.2f;textColor:#000000;" unbound="true"&gt;9999.99&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">DensityArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">0</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">Density</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Density (kg/m3)</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">110</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="5" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none;OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%.2f;textColor:#000000;" unbound="true"&gt;9999.99&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">TargetVolumeArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">0</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">TargetVolume</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Target Volume (m3)</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">150</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="6" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none;OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%.2f;textColor:#000000;" unbound="true"&gt;9999.99&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">InjectedVolumeArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">0</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">InjectedVolume</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Injected Volume (m3)</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">150</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="7" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%.2f;textColor:#000000;" unbound="true"&gt;9999.99&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">DeliveredVolumeArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">0</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">DeliveredVolume</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Delivered Volume (m3)</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">153</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="8" type="complex">
+          <propertybag>
+            <property name="Bindings">
+              &lt;in fields="$column$.Value" xforms="$column$.xfHideEmpty" properties="style.display"/&gt;
+              &lt;in fields="$column$.Value" xforms="$column$.xfEmpty" properties="currentValue"/&gt;
+              &lt;in fields="$column$.Quality" properties="quality"/&gt;
+              &lt;out properties="currentValue" fields="$column$.Value"/&gt;
+              &lt;in fields="$column$.SecurityLevel" properties="SecurityLevel" /&gt;
+            </property>
+            <property name="Content">&lt;TEXTAREA tabIndex=0 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; WIDTH: 100%; BORDER-BOTTOM-STYLE: none;  FONT-WEIGHT: normal; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none;  BEHAVIOR: url(#HDXAlphaBehavior); ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;lineColor:black;numberOfChars:20;numericDisplayFormat:%s;textColor:#000000;" unbound="true"&gt;Text&lt;/TEXTAREA&gt;</property>
+            <property name="FieldObjects" type="complex">
+              <propertybag>
+                <property name="0" type="complex">
+                  <propertybag>
+                    <property name="Instance" type="complex">
+                      <propertybag>
+                        <property name="AddressFlags">128</property>
+                        <property name="AddressType">0</property>
+                        <property name="CalloutElement"></property>
+                        <property name="ObjectType">0</property>
+                        <property name="ParameterFormat">0</property>
+                        <property name="PointRefFlags">4</property>
+                        <property name="PointRefParamName">BatchStateArray</property>
+                        <property name="PointRefParamOffset">1</property>
+                        <property name="PointRefPointName">{%CurrentPoint%}</property>
+                        <property name="PresentationType">12</property>
+                        <property name="RepeatCount">1</property>
+                        <property name="RepeatField">2</property>
+                        <property name="RepeatValueBias">0</property>
+                        <property name="SecurityLevel">0</property>
+                        <property name="UpdatePeriod">0</property>
+                        <property name="version">1.3</property>
+                      </propertybag>
+                    </property>
+                    <property name="Name">dso1</property>
+                    <property name="Type">HMIPage.Generic</property>
+                  </propertybag>
+                </property>
+                <property name="Count">1</property>
+              </propertybag>
+            </property>
+            <property name="Fields">
+              &lt;field id="$column$.Value" object="dso1" property="Value" /&gt;
+              &lt;field id="$column$.Quality" object="dso1" property="Quality" /&gt;
+              &lt;field id="$column$.SecurityLevel" object="dso1" property="SecurityLevel" /&gt;
+            </property>
+            <property name="Hidden">0</property>
+            <property name="Name">Status</property>
+            <property name="Resizable">1</property>
+            <property name="Title">Status</property>
+            <property name="Type">Alphanumeric</property>
+            <property name="Width">80</property>
+            <property name="XForms">
+              &lt;defaultValue id="$column$.xfEmpty" value="" type="string" /&gt;
+              &lt;script id="$column$.xfHideEmpty" language="VBScript"&gt;
+              If IsEmpty(Value) Then
+              Return = "none"
+              Else
+              Return = ""
+              End If
+              &lt;/script&gt;
+            </property>
+          </propertybag>
+        </property>
+        <property name="Count">9</property>
+        <property name="ShowRowNumber">0</property>
+      </propertybag>
+    </property>
+    <property name="Scroller" type="complex">
+      <propertybag>
+        <property name="AddressFlags">1</property>
+        <property name="AddressType">2</property>
+        <property name="CalloutElement"></property>
+        <property name="IndexRefOffset">0</property>
+        <property name="IndexRefType">2</property>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PresentationType">11</property>
+        <property name="ScrollbarFile">0</property>
+        <property name="ScrollbarMax">100</property>
+        <property name="ScrollbarMin">1</property>
+        <property name="ScrollbarVisible">100</property>
+        <property name="SecurityLevel">2</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+      </propertybag>
+    </property>
+    <property name="ScrollerType">DOTable.FileScroller</property>
+    <property name="version">1.2</property>
+  </dataobject>
+</datasource>

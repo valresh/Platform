@@ -1,0 +1,43 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="Copyright © 2004-2019 Honeywell International Sàrl.,&#xA;All Rights Reserved." useFirstShapeForBadValue="0" width="101px" height="41px"><versionheaders><versionheader name="PS" value="6.31"/></versionheaders><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[Page.setAttribute('SequenceGSH',this.id);]]></script><script event="" language="JScript" id="D696AF55-580B-47A1-97F1-1FABD2F851FB"><![CDATA[var scrFileName = "ebmGSH.js";
+
+var addExternalScript = function(strId,attrSrc,strType) {
+	var name, scriptElement, value;
+	scriptElement = document.createElement('script');
+	scriptElement.id = strId;
+	scriptElement.src =  attrSrc;
+	scriptElement.language = strType;
+	return document.getElementsByTagName('head')[0].appendChild(scriptElement);
+	};
+//Script file location
+if(window.external.Application.environment == 0){ 
+	var re = /(.*\\)[^.]+\\.*\.css/ig;
+	var cssPath = document.getElementById("HDXStylesheet").href;
+	cssPath = cssPath.replace(/\//g,'\\');
+	var tmpURL = re.exec(cssPath)[1] 
+	scrURL = tmpURL+ "Scripts\\" + scrFileName;
+}else{
+	scrURL = window.location.protocol+"//"+window.location.host+"/abstractdisplays/Scripts/" + scrFileName;	
+}
+//Script language
+if(scrURL.indexOf(".vbs")>0){
+	var scriptType = "VBScript";
+}else if(scrURL.indexOf(".js")>0){
+	var scriptType = "JavaScript";
+}else{
+	var scriptType ="";
+}
+//Load external script
+var scrobj = addExternalScript("sp_seqshape_gsh",scrURL,scriptType);
+//Debug successful script load
+if((typeof arrState)=='undefined'){
+	var errStr= window.external.Application.CurrentPage + " : >>> " + scrFileName + " : script not imported! path= " + scrURL;
+}else{
+	var errStr = window.external.Application.CurrentPage + " : >>> " + scrFileName + ": script imported successfully! path= " + scrURL;
+}
+try{
+	var spDebug = /yes|true|on/.test(document.getElementById("page").getStyleClassProperty("SP_Options","hw-sp-debug-enable").toLowerCase());
+}catch(e){
+	var spDebug = false;
+}
+if (window.external.Application.environment == 0 && spDebug){window.external.Application.LogMessage(errStr);}]]></script></scripts><parameters><parameter name="Revision" type="Num" description="R511 Rev.1" defaultvalue="R511 Rev.1"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textbox001 class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; HEIGHT: 41px; FONT-FAMILY: Arial; WIDTH: 101px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 18px; TOP: 16px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#00bfff;fillColorBlink:False;FillStyle:0;Height:41;lineColorBlink:False;LineStyle:1;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:101;">Sequence&nbsp;Shape GSH<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

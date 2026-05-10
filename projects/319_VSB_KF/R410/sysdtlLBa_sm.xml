@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="140" height="100">
+	<menuitem id="mnu_ack" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand ('Acknowledge Alarm');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsInAlarm( window.external.parentWindow.document.activeElement )) this.disabled=true; 
+                   if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Acknowledge Alarm</text>
+		<image>.\Toolbar\tb002.png</image>
+	</menuitem>
+	<separator/>
+	<menuitem id="mnu_spup" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Raise');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Raise</text>
+				<image>.\Toolbar\tb012.png</image>
+	</menuitem>
+	<menuitem id="mnu_spdn" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Lower');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Lower</text>
+		<image>.\Toolbar\tb013.png</image>
+	</menuitem> 
+	<menuitem id="mnu_enable" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Enable/Disable');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">
+			if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement ))
+				this.disabled=true;
+			return true;
+		</script>
+		<text>Enable/Disable</text>
+		<image>.\Toolbar\tb016.png</image>
+	</menuitem>
+	<separator/>
+	<menuitem id="mnu_dtl" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Request Point Detail');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Detail</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+	<menuitem id="mnu_grp" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Request Group');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Group</text>
+		<image>.\Toolbar\tb011.png</image>
+	</menuitem>
+	<menuitem id="mnu_trd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Request Trend');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Trend</text>
+		<image>.\Toolbar\tb010.png</image>
+	</menuitem>
+	<menuitem id="mnu_asd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Associated Display');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Associated Display</text>
+		<image>.\Toolbar\tb003.png</image>
+	</menuitem>
+	<separator/>
+	<menuitem id="mnu_man" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Control to Manual');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Manual</text>
+	</menuitem>
+	<menuitem id="mnu_auto" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Control to Automatic');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Auto</text>
+	</menuitem>
+	<menuitem id="mnu_norm" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Control to Normal');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+		<text>Normal</text>
+	</menuitem> 
+</menu>

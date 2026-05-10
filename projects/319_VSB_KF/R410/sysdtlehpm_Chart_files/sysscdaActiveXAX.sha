@@ -1,0 +1,237 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="794px" height="410px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeunload" language="VBScript" id=""><![CDATA[On Error Resume Next
+Set oChartActivex = oChartShape.Objects("AxConfigFrm1")
+oChartActivex.ReloadInPrgs = true]]></script><script event="onshapeload" language="VBScript" id=""><![CDATA[	On Error Resume Next
+	Set oChartShape = me
+	intERDBStatus = -1
+
+	AxConfigFrm1.height = me.style.height
+	AxConfigFrm1.width = me.style.width]]></script><script event="" language="VBScript" id="9E7CA6B8-51B4-4EF4-9BD3-F0F1D01BF4AF"><![CDATA[Dim intERDBStatus
+Dim blnCtrlConfirmProp
+Dim blnESig
+Dim blnPrimSig
+Dim blnSecSig
+Dim blnChartInitialized
+Dim oChartShape
+
+ErdbConnToA = 0
+ErdbDiscFromA = 1
+ErdbConnToB = 2
+ErdbDiscFromB = 3
+
+blnCtrlConfirmProp = False
+blnESig = False
+blnPrimSig = False
+blnSecSig = False
+blnChartInitialized = False
+
+'Chart Security Fix 
+Dim intTimerID
+Dim Value
+Dim DataType
+Dim Flag
+Dim o
+
+Function UpdateValue()
+'If o <> Null Then
+	If( (DataType=4) OR (DataType=6) OR (DataType=20) ) Then	
+		o.Objects("alpDyn1").value = Value		'Bool/Boolean/Enum/SdEnum
+	ElseIf(DataType=32) Then	
+		o.Objects("alpDyn2").value = Value		'TimeOfDay
+	ElseIf(DataType=5) Then	
+		o.Objects("alpDyn4").value = Value		'Time
+	Else
+		o.Objects("alpDyn3").value = Value		'Treat rest all in text control
+	End If
+'End If
+	window.clearInterval(intTimerID)
+End Function]]></script><script event="" language="VBScript" id="AFB85AB8-CDEB-4545-96B2-989A9E467FA2"><![CDATA[Dim intTimerID
+Dim Value
+Dim DataType
+Dim Flag
+Dim o
+
+
+Function UpdateValue()
+'If o <> Null Then
+	If( (DataType=4) OR (DataType=6) OR (DataType=20) OR (DataType=7) ) Then	
+		o.Objects("alpDyn1").value = Value		'Bool/Boolean/Enum/SdEnum/BitString
+	ElseIf(DataType=32) Then	
+		o.Objects("alpDyn2").value = Value		'TimeOfDay
+	ElseIf(DataType=5) Then	
+		o.Objects("alpDyn4").value = Value		'Time
+	Else
+		o.Objects("alpDyn3").value = Value		'Treat rest all in text control
+	End If
+'End If
+	window.clearInterval(intTimerID)
+End Function]]></script></scripts><parameters><parameter name="tagname" type="Point" description="" defaultvalue="{%CurrentPoint%}"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=LimitMessage class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 4.14%; FONT-FAMILY: Arial; WIDTH: 50.37%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 0%; TOP: 83.9%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:400;">Unable to open Display. Maximum limit reached. Try again Later.</DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=ESig class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 4.87%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 7.43%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0.12%; BORDER-RIGHT-COLOR: transparent; TOP: 93.65%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:1;numericDisplayFormat:%.0f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If NOT alpSd.QualityBad("TagName.LocationFullItemName") then
+	On Error Resume Next
+	blnESig = True
+
+	If  NOT(blnChartInitialized) Then
+		If(blnCtrlConfirmProp AND blnESig AND blnPrimSig AND blnSecSig) Then
+
+			Dim NumSig
+			NumSig=0
+			If (len(PrimSig.Value)) <> 255  Then
+				NumSig=1
+			End If
+			If NumSig=1 And len(SecSig.Value) <> 255  Then
+				NumSig=2
+			End If
+			AXConfigFrm1.PointName = alpTagName.value 
+			AXConfigFrm1.ServerName = window.external.status.ClusterServerName	'alpNetworkName.value 
+			AXConfigFrm1.SecurityLevel = window.external.Application.SecurityLevel 
+			AXConfigFrm1.OperatorName = window.external.Application.OperatorID 
+			AXConfigFrm1.StationServerName = window.external.status.ClusterServerName  'window.external.Application.ServerName 
+			AXConfigFrm1.StationNumber = window.external.Application.StationNumber	
+			AXConfigFrm1.ElectronicSignature = ESig.value
+			if CtrlConfirmProp.value <> 1 then
+				AXConfigFrm1.ControlConfirm = 0
+			else 
+				AXConfigFrm1.ControlConfirm = 1
+			end if
+			AXConfigFrm1.NumberSignatures = NumSig
+			AXConfigFrm1.StationAcronym = window.external.Application.Parent.RuntimeStatus.StationAcronym
+
+			blnChartInitialized = True
+		End If
+	End If
+End If]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="121"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="1733"/><property name="FileRefFlags" varianttype="VT_UI4" value="0"/><property name="FileRefFormat" varianttype="VT_UI1" value="5"/><property name="FileRefBitFieldStart" varianttype="VT_UI1" value="10"/><property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=FailMessage class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 5.6%; FONT-FAMILY: Arial; WIDTH: 22.41%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 0.25%; TOP: 88.53%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:178;">Cannot Connect to ERDB</DIV>]]></content></html></element><group><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn1 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90%; FONT-FAMILY: Tahoma; WIDTH: 21.9%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateScanState:-1;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn2 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 95%; FONT-FAMILY: Tahoma; WIDTH: 26.42%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 73.57%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="dateTimeFormat:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:50;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;timeFormat:1;timeIncludeMS:0;">23:15:43.005</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="8"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn3 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 95%; FONT-FAMILY: Tahoma; WIDTH: 26.42%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 53.09%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn4 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90%; FONT-FAMILY: Tahoma; WIDTH: 29.76%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 23.57%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="dateFormat:0;dateTimeFormat:0;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:50;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;timeFormat:1;timeIncludeMS:0;">28.10.2005 23:05:43.005</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="10"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shpSub_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:20;lineColorBlink:False;Width:420;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shpSub class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 4.87%; FONT-FAMILY: Arial; WIDTH: 52.89%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0.25%; TOP: 94.87%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:20;lineColorBlink:False;Width:420;" value = "1" src = ".\sysscdaActiveXAX_files\SubShape.sha" parameters = "Point?PointName:;Parameter?ParamName:;Value?strValue:;Value?nDataType:;Value?bFlag:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content><scripts><script event="onshapeload" language="VBScript"><![CDATA[Set o = me
+Value = me.GetCustomProperty("Value","strValue")
+Flag = me.GetCustomProperty("Value","bFlag")
+DataType = me.GetCustomProperty("Value","nDataType")
+
+If Flag = "True" then
+	intTimerID = window.setInterval ("UpdateValue()", 100)
+End If]]></script></scripts></html></group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=CtrlConfirmProp class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 4.87%; FONT-FAMILY: Arial; WIDTH: 3.27%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 9.94%; TOP: 94.14%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:2;numericDisplayFormat:%.0f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If NOT alpSd.QualityBad("TagName.LocationFullItemName") then
+	On Error Resume Next
+	blnCtrlConfirmProp = True
+
+	If NOT(blnChartInitialized) Then
+		If(blnCtrlConfirmProp AND blnESig AND blnPrimSig AND blnSecSig ) Then
+			Dim NumSig
+			NumSig=0
+			If (len(PrimSig.Value)) <> 255  Then
+				NumSig=1
+			End If
+			If NumSig=1 And len(SecSig.Value) <> 255  Then
+				NumSig=2
+			End If
+			AXConfigFrm1.PointName = alpTagName.value 
+			AXConfigFrm1.ServerName = window.external.status.ClusterServerName	'alpNetworkName.value 
+			AXConfigFrm1.SecurityLevel = window.external.Application.SecurityLevel 
+			AXConfigFrm1.OperatorName = window.external.Application.OperatorID 
+			AXConfigFrm1.StationServerName = window.external.status.ClusterServerName	' window.external.Application.ServerName 
+			AXConfigFrm1.StationNumber = window.external.Application.StationNumber	
+			AXConfigFrm1.ElectronicSignature = ESig.value
+			if CtrlConfirmProp.value <> 1 then
+				AXConfigFrm1.ControlConfirm = 0
+			else 
+				AXConfigFrm1.ControlConfirm = 1
+			end if
+			AXConfigFrm1.NumberSignatures = NumSig
+			AXConfigFrm1.StationAcronym = window.external.Application.Parent.RuntimeStatus.StationAcronym
+
+			blnChartInitialized = True
+		End If
+	End If
+End If]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="ControlConfirmRequired"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpSd class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 2.92%; FONT-FAMILY: Arial; WIDTH: 6.67%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 10.32%; TOP: 78.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA>]]></content></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%point::tagname%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="LocationFullItemName,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=PrimSig class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 5.36%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 12.46%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 15.11%; BORDER-RIGHT-COLOR: transparent; TOP: 93.65%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:-1;lineColor:black;lineColorBlink:False;numberOfChars:24;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If NOT alpSd.QualityBad("TagName.LocationFullItemName") then
+	On Error Resume Next
+	blnPrimSig = True
+
+	If  NOT(blnChartInitialized) Then
+		If(blnCtrlConfirmProp AND blnESig AND blnPrimSig AND blnSecSig) Then
+
+			Dim NumSig
+			NumSig=0
+			If (len(PrimSig.Value)) <> 255  Then
+				NumSig=1
+			End If
+			If NumSig=1 And len(SecSig.Value) <> 255  Then
+				NumSig=2
+			End If
+
+			AXConfigFrm1.PointName = alpTagName.value 
+			AXConfigFrm1.ServerName = window.external.status.ClusterServerName	'alpNetworkName.value 
+			AXConfigFrm1.SecurityLevel = window.external.Application.SecurityLevel 
+			AXConfigFrm1.OperatorName = window.external.Application.OperatorID 
+			AXConfigFrm1.StationServerName = window.external.status.ClusterServerName  'window.external.Application.ServerName 
+			AXConfigFrm1.StationNumber = window.external.Application.StationNumber	
+			AXConfigFrm1.ElectronicSignature = ESig.value
+			if CtrlConfirmProp.value <> 1 then
+				AXConfigFrm1.ControlConfirm = 0
+			else 
+				AXConfigFrm1.ControlConfirm = 1
+			end if
+			AXConfigFrm1.NumberSignatures = NumSig
+			AXConfigFrm1.StationAcronym = window.external.Application.Parent.RuntimeStatus.StationAcronym
+
+			blnChartInitialized = True
+		End If
+	End If
+End If]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PrimarySignatureMeaning"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpOperId class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 3.17%; FONT-FAMILY: Arial; WIDTH: 1.76%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 15.36%; TOP: 72.68%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[if not alpSd.QualityBad("TagName.LocationFullItemName") then
+On Error resume Next
+	If(blnChartInitialized  And blnCtrlConfirmProp AND blnESig AND blnPrimSig AND blnSecSig ) Then
+ 		AxConfigFrm1.OperatorName = window.external.Application.OperatorID 
+	End If
+End if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="2"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="98"/><property name="FileRefFlags" varianttype="VT_UI4" value="2048"/><property name="FileRefFormat" varianttype="VT_UI1" value="5"/><property name="FileRefBitFieldStart" varianttype="VT_UI1" value="0"/><property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="4"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpNetworkName class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 4.87%; FONT-FAMILY: Arial; WIDTH: 3.52%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 23.42%; TOP: 75.6%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:2;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="SrvConLinkNum"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpTagName class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 4.87%; FONT-FAMILY: Arial; WIDTH: 3.52%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 24.68%; TOP: 75.6%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:2;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="Name"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=SecSig title="" class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 6.34%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 11.33%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 27.45%; BORDER-RIGHT-COLOR: transparent; TOP: 93.17%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:-1;lineColor:black;lineColorBlink:False;numberOfChars:24;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[If NOT alpSd.QualityBad("TagName.LocationFullItemName") then
+	On Error Resume Next
+	blnSecSig = True
+
+	If  NOT(blnChartInitialized) Then
+		If(blnCtrlConfirmProp AND blnESig AND blnPrimSig AND blnSecSig) Then
+
+			Dim NumSig
+			NumSig=0
+			If (len(PrimSig.Value)) <> 255  Then
+				NumSig=1
+			End If
+			If NumSig=1 And len(SecSig.Value) <> 255  Then
+				NumSig=2
+			End If
+
+			AXConfigFrm1.PointName = alpTagName.value 
+			AXConfigFrm1.ServerName = window.external.status.ClusterServerName  'alpNetworkName.value 	
+			AXConfigFrm1.SecurityLevel = window.external.Application.SecurityLevel 
+			AXConfigFrm1.OperatorName = window.external.Application.OperatorID 
+			AXConfigFrm1.StationServerName = window.external.status.ClusterServerName   ' window.external.Application.ServerName
+			AXConfigFrm1.StationNumber = window.external.Application.StationNumber	
+			AXConfigFrm1.ElectronicSignature = ESig.value
+			if CtrlConfirmProp.value <> 1 then
+				AXConfigFrm1.ControlConfirm = 0
+			else 
+				AXConfigFrm1.ControlConfirm = 1
+			end if
+			AXConfigFrm1.NumberSignatures = NumSig
+			AXConfigFrm1.StationAcronym = window.external.Application.Parent.RuntimeStatus.StationAcronym
+
+			blnChartInitialized = True
+		End If
+	End If
+End If]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="SecondarySignatureMeaning"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.Alarm" refcount="1"/><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=LostMessage class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 5.36%; FONT-FAMILY: Arial; WIDTH: 25.44%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 38.91%; TOP: 92.92%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:22;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:202;">Lost Connection with ERDB</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=SuccMessage class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 4.63%; FONT-FAMILY: Arial; WIDTH: 34.76%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 65.23%; TOP: 93.17%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:19;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:276;">Re-established Connection with ERDB</DIV>]]></content></html></element><element><html><content><![CDATA[
+<OBJECT tabIndex=-1 id=AxConfigFrm1 class=hsc.activexcontrol.1 style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 98.23%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0.25%; TOP: 0%" classid=clsid:5CC9BF76-270B-4160-A966-1472C9518BAD><PARAM NAME="_Version" VALUE="65536"><PARAM NAME="_ExtentX" VALUE="20638"><PARAM NAME="_ExtentY" VALUE="10848"><PARAM NAME="_StockProps" VALUE="160"><PARAM NAME="BorderStyle" VALUE="0"><PARAM NAME="Appearance" VALUE="0">]]></content><scripts><script event="InvokeERDBStatus(nERDBStatus)" language="VBScript"><![CDATA[On Error Resume Next
+    If ((nERDBStatus = ErdbDiscFromA Or nERDBStatus = ErdbDiscFromB) And intERDBStatus <> -1) Then
+		window.external.MessageZoneText = Me.parentElement.children.namedItem("LostMessage").Value
+    ElseIf ((nERDBStatus = ErdbDiscFromA Or nERDBStatus = ErdbDiscFromB) And intERDBStatus = -1) Then
+		window.external.MessageZoneText = Me.parentElement.children.namedItem("FailMessage").Value
+    ElseIf (intERDBStatus = -1) Then
+		window.external.MessageZoneText = ""
+    Else
+		window.external.MessageZoneText = Me.parentElement.children.namedItem("SuccMessage").Value
+    End If
+        
+    intERDBStatus = nERDBStatus]]></script><script event="InvokeValueChanged(bstrPoint, bstrParam, vValue, nDataType)" language="VBScript"><![CDATA[shpSub.autoReloadContent = False
+shpSub.SetCustomProperty "Point", "PointName", CStr(bstrPoint)
+shpSub.SetCustomProperty "Parameter", "ParamName", CStr(bstrParam)
+shpSub.SetCustomProperty "Value", "bFlag", "True"
+shpSub.SetCustomProperty "Value", "strValue", CStr(vValue)
+shpSub.SetCustomProperty "Value", "nDataType", CStr(nDataType)
+shpSub.ReloadContent]]></script></scripts></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 410px; WIDTH: 794px; POSITION: absolute; LEFT: -2px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:410;lineColorBlink:False;Width:794;"></DIV>]]></content></html></group></shape></shapes></shapefile>

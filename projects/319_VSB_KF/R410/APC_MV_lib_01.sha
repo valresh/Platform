@@ -1,0 +1,120 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="sequence" title="" description="" useFirstShapeForBadValue="-1" width="70px" height="50px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="VBScript" id="8890ED64-4C06-47FB-9F51-AE636608F513"><![CDATA['COPYRIGHT (c) 2004-2015
+'HONEYWELL INTL.,
+'ALL RIGHTS RESERVED
+'.............. MV Status ........
+'0 ON
+'1 READY
+'2 WOUND_UP_HI
+'3 WOUND_UP_LO
+'4 FFWD
+'5 SERV
+'6 INIT
+'7 ?????
+'8 FFWD-SC
+'9 SERV-SC
+
+'..................]]></script></scripts><parameters><parameter name="TagName" type="Point" description="Profit controller CM name" defaultvalue="{%CurrentPoint%}"/><parameter name="PCFBName" type="Parameter" description="Profit controller function block name" defaultvalue="PROFITCTLA"/><parameter name="PCINFBName" type="Parameter" description="Profit controller input function block name" defaultvalue="PROFITCTLINA"/><parameter name="PCOUTFBName" type="Parameter" description="Profit controller output function block name" defaultvalue="PROFITCTLOUTA"/><parameter name="VarName" type="Parameter" description="Variable name" defaultvalue="MV"/><parameter name="VarIndex" type="Parameter" description="Variable Index" defaultvalue="0"/><parameter name="UserDescription" type="Text" description="User description for this MV, if blank MV name will appear as user description" defaultvalue=""/><parameter name="FaceplateFile" type="Text" description="Faceplate file" defaultvalue="sysdtlAPCmv_fp"/><parameter name="ShowToolTip" type="Text" description="Set this to false to disable tooltip for this MV" defaultvalue="true"/><parameter name="Version" type="" description="Version of shape" defaultvalue="R440.1"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectBackground class=hvg.base.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect); VISIBILITY: hidden" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:50;LineColor:transparent;lineColorBlink:False;Width:70;" HDX_LOCK="-1"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=txtDescription class=hvg.textbox.1 style="OVERFLOW: hidden; FONT-SIZE: 8pt; TEXT-DECORATION: ; HEIGHT: 40%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #808080; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 60%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;textColor:#808080;textColorBlink:False;TotalRotation:-1;Width:70;" HDX_LOCK="-1">{%Text::UserDescription%}</DIV>]]></content></html></element><group><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpStatus class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 0%; FONT-FAMILY: Arial; WIDTH: 0%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 7.69%; BORDER-LEFT-STYLE: none; TOP: 50%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:233;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1">State</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[' MV status applicable are: Available, Not Available, Not Controllable, Nearing Limit, Voilating Limit, Windup-Hi, Windup-Lo
+if  not me.QualityBad("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY") then
+	strStatus = ucase(me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY"))
+	strStatusColor = me.DataValue("Tagname.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).VALUE_C")
+	if me.DataValue("TagName.Name") <> vbnullstring and me.DataValue("TagName.Name") <> "" then
+		strPCName = "PC Name: " & me.DataValue("TagName.Name")
+	end if
+	if me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).NAME") <> vbnullstring and me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).NAME") <> "" then
+		strName = "MV Name: " & me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).NAME")
+	end if
+	if me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).DESC") <> vbnullstring and me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).DESC") <> "" then
+		strDesc = "MV Description: " & me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).DESC")
+	end if
+	rem is status mode is normal
+	if strStatus = 0 or strStatus = 1 or strStatus = 6 then
+		if (strStatusColor = 3) then
+			rem set status state to Nearing Limit
+			for each Obj in me.parentElement.children
+				Obj.style.visibility = "Hidden"
+			Next
+			imgNearingLimit.style.visibility = "Inherit"
+			strState = "MV is nearing limit"
+		elseif (strStatusColor = 0) then
+				rem set status state to Voilating Limit
+			for each Obj in me.parentElement.children
+				Obj.style.visibility = "Hidden"
+			Next
+			imgViolatingLimit.style.visibility = "Inherit"
+			strState = "MV is violating limit"
+		else
+				rem set status state to available
+			for each Obj in me.parentElement.children
+				Obj.style.visibility = "Hidden"
+			Next
+			imgAvailable.style.visibility = "Inherit"
+			strState = "MV is availabel"
+		end if
+	elseif strStatus = 4 or strStatus = 5  or strStatus = 8 or strStatus = 9 then
+		rem set status state to not controlable
+	for each Obj in me.parentElement.children
+		Obj.style.visibility = "Hidden"
+	Next
+	imgNotControllable.style.visibility = "Inherit"
+	strState = "MV is not controllable"
+	elseif strStatus = 2 then
+		rem set status state to wind up hi
+	for each Obj in me.parentElement.children
+		Obj.style.visibility = "Hidden"
+	Next
+	imgWindupHi.style.visibility = "Inherit"
+	strState = "MV is windup high"
+	elseif strStatus = 3 then
+		rem set status state to wind up Low
+	for each Obj in me.parentElement.children
+		Obj.style.visibility = "Hidden"
+	Next
+	imgWindupLo.style.visibility = "Inherit"
+	strState = "MV is windup low"
+	else
+		'Default is not avilable
+	for each Obj in me.parentElement.children
+		Obj.style.visibility = "Hidden"
+	Next
+	imgNotAvailable.style.visibility = "Inherit"
+	strState = "MV is not available"
+	end if
+strToolTip = strPCName & Vbcr & strName & Vbcr & strDesc & Vbcr & strState
+if (me.parentElement.parentElement.parentElement.GetCustomProperty("Text", "ShowToolTip") = "true") then
+	
+	me.parentElement.parentElement.parentElement.Title = strToolTip
+end if
+if (me.parentElement.parentElement.parentElement.GetCustomProperty("Text", "UserDescription") = "" or me.parentElement.parentElement.parentElement.GetCustomProperty("Text", "UserDescription") = vbnullstring) then
+	
+	txtDescription.value = me.DataValue("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).NAME")
+end if
+else
+	for each Obj in me.parentElement.children
+		Obj.style.visibility = "Hidden"
+	Next
+	imgQuality.style.visibility = "Inherit"
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::TagName%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%point::tagname%},{%point::tagname%},{%point::tagname%},{%point::tagname%},{%point::tagname%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY,{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).NAME,{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).DESC,{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).VALUE_C,Name,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,0,0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,2,2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,0,0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,0,0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,,,,"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgAvailable class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\Available.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\Available.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgNotAvailable class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\NotAvailable.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\NotAvailable.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgNotControllable class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\NotControllable.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\NotControllable.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgNearingLimit class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\NearingLimit.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\NearingLimit.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgViolatingLimit class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\ViolatingLimit.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\ViolatingLimit.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgWindupHi class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\WindupHi.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\WindupHi.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgWindupLo class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\WindupLo.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\WindupLo.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgWindup class=hsc.image.1 style="OVERFLOW: hidden; FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 78.12%; FONT-FAMILY: Arial; WIDTH: 96.15%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#image); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:25;lineColorBlink:False;Src:.\APC_MV_lib_01_files\Windup.png;Width:25;" HDX_LOCK="-1" shapesrc=".\APC_MV_lib_01_files\Windup.png"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=imgQuality class="hvg.textbox.1 " style="OVERFLOW: hidden; FONT-SIZE: 20pt; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 76.92%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ff00ff; TEXT-ALIGN: center; LEFT: 3.84%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: inherit" hdxproperties="fillColorBlink:False;FillStyle:1;Height:32;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#FF00FF;textColorBlink:False;TotalRotation:-1;value:;Width:20;" HDX_LOCK="-1" globalscripts>?</DIV>]]></content></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=grpState class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 64%; WIDTH: 37.14%; POSITION: absolute; LEFT: 31.42%; TOP: 6%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:32;lineColorBlink:False;Width:26;"></DIV>]]></content></html></group><element><html><content><![CDATA[<INPUT tabIndex=-1 id=pbInvokeFaceplate class="hsc.button.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #ffffff; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColorBlink:False;textColor:#ffffff;textColorBlink:False;" HDX_LOCK="-1" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter="">]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[if not me.QualityBad("TagName.{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY") then
+	Set oShape = me.parentElement.parentElement
+	strTagName = oShape.GetCustomProperty("Point", "TagName") 'Get TagName
+	strVarName = oShape.GetCustomProperty("Parameter", "VarName") 'Get Variable Name
+	strVarIndex = oShape.GetCustomProperty("Parameter", "VarIndex") 'Get Variable Index
+	strPCFBName = oShape.GetCustomProperty("Parameter", "PCFBName") 'Get Profit Controller Function Block Name
+	strPCINFBName = oShape.GetCustomProperty("Parameter", "PCINFBName") 'Get Profit Controller Input Function Block Name
+	strPCOUTFBName = oShape.GetCustomProperty("Parameter", "PCOUTFBName") 'Get Profit Controller Output Function Block Name
+	strFaceplateFile = oShape.GetCustomProperty("Text", "FaceplateFile") 'Get the Faceplate File Name
+	strInvokeFaceplate = strFaceplateFile & "?TagName="&strTagName&"&VarName="&strVarName&"&VarIndex="&strVarIndex&"&PCFBName="&strPCFBName&"&PCINFBName="&strPCINFBName&"&PCFBOUTName="&strPCOUTFBName
+	HDXPopupBehavior.CreatePopupWindow2 strInvokeFaceplate, 0, 0, 1, True
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%point::tagname%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::PCOUTFBName%}.{%Parameter::VarName%}({%Parameter::VarIndex%}).STATUSDISPLAY,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=GrpMV class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 50px; WIDTH: 70px; POSITION: absolute; LEFT: 40px; TOP: 50px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:50;lineColorBlink:False;Width:70;"></DIV>]]></content></html></group></shape></shapes></shapefile>

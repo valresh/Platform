@@ -1,0 +1,765 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="140px" height="180px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="JScript" id="8715E8B2-8A8D-45C3-A756-18B69C561ABA"><![CDATA[function checkDashboardGlobalScripts()
+{
+	try 
+	{
+		if (isDashboardGlobalScriptLinked == true)
+		{
+			return;
+		}
+	}
+	catch (err){}
+
+	var element_head=document.getElementsByTagName("HEAD")[0];
+	if(element_head != null)
+	{
+		var scriptLink = document.createElement("script");
+		scriptLink.language = "JScript";
+	
+		var systemSummaryPath = window.external.parent.FindFile("sysSystemSummary.htm");
+		systemSummaryPath = systemSummaryPath.substr(0, systemSummaryPath.lastIndexOf("\\") + 1); 
+		var scriptFilePath = systemSummaryPath + "/Scripts/DashboardScripts.js";
+
+		scriptLink.src = scriptFilePath;
+		element_head.appendChild(scriptLink);
+	}
+}
+
+checkDashboardGlobalScripts();]]></script></scripts><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=menuOutline class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)  url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:180;LineColor:#d1d1d1;lineColorBlink:False;Width:140;"></DIV>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="PV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.HVG" refcount="1"/></binding></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu000_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu000_sysdspPath01);
+	}
+
+	if (auxMenu000_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu000_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu000_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu000_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu000_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu000_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu000_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu000_sysdspPath01);
+	}
+
+	if (auxMenu000_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu000_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu000_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu000_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu000_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu000_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu000_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu000_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu000_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu000 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 2.77%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider000 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 15.55%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu00_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu00_sysdspPath01);
+	}
+
+	if (auxMenu00_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu00_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu00_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu00_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu00_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu00_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu00_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu00_sysdspPath01);
+	}
+
+	if (auxMenu00_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu00_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu00_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu00_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu00_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu00_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu00_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu00_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu00_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu00 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 16.66%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider001 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 29.44%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu01_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu01_sysdspPath01);
+	}
+
+	if (auxMenu01_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu01_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu01_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu01_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu01_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu01_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu01_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu01_sysdspPath01);
+	}
+
+	if (auxMenu01_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu01_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu01_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu01_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu01_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu01_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu01_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu01_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu01_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu01 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 30.55%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider002 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 43.33%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu02_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu02_sysdspPath01);
+	}
+
+	if (auxMenu02_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu02_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu02_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu02_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu02_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu02_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu02_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu02_sysdspPath01);
+	}
+
+	if (auxMenu02_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu02_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu02_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu02_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu02_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu02_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu02_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu02_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu02_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu02 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 44.44%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider003 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 57.22%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu03_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu03_sysdspPath01);
+	}
+
+	if (auxMenu03_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu03_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu03_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu03_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu03_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu03_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu03_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu03_sysdspPath01);
+	}
+
+	if (auxMenu03_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu03_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu03_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu03_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu03_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu03_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu03_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu03_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu03_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu03 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 58.33%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider004 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 71.11%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu04_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu04_sysdspPath01);
+	}
+
+	if (auxMenu04_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu04_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu04_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu04_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu04_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu04_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu04_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu04_sysdspPath01);
+	}
+
+	if (auxMenu04_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu04_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu04_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu04_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu04_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu04_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu04_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu04_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu04_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu04 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 72.22%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxDivider005 class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.55%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 85%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#d1d1d1;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:130;"></DIV>]]></content></html></element><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05_sysdspPath01 class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 95.45%; FONT-FAMILY: Arial; WIDTH: 63.84%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 11.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:21;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:83;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05_icon01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\icon.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu05_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu05_sysdspPath01);
+	}
+
+	if (auxMenu05_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu05_sysdspPath01.value + "images\\SystemDashboardImages\\";
+	var pointType = auxMenu05_icon01.DataValue("AuxPoint.PointType");
+	var pointSubtype = auxMenu05_icon01.DataValue("AuxPoint.PointSubtype");
+	var itemNumber = auxMenu05_icon01.DataValue("AuxPoint.ItemNumber");
+
+	var imageFileName = DetermineGraphicIconFile(pointType, pointSubtype, itemNumber);
+	auxMenu05_icon01.src = imagePath + imageFileName;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05_status01 class="hsc.image.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.61%; TOP: 4.54%; BEHAVIOR: url(#HDXVectorFactory#image) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:20;lineColorBlink:False;Src:.\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png;Width:20;" shapesrc=".\CompositeFlyoutMenu_files\CompositePulloutMenu_files\SSDUnknown.png"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	if (auxMenu05_sysdspPath01.value.length == 0)
+	{
+		GetSysdspPath(auxMenu05_sysdspPath01);
+	}
+
+	if (auxMenu05_sysdspPath01.value.length == 0)
+	{
+		return;
+	}
+
+	var imagePath = auxMenu05_sysdspPath01.value + "images\\";
+	var mostImportantStatus = 1;
+
+	try
+	{
+		mostImportantStatus = auxMenu05_status01.DataValue("AuxPoint.Status");
+		if ((!mostImportantStatus) || isNaN(mostImportantStatus))
+		{
+			mostImportantStatus = 1;
+		}
+	}
+	catch (err)
+	{
+	}
+
+	if (mostImportantStatus == 1)
+	{
+		imagePath += "blank.png";
+	}
+	else if (mostImportantStatus == 2)
+	{
+		imagePath += "SSDDisabled.png";
+	}
+	else if (mostImportantStatus == 3)
+	{
+		imagePath += "SSDFailed.png";
+	}
+	else if (mostImportantStatus == 4)
+	{
+		imagePath += "SSDMarginal.png";
+	}
+	else if (mostImportantStatus == 5)
+	{
+		imagePath += "SSDOK.png";
+	}
+	else if (mostImportantStatus == 6)
+	{
+		imagePath += "SSDSimulation.png";
+	}
+	else
+	{
+		imagePath += "SSDUnknown.png";
+	}
+
+	auxMenu05_status01.src= imagePath;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05_alarmstate01 title="Bad Quality, Urgent, Active, Acknowledged" class="hsc.alarmstate.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 15.38%; WHITE-SPACE: nowrap; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; TOP: 4.54%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="acknowledged:True;HDXBINDINGID:-4;priority:3;quality:0;rtn:False;showDisableIcon:false;showTooltip:true;staticIcon:False;" ObjectType="6"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[checkDashboardGlobalScripts();
+	var pointAlmState = TransformAlarmState(auxMenu05_alarmstate01.DataValue("AuxPoint.AlarmFlags"));
+	
+	// Hide icon graphics if there is alarm to display
+	if ((pointAlmState & (ALARMPRIORITY_MASK|ALARM_SHELVED|ALARM_SUPPRESSED|ALARM_ACK_REQ)) > 0)
+	{
+		auxMenu05_icon01.style.visibility = "hidden";
+	}
+	else
+	{
+		auxMenu05_icon01.style.visibility = "inherit";
+	}
+
+	auxMenu05_alarmstate01.AlarmState = pointAlmState;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value=""/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=""/></dataobjectdef></dataobject><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Null%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="NAME"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="hsc.alarmstate" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=auxMenu05_label01 class="hsc.alpha.1 compositeMenuLabel" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 90.9%; FONT-FAMILY: Arial; WIDTH: 57.69%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 19.23%; TOP: 9.09%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:20;numericDisplayFormat:%s;styleClass:compositeMenuLabel;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="32767"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="ItemName"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=auxMenu05 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 12.22%; FONT-FAMILY: Arial; WIDTH: 92.85%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 3.57%; TOP: 86.11%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:130;" value = "1" src = ".\CompositeFlyoutMenu_files\CompositePulloutMenu.sha" parameters = "Point?AuxPoint:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=pointList class=hvg.textbox.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; HEIGHT: 11.11%; FONT-FAMILY: Arial; WIDTH: 14.28%; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 13.57%; TOP: 10.55%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:20;" stringValue=""></DIV>]]></content><scripts><script event="onpropertychange" language="JScript"><![CDATA[
+if (window.event.propertyName == "stringValue")
+{
+	var strPointList = pointList.stringValue;
+	pointList.value = pointList.stringValue;
+	var auxPointList = strPointList.split(";" , 7);
+	
+	if ((auxPointList.length > 0) && (auxPointList[auxPointList.length - 1].length == 0))
+		auxPointList.pop();
+
+	if (auxPointList.length > 0)
+	{
+		auxMenu000.SetCustomProperty("Point", "AuxPoint", auxPointList[0]);
+		auxMenu000.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu000.style.visibility = "hidden";
+	}
+	
+	if (auxPointList.length > 1)
+	{
+		auxMenu00.SetCustomProperty("Point", "AuxPoint", auxPointList[1]);
+		auxMenu00.style.visibility = "inherit";
+		auxDivider000.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu00.style.visibility = "hidden";
+	}
+
+	if (auxPointList.length > 2)
+	{
+		auxMenu01.SetCustomProperty("Point", "AuxPoint", auxPointList[2]);
+		auxMenu01.style.visibility = "inherit";
+		auxDivider001.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu01.style.visibility = "hidden";
+		auxDivider001.style.visibility = "hidden";
+	}
+
+	if (auxPointList.length > 3)
+	{
+		auxMenu02.SetCustomProperty("Point", "AuxPoint", auxPointList[3]);
+		auxMenu02.style.visibility = "inherit";
+		auxDivider002.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu02.style.visibility = "hidden";
+		auxDivider002.style.visibility = "hidden";
+	}
+
+	if (auxPointList.length > 4)
+	{
+		auxMenu03.SetCustomProperty("Point", "AuxPoint", auxPointList[4]);
+		auxMenu03.style.visibility = "inherit";
+		auxDivider003.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu03.style.visibility = "hidden";
+		auxDivider003.style.visibility = "hidden";
+	}
+
+	if (auxPointList.length > 5)
+	{
+		auxMenu04.SetCustomProperty("Point", "AuxPoint", auxPointList[5]);
+		auxMenu04.style.visibility = "inherit";
+		auxDivider004.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu04.style.visibility = "hidden";
+		auxDivider004.style.visibility = "hidden";
+	}
+
+	if (auxPointList.length > 6) 
+	{
+		auxMenu05.SetCustomProperty("Point", "AuxPoint", auxPointList[6]);
+		auxMenu05.style.visibility = "inherit";
+		auxDivider005.style.visibility = "inherit";
+	}
+	else
+	{
+		auxMenu05.style.visibility = "hidden";
+		auxDivider005.style.visibility = "hidden";
+	}
+
+	menuOutline.style.height = 25 * auxPointList.length + 5;
+}]]></script></scripts></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 180px; WIDTH: 140px; POSITION: absolute; LEFT: 1px; TOP: 1px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:180;lineColorBlink:False;Width:140;"></DIV>]]></content></html></group></shape></shapes></shapefile>

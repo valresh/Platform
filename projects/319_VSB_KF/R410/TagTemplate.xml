@@ -1,0 +1,171 @@
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>				
+			<field id="RowNumber" rowId="true"/>
+			<field id="Type"/>					
+			<field id="Number"/>				
+			<field id="AreaCode"/>				
+			<field id="GDAConnectionNum"/>		
+			<field id="GDAConnectionName"/>	
+			<field id="PointType"/>			
+			<field id="PointTypeAcr"/>			
+			<field id="PointSubType"/>			
+			<field id="PointSubTypeAcr"/>		
+			<field id="PointFlags"/>			
+			<field id="GUID"/>					
+			<field id="TagName"/>				
+			<field id="EntityName"/>			
+			<field id="FullName"/>	
+			<field id="RemoteType"/>
+			<field id="ItemNumber"/>
+			<field id="Redundant"/>
+			<field id="Owner"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = ""
+				If Value(0) Then
+					s = "Selected_Active_Cells"
+
+					If (Value(1) = Empty) Then
+						fnSetLastSelectedTagName("")
+					Else
+						fnSetLastSelectedTagname(CStr(Value(1)))
+					End If   
+					
+					If (Value(2) = Empty) Then
+						fnSetLastSelectedFullname("")
+					Else
+						fnSetLastSelectedFullname(CStr(Value(2)))
+					End If
+					
+					If ((Value(3) = Empty) Or (Value(4) = Empty)) Then
+						fnSetLastSelectedPointTypeInfo "", ""
+					Else
+						fnSetLastSelectedPointTypeInfo CStr(Value(3)), CStr(Value(4))
+					End If 
+					
+					If (Value(5) = Empty) Then
+						fnSetLastSelectedPointOwner("")
+					Else
+						fnSetLastSelectedPointOwner(CStr(Value(5)))
+					End If
+					
+					Handle_OnTagSelectionChange()
+				Else
+					s = "Unassigned_Cells"
+				End If
+				
+				Return = s
+			</script>
+			<script id="xfName" language="VBScript">
+				Dim SystemPoint
+				SystemPoint=fnIsSystemMode()
+				if( SystemPoint) then
+					Name = Value(1)
+				else
+					Name = Value(0)
+				end if
+				if( Name = Empty ) then
+					Return = ""
+				else
+					Return = CStr(Name)
+				end if
+			</script>
+			<script id="xfTagName" language="VBScript">
+				if(Value(0) = Empty ) then
+					Return = ""
+				else
+					Return = CStr(Value(0))
+				end if
+			</script>
+			<script id="xfIconImg" language="VBScript">
+				dim ImageString
+				ImageString = "Images/blank.gif"
+				if (fnGetRelease() > 439 Or fnGetRelease() = 0) then
+					ImageString = GetNodeImagePath(Value)
+				end if
+				Return = ImageString
+			</script>
+			<script id="xfTagType" language="VBScript">
+				if((Value(0) = Empty) Or (Value(1) = Empty) Or (Value(2) = Empty)) then
+					Return = ""
+				else
+					Return = CStr(Value(0)) + "." + Cstr(Value(1)) + "." + Cstr(Value(2)) + "." + Cstr(Value(3))
+				end if
+			</script>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+			</SortAscIndicator>
+			<SortDescIndicator>
+			</SortDescIndicator>
+			<GroupSeparator>
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef>
+		</SortDef>
+	</SortXML>
+	<ColumnStateXML><state><colref id="Tag" width="300" hidden="false"></colref></state></ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu/>
+			<contextMenu/>
+			<columns>
+				<column id="Tag" >
+					<title/>
+					<action/>
+					<menu/>
+					<content>
+						&lt;div style="padding-left: 0; position: relative; width: 100%; height: 100%;" unselectable: off;
+							language="jscript" ondrag="jscript: fnCancelDefault();" ondragleave="jscript: fnCancelDefault();"
+							ondragstart="jscript: fnDragPoint(this.title, this.firstChild.nextSibling.innerHTML, g_LastSelectedFullname, 'tagname');" 
+						&gt;
+							&lt;div style="position: relative; display: inline;"&gt;
+								&lt;img style="position: relative; left: 0px; width: 16px; height: 16px; z-index: 2;" src="Images/blank.gif"/&gt;
+							&lt;/div&gt;
+							&lt;div id="TagTypeInfo" style="display: none;"&gt;
+							&lt;/div&gt;
+							&lt;a style="text-decoration: none; cursor: default; display: inline;
+								overflow: hidden; text-overflow: ellipsis; 
+								width: 100%; height: 100%; padding-left: 2px; padding-right: 2px; padding-top: 3px;" 
+								href=""  
+								onclick="jscript: fnTagCellSelect(JsTrim(this.innerText))"
+								ondblclick="jscript: fnOnDblClickTag()"
+							&gt;
+							&lt;/a&gt;
+						&lt;/div&gt;
+					</content>
+					<bindings>
+						<in fields="TagName;EntityName;PointType" xforms="xfEmptyVariantToString;xfName" properties="lastChild.innerText;" />
+						<in fields="Selected;TagName;FullName;PointType;PointSubType;Owner" xforms="xfSelection" properties="lastChild.id" />
+						<in fields="TagName;EntityName" xforms="xfTagName" properties="title" />
+						<in fields="PointType;PointSubType;EntityName;Owner" xforms="xfTagType" properties="firstChild.nextSibling.innerText" />
+						<in fields="RemoteType;PointSubType;ItemNumber;Redundant;PointFlags;" xforms="xfIconImg" properties="firstChild.firstChild.src"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>

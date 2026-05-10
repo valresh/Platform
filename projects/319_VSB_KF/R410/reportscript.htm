@@ -1,0 +1,253 @@
+<SCRIPT LANGUAGE="JScript" SRC="commonscripteditor.txt"></SCRIPT>
+<SCRIPT LANGUAGE="JScript">
+<!--
+
+EditorType = nReportScriptEditor;
+
+function SelectEditorType()
+{
+    try
+    {
+        if(IsSecure())
+        {
+
+            if(true == CStnSpecificGUI())
+            {
+                return;
+            }
+
+            // Check if we want to save
+            CheckSave();
+            
+            // Set the reportview
+            if(reportForm.reportName.value.length > 0)
+            {
+                try
+                {
+                    CombinedEd.SetStationNumber(GetStationNumber());
+                }
+                catch(e)
+                {
+                    // ignore error. Most likely mismatched display/Script Editor versions
+                }
+                CombinedEd.SetReportView(GetServerName(), reportForm.reportName.value);
+            }
+            else
+            {
+                CombinedEd.UnsetView();
+            }
+        }
+        else
+        {
+            CombinedEd.UnsetView();
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportSetViewErrors(e);
+    }
+}
+
+function reportName_onchange()
+{
+    try
+    {
+        SelectEditorType();
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security
+        ReportMessage("reportName_onchange failed");
+    }
+}
+
+function window_onresize()
+{
+    try
+    {
+        document.body.scroll = "no";
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onresize failed");
+    }
+}
+
+function window_onload()
+{
+    try
+    {
+        document.body.scroll = "no";
+        try
+        {
+            CombinedEd.FullBackColor = 0x00FFFFFF;
+        }
+        catch(e)
+        {
+            // Ignore errors - they probably mean editor was not allowed to run because of security
+            // This allows SelectEditorType() to be executed.
+        }
+        SelectEditorType();
+        if(!IsStation())
+        {
+            // Show the report name
+            reportLabel.runtimeStyle.visibility = "visible";
+            reportForm.reportName.runtimeStyle.visibility = "visible";
+        }
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onload failed");
+    }
+}
+
+function window_onunload()
+{
+    try
+    {
+        // See if we want to save
+        CheckSave();
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security    
+        ReportMessage("window_onunload failed");
+    }
+}
+
+try
+{
+    window.onload = window_onload;
+    window.onresize = window_onresize;
+    window.onunload = window_onunload;
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage("Window Event Setup failed");
+}
+
+-->
+</SCRIPT>
+<HTML>
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE></TITLE>
+<META HTTP-EQUIV="Content-Type" content="text/html">
+<STYLE TYPE="text/css">
+input { font: bold 10pt Arial; HEIGHT: 30px; WIDTH: 24%}
+select { font: bold 10pt Arial; HEIGHT: 20px}
+P { font: bold 10pt Arial}
+BODY { background: white }
+</STYLE>
+</HEAD>
+<BODY ms_positioning="GridLayout">
+
+<!-- Insert HTML here -->
+<SPAN id="reportLabel" style="POSITION: absolute; VISIBILITY: hidden; TOP: 0;">Report:</SPAN><FORM id="reportForm" name="reportForm" action="" method="post"><INPUT id="reportName" name="reportName" type="text" style="POSITION: absolute; VISIBILITY: hidden; TOP: 0; LEFT: 100px"></FORM>
+
+<OBJECT id="Reflector" classid="clsid:0AE3084B-970E-482B-A4D6-619D6379D1C5" style="visibility:hidden">
+<SPAN id="txtNoReflect" STYLE="color:red">Station Application Reflector failed to load! 
+-- Please check browser security settings.</SPAN>
+</OBJECT>
+<OBJECT id="CombinedEd" style="POSITION: absolute; WIDTH: 100%; LEFT: 0; TOP: 35px; HEIGHT: expression(document.body.clientHeight - 100)" classid="clsid:80004EC2-FDF4-4163-918E-79ADA926DF15">
+<SPAN id="txtNoEditor" STYLE="color:red">Script Editor control failed to load! 
+-- Please check browser security settings.</SPAN>
+</OBJECT>
+
+<input id="cmdSave" style="LEFT: 0; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Save Draft Changes" disabled="true"/>
+<input id="cmdUndo" style="LEFT: 50.67%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Cancel Draft Changes" disabled="true"/>
+<input id="cmdCommit" style="LEFT: 25.33%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Commit Draft to Online" disabled="true"/>
+<input id="cmdReset" style="LEFT: 76%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Reset Draft from Online" disabled="true"/>
+
+<SPAN id="txtCannotSave" STYLE="visibility:hidden; LEFT: 0; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)">
+<B><FONT style="font: bold 10pt Arial; color: red">Warning:</FONT></B>
+<FONT style="font: normal 10pt Arial;">
+    Draft changes cannot be saved because the server is unavailable.
+    All changes made since the last save will be lost if you leave this page before the server becomes available again.
+    <BR><B>Note:</B> If you need to leave this page, then please copy the changes to another application, eg. notepad.
+</FONT>
+</SPAN>
+
+<input id="cmdHelp" style="LEFT: 76%; POSITION: absolute; TOP: 0" type="button" value="Scripting Help"/>
+
+<SCRIPT LANGUAGE="JScript">
+<!--
+try
+{
+    cmdSave.value = GetLocalI18NString(101);
+    cmdUndo.value = GetLocalI18NString(102);
+    cmdCommit.value = GetLocalI18NString(103);
+    cmdReset.value = GetLocalI18NString(104);
+    cmdHelp.value = GetLocalI18NString(105);
+    reportLabel.innerText = GetLocalI18NString(501);
+    try
+    {
+        SetI18NStrings(CombinedEd);
+    } catch(e) { // This will fail if the editor fails in loading - so ignore
+    }
+    try
+    {
+        txtNoReflect.innerText = GetLocalI18NString(301);
+        txtNoEditor.innerText = GetLocalI18NString(302);
+    } catch(e) { // These will fail if the editor succeeds in loading - so ignore
+    }
+    cmdReset.onclick = cmdReset_OnClick;
+    cmdUndo.onclick = cmdUndo_OnClick;
+    cmdSave.onclick = cmdSave_OnClick;
+    cmdCommit.onclick = cmdCommit_OnClick;
+    cmdHelp.onclick = cmdHelp_OnClick;
+    reportForm.reportName.onchange = reportName_onchange;
+    SetCurrentSecurityLevel();
+    Reflector.SetApp(window.external.Application);
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage(GetLocalI18NString(418));
+}
+-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="CombinedEd" EVENT="OnChangeState">
+<!--
+try
+{
+    CombinedEd_OnChangeState();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("CombinedEd_OnChangeState failed");
+}
+-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="Reflector" EVENT="OnOperatorChange">
+<!--
+try
+{
+    SecurityLevelChanged();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnOperatorChange failed");
+}
+-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="Reflector" EVENT="OnAppStatusUpdate">
+<!--
+try
+{
+    AppStatusUpdate();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnAppStatusUpdate failed");
+}
+-->
+</SCRIPT>
+</BODY>
+</HTML>

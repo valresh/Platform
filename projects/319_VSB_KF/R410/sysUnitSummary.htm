@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+	<TITLE>Unit Timeline</TITLE>
+
+	<META content="text/html; charset=unicode" http-equiv=Content-Type>
+	<META name=GENERATOR content="MSHTML 11.00.10570.1001">
+	<META http-equiv="X-UA-Compatible" content="IE=10">
+
+	<STYLE>
+		HTML {
+			OVERFLOW: hidden; HEIGHT: 100%; WIDTH: 100%
+		}
+		BODY {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+		}
+		#Page {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LEFT: 0px; MARGIN: 0px; TOP: 0px; PADDING-RIGHT: 0px
+		}
+		.unitTimelineContainer {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+		}
+		.unitTimelineContent {
+			OVERFLOW: hidden !important; HEIGHT: 100%; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+		}
+	</STYLE>
+    
+    <SCRIPT type="text/javascript">
+        // --------------------------------------------------------------------------------------
+        // ISR219404 - Workaround for IE DISPID mapping bug. Once the HMIWeb elements are injected into the DOM,
+        // the DISPID of the elements may change, causing property change notifications to be ignored or HSCStationWindow to crash.
+        // Workaround is to do a read of the property before DOM elements get injected, which for some reason
+        // locks the DISPIDs in place. Related ISR135891.
+        // https://support.microsoft.com/en-us/help/2855169/internet-explorer-may-not-return-the-same-dispid-for-the-same-property
+        // NOTE: the property have to be read in this specific way "element.myProperty" for the dispids to be locked.
+        // Reading the property like "element['myProperty']" will not lock the dispids.
+        function lockDispids() {
+            var val;
+
+            // lock dispids for comboboxes
+            var comboBoxElements = document.getElementsByClassName("hsc.combo.1");
+            for (var i = 0; i < comboBoxElements.length; i++) {
+                var elem = comboBoxElements[i];
+                val = elem.currentValue;
+                val = elem.OptionList;
+                val = elem.Message;
+                val = elem.Quality;
+                val = elem.QualityStatus;
+            }
+
+            // lock dispids for alphanumerics
+            var alphaNumericElements = document.getElementsByClassName("hsc.alpha.1");
+            for (var i = 0; i < alphaNumericElements.length; i++) {
+                var elem = alphaNumericElements[i];
+                val = elem.currentValue;
+                val = elem.quality;
+                val = elem.SecurityLevel;
+                val = elem.Message;
+                val = elem.QualityStatus;
+                val = elem.NotifyAfterBlur;
+            }
+
+            // lock dispids for HVG
+            var hvgElements = document.getElementsByClassName("hvg.base.1");
+            for (var i = 0; i < hvgElements.length; i++) {
+                var elem = hvgElements[i];
+                val = elem.Message;
+            }
+
+            // lock dispids for scriptdata
+            var scriptDataElements = document.getElementsByClassName("HSC.ScriptDataObject.1");
+            for (var i = 0; i < scriptDataElements.length; i++) {
+                var elem = scriptDataElements[i];
+                val = elem.RuntimePointNames;
+                val = elem.RuntimeParameters;
+                val = elem.RuntimeValues;
+                val = elem.Message;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', lockDispids);
+    </SCRIPT>
+
+    <script type=text/javascript>
+        function getColorTheme() {
+            var colorTheme = -1;
+            try {
+                colorTheme = window.external.application.ColorTheme;
+            } catch (err) {
+            }
+            return colorTheme;
+        }
+
+        var cssFile = "unit-timeline-dsp";
+        switch (getColorTheme()) {
+            case 2: // light
+                cssFile += "-light";
+                break;
+            case 1: // dark
+                cssFile += "-dark";
+                break;
+            case 0: // classic
+            default:
+                cssFile += "-classic";
+                break;
+        }
+        cssFile += ".css";
+
+        var link = document.createElement("link");
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = "./sysUnitSummary_files/Styles/" + cssFile;
+        document.head.appendChild(link);
+    </script>
+
+    <script data-main="./sysUnitSummary_files/scripts/unit-timeline-dsp" src="./libs/require.js"></script>
+
+
+<OBJECT id=HDXPageBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>	
+</HEAD>
+<BODY style="OVERFLOW: auto">
+
+	<DIV id=Page style="ZOOM: 1; BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector) url(#DisplayDataRepository)">
+
+		<div class="unitTimelineContainer">
+			<hn-unit-timeline 
+				id="unitTimeline001"
+				class="unitTimelineContent"
+				tabIndex="-1">
+			</hn-unit-timeline> 
+		</div>
+		
+		<TEXTAREA 
+			tabIndex=0 id=helperAlpha class="hsc.alpha.1 hsc.faceplate.1" 
+			style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 0; FONT-FAMILY: Times New Roman; WIDTH: 80px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HDXPopupBehavior#Faceplate); VISIBILITY: visible; BACKGROUND-COLOR: transparent; ROWS: 1" 
+			hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:0;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;"></TEXTAREA>
+	</DIV>
+</BODY>
+</HTML>

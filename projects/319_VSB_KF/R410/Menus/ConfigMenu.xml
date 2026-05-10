@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+************************************************************************
+*****     COPYRIGHT 2008 - 2017    HONEYWELL INTERNATIONAL SARL     ****
+************************************************************************
+
+Filename:	$RCSfile$
+Revision:	$Revision$
+
+***************************************************************************
+This file contains the definition of the links that should appear in the
+Configuration Navigation menu, and the actions that should be taken for each
+links.
+***************************************************************************
+-->
+<Menu Caption="System Configuration" Icon="omSystemConfiguration_30x30.png" xmlns="http://tempuri.org/SystemMenu.xsd">
+  <Item Caption="General">
+    <Item Caption="Server License Details">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysLicence" />
+	  <Tab Caption="Points" ActionID="Callup Page" ActionArguments="page://sysLicencePoints" />
+      <Tab Caption="Options" ActionID="Callup Page" ActionArguments="page://sysLicenceOptions" />
+      <Tab Caption="Interfaces" ActionID="Callup Page" ActionArguments="page://sysLicenceInter" />
+      <Tab Caption="Engineering Tools" ActionID="Callup Page" ActionArguments="page://sysLicenceETR" />
+      <Tab Caption="RCM Details" ActionID="Callup Page" ActionArguments="page://sysLicencercm" />	
+    </Item>
+    <Item Caption="File Replication" ActionID="Callup Page" ActionArguments="page://sysCfgFileReplication">
+      <Item Caption="File Replication" ActionID="Callup Page" ActionArguments="page://sysDtlFileReplication" Hidden="" />
+    </Item>
+  </Item>
+  <Item Caption="System Hardware">
+    <Item Caption="Connections" ActionID="Callup Page" ActionArguments="page://sysCfgConnections" />
+	<Item Caption="SCADA Controllers" ActionID="Callup Page" ActionArguments="page://sysSCADAControllers">
+	  <Item Caption="Channel" ActionID="Callup Page" ActionArguments="page://sysCfgChannelConfig" Hidden="" />
+      <Item Caption="Terminal Server Connection Status Summary" ActionID="Callup Page" ActionArguments="page://sys114" Hidden="" />
+	  <Item Caption="Controller" ActionID="Callup Page" ActionArguments="page://sysCfgControllerConfig" Hidden="" />
+	 </Item>
+	<Item Caption="Electronic Flow Measurement" ActionID="Callup Page" ActionArguments="page://syscfgEFM" />
+    <Item Caption="System Interfaces" ActionID="Callup Page" ActionArguments="page://sysCfgSumPntSrv">
+      <Item Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgTypPntSrv" Hidden="" />
+      <Item Caption="Point Server" Hidden="">
+        <!-- 'Status' tab here (sysStsPntSrv) uses and is targetted by the Status Menu. -->
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgPntSrv" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlPntSrv" />
+        <Tab Caption="Location Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAssetPntSrv" />
+      </Item>
+      <Item Caption="OPC Display Data Client" Hidden="">
+        <!-- 'Status' tab here (sysStsOPCDisplay) uses and is targetted by the Status Menu. -->
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgOPCDisplay" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlOPCDisplay" />
+      </Item>
+      <Item Caption="OPC Advanced Connection" Hidden="">
+        <!-- 'Status' tab here (sysStsOPC) uses and is targetted by the Status Menu. -->
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgOPC" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlOPC" />
+        <Tab Caption="Attribute Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAttribOPC" />
+        <Tab Caption="Asset Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAssetOPC" />
+      </Item>
+      <Item Caption="TPS Connection" Hidden="">
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgTPS" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlTPS" />
+        <Tab Caption="Unit Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAssetTPS" />
+      </Item>
+      <Item Caption="PMD Server" Hidden="">
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgPntSrvPMD" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlPntSrvPMD" />
+        <Tab Caption="Asset Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAssetPntSrvPMD" />
+      </Item>
+     <Item Caption="Datapntsrv" Hidden="">
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgdatapntsrv" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgdtldatapntsrv" />
+        <Tab Caption="Unit Mapping" ActionID="Callup Page" ActionArguments="page://sysCfgAssetdatapntsrv" />
+      </Item>
+    </Item>
+    <Item Caption="Flex Stations" ActionID="Callup Page" ActionArguments="page://sysCfgStnSummary">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysCfgStnDetails" />
+      <Tab Caption="Assignment" ActionID="Callup Page" ActionArguments="page://sysCfgStnAssetAsn" />
+      <Tab Caption="Keyboard" ActionID="Callup Page" ActionArguments="page://sysCfgStnKeyboard" Hidden="" />
+      <!-- 'Operator Keyboard' tab is only shown for Flex Station details -->
+      <Tab Caption="Function Keys F1 to F20" ActionID="Callup Page" ActionArguments="page://syscfgkeyF1" Hidden="" />
+      <Tab Caption="Function Keys F21 to F40" ActionID="Callup Page" ActionArguments="page://syscfgkeyF21" Hidden="" />
+      <Tab Caption="Function Keys F41 to F60" ActionID="Callup Page" ActionArguments="page://syscfgkeyF41" Hidden="" />
+      <Tab Caption="Function Keys F61 to F79" ActionID="Callup Page" ActionArguments="page://syscfgkeyF61" Hidden="" />
+      <Tab Caption="Function Keys F80 to F85" ActionID="Callup Page" ActionArguments="page://syscfgkeyF81" Hidden="" />
+      <!-- The above Function key displays are only for non-IKB keyboards in Experion -->
+      <Tab Caption="Function Keys F1 to F10" ActionID="Callup Page" ActionArguments="page://sysCfgKey10fn" Hidden="" />
+	  <Tab Caption="Function Keys F1 to F12" ActionID="Callup Page" ActionArguments="page://sysCfgKey12fn" Hidden="" />
+      <!-- The above Function Key 1-12 tab is hidden in EBI. -->
+    </Item>
+	<Item Caption="Client Data Services" ActionID="Callup Page" ActionArguments="page://syscfgPlexusHostsSummary">
+	<Tab Caption="Detail" ActionID="Callup Page" ActionArguments="page://syscfgPlexusHostsDetail" />
+	</Item>
+    <Item Caption="Consoles" ActionID="Callup Page" ActionArguments="page://syscfgconsummary" Licence="ConsoleStationLicence==True">
+      <Tab Caption="Detail" ActionID="Callup Page" ActionArguments="page://syscfgcondetail" />
+      <Tab Caption="Alarm Enable" ActionID="Callup Page" ActionArguments="page://syscfgconalarmenable" />
+      <Tab Caption="Options" ActionID="Callup Page" ActionArguments="page://syscfgconoptions" />
+      <Tab Caption="Assignment" ActionID="Callup Page" ActionArguments="page://syscfgconassetasn" />
+      <Tab Caption="Keyboard" ActionID="Callup Page" ActionArguments="page://syscfgconkeyboard" />
+	  <Tab Caption="Asset Profiles" ActionID="Callup Page" ActionArguments="page://sysCfgconassetprofiles" />
+    </Item>
+    <Item Caption="Console Stations" ActionID="Callup Page" ActionArguments="page://syscfgcstnsummary" Licence="ConsoleStationLicence==True">
+      <Tab Caption="Detail" ActionID="Callup Page" ActionArguments="page://syscfgcstndetail" />
+      <Tab Caption="Options" ActionID="Callup Page" ActionArguments="page://syscfgcstnoptions" />
+      <Tab Caption="Assignment" ActionID="Callup Page" ActionArguments="page://syscfgcstnassetasn" />
+      <Tab Caption="Keyboard" ActionID="Callup Page" ActionArguments="page://syscfgcstnkeyboard" />
+	  <Tab Caption="Asset Profiles" ActionID="Callup Page" ActionArguments="page://sysCfgCStnProfiles" />
+	  <Tab Caption="Consoles" ActionID="Callup Page" ActionArguments="page://sysCfgCStnConsoles" />
+    </Item>
+    <Item Caption="Printers" ActionID="Callup Page" ActionArguments="page://sysCfgPrntSummary">
+      <Item Caption="Printer Detail" ActionID="Callup Page" ActionArguments="page://sysCfgPrinter" Hidden="" />
+    </Item>
+    <Item Caption="Redundant Server" ActionID="Callup Page" ActionArguments="page://sysCfgRedundantServer" Licence="DualLicence==True" />
+    <Item Caption="Distributed Servers" ActionID="Callup Page" ActionArguments="page://syscfgdsasvr" Licence="DSA==True">
+      <Item Caption="Local Server" Hidden="">
+        <!-- 'Status' tab in this position (sysServersLclSts) uses and is targetted by the Status menu. -->
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysServersLclCfg" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysServersLclDtl" />
+        <Tab Caption="Alarm Settings" ActionID="Callup Page" ActionArguments="page://sysServersLclAlm" />
+      </Item>
+      <Item Caption="Remote Server" Hidden="">
+        <!-- 'Status' tab in this position (sysServersSts) uses and is targetted by the Status menu. -->
+        <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysServersCfg" />
+        <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysServersCfgDtl" />
+        <Tab Caption="Subscription Details" ActionID="Callup Page" ActionArguments="page://sysServersSubDtl" Hidden="" />
+        <!-- The Subscription Details tab is not actually linked or visible anywhere. -->
+      </Item>
+    </Item>
+    <Item Caption="OPC Integrator" ActionID="Callup Page" ActionArguments="page://sysCfgOpcIntegrator" Licence="OPCIntegratorLicence==True" />
+    <Item Caption="Server Wide Settings">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysCfgServerSettings" />
+      <Tab Caption="OPC Options" ActionID="Callup Page" ActionArguments="page://sysCfgsvrOPCOptions" />
+      <!--<Tab Caption="Alarm Colors" ActionID="Callup Page" ActionArguments="page://sysCfgAlarmColors" />-->
+      <Tab Caption="Alarm/Event Options" ActionID="Callup Page" ActionArguments="page://sysCfgAlarmEventDisplays" />
+      <!--<Tab Caption="Alarm Shelving" ActionID="Callup Page" ActionArguments="page://syscfgalarmshelving" />-->
+      <Tab Caption="Security" ActionID="Callup Page" ActionArguments="page://sysCfgSecurity" />
+      <Tab Caption="IKB/OEP LED Settings" ActionID="Callup Page" ActionArguments="page://sysCfgIkbColors" />
+	  <Tab Caption="History Backfill" ActionID="Callup Page" ActionArguments="page://sysCfgHistoryBackfill" />
+    </Item>
+    <Item Caption="System Management Servers">
+      <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgSYSMGT" />
+      <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlSYSMGT" />
+    </Item>
+    <Item Caption="PHD Server">
+      <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgPHD" />
+      <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgDtlPHD" />
+    </Item>
+    <Item Caption="On Process Migration" ActionID="Callup Page" ActionArguments="page://syscfgmigrateserver" Licence="OPMLicence==True" />
+	<Item Caption="Limit Repository" Licence="LRLicence==True">
+      <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgLR"/>
+      <Tab Caption="Tuning" ActionID="Callup Page" ActionArguments="page://sysCfgLRTuning"/>
+    </Item>
+	</Item>
+  <Item Caption="Alarm &amp; Event Management">
+    <Item Caption="Alarms " >
+      <Tab Caption="Alarm Enable" ActionID="Callup Page" ActionArguments="page://sysCfgAlarmEnable"/>
+      <Tab Caption="Alarm Apperance" ActionID="Callup Page" ActionArguments="page://syscfgalarmappearance" />
+      <Tab Caption="Alarm Processing" ActionID="Callup Page" ActionArguments="page://syscfgalarmprocessing" />
+      <Tab Caption="Alarm Shelving" ActionID="Callup Page" ActionArguments="page://syscfgalarmshelving" />
+      <Tab Caption="Alarm Forwarding" ActionID="Callup Page" ActionArguments="page://syscfgalarmforwarding" />
+      <Tab Caption="Alarm Suppression" ActionID="Callup Page" ActionArguments="page://syscfgalarmsuppression" />
+     </Item>
+    <Item Caption="Message &amp; Point Processing">
+      <Tab Caption="Messages" ActionID="Callup Page" ActionArguments="page://sysCfgAlarmMessages" />
+      <Tab Caption="Point Processing" ActionID="Callup Page" ActionArguments="page://sysCfgPointprocessing" />
+    </Item>
+    <Item Caption="Alarm &amp; Alert Paging" Licence="AlarmPagerLicence==True">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrComms" />
+      <Tab Caption="Pager Settings" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrModem" />
+      <Tab Caption="Pager" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrSetup" />
+      <Tab Caption="Email" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrEmail" />
+	  <Tab Caption="Mobile Notifications" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrPush" />
+      <Tab Caption="All" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrAll" />
+      <Tab Caption="SNMP" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrSNMP" />
+      <Tab Caption="Specific Alarms" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrSpecAlms" />
+      <Tab Caption="Specific Alerts" ActionID="Callup Page" ActionArguments="page://sysCfgAlmPgrSpecAlts" />
+    </Item>
+    <Item Caption="Event Archiving">
+      <!-- 'Operations' tab in this position uses no menu, but is targetted by the Operator's Menu. -->
+      <Tab Caption="Configuration" ActionID="Callup Page" ActionArguments="page://sysCfgEvtArchConfig" />
+    </Item>
+    <Item Caption="Alarm Trackers">
+      <!-- Currently this display is not having any tab. -->
+      <Tab Caption="" ActionID="Callup Page" ActionArguments="page://sysAlmTrackerConfig" />
+    </Item>
+  </Item>
+  <Item Caption="Operational Security">
+    <Item Caption="Operators" ActionID="Callup Page" ActionArguments="page://sysCfgOperSumm">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysCfgOperGeneral" />
+      <Tab Caption="Assignment" ActionID="Callup Page" ActionArguments="page://sysCfgOperAssetAssignment" />
+      <Tab Caption="Time Access" ActionID="Callup Page" ActionArguments="page://sysCfgOperTime" />
+      <Tab Caption="Station Access" ActionID="Callup Page" ActionArguments="page://sysCfgOperStation" />
+      <Tab Caption="Advanced" ActionID="Callup Page" ActionArguments="page://sysCfgOperAdvanced" />
+      <!-- There is also a 'Sign-on Admin' tab visible on the Operators Summary. This already exists elsewhere in the menu, so is not duplicated here. -->
+    </Item>
+    <Item Caption="Sign-On Administration" ActionID="Callup Page" ActionArguments="page://syscfgsignonadministration" />
+    <Item Caption="Asset Profiles">
+      <Tab Caption="Responsibility Profiles" ActionID="Callup Page" ActionArguments="page://sysCfgAssetProfSumm" />
+      <Tab Caption="Responsibility Profile" ActionID="Callup Page" ActionArguments="page://sysCfgAssetProf" Hidden="" />
+      <Tab Caption="Responsibility Lists" ActionID="Callup Page" ActionArguments="page://sysCfgAssetListSumm" />
+      <Tab Caption="Responsibility List" ActionID="Callup Page" ActionArguments="page://sysCfgAssetList" Hidden="" />
+      <Tab Caption="Time Periods" ActionID="Callup Page" ActionArguments="page://sysCfgAssetTPSumm" />
+      <Tab Caption="Time Period" ActionID="Callup Page" ActionArguments="page://sysCfgAssetTP" Hidden="" />
+    </Item>
+    <Item Caption="Electronic Signatures">
+      <Tab Caption="General" ActionID="Callup Page" ActionArguments="page://sysCfgElecSigGeneral" />
+      <Tab Caption="Electronic Signature Enable/Disable" ActionID="Callup Page" ActionArguments="page://sysCfgElecSigDisable" Hidden="" />
+      <Tab Caption="Reason Sets" ActionID="Callup Page" ActionArguments="page://sysCfgSumElecSigReason" />
+      <Tab Caption="Reason Set" ActionID="Callup Page" ActionArguments="page://sysCfgElecSigReason" Hidden="" />
+    </Item>
+  </Item>
+  <Item Caption="History">
+    <Item Caption="History Assignment">
+      <!-- The call-up order for tabs is different from the display order. -->
+      <Tab Caption="Standard History" ActionID="Callup Page" ActionArguments="page://sysHstStd" />
+	  <Tab Caption="Standard History" ActionID="Callup Page" ActionArguments="page://sysHstStdGate" Hidden="" />
+	  <Tab Caption="Standard History" ActionID="Callup Page" ActionArguments="page://sysHstStdPHD" Hidden="" />
+      <Tab Caption="Fast History" ActionID="Callup Page" ActionArguments="page://sysHstFast" />
+	  <Tab Caption="Fast History" ActionID="Callup Page" ActionArguments="page://sysHstFastGate" Hidden="" />
+	  <Tab Caption="Fast History" ActionID="Callup Page" ActionArguments="page://sysHstFastPHD" Hidden="" />
+      <Tab Caption="Extended History" ActionID="Callup Page" ActionArguments="page://sysHstExtd" />
+	  <Tab Caption="Extended History" ActionID="Callup Page" ActionArguments="page://sysHstExtdGate" Hidden="" />
+	  <Tab Caption="Extended History" ActionID="Callup Page" ActionArguments="page://sysHstExtdPHD" Hidden="" />
+      <Tab Caption="Exception History" ActionID="Callup Page" ActionArguments="page://sysHstExcp" />
+	  <Tab Caption="Exception History" ActionID="Callup Page" ActionArguments="page://sysHstExcpGate" Hidden="" />
+	  <Tab Caption="Exception History" ActionID="Callup Page" ActionArguments="page://sysHstExcpPHD" Hidden="" />
+      <Tab Caption="History Offsets" ActionID="Callup Page" ActionArguments="page://sysHstOffset" />
+    </Item>
+    <Item Caption="History Archiving" ActionID="Callup Page" ActionArguments="page://sysCfgHistoryArchive" />
+    <Item Caption="History Intervals">
+      <!-- The call-up order for tabs is different from the display order. -->
+      <Tab Caption="Standard History" ActionID="Callup Page" ActionArguments="page://sysCfgHistoryStd" />
+      <Tab Caption="Fast History" ActionID="Callup Page" ActionArguments="page://sysCfgHistoryFast" />
+    </Item>
+  </Item>
+  <Item Caption="Reports">
+    <Item Caption="Reports" ActionID="Callup Page" ActionArguments="page://sysCfgRptSummary">
+      <Item Caption="Report" Hidden="">
+        <Tab Caption="Definition" ActionID="Callup Page" ActionArguments="page://sysCfgRptDefinition" />
+        <!-- Comment Start -->
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAfterHours" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAccessData" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAccessLevel" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAlarmDuration" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAlarmEvent" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAlarmEvent2" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptOPCItemReport" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptPerfStats" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAllPoints" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptAssetUsage" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptBatchReport" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptCardReport" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptCrossReference" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptDoorHistory" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptExcel" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptFreeFormat" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptFS90" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptGenericCrystal" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptPointAttribute" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptPointChanges" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptSOE" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptSQL" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptStandard" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptTimePeriod" />
+        <Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptZoneInfo" />
+		<Tab Caption="Content" ActionID="Callup Page" ActionArguments="page://sysCfgRptExperionReport" />
+        <!-- Report Contents will vary based on report type. -->
+        <!-- Comment End -->
+        <Tab Caption="Scripting" ActionID="Callup Page" ActionArguments="page://sysCfgRptScripting" />
+      </Item>
+    </Item>
+    <Item Caption="Reports Settings" ActionID="Callup Page" ActionArguments="page://sysCfgRptServerWide" />
+	<Item Caption="Build Reports" ActionID="Callup Page" ActionArguments="page://sysCfgRptBuilder" />
+  </Item>
+  <Item Caption="Schedules">
+    <Item Caption="Point Control Schedules">
+      <Tab Caption="Point Control" ActionID="Callup Page" ActionArguments="page://sysCfgPntCtrlSchedule" />
+      <Tab Caption="Point Control" ActionID="Callup Page" ActionArguments="page://sysCfgPntCtrlFilter" Hidden="" />
+      <!-- The above two PointControl graphics are alternately visible as per the filter applied in graphic. -->
+      <!-- The 'Shifts' menu item below also appears as a tab on this display.-->
+    </Item>
+    <Item Caption="Holidays" ActionID="Callup Page" ActionArguments="page://syscfgholschedule" />
+    <Item Caption="Shifts" ActionID="Callup Page" ActionArguments="page://syscfgshfschedule" />
+  </Item>
+  <Item Caption="Trend &amp; Group Displays">
+    <Item Caption="Trends" ActionID="Callup Page" ActionArguments="page://sysTndConfigSummary">
+      <Item Caption="Trends" ActionID="Callup Page" ActionArguments="page://sysTndConfig" Hidden="" />
+      <!-- Comment Start -->
+      <Item Caption="Trend" ActionID="Callup Page" ActionArguments="page://sys238" Hidden="" />
+      <Item Caption="Group Trend Configuration with trend range" ActionID="Callup Page" ActionArguments="page://sys239" Hidden="" />
+      <!-- These two pages are DSP format pages equivalent to sysTndConfig-->
+      <!-- Comment End -->
+    </Item>
+    <Item Caption="Groups" ActionID="Callup Page" ActionArguments="page://sysGrpConfigSummary">
+      <Item Caption="Group Configuration" ActionID="Callup Page" ActionArguments="page://sysGrpConfig" Hidden="" />
+      <Item Caption="Group Detail" Hidden="">
+        <!-- None of the tab displays in this block actually have the Config Menu on them. -->
+        <Tab Caption="Group Detail" ActionID="Callup Page" ActionArguments="page://sysGrpDetail" Hidden="" />
+        <Tab Caption="Group Trend" ActionID="Callup Page" ActionArguments="page://sysGrpTrend" Hidden="" />
+        <Tab Caption="Numeric History" ActionID="Callup Page" ActionArguments="page://sysGrpNumeric" Hidden="" />
+      </Item>
+    </Item>
+  </Item>
+  <Item Caption="Applications" Licence="RecipeMgmtLicence==True">
+  <Item Caption="Recipes" ActionID="Callup Page" ActionArguments="page://syscfgrecsumm">
+      <Item Caption="Recipes" ActionID="Callup Page" ActionArguments="page://syscfgdtlrec" Hidden="" />
+    </Item>
+    <Item Caption="Controller Applications" ActionID="Callup Page" ActionArguments="page://sysMnuControllerApps">
+      <Item Caption="Excel 5000" ActionID="Callup Page" ActionArguments="page://sys223" Hidden="" />
+      <Item Caption="Micromax Set Point Programs" ActionID="Callup Page" ActionArguments="page://sys249" Hidden="" />
+      <Item Caption="Micromax Recipes" ActionID="Callup Page" ActionArguments="page://sys241" Hidden="" />
+      <Item Caption="Series 9000 Set Point Programs" ActionID="Callup Page" ActionArguments="page://syscfgcntrlpointprogsumm" Hidden="" />
+      <Item Caption="Series 9000 Recipes" ActionID="Callup Page" ActionArguments="page://syscfgcntrlrecsumm" Hidden="" />
+      <Item Caption="UMC800 Set Point Programs" ActionID="Callup Page" ActionArguments="page://sys254" Hidden="" />
+      <Item Caption="UMC800 Recipes" ActionID="Callup Page" ActionArguments="page://sys252" Hidden="" />
+      <Item Caption="UMC800 Combined Recipes" ActionID="Callup Page" ActionArguments="page://sys260" Hidden="" />
+    </Item>
+  </Item>
+  <Item Caption="Application Development">
+    <Item Caption="Application Development">
+      <Tab Caption="Application Summary" ActionID="Callup Page" ActionArguments="page://SysCfgAppDevSummary" />
+      <Tab Caption="Application" ActionID="Callup Page" ActionArguments="page://sysCfgAppConfig" Hidden="" />
+      <Tab Caption="Application Point Lists" ActionID="Callup Page" ActionArguments="page://SysCfgAppDevPointLists" />
+      <Tab Caption="Application Point List" ActionID="Callup Page" ActionArguments="page://sysCfgAppPntList" Hidden="" />
+      <Tab Caption="System Sinewave" ActionID="Callup Page" ActionArguments="page://SysCfgAppDevSinewave" />
+      <Tab Caption="Task Timers" ActionID="Callup Page" ActionArguments="page://SysCfgAppDevTaskTimers" />
+      <Tab Caption="Watchdog Timers" ActionID="Callup Page" ActionArguments="page://SysCfgAppDevWatchdogTimers" />
+    </Item>
+    <Item Caption="User-Defined Data Formats">
+      <Item Caption="Unscaled" ActionID="Callup Page" ActionArguments="page://sysCfgDataFormatsUnscaled?HSCRecord=102" Hidden="">
+        <Item Caption="Unscaled" ActionID="Callup Page" ActionArguments="page://sysCfgDataFormatsUnscaled" Hidden="" />
+      </Item>
+      <Item Caption="Scaled" ActionID="Callup Page" ActionArguments="page://sysCfgDataFormatsScaled?HSCRecord=232" Hidden="">
+        <Item Caption="Scaled" ActionID="Callup Page" ActionArguments="page://sysCfgDataFormatsScaled" Hidden="" />
+      </Item>
+      <Item Caption="Data Format" ActionID="Callup Page" ActionArguments="page://sysCfgDataFormat" Hidden="" />
+    </Item>
+    <Item Caption="Acronyms">
+      <Tab Caption="System" ActionID="Callup Page" ActionArguments="page://sys154" />
+      <Tab Caption="User Defined" ActionID="Callup Page" ActionArguments="page://sys155" />
+      <Tab Caption="TDC CL" ActionID="Callup Page" ActionArguments="page://sys157" />
+    </Item>
+  </Item>
+  <Item Caption="Server Scripting">
+    <Item Caption="Script Engines">
+      <Tab Caption="Automatic Engines" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingAutomatic" />
+      <Tab Caption="Manual Engines" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingManual" />
+      <Tab Caption="Script Engine" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingDetail" Hidden="" />
+      <Tab Caption="Debugging Options" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingOptions" />
+    </Item>
+    <Item Caption="Server Scripts" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingGeneral" />
+    <Item Caption="Point Scripts" ActionID="Callup Page" ActionArguments="page://sysCfgScriptingPoint" />
+  </Item>
+</Menu>
+<!--
+************************************************************************
+*****     COPYRIGHT 2008 - 2017    HONEYWELL INTERNATIONAL SARL     ****
+************************************************************************
+-->

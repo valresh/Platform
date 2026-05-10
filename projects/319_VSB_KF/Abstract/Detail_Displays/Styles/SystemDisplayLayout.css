@@ -1,0 +1,356 @@
+/*****************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/_Master/Common/Styles/SystemDisplayLayout.css $								
+$Workfile: SystemDisplayLayout.css $												
+$Modtime: 9/12/08 11:47a $											
+$Revision: 19 $
+$Author: Stickell $														
+******************************************************************************
+This stylesheet contains the HTML styles that define the layout of a		
+standard system display. It is suitable for use with an XHTML doctype.
+******************************************************************************
+System Displays are designed for a sceen resolution of 1280 x 1024 pixels,
+but should be functional at the smaller 1024 by 768 pixel resolution that
+has been supported by legacy versions of the product. If the browser window
+is resized to a non-default size, then the display should zoom to fit.												
+******************************************************************************
+Elements which are explicitly positioned by this stylesheet are referred to by
+their IDs, not by their class names. The expected nesting of these elements is
+as follows: 
+
+<body id="Page">
+	<div id="LeftBar">
+		<div id="TopLeft"/>
+		<div id="NavPane"/>
+	</div>
+	<div id="TitleBar"/>
+	</div>
+	<div id="TabSet"/>
+	<div id="DisplayArea">
+		<div id="ActionBar"/>
+		<div id="DetailsArea"/>
+	</div>
+</body>
+
+Note that the Details Area and ActionBar elements are optional for a full
+display, but are the _only_ elements in a frame-display.
+
+******************************************************************************
+The stylesheet cascade for System Displays is:
+SystemDisplayLayout.css (optional)
+System.css
+EBI.css
+HSS.css 
+SymmetrE.css
+
+Of the last three, the references should always be present but the only the
+stylesheet for the actual system type should be included.
+*****************************************************************************/
+
+/*----------------------------------------------------------------------------
+DisplayPage
+------------------------------------------------------------------------------
+The DisplayPage CSS class should be assigned to the outer container element 
+for the whole display. 
+
+The size of this element matches what the HMI-Web Display Builder uses as
+its standard display size.
+----------------------------------------------------------------------------*/ 
+#Background
+{
+	/*background-color: orange;*/
+}
+
+#Page
+{
+	/*background-color: transparent;*/
+}
+
+#Background, #Page
+{
+	height: 589px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	width: 1020px;
+	zoom: 1;
+}
+
+/*----------------------------------------------------------------------------
+LeftBar
+------------------------------------------------------------------------------
+The LeftBar CSS class should be assigned to the container element 
+for the TopLeft and NavPane elements.
+
+It defines the width of the left-hand pane to be 240 px when unzoomed, and 
+allows it to be resized via the mouse.
+----------------------------------------------------------------------------*/ 
+#LeftBar
+{
+	/*border: solid 2px red;*/
+	height: expression(this.offsetParent.clientHeight);
+	left: 0px;	
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	width: 240px;
+	z-index: 1;
+}
+
+.NoExpressions#LeftBar
+{
+	height: 589px;
+}
+
+body#LeftBar
+{
+	/*background-color: cyan;*/
+	border: none;
+	height: expression(this.parentElement.clientHeight);
+	position: relative;
+	width: expression(window == window.top ? '240px' : 'auto');
+	zoom: expression(window == window.top ? (this.parentElement.offsetWidth / this.offsetWidth) : '');
+}
+
+/*----------------------------------------------------------------------------
+RightBar
+------------------------------------------------------------------------------
+The RightBar CSS class may be assigned to a container element 
+for the TitleBar, TabSet and DisplayArea sections (these do not have to have
+a container).
+
+It defines the width of the right-hand pane to be all of the page not taken 
+up by the leftBar.
+----------------------------------------------------------------------------*/ 
+#RightBar
+{
+	/*border: solid 2px green;*/
+	height: 100%;
+	left: 240px;	
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	width: expression(this.offsetParent.clientWidth - 240);
+}
+
+/*----------------------------------------------------------------------------
+TopLeft
+------------------------------------------------------------------------------
+The TopLeft CSS class is for the element that provides the top-left title for
+the set of displays that this one belongs to. It must be a child of the 
+'LeftBar' element.
+----------------------------------------------------------------------------*/ 
+#TopLeft
+{
+	/*border: solid 2px lime;*/
+	height: 35px;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+/*----------------------------------------------------------------------------
+NavPane
+------------------------------------------------------------------------------
+The NavPane element takes up the rest of the left-hand bar of the display
+below the TopLeft title element. It must be a child of the 'LeftBar'
+element and have the 'TopLeft' element as its previous sibling. 
+----------------------------------------------------------------------------*/ 
+#NavPane
+{	
+	/*border: solid 2px green;*/
+	height: expression(this.offsetParent.clientHeight - this.offsetTop);
+	overflow-x: hidden;
+	overflow-y: auto; 
+	position: relative; 
+	width: 100%;
+}
+
+.NoExpressions #NavPane
+{
+    height: 554px; /* Page Height - TopLeft bar height. */
+}
+
+.popup #NavPane,
+#NavPane.popup,
+#OperatorsMenu.popup
+{
+	height: auto;
+	overflow-y: visible;
+}
+
+/*----------------------------------------------------------------------------
+TitleBar
+------------------------------------------------------------------------------
+The TitleBar element stretches across the top of the display to the right of
+the LeftBar element. It must be a later sibling of the TopLeft element, which
+must contain the TopLeft element.
+----------------------------------------------------------------------------*/ 
+#TitleBar, 
+#TitleBarBackground
+{
+	/*border: solid 2px blue;*/
+	height:	35px;		/* Same as height of TopLeft */
+	margin-left: 240px;	/* Same as width of LeftBar */
+	overflow: hidden;
+	position: relative;
+	width: auto;
+}
+
+#RightBar #TitleBar, 
+#RightBar #TitleBarBackground
+{
+	margin-left: 0px;
+}
+/*----------------------------------------------------------------------------
+TabSet
+------------------------------------------------------------------------------
+The TabSet element stretches across the top of the display under the TitleBar
+and to the right of the LeftBar element. It must be a later sibling of the 
+LeftBar and TitleBar elements.
+----------------------------------------------------------------------------*/ 
+#TabSet, 
+#TabSetBackground
+{
+	/*border: solid 2px purple;*/
+	height: 33px;
+	margin-left: 240px;	/* Same as width of LeftBar */
+	overflow: hidden;
+	position: relative;
+	width: auto;
+}
+
+#RightBar #TabSet, 
+#RightBar #TabSetBackground
+{
+	margin-left: 0px;
+}
+
+#TabSet #PageEdge,
+#TabSetBackground #PageEdge
+{
+	height: 3px;
+	left: -171px;	/* Negative ActionBar Width */
+	width: 100%;
+	margin: 0px;
+	position: absolute;
+	top: 27px;		/* TabSet height - double the height of this element. */
+	z-index: -100;	/* So it's behind the left bar, and DisplayArea */
+}
+
+/*----------------------------------------------------------------------------
+DisplayArea
+------------------------------------------------------------------------------
+The DisplayArea element takes up the remainder of the available display space.
+It must be a later sibling of the LeftBar, TitleBar and TabSet elements.
+----------------------------------------------------------------------------*/ 
+#DisplayArea, 
+#DisplayAreaBackground
+{
+	/*background-color: pink;*/
+	height: expression(this.offsetParent.clientHeight - this.offsetTop);
+	margin-left: 240px;	/* Same as width of LeftBar */
+	overflow: hidden; 
+	position: relative; 
+	width: auto; 	
+}
+
+.NoExpressions #DisplayArea,
+.NoExpressions #DisplayAreaBackground
+{
+	height: 521px;      /* Page height - TitleBar height - TabSet Height */
+}
+
+.NoExpressions .NoTabs#DisplayArea,
+.NoExpressions .NoTabs#DisplayAreaBackground
+{
+	height: 554px;      /* Page height - TitleBar height */
+}
+
+#RightBar #DisplayArea, 
+#RightBar #DisplayAreaBackground
+{
+	margin-left: 0px;
+}
+
+/*----------------------------------------------------------------------------
+ActionBar
+------------------------------------------------------------------------------
+The ActionBar element is an optional region at the right-hand edge of
+the DisplayArea. It should be a child of the DisplayArea element.
+----------------------------------------------------------------------------*/ 
+#ActionBar, 
+#ActionBarBackground
+{
+	/*border: solid 2px orange;*/
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	right: 0px;
+	top: 0%;
+	width: 171px;
+}
+
+/*----------------------------------------------------------------------------
+DetailsArea
+------------------------------------------------------------------------------
+The DetailsArea element is the main part of the display when an ActionBar is 
+used. It should be a child DisplayArea element, and later sibling of the
+ActionBar element.
+----------------------------------------------------------------------------*/ 
+#DetailsArea,
+#DetailsAreaBackground
+{
+	/*border: solid 2px red;*/
+	height: 100%;
+	margin-right: 171px;
+	overflow: auto;
+	position: relative;
+	width: auto;
+}
+
+.NoActionBar#DetailsArea,
+.NoActionBar#DetailsAreaBackground
+{
+	margin-right: 0px;
+}
+
+/*----------------------------------------------------------------------------
+.NotLicensed
+------------------------------------------------------------------------------
+This class is applied to the 'Option not licensed' element which is displayed 
+if the display-content should not be seen. It covers all of the display except 
+the LeftBar.
+----------------------------------------------------------------------------*/ 
+.NotLicensed
+{
+	/*border: 2px solid magenta;*/
+	left: 240px; 
+	height: expression(this.offsetParent.offsetHeight);
+	overflow: auto;
+	position: absolute; 
+	top: 0px; 
+	width: expression(this.offsetParent.offsetWidth - 240);	/* Use offsetWidth if absolutely positioned, clientWidth (or %) if relatively positioned. */
+}
+
+/*----------------------------------------------------------------------------
+WholeArea
+------------------------------------------------------------------------------
+This class can be applied to any element to make it take up the entire space
+defined for its offset parent element.
+----------------------------------------------------------------------------*/ 
+.WholeArea, .wholearea
+{
+	/*border: 2px solid magenta;*/
+	left: 0px; 
+	height: expression(this.offsetParent.offsetHeight);
+	overflow: auto;
+	position: absolute; 
+	top: 0px; 
+	width: expression(this.offsetParent.offsetWidth);	/* Use offsetWidth if absolutely positioned, clientWidth (or %) if relatively positioned. */
+}
+

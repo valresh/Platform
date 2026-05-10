@@ -1,0 +1,991 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>Profibus HART IO Module Details</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.11>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb display.">
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPageBehavior codeBase="" 
+classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXVectorFactory codeBase="" 
+classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXAlphaBehavior codeBase="" 
+classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPushButtonBehavior codeBase="" 
+classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCComboboxBehavior codeBase="" 
+classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCCheckBoxBehavior codeBase="" 
+classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCIndicatorBehavior codeBase="" 
+classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HoverBehavior codeBase="" 
+classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPopupBehavior codeBase="" 
+classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=BindingBehavior codeBase="" 
+classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCShapeLinkBehavior codeBase="" 
+classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCActiveXDocumentBehavior codeBase="" 
+classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCBreakpointBehavior codeBase="" 
+classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXLevelFillBehavior codeBase="" 
+classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXElementsFactory codeBase="" 
+classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=AlarmStateIconFactory codeBase="" 
+classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=DTFormat codeBase="" 
+classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCScriptDataBehavior codeBase="" 
+classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=StnEvtReflector codeBase="" 
+classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=DisplayDataRepository codeBase="" 
+classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=GENERATOR content="MSHTML 9.00.8112.16470"><LINK id=HDXStylesheet 
+rel=stylesheet type=text/css href=".\Styles\SystemDisplay_1276X849.css">
+<SCRIPT language=VBScript defer>Dim RowNum
+Sub Display_Channel_Type(RowNum)
+If not sd.QualityBad("currentpoint."&"CHANNELTYPE"&"["&RowNum&"]") then
+If (sd.DataValue("currentpoint."&"CHANNELTYPE"&"["&RowNum&"]")) = 1 or (sd.DataValue("currentpoint."&"CHANNELTYPE"&"["&RowNum&"]")) = 4 then
+     document.getElementById("ConAlpPV" & RowNum).style.visibility = "Hidden"
+	if not sd.QualityBad("currentpoint."&"CHANDATA"&"["&RowNum&"]") then
+     
+	 document.getElementById("ShaDig" & RowNum).value = sd.DataValue("currentpoint."&"CHANDATA"&"["&RowNum&"]") + 2
+   end if 
+	 
+
+    elseif (sd.DataValue("currentpoint."&"CHANNELTYPE"&"["&RowNum&"]")) = 2 or (sd.DataValue("currentpoint."&"CHANNELTYPE"&"["&RowNum&"]")) = 5 then
+	  document.getElementById("ShaDig" & RowNum).style.visibility = "hidden"
+	  
+    else
+      document.getElementById("ShaDig" & RowNum).style.visibility = "hidden"
+      document.getElementById("ConAlpPV" & RowNum).style.visibility = "Hidden"
+      document.getElementById("txtchn" & RowNum).style.visibility = "Hidden"
+ end if
+ else 
+     
+      document.getElementById("ShaDig" & RowNum).value = 1 
+end if 
+
+
+End sub</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName0 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName1 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName2 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName3 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName4 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName5 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName6 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName7 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName8 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName9 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName10 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName11 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName12 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName13 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName14 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName15 defer event=onclick>window.external.Parent.RequestTask 21, 73, 0, 0, 0, me.value</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName0 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName1 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName2 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName3 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName4 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName5 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName6 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName7 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName8 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName9 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName10 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName11 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName12 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName13 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName14 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName15 defer event=onmouseenter>me.style.cursor = "Hand"
+me.style.textDecorationUnderline = true</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName15 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName14 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName13 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName12 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName11 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName10 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName9 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName8 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName7 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName6 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName5 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName4 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName3 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName2 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName1 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName0 defer event=onmouseleave>me.style.textDecorationUnderline = false</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag15 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum15%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum15%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum15%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag14 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum14%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum14%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum14%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag13 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum13%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum13%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum13%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag12 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum12%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum12%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum12%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag11 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum11%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum11%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum11%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag10 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum10%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum10%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum10%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag9 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum9%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum9%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum9%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag8 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum8%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum8%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum8%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag7 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum7%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum7%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum7%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag6 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum6%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum6%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum6%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag5 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum5%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum5%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum5%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag4 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum4%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum4%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum4%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag3 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum3%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum3%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum3%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag2 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum2%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum2%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum2%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag1 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum1%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum1%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum1%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpDeviceTag0 defer event=ondatachange>if not me.QualityBad("CurrentPoint.HTAG({%ChanNum0%})") then
+	if me.DataValue("CurrentPoint.HTAG({%ChanNum0%})") <> "" or me.DataValue("CurrentPoint.HTAG({%ChanNum0%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName0 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum0%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum0%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum0%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName1 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum1%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum1%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum1%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName2 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum2%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum2%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum2%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName3 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum3%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum3%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum3%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName4 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum4%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum4%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum4%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName5 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum5%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum5%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum5%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName6 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum6%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum6%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum6%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName7 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum7%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum7%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum7%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName8 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum8%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum8%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum8%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName9 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum9%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum9%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum9%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName10 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum10%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum10%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum10%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName11 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum11%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum11%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum11%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName12 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum12%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum12%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum12%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName13 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum13%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum13%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum13%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName14 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum14%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum14%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum14%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+
+<SCRIPT language=VBScript for=alpChannelName15 defer event=ondatachange>if not me.QualityBad("CurrentPoint.CHNLNAME({%ChanNum15%})") then
+	if me.DataValue("CurrentPoint.CHNLNAME({%ChanNum15%})") <> "" or me.DataValue("CurrentPoint.CHNLNAME({%ChanNum15%})") <> vbnullstring then
+		me.parentElement.style.visibility = "Inherit"
+	else
+		me.parentElement.style.visibility = "Hidden"
+	end if
+else
+	me.parentElement.style.visibility = "Hidden"
+end if</SCRIPT>
+</HEAD>
+<SCRIPT language=VBScript for=sd defer event=ondatachange>if not sd.QualityBad("CurrentPoint.NUMCHANS") then
+	ChannelNum = sd.DataValue("CurrentPoint.NUMCHANS")
+	for i = 0 to channelnum -1
+		document.getElementById("grpChannel"&i).style.visibility = "Inherit"
+	next
+	for i = channelnum to 15
+		document.getElementById("grpChannel"&i).style.visibility = "Hidden"
+	next
+end if</SCRIPT>
+
+<BODY 
+style="BACKGROUND-COLOR: transparent; MARGIN: 0px; ZOOM: 1; FONT-SIZE: 12pt; OVERFLOW: auto">
+<DIV 
+style="POSITION: absolute; BACKGROUND-COLOR: #ffffff; MARGIN: 0px; WIDTH: 1299px; ZOOM: 1; BACKGROUND-REPEAT: no-repeat; HEIGHT: 981px" 
+id=Background></DIV>
+<DIV 
+style="POSITION: absolute; BACKGROUND-COLOR: transparent; MARGIN: 0px; WIDTH: 1276px; ZOOM: 1; FONT-FAMILY: Arial; HEIGHT: 849px; FONT-SIZE: 12pt; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository)" 
+id=Page PageDescription HelpFileName HelpFileTypeList="Ordinary document" 
+LocateHelpTopicBy HelpTopic>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 1276px; FONT-FAMILY: Arial; HEIGHT: 849px; FONT-SIZE: 0px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); TOP: 0px; LEFT: 0px" 
+id=shpBackground class=hsc.shape.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+HDX_LOCK="-1" value = "1" src = "sysBackground_1276X849_CDA.sha" parameters = 
+"Value?ShowTabs:true;" linkType = "linked" globalscripts = 
+"CFD45B49-72AB-4fb7-9CC8-A7D18331606B" styleClass = ""></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 594px; FONT-FAMILY: Arial; HEIGHT: 29px; FONT-SIZE: 0px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); TOP: 43px; LEFT: 283px" 
+id=shpTab class=hsc.shape.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:594;" 
+HDX_LOCK="-1" value = "1" src = ".\sysdtlPBHIOMBb_files\sysstabs3b_1276x849.sha" 
+parameters = "" linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV 
+style="POSITION: absolute; WIDTH: 100%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 0%" 
+id=shpTab_group001 class="hvg.group.1 tabSet3" tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:594;">
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 32.99%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 0%" 
+id=shpTab_bitmap001 class="hsc.image.1 tab" tabIndex=-1 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 32.99%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 33.5%" 
+id=shpTab_roundrect5 class="hvg.base.1 tab tabSelected" tabIndex=-1 
+hdxproperties="Height:29;Width:196;" HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 32.99%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 67%" 
+id=shpTab_bitmap1 class="hsc.image.1 tab" tabIndex=-1 
+hdxproperties="Height:29;Width:196;"></DIV></DIV></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 279px; FONT-FAMILY: Arial; HEIGHT: 806px; VISIBILITY: visible; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPopupBehavior#GroupFaceplate) url(#BindingBehavior); TOP: 43px; LEFT: 0px" 
+id=AxFaceplate class="hsc.groupfaceplate.1 hsc.activexcontrol.1" tabIndex=-1 
+hdxproperties="HDXBINDINGID:68;" HDX_LOCK="-1"></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-BOTTOM: 0px; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; PADDING-LEFT: 0px; WIDTH: 947px; PADDING-RIGHT: 0px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: inherit; COLOR: white; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 10px; LEFT: 326px; ROWS: 1" id=alpLocation class="hsc.alpha.1 Titlebar_Text_Style2" title="" tabIndex=-1 hdxproperties="borderStyle:None;borderWidth:0px;BreakpointType:1;DiscreteColors:16777215_16777215_16777215_16777215_16777215_16777215_16777215_16777215;DiscreteStates:00000000;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:33;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:Titlebar_Text_Style2;textColor:White;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="Acronym">Text</TEXTAREA> 
+
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 947px; FONT-FAMILY: Arial; HEIGHT: 1px; VISIBILITY: visible; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#line) url(#BindingBehavior); TOP: 92px; LEFT: 326px" 
+id=line2 class="hvg.base.1 Group_Line_Style" tabIndex=-1 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:34;Height:1;indicateAlarmState:0;indicateScanState:0;LineColor:#c0c0c0;lineColorBlink:False;points:0.000000 0.000000 100.000000 100.000000 ;styleClass:Group_Line_Style;Width:947;" 
+HDX_LOCK="-1"></DIV><INPUT style="BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #ffffff 1px; BACKGROUND-COLOR: transparent; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: black; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 1px; FONT-WEIGHT: bold; BORDER-RIGHT: #ffffff 1px; TEXT-DECORATION: ; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 43px; LEFT: 681px" id=pbConfigDetails class="hsc.button.1 Tab_Button__Text_Style2" tabIndex=-1 value="Config Details" type=button hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:36;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;ToggleState:False;" HDX_LOCK="-1"> 
+
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 196px; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 43px; LEFT: 482px" 
+id=pbHARTChannels class="hvg.textbox.1 Tab_Button__Text_Style2" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:26;Height:29;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;TotalRotation:0;Width:196;" 
+HDX_LOCK="-1">HART Channels</DIV><INPUT style="BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #ffffff 1px; BACKGROUND-COLOR: transparent; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: black; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 1px; FONT-WEIGHT: bold; BORDER-RIGHT: #ffffff 1px; TEXT-DECORATION: ; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 43px; LEFT: 283px" id=pbMain class="hsc.button.1 Tab_Button__Text_Style2" tabIndex=-1 value=Main type=button hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:27;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1"> 
+
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 132px; FONT-FAMILY: Arial; HEIGHT: 18px; VISIBILITY: hidden; COLOR: #ff0000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: normal; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior); TOP: 814px; LEFT: 974px" 
+id=sd class="hvg.textbox.1 HSC.ScriptDataObject.1" tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:98;Height:18;lineColorBlink:False;LineStyle:0;textColor:#ff0000;textColorBlink:False;TotalRotation:0;Width:132;" 
+HDX_LOCK="-1">Script data</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: left; WIDTH: 150px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #557788; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 98px; LEFT: 326px" 
+id=grpChannelDetails class="hvg.textbox.1 Group_Label_Style2" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:1;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:Group_Label_Style2;textColor:#557788;textColorBlink:False;TotalRotation:0;Width:150;" 
+HDX_LOCK="-1">Channel details</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 123px; LEFT: 640px" 
+id=hdrDeviceTag class="hvg.textbox.1 TableHeader_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:85;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">Device tag</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 33px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 110px; LEFT: 765px" 
+id=hdrDeviceMFG class="hvg.textbox.1 TableHeader_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:86;Height:33;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">Device manufacturer</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 890px" 
+id=hdrDeviceTypeName class="hvg.textbox.1 TableHeader_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:87;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">Device type name</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 1015px" 
+id=hdrDeviceType class="hvg.textbox.1 TableHeader_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:88;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">Device type</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 1140px" 
+id=hdrDeviceRev class="hvg.textbox.1 TableHeader_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:89;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">Device revision</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 25px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 326px" 
+id=hdrChannelNum class="hvg.textbox.1 TableHeader_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:102;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:25;" 
+HDX_LOCK="-1">#</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 150px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 360px" 
+id=hdrChannelName class="hvg.textbox.1 TableHeader_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:90;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:150;" 
+HDX_LOCK="-1">Channel name</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 120px; FONT-FAMILY: arial; HEIGHT: 23px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 125px; LEFT: 515px" 
+id=hdrPVOP class="hvg.textbox.1 TableHeader_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:108;Height:23;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:120;" 
+HDX_LOCK="-1">PV/OP</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 555px; LEFT: 326px" 
+id=GrpChannel15 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel15 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">15</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan15 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice15 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag15 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:15;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG15 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:32;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName15 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:51;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType15 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:66;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev15 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:82;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName15 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:260;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData15 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:107;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 528px; LEFT: 326px" 
+id=GrpChannel14 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel14 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">14</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan14 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice14 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag14 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:14;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG14 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:31;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName14 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:50;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType14 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:65;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev14 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:81;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName14 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:259;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData14 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:106;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 501px; LEFT: 326px" 
+id=GrpChannel13 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel13 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">13</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan13 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice13 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag13 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:13;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG13 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:30;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName13 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:49;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType13 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:64;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev13 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:80;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName13 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:258;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData13 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:105;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 474px; LEFT: 326px" 
+id=GrpChannel12 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel12 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">12</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan12 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice12 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag12 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:12;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG12 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:29;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName12 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:48;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType12 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:63;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev12 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:79;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName12 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:257;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData12 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:104;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 447px; LEFT: 326px" 
+id=GrpChannel11 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel11 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">11</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan11 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice11 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag11 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:11;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG11 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:28;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName11 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:47;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType11 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:62;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev11 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:78;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName11 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:256;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData11 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:103;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 420px; LEFT: 326px" 
+id=GrpChannel10 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel10 class="hvg.textbox.1 TableContent_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">10</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan10 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice10 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag10 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:10;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG10 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:25;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName10 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:46;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType10 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:61;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev10 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:77;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName10 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:255;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData10 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:100;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 393px; LEFT: 326px" 
+id=GrpChannel9 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel9 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">9</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan9 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice9 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag9 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:9;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG9 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:24;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName9 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:45;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType9 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:60;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev9 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:76;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName9 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:254;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData9 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:99;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 366px; LEFT: 326px" 
+id=GrpChannel8 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel8 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">8</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan8 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice8 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag8 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:8;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG8 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:23;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName8 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:43;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType8 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:59;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev8 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:75;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName8 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:253;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData8 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:97;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 339px; LEFT: 326px" 
+id=GrpChannel7 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel7 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">7</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan7 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice7 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag7 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:7;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG7 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:22;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName7 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:42;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType7 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:58;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev7 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:74;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName7 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:252;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData7 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:96;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 312px; LEFT: 326px" 
+id=GrpChannel6 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel6 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">6</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan6 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice6 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag6 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:6;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG6 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:21;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName6 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:41;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType6 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:57;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev6 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:73;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName6 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:251;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData6 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:95;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 285px; LEFT: 326px" 
+id=GrpChannel5 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel5 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">5</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan5 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice5 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag5 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:5;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG5 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:20;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName5 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:40;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType5 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:56;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev5 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:72;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName5 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:250;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData5 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:94;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 258px; LEFT: 326px" 
+id=GrpChannel4 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel4 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">4</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan4 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice4 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag4 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:4;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG4 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:19;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName4 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:39;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType4 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:55;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev4 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:71;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName4 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:241;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData4 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:93;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 231px; LEFT: 326px" 
+id=GrpChannel3 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel3 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">3</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan3 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice3 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag3 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:3;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG3 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:18;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName3 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:38;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType3 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:54;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev3 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:70;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName3 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:240;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData3 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:92;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 204px; LEFT: 326px" 
+id=GrpChannel2 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel2 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">2</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan2 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice2 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag2 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:2;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG2 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:17;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName2 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:37;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType2 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:53;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev2 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:69;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName2 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:239;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData2 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:91;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 177px; LEFT: 326px" 
+id=GrpChannel1 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel1 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">1</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan1 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice1 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag1 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:0;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG1 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:16;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName1 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:35;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType1 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:52;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev1 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:67;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:64;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName1 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:238;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData1 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:84;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 934px; HEIGHT: 22px; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 150px; LEFT: 326px" 
+id=GrpChannel0 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:934;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 2.35%; FONT-FAMILY: arial; HEIGHT: 90.9%; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 9.09%; LEFT: 0%" 
+id=txtChannel0 class="hvg.textbox.1 TableContent_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:22;" 
+HDX_LOCK="-1">0</DIV>
+<DIV 
+style="POSITION: absolute; WIDTH: 96.35%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 3.64%" 
+id=grpChan0 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:900;" 
+HDX_LOCK="-1">
+<DIV 
+style="POSITION: absolute; WIDTH: 68.88%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 31.11%" 
+id=grpDevice0 class=hvg.group.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:620;" 
+HDX_LOCK="-1"><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 0%; LEFT: 0%; ROWS: 1" id=alpDeviceTag0 class="hsc.alpha.1  HSC.ScriptDataObject.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:44;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 20.16%; ROWS: 1" id=alpDeviceMFG0 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:167;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 40.32%; ROWS: 1" id=alpDeviceName0 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:168;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 60.48%; ROWS: 1" id=alpDeviceType0 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:169;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 19.35%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 80.64%; ROWS: 1" id=alpDeviceRev0 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:170;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 16.66%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: blue; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 9.09%; LEFT: 0%; ROWS: 1" id=alpChannelName0 class="hsc.alpha.1 Hyperlink_CenterAlign_Withoutunderline_Style HSC.ScriptDataObject.1" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:236;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:Hyperlink_CenterAlign_Withoutunderline_Style;textColor:Blue;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">Text</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 13.33%; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 90.9%; VISIBILITY: inherit; COLOR: black; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 9.09%; LEFT: 17.22%; ROWS: 1" id=alpChannelData0 class="hsc.alpha.1 TableContent_center_Align_Style" title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:83;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%.2f;styleClass:TableContent_center_Align_Style;textColor:black;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="9999.99">9999.99</TEXTAREA></DIV></DIV></DIV></BODY></HTML>

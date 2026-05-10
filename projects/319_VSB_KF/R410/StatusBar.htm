@@ -1,0 +1,957 @@
+<html>
+
+<head>
+<title>Status Bar</title>
+<OBJECT id="StnEvtReflector" style="position:absolute;top:0px;left:0px;width:0px;height:0px" codeBase="" classid="clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D"></OBJECT>
+<script type="text/javascript" src="Scripts/jquery-1.12.4.min.js"></script>
+</head>
+
+<STYLE type=text/css>
+
+body
+{
+	margin: 0;
+	overflow: hidden;
+}
+
+.dark-theme .textColor
+{
+	color: #C0C0C0;
+}
+
+.dark-theme .StatusTable
+{
+	BACKGROUND-COLOR: #404040;
+}
+
+.dark-theme .cellHighlight
+{
+	background: #5A5A5A;
+}
+
+.dark-theme .full-fill-color .cellHighlight .indicatorHighlight
+{
+	border-top: 3px solid #5A5A5A;
+}
+
+.light-theme .textColor
+{
+	color:#606060;
+}
+
+.light-theme .StatusTable
+{
+	BACKGROUND-COLOR: #d0d0d0;
+}
+
+.light-theme .cellHighlight
+{
+	background: #1792E5;
+}
+
+.light-theme .full-fill-color .cellHighlight .indicatorHighlight
+{
+	border-top: 3px solid #1792E5;
+}
+
+.classic-theme .textColor
+{
+	color:#606060;
+}
+
+.classic-theme .StatusTable
+{
+	BACKGROUND-COLOR: #d0d0d0;
+}
+
+.classic-theme .cellHighlight
+{
+	background: #1792E5;
+}
+
+.classic-theme .full-fill-color .cellHighlight .indicatorHighlight
+{
+	border-top: 3px solid #1792E5;
+}
+
+
+.StatusTable
+{
+    width: 100%;
+    font-family: Arial;
+    font-size: 10pt;
+	border-collapse: collapse;
+}
+
+.highlightOnRollover .StatusTable
+{
+	vertical-align: top;
+	margin-top: -2px;
+}
+
+.honeywell img
+{
+    margin-left: 12px;
+}
+
+.logoSeparator
+{
+	vertical-align: top;
+}
+
+.version
+{
+	display: inline-block;
+    margin: -1px 0 0 8px;
+	vertical-align: top;
+}
+
+.cell
+{
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+	vertical-align: top;
+}
+
+.footerIcon
+{
+    margin-right: 3px;
+}
+
+.indicatorHighlight
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index:-1;
+	height: 100%;
+	color: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+	vertical-align: top;
+}
+
+.partialFillIndicator
+{
+	height: 3px;
+}
+
+.full-fill-color .partialFillIndicator
+{
+	height: 100%;
+}
+
+.blankPanel
+{
+	text-align: center;
+}
+
+.indicatorCellWrapper
+{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	cursor: hand;
+	text-align: center;
+	padding-bottom:2px;
+	vertical-align: top;
+}
+
+.cellWrapper
+{
+	position:relative;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+	vertical-align: top;
+}
+.indicatorWrapper
+{
+	top: 2px;
+	position: relative;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	padding-bottom:2px;
+}
+
+.dataWrapper
+{
+	top: 2px;
+	position: relative;
+}
+.label
+{
+	display: inline;
+	margin: 0 auto;
+	padding-left: 6px;
+	position: relative;
+	top:0px;
+	vertical-align: top;
+}
+.indicatorCell
+{
+	position: relative;
+	top: 3px;
+	width: 100%;
+	text-align: center;
+	z-index: 0;
+}
+
+.indicatorIcon
+{
+	display: inline;
+	position: relative;
+}
+
+#DateCell
+{
+	vertical-align: top;
+}
+
+#date, #time
+{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 1px;
+}
+
+#StationIDLabel #Security
+{
+	padding-left: 2px;
+}
+
+#experionTextWrapper, #serverWrapper, #innerProfileWrapper, #innerConsoleWrapper, #StationIDLabel #Security
+{
+	top: 1px;
+}
+#logoWrapper
+{
+	top: 3px;
+}
+#dateWrapper
+{
+	top: 2px;
+}
+</STYLE>
+
+<body id="body" style="Behavior:url(#StnEvtReflector)" ZoneHeight="20">
+
+<table ID="StatusTable" class="StatusTable textColor">
+
+	<tr>
+		<td ID="Title" class="honeywell" width="5%" nowrap style="CURSOR: default;" UNSELECTABLE="on">
+			<div class="cellWrapper">
+				<div id="logoWrapper" class="dataWrapper">
+					<img ID="LogoIcon" src="Images/footer-honeywell-logo.png" />
+					<img class="logoSeparator" src="Images/footer-separator.png" />
+				</div>
+			</div>
+		</td>
+		<td id="ExperionLabel" class="honeywell" width="7%" nowrap style="CURSOR: default;" UNSELECTABLE="on">
+			<div class="cellWrapper">
+				<div id="experionTextWrapper" class="dataWrapper">
+				<span class="version">Experion</span>
+				<img class="logoSeparator" src="Images/footer-separator.png" />
+				</div>
+			</div>
+		</td>
+		<td ID="Spacing" width="3%" style="CURSOR: default;" UNSELECTABLE="on" nowrap >
+			&nbsp;
+		</td>								
+		<td ID="DateCell" width="9%" nowrap>
+			<div class="cellWrapper">
+				<div id = "dateWrapper" class="dataWrapper">
+			<span ID="Date" class="cell" style="CURSOR: default;" UNSELECTABLE="on"></span>&nbsp;&nbsp;
+			<span ID="Time" class="cell" style="CURSOR: default;" UNSELECTABLE="on"></span>
+				</div>
+			</div>
+		</td>
+
+		<td ID="TpnSysStsCell" width="1.5%" style="display:none" nowrap >
+ 			<div ID="SystemStatus" title="Display TPS System Summary Display" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		
+		<td ID="TpnConStsCell" width="1.5%" style="display:none" nowrap >
+ 			<div ID="ConsoleStatus" title="Display TPS Console Summary Display" class="cell" style="CURSOR: hand;" UNSELECTABLE="on"></div>
+		</td>
+		<td width="7%">
+			<div class="indicatorCellWrapper highlightOnRollover">
+				<div ID="Alarm" title="Display Alarm Summary" class="partialFillIndicator indicatorHighlight" style="CURSOR: hand;" UNSELECTABLE="on" onpropertychange="onIndicatorCellPropertyChange(event);"></div>
+				<div ID="AlarmCell" class="indicatorCell">
+					<div ID="AlarmIndicatorIconContainer" class="indicatorIcon"><img ID="AlarmIcon"/></div>
+					<div ID="AlarmText" class="label" title="Display Alarm Summary">ALARM</div>
+				</div>
+		</td>
+		<td width="7%">
+			<div class="indicatorCellWrapper highlightOnRollover">
+				<div ID="Comms" title="Display System Alarm Summary" class="partialFillIndicator indicatorHighlight" style="CURSOR: hand;" UNSELECTABLE="on" onpropertychange="onIndicatorCellPropertyChange(event);"></div>
+				<div ID="CommsCell" class="indicatorCell">
+					<div ID="SystemIndicatorIconContainer" class="indicatorIcon"><img ID="CommsIcon"/></div>
+					<div ID="CommsText" class="label" title="Display System Alarm Summary">SYSTEM</div>
+			</div>
+		</td>
+		<td width="7%">
+			<div class="indicatorCellWrapper highlightOnRollover">
+				<div ID="Message" title="Display Message Summary" class="partialFillIndicator indicatorHighlight" style="CURSOR: hand;" UNSELECTABLE="on" onpropertychange="onIndicatorCellPropertyChange(event);"></div>
+				<div ID="MessageCell" class="indicatorCell">
+					<div ID="MessageIndicatorIconContainer" class="indicatorIcon"><img ID="MessageIcon"/></div>
+					<div ID="MessageText" class="label" title="Display Message Summary">MESSAGE</div>
+				</div>
+			</div>
+		</td>
+		<td width="7%">
+			<div class="indicatorCellWrapper highlightOnRollover">
+				<div ID="Download" title="Display Alert Summary" class="partialFillIndicator indicatorHighlight" style="CURSOR: hand;" UNSELECTABLE="on" onpropertychange="onIndicatorCellPropertyChange(event);"></div>
+				<div ID="DownloadCell" class="indicatorCell">
+					<div ID="AlertIndicatorIconContainer" class="indicatorIcon"><img ID="DownloadIcon"/></div>
+					<div id="DownloadText" class="label" title="Display Alert Summary">ALERT</div>
+				</div>
+			</div>
+		</td>
+		<td ID="DelayStatus" width="7%" style="display:none">
+			<div class = "indicatorCellWrapper highlightOnRollover">
+			<div ID="Delay" title="Display System Unit Summary" class="partialFillIndicator indicatorHighlight" style="CURSOR: hand;" UNSELECTABLE="on" onpropertychange="onIndicatorCellPropertyChange(event);"></div>
+					<div ID="DelayCell" class="indicatorCell">
+					<div ID="DelayIndicatorIconContainer" class="indicatorIcon"><img ID="DelayIcon"/></div>
+						<div ID="DelayText" class="label" title="Display System Unit Summary">DELAY</div>
+				</div>
+			</div>
+		</td>
+		<td width="2%" nowrap >
+			&nbsp;
+		</td>
+
+		<td ID="ServerCell" class="highlightOnRollover" style="CURSOR: hand;" width="9%" nowrap >
+			<div class="cellWrapper">
+				<div ID="serverWrapper" class="dataWrapper" UNSELECTABLE="on">
+					<table ID="ServerTable" cellspacing="0" cellpadding="0" class="StatusTable textColor">
+					<TR>
+					<TD ID="ServerIconCell" width="30%" style="text-align: center; vertical-align: TEXT-TOP; height: 100%;" nowrap><img height="98%" ID="ServerIcon" UNSELECTABLE="on"></TD>
+					<TD ID="ServerID" class="cell cellLabel" style="CURSOR: hand;" UNSELECTABLE="on" nowrap></TD>
+					<TD ID="ServerSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+				</div>
+			</div>
+		</td>
+
+		<td ID="ProfileCell" class="highlightOnRollover" width="9%" nowrap >
+			<div class="cellWrapper">
+				<div ID="innerProfileWrapper" class="cell dataWrapper" UNSELECTABLE="on">
+					<table ID="ProfileTable" cellspacing="0" cellpadding="0" class="StatusTable textColor">
+					<TR>
+					<TD ID="ProfileID" class="cell cellLabel" style="CURSOR: hand;" UNSELECTABLE="on" nowrap></TD>
+					<TD ID="ProfileSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+				</div>
+			</div>
+		</td>
+
+		<td ID="ConsoleCell" class="highlightOnRollover" width="9%" nowrap >
+			<div class="cellWrapper" UNSELECTABLE="on">
+				<div ID="innerConsoleWrapper" class="dataWrapper"  UNSELECTABLE="on">
+					<table ID="ConsoleTable" cellspacing="0" cellpadding="0" class="StatusTable textColor">
+					<TR>
+					<TD ID="ConsoleIconCell" width="30%" style="text-align: center; vertical-align: TEXT-TOP; height: 100%;" nowrap><img height="98%" ID="ConsoleIcon" UNSELECTABLE="on"></TD>
+					<TD ID="ConsoleID" class="cell cellLabel" style="CURSOR: hand;" UNSELECTABLE="on" nowrap></TD>
+					<TD ID="ConsoleSpacerCell" nowrap></TD>
+					</TR>
+				</table>
+				</div>
+			</div>
+		</td>
+
+		<td ID="StationCell" class="highlightOnRollover" style="CURSOR: hand;" width="8%" nowrap >
+			<div class="cellWrapper" UNSELECTABLE="on">
+				<div ID="StationID" class="dataWrapper" UNSELECTABLE="on">
+					<div class="indicatorIcon"><img ID="StationIcon" class="footerIcon" src="Images/footer-station-icon.png"/></div>
+					<div class="label" id="StationIDLabel"></div>
+				</div>
+			</div>
+		</td>
+		<td class="highlightOnRollover" style="CURSOR: hand;" width="8%" nowrap >
+ 			<div class="cellWrapper" UNSELECTABLE="on">
+				 <div ID="SecurityCell" class="dataWrapper">
+					<div class="indicatorIcon"><img id="UserIcon" class="footerIcon" src="Images/footer-user-icon.png"/></div>
+					<div id="Security" class="label"></div>
+				</div>
+ 			</div>
+		</td>
+	</tr>
+		
+		
+		
+</table>
+</body>
+
+<script>
+	var INDICATOR_FULL_FILL_SETTING = 'Station\\AlarmBarFullHighlighting';
+
+	var icons = {
+		"Alarm": 		{ elementId: "#AlarmIcon", 	  icon: "footer-alarm-icon.png" },
+		"Comms": 		{ elementId: "#CommsIcon",    icon: "footer-system-icon.png" },
+		"Message":  	{ elementId: "#MessageIcon",  icon: "footer-message-icon.png" },
+		"Download": 	{ elementId: "#DownloadIcon", icon: "footer-alert-icon.png" },
+		"Delay": 		{ elementId: "#DelayIcon", 	  icon: "footer-delay-icon.png" },
+		"Title": 		{ elementId: "#LogoIcon", 	  icon: "footer-honeywell-logo.png" },
+		"StationID": 	{ elementId: "#StationIcon",  icon: "footer-station-icon.png" },
+		"SecurityCell": { elementId: "#UserIcon", 	  icon: "footer-user-icon.png" }
+	};
+
+	var getRgb = function (color) {
+		var r = 0, g = 0, b = 0;
+		// Check the format of the color, HEX or RGB?
+		if (color.match(/^rgb/)) {
+			// If HEX --> store the red, green, blue values in separate variables
+			var colors = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+			r = +(colors[1]);
+			g = +(colors[2]);
+			b = +(colors[3]);
+		}
+		else {
+			// If RGB --> Convert it to HEX: http://gist.github.com/983661
+			var colorHex = +("0x" + color.slice(1).replace(color.length < 5 && /./g, '$&$&'));
+			r = colorHex >> 16;
+			g = colorHex >> 8 & 255;
+			b = colorHex & 255;
+		}
+		return {
+			r: r,
+			g: g,
+			b: b
+		};
+	};
+	
+	var getHsp = function (color) {
+		var rgb = this.getRgb(color);
+		// HSP (Highly Sensitive Perceived color) equation from http://alienryderflex.com/hsp.html
+		var hsp = Math.sqrt(0.299 * (rgb.r * rgb.r) +
+			0.587 * (rgb.g * rgb.g) +
+			0.114 * (rgb.b * rgb.b));
+		return hsp;
+	};
+
+	var getTextColor = function() {
+		if (window.external.application.ColorTheme == 1 /*dark theme*/) {
+			return "#C0C0C0";
+		}
+		
+		/*light and classic themes*/
+		return "#606060";
+	};
+	
+	var setIcon = function(id, contrastColor) {
+		if (!id) {
+			return;
+		}
+		var iconDetail = icons[id];
+		if (!iconDetail) {
+			return;
+		}
+		var contrastColorSubFolder = "";
+		if (contrastColor == null) {
+			contrastColor = getTextColor();
+		}
+		contrastColorSubFolder = contrastColor.slice(1);
+		$(iconDetail.elementId).attr("src", "Images/footer-icons/" + contrastColorSubFolder + "/" + iconDetail.icon);
+	};
+	
+	var chosenContrastColors = {
+		// cache for chosen contrast colors
+		// populated on demand
+	};
+	
+	var getContrastColor = function (color) {
+		if (color === "transparent") {
+			return null;
+		}
+		
+		// try to get the constrast color from cache first
+		var chosenContrastColor = chosenContrastColors[color];
+		if (chosenContrastColor) {
+			return chosenContrastColor;
+		}
+		
+		var colorHsp = this.getHsp(color);
+		var requiredHspDistance = 150;
+		var contrastColors = [
+			"#000000",
+			"#101010",
+			"#202020",
+			"#303030",
+			"#404040",
+			"#505050",
+			"#606060",
+			"#707070",
+			"#808080",
+			"#a0a0a0",
+			"#b0b0b0",
+			"#c0c0c0",
+			"#d0d0d0",
+			"#e0e0e0",
+			"#f0f0f0",
+			"#ffffff"
+		];
+		chosenContrastColor = contrastColors[0];
+		var minDiffBetweenHspDistances = 300;
+		// walk through all listed colors above and choose one that has the closest hspDistance to the requiredHspDistance
+		for (var i = 0; i < contrastColors.length; i++) {
+			var contrastColor = contrastColors[i];
+			var contrastColorHsp = this.getHsp(contrastColor);
+			var hspDistance = Math.abs(contrastColorHsp - colorHsp);
+			var diffBetweenHspDistances = Math.abs(requiredHspDistance - hspDistance);
+			if (diffBetweenHspDistances < minDiffBetweenHspDistances) {
+				minDiffBetweenHspDistances = diffBetweenHspDistances;
+				chosenContrastColor = contrastColor;
+			}
+		}
+		
+		chosenContrastColors[color] = chosenContrastColor; // cache the chosen contrast color
+		return chosenContrastColor;
+	};
+
+	var onIndicatorCellPropertyChange = function(event) {
+		// if indicator cell is given a highlight color (i.e. Alarm is given red background color when in alarm)
+		// choose best constrasty color for text and icon and change it
+		
+		if (window.external.application.GetConnectionProperty(INDICATOR_FULL_FILL_SETTING) != 1) {
+			// if full indicator option is not on, no need to find contrasty text color and icon
+			return;
+		}
+		
+		if (event.propertyName == "style.backgroundColor") {
+			var bkColor = $(event.srcElement).css("backgroundColor");
+			var $label = $(event.srcElement).parent().find(".label");
+			var contrastColor = getContrastColor(bkColor);
+			setIcon(event.srcElement.id, contrastColor);
+			if (contrastColor) {
+				$label.css("color", contrastColor);
+			} else {
+				$label.css("color", "");
+			}
+		}
+	};
+
+    $(document).ready(function() {
+
+        try {
+			switch (window.external.application.ColorTheme) {
+				case 0: 
+					$("body").addClass("classic-theme");
+					window.external.logMessage('StatusBar: using Classic Theme');
+					break;
+				case 2:
+					$("body").addClass("light-theme");
+					window.external.logMessage('StatusBar: using Light Theme');
+					break;
+				case 1:
+					$("body").addClass("dark-theme");
+					window.external.logMessage('StatusBar: using Dark Theme');
+					break;
+			}
+
+			// Set default icons
+			setIcon('Alarm');
+			setIcon('Comms');
+			setIcon('Message');
+			setIcon('Download');
+			setIcon('Delay');
+			setIcon('Title');
+			setIcon('StationID');
+			setIcon('SecurityCell');
+
+			// handle mouse hover
+			$('.highlightOnRollover').hover(function() {
+				$(this).addClass('cellHighlight');
+				$(this).find('.cellLabel').addClass('cellHighlight');
+			}, function() {
+				$(this).removeClass('cellHighlight')
+				$(this).find('.cellLabel').removeClass('cellHighlight')
+			});
+			
+			// handle click
+			$('#UserIcon').click(function() {
+				$('#Security').trigger('click');
+			});
+			
+            if (window.external.application.GetConnectionProperty(INDICATOR_FULL_FILL_SETTING) == 1) {
+				 //allow full highlighting
+                window.external.logMessage('STATUSBAR | Status indicator will have full fill color');
+				$("#StatusTable").addClass("full-fill-color");
+            }
+
+        } catch (err) {
+            window.external.logMessage('STATUSBAR | Error : ' + err);
+        }
+    });
+</script>
+
+<SCRIPT LANGUAGE="VBScript">
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+  Dim Bit1
+  Dim Bit2
+  Dim Bit3
+  Dim Bit4
+  Dim Bit5
+  Dim Bit6
+  Dim Bit7
+
+  Bit1 = 1
+  Bit2 = 2
+  Bit3 = 4
+  Bit4 = 8
+  Bit5 = 16
+  Bit6 = 32
+  Bit7 = 64
+
+  SecurityCell.title= "Security Level" & vbCrLf & "[Click to logon]"
+
+
+  StationOnConnect()
+
+' --- Station OnConnect --------------------------------------------- '
+
+  Sub StationOnConnect
+
+	ServerTable.style.display = ""
+
+	If (window.external.status.IsConsoleStation) Then
+		ConsoleStation()
+	Else
+		FlexStation()
+	End If
+
+	StationIDLabel.innertext = window.external.status.StationAcronym
+
+  End Sub
+
+' --- Flex Station -- OnConnect Event -------------------------------- '
+
+  Sub FlexStation
+
+	' ToolTips '
+	StationCell.title = "Station ID" &vbCrLf& "[Click to modify station setup]"
+	ServerCell.title  = "Server Name" & vbCrLf & "[Click to display flex station status]"
+
+	' Style '
+	ServerCell.style.display = ""
+
+	' Text on status bar '
+	ServerID.innertext  = LCase(window.external.status.ServerName)
+	StationIDLabel.innertext = window.external.status.StationAcronym
+
+	' Hide the Console Field'
+	ConsoleCell.style.display = "none"
+
+	' Hide Icons '
+	HideConsoleIcon()
+	HideServerIcon()
+
+	AssetProfile()
+
+  End Sub
+
+' --- Console Station -- OnConnect Event ----------------------------- '
+
+  Sub ConsoleStation
+
+	' Initialisation '
+
+	Dim ServerState
+	ServerState = window.external.status.FieldState(5)
+
+	Dim str_ConsoleStationName
+	str_ConsoleStationName = LCase(window.external.status.ServerName)
+
+	' Style '
+	ServerCell.style.display = ""
+
+	' ToolTips '
+	StationCell.title = "Console Station ID - (" & str_ConsoleStationName & ")" &vbCrLf& "[Click to modify station setup]"
+
+	' Text on status bar. '
+	StationIDLabel.innertext = window.external.status.StationAcronym
+	ServerID.innertext = LCase(window.external.status.ClusterServerName)
+
+	Select Case ServerState
+	Case 0
+		ServerOK()
+	Case 1
+		ServerLost()
+	Case 2
+		ServerSyn()
+	End Select
+
+	Console()
+
+	AssetProfile()
+
+  End Sub
+
+' --- Console Station ------------------------------------------------- '
+
+  Sub Console
+
+	If (window.external.status.ConsoleNumber > 0) Then
+
+		ConsoleCell.style.display = ""
+
+		Dim ConsoleState
+		ConsoleState  = window.external.status.FieldState(6)
+
+		Select Case ConsoleState
+		Case 3
+			ConsoleOK()
+		Case 2
+			ConsoleMarginal()
+		End Select
+
+		ConsoleID.innertext = window.external.status.ConsoleName
+
+
+	Else
+		ConsoleCell.style.display = "none"
+	End If
+
+  End Sub
+
+
+' --- Asset Profile --------------------------------------------------- '
+
+	Sub AssetProfile
+
+
+'	If (Not(window.external.status.AssetProfileName = "")) Then
+		If (Len(Trim(window.external.status.AssetProfileName)) = 0) Then
+			window.external.application.logmessage "STATUSBAR | AssetProfile invalide - hide cell "
+			ProfileSpacerCell.style.width = "0%"
+			ProfileCell.style.display = "none"
+		Else
+			ProfileCell.style.display = ""
+			ProfileID.innertext = window.external.status.AssetProfileName
+		End If
+
+	End Sub
+
+
+' --- UpdateStatus ---------------------------------------------------- '
+
+  Function UpdateStatus(Number)
+
+	If (((Number And Bit5) = Bit5) Or ((Number And Bit6) = Bit6) Or ((Number And Bit7) = Bit7) Or ((Number And Bit8) = Bit8)) Then
+		StationOnConnect()
+	End If
+
+  End Function
+
+' --- Server OK ------------------------------------------------- '
+
+  Sub ServerOK
+
+	UpdateServerTooltip ("Server Available")
+	HideServerIcon()
+	ServerIcon.src=""
+
+  End Sub
+
+' --- Server Lost ------------------------------------------------- '
+
+  Sub ServerLost
+
+	UpdateServerTooltip ("Server Unavailable")
+	ShowServerIcon()
+	ServerIcon.src="RedLED.gif"
+
+  End Sub
+
+' --- Server Syning ----------------------------------------------- '
+
+  Sub ServerSyn
+
+	UpdateServerTooltip ("Synchronizing")
+	ShowServerIcon()
+	ServerIcon.src="YellowLED.gif"
+
+  End Sub
+
+' --- Update Server Tooltip ----------------------------------------------- '
+
+  Function UpdateServerTooltip (strServerState)
+
+	str_ConsoleStationName = LCase(window.external.status.ServerName)
+	ServerCell.title="Server Name -- " & strServerState & vbCrLf & "[Click to display console station status detail for console station " & str_ConsoleStationName & "]"
+
+  End Function
+
+' --- Hide Server Icon ------------------------------------------------------ '
+
+  Sub HideServerIcon()
+	ServerIcon.style.display = "none"
+	ServerIconCell.style.width   = "0%"
+	ServerSpacerCell.style.width = "0%"
+  End Sub
+
+' --- Show Server Icon ------------------------------------------------------ '
+
+  Sub ShowServerIcon()
+	ServerIcon.style.display = ""
+    ServerIcon.style.width = ""
+	ServerIconCell.style.width = "18%"
+	ServerSpacerCell.style.width = "18%"
+  End Sub
+
+' --- Console OK ------------------------------------------------- '
+
+  Sub ConsoleOK
+
+	UpdateConsoleTooltip ("Operational")
+	HideConsoleIcon()
+	ConsoleIcon.src=""
+
+  End Sub
+
+' --- Console Marginal ----------------------------------------------- '
+
+  Sub ConsoleMarginal
+
+	UpdateConsoleTooltip ("Marginal")
+	ShowConsoleIcon()
+	ConsoleIcon.src="YellowLED.gif"
+
+  End Sub
+
+' --- Update Console Tooltip ----------------------------------------------- '
+
+  Function UpdateConsoleTooltip (strConsoleState)
+
+	str_ConsoleName = window.external.status.ConsoleName
+	ConsoleCell.title="Console Name -- " & strConsoleState & vbCrLf & "[Click to display console status detail for " & str_ConsoleName & "]"
+
+  End Function
+
+
+' --- Hide Console Icon ------------------------------------------------------ '
+
+  Sub HideConsoleIcon()
+	ConsoleIcon.style.display = "none"
+	ConsoleIconCell.style.width   = "0%"
+	ConsoleSpacerCell.style.width = "0%"
+  End Sub
+
+' --- Show Console Icon ------------------------------------------------------ '
+
+  Sub ShowConsoleIcon()
+	ConsoleIcon.style.display = ""
+    ConsoleIcon.style.width = ""
+	ConsoleIconCell.style.width = "18%"
+	ConsoleSpacerCell.style.width = "18%"
+  End Sub
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnDisconnect" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	ServerTable.style.display = "none"
+
+	' Text on status bar '
+	ServerID.innertext=""
+	ConsoleID.innertext=""
+	StationIDLabel.innertext=""
+
+	' Tooltips '
+	ServerCell.title=""
+	ConsoleCell.title=""
+	StationCell.title=""
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnConnect" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	StationOnConnect()
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="ServerCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+
+	If (window.external.status.IsConsoleStation) Then
+		Window.external.RequestTask 21, "sysStsCstnDetail", window.external.status.ConsoleStationNumber, "0", "0", ""
+	Else
+		Window.external.InvokeCommand "Status Flex Stations"
+	End If
+
+-->
+</SCRIPT>
+
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="ConsoleCell" defer>
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="TpnSysStsCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.RequestTask 21, "tpn_sys_stat", 0, "0", "0", ""
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="TpnConStsCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.RequestTask 21, "TPN_ConsStat", 0, "0", "0", ""
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="DelayCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.RequestTask 21, "sysUnitSummary", 0, "0", "0", ""
+
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnClick" for="StationCell" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Window.external.InvokeCommand "Open Connection"
+
+-->
+
+</SCRIPT>
+
+<SCRIPT LANGUAGE="VBScript" event="OnAppStatusUpdate" for="body" defer>
+<!-- Instruct non-IE browsers to skip over VBScript modules.
+'==============================================================================================================
+
+	Dim nFieldChanged
+	nFieldChanged = window.event.getAttribute("OnAppStatusUpdate", 0)
+	UpdateStatus(nFieldChanged)
+
+-->
+</SCRIPT>
+
+
+
+</html>

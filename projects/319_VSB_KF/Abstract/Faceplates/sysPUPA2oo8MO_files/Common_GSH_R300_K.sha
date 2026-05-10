@@ -1,0 +1,485 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="103px" height="40px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeload" language="VBScript" id=""><![CDATA[on error resume next:Page.SetAttribute "Common_GSH",me.id]]></script><script event="" language="VBScript" id="56A1F824-2E32-4978-8B6A-642EA3384E18"><![CDATA[dim tid_timeout,sAlarmGroupName, bCancel, bTrdResp, Xorig, Yorig
+dim oPrntSrc
+
+const  iQualityGood = 192
+const  iQualityOffScan = 8
+const  iQualityBad = 4
+const  iQualityAccessNotPermitted = 1024
+
+tid_timeout = 0 	'Used by Com_GraphTitle.sha. Counts the time before resetting to originally configured alarm group.
+sAlarmGroupName="" 	'Used by Com_GraphTitle.sha. Stores the alarm group name as configured in the shape.
+
+'Allow only tags of type INPUT and TEXTAREA to be selected.
+sub Page_OnSelectStart	
+	dim InpName
+	on error resume next
+	InpName=window.event.SrcElement.TagName
+	if InpName <> "INPUT" and InpName<>"TEXTAREA" then window.event.returnvalue = false
+end sub
+
+
+'Show the appropriate tooltip 
+sub Page_OnMouseOver	
+	dim oObj, iNrPoints,sPointNames(20),sCPNames(20)
+	on error resume next
+	set oobj=window.event.srcelement
+	if isobject (oObj.onmouseover) then exit sub
+	if len(oObj.id)<14 then exit sub
+	if ucase(right(oObj.id,14))="SCTXTSELECTBOX" then 
+		set oShape = oObj.parentnode.parentnode
+ 		oObj.style.cursor = "hand"
+ 		if oShape.getcustomproperty("point","tagname")<>"" then 		    
+ 			for n=0 to oShape.customProperties.Count -1
+ 			   if lcase(oShape.customProperties.Item(n).type) = "point" and instr(oShape.customProperties.Item(n).name,"Analog")=0 then 
+				  iNrPoints = iNrPoints + 1
+ 				  sPointNames(iNrPoints) =	oshape.customProperties.Item(n).value
+ 				  sCPNames(iNrPoints) =	oshape.customProperties.Item(n).name
+    		   end if
+ 			next 
+			if instr(oShape.src,"MultBPIL")>0 then iNrPoints=1
+  			If iNrPoints = 1 Then
+  	 			sPoints = sPointNames(1)
+				if inStr(sPoints,"{%")>0 then sPoints=oShape.objects("ScConAlpPV").datavalue("Tagname.name")
+	  			status = "Analog"
+				if instr(oShape.src,"MultBPIL")>0 or (oShape.objects("TxtEUDesc") is nothing) or (not oShape.objects("TxtPV") is nothing) or (not oShape.objects("RecPV") is nothing) then status = "Status"
+      			if (not oShape.objects("IndVal") is nothing or not oShape.objects("TxtOP")is nothing) then status = "RegValve"
+                if (not oShape.objects("LinScale") is nothing) then status = "Analog"
+				if status = "Analog" then
+					PvTxt = ToolTip_PV(oShape,status)
+					SpTxt = ToolTip_SP(oShape,status)
+					OpTxt = ToolTip_OP(oShape)
+					ModeTxt = ToolTip_Mode(oShape) 
+					AlarmTxt = ToolTip_Alm(oShape,"")
+					sToolTip= sPoints & vbCR & SPTxt  & PVTxt & OpTxt &  ModeTxt & AlarmTxt
+					if AlarmTxt <> "" then
+						oObj.title = sToolTip
+					else
+						oObj.title = mid(sToolTip,1,len(sToolTip)-1)
+					end if
+	  			elseif status = "RegValve" then
+	  				PVTxt = ToolTip_PV(oShape,status)
+					OPTxt = ToolTip_OP(oShape)
+					AlarmTxt = ToolTip_Alm(oShape,"")
+					sToolTip= sPoints & vbCR & PVTxt  & OPTxt & AlarmTxt
+					if AlarmTxt <> "" then
+						oObj.title = sToolTip
+					else
+						oObj.title = mid(sToolTip,1,len(sToolTip)-1)
+					end if
+	  			else
+					AlarmTxt = ToolTip_Alm(oShape,"")
+					sToolTip = sPoints & vbcr &  PVTxt &  AlarmTxt 
+					if AlarmTxt <> "" then
+						oObj.title = sToolTip
+					else
+						oObj.title = mid(sToolTip,1,len(sToolTip)-1)
+					end if
+	  			end if
+  			Elseif iNrPoints > 1 Then 
+				if instr(sPointNames(1),"{%")>0 then
+					sPoints=ucase(oShape.objects("ScConAlpPV").datavalue(sCPNames(1)&".name")) & vbcr
+				else
+					sPoints = ucase(sPointNames(1)) & vbcr	
+				end if 
+				For i=2 to iNrPoints
+				    if instr(sPointNames(i),"{%")>0 then
+						sPoints=sPoints & vbcr & ucase(oShape.objects("ScConAlpPV").datavalue(sCPNames(i)&".name"))
+					else
+						sPoints = sPoints & vbcr & ucase(sPointNames(i))
+					end if				      					
+					AlarmTxt = ToolTip_Alm(oShape, i-1)
+					if AlarmTxt <> "" and typename(oShape.objects("ConAlarmState" & i-1))<>"Nothing" then
+						if oShape.objects("ConAlarmState" & i-1).style.visibility = "inherit" then sAlm = AlarmTxt
+					end if       				
+     			Next 
+				if sAlm<>"" then sPoints = sPoints & vbcr & vbcr & sAlm
+				oObj.title= sPoints 
+  			End If
+			if oShape.getcustomproperty("Text","FaceplateFile")="-" then 
+				oObj.style.cursor="default"
+			else
+				oObj.style.cursor="hand"
+			end if
+			if oShape.getcustomproperty("text","faceplatefile")="-" then oShape.objects("sctxtselectbox").style.cursor="default"
+   		end if
+ 	elseif ucase(right(oObj.id,14))="SCTXTSELECTION" then 
+    	set oShape=oObj.parentnode.parentnode
+		oShape.objects("ScTxtSelection").style.cursor="hand"
+ 	end if
+end sub
+
+'Get the PV Text shown in tooltip. Called within Page_OnMouseOver
+function ToolTip_PV (oShape,PointType)
+	on error resume next
+	select case PointType
+		case "Analog"
+			sPV = oShape.getcustomproperty("parameter","cp_pv")
+			sPos = instr(sPV,".")
+			if spos>0 then sPV = mid(sPV,sPos+1,len(sPv)-sPos)
+    		EUDesc = oShape.objects("ScConAlpPV").Datavalue("tagname.cp_eudesc")
+			PVFormat = oShape.getcustomproperty("Text","cp_pvformat")
+			if PVFormat="" then PVFormat = 2
+			PVFormat = oShape.objects("ScConAlpPV").Datavalue("tagname.cp_pvformat")
+			PV = oShape.objects("ScConAlpPV").value
+			If isnumeric(PV) and sPV<>"" Then 
+				PVTxt = ucase(sPV) & "="  & FormatNumber (PV, PVFormat) & " " & EuDesc & vbcr
+			elseif sPV<>"" then
+				PVTxt =ucase(sPV) & "="  & PV & vbcr
+			end if	
+		case "RegValve"
+			sPV = oShape.getcustomproperty("parameter","cp_pv")
+			sPos = instr(sPV,".")
+			if spos>0 then sPV = mid(sPV,sPos+1,len(sPv)-sPos)
+	    	PV = oShape.objects("ScConAlpPV").value
+	    	If sPV<>"" Then PVTxt = ucase(sPV) & "="  & FormatNumber (PV, 0) & " " & "%" & vbcr			
+	end select
+	ToolTip_PV= PVTxt
+end function
+
+'Get the SP Text shown in tooltip. Called within Page_OnMouseOver
+function ToolTip_SP (oShape,PointType)
+	on error resume next
+	select case PointType
+		case "Analog"
+			sSP = oShape.getcustomproperty("parameter","cp_sp")
+			sPos = instr(sSP,".")
+			if spos>0 then sSP = mid(sSP,sPos+1,len(sSP)-sPos)
+			if sSP = "" and oShape.getcustomproperty("parameter","cp_dev") <>"" then sSP = "SP"		
+			SP=""
+			SP = oShape.objects("ConAlpSP").value
+			SP = oShape.objects("ScConAlpPV").datavalue("Tagname.cp_sp")
+			SP = oShape.objects("ScConAlpPV").value - oShape.objects("ScConAlpPV").Datavalue("tagname.cp_dev")
+			PVFormat = oShape.getcustomproperty("Text","cp_pvformat")
+			if PVFormat="" then PVFormat = 2
+			PVFormat = oShape.objects("ScConAlpPV").Datavalue("tagname.cp_pvformat")
+			EUDesc = oShape.objects("ScConAlpPV").Datavalue("tagname.cp_eudesc")		
+			If isnumeric(SP) Then SPTxt = vblf & ucase(sSP) & "="  & FormatNumber (SP, PVFormat) & " " & EuDesc & vbcr
+	end select
+	ToolTip_SP= SPTxt
+end function
+
+'Get the OP Text shown in tooltip. Called within Page_OnMouseOver
+function ToolTip_OP(oShape)',PointType)
+	on error resume next
+			sOP = oShape.getcustomproperty("parameter","cp_op")
+			sPos = instr(sOP,".")
+			if spos>0 then sOP = mid(sOP,sPos+1,len(sOP)-sPos)
+        	PVFormat=1
+			OP=""
+			OP = oShape.objects("ScConAlpPV").value
+			OP = oShape.objects("ConAlpOP").value
+			OP = oShape.objects("ConIndOP").value
+			OP = oShape.objects("ScConAlpOP").datavalue("Tagname.cp_op")
+	    	If sOP<>"" Then OPTxt = ucase(sOP) & "="  & FormatNumber (OP, PVFormat) & " " & "%" & vbcr
+	ToolTip_OP = OPTxt
+end function
+
+'Get the Mode Text shown in tooltip. Called within Page_OnMouseOver
+function ToolTip_Mode(oShape)
+	on error resume next
+	ModeTxt = oShape.objects("ScConAlpPV").Datavalue("tagname.cp_mode")
+	if len(ModeTxt)>0 Then ToolTip_Mode = "Mode= " & ModeTxt &vbcr
+end function
+
+'Get the Alarm Text shown in tooltip. Called within Page_OnMouseOver
+function ToolTip_Alm (oShape,index)
+	on error resume next
+	if typename(oShape.objects("ConAlarmState" & index))<> "Nothing" then 
+		AlarmTxt = oShape.objects("ConAlarmState" & index).title
+		IF len(AlarmTxt)<>0 and instr(AlarmTxt,"Quality")=0 Then 
+			ToolTip_Alm = "Alarm= " & AlarmTxt
+		elseif index="" then 
+			ToolTip_Alm = "No Alarm "
+		else
+			 ToolTip_Alm=""
+		end if
+	end if
+end function
+
+'Focus ConAlarmState if an alarm is present or ScConAlpPV when there is no alarm.
+sub ObjSel
+	dim oShape
+	on error resume next
+	set oShape=document.getelementbyID(page.getattribute("lastselection")).parentnode.parentnode
+	set oAlarmIcon = nothing
+  	for each oAlarmState in oShape.children(0).all
+    	if instr(oAlarmState.classname, "alarmstate")>0 and (oAlarmState.Style.Visibility = "inherit" or oAlarmState.Style.Visibility = "")  then
+			if instr(oAlarmState.title,"Unack") or instr(ucase(page.getattribute("lastselection")),"ALM_SCTXTSELECTBOX")>0 and oAlarmState.title<>"" then
+				set oAlarmIcon = oAlarmState	
+			end if						
+    	end if
+  	next
+  	if oAlarmIcon is nothing Then
+		for each oAlphaNum in oShape.all.tags("TEXTAREA")
+			if (oAlphaNum.alarm and &H400)=&H400 then 
+				set oAlarmIcon=oAlphaNum
+				exit for
+			end if	             
+  		next
+    end if 
+  	if oAlarmIcon is nothing Then
+    	oshape.objects("ScConAlpPV").focus
+  	else
+    	oAlarmIcon.focus
+  	end if
+end sub
+
+'Provide Left Click behavior. Invoke Faceplate
+sub All_OnClick(oSource) 
+	dim oShape,soldsel
+  	on error resume next
+	set oPrntSrc=window.external
+	if bTrdResp=true then bCancel=true	' Check to prevent message zone flickering, when All_TrdSel_lib_h_01_R300.sha is not present in the current display.
+										' See Trend_Sup_GSH.sha trdresp subroutine
+	set oShape=oSource.parentnode.parentnode
+	call SelectBox_Color(oSource)
+    set otarget=oshape.objects("ScConAlpPV")
+    sfaceplatefile=oshape.getcustomproperty("text","faceplatefile")
+    if sfaceplatefile="" then
+   	   set oSource.onfocus = nothing
+       otarget.click 
+	   oTarget.style.color = oTarget.textcolor
+    elseif sfaceplatefile="-" then
+       if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+       oSource.focus
+    else
+       scurrentpoint=oshape.getcustomproperty("point","tagname")
+       sPoints= "?CurrentPoint=" & sCurrentPoint 
+       for n=1 to oshape.customProperties.Count -1
+  	      if oshape.customProperties.Item(n).type = "Point" or oshape.customProperties.Item(n).type = "Parameter" then 
+    	    sPoints = sPoints & "&" & oshape.customProperties.Item(n).name & "=" & oshape.customProperties.Item(n).value
+	      end if
+       next	   
+       sfaceplatefile = mid(sfaceplatefile,1,instr(1,sfaceplatefile,".htm")+3)
+	   if oTarget.quality = 0  then 
+	   		if ucase(Left(oShape.customproperties.Item(1).Name,3))="TAG" then
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_Tag1_pv" ) ' Used for F&G Shapes
+			else
+				Quality = oTarget.DataQuality(oShape.customproperties.Item(1).Name & ".cp_AlmPar1" ) ' Used for Multialarm shapes
+			end if
+	   else
+	   		Quality = oTarget.quality
+	   end if
+       if instr(sfaceplatefile,"sysPUP")>0 then 
+	   		ifpmode=0
+			set oPop=hdxpopupbehavior.findpopup("")
+			if typename(oPop)<>"Nothing" then oPop.close 
+	   else 
+	   		ifpmode=1 
+	   end if
+       if (Quality and iQualityAccessNotPermitted) <> iQualityAccessNotPermitted then call hdxpopupbehavior.createpopupwindow(sfaceplatefile & spoints,0,0,ifpmode)
+    end if 
+end sub
+
+sub All_MultInt_OnClick(oSource)
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	window.external.currentpage=oshape.getcustomproperty("Text","cp_CEDisplay") 
+end sub
+
+sub All_MultAlm_OnClick(oSource) 
+	dim oShape,soldsel
+  	on error resume next
+ 	set oShape=oSource.parentnode.parentnode
+	call SelectBox_Color(oSource)
+  	for each oAlarmState in oShape.children(0).all
+    	if instr(oAlarmState.classname, "alarmstate")>0 and oAlarmState.Style.Visibility = "inherit" then
+			set oTarget = oAlarmState
+    	end if
+  	next
+    sfaceplatefile=oshape.getcustomproperty("text","faceplatefile" & right(otarget.id,1))
+    if sfaceplatefile="" then
+   	   set oSource.onfocus = nothing
+       otarget.click 
+    elseif sfaceplatefile="-" then
+       if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+       oSource.focus
+    else
+       scurrentpoint=oshape.getcustomproperty("point","tagname")
+       sPoints= "?CurrentPoint=" & sCurrentPoint 
+       for n=1 to oshape.customProperties.Count -1
+  	      if oshape.customProperties.Item(n).type = "Point" or oshape.customProperties.Item(n).type = "Parameter" then 
+    	    sPoints = sPoints & "&" & oshape.customProperties.Item(n).name & "=" & oshape.customProperties.Item(n).value
+	      end if
+       next	   
+       sfaceplatefile = mid(sfaceplatefile,1,instr(1,sfaceplatefile,".htm")+3)
+       if (Quality and iQualityAccessNotPermitted) <> iQualityAccessNotPermitted then call hdxpopupbehavior.createpopupwindow(sfaceplatefile & spoints,0,0,1)
+    end if 
+end sub
+
+sub All_MultAlm_OnCMenu(oSource) 
+	dim oShape,soldsel
+  	on error resume next
+ 	set oShape=oSource.parentnode.parentnode
+	call SelectBox_Color(oSource)
+  	for each oAlarmState in oShape.children(0).all
+    	if instr(oAlarmState.classname, "alarmstate")>0 and oAlarmState.Style.Visibility = "inherit" then
+			set oTarget = oAlarmState
+    	end if
+  	next
+   	set oSource.onfocus = nothing    
+    sCMfile=oshape.getcustomproperty("text","ContextMenuFile" & right(otarget.id,1))
+    if isnull(page.getattribute("CMenu_GSH")) then
+		use_cm_shape=false
+	else 
+		use_cm_shape = true
+	end if
+	if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+    if sCMfile="-" then
+      oSource.focus
+    elseif sCMfile="" or use_cm_shape = false then
+      oTarget.fireevent("oncontextmenu")
+      oSource.focus
+    else
+      hdxpopupbehavior.invokeshortcutmenu sCMfile,0,0
+      oSource.focus    
+    end if
+end sub
+
+'Provide Right Click behavior. Invoke Context Menu.
+sub All_OnCMenu(oSource)
+    dim oShape,soldsel
+    on error resume next
+    if bTrdResp=true then bCancel=true	' Check to prevent message zone flickering, when All_TrdSel_lib_h_01_R300.sha is not present in the current display.									
+										' See Trend_Sup_GSH.sha trdresp subroutine	
+	set oShape=oSource.parentnode.parentnode    
+	call SelectBox_Color(oSource)
+    if not isobject(oSource.onfocus) then set oSource.onfocus=getref("ObjSel")
+    sCMfile=oshape.getcustomproperty("text","ContextMenuFile")
+    if isnull(page.getattribute("CMenu_GSH")) then
+		use_cm_shape=false
+	else 
+		use_cm_shape = true
+	end if
+    if sCMfile="-" then
+      oSource.focus
+    elseif sCMfile="" or use_cm_shape = false then
+      oShape.objects("ScConAlpPV").fireevent("oncontextmenu")
+      oSource.focus
+    else
+      hdxpopupbehavior.invokeshortcutmenu sCMfile,0,0
+      oSource.focus    
+    end if
+end sub
+
+'Change the ScTxtSelectBox color when selected
+sub SelectBox_Color(oSource)
+	dim soldsel
+	on error resume next
+	soldsel=page.getattribute("lastselection")
+	if not isnull(soldsel) then page.all.item(soldsel).styleclass = "ScTxtSelectBox_NotSelected"
+    page.setattribute "lastselection",osource.id
+    if ucase(right(oSource.id,18)) <> "ALM_SCTXTSELECTBOX" then osource.styleclass = "ScTxtSelectBox_Selected"
+end sub
+
+'Determine the most importatnt alarm. Used in shapes with multiple tagnames
+Sub Multiple_Alarm_Icon(oSource)
+	Dim sMostImportantAlarm, sAlarmState, iThisImportancy, iMostImportant, oAlarmState, iAlarmCount, iInActiveAlarmCount
+	On error resume next
+	iMostImportant=0
+	for each oAlarmState in oSource.parentnode.children 		
+		if instr(oAlarmState.classname, "alarmstate")>0 then		    
+ 			iAlarmCount = iAlarmCount + 1
+    		iThisImportancy = 0
+    		iThisImportancy = 24+oAlarmState.Acknowledged*16 + oAlarmState.Priority*2 + oAlarmState.RTN*8
+    		if iThisImportancy  = 16 then iThisImportancy = 8
+    		if iThisImportancy >iMostImportant then 
+       			sMostImportantAlarm = oAlarmState.id
+       			iMostImportant = iThisImportancy
+    		end if
+			if iThisImportancy = 0 then iInActiveAlarmCount = iInActiveAlarmCount + 1 
+ 		end if
+	next
+	for each oAlarmState in oSource.parentnode.children
+   		if instr(oAlarmState.classname, "alarmstate")>0 then 
+      		if oAlarmState.id = sMostImportantAlarm or iAlarmCount = iInActiveAlarmCount then
+ 	  	 		oAlarmState.Style.Visibility = "inherit"
+      		else
+         		oAlarmState.Style.Visibility = "hidden"
+      		end if
+    	end if
+	next
+End Sub
+
+' -------------------------------------
+' Navigations 
+' -------------------------------------
+
+sub Nav_SelectBox_OnClick(oSource)
+	on error resume next
+	window.external.currentpage = oSource.parentnode.parentnode.getcustomproperty("Text","DspName")
+end sub
+
+Sub NavsArrow_HP_AlpAlarm_OnDataChange(oSource)
+	dim oShape,iUnack,iAck
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	oShape.Objects("HprLnkDsp").style.color=page.GetStyleClassProperty("TagNameEUDesc", "hw-text-color")
+	iPr=(oSource.dataalarm("tagname.name") and 48)/16
+	iUnack=(oSource.dataalarm("tagname.name") and 1024)=1024
+	if iUnack = True then
+	  	oShape.objects("ScPlgAlarm").fillcolorblink=true
+	else
+   		oShape.objects("ScPlgAlarm").fillcolorblink=false
+	end if
+	select case iPr
+    case 0
+		if oShape.objects("ScPlgAlarm").fillcolorblink=true then
+			oShape.objects("ScPlgAlarm").styleclass = "NavFrame_Unack"
+		else
+		 	oShape.objects("ScPlgAlarm").styleclass = "NavFrame"			
+		end if
+	case 1
+		oShape.objects("ScPlgAlarm").fillcolor=AlarmStateIconfactory.lowColor	
+	case 2
+		oShape.objects("ScPlgAlarm").fillcolor=AlarmStateIconfactory.highColor
+	case 3
+		oShape.objects("ScPlgAlarm").fillcolor=AlarmStateIconfactory.urgentColor    
+	end select			
+	if err.number<>0 then window.external.LogMessage " NavsArrow_HP_AlpAlarm_OnDataChange ->" & oSource.id & " " & err.description
+end sub
+
+' -------------------------------------
+'Building Blocks
+' -------------------------------------
+sub All_DigState_AlpPV_OnUpdate(oSource)
+   dim oShape
+   on error resume next
+   set oShape=oSource.parentnode.parentnode
+   set oPV=oShape.objects("ScConAlpPV")
+  	iPV=oSource.breakpointvalueenum
+   	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+   	oPV.styleclass="ScConAlpPV_" & index		
+   if err.number<>0 then window.external.LogMessage " All_DigState_AlpPV_OnUpdate ->" & oSource.id & " " & err.description    
+end sub
+
+sub All_DigStateCText_AlpPV_OnUpdate(oSource)
+   dim oShape,oPVObj
+   on error resume next
+   set oShape=oSource.parentnode.parentnode
+   set oPVObj=oShape.objects("TxtPV")
+   if (oSource.quality and iQualityBad)=iQualityBad and  (oSource.quality and iQualityOffScan)<>iQualityOffScan then
+      oPVObj.innertext="--------" 
+      oPVObj.textcolor=vbRed
+   else
+	  oPVObj.innertext=oShape.GetCustomProperty("Text","cp_TextForPV" &  cstr(oSource.value))
+      oPVObj.styleclass="ScConAlpPV_" & oShape.getcustomproperty("Style","cp_StyleForPV" & cstr(oSource.value))
+   end if
+   if err.number<>0 then window.external.LogMessage " All_DigStateCText_AlpPV_OnUpdate ->" & oSource.id & " " & err.description 
+end sub
+
+'-------------------------------------
+'Interlock and Bypass
+'-------------------------------------
+sub All_ILBP_AlpPV_OnUpdate(oSource)
+	dim oShape, iPV
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iValueONInt = cint(oShape.getcustomproperty("Num","cp_PlgInterlock_ONValue"))
+	if instr(oSource.value,"#")=0 then if iValueONInt=cint(oSource.value) then : iPV=1 : else : iPV=0 : end if
+	if (oSource.quality and 192)<>192 then iPV=2  
+	index = oShape.getcustomproperty("Style","cp_Style" & iPV)
+    oShape.objects("PlgInterLock").styleclass = "PlgInterLock_" & index	
+	if err.number<>0 then window.external.LogMessage "Scd_ILBP_AlpPV_OnUpdate ->" & oSource.id & " " & err.description       			
+end sub]]></script></scripts><parameters><parameter name="Revision" type="Num" description="" defaultvalue="R300, Rev.0"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtGSH class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 40px; FONT-FAMILY: Arial; WIDTH: 103px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #0000ff; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 4px; TOP: 4px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#afeeee;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:103;" globalscripts>Common General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

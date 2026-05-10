@@ -1,0 +1,51 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="129px" height="22px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><scripts><script event="" language="JScript" id="ED9C3375-99DF-431B-B171-9432EF5C67A6"><![CDATA[function SL_HART_Date_onDataChange(textbox)
+{
+	if (textbox != null)
+	{
+		SL_LogFunctionParameters(2, "SL_HART_Date_onDataChange", "textbox = " + textbox.id);
+
+		try
+		{
+			// Walk back up the hierarchy to get the parent shape so that the custom properties can be fetched.
+			var shape = textbox.parentElement;
+			if (shape != null)
+			{
+				var dateScriptData = new SL_ScriptData("DateParameter");
+				dateScriptData.Fetch(textbox, "SLAnalogPoint");
+
+				if (dateScriptData.changed && dateScriptData.valid)
+				{
+					if (dateScriptData.value == "1/1/1972")
+						textbox.value = "Not Configured";
+					else
+						textbox.value = dateScriptData.value;
+
+					var styleName = "SL_Text_";
+
+					if (shape.GetCustomProperty("Value", "TextAlign") == 0)
+						styleName += "Right_";
+
+					if (dateScriptData.valid)
+					{
+						styleName += "Normal";
+					}
+					else
+					{
+						styleName += "BadQuality";
+					}
+					textbox.StyleClass = styleName;
+					
+					SL_LogDebugLevelMessage(4, "SL_HART_Date_onDataChange", "string = " + textbox.value + ", style = " + styleName);
+				}
+			}
+		}
+		catch (error)
+		{
+			SL_LogErrorMessage("SL_HART_Date_onDataChange", "Could not set the value, unit or style for: textbox = " + textbox.id, error);
+			textbox.StyleClass = "SL_Text_Error";
+		}
+	}
+
+}]]></script></scripts><parameters><parameter name="SLAnalogPoint" type="Point" description="Point name" defaultvalue=""/><parameter name="DateParameter" type="Parameter" description="Name of the parameter that contains the desired date." defaultvalue=""/><parameter name="TextAlign" type="Value" description="Right align = 0, left align = 1" defaultvalue="1"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxDate class="hvg.textbox.1 SL_Text_BadQuality HSC.ScriptDataObject.1" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 22px; FONT-FAMILY: arial; WIDTH: 129px; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="FillColor:#404040;fillColorBlink:False;FillStyle:0;HDXBINDINGID:-4;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_BadQuality;textColor:#FFFFFF;textColorBlink:False;TotalRotation:-1;Width:129;">Text</DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+	SL_HART_Date_onDataChange(this);]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::DateParameter%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element></shape></shapes></shapefile>

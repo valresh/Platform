@@ -1,0 +1,491 @@
+﻿<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" ""><HTML xmlns:w="urn:schemas-microsoft-com:office:word" 
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint" xmlns:o="urn:schemas-microsoft-com:office:office" 
+xmlns:v="urn:schemas-microsoft-com:vml"><HEAD>     <TITLE>Procedure 
+Explorer</TITLE>     
+<META http-equiv="Content-Type" content="text/html; charset=windows-1252">     
+<META http-equiv="X-UA-Compatible" content="IE=10">     
+<META name="DisplayVersion-PS" content="6.32">     
+<STYLE>
+        v\:* {
+            BEHAVIOR: url(#default#VML)
+        }
+
+        o\:* {
+            BEHAVIOR: url(#default#VML)
+        }
+
+        p\:* {
+            BEHAVIOR: url(#default#VML)
+        }
+
+        w\:* {
+            BEHAVIOR: url(#default#VML)
+        }
+
+        .shape {
+            BEHAVIOR: url(#default#VML)
+        }
+
+        HTML {
+            OVERFLOW: hidden !important
+        }
+
+        BODY {
+            OVERFLOW: hidden !important
+        }
+
+        #Page {
+            OVERFLOW: hidden !important
+        }
+
+        #Background {
+            OVERFLOW: hidden !important
+        }
+    </STYLE>
+     
+<SCRIPT language="JScript">
+    function GetPageParam(Param)
+    {
+        var sValue = "";				// Parse the SCM name from the URL
+
+        if ((document.location.search != null) && (document.location.search.length > 0))
+        {
+            var decodedURI = decodeURIComponent(document.location.search.substr(1));
+            var arrPairs = decodedURI.split("&");
+            var len = arrPairs.length;
+
+            for (var i = 0; i < len; i++)
+            {
+                // split at the equals
+                var arrPair = arrPairs[i].split("=");
+
+                if (arrPair.length == 2)
+                {
+                    if (arrPair[0].toUpperCase() == Param.toUpperCase())
+                    {
+                        sValue = arrPair[1];
+                    }
+                }
+            }
+        }
+        return sValue;
+    }
+
+function ShowProcedureExplorerPopup(procedureName) {
+    var objPopupWindow;
+    var objHdxPopup;
+    objHdxPopup = document.getElementById("HDXPopupBehavior");
+    if (objHdxPopup != null) {
+        objPopupWindow = objHdxPopup.FindPopup(procedureName);
+        if (objPopupWindow == null) {
+            objHdxPopup.CreatePopupWindow3("sysProcedureExplorer.htm?ProcedureName=" + procedureName, 1, 1, 650, 700, 0, false, true);
+        }
+        else {
+            objPopupWindow.close();
+            objHdxPopup.CreatePopupWindow3("sysProcedureExplorer.htm?ProcedureName=" + procedureName, 1, 1, 650, 700, 0, false, true);
+        }
+    }
+}
+
+function CloseProcedureExplorerPopup(procedureName) {
+	try {
+        window.external.close();
+	}
+	catch (e) {
+		// Just log a simple message if we get an exception. Nothing the user could do about this so no need to do anything more here...
+		window.external.application.logmessage("sysProcedureExplorer.htm | CloseProcedureExplorerPopup() Exception caught and ignored.");
+	}
+}
+
+function InvokeFaceplate(pointName) {
+    DisplayDataRepository.PutValue("FaceplatePoint", pointName);
+    fp_alpha.click();
+}
+
+function NavigateToDetailDisplay(pointName) {
+    window.external.Application.RequestTask(21, 73, 0, 0, 0, pointName);
+}
+
+function NavigateToAssociatedDisplay(pointName) {
+    window.external.Application.RequestTask(21, 39, 0, 0, 0, pointName);
+}
+
+function InvokeDataUIPopup(url) {
+    var objPopupWindow;
+    var objHdxPopup;
+    objHdxPopup = document.getElementById("HDXPopupBehavior");
+    if (objHdxPopup != null) {
+        objHdxPopup.CreatePopupWindow(url, 1, 1, 0);
+    }
+    else {
+        alert("DBG: objHdxPopup == null");
+    }
+}
+
+function InvokeMessages(parameters) {
+    var indexOfFirstComma = -1;
+    var indexOfSecondComma = -1;
+
+    // Expecting parameters to be a comma separated string like "source,sourceTagName,BlockName"...
+    indexOfFirstComma = parameters.indexOf(",");
+    if (indexOfFirstComma != -1) {
+        indexOfSecondComma = parameters.indexOf(",", indexOfFirstComma + 1);
+    }
+
+    // So far, so good...
+    if (indexOfFirstComma != -1 && indexOfSecondComma != -1) {
+        // Extract the source, the sourceTagName and blockName...
+        var source = parameters.substring(0, indexOfFirstComma);
+        var sourceTagName = parameters.substring(indexOfFirstComma + 1, indexOfSecondComma);
+        var blockName = parameters.substring(indexOfSecondComma + 1, parameters.length);
+
+        // Set the filters...
+        var filterCols = ['Source', 'SourceTagName', 'Block'];
+        var filterVals = [source, sourceTagName, blockName + ".*"]; // Add a period between block name and wildcard to force exact search on step name!
+        window.external.application.logmessage("sysProcedureExplorerDisplay.htm - filterCols = <" + filterCols + ">, filterVals = <" + filterVals + ">");
+
+        //if (window.external.application.InvokeMessages != null) {
+            // Invoke the Message Summary or Notification Center...
+            // Note: No need to encode the parameters and no need to pass the INVOKE_MESSAGE_TARGET parameter when calling from display ...
+            window.external.application.InvokeMessages(true, filterCols, filterVals, true);
+        //}
+        //else {
+        //    // Log informational message
+        //    window.external.application.logmessage("sysProcedureExplorerDisplay.htm - window.external.application.InvokeMessages not defined. Need to upgrade Station.");
+        //    // Fall back on old way to invoke the MessageSummary if old Station...
+        //    var url = "sysMessageSummary.htm?source=" + encodeURIComponent(source) + "&sourcetagname=" + encodeURIComponent(sourceTagName) + "&block=" + encodeURIComponent(blockName) + "*" + "&selectfirstrow=true";
+        //    window.external.application.currentpage = url;
+        //}
+    }
+    else {
+        window.external.application.logmessage("sysProcedureExplorerDisplay.htm - Invalid parameter passed to InvokeMessages() function. Parameters = <" + parameters + ">");
+    }
+}
+
+function OpenPropertiesPopup(parameters) {
+    var indexOfComma = -1;
+
+    // Expecting parameters to be a comma separated string like "propertiesType,procedureName" or "propertiesType,procedureName.blockName" depending on the type passed...
+    indexOfComma = parameters.indexOf(",");
+    if (indexOfComma != -1) {
+        // So far, so good...
+        var propertiesType = parameters.substring(0, indexOfComma);
+        var itemName = parameters.substring(indexOfComma + 1, parameters.length);
+
+        window.external.application.logmessage("sysProcedureExplorerDisplay.htm - parameters = <" + parameters + ">, propertiesType = <" + propertiesType + ", itemName = <" + itemName + ">");
+
+        var objPopupWindow;
+        var objHdxPopup;
+        objHdxPopup = document.getElementById("HDXPopupBehavior");
+        if (objHdxPopup != null) {
+            var popupWidth = 650;
+            var popupHeight = 700;
+            var popuUrl = "";
+            var popupToSearchFor = "";
+
+            switch (propertiesType) {
+                case "ProceduralElementProperties":
+                    popupToSearchFor = "ProceduralElement";
+                    popuUrl = "sysProceduralElementPropertiesPopup.htm?ProcedureName=" + encodeURIComponent(itemName);
+                    popupWidth = 850;
+                    popupHeight = 685;
+                    break;
+                case "RecipeStepProperties":
+                    popupToSearchFor = "RecipeStep";
+                    popuUrl = "sysRecipeStepPropertiesPopup.htm?RecipeStepName=" + encodeURIComponent(itemName);
+                    popupWidth = 734;
+                    popupHeight = 740;
+                    break;
+                case "StepProperties":
+                    popupToSearchFor = "Step";
+                    popuUrl = "sysStepPropertiesPopup.htm?StepName=" + encodeURIComponent(itemName);
+                    popupWidth = 735;
+                    popupHeight = 760;
+                    break;
+                case "TransitionProperties":
+                    popupToSearchFor = "Transition";
+                    popuUrl = "sysTransitionPropertiesPopup.htm?TransitionName=" + encodeURIComponent(itemName);
+                    popupWidth = 735;
+                    popupHeight = 565;
+                    break;
+            }
+
+            objPopupWindow = objHdxPopup.FindPopup(popupToSearchFor);
+            if (objPopupWindow == null) {
+                objHdxPopup.CreatePopupWindow3(popuUrl, 1, 1, popupWidth, popupHeight, 0, false, true);
+            }
+            else {
+                objPopupWindow.close();
+                objHdxPopup.CreatePopupWindow3(popuUrl, 1, 1, popupWidth, popupHeight, 0, false, true);
+            }
+        }
+        else {
+            alert("DBG: objHdxPopup == null");
+        }
+    }
+}
+
+    </SCRIPT>
+     
+<META name="GENERATOR" content="MSHTML 11.00.10570.1001"></HEAD>
+<BODY style="margin: 0px; overflow: auto; font-size: 12pt; background-color: transparent;" 
+onload="ResizeProcedureExplorer()" onresize="ResizeProcedureExplorer()">
+<OBJECT id="HDXPageBehavior" classid="clsid:56144F51-84F2-11D3-8114-00C04F68E0F9" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXVectorFactory" classid="clsid:45A29A51-418F-11D4-816B-00C04F68E0F9" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXAlphaBehavior" classid="clsid:00FD97E5-43FE-11D3-964E-00609738C4CB" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXPushButtonBehavior" classid="clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCComboboxBehavior" classid="CLSID:87E1DD39-48A6-4188-95F5-26ECF7D6493B" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCCheckBoxBehavior" classid="clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCIndicatorBehavior" classid="CLSID:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HoverBehavior" classid="clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXPopupBehavior" classid="clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="BindingBehavior" classid="clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCShapeLinkBehavior" classid="clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCActiveXDocumentBehavior" classid="clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCBreakpointBehavior" classid="clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXLevelFillBehavior" classid="clsid:9E860844-C032-46A8-A3F7-FB950475A292" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HDXElementsFactory" classid="clsid:2592890C-11DD-4818-BB62-9640E4A050D1" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="AlarmStateIconFactory" classid="clsid:32C06040-FF05-4F15-90EB-9C56D098D188" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="DTFormat" classid="clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="HSCScriptDataBehavior" classid="clsid:15C2FF21-998F-4226-A7A9-221580D5F19F" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="StnEvtReflector" classid="clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<OBJECT id="DisplayDataRepository" classid="clsid:0113964D-CFC2-453a-BA5F-DF740C170064" 
+codebase="" style="left: 0px; top: 0px; width: 0px; height: 0px; position: absolute;"></OBJECT> 
+    
+<META name="GENERATOR" content="MSHTML 11.00.10570.1001">     
+<SCRIPT language="VBScript" for="Page" event="onunload" defer="">
+        PX.Shutdown()
+    </SCRIPT>
+     
+<SCRIPT language="VBScript" for="Page" event="onoperatorchange" defer="">
+        On Error Resume Next
+        PX.UpdateSecurityLevel(window.external.application.SecurityLevel)
+    </SCRIPT>
+     
+<SCRIPT language="VBScript" for="Page" event="onpagecomplete" defer="">
+
+        Dim procedureName
+        Dim unitName
+
+        ' Bind ProcedureExplorerControl to "Specific Procedure"...
+        PX.BindTo = "Specific Procedure"
+
+        ' Get Procedure Name if it was passed...
+        procedureName = GetPageParam("ProcedureName")
+
+        ' If Procedure Name passed, initialize ProcedureExplorerControl with it.
+        ' If not, check for Unit Name...
+        If procedureName <> "" Then
+            PX.InitializeWithProcedureName(procedureName)
+        Else
+            unitName = GetPageParam("UnitName")
+            ' If Unit Name passed, initialize ProcedureExplorerControl with it.
+            If unitName <> "" Then
+                PX.InitializeWithUnitName(unitName)
+            Else
+                PX.InitializeWithNoProcedureOrUnitName(unitName)
+            End if
+        End if
+    </SCRIPT>
+     
+<SCRIPT language="JScript">
+
+    function BackgroundPropChange() {
+        if ((event.propertyName == "style.zoom" || event.propertyName == "style.width" || event.propertyName == "style.height")) {
+            ResizeProcedureExplorer();
+        }
+    }
+
+    function ResizeProcedureExplorer() {
+        try {
+            //window.external.application.logmessage("ResizeProcedureExplorer() - document.body.clientWidth = " + document.body.clientWidth + ", document.body.clientHeight = " + document.body.clientHeight);
+            // Size the Procedure Explorer control to the entire client area, it may then be zoomed from this base size
+            // For some yet-to-be-explained reason, the ProcedureExplorer has 16 pixels to its right and botton when the display is brought up as a Popup.
+            // The following is a temporary workaround to be replaced with a real solution when/if one is identified.
+            var fudgeIncrement = 0; //16;
+            Page.style.pixelWidth = document.body.clientWidth + fudgeIncrement;
+            Page.style.pixelHeight = document.body.clientHeight + fudgeIncrement;
+        }
+        catch (e) {
+            // Don't try anything if we got an exception
+            window.external.application.logmessage("sysProcedureExplorerDisplay.htm | ResizeProcedureExplorer | Exception occurred, " + e.message);
+        }
+    }
+
+    </SCRIPT>
+     
+<SCRIPT language="JScript">
+
+    function ShowDataUI_GeneralTab(entityName) {
+        ShowDataUI(entityName, 1)
+    }
+
+    function ShowDataUI_FormulaTab(entityName) {
+        ShowDataUI(entityName, 4)
+    }
+
+    function ShowDataUI_ReportTab(entityName) {
+        ShowDataUI(entityName, 5)
+    }
+
+    function ShowDataUI(entityName, tab) {
+	    var iframe = document.getElementById("dataUIIFrameId");
+	    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+	    var activityData = innerDoc.getElementById("activityData");
+
+        window.external.application.logmessage("sysProcedureExplorerDisplay.htm - Calling activityData.show() with entityName = " + entityName + " and tab = " + tab);
+    	activityData.show(entityName, tab);
+        dataUIContainer.style.visibility = "visible";
+    }
+
+    function HideDataUI(entityName) {
+        // NOTE: entityName is not used at this time...
+	    var iframe = document.getElementById("dataUIIFrameId");
+	    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+	    var activityData = innerDoc.getElementById("activityData");
+
+	    activityData.hide();
+        dataUIContainer.style.visibility = "hidden";
+    }
+
+	function MoveDataUI(ltwh) {
+        var arrPairs = ltwh.split(",");
+        var len = arrPairs.length;
+        for (var i = 0; i < len; i++)
+        {
+            // split at the equals
+            var arrPair = arrPairs[i].split("=");
+            if (arrPair.length == 2)
+            {
+                if (arrPair[0] == "l")
+                {
+	    	        dataUIContainer.style.left = arrPair[1] + "px";
+                }
+		        else if (arrPair[0] == "t")
+                {
+	    	        dataUIContainer.style.top = arrPair[1] + "px";
+                }
+		        else if (arrPair[0] == "w")
+                {
+	    	        dataUIContainer.style.width = arrPair[1] + "px";
+                }
+		        else if (arrPair[0] == "h")
+                {
+	    	        dataUIContainer.style.height = arrPair[1] + "px";
+                }
+            }
+        }
+	}
+    </SCRIPT>
+     
+<STYLE>
+        HTML {
+            OVERFLOW: hidden;
+            HEIGHT: 100%;
+            WIDTH: 100%
+        }
+
+        BODY {
+            OVERFLOW: hidden !important;
+            HEIGHT: 100%;
+            WIDTH: 100%;
+            PADDING-BOTTOM: 0px;
+            PADDING-TOP: 0px;
+            PADDING-LEFT: 0px;
+            LEFT: 0px;
+            MARGIN: 0px;
+            TOP: 0px;
+            PADDING-RIGHT: 0px
+        }
+
+        #Page {
+            OVERFLOW: hidden !important;
+            HEIGHT: 100%;
+            WIDTH: 100%;
+            PADDING-BOTTOM: 0px;
+            PADDING-TOP: 0px;
+            PADDING-LEFT: 0px;
+            LEFT: 0px;
+            MARGIN: 0px;
+            TOP: 0px;
+            PADDING-RIGHT: 0px
+        }
+
+        #dataUIContainer {
+            OVERFLOW: hidden !important;
+            POSITION: relative;
+            TOP: -500px;
+            LEFT: 600px;
+            HEIGHT: 230px;
+            WIDTH: 900px;
+            PADDING-BOTTOM: 0px;
+            PADDING-TOP: 0px;
+            PADDING-LEFT: 0px;
+            MARGIN: 0px;
+            PADDING-RIGHT: 0px
+        }
+
+        .dataUIContent {
+            OVERFLOW: hidden !important;
+            HEIGHT: 100%;
+            WIDTH: 100%;
+            PADDING-BOTTOM: 0px;
+            PADDING-TOP: 0px;
+            PADDING-LEFT: 0px;
+            MARGIN: 0px;
+            PADDING-RIGHT: 0px
+        }
+    </STYLE>
+     
+<DIV id="Background" style="margin: 0px; width: 1208px; height: 700px; position: absolute; -ms-zoom: 1; background-repeat: no-repeat; background-color: rgb(192, 192, 192);" 
+onpropertychange="BackgroundPropChange()"></DIV>
+<DIV id="Page" style="margin: 0px; width: 650px; height: 700px; font-family: Arial; font-size: 12pt; position: absolute; -ms-behavior: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository); -ms-zoom: 1; background-color: transparent;" 
+pagedescription="Procedure Explorer display used to visualize a Procedure or Procedure Hierarchy." 
+data-print-method="Station" data-background-color="transparent">
+<OBJECT tabindex="-1" class="hsc.activexcontrol.1" id="PX" classid="clsid:07E424CC-BD7D-472A-B140-E3E9E7FD0B54" 
+style="left: 0px; top: 0px; width: 100%; height: 100%; font-family: Arial; font-size: 12pt; font-style: normal; font-weight: 400; text-decoration: none; position: absolute;">
+<PARAM NAME="BindTo" VALUE="Specific Procedure">
+<PARAM NAME="ProcedureName" VALUE=""><PARAM name="BindTo" value="Specific Procedure"><PARAM 
+name="ProcedureName" value="">         </OBJECT><TEXTAREA tabindex="0" class="hsc.alpha.1 hsc.faceplate.1" id="fp_alpha" style="left: 28px; top: 24px; width: 80px; height: 26px; text-align: center; color: rgb(0, 0, 0); overflow: hidden; font-family: Arial; font-size: 12pt; font-style: normal; font-weight: 400; text-decoration: none; visibility: hidden; position: absolute; -ms-behavior: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HDXPopupBehavior#Faceplate); -ms-word-wrap: normal; background-color: transparent; ROWS: 1;" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:0;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA> 
+        
+<DIV id="dataUIContainer"><IFRAME class="dataUIContent" id="dataUIIFrameId" src="ActivityDataPE.htm"></IFRAME> 
+        </DIV></DIV></BODY></HTML>

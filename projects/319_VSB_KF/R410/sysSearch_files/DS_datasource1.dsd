@@ -1,0 +1,172 @@
+<datasource version="2"><hmipage pageType="0" updateRate="0" forwardAction="1" forwardString="" backwardAction="1" backwardString="" previousIdleTime="0" areaRequestType="0" areaString="" securityLevel="0" requestTaskOnPageCallup="0" callUpTaskSecurityLevel="2" callUpTaskStationIndex="0" callUpTaskTaskLrn="0" callUpTaskTaskParam1="1" callUpTaskTaskParam2="11" callUpTaskTaskParam3="0" callUpTaskTaskParam4="0" periodicTaskOnPageCallup="0" periodicTaskSecurityLevel="2" periodicTaskStationIndex="0" periodicTaskTaskLrn="0" periodicTaskTaskParam1="1" periodicTaskTaskParam2="11" periodicTaskTaskParam3="0" periodicTaskTaskParam4="0" periodicTaskPeriod="60" persistFlags="0" safeviewCategory="HW_System_Display" pageTitle="Search Page" pageKey="0" pageFlags="1" zoomingAllowed="1" singleUse="0" appSetName="" associateWithAlarmGroup="0" useDefaultAlarmGroup="1" alarmGroup="%display name%_almgrp"/><dataobject id="0" type="HMIPage.Generic" format="propertybag"><property name="AddressFlags">0</property><property name="AddressType">1</property><property name="CalloutElement"></property><property name="FileRefBitFieldStart">11</property><property name="FileRefBitFieldWidth">1</property><property name="FileRefFile">2</property><property name="FileRefFlags">2048</property><property name="FileRefFormat">5</property><property name="FileRefRecord">1</property><property name="FileRefWord">41</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationType">0</property><property name="SecurityLevel">0</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></dataobject><dataobject id="1" type="HMIPage.TagSource" format="propertybag"><property name="AutoMigrate">0</property><property name="AuxFilter"></property><property name="FilterOptions">0</property><property name="SummaryType">0</property><property name="TemplateXML">&lt;TableTemplate&gt;&lt;FieldXML&gt;
+		&lt;fields&gt;
+			&lt;field id="Selected"/&gt;
+			&lt;field id="RowNumber" rowId="true"/&gt;
+			&lt;field id="EntityName"/&gt;
+			&lt;field id="TagName"/&gt;
+			&lt;field id="FullName"/&gt;
+			&lt;field id="TypeAcr"/&gt;
+			&lt;field id="PointTypeAcr"/&gt;
+			&lt;field id="PointSubTypeName"/&gt;
+			&lt;field id="Description"/&gt;
+			&lt;field id="Owner"/&gt;
+		&lt;/fields&gt;
+	&lt;/FieldXML&gt;&lt;XFormXML&gt;
+		&lt;xforms&gt;
+			&lt;script id="xfCellID" language="VBScript"&gt;
+				If Value Then
+					Return = "Selected_Cells"
+				Else
+					Return = "Unselected_Cells"
+				End If
+			&lt;/script&gt;
+			&lt;script id="xfName" language="VBScript"&gt;
+				If (InStr(Value(0),"$") = 0) Then
+					Return = Value(0)
+				Else
+					Return = Value(1)
+				End If
+			&lt;/script&gt;			
+			&lt;defaultValue id="xfEmptyVariantToString" value="" type="string"/&gt;
+			&lt;script id="xfTitle" language="VBScript"&gt;
+				Return = ""
+				
+				if( not IsEmpty(Value(0)) ) then
+				    if( InStr(Value(0),"$") = 0 ) then
+					    Return = Return &amp;amp; "Tag Name: " &amp;amp; Value(0) &amp;amp; vbCrLf
+				    else
+					    Return = Return &amp;amp; "Tag Name: " &amp;amp; Value(1) &amp;amp; vbCrLf
+				    end if
+				end if
+						
+				if( not IsEmpty(Value(2)) and not (Value(2) = "") ) then
+					Return = Return &amp;amp; "Full Name: " &amp;amp; Value(2) &amp;amp; vbCrLf
+				end if
+				
+				if( not IsEmpty(Value(3)) and not (Value(3) = "") ) then
+					Return = Return &amp;amp; "Description: " &amp;amp; Value(3) &amp;amp; vbCrLf
+				end if
+
+				if( not IsEmpty(Value(4)) and not (Value(4) = "") ) then
+					Return = Return &amp;amp; "Tag Type: " &amp;amp; Value(4) &amp;amp; vbCrLf
+				end if
+				
+				if( not IsEmpty(Value(5)) and not (Value(5) = "") ) then
+					Return = Return &amp;amp; "Point Type: " &amp;amp; Value(5) &amp;amp; vbCrLf
+				end if
+				
+				if( not IsEmpty(Value(6)) and not (Value(6) = "") ) then
+					Return = Return &amp;amp; "Point Sub-Type: " &amp;amp; Value(6) &amp;amp; vbCrLf
+				end if
+				
+				if( not IsEmpty(Value(7)) and not (Value(7) = "") ) then
+					Return = Return &amp;amp; "Server: " &amp;amp; Value(7) &amp;amp; vbCrLf
+				end if
+			&lt;/script&gt;			
+		&lt;/xforms&gt;
+	&lt;/XFormXML&gt;&lt;HTMLWrapperXML&gt;
+		&lt;HTMLWrappers&gt;
+			&lt;MenuItemWrapper&gt;
+				&lt;Begin&gt;
+					&amp;lt;div style="position: relative; width: 170px; padding-bottom: 2px; padding-top: 1px; padding-right: 5px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&amp;gt;&amp;lt;span&amp;gt;
+				&lt;/Begin&gt;
+				&lt;End&gt;
+					&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;
+				&lt;/End&gt;
+			&lt;/MenuItemWrapper&gt;
+
+			&lt;FilterAppliedWrapper&gt;
+				&lt;Begin&gt;
+					&amp;lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; margin-right: 1px; background-color: mediumblue; color: white; font-weight: bold;"&amp;gt;
+				&lt;/Begin&gt;
+				&lt;End&gt;
+					&amp;lt;/span&amp;gt;
+				&lt;/End&gt;
+			&lt;/FilterAppliedWrapper&gt;
+
+			&lt;SortAscIndicator&gt;
+				&amp;amp;nbsp;&amp;lt;img src="Images/SortArrowUp.gif"&amp;gt;
+			&lt;/SortAscIndicator&gt;
+
+			&lt;SortDescIndicator&gt;
+				&amp;amp;nbsp;&amp;lt;img src="Images/SortArrowDown.gif"&amp;gt;
+			&lt;/SortDescIndicator&gt;
+		
+			&lt;GroupSeparator&gt;
+				&amp;lt;div style="position:relative; width: 160px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &amp;gt;&amp;lt;/div&amp;gt;
+			&lt;/GroupSeparator&gt;
+		&lt;/HTMLWrappers&gt;
+	&lt;/HTMLWrapperXML&gt;&lt;MenuGroupXML&gt;
+		&lt;MenuGroups&gt;
+			&lt;CommandGroup id="ContextMenuGroup"&gt;
+				&lt;StandardCommand id="Command_PointDetail" Command="PointDetail"&gt;
+					&amp;lt;div title="Navigate to the detail page of the selected item" style="padding: 1px; width: 100%;"&amp;gt;
+					&amp;lt;img style="position: relative; top: 2px; left: 2px; margin-right: 6px;" src="Images/PointDetails.gif"&amp;gt;
+					&amp;amp;nbsp;Detail Display
+					&amp;lt;/div&amp;gt;
+				&lt;/StandardCommand&gt;
+				&lt;StandardCommand id="Command_AssociatedDisplay" Command="AssociatedDisplay"&gt;
+					&amp;lt;div title="Navigate to the associated display of the selected item" style="padding: 1px; width: 100%;"&amp;gt;
+					&amp;lt;img style="position: relative; top: 2px; left: 3px; margin-right: 9px;" src="Images/AssociatedDisplay.gif"&amp;gt;
+					&amp;amp;nbsp;Associated Display
+					&amp;lt;/div&amp;gt;
+				&lt;/StandardCommand&gt;
+			&lt;/CommandGroup&gt;
+		&lt;/MenuGroups&gt;
+	&lt;/MenuGroupXML&gt;&lt;BaseFilterXML&gt;
+		&lt;BaseFilterDef&gt;
+		&lt;/BaseFilterDef&gt;
+	&lt;/BaseFilterXML&gt;&lt;SortXML&gt;
+		&lt;SortDef&gt;
+		&lt;/SortDef&gt;
+	&lt;/SortXML&gt;&lt;ReportTemplateXML&gt;&lt;/ReportTemplateXML&gt;&lt;ColumnStateXML&gt;
+		&lt;state&gt;
+			&lt;colref id="TagNameColumn" width="100" hidden="false" /&gt;
+			&lt;colref id="FullNameColumn" width="220" hidden="false" /&gt;
+			&lt;colref id="DescriptionColumn" width="100" hidden="false" /&gt;			
+		&lt;/state&gt;
+	&lt;/ColumnStateXML&gt;&lt;TableDefinitionXML&gt;
+		&lt;table&gt;
+			&lt;tableMenu/&gt;
+		
+			&lt;contextMenu&gt;
+				&lt;GroupRef GroupId="ContextMenuGroup"/&gt;
+			&lt;/contextMenu&gt;
+
+			&lt;columns&gt;
+				&lt;column id="FullNameColumn"&gt;
+					&lt;title&gt;Full Name&lt;/title&gt;
+					&lt;action/&gt;
+					&lt;menu/&gt;
+					&lt;content&gt;&amp;lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px;"/&amp;gt;&lt;/content&gt;
+					&lt;bindings&gt;
+						&lt;in fields="FullName" properties="innerText" xforms="xfEmptyVariantToString"/&gt;
+						&lt;in fields="TagName;EntityName;FullName;Description;TypeAcr;PointTypeAcr;PointSubTypeName;Owner" properties="title" xforms="xfTitle"/&gt;
+						&lt;in fields="Selected" properties="id" xforms="xfCellID"/&gt;
+					&lt;/bindings&gt;
+				&lt;/column&gt;
+				&lt;column id="TagNameColumn"&gt;
+					&lt;title&gt;Tag Name&lt;/title&gt;
+					&lt;action/&gt;
+					&lt;menu/&gt;
+					&lt;content&gt;&amp;lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px;"/&amp;gt;&lt;/content&gt;
+					&lt;bindings&gt;
+						&lt;in fields="TagName;EntityName" properties="innerText" xforms="xfName;xfEmptyVariantToString"/&gt;
+						&lt;in fields="TagName;EntityName;FullName;Description;TypeAcr;PointTypeAcr;PointSubTypeName;Owner" properties="title" xforms="xfTitle"/&gt;
+						&lt;in fields="Selected" properties="id" xforms="xfCellID"/&gt;
+					&lt;/bindings&gt;
+				&lt;/column&gt;
+				&lt;column id="DescriptionColumn"&gt;
+					&lt;title&gt;Description&lt;/title&gt;
+					&lt;action/&gt;
+					&lt;menu/&gt;
+					&lt;content&gt;&amp;lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px;"/&amp;gt;&lt;/content&gt;
+					&lt;bindings&gt;
+						&lt;in fields="Description" properties="innerText" xforms="xfEmptyVariantToString"/&gt;
+						&lt;in fields="TagName;EntityName;FullName;Description;TypeAcr;PointTypeAcr;PointSubTypeName;Owner" properties="title" xforms="xfTitle"/&gt;
+						&lt;in fields="Selected" properties="id" xforms="xfCellID"/&gt;
+					&lt;/bindings&gt;
+				&lt;/column&gt;
+			&lt;/columns&gt;
+		&lt;/table&gt;
+	&lt;/TableDefinitionXML&gt;&lt;/TableTemplate&gt;</property><property name="Version">4.2</property><property name="WaitForInit">0</property></dataobject><dataobject id="2" type="HMIPage.Generic" format="propertybag"><property name="AddressFlags">0</property><property name="AddressType">1</property><property name="CalloutElement"></property><property name="FileRefFile">2</property><property name="FileRefFlags">2048</property><property name="FileRefFormat">0</property><property name="FileRefRecord">1</property><property name="FileRefStrRefLength">82</property><property name="FileRefWord">257</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationType">12</property><property name="SecurityLevel">2</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></dataobject><dataobject id="3" type="HMIPage.Generic" format="propertybag"><property name="AddressFlags">0</property><property name="AddressType">1</property><property name="CalloutElement"></property><property name="FileRefBitFieldStart">12</property><property name="FileRefBitFieldWidth">4</property><property name="FileRefFile">121</property><property name="FileRefFlags">0</property><property name="FileRefFormat">5</property><property name="FileRefRecord">1</property><property name="FileRefWord">1726</property><property name="ObjectType">0</property><property name="ParameterFormat">0</property><property name="PresentationType">0</property><property name="SecurityLevel">0</property><property name="UpdatePeriod">0</property><property name="version">1.3</property></dataobject><dataobject id="12" type="HMIPage.PushButton" format="propertybag"><property name="Flags">0</property><property name="PBActionType">3</property><property name="RepeatFlag">0</property><property name="SecurityLevel">2</property><property name="StationIndex">0</property><property name="TaskLrn">21</property><property name="TaskParam1">1</property><property name="TaskParam2">sysadvancesearch.htm</property><property name="TaskParam3">0</property><property name="TaskParam4">0</property><property name="version">1.3</property></dataobject></datasource>

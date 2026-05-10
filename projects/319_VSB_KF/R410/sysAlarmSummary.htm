@@ -1,0 +1,1507 @@
+<HTML xmlns:v="urn:schemas-microsoft-com:vml">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+      <TITLE>Alarm Summary</TITLE>
+      
+      <!-- META information to allow initial Pablo page call up -->
+      <META name="WebDisplayLocation" content="/SystemDisplays">
+      <META name="WebPackageLocation" content="/SystemDisplays/cabs">
+      <META name="WebInstallPageName" content="RemoteInstall.htm">
+      <META name="WebPackageName" content="RemoteClientPackage.cab">
+      
+      <LINK type="text/css" rel="stylesheet" href="Styles/SummaryStyle.css">
+      
+      <script language="JScript" src="Scripts/Version.js"></script>
+
+      <!-- Logging routines -->
+      <script language="JScript" src="Scripts/Logging.js"></script>
+
+      <!-- Error handling routines -->
+      <script language="JScript" src="Scripts/ErrorHandling.js"></script>
+
+      <!-- HTML Utility routines -->
+      <script language="JScript" src="Scripts/HTMLUtils.js"></script>
+
+      <!-- Pane definition -->
+      <script language="JScript" src="Scripts/Pane.js"></script>
+
+      <script language="JScript" src="Scripts/SummaryScript.js"></script>
+
+      <script language="VBScript" src="Scripts/SummaryScript.vbs"></script>
+
+      <script language="VBScript" src="Scripts/EMScripts.vbs"></script>
+
+      <script language="JScript" src="Scripts/EMScripts.js"></script>
+
+      
+      <!-- Globals -->
+      <script language="JScript" >
+
+      // Identifies the type of the summary (alarm, event, message, SOE, system alarm, alert)
+      var g_SummaryType = SUMMARY_ALARM;
+
+      // The name to which the persistence information is saved
+      var PROP_Cache = "AlarmSummaryCache";
+
+      /*
+        The two variables g_dateTimeFormat, and g_dateTimeFormatTip can take any of the following values:
+          SHOW_TIME
+          SHOW_TIME_MS
+          SHOW_DATE
+          SHOW_DATE_TIME
+          SHOW_DATE_TIME_MS
+          
+        NOTE: SHOW_TIME_MS and SHOW_DATE_TIME_MS will display milliseconds to 3 decimal places by default. If
+            this needs to be modified, then the SHOW_DATE_TIME value can be bit-wise OR'd with the number of
+            decimal places desired (up to 3).
+            
+            For example, the value (SHOW_DATE_TIME | 0x01) will show milliseconds to 1 decimal place
+                   the value (SHOW_DATE_TIME | 0x02) will show milliseconds to 2 decimal places
+                   the value (SHOW_DATE_TIME | 0x03) will show milliseconds to 3 decimal places
+      */
+
+      var g_dateTimeFormat  = SHOW_DATE_TIME; // Date & time format for the cells in the column
+      var g_dateTimeFormatTip = SHOW_DATE_TIME_MS;  // Date & time format for the tooltip on the cells
+
+      </script>
+      </HEAD>
+<BODY style="overflow: auto;" onload="javascript:OnPageLoad()" onunload="javascript:OnPageUnload()" ondragstart="javascript:return CheckDrag()" onselectstart="javascript:return CheckSelect();" onfocusout="javascript:FocusObjectOnFocusOut();" ondblclick="javascript:FocusObjectOnDblClick();" onclick="javascript:FocusObjectOnClick();" onresize="javascript:DelayedZoomSummary()"> 
+      <div id="AlarmSummaryCache"
+         style="display: none; behavior: url(#default#userData);">
+      </div>    
+      
+             
+      <OBJECT id="HDXPageBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:56144F51-84F2-11D3-8114-00C04F68E0F9"></OBJECT>
+        
+                                                                                                                                                                                                                             
+            
+      <OBJECT id="HDXVectorFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:45A29A51-418F-11D4-816B-00C04F68E0F9"></OBJECT>
+      <OBJECT id="HDXAlphaBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:00FD97E5-43FE-11D3-964E-00609738C4CB"></OBJECT>
+      <OBJECT id="HDXPushButtonBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA"></OBJECT>
+      <OBJECT id="HSCComboboxBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B"></OBJECT>
+      <OBJECT id="HSCCheckBoxBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238"></OBJECT>
+      <OBJECT id="HSCIndicatorBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73"></OBJECT>
+      <OBJECT id="HoverBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D"></OBJECT>
+      <OBJECT id="HDXPopupBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE"></OBJECT>
+      <OBJECT id="BindingBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2"></OBJECT>
+      <OBJECT id="HSCShapeLinkBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D"></OBJECT>
+      <OBJECT id="HSCActiveXDocumentBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A"></OBJECT>
+      <OBJECT id="HSCBreakpointBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5"></OBJECT>
+      <OBJECT id="HDXLevelFillBehavior" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:9E860844-C032-46A8-A3F7-FB950475A292"></OBJECT>
+      <OBJECT id="HDXElementsFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase=""  classid="clsid:2592890C-11DD-4818-BB62-9640E4A050D1"></OBJECT>
+      <OBJECT id="SafetyWrapper" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:96B4E6AA-9EC9-4445-BDDA-C63D2C9AA3B3"></OBJECT>
+      <OBJECT id="DTFormat" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB"></OBJECT>
+      <OBJECT id="NFormat" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase=""classid="clsid:DFF97FB2-410F-41A8-92A7-1A1D8C2FC205"></OBJECT>
+      <OBJECT id="AlarmStateIconFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:32C06040-FF05-4F15-90EB-9C56D098D188"></OBJECT>
+                   
+                                                                                                                                                                             
+      
+      <OBJECT id="DisplayDataRepository" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid="clsid:0113964D-CFC2-453a-BA5F-DF740C170064"></OBJECT>
+
+
+       
+      <DIV id="Background"
+          onpropertychange="BackgroundPropChange()"
+          style="top: 0px; left: 0px;
+            overflow: hidden;
+            MARGIN: 0px;
+            WIDTH: 1276px;
+            HEIGHT: 845px;
+            BACKGROUND-REPEAT: no-repeat;
+            ZOOM: 1;
+            POSITION: absolute;
+            BACKGROUND-COLOR: white">
+      </DIV>
+     <DIV id="Page" style="font-family: 'Helvetica'; 
+                   
+                     
+     
+           font-size: 10pt;
+      
+           margin: 0px; 
+           padding: 0px;
+           cursor: default;
+           behavior: url(#HDXPageBehavior) url(#DisplayDataRepository);
+             overflow: visible; 
+             display: inline;
+           position: absolute; 
+           height: 845px; 
+           width: 1276px; 
+           left: 0px;
+             top: 0px;" HelpFileName="DocumentationSet.chm" HelpFileTypeList="HTML help" LocateHelpTopicBy="Topic number" HelpTopic="402"> 
+      <div id="PaneResizer"
+         style="display: none;
+            z-index: 75;
+            position: absolute;
+            overflow: hidden;
+            background-color: buttontext;">
+      </div>
+      
+      <span id="spnViewList"
+          style="position: absolute;
+             white-space: nowrap;
+             background-color: threedshadow;
+             color: window;
+             border: 1px solid buttontext;
+             left: 165px;
+             top: 60px;
+             width: 250px;
+             overflow-x: hidden;
+             overflow-y: auto;
+             z-index: 50;
+             visibility: hidden;">
+      </span>
+     <xml id="xmlViewListItemTemplate"><item><![CDATA[ 
+        <div onmouseenter="this.className='MENUITEM_HOVER'"
+           onmouseleave="this.className=''"
+           onmouseup="OnViewSelect(this)"
+           style="position: relative;
+              left: 0px;
+              top: 0px;
+              overflow: visible;
+              display: block;">
+        </div>         
+     ]]></item></xml> 
+        <div style="display: inline;
+              position: absolute;
+              zoom: 1;
+              z-index: 1;
+              left: 0px;
+              top: 0px;
+              width: 100%;
+              height: 29px;
+     
+              background: url(Images/bgGrate.gif);">
+     
+        </div>
+      
+        <img src="Images/Bell.gif"
+           style="position: absolute;
+              display: inline;
+              z-index: 2;
+              left: 0px;
+              top: 1px;
+              height: 28px;"/>
+      
+        <div style="padding: 5px;
+              display: inline;
+              position: absolute;
+              z-index: 2;
+              left: 35px;
+              top: 2px;
+              width: 200px;
+              height: 28px;
+              font-weight: bold;
+              color: white;">
+     
+          Alarms
+     
+        </div>            
+      
+        <A  class="hsc.hyperlink.1"
+          id="lnkMessageSummary"
+          title="Navigate to the Message Summary" 
+          href="PAGE://sysMessageSummary.htm"
+          style="position: absolute; 
+               padding: 5px;
+               z-index: 2;
+                 right: 5px;
+                 top: 2px;
+                 width: 200px;
+                 height: 28px;
+                 color: white;
+                 text-align: right;">
+            Message Summary
+        </A>
+      
+      <div style="position: absolute; width: 100%; height: 100%; overflow: hidden; padding-top: 30px; padding-right: 5px; padding-bottom: 5px;">
+        <div class=hvg.base.1 
+            id="roundrect001" 
+            style="z-index: 1; 
+                left: 0px; 
+                behavior: url(#HDXVectorFactory#roundrect); 
+                width: 100%; 
+                position: relative; 
+                top: 0px; 
+                height: 100%;" 
+            hdxproperties="FillColor:threedface;fillColorBlink:False;Height:578;LineColor:#000000;lineColorBlink:False;Roundness:3;Width:1016;">
+        </div>
+        <div class=hvg.base.1 
+            id="roundrect002" 
+            style="z-index: -1; 
+                left: 4px; 
+                behavior: url(#HDXVectorFactory#roundrect); 
+                width: 100%; 
+                position: relative; 
+                top: expression(-roundrect001.style.pixelHeight + 41); 
+                height: 100%; " 
+            hdxproperties="FillColor:threedshadow;fillColorBlink:False;Height:578;LineColor:#FFFFFF;lineColorBlink:False;Roundness:3;Width:1016;">
+        </div>
+      </div>
+       
+      <div id="AreaAndViewToolbar" style="position: absolute;
+            z-index: 1;
+            left: 10px;
+            top: 34px;
+            width: 410px;
+            height: 28px;
+            font-weight: bold;
+            overflow: hidden;
+            background-color: threedshadow;
+            color: window;">
+        <span>
+          <div id="btnDropAreaPane"
+             buttonMode="option"
+             motif="web"
+             onhdxclick="javascript:FloatAreaPane()"
+             onclick="javascript:window.event.cancelBubble='true';"
+             title="Show location pane"
+             style="position: absolute;
+                left: 5px; 
+                top: 2px;
+                width: 100px;
+                height: 26px;
+                display: inline;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                behavior: url(#HDXElementsFactory#Button);">
+                
+              <div style="BEHAVIOR: url(#HDXVectorFactory#polygon);position: relative; display: inline; overflow: hidden; padding-left: 3px; left: 5px; height: 4px; width: 8px;" 
+                    hdxproperties="FillColor:#FFFFFF;LineStyle:0;points:100.000000 0.000000 0.000000 0.000000 50.000000 100.000000;">
+              </div>
+          </div>
+          
+          <span id="spnDropAreaPane"
+             style="position: absolute;
+                left: 5px; 
+                top: 2px;
+                width: 100px;
+                height: 26px;
+                display: none;
+                padding-top: 2px;
+                padding-left: 2px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;">
+                
+              <span id="spnAreaPaneTitle"
+                  style="position: relative; 
+                    left: 3px; 
+                    top: 3px;">
+                Location
+              </span>
+          </span>
+        </span>
+
+        <span id="btnDropViewListWrapper" onclick="window.event.cancelBubble='true';">
+        
+          <span id="spnViewLabel" style="display: inline;
+                position: absolute; 
+                left: 110px; 
+                top: 7px; 
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                     
+                           
+       
+                height: 20px;">View:</span>
+          
+          <div id="btnDropViewList"
+             buttonMode="option"
+             motif="web"
+             onhdxclick="javascript:DropViewList()"
+             title="Click to load a view"
+             onclick="if( !this.selected ) window.event.cancelBubble=true;"
+             style="position: absolute;
+                left: 155px; 
+                top: 2px;
+                width: 250px;
+                height: 26px;
+                padding-top: 2px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                     
+                           
+       
+                behavior: url(#HDXElementsFactory#Button);">
+                
+              <span id="spnCurrentView"
+                  style="position: relative; 
+                    left: 3px; 
+                    top: 3px;">&nbsp;
+              </span>
+              <div style="BEHAVIOR: url(#HDXVectorFactory#polygon);position: relative; display: inline; overflow: hidden; padding-left: 3px; left: 5px; height: 4px; width: 8px;" 
+                    hdxproperties="FillColor:#FFFFFF;LineStyle:0;points:100.000000 0.000000 0.000000 0.000000 50.000000 100.000000;">
+              </div>
+          </div>
+        </span>
+      </div>
+      
+      <div id="lblFilterApplied"
+         filterApplied="false"
+         onpropertychange="javascript:FilterAppliedUpdate();"
+         style="position: absolute;
+            display: none;
+            text-align: right;
+                     
+                  
+      
+            right: 530px;
+        
+            width: 140px;
+            height: 26px;
+            top: 40px;
+            overflow: hidden;
+            z-index: 50;
+            font-weight: bold;
+            color: blue">
+         (Filter applied)
+      </div>
+     <DIV id="toolbar" onpropertychange="javascript:SetToolbar()" btnPrintAsReportDisabled="false" btnPrintPreviewDisabled="false" style="display: inline;
+            position: absolute;
+            white-space: nowrap;
+            right: 9px;
+            top: 35px;
+            z-index: 1;
+            height: 27px;
+                   
+                  
+     
+            width: 515px;
+      
+            overflow: hidden;
+            border: 1px solid;
+            background-color: threedface;
+            border-top-color: threedhighlight;
+            border-left-color: threedhighlight;
+            border-right-color: threedshadow;
+            border-bottom-color: threedshadow;"> 
+			
+	
+      <div  id="btnClearFilter"
+          motif="web"
+     
+          title="Show all alarms"
+     
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 0px;
+                     
+                          
+       
+               top: 0px;
+               width: 145px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgClearFilter" style="position: absolute; top: 4px; left: 4px;" src="Images/Filter.png"/>
+        <span style="position: absolute; left: 28px; top: 1px; ">Clear All Filters</span>
+      </div>
+      
+      <div  id="btnResetView"
+          motif="web"
+          title="Reset to default view"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 145px;
+                     
+                             
+       
+               top: 0px;
+               width: 115px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgResetView" style="position: absolute; top: 2px; left: 4px;" src="Images/Reset.png"/>
+        <span style="position: absolute; left: 28px; top: 1px; ">Reset View</span>
+      </div>
+      
+      <div  id="btnAlarmTrendPane"
+          OnHDXClick="javascript:ToggleViewConfigPane();"
+          motif="web"
+          buttonMode="option"
+          title="Show view configuration pane"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 260px;
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAlarmTrendPane" style="position: relative; top: 2px; left: 2px;" src="Images/alarmTrend.png"/>
+      </div>
+      
+      <div  id="btnViewConfigPane"
+          OnHDXClick="javascript:ToggleViewConfigPane();"
+          motif="web"
+          buttonMode="option"
+          title="Show view configuration pane"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 288px;
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgViewConfigPane" style="position: relative; top: 2px; left: 2px;" src="Images/ViewConfig.png"/>
+      </div>
+      
+      <div  id="btnAreaPane"
+          OnHDXClick="javascript:ToggleAreaPane();"
+          motif="web"
+          buttonMode="option"
+          title="Show location pane"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+                     
+                   
+      
+               left: 316px;
+        
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAreaPane" style="position: relative; top: 2px; left: 2px;" src="Images/AreaPane.png"/>
+      </div>
+      
+      <div  id="btnStatusPane"
+          OnHDXClick="javascript:ToggleStatusPane();"
+          motif="web"
+          buttonMode="option"
+          disabled=true
+          title=""
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 344px;
+                     
+                            
+       
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgStatusPane" style="position: relative; top: 2px; left: 2px;" src="Images/StatusPaneDisabled.png"/>
+      </div>
+      
+      <div  id="btnDetailsPane"
+          OnHDXClick="javascript:ToggleDetailsPane();"
+          motif="web"
+          buttonMode="option"
+          title="Show details pane"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+                     
+                    
+      
+               left: 372px;
+        
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgDetailsPane" style="position: relative; top: 2px; left: 4px;" src="Images/Details.png"/>
+      </div>
+      
+      <div  id="btnColumnOrganizer"
+          OnHDXClick="javascript:ShowColumnOrganizer(Table);"
+          onclick="javascript:window.event.cancelBubble='true';"
+          motif="web"
+          title="Show column organizer"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+                     
+                    
+      
+               left: 400px;
+        
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgColumnOrganizer" style="position: relative; top: 2px; left: 4px;" src="Images/ColumnOrganizer.png"/>
+      </div>
+	        
+      <div  id="btnCsvExport"
+          OnHDXClick="javascript:ToggleViewConfigPane();"
+          motif="web"
+          buttonMode="option"
+          title="Show view configuration pane"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 428px;
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgCsvExport" style="position: relative; top: 3px; left: 5px;" src="Images/CsvExport.png"/>
+      </div>
+      
+      <div  id="btnPrintAsReport"
+          onmouseover="javascript:PrinterTooltip()"
+          OnHDXClick="javascript:HandlePrintAsReport()"
+          motif="web"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 456px;
+                     
+                            
+       
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgPrintAsReport" style="position: relative; top: 3px; left: 4px;" src="Images/Print.png"/>
+      </div>
+      
+      <div  id="btnPrintPreview"
+          OnHDXClick="javascript:HandlePrintPreview()"
+          onclick="javascript:window.event.cancelBubble='true';"
+          motif="web"
+          title="Print Preview"
+          style="position: absolute;
+               cursor: default;
+               display: inline;
+               left: 484px;
+               top: 0px;
+               width: 28px;
+               height: 24px;
+               overflow: hidden;
+               behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgPrintPreview" style="position: relative; top: 2px; left: 4px;" src="Images/Preview.png"/>
+      </div>
+     </DIV>  
+      <div id="AreaPane"
+         class="PANE"
+         onclick="javascript:if( AreaPane.style.display != 'none' ){g_FocusedObject=AreaTable;AreaTable.setActive();window.event.cancelBubble='true';}"
+         style="display: none;
+            position: absolute;
+            z-index: 15;
+            left: 10px;
+            top: 65px;
+            overflow: visible;
+            width: 180px;
+            height: 100px;">
+
+        <div class="PANE_HEADER">
+
+          
+          
+        </div>
+      </div>
+      
+      <div id="AreaPaneDropBorder"
+         class="PANE_HEADER"
+         style="display: none;
+            position: absolute;
+            z-index: 10;
+            left: 10px;
+            top: 65px;
+            width: 200px;
+            height: 100%;">
+      </div>
+      
+      <div id="VerticalResizePad"
+         class="PANE_RESIZER_PAD"
+         direction="v"
+         max="800"
+         min="150"
+         onmousedown="Pane_OnStartResize(this)"
+         style="cursor: col-resize;
+            z-index: 75;
+            left: 10px;
+            top: 65px;
+            height: 100px;
+            width: 4px;">
+      </div>
+      
+      <div
+         id="Table" 
+         onkeydown="javascript:return HandleKeyDown()"
+         ondblclick="javascript:CheckDoubleClick()"
+         onbeforeactivate="javascript:HandleActivate(this)"
+         onbeforedeactivate="javascript:HandleDeactivate(this)"
+         onclick="javascript:if(g_FocusedObject!=Table){g_FocusedObject=Table;Table.setActive();}window.event.cancelBubble='true'"
+         rowHeight="20"
+         headerHeight="22"
+         timeoutDelay="0"
+         hdxproperties="HDXBINDINGID:0;"
+         headerMode="menubar"
+         style="position: absolute;
+            white-space: nowrap;
+            z-index: 5;
+            top: 66px;
+            right: 9px; 
+            width: 1256px; 
+            height: 720px;
+            behavior: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior);
+            visibility: visible;
+            cursor: default;">
+      </div>
+      
+      <div id="StatusPane"
+         SelectedEntity=""
+         FaceplateName =""
+         class="PANE"
+         style="display: none;
+            position: absolute;
+            z-index: 5;
+            left: 10px;
+            top: 65px;
+            overflow: visible;
+            width: 165px;
+            height: 100px;">
+
+        <div class="PANE_HEADER">
+
+          
+          
+        </div>
+        <div class="PANE_BODY"  style="position: relative;">
+          <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 style="width: 100%; height: 100%;">
+            <TR><TD valign="top" style="height: 100%;">
+              <iframe id="faceplateiframe" scrolling="no" style="POSITION: relative; zoom: 100%; width:100%; height:100%; visibility: hidden;">
+              </iframe>
+            </TD></TR>
+          </TABLE>
+        </div>
+      </div>
+     <DIV id="PaneContainer" paddingTop="65" paddingBottom="68" paddingLeft="10" paddingRight="8" style="display: inline;
+            position: absolute;
+            left: 10px;
+            top: 65px;
+            z-index: 3;
+            padding: 0px;
+            margin: 0px;
+            height: 740px;
+            width: 1258px;">
+<DIV id="InnerPaneContainer" style="display: inline;
+              position: absolute;
+              left: 0px;
+              top: 0px;
+              z-index: 3;
+              width: 1258px;
+              height: 100%;"> 
+      <div id="ViewConfigPane"
+         class="PANE"
+         onclick="javascript:if( ViewConfigPane.style.display != 'none' ){g_FocusedObject=window.event.srcElement;window.event.cancelBubble='true';}"
+         style="display: none;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: 1;
+            height: 136px;
+            width: 100%;">
+  
+        <div id="ViewConfigHeader" class="PANE_HEADER">
+
+          
+
+
+        </div>
+
+        <div id="ViewConfigBody" class="PANE_BODY">
+        
+          <div id="ViewConfigRight" style="position: absolute; top: 0px; right: 0px; width: 400px;">
+          
+          <span style="position: absolute;
+                 top: 35px;
+                 left: 5px;">
+            Save current view as:
+          </span> 
+
+          <input id="txtViewName"
+               onkeyup="javascript:CheckViewName('value')"
+               onpropertychange="javascript:CheckViewName()"
+               type="text"
+               maxLength="40"
+               style="position: absolute; 
+                  top: 56px;
+                  left: 5px;
+                  width: 275px;">
+          </input>
+
+          <span style="position: absolute;
+                 top: 83px;
+                 left: 0px;">
+            <input id="chkIncludeArea" checked type="checkbox"> Include location filter in view definition </input>
+          </span> 
+
+          <span style="position: absolute;
+                 top: 103px;
+                 left: 0px;">
+            <input id="chkAssignArea" onpropertychange="javascript:AreaAssignChange()"
+                 type="checkbox"> Assign view to location: </input>
+          </span> 
+
+          <input id="txtAreaName"
+               type="text"
+               maxLength="40"
+               disabled="true"
+               style="position: absolute; 
+                  background-color: buttonface;
+                  top: 103px;
+                  right: 107px;
+                  width: 95px;">
+          </input>
+          </div>
+
+          <div id="btnSaveView"
+             title="Save view"
+             disabled="true"
+             OnHDXClick="javascript:SaveCurrentView()"
+             style="position: absolute;
+                right: 10px;
+                top: 32px;
+                height: 23px;
+                width: 85px;
+                text-align: center;
+                behavior: url(#HDXElementsFactory#Button);">
+            <img id="ImgSaveView" style="position: absolute; top: 2px; left: 5px;" src="Images/SaveDisabled.gif"/> 
+            <span style="padding-left: 3px; position: relative; top: 1px;">Save</span>
+          </div>
+
+          <div id="btnDeleteView"
+             title="Delete view"
+             OnHDXClick="javascript:DeleteCurrentView()"
+             style="position: absolute;
+                right: 10px;
+                top: 59px;
+                height: 23px;
+                width: 85px;
+                text-align: center;
+                behavior: url(#HDXElementsFactory#Button);">
+            <img id="ImgDeleteView" style="position: absolute; top: 0px; left: 3px;" src="Images/Delete.gif"/> 
+            <span style="padding-left: 10px; position: relative; top: 1px;">Delete</span>
+          </div>
+        </div>
+
+      </div>
+      
+      <div id="GridPane"
+         onresize="javascript:SetTableSize();"
+         class="PANE"
+         style="display: inline;
+            z-index: 3;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 100%;
+            width: 100%;">
+      </div>
+      
+      <div id="HorizontalResizePad_BOTTOM"
+         class="PANE_RESIZER_PAD"
+         direction="h"
+           max="550"
+         min="200"
+         onmousedown="Pane_OnStartResize(this)"
+         style="cursor: row-resize;
+            height: 4px;
+            z-index: 2;
+            left: 0px;
+            top: 0px;
+            width: 100%;">
+      </div>
+     <DIV id="DetailsPane" class="PANE" onclick="javascript:HandleDetailsPaneFocus();" style="display: none;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                z-index: 1;
+                height: 236px;
+                width: 100%;"> 
+      <div class="PANE_HEADER">
+     
+        
+     
+      </div>
+      
+      <div id="btnGeneralTab"
+         onmousedown="javascript:TabDetailsPane(0)"
+     
+         title="Show general information about the selected alarm"
+     
+         style="position: absolute; 
+            cursor: default;
+            padding-top: 3px;
+            left: 4px;
+            top: 25px;
+            text-align: center;
+            border-top: 1px solid threedhighlight;
+            border-left: 1px solid threedhighlight;
+            border-right: 1px solid threedshadow;
+            background-color: threedface;
+            height: 25px;
+            width: 100px;
+            z-index: 2;
+            overflow: hidden;">
+        General
+      </div>
+      
+      <div id="btnCommentsTab"
+         onmousedown="javascript:TabDetailsPane(1)"
+     
+         title="View and edit comments associated with the selected alarm"
+     
+         style="position: absolute; 
+            cursor: default;
+            padding-top: 3px;
+            left: 105px;
+            top: 25px;
+            text-align: center;
+            border-top: 1px solid threedhighlight;
+            border-left: 1px solid threedhighlight;
+            border-right: 1px solid threedshadow;
+            background-color: threedface;
+            height: 23px;
+            width: 100px;
+            z-index: 2;
+            overflow: hidden;">
+        Comments
+      </div>    
+     <DIV id="DetailsPaneBody" class="PANE_BODY">
+<TABLE style="width: 100%; height: 100%;">
+<TR>
+<TD valign="top" style="height: 100%; padding-top: 22px;">
+<DIV style="height: 100%; width: 100%; overflow: hidden; padding: 2px; border: 2px outset;"> 
+            <div id="SelectedRowData" style="display: inline; border: 1px inset; width: 100%; height: 100%;">
+              <div id="DefaultData" style="display: none; padding-top: 2px; width: 100%; height: 100%; overflow-x: auto; overflow-y: scroll;">
+              </div>
+            </div>
+      
+            <div id="CommentsData" style="display: none; height: 100%; width: 100%;" >
+              <table style="width: 100%; height: 100%; padding: 2px; table-layout:fixed;">
+                         
+                                                                                      
+        
+              <tr style="font-size: 9pt; width: 100%; height: 22px; vertical-align: bottom;">
+            
+                <td style="width: 50%;">
+                  Existing comments:
+                </td>
+                <td  style="width: 50%;">
+                  Additional comments:
+                </td>
+              </tr> 
+              <tr style="width: 100%; height: 100%;">
+                <td valign=top style="height: 100%; width: 50%;">
+                         
+                                 
+                                  
+                                                                                             
+                                                                            
+        
+                  <div id="ExistComments" 
+                     contentEditable="false"
+                     style="font-family: 'Helvetica'; font-size: 9pt; padding: 2px; border: 1px inset; 
+                     width: 100%; height: 100%; overflow-x: auto; overflow-y: scroll">
+            
+                  </div>
+                </td>
+                <td valign=top style="height: 100%; width: 50%;">
+                  <textarea id="AddComments" 
+                        disabled="true"
+                        defaultValue=""
+                        newValue=""
+                        onkeyup="OnCommentsChanged()"
+                        style="font-family: 'Helvetica'; border: 1px inset; width: 100%; height: 100%; overflow-x: auto; overflow-y: scroll; background-color: threedface;">
+                  </textarea>
+                </td>
+              </tr> 
+              </table>        
+            </div>
+     </DIV>
+</TD>
+<TD style="color: blue; width: 170px; vertical-align: top;">
+<DIV id="divDetailsSidePanel" style="visibility: hidden; position: relative; top: 0px; left: 0px; width: 100%; height: 100%;"> 
+            <div style="position: absolute; top: 0px; padding-top: 24px; padding-bottom:30px; width: 100%; height: 100%; font-size: 9pt;">
+              <div id="divLinks" style="width: 100%; height: 100%; overflow-y: auto;">
+                <span id="lnkPointDetail"
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+     
+                    title="Navigate to the detail display of the selected alarm" 
+     
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#259"/>
+                  </span>
+                  <span style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Detail Display
+                  </span>
+                </span>
+                <span id="lnkAssociatedDisplay" 
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+     
+                    title="Navigate to the associated display of the selected alarm" 
+     
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#251"/>
+                  </span>
+                  <span style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Associated Display
+                  </span>
+                </span>
+                <span id="lnkCardHolderDetail" 
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+     
+                    title="Navigate to the card holder detail display associated with the selected alarm" 
+     
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#252"/>
+                  </span>
+                  <span style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Card Holder Detail
+                  </span>
+                </span>
+                <span id="lnkCustomLink1" 
+                    title="Custom link 1" 
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img id="lnkCustomLink1Image" style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#258"/>
+                  </span>
+                  <span id="lnkCustomLink1Name" 
+                      style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Custom Link 1
+                  </span>
+                </span>
+                <span id="lnkCustomLink2" 
+                    title="Custom link 2" 
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img id="lnkCustomLink2Image" style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#258"/>
+                  </span>
+                  <span id="lnkCustomLink2Name" 
+                      style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Custom Link 2
+                  </span>
+                </span>
+                <span id="lnkCustomLink3" 
+                    title="Custom link 3" 
+                    onpropertychange="javascript:LinksAppliedUpdate(this);" 
+                    linkDisabled = "true"
+                    style="overflow: hidden; display: none; clear: left; position: relative; height:25px; padding-left: 10px; cursor: hand; white-space: nowrap;">
+                  <span style="overflow: hidden; width:22px;">
+                    <img id="lnkCustomLink3Image" style="position: relative; top: 3px;" src="res://AlarmStateIcon/GIF/#258"/>
+                  </span>
+                  <span id="lnkCustomLink3Name" 
+                      style="overflow: hidden; 
+                           text-overflow: ellipsis; 
+                         position: relative;
+                         height:17px; 
+                         width: 150px; 
+                         padding-left: 2px; 
+                         text-decoration: underline; 
+                         white-space: nowrap;">
+                    Custom Link 3
+                  </span>
+                </span>
+              </div>
+            </div>
+      
+            <div id="btnSaveDetails" 
+               OnHDXClick="javascript:SaveComments()"
+               title="Save comments"
+               disabled="true"
+               style="position: absolute; color: buttontext; bottom: 0px; right: 18px; width: 140px; height: 28px; behavior: url(#HDXElementsFactory#Button); font-size: 9pt;">
+               <img id="ImgSaveDetails" style="position: absolute; top: 5px; left: 4px;" src="Images/SaveDisabled.gif"/> 
+               <span style="position: absolute; top: 5px; left: 24px; text-align: center;">Save Comments</span>
+            </div>
+     </DIV>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+</DIV>
+</DIV> 
+      <div id="lblUnackLabel" style="display: inline; 
+            white-space: nowrap;
+            position: absolute;
+            cursor: default;
+            z-index: 1;
+            left: 10px;
+            bottom: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 190px;
+            height: 25px;">
+        Unacknowledged alarms: 
+      </div>
+
+      <div id="divUnackFilteredTotal"
+         style="display: inline;
+            white-space: nowrap;
+            position: absolute;
+            cursor: default;
+            left: 200px;
+            text-align: right;
+            z-index: 1;
+            bottom: 50px;
+            font-weight: bold;
+            overflow: hidden;
+            width: 35px;
+            height: 25px;">
+         
+      </div>
+
+      <div id="lblOfUnackTotal"
+         style="display: none;
+            white-space: nowrap;
+            position: absolute;
+            z-index: 1;
+            cursor: default;
+            left: 245px;
+            bottom: 50px;
+            text-align: center;
+            overflow: hidden;
+            width: 15px;
+            height: 25px;">
+        of
+      </div>
+        
+      <div id="divUnackUnfilteredTotal" 
+         style="display: none;
+            position: absolute;
+            cursor: default;
+            left: 267px;
+            bottom: 50px;
+            text-align: right;
+            border: 0px;
+            z-index: 1;
+            font-weight: bold;
+            background-color: transparent;
+            width: 35px;
+            height: 25px; 
+            overflow: hidden;">
+        
+      </div>
+
+      <div id="lblAckLabel" style="display: inline;
+            white-space: nowrap;
+            position: absolute;
+            cursor: default;
+            left: 10px;
+            bottom: 34px;
+            overflow: hidden;
+            z-index: 1;
+            text-overflow: ellipsis;
+            width: 190px;
+            height: 25px;">
+        Acknowledged alarms: 
+      </div>
+
+      <div id="divAckFilteredTotal"
+         style="display: inline;
+            white-space: nowrap;
+            position: absolute;
+            cursor: default;
+            text-align: right;
+            left: 200px;
+            z-index: 1;
+            font-weight: bold;
+            bottom: 34px;
+            overflow: hidden;
+            width: 35px;
+            height: 25px;">     
+        
+      </div>
+
+      <div id="lblOfAckTotal"
+         style="display: none;
+            white-space: nowrap;
+            position: absolute;
+            cursor: default;
+            left: 245px;
+            z-index: 1;
+            bottom: 34px;
+            overflow: hidden;
+            text-align: center;
+            width: 15px;
+            height: 25px;">
+        of
+      </div>
+        
+      <div id="divAckUnfilteredTotal" 
+         style="display: none;
+            position: absolute;
+            left: 267px;
+            border: 0px;
+            cursor: default;
+            font-weight: bold;
+            text-align: right;
+            bottom: 34px;
+            z-index: 1;
+            background-color: transparent;
+            width: 35px;
+            height: 25px; 
+            overflow: hidden;">
+        
+      </div>
+	  
+		<div id="lblShelvedLabel" style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 10px;
+                        bottom: 18px;
+                        overflow: hidden;
+                        z-index: 1;
+                        text-overflow: ellipsis;
+                        width: 190px;
+                        height: 25px;">
+                Shelved alarms:
+            </div>
+
+            <div id="divShelvedFilteredTotal"
+                 style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        text-align: right;
+                        left: 200px;
+                        z-index: 1;
+                        font-weight: bold;
+                        bottom: 18px;
+                        overflow: hidden;
+                        width: 35px;
+                        height: 25px;">
+
+            </div>
+
+            <div id="lblOfShelvedTotal"
+                 style="display: none;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 245px;
+                        z-index: 1;
+                        bottom: 18px;
+                        overflow: hidden;
+                        text-align: center;
+                        width: 15px;
+                        height: 25px;">
+                of
+            </div>
+
+            <div id="divShelvedUnfilteredTotal"
+                 style="display: inline;
+                        position: absolute;
+                        left: 267px;
+                        border: 0px;
+                        cursor: default;
+                        font-weight: bold;
+                        text-align: right;
+                        bottom: 18px;
+                        z-index: 1;
+                        background-color: transparent;
+                        width: 35px;
+                        height: 25px;
+                        overflow: hidden;">
+
+            </div>
+                    <div id="lblSuppressedLabel" style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 10px;
+                        bottom: 2px;
+                        overflow: hidden;
+                        z-index: 1;
+                        text-overflow: ellipsis;
+                        width: 190px;
+                        height: 25px;">
+                Suppressed alarms:
+            </div>
+
+            <div id="divSuppressedFilteredTotal"
+                 style="display: inline;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        text-align: right;
+                        left: 200px;
+                        z-index: 1;
+                        font-weight: bold;
+                        bottom: 2px;
+                        overflow: hidden;
+                        width: 35px;
+                        height: 25px;">
+
+            </div>
+
+            <div id="lblOfSuppressedTotal"
+                 style="display: none;
+                        white-space: nowrap;
+                        position: absolute;
+                        cursor: default;
+                        left: 245px;
+                        z-index: 1;
+                        bottom: 2px;
+                        overflow: hidden;
+                        text-align: center;
+                        width: 15px;
+                        height: 25px;">
+                of
+            </div>
+
+            <div id="divSuppressedUnfilteredTotal"
+                 style="display: inline;
+                        position: absolute;
+                        left: 267px;
+                        border: 0px;
+                        cursor: default;
+                        font-weight: bold;
+                        text-align: right;
+                        bottom: 2px;
+                        z-index: 1;
+                        background-color: transparent;
+                        width: 35px;
+                        height: 25px;
+                        overflow: hidden;">
+
+            </div>	  
+	  
+	              <div id="btnSilenceAudible"
+         title="Acknowledge page"
+         style="position: absolute; 
+            cursor: default;
+            right: 320px;
+            bottom: 32px;
+            height: 27px;
+            z-index: 1;
+            width: 180px;
+            overflow: hidden;
+            behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAckPage" src="Images/silence.png" style="position: absolute; left: 5px; top: 3px;"/>
+          <span style="position: absolute; top: 3px; left: 28px;">Silence </span>
+        </div>
+          
+            <div id="btnShelveAlarm"   
+           title="Resume updates"
+           style="position: absolute; 
+              cursor: default;
+              right: 300x;
+            bottom: 32px;
+              z-index: 1;
+              height: 27px;
+              width: 110px;
+              overflow: hidden;
+              behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAckPage" src="Images/Shelve.png" style="position: absolute; left: 5px; top: 3px;"/>
+          <span style="position: absolute; top: 3px; left: 28px;">Quick Shelve</span>
+        </div>
+
+            <div id="btnDialogShelveAlarm"  
+           disabled="true"
+           title="Resume updates"
+           style="position: absolute; 
+              cursor: default;
+              right: 180px;
+            bottom: 32px;
+              z-index: 1;
+              height: 27px;
+              width: 110px;
+              overflow: hidden;
+              behavior: url(#HDXElementsFactory#Button);">
+          <img id="ImgResume" src="Images/Shelve.png" style="position: absolute; left: 5px; top: 3px;"/>
+          <span style="position: absolute; top: 3px; left: 28px;">Shelve...</span>
+        </div>
+
+            <div id="btnUnshelveAlarm"
+         title="Acknowledge page"
+         style="position: absolute; 
+            cursor: default;
+            right: 9px;
+            bottom: 32px;
+            height: 27px;
+            z-index: 1;
+            width: 180px;
+            overflow: hidden;
+            behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAckPage" src="Images/Unshelve.png" style="position: absolute; left: 5px; top: 3px;"/>
+				  <span style="position: absolute; top: 3px; left: 28px;">Unshelve Alarm</span>
+				</div>
+        
+      <div id="btnAlarmOverflowAck" 
+          onclick="javascript:g_FocusedObject=window.event.srcElement;window.event.cancelBubble='true';" 
+          title="Clicking this button will cause the system to recover all alarms from the subsystems which have had alarms discarded because the alarm list reached the full condition.  This operation places load on the system so steps shold be taken to minimize the likelihood that the recovery operation will cause the system to reenter the alarm list full condition.  These steps include: 
+              - acknowledging and actioning inactive alarms 
+              - attempt to address the process upset that triggered the original alarm list full condition." 
+          OnHDXClick="javascript:RecoverAlarms()" 
+          style="position: absolute;  
+            cursor: default; 
+            right: 9px; 
+            bottom: 37px; 
+            height: 27px; 
+            width: 180px; 
+            z-index: 5; 
+            overflow: hidden; 
+            visibility: hidden; 
+            behavior: url(#HDXElementsFactory#Button);"> 
+        <span style="position: absolute; top: 3px; left: 28px;">Recover Alarms</span> 
+      </div>       
+      
+      <div id="divPaused" 
+         style="display: none;
+            position: absolute;
+            right: 395px;
+            border: 0px;
+            cursor: default;
+            font-weight: bold;
+            text-align: right;
+            bottom: 7px;
+            z-index: 1;
+            background-color: transparent;
+            width: 70px;
+            height: 23px; 
+            overflow: hidden;
+            color: red;">
+          (Paused)
+      </div>
+
+      <div id="btnPauseResume"
+         onpropertychange="javascript:SetPauseResumeDisable()"
+         btnPauseResumeDisabled="true"
+         style="display: inline;
+            position: absolute;
+            right: 230px;
+            bottom: 8px;
+            height: 27px;
+            width: 180px;
+            z-index: 1;">
+
+        <div id="btnPause"
+           onhdxclick="divPaused.style.display = 'inline'; btnResume.disabled = false; ImgResume.src='Images/Resume.gif'; this.disabled = true; ImgPause.src='Images/PauseDisabled.gif'"
+           disabled="true"
+           title="Pause updates"
+           style="position: absolute; 
+              cursor: default;
+              left: 0px;
+              top: 0px;
+              height: 27px;
+              width: 95px;
+              z-index: 1;
+              overflow: hidden;
+              behavior: url(#HDXElementsFactory#Button);">
+          <img id="ImgPause" src="Images/Pause.png" style="position: relative; left: 5px; top: 5px;"/>
+          <span style="position: absolute; top: 3px; left: 28px;">Pause</span>
+        </div>    
+
+        <div id="btnResume"
+           onhdxclick="divPaused.style.display = 'none'; btnPause.disabled = false; ImgPause.src='Images/Pause.gif'; this.disabled = true; ImgResume.src='Images/ResumeDisabled.gif'"
+           disabled="true"
+           title="Resume updates"
+           style="position: absolute; 
+              cursor: default;
+              left: 120px;
+              top: 0px;
+              z-index: 1;
+              height: 27px;
+              width: 95px;
+              color: threedshadow;
+              overflow: hidden;
+              behavior: url(#HDXElementsFactory#Button);">
+          <img id="ImgResume" src="Images/ResumeDisabled.png" style="position: absolute; left: 5px; top: 4px;"/>
+          <span style="position: absolute; top: 3px; left: 28px;">Resume</span>
+        </div>
+      </div>
+      
+      <div id="btnAckPage"
+         title="Acknowledge page"
+         style="position: absolute; 
+            cursor: default;
+            right: 9px;
+            bottom: 8px;
+            height: 27px;
+            z-index: 1;
+            width: 180px;
+            overflow: hidden;
+            behavior: url(#HDXElementsFactory#Button);">
+        <img id="imgAckPage" src="Images/Ack.png" style="position: absolute; left: 5px; top: 3px;"/>
+        <span style="position: absolute; top: 3px; left: 32px;">Acknowledge Page</span>
+      </div>
+        
+    <DIV id="divEntityFilter" 
+      filter="" 
+      onpropertychange="javascript:OnFilterChange();" 
+      style="position: absolute; 
+        white-space: nowrap; 
+        background-color: threedshadow; 
+        color: window; 
+        border: 1px solid buttontext; 
+        left: 276px; 
+        top: 60px; 
+        width: 310px; 
+        overflow-x: hidden; 
+        overflow-y: auto; 
+        z-index: 50; 
+        visibility: hidden;"> 
+    </DIV> 
+   </DIV>
+</BODY>
+</HTML>

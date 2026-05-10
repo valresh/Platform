@@ -1,0 +1,273 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="103px" height="40px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeload" language="VBScript" id=""><![CDATA[Page.SetAttribute "CMenu_GSH",me.id]]></script><script event="" language="VBScript" id="F4A378A5-DDBB-4C15-8638-B570199A27C6"><![CDATA['This shape provides the Solution Pack Context Menu functionality.
+'All subroutines are called within SP context menu files
+
+'Acknowledge the alarm on currently selected point
+sub acknowledge()
+    on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if	
+	oWnd.invokemenu2 "Acknowledge Alarm"
+end sub
+
+'Invoke detail display of currently selected point 
+sub detail()
+	on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if
+	oWnd.invokemenu2("Request Point Detail")	
+end sub
+
+'Invoke the trend group where currently selected point is configured or prompt for trend group number.
+sub trd_invoke()
+	on error resume next
+	dim oshape, custtrd
+	set oshape = document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	custtrd=oshape.getcustomproperty("num","cp_custtrd")
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if
+	if custtrd<>"" then 
+		oWnd.requestserverlrn 21,8,custtrd
+	else
+		oWnd.invokemenu2("request trend")
+	end if			
+end sub
+
+'Invoke the group where currently selected point is configured or prompt for group number.
+sub grp_invoke()
+	on error resume next
+	dim oshape, custgrp
+	set oshape = document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	custgrp = oshape.getcustomproperty("num","cp_custgrp")
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if
+	if custgrp <> "" then
+		oWnd.requestserverlrn 21,49,custgrp
+	else
+		oWnd.invokemenu2("request group")
+	end if
+end sub
+
+'Invoke associated display for currently selected point
+sub ascdsp()
+    on error resume next 
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if
+	oWnd.invokemenu2("associated display")
+end sub
+
+'Open help file using Windows Explorer, if configured in cm_file custom property
+sub help ()
+	on error resume next
+	dim oshape, spath, cm_file
+	set oshape = document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	cm_file = oshape.getcustomproperty("text","cm_file")
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oWnd=window.external
+    else
+	    set	oWnd=window.external.parentdocument.parentwindow.external 
+	end if
+	if instr(cm_file,"\")>0 then
+ 		oWnd.shell "explorer.exe " & cm_file,1
+	else
+ 		spath = page.document.url
+ 		spath=mid (spath,8,len(spath))
+ 		spath=mid (spath,1,instrrev(spath,"\"))  & "helpfiles\" & cm_file
+ 		spath = Replace(spath,"%20"," ")
+ 		oWnd.shell "explorer.exe " & spath,1
+	end if
+end sub
+
+'Called in OnPage event of the Help Item of the Context Menu. Manipulates the menu item text.
+sub pageload(osource)
+	on error resume next
+	dim oshape, spath, cm_file
+	set oshape = document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	cm_label = oshape.getcustomproperty("text","cm_label")
+	if (cm_label <> "") then	
+		oSource.all("text").innertext=" " & cm_label	
+		cm_file=oshape.getcustomproperty("text","cm_file")
+		if cm_file="" then osource.disabled=true		
+	end if
+end sub
+
+' Enable/Disable Add Traces to Trend functionality 
+sub AddTrdCnfg (oSource, sText)
+	On Error Resume Next
+	dim oShape, spath, cm_param
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+	end if
+	if isnull(oPage.getattribute("Trend_Sup_GSH")) then 
+   		oSource.disabled = True
+  		exit sub
+	end if
+	set oShape = document.getElementById(page.getattribute("LastSelection")).parentnode.parentnode
+	cm_param = oShape.GetCustomProperty("Parameter",sText)
+	if cm_param = "" then oSource.disabled = True
+end sub
+
+'Enable/Disable View Trend Configuration functionality. Called in OnPage event of View Trend Item
+Sub View_Trd_Load(oSource)
+	on error resume next
+		if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+	end if
+	
+	if isnull(oPage.getattribute("Trend_Sup_GSH")) or isnull(oPage.getattribute("TrdSel"))  then oSource.disabled = True
+    if oSource.id="mnu_View_TrdCnf" then
+		for each oObj in oPage.all
+	   		if instr(ucase(oObj.classname),"HSC.TREND.1")<>0 then oSource.disabled = True
+		next
+	end if	  
+end sub
+
+'View Trend Configuration if enabled in View_Trd_Load
+sub view_trd
+	dim oShape
+	on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+		set oWnd=window.external
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+		set oWnd=window.external.parentdocument.parentwindow.external
+	end if
+
+	set oshape=oPage.document.getelementbyid(oPage.getattribute("Trend_Sup_GSH"))
+	if oshape.objects("PbHide").style.visibility="visible" then oshape.objects("PbHide").click
+	oshape.style.zindex=5000
+	iPageWidth = oPage.style.pixelwidth
+	iSelectedShapeX = oPage.document.getelementbyid(oPage.getattribute("lastselection")).parentnode.parentnode.style.pixelleft
+	if iSelectedShapeX > iPageWidth/2 then
+		iTableLeft = 20
+	else
+		iTableLeft = iPageWidth - 420
+	end if
+	oshape.style.pixelleft=iTableLeft
+	oshape.style.pixeltop=80
+	oshape.objects("trdtbl").style.visibility="visible"
+	oshape.objects("trdtbl").style.pixelwidth=400
+	oshape.objects("PbHide").style.visibility="visible"
+	oshape.objects("PbHide").style.pixelleft=oshape.objects("PbHide").style.pixelleft+336
+	if oShape.objects("alpisprotected").value = 1 and oWnd.securitylevel<4 then oshape.objects("RecProtected").style.pixelwidth=400	
+end sub
+
+'Invoke mini trend popup
+sub view_mini_trend
+	dim oShape
+	on error resume next
+	set oShape = document.getElementById(page.getattribute("LastSelection")).parentnode.parentnode    
+	Trd_ParSP= oShape.GetCustomProperty("Parameter","Trd_PointSP")
+	DotLoc= Instr(1, Trd_ParSP,".")
+	sPointSP_CP= Mid(Trd_ParSP,1, DotLoc-1)
+	sParameterSP_CP = Mid(Trd_ParSP, DotLoc+1, 24)
+	cm_pointSP = oShape.GetCustomProperty("Point",sPointSP_CP)
+	if cm_pointSP = "" then cm_pointSP = sPointSP_cp
+	cm_paramSP = oShape.GetCustomProperty("Parameter",sParameterSP_CP)
+	if cm_paramSP = "" then cm_paramSP = sParameterSP_CP
+	Trd_ParPV= oShape.GetCustomProperty("Parameter","Trd_PointPV")
+	DotLoc= Instr(1, Trd_ParPV,".")
+	sPointPV_CP= Mid(Trd_ParPV,1, DotLoc-1)
+	sParameterPV_CP = Mid(Trd_ParPV, DotLoc+1, 24)
+	cm_pointPV = oShape.GetCustomProperty("Point",sPointPV_CP)
+	if cm_pointPV = "" then cm_pointPV = sPointPV_cp
+	cm_paramPV = oShape.GetCustomProperty("Parameter",sParameterPV_CP)
+	if cm_paramPV = "" then cm_paramPV = sParameterPV_CP
+    Trd_ParOP= oShape.GetCustomProperty("Parameter","Trd_PointOP")
+	DotLoc= Instr(1, Trd_ParOP,".")
+	sPointOP_CP= Mid(Trd_ParOP,1, DotLoc-1)
+	sParameterOP_CP = Mid(Trd_ParOP, DotLoc+1, 24)
+	cm_pointOP = oShape.GetCustomProperty("Point",sPointOP_CP)
+	if cm_pointOP = "" then cm_pointOP = sPointOP_cp
+	cm_paramOP = oShape.GetCustomProperty("Parameter",sParameterOP_CP)
+	if cm_paramOP = "" then cm_paramOP = sParameterOP_CP
+	xcoord=page.getstyleclassproperty("Mini_Trend","left_position")
+	ycoord=page.getstyleclassproperty("Mini_Trend","top_position")
+	set oSview=getobject("","Honeywell.Workspace.Client")
+	If oSview.IsManagerActive = false then
+		if xcoord="default" or ycoord="default" then
+			hdxpopupbehavior.createpopupwindow "Mini_Trend_Popup.htm?currentpoint=minitrd"& round (rnd*10000) & "&Point1=" & cm_pointPV & "&Point2=" & cm_pointSP & "&Point3=" & cm_pointOP & "&Parameter1=" & cm_paramPV & "&Parameter2=" & cm_paramSP & "&Parameter3="& cm_paramOP, 0, 0, 1
+		else 
+			set oMini_trd=HdxPopupBehavior.FindPopup("minitrd")
+			if typename(oMini_trd)<>"Nothing" then oMini_trd.close
+			hdxpopupbehavior.createpopupwindow "Mini_Trend_Popup.htm?currentpoint=minitrd"& round (rnd*10000) & "&Point1=" & cm_pointPV & "&Point2=" & cm_pointSP & "&Point3=" & cm_pointOP & "&Parameter1=" & cm_paramPV & "&Parameter2=" & cm_paramSP & "&Parameter3="& cm_paramOP, xcoord, ycoord, 0
+		end if
+    else
+		hdxpopupbehavior.createpopupwindow "Mini_Trend_Popup.htm?currentpoint=minitrd"& round (rnd*10000) & "&Point1=" & cm_pointPV & "&Point2=" & cm_pointSP & "&Point3=" & cm_pointOP & "&Parameter1=" & cm_paramPV & "&Parameter2=" & cm_paramSP & "&Parameter3="& cm_paramOP, 0, 0, 1
+	end if
+end sub
+
+' Invoke trend popup. called within sp_systrdsel_sm.xml
+sub trd_popup
+    on error resume next
+	if instr(typename(window.external),"IHDXPopupWindow")=0 then
+		set	oPage=page
+		set oWnd=window.external
+    else
+	    set	oPage=window.external.parentdocument.parentwindow.document.all.page 
+		set oWnd=window.external.parentdocument.parentwindow.external
+	end if
+	set oShape = oPage.document.getElementById(oPage.getattribute("Trend_Sup_GSH"))
+	sFP = "Chart_Popup_CP.htm?currentpoint=dummy" & oShape.objects("AlpTrendGrp").value
+	for i = 1 to 32
+		point = oshape.objects("TrdTbl").fields.item("Point.value").getvalue(i-1)
+		par = oshape.objects("TrdTbl").fields.item("Parameter.value").getvalue(i-1)
+		sFP = sFP & "&Point" & i & "=" & point & "&Parameter"& i & "=" & par
+	next
+	xcoord=page.getstyleclassproperty("Trend_popup","left_position")
+	ycoord=page.getstyleclassproperty("Trend_popup","top_position")
+	set oSview=getobject("","Honeywell.Workspace.Client")
+	If oSview.IsManagerActive = false then
+		if xcoord="default" or ycoord="default" then
+			hdxpopupbehavior.createpopupwindow sFP,0,0,1
+		else 
+			set oChrt_Popup=HdxPopupBehavior.FindPopup("dummy")
+			if typename(oChrt_Popup)<>"Nothing" then oChrt_Popup.close
+			hdxpopupbehavior.createpopupwindow sFP,xcoord,ycoord,0
+		end if
+    else
+		hdxpopupbehavior.createpopupwindow sFP,0,0,1
+	end if
+end sub
+
+'Enable/Disable Detail Display Functionality in Fire and Gas Context Menu.
+sub fire_gas_pageload(oSource)
+	dim oShape
+	on error resume next
+	set oshape = document.getelementbyid(page.getattribute("lastselection")).parentnode.parentnode
+	index = cint(right(oSource.id,1) )
+	mn_txt=oShape.getcustomproperty("Point",oShape.customproperties.Item(index).name)
+	if mn_txt="" then 
+   		oSource.disabled=true
+	else
+  		oSource.all("text").innertext="Detail " & ucase(mn_txt)  
+   		oSource.disabled=false
+	end if
+	if err.number <>0 then window.external.LogMessage "fire_gas_pageload ->" & oShape.ID & " " & oSource & " " & err.description 
+end sub
+
+'Invoke Detail Display for Fire and Gas point if enabled in fire_gas_pageload
+sub fire_gas_detail(oSource)
+    on error resume next
+	window.external.requesttask 21,73,0,0,0,mid(oSource.all("text").innertext,8,len(oSource.all("text").innertext)-7)
+end sub]]></script></scripts><parameters><parameter name="Revision" type="Num" description="" defaultvalue="R300, Rev.0"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtGSH class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 40px; FONT-FAMILY: Arial; WIDTH: 103px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffdab9; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 42px; TOP: 10px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#006400;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#ffdab9;textColorBlink:False;TotalRotation:-1;value:;Width:103;" globalscripts>CMenu&nbsp;General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

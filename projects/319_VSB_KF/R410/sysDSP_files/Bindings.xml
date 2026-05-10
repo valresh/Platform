@@ -1,0 +1,29 @@
+<hdx version="1.0">
+
+  <datasource ID="pageds" class="progid:HSCDataSources.Application" datasourcetype="DSPPAGE"/>
+
+  <binding ID="0">
+
+    <event sourcetype="dataobject" sourceobject="pageds" sourceevent="OnInitialize"
+	   targettype="pageelement" targetobject="element" targetmethod="Initialize" eventtype="dispatch"/>
+
+    <event sourcetype="dataobject" sourceobject="pageds" sourceevent="OnProcessPacket"
+	   targettype="pageelement" targetobject="element" targetmethod="ProcessPacket" eventtype="dispatch"/>
+
+    <event sourcetype="dataobject" sourceobject="pageds" sourceevent="OnRequestDSPLoad"
+	   targettype="pageelement" targetobject="element" targetmethod="RequestDSPLoad" eventtype="dispatch"/>
+
+    <event targettype="dataobject" targetobject="pageds" targetmethod="SendTaskRequest"
+	   sourcetype="pageelement" sourceobject="element" sourceevent="OnSendTaskRequest" eventtype="dispatch"/>
+
+    <event targettype="dataobject" targetobject="pageds" targetmethod="SendInterrupt"
+	   sourcetype="pageelement" sourceobject="element" sourceevent="OnSendInterrupt" eventtype="dispatch"/>
+
+    <event targettype="dataobject" targetobject="pageds" targetmethod="SendReply"
+	   sourcetype="pageelement" sourceobject="element" sourceevent="OnSendReply" eventtype="dispatch"/>
+
+
+  </binding>
+
+
+</hdx>

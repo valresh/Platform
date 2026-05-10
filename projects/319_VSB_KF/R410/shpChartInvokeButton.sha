@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="sequence" title="" description="" useFirstShapeForBadValue="0" width="169px" height="23px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="onshapeload" language="VBScript" id=""><![CDATA[On Error Resume Next
+'getting the label used for the Button from custom properties of shape
+	strLabel = me.GetCustomProperty("Value", "Label")
+	strPointName = me.GetCustomProperty("Point", "TagName")
+	if strLabel <> "" then
+		pbLaunchOnline.value = strLabel
+	else
+	pbLaunchOnline.value = 	strPointName
+	End if]]></script></scripts><parameters><parameter name="TagName" type="Point" description="" defaultvalue=""/><parameter name="Label" type="Value" description="" defaultvalue="Invoke Chart View"/></parameters><shapes><shape><element><html><content><![CDATA[<INPUT tabIndex=-1 id=pbLaunchOnline title="" class=hsc.button.1 style="CURSOR: hand; FONT-SIZE: 10pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 2px; HEIGHT: 23px; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 2px; WIDTH: 169px; BACKGROUND-IMAGE: url(file:./shpChartInvokeButton_files/btnBase_168x23.png); BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 204px; BORDER-LEFT: #ffffff 2px; TOP: 72px; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button value="{%Value::Label%}    " hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColor:#ffffff;lineColorBlink:False;textColor:#000000;textColorBlink:False;" shapesrc=".\shpChartInvokeButton_files\btnBase_168x23.png">]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[on error resume next
+Dim strPointName 
+strPointName = me.parentNode.GetCustomProperty("Point", "TagName")
+	'If Point Name is empty do not do anything
+	Dim objPopupWindow
+	dim displayname 
+	set objPopupWindow = HDXPopupBehavior.FindPopup("sysPopUpChartView.htm")
+	if objPopupWindow is nothing then
+		HDXPopupBehavior.CreatePopupWindow "sysPopUpChartView.htm?CurrentPoint=" + strPointName, 1, 1, 1
+	else
+		objPopupWindow.close
+		HDXPopupBehavior.CreatePopupWindow "sysPopUpChartView.htm?CurrentPoint=" + strPointName, 1, 1, 1
+	end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element></shape></shapes></shapefile>

@@ -1,0 +1,201 @@
+/*****************************************************************************
+Copyright (C) 2008 HONEYWELL INTERNATIONAL SARL
+$Archive: /System Displays/_Master/Experion PKS/Styles/EPKS.css $								
+$Workfile: EPKS.css $												
+$Modtime: 4/02/09 10:31a $											
+$Revision: 29 $
+$Author: Jcheung $														
+******************************************************************************
+This stylesheet contains the HTML styles that define the appearance of
+various elements of a standard system display that are peculiar to the 
+'EPKS' branded releases.
+******************************************************************************
+The stylesheet cascade for System Displays is:
+SystemDisplayLayout.css (optional)
+System.css
+EPKS.css
+
+Of the last three, the references should always be present but the only the
+stylesheet for the actual system type should be included.
+*****************************************************************************/
+
+.TitleBar
+{
+	background-color: #9DB2C5;
+}
+/*----------------------------------------------------------------------------
+TopLeft
+------------------------------------------------------------------------------
+The TopLeft CSS class is for the element that provides the top-left title for
+the set of displays that this one belongs to.
+----------------------------------------------------------------------------*/ 
+.TopLeft
+{
+
+	font-family: Helvetica;
+	background-color:		#9DB2C5;
+	background-repeat:		no-repeat;
+}
+
+/*----------------------------------------------------------------------------
+NavPane
+------------------------------------------------------------------------------
+The NavPane element takes up the rest of the left-hand bar of the display
+below the TopLeft title element.
+----------------------------------------------------------------------------*/ 
+.NavPane
+{
+	font-family: Helvetica;
+	background-image: none;
+	background-color: #EDF1F6; 
+	color:  #1F477D;
+}
+
+.NavPane a, .NavPane table
+{
+	color:  #1F477D;
+}
+
+.NavPane .Selected, .NavPane .selected
+{
+	border-style: solid;
+	border-color: #1F477D;
+	border-width: 1px;
+	background-color: #EDF1F6;
+	font-weight: bold;
+}
+
+.NavPane h1, .NavPane h2, .NavPane h3, 
+.NavPane h4, .NavPane h4 a, 
+.NavPane h5, .NavPane h5 a, 
+.NavPane h6, .NavPane h6 a, 
+.NavPane .heading, .NavPane .heading a
+.NavPane .Heading, .NavPane .Heading a
+{
+	color:  #1F477D;
+}
+
+.NavPane .heading, .NavPane .subheading
+{
+	font-weight: normal;
+}
+
+.NavPane hr	
+{
+	color:  #1F477D;
+}
+
+.NavPane viewlink\:SystemButton
+{
+}
+
+
+/*----------------------------------------------------------------------------
+.NavPane.popup
+------------------------------------------------------------------------------
+A popup navpane (i.e. the dropdown Operator's menu) has slightly differect
+colours so it can be seen over the top of the sidebar NavPane.
+----------------------------------------------------------------------------*/ 
+.popup .NavPane,
+.NavPane[class*=popup]
+{
+	background-color: #EDF1F6;
+	border: outset 1px #808080;
+}
+
+.popup .NavPane li *,
+.NavPane[class*=popup] li *
+{
+	padding-top:    0.7% ;
+	padding-bottom: 0.8% ;
+	color: #1F477D;
+}
+
+
+.popup .NavPane .Selected, .NavPane[class*=popup] .selected
+{
+	border-style: none;
+	background-color: #EDF1F6;
+	font-weight: normal;
+}
+/*----------------------------------------------------------------------------
+TitleBar
+------------------------------------------------------------------------------
+The TitleBar element stretches across the top of the display to the right of
+the LeftBar element.
+----------------------------------------------------------------------------*/ 
+/* There are no EPKS specific overrides for the TitleBar styles */
+
+/*----------------------------------------------------------------------------
+TabSet
+------------------------------------------------------------------------------
+The TabSet element stretches across the top of the display under the TitleBar
+and to the right of the LeftBar element. 
+----------------------------------------------------------------------------*/ 
+.TabSet .TabScroller
+{
+	color: #444159;  /* Will be used as the color of inactive tabs by the TabSet object */
+	type: gradient;  /* This will make inactive tabs to have a gradient fill.  The top part
+                        of the tab will be white, and the bottom part will be the 'color'
+                        specified here. */
+}
+
+/*----------------------------------------------------------------------------
+ActionBar
+------------------------------------------------------------------------------
+The ActionBar element is an optional region at the right-hand edge of
+the DisplayArea. In EBI, it has the same colour as the tabs, with black text.
+----------------------------------------------------------------------------*/ 
+.ActionBar
+{
+	background-color: #F9F2BC;
+	color: #000000;
+}
+
+/*----------------------------------------------------------------------------
+DetailsArea
+------------------------------------------------------------------------------
+The DetailsArea is the main part of the display space under the TabSet and to 
+the right of the NavPane. In EBI, it has the watermark for a background.
+----------------------------------------------------------------------------*/ 
+.DetailsArea
+{
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+/*----------------------------------------------------------------------------
+Button Styles
+------------------------------------------------------------------------------
+The style classes below are for various types of buttons that can be used
+anywhere on the displays.
+----------------------------------------------------------------------------*/ 
+
+/* 
+IE6 annoyance: it would be nice to be able to apply this to .PanelButton.Selected,
+(CSS2 standard for matching multiple class names) but that syntax is not supported
+by IE6: it matches _all_ Selected objects instead. This is fixed in IE7.
+*/
+.NavPane .SelectedPanelButton	
+{
+	background-color: #F9F2BC;
+	color: #808080;
+}
+
+
+/*----------------------------------------------------------------------------
+PushButton
+------------------------------------------------------------------------------
+A standard-row-height-sized button which  is used for triggering minor
+changes or scripts within a single display that don't affect the way the 
+system works.
+----------------------------------------------------------------------------*/ 
+.PushButton
+{
+	background-color: #F2F2F2;
+}
+
+/*****************************************************************************
+Copyright (C) 2008 HONEYWELL INTERNATIONAL SARL
+*****************************************************************************/
+

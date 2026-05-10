@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:p="urn:schemas-microsoft-com:office:powerpoint" xmlns:w="urn:schemas-microsoft-com:office:word">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">
+    <title>NavigationList</title>
+    <object id="HDXPageBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:56144F51-84F2-11D3-8114-00C04F68E0F9"></object>
+    <object id="HDXAlphaBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:00FD97E5-43FE-11D3-964E-00609738C4CB"></object>
+    <object id="HSCCheckBoxBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238"></object>
+    <object id="HSCComboboxBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B"></object>
+    <object id="HDXPopupBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE"></object>
+    <object id="BindingBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2"></object>
+    <object id="DisplayDataRepository" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:0113964D-CFC2-453a-BA5F-DF740C170064"></object>
+    <object id="StnEvtReflector" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D"></object>
+    <object id="HDXElementsFactory" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:2592890C-11DD-4818-BB62-9640E4A050D1"></object>
+    <object id="AlarmStateIconFactory" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:32C06040-FF05-4F15-90EB-9C56D098D188"></object>
+    <object id="HoverBehavior" style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" codeBase="" classid="clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D"></object>
+    <script type="text/javascript">
+      var hmiwebJSBasePath = window.external.FrameworkServices.HMIWebJSBasePath;
+      var elem = document.createElement('script');
+      elem.src = hmiwebJSBasePath + "/lib/require.js";
+      elem.type = "text/javascript";
+      elem.setAttribute("data-main", "sysDisplayLinks_files/mainDisplayLinks");
+      document.getElementsByTagName('head')[0].appendChild(elem);
+      
+      elem = document.createElement('link');
+      elem.href = hmiwebJSBasePath + "/asari/styles/sysEquipment.css";
+      elem.type = "text/css";
+      elem.rel = "stylesheet";
+      document.getElementsByTagName('head')[0].appendChild(elem);
+      
+      elem = document.createElement('link');
+      elem.href = hmiwebJSBasePath + "/asari/styles/sysDisplayLinks.css";
+      elem.type = "text/css";
+      elem.rel = "stylesheet";
+      document.getElementsByTagName('head')[0].appendChild(elem);
+      
+    </script>
+  </head>
+  <body scroll="no">
+    <div id="Page" style="BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository)">
+      <div id="header" class="ui-layout-north">
+        <div class="displayLinkContainer">
+          <div class="displayLink">
+            <div class="displayAlarmAndIcon">
+              <div data-bind="visible: showHome, click: returnHome" class="homeBackContainer"><span data-bind="with: pointParameterViewModel">
+                  <div data-bind="template: { name: VIEW_TEMPLATE_NAME }" class="homeLinkAlarmIcon"></div></span>
+                <div class="leftarrow"><img data-bind="hscImage: 'displaylinks_left.png'"></div><span data-bind="hscString:'back'" class="favourite"></span>
+              </div>
+              <div data-bind="text: currentTitle" class="displayTitle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="mainContent" class="ui-layout-center">
+        <!-- ko if: mainContentTemplate()-->
+        <div id="templateContent" data-bind="template: { name: mainContentTemplate(), data: view.mainContent, afterRender: initInnerLayout }" class="ui-layout-center"></div>
+        <!-- /ko-->
+        <div data-bind="hscDisplayLinks: $data" class="scrollArea">
+          <ul data-bind="foreach: displayGroupLinks, visible: showDisplayGroupLinks" class="displayLinkList">
+            <li>
+              <div data-bind="template: { name: VIEW_TEMPLATE_NAME, data: $data }"></div>
+            </li>
+          </ul>
+          <ul data-bind="foreach: displayLinks, visible:showDisplayLinks" class="displayLinkList">
+            <li>
+              <div data-bind="template: { name: VIEW_TEMPLATE_NAME, data: $data }"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="footer" class="ui-layout-south">
+        <div data-bind="click: saveFavourite" class="saveFavourite">
+          <div class="favouriteblock">
+            <div data-bind="css: {'favouritePlusDisabled': disableAddFavourites}" class="favouritePlus"></div><span data-bind="hscString:'save', css: {'favouritesDisabled': disableAddFavourites}" class="favourite"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

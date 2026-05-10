@@ -1,0 +1,477 @@
+<HTML>
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<title>Column Organizer</title>
+
+<style type="text/css">
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<!-- Logging routines -->
+<script language="JScript" src="../Scripts/Logging.js"></script>
+
+<!-- Error handling routines -->
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+
+<script language="JScript" DEFER>
+
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+// Some key-codes used in key-press handling
+
+var VK_ESC				= 27;
+var VK_ENTER			= 13;
+
+// ----------------------------------------------------------------------------------
+// Global variables
+// ----------------------------------------------------------------------------------
+
+var g_oEntry			= null;
+var g_bChanged			= false;
+var g_oTable			= null;
+var g_oTDO				= null;
+
+// ----------------------------------------------------------------------------------
+// DoLoad
+//
+//	Invoked by the 'onload' event of the body element. It is responsible for 
+//	retrieving and restoring the previous state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function DoLoad()
+{
+	g_oTable = window.dialogArguments;
+	g_oTDO = g_oTable.Binding.DataObjects.Item(0);
+
+	try
+	{
+		if( g_oTable == null )
+			throw "window.dialogArguments was null";
+
+		if( g_oTDO == null )
+			throw "Cannot access the table data object";
+			
+		if( g_oTable.TableReadyState != "ready" )
+			throw "Table was not ready. State = " + g_oTable.TableReadyState;
+
+		g_oTable.attachEvent("onreadystatechange", OnTableStateChange);
+			
+		var i = 0;
+		
+		var strHTML = templateXML.text;
+		var column  = null;
+		var entry   = null;
+		
+		for(i=0; i<g_oTable.count; i++)
+		{
+			column = g_oTable.columns.item(i);
+			
+			divColumns.insertAdjacentHTML("beforeEnd", strHTML);
+			entry = divColumns.lastChild;
+			entry.id = column.id;
+
+			if( column.hidden )
+				entry.firstChild.checked = false;
+			else
+				entry.firstChild.checked = true;
+
+			try
+			{
+				entry.lastChild.innerText = g_oTDO.GetColumnName(column.id);
+			}
+			catch( err )
+			{
+				entry.lastChild.innerText = column.id;
+			}
+		}
+
+		// These won't take affect until IE6 
+		document.body.onfocusin = DoFocus;
+		document.body.onfocusout = DoBlur;
+	}
+	catch( err )
+	{
+		HANDLE_ERROR("DoLoad", err.number, err.description);
+		Close();
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// DoFocus
+//
+//	Sugar-coating for the dialog. Causes a selected item to appear blur'd when the 
+//	dialog does not have focus.
+// ----------------------------------------------------------------------------------
+
+function DoFocus()
+{
+	if( g_oEntry != null )
+	{
+		g_oEntry.style.backgroundColor = "highlight";
+		g_oEntry.style.color = "highlighttext";	
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// DoBlur
+//
+//	Sugar-coating for the dialog. Causes a selected item to appear blur'd when the 
+//	dialog does not have focus.
+// ----------------------------------------------------------------------------------
+
+function DoBlur()
+{
+	if( g_oEntry != null )
+	{
+		g_oEntry.style.backgroundColor = "inactiveborder";
+		g_oEntry.style.color = "buttontext";	
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// Changed
+//
+//	When the user makes a modification to the state settings, this function is called
+//	to allow the use of the Apply button.
+// ----------------------------------------------------------------------------------
+
+function Changed()
+{
+	g_bChanged = true;
+	btnApply.disabled = false;
+}
+
+// ----------------------------------------------------------------------------------
+// Select
+//
+//	Called when the user selects an item from the column list.
+// ----------------------------------------------------------------------------------
+
+function Select(entry)
+{
+	if( g_oEntry != null )
+	{
+		g_oEntry.style.backgroundColor = "";
+		g_oEntry.style.color = "";	
+	}
+		
+	entry.style.backgroundColor = "highlight";
+	entry.style.color = "highlighttext";	
+	g_oEntry = entry;
+	
+	CheckPosition();	
+}
+
+// ----------------------------------------------------------------------------------
+// SelectAll
+//
+//	Select all items in the column list
+// ----------------------------------------------------------------------------------
+
+function SelectAll()
+{
+	var entry = null;
+
+	for(var i=0; i<divColumns.children.length; i++)
+	{
+		entry = divColumns.children(i);
+		entry.firstChild.checked = true;
+	}		
+
+	Changed();
+}
+
+// ----------------------------------------------------------------------------------
+// CheckPosition
+//
+//	Called to check the position of the currently selected column item so the 
+//	disabled state of the move-up and move-down buttons can be updated accordingly.
+// ----------------------------------------------------------------------------------
+
+function CheckPosition()
+{
+	if( g_oEntry == null )
+		return;
+		
+	btnMoveUp.disabled = (g_oEntry == divColumns.firstChild);
+	btnMoveDown.disabled = (g_oEntry == divColumns.lastChild);
+}
+
+// ----------------------------------------------------------------------------------
+// MoveUp
+//
+//	Moves the selected item up in the column order.
+// ----------------------------------------------------------------------------------
+
+function MoveUp()
+{
+	if( g_oEntry == null )
+		return;
+		
+	var previous = g_oEntry.previousSibling;
+	
+	if( previous != null )
+	{
+		// There's a bug with swapNode that doesn't transfert the 'checked attribute
+		var bChecked  = g_oEntry.firstChild.checked;
+		var bChecked2 =	previous.firstChild.checked;
+		
+		g_oEntry.swapNode( previous );	
+		
+		g_oEntry.firstChild.checked = bChecked;
+		previous.firstChild.checked = bChecked2;
+		
+		CheckPosition();
+		Changed();
+		
+		if( divColumns.scrollTop > g_oEntry.offsetTop )
+			g_oEntry.scrollIntoView(true);
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// MoveDown
+//
+//	Moves the selected item down in the column order.
+// ----------------------------------------------------------------------------------
+
+function MoveDown()
+{
+	if( g_oEntry == null )
+		return;
+		
+	var next = g_oEntry.nextSibling;
+
+	if( next != null )
+	{
+		// There's a bug with swapNode that doesn't transfert the 'checked attribute
+		var bChecked  = g_oEntry.firstChild.checked;
+		var bChecked2 =	next.firstChild.checked;
+		
+		g_oEntry.swapNode( next );	
+		
+		g_oEntry.firstChild.checked = bChecked;
+		next.firstChild.checked = bChecked2;
+		
+		CheckPosition();
+		Changed();
+
+		if( g_oEntry.offsetTop + g_oEntry.offsetHeight > divColumns.scrollTop + divColumns.offsetHeight )
+			g_oEntry.scrollIntoView(false);
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// Apply
+//
+//	Updates the table state based on the current configuration.
+// ----------------------------------------------------------------------------------
+
+function Apply()
+{
+	if( !g_bChanged )
+		return;
+
+	try
+	{
+		var strStateXML = "<state>";
+		var entry = null;
+		var id = "";
+		
+		for(var i=0; i<divColumns.children.length; i++)
+		{
+			entry = divColumns.children(i);	
+			if( entry.firstChild.checked )
+			{
+				id = entry.id;
+				strStateXML += "<colref id=\"" + id + "\" width=\"" +
+							   g_oTable.columns.item(id).width + "\" />";
+			}
+		}
+		
+		strStateXML += "</state>";
+		
+		g_oTDO.setState("", strStateXML);
+		
+		btnApply.disabled = true;
+		g_bChanged = false;
+	}
+	catch( err )
+	{
+		HANDLE_ERROR("Apply", err.number, err.description);
+		Close();
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// OnTableStateChange
+//
+//	Called when the table's state changes.
+// ----------------------------------------------------------------------------------
+
+function OnTableStateChange()
+{
+	if( g_oTable.TableReadyState != "ready" )
+	{
+		LogErrorMessage("ColumnOrganizer::OnTableStateChange", "Table ready state != 'ready'");
+		Close();
+	}	
+}
+
+// ----------------------------------------------------------------------------------
+// Close
+//
+//	Closes the window.
+// ----------------------------------------------------------------------------------
+
+function Close()
+{
+	if( g_oTable != null )
+	{
+		g_oTable.detachEvent("onreadystatechange", OnTableStateChange);
+	}
+	
+	window.close();
+}
+
+// ----------------------------------------------------------------------------------
+// DoKeyPress
+//
+//	Invoked by the 'onkeypress' event on the body element. This is used to provide
+//	keyboard support for such keys as 'ESC' and 'ENTER'
+// ----------------------------------------------------------------------------------
+
+function DoKeyPress()
+{
+	var key = window.event.keyCode;
+
+	switch(key)
+	{
+	case VK_ESC:
+		Close();
+		break;
+
+	case VK_ENTER:
+
+		// ENTER on a button element
+		if( window.event.srcElement.tagName != "BUTTON" )
+		{
+			Apply(); 
+			Close();
+		}
+	}
+}
+
+</script>
+
+</HEAD>
+<BODY onkeypress="DoKeyPress()"
+	  onload="InitializeLogger(); DoLoad()"
+	  onunload="TerminateLogger();"
+	  style="background-color: buttonface;
+			 margin: 5px;">
+
+Check the columns you would like to make visible in the table. Use the move up and move down buttons to reorder the columns.
+
+<xml id="templateXML">
+<entry>
+<![CDATA[
+
+	<div onmousedown="Select(this)"
+		 style="position: relative; width: 100%; height: 20px; overflow: hidden;">
+		<input onclick="Changed()" type="checkbox" style="position: relative;">
+		<span style="position: relative; left: -2; top: -2;"></span>
+	</div>
+
+]]>
+</entry>
+</xml>
+
+<div id="divColumns"
+		style="position: absolute; 
+			   cursor: default;
+			   left: 10px; 
+			   top: 75px; 
+			   width: 180px; 
+			   height: 170px;
+			   overflow-y: scroll;
+			   overflow-x: hidden;
+			   border: 1px inset;
+			   background-color: window;">
+			   
+</div>
+
+<button id="btnMoveUp"
+		onclick="MoveUp()"
+		disabled=true
+		style="position: absolute; 
+			   top: 75px;
+			   left: 195px;
+			   width: 90px;
+			   height: 22px;">
+			   Move Up
+</button>
+
+<button id="btnMoveDown"
+		onclick="MoveDown()"
+		disabled=true
+		style="position: absolute; 
+			   top: 100px;
+			   left: 195px;
+			   width: 90px;
+			   height: 22px;">
+			   Move Down
+</button>
+
+<button id="btnSelectAll"
+		onclick="SelectAll()"
+		style="position: absolute; 
+			   top: 125px;
+			   left: 195px;
+			   width: 90px;
+			   height: 22px;">
+			   Select All
+</button>
+
+<hr style="position: absolute; left: 10px; top: 255px; width: 275px;" />
+
+<button id="btnOK"
+		onclick="Apply(); Close();"
+		style="position: absolute; 
+			   top: 265px;
+			   left: 65px;
+			   width: 70px;
+			   height: 22px;">
+			   OK
+</button>
+
+<button id="btnCancel"
+		onclick="Close();"
+		style="position: absolute; 
+			   top: 265px;
+			   left: 140px;
+			   width: 70px;
+			   height: 22px;">
+			   Cancel
+</button>
+
+<button id="btnApply"
+		onclick="Apply()"
+		disabled=true
+		style="position: absolute; 
+			   top: 265px;
+			   left: 215px;
+			   width: 70px;
+			   height: 22px;">
+			   Apply
+</button>
+
+</BODY>
+</HTML>

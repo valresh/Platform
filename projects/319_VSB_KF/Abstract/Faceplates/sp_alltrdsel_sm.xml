@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="M:\Products\VT\R4\Testing\Alpha Tests\contextMenuFiles\contextMenu.xslt"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="130" height="45">                
+	
+	<menuitem id="mnu_trd" acceleratorKey="">		       	
+		<script type="onclick">       
+			window.external.application.requesttask (21,"%trend%",-1,0,0,"systnd03");
+			//window.external.application.requestserverlrn(21,8,(window.external.application.currentfieldoffset));
+			window.external.CloseShortcutMenu()
+      		</script>
+		<text>Invoke Trend</text>
+		<image>.\toolbar\tb010.bmp</image>
+	</menuitem>
+	
+	<menuitem id="mnu_View_TrdCnf" acceleratorKey="">
+	                <script type="onpage">       
+	         		window.external.parentwindow.view_trd_load(this);
+	      		</script>
+			<script type="onclick">       
+				window.external.parentwindow.view_trd();
+				window.external.CloseShortcutMenu();
+	      		</script>
+			<text>View Trd Cnf </text>
+			<image>.\Images\ViewConfig.gif</image>
+	</menuitem>
+	
+	<menuitem id="mnu_Invoke_Trd_Popup" acceleratorKey="">
+		         <script type="onpage">       
+		         	window.external.parentwindow.view_trd_load(this);
+		      	</script>
+			<script type="onclick">       
+				window.external.parentwindow.trd_popup();
+				window.external.CloseShortcutMenu();
+		      	</script>
+			<text>Invoke Trd Popup </text>
+			<image>.\toolbar\tb010.bmp</image>
+	</menuitem>
+	
+</menu>
+

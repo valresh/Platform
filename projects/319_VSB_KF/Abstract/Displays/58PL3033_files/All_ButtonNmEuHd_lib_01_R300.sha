@@ -1,0 +1,117 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="96px" height="24px"><versionheaders><versionheader name="PS" value="5.511"/></versionheaders><stylesheets><stylesheet src="D:\WORK\KIRISHI\Displays\CSS\sp.css"/></stylesheets><scripts><script event="" language="VBScript" id="723F5936-2443-4ADE-A742-C4D4D1685491"><![CDATA[sub Butt_Page_OnShapeLoad(oSource, sShow)
+on error resume next
+set txtName = oSource.objects("TxtName")
+set txtEUDesc = oSource.objects("TxtEUDesc")
+
+if sShow="Имя" then
+  txtName.style.visibility="inherit"
+  txtEUDesc.style.visibility="hidden"
+elseif sShow="ИзмЕ" then
+  txtName.style.visibility="hidden"
+  txtEUDesc.style.visibility="inherit"
+else 
+  txtName.style.visibility="hidden"
+  txtEUDesc.style.visibility="hidden"
+end if
+
+sTagEU = oSource.getcustomproperty("Text","cp_TagnameEU")
+if sTagEU <> "-" then
+	if sTagEU<> "" then
+		if instr(sTagEU,",")<>0 then
+			sTag = left(sTagEU,instr(sTagEU,",")-1)
+			sEU	= ltrim(mid(sTagEU,instr(sTagEU,",")+1))
+		elseif instr(sTagEU,",")=1 then
+			sTag = ""
+			sEU	= ltrim(mid(sTagEU,instr(sTagEU,",")+1))
+		else
+			sTag = sTagEU
+			sEU	= ""
+		end if
+		txtEUDesc.innertext = sEU
+	else
+		if instr(oSource.src,"PU_")>0 then 
+			sTag=oSource.objects("ScConAlpPV").datavalue("tagname.name")
+        else 
+		    sTag = oSource.getcustomproperty("Point","Tagname")
+        end if 
+				
+		if oSource.getcustomproperty("Parameter","cp_eudesc")<>"" then sEU = oSource.objects("ScConAlpPv").datavalue("Tagname.cp_eudesc")
+	end if
+	txtName.innertext = sTag
+	txtEUDesc.innertext = sEU
+else
+	txtName.style.visibility="hidden"
+  	txtEUDesc.style.visibility="hidden"
+end if
+
+
+end sub]]></script><script event="onshapeload" language="VBScript" id=""><![CDATA[page.setattribute "ToggleButtons", me.id
+dim oShape
+	on error resume next
+	sShow=window.external.dictionary.item("NameUnitsHidden").value
+	for each oShape in Page.children.tags("DIV")
+  		if oShape.classname="hsc.shape.1" then
+ 			if typename(oShape.objects("TxtName"))<>"Nothing" then
+    			call Butt_Page_OnShapeLoad(oShape,sShow)
+ 			end if 
+  		end if 
+	next
+	bFP=false
+	set oPop=hdxpopupbehavior.findpopup("1oo1")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("1oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo3")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=true then 
+    	for each oShape in oPop.document.all.page.children.tags("DIV")
+  			if oShape.classname="hsc.shape.1" then
+ 				if typename(oShape.objects("TxtName"))<>"Nothing" then
+    				call Butt_Page_OnShapeLoad(oShape,sShow)
+ 				end if 
+  			end if 
+		next   
+	end if]]></script></scripts><parameters><parameter name="Revision" type="Num" description="" defaultvalue="R300, Rev. 0"/></parameters><shapes><shape><group><element><html><content><![CDATA[<INPUT class="hsc.button.1 Buttons" id=pshName style="BORDER-RIGHT: #ffffff 2px outset; BORDER-TOP: #ffffff 2px outset; FONT-SIZE: 8pt; LEFT: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BORDER-LEFT: #ffffff 2px outset; WIDTH: 33.33%; COLOR: #000000; BORDER-BOTTOM: #ffffff 2px outset; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; POSITION: absolute; TOP: 0%; HEIGHT: 100%; BACKGROUND-COLOR: #d4d0c8; TEXT-ALIGN: center; TEXT-DECORATION: none" tabIndex=0 type=button value=Имя hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColor:#ffffff;lineColorBlink:False;styleClass:Buttons;textColor:#000000;textColorBlink:False;" globalscripts>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="DataSourceObj.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="0"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value=""/><property name="TaskParam2" varianttype="VT_BSTR" value=""/><property name="TaskParam3" varianttype="VT_BSTR" value=""/><property name="TaskParam4" varianttype="VT_BSTR" value=""/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><property ID="ButtonQuality" sourceobject="dso1" sourceproperty="Quality" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetproperty="quality" hidden="false" editable="true"/><event ID="ButtonHit" sourceobject="element" sourceevent="onclick" sourcetype="pageelement" targettype="dataobject" targetobject="dso1" targetmethod="hit" eventtype="dispatch"/><event ID="ButtonCallup" sourceobject="dso1" sourceevent="OnPageCallup" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetmethod="CallupPage" eventtype="dispatch"/></binding></element><element><html><content><![CDATA[<INPUT class="hsc.button.1 Buttons" id=pshEU style="BORDER-RIGHT: #ffffff 2px outset; BORDER-TOP: #ffffff 2px outset; FONT-SIZE: 8pt; LEFT: 33.33%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BORDER-LEFT: #ffffff 2px outset; WIDTH: 33.33%; COLOR: #000000; BORDER-BOTTOM: #ffffff 2px outset; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; POSITION: absolute; TOP: 0%; HEIGHT: 100%; BACKGROUND-COLOR: #d4d0c8; TEXT-ALIGN: center; TEXT-DECORATION: none" tabIndex=0 type=button value=ИзмЕ hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColor:#ffffff;lineColorBlink:False;styleClass:Buttons;textColor:#000000;textColorBlink:False;" globalscripts>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="DataSourceObj.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="0"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value=""/><property name="TaskParam2" varianttype="VT_BSTR" value=""/><property name="TaskParam3" varianttype="VT_BSTR" value=""/><property name="TaskParam4" varianttype="VT_BSTR" value=""/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><property ID="ButtonQuality" sourceobject="dso1" sourceproperty="Quality" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetproperty="quality" hidden="false" editable="true"/><event ID="ButtonHit" sourceobject="element" sourceevent="onclick" sourcetype="pageelement" targettype="dataobject" targetobject="dso1" targetmethod="hit" eventtype="dispatch"/><event ID="ButtonCallup" sourceobject="dso1" sourceevent="OnPageCallup" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetmethod="CallupPage" eventtype="dispatch"/></binding></element><element><html><content><![CDATA[<INPUT class="hsc.button.1 Buttons" id=pshHide style="BORDER-RIGHT: #ffffff 2px outset; BORDER-TOP: #ffffff 2px outset; FONT-SIZE: 8pt; LEFT: 66.66%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BORDER-LEFT: #ffffff 2px outset; WIDTH: 33.33%; COLOR: #000000; BORDER-BOTTOM: #ffffff 2px outset; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; POSITION: absolute; TOP: 0%; HEIGHT: 100%; BACKGROUND-COLOR: #d4d0c8; TEXT-ALIGN: center; TEXT-DECORATION: none" tabIndex=0 type=button value=Вскр hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;lineColor:#ffffff;lineColorBlink:False;styleClass:Buttons;textColor:#000000;textColorBlink:False;" globalscripts>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="DataSourceObj.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="version" varianttype="VT_R4" value="1.2"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="0"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value=""/><property name="TaskParam2" varianttype="VT_BSTR" value=""/><property name="TaskParam3" varianttype="VT_BSTR" value=""/><property name="TaskParam4" varianttype="VT_BSTR" value=""/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><property ID="ButtonQuality" sourceobject="dso1" sourceproperty="Quality" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetproperty="quality" hidden="false" editable="true"/><event ID="ButtonHit" sourceobject="element" sourceevent="onclick" sourcetype="pageelement" targettype="dataobject" targetobject="dso1" targetmethod="hit" eventtype="dispatch"/><event ID="ButtonCallup" sourceobject="dso1" sourceevent="OnPageCallup" sourcetype="dataobject" targettype="pageelement" targetobject="element" targetmethod="CallupPage" eventtype="dispatch"/></binding></element><html><content><![CDATA[
+<DIV class=hvg.group.1 id=group001 style="FONT-SIZE: 0pt; LEFT: 40px; BEHAVIOR: url(#HDXVectorFactory#group); WIDTH: 96px; POSITION: absolute; TOP: 40px; HEIGHT: 24px" tabIndex=-1 hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:96;"></DIV>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA[	dim sShow,sErr,oShape
+	on error resume next
+	sShow=window.event.srcelement.value
+	sErr=window.external.dictionary.item("NameUnitsHidden").value
+	if err.number=0 then  
+ 		window.external.dictionary.item("NameUnitsHidden").value=sShow
+	else
+ 		window.external.dictionary.add "NameUnitsHidden",sShow
+	end if
+
+	for each oShape in Page.children.tags("DIV")
+  		if oShape.classname="hsc.shape.1" then
+ 			if typename(oShape.objects("TxtName"))<>"Nothing" then
+    			call Butt_Page_OnShapeLoad(oShape,sShow)
+ 			end if 
+  		end if 
+	next
+    
+	bFP=false
+	set oPop=hdxpopupbehavior.findpopup("1oo1")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("1oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo2")
+	if typename(oPop)<>"Nothing" then bFP=true
+	if bFP=false then set oPop=hdxpopupbehavior.findpopup("2oo3")
+	if typename(oPop)<>"Nothing" then bFP=true
+	
+	if bFP=true then 
+    	for each oShape in oPop.document.all.page.children.tags("DIV")
+  			if oShape.classname="hsc.shape.1" then
+ 				if typename(oShape.objects("TxtName"))<>"Nothing" then
+    				call Butt_Page_OnShapeLoad(oShape,sShow)
+ 				end if 
+  			end if 
+		next   
+	end if]]></script></scripts></html></group></shape></shapes></shapefile>

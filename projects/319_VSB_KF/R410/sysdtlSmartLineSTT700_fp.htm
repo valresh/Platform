@@ -1,0 +1,692 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE></TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.21>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb faceplate.">
+<SCRIPT src="DisplayScripts/SmartLineGlobalVariables.js"></SCRIPT>
+
+<SCRIPT src="DisplayScripts/SmartLineGlobalFunctions.js"></SCRIPT>
+
+<SCRIPT src="DisplayScripts/STT700.js"></SCRIPT>
+
+<SCRIPT type=text/vbscript defer>
+correctWidth = 0
+SKIP = -1
+
+Sub ApplyLayout()
+	Call AdjustWidth()
+End Sub
+
+Sub AdjustWidth()
+	Call CalculateCorrectWidth()
+        if (correctWidth <> SKIP) then
+		groupPanel.style.pixelwidth = correctWidth
+        end if
+End Sub
+
+Sub CalculateCorrectWidth()
+	POPUP = 0
+        displayType = window.external.Application.CurrentDisplayPageType
+	CurrentPage = window.external.CurrentPage
+	if ((window.external.Application.Document.ParentWindow.external.WindowMode = 0 and displayType = POPUP And page.style.zoom = 1) or (window.external.Application.Document.ParentWindow.external.WindowMode = 1 and lcase(CurrentPage) <> "syssystemsummary.htm" and displayType = POPUP)) then
+		correctWidth = SKIP
+                Exit Sub
+        else
+		if (page.style.zoom > 1) then
+                	shrinkedWidth = document.body.offsetWidth - (document.body.offsetWidth * (1 / page.style.zoom))
+                    	correctWidth = (document.body.offsetWidth - abs(shrinkedWidth)) - 4  'The "-4" is just to adjust the fraction value which may come after above division and to avoid truncation.
+                else
+                        shrinkedWidth = document.body.offsetWidth - (document.body.offsetWidth * (1 / page.style.zoom))
+                        correctWidth = document.body.offsetWidth + abs(shrinkedWidth)  -4   'The "-4" is just to adjust the fraction value which may come after above division and to avoid truncation.
+                end if
+	end if
+End Sub
+</SCRIPT>
+
+<SCRIPT for=document type=text/javascript defer event=onreadystatechange>
+	try
+	{
+		if (document.readyState == "complete")
+		{
+			ApplyLayout();
+		}
+	}
+	catch(err){}
+</SCRIPT>
+
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<OBJECT id=HSCFaceplateAutoSelectBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:DFA6B4E8-BAC1-4C53-A43B-C9248F274863></OBJECT>
+<META name=GENERATOR content="MSHTML 11.00.10570.1001">
+<SCRIPT type=text/vbscript>
+  Sub AcknowledgeAlarms
+  window.external.Application.Document.ParentWindow.external.InvokeMenu2 "Acknowledge Alarm"
+End Sub</SCRIPT>
+
+<SCRIPT type=text/vbscript>
+  Sub LoadCMPointDetailDisplay(value)
+
+  window.external.Parent.RequestTask 21, 73, 0, 0, 0, value
+
+End Sub</SCRIPT>
+<LINK id=HDXStylesheet rel=stylesheet type=text/css 
+href=".\Styles\SmartLineStyles.css">
+<SCRIPT language=JScript for=groupPanel defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	SL_GetTemperatureModuleType(this, "CurrentPoint", "controlling_var");
+
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalPV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalSV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalTV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalQV"));
+
+	SL_AnalogPV_Initialize(shapeFaceplate.objects("shapeAnalogPV"));</SCRIPT>
+
+<SCRIPT language=JScript for=Page defer event=onpagecomplete>	SL_LogEvent(this, "onpagecomplete");
+
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalPV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalSV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalTV"));
+	SL_DynamicVariable_Initialize(shapeFaceplate.objects("shapeDigitalQV"));
+
+	SL_AnalogPV_Initialize(shapeFaceplate.objects("shapeAnalogPV"));</SCRIPT>
+</HEAD>
+<SCRIPT language=JScript defer>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// EXP510.1-36		June 4, 2018		Developer Label D_EXP510.1-36.0-02
+/// EXP510.1-36     June 4, 2018        Added the rate at which the dynamic variables are scheduled to be read to the faceplate.
+/// EXP510.1-35		May 27, 2018		Developer Label D_EXP510.1-35.0-06
+/// [RLEAPFI-675]   May 25, 2018        Remove handling of the Device Revision. Move the IgnoreStatus custom property up to parent shape.
+/// EXP510.1-34		May 21, 2018		Developer Label D_EXP510.1-34.0-12
+/// [RLEAPFI-407]   May 14, 2018        Removed the Hover behaviour for the units as it was preventing the setting of the long symbol as tooltip.
+/// [RLEAPFI-645]	April 30, 2018		Modified the logic that generates the target display name for all displays in order
+///                                     to support the new display set navigation (see JIRA).
+///                                     to support the new display set navigation (see JIRA).
+/// [RLEAPFI-642]   April 25, 2018      Modified the logic that generates the target display name to support the STT700.
+/// [RLEAPFI-639]	April 25, 2018		Add logic to check the quality of the value and status before updating the PV, SV, TV and QV controls.
+/// EXP510.1-31		April 24, 2018		Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaAnalogChannel defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	try
+	{
+		if (shapeFaceplate_alphaItemNameEnable.value == 1)
+		{
+			this.value = this.DataValue("SLAnalogPoint.ItemName");
+		}
+		else
+		{
+			this.value = this.DataValue("SLAnalogPoint.Name");
+		}
+
+		SL_Device.pointID = this.value;
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaAnalogChannel_ondatachange", "Could not set the Analog Channel Name indicator.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaDeviceID defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	try
+    {
+		if (SL_UpdateDeviceType(this, "SLAnalogPoint"))
+	    {
+			this.value = SL_Device.type.manufacturer + " " + SL_Device.type.model;
+			shapeFaceplate_alphaDeviceDescription.value = SL_Device.type.description;
+		}
+	}
+	catch (error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaDeviceID_ondatachange", "Could not update device info", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_textboxHeaderDigitalVariables defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	try
+	{
+		var scanConfiguration = new SL_ScriptData("HSCANCFG");
+		scanConfiguration.Fetch(this, "SLAnalogPoint");
+
+		if (scanConfiguration.changed && scanConfiguration.valid)
+		{
+			var configuration = IOM_ScanConfigurations[scanConfiguration.value];
+
+			SL_LogDebugLevelMessage(4, "textboxHeaderDigitalVariables_ondatachange", "value = " + scanConfiguration.value + ", Dynamic Variables = " + configuration.dynamicVariables + ", Rate = " + configuration.rate);
+
+			if (configuration.dynamicVariables)
+			{
+				if (configuration.rate > 0)
+				{
+					this.styleClass = "SLFP_SectionHeader";
+	
+					shapeFaceplate_textboxScanrate.value = configuration.rate.toString() + " s";
+					shapeFaceplate_textboxScanrate.textColor = this.textColor;
+					shapeFaceplate_textboxScanrate.title = "The HART Dynamic Variables listed below are configured to update every " + configuration.rate.toString() + " seconds.";
+					shapeFaceplate_textboxScanrate.style.visibility = "visible";
+				}
+				else
+					shapeFaceplate_textboxScanrate.style.visibility = "hidden";
+			}
+			else
+			{
+				shapeFaceplate_textboxScanrate.value = "0 s";
+				shapeFaceplate_textboxScanrate.textColor = "red";
+				shapeFaceplate_textboxScanrate.title = "The I/O Module is not confgured to read the Dynamic Variables from this transmitter. The values below will not update.\n\nCheck the Scan HART Variables parameter with Control Builder.";
+
+				shapeFaceplate_textboxScanrate.style.visibility = "visible";
+			}
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.textboxHeaderDigitalVariables_ondatachange", "Could not set the Dynamic Variables scan rate.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeAnalogPV defer 
+event=onshapeload>SL_LogEvent(this, "onshapeload");
+	SL_AnalogPV_Initialize(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeAnalogPV_alphaVariableValue 
+defer event=ondatachange>SL_LogEvent(this, "ondatachange");
+	SL_AnalogPV_SetValue(this.parentElement.parentElement);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeAnalogPV_alphaVariableName 
+defer event=ondatachange>	var variableType = this.parentElement.parentElement.GetCustomProperty("Value", "VariableType");
+
+	if (variableType == 0)
+	{
+		var deviceCode = this.DataValue("SLAnalogPoint.HDEVTYPE7");
+		var deviceType = SL_GetDeviceType(deviceCode);
+
+		switch (deviceType)
+		{
+			case "Level":
+			case "Multivariable":
+				var deviceVariableCodeParameter = "SLAnalogPoint.HDYNDVC[1]";
+				var deviceVariableCode = this.DataValue(deviceVariableCodeParameter);
+
+				this.value = SL_GetDeviceVariableName(deviceCode, deviceVariableCode);
+				break;
+
+			case "Pressure":
+			case "Temperature":
+				//this.value = SL_GetDeviceVariableName(deviceCode, 0);
+				break;
+			
+			default:
+				this.value = "";
+		}
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeAnalogPV_alphaUnit defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_SetProcessVariableUnits(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalPV defer 
+event=onshapeload>	SL_LogEvent(this, "onshapeload");
+	SL_DynamicVariable_Initialize(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalPV_alphaVariableValue 
+defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_DynamicVariable_SetValue(this.parentElement.parentElement);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalPV_alphaUnit defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_SetProcessVariableUnits(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalSV defer 
+event=onshapeload>	SL_LogEvent(this, "onshapeload");
+	SL_DynamicVariable_Initialize(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalSV_alphaVariableValue 
+defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_DynamicVariable_SetValue(this.parentElement.parentElement);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalSV_alphaUnit defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_SetProcessVariableUnits(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalTV defer 
+event=onshapeload>	SL_LogEvent(this, "onshapeload");
+	SL_DynamicVariable_Initialize(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalTV_alphaVariableValue 
+defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_DynamicVariable_SetValue(this.parentElement.parentElement);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalTV_alphaUnit defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_SetProcessVariableUnits(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalQV defer 
+event=onshapeload>	SL_LogEvent(this, "onshapeload");
+	SL_DynamicVariable_Initialize(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalQV_alphaVariableValue 
+defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_DynamicVariable_SetValue(this.parentElement.parentElement);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_shapeDigitalQV_alphaUnit defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+	SL_SetProcessVariableUnits(this);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaCMName defer event=onclick>	SL_LogEvent(this, "onclick");
+
+	try
+	{
+		if ((this.value != undefined) && (this.value.length > 0))
+		{
+			LoadCMPointDetailDisplay(this.value);
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaCMName_onclick", "Could not navigate to the CM Point Detail display.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaCMName defer event=onchange>	SL_LogEvent(this, "onchange");
+
+	try
+	{
+		SL_LogDebugLevelMessage(3, "alphaCMName_onchange", "CM Name = " + this.value);
+
+		if (this.value.length > 0)
+		{
+			shapeFaceplate_textboxLabelCM.StyleClass = "SLFP_Label";
+			shapeFaceplate_textboxLabelCM.style.visibility = "visible";
+
+			this.styleClass = "SLFP_Link_Right";
+			this.style.visibilty = "visible";
+		}
+		else
+		{
+			SL_LogDebugLevelMessage(3, "alphaCMName_onchange", "Empty CM Name = " + this.value);
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaCMName_onchange", "Could not set the visibility of the Control Module user controls.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaCMName defer event=onupdate>	SL_LogEvent(this, "onupdate");
+
+	try
+	{
+		SL_LogDebugLevelMessage(3, "alphaCMName_onupdate", "CM Name = " + this.value);
+
+		if (this.value.length > 0)
+		{
+			shapeFaceplate_textboxLabelCM.StyleClass = "SLFP_Label";
+			shapeFaceplate_textboxLabelCM.style.visibility = "visible";
+
+			this.styleClass = "SLFP_Link_Right";
+			this.style.visibilty = "visible";
+		}
+		else
+		{
+			shapeFaceplate_textboxLabelCM.style.visibility = "hidden";
+			this.style.visibilty = "hidden";
+		}
+	}
+	catch (error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaCMName_onupdate", "Could not set the visibility of the Control Module user controls.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaCMName defer 
+event=onmouseenter>	SL_LogEvent(this, "onmouseenter");
+
+	try
+	{
+		if ((this.value != undefined) && (this.value.length > 0))
+		{
+			this.style.cursor = "hand";
+			this.style.textDecorationUnderline = true;
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaCMName_onmouseenter", "Could not set the Hand cursor style for the Control Module link.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaCMName defer 
+event=onmouseleave>	SL_LogEvent(this, "onmouseleave");
+
+	try
+	{
+		this.style.cursor = "default";
+		this.style.textDecorationUnderline = false;
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaCMName_onmouseleave", "Could not set the Default cursor style for the Control Module link.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_pushbuttonAckAlarms defer 
+event=onclick>	SL_LogEvent(this, "onclick");
+
+	try
+	{
+		AcknowledgeAlarms();
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.pushbuttonAckAlarms_onclick", "Could not acknowledge alarms.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaItemNameEnable defer 
+event=onupdate>	SL_LogEvent(this, "onupdate");
+
+	try
+	{
+		SL_LogDebugLevelMessage(3, "SL_Faceplate.alphaItemNameEnable_onupdate", "Value = " + this.value);
+		if (this.value == 1)
+		{
+			shapeFaceplate_alphaAnalogChannel.value = shapeFaceplate_alphaAnalogChannel.DataValue("SLAnalogPoint.ItemName");
+		}
+		else
+		{
+			shapeFaceplate_alphaAnalogChannel.value = shapeFaceplate_alphaAnalogChannel.DataValue("SLAnalogPoint.Name");
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaItemNameEnable_onupdate", "Could not set the Analog Channel name.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate_alphaItemNameEnable defer 
+event=onchange>	SL_LogEvent(this, "onchange");
+
+	try
+	{
+		SL_LogDebugLevelMessage(3, "SL_Faceplate.alphaItemNameEnable_onchange", "Value = " + this.value);
+		if (this.value == 1)
+		{
+			shapeFaceplate_alphaAnalogChannel.value = shapeFaceplate_alphaAnalogChannel.DataValue("SLAnalogPoint.ItemName");
+		}
+		else
+		{
+			shapeFaceplate_alphaAnalogChannel.value = shapeFaceplate_alphaAnalogChannel.DataValue("SLAnalogPoint.Name");
+		}
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.alphaItemNameEnable_onchange", "Could not set the Analog Channel name.", error);
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaceplate defer event=onshapeload>	SL_LogEvent(this, "onshapeload");
+
+	try
+	{
+
+		// Initially assume that there is no Control Module associated with the transmitter, which means the
+		// "CM" label and the control module name link should be hidden. They will be made visible later
+		// when the alphCMName control is populated with live data.
+
+		shapeFaceplate_textboxLabelCM.style.visibility = "hidden";
+		shapeFaceplate_alphaCMName.style.visibilty = "hidden";
+
+		shapeFaceplate_textboxScanrate.style.visibility = "hidden";
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Faceplate.Page_onshapeload", "Could not hide Control Module user controls.", error);
+	}</SCRIPT>
+
+<SCRIPT id=F4960F16-B7DB-42B2-8EA7-F6AA93A1C898 language=JScript defer 
+shaperefcount="1">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// EXP510.1-36     June 4, 2018        Added the rate at which the dynamic variables are scheduled to be read to the faceplate.
+/// [RLEAPFI-675]   May 25, 2018        Remove handling of the Device Revision. Move the IgnoreStatus custom property up to parent shape.
+/// [RLEAPFI-407]   May 14, 2018        Removed the Hover behaviour for the units as it was preventing the setting of the long symbol as tooltip.
+/// [RLEAPFI-639]	April 25, 2018		Add logic to check the quality of the value and status before updating the PV, SV, TV and QV controls.
+/// EXP510.1-31		April 24, 2018		Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</SCRIPT>
+
+<SCRIPT id=4C7A6EFC-59A6-4E66-BAE0-D69A1E68F818 language=JScript defer 
+shaperefcount="1">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// [RLEAPFI-407]   May 14, 2018        Removed the Hover behaviour for the units as it was preventing the setting of the long symbol as tooltip.
+/// [RLEAPFI-639]	April 25, 2018		Add logic to check the quality of the value and status before updating the PV, SV, TV and QV controls.
+/// EXP510.1-31		April 24, 2018		Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</SCRIPT>
+
+<BODY 
+style="FONT-SIZE: 12pt; OVERFLOW: auto; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<DIV id=Background 
+style="HEIGHT: 937px; WIDTH: 1569px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #303030"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 475px; FONT-FAMILY: Arial; WIDTH: 150px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository) url(#HSCFaceplateAutoSelectBehavior); BACKGROUND-COLOR: transparent" 
+AutoSelectElementID AutoSelectAction="0" AutoSelectOnModeChange="0" 
+CommandAction="1" OutputAction="0" SetpointAction="0" ModeAction="0" 
+CommandElementID="shapeFaceplate_alphaDescription" OutputElementID 
+SetpointElementID ModeElementID>
+<DIV tabIndex=-1 id=groupPanel class="hvg.group.1 HSC.ScriptDataObject.1" 
+style="FONT-SIZE: 0pt; HEIGHT: 476px; WIDTH: 154px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group) url(#HSCScriptDataBehavior) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:33;Height:476;lineColorBlink:False;Width:154;">
+<DIV tabIndex=-1 id=shapeFaceplate class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)  url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:35;Height:476;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:154;" 
+value = "1" src = ".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate.sha" parameters 
+= "Point?SLAnalogPoint:{%CurrentPoint%};Value?IgnoreStatus:1;" linkType = 
+"embedded" globalscripts = 
+"4AF8D3FB-3DFA-448F-96FD-5D33B11F1DAF 4C7A6EFC-59A6-4E66-BAE0-D69A1E68F818 8CB653F6-8912-4F70-8BB8-537E92810FBE F2EB8BA2-6E62-4FA2-8D8F-135DB1D398F4 F4960F16-B7DB-42B2-8EA7-F6AA93A1C898" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_groupFaceplate class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:476;lineColorBlink:False;Width:154;">
+<DIV tabIndex=-1 id=shapeFaceplate_rectBackground class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 99.78%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:475;LineColor:#000000;lineColorBlink:False;Width:154;"></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_textboxTitle class="hvg.textbox.1 SLFP_Title" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 4.62%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: center; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior)" 
+hdxproperties="FillColor:#404040;fillColorBlink:False;FillStyle:0;HDXBINDINGID:0;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SLFP_Title;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:154;">HART 
+Analog Input</DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaAnalogChannel title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SLFP_Label_Bold" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.78%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 4.62%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:1;lineColor:transparent;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SLFP_Label_Bold;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaDeviceID title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SLFP_Label" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.36%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 8.82%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:2;lineColor:transparent;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SLFP_Label;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaDeviceDescription class="hsc.alpha.1  SLFP_Label" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.36%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 13.02%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:3;indicateAlarmState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SLFP_Label;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaDescription class="hsc.alpha.1  SLFP_Label" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.36%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 17.22%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:4;indicateAlarmState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SLFP_Label;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><SPAN 
+tabIndex=0 id=shapeFaceplate_comboboxPtExecState 
+title="The current state of processing the analog signal into a PV is displayed. Use the pulldown to switch to a different state." 
+class="hsc.combo.1 SLFP_ExecutionState" 
+style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 4.83%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #ffffff; PADDING-BOTTOM: 1px; TEXT-ALIGN: center; PADDING-TOP: 1px; PADDING-LEFT: 1px; LEFT: 0%; TOP: 21.84%; PADDING-RIGHT: 1px; BEHAVIOR: url(#HSCComboboxBehavior) url(#BindingBehavior); BACKGROUND-COLOR: #101010; TEXT-INDENT: 2px" 
+hdxproperties="borderStyle:Solid;borderWidth:1px;fillColor:#101010;fillColorBlink:False;HDXBINDINGID:5;lineColor:#000000;lineColorBlink:False;styleClass:SLFP_ExecutionState;textColor:#FFFFFF;textColorBlink:False;"></SPAN>
+<DIV tabIndex=-1 id=shapeFaceplate_textboxLabelCM 
+title="This transmitter is used in the indicated Control Module (CM) . Click on the link to open the Point Detail display of the Control Module. This may require a higher login level." 
+class="hvg.textbox.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 3.78%; FONT-FAMILY: arial; WIDTH: 22.72%; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0%; TOP: 36.76%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:6;Height:18;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:35;">CM</DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_textboxHeaderDigitalVariables 
+title="The HART protocol allows up to 4 process variables to be read digitally. These variables are read at a configurable rate and will update slower than the analog Process Variable." 
+class="hvg.textbox.1 SLFP_SectionHeader HSC.ScriptDataObject.1" 
+style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 4.62%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #b0b0b0; TEXT-ALIGN: left; LEFT: 0%; TOP: 46.84%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior) url(#HSCScriptDataBehavior)" 
+hdxproperties="FillColor:#404040;fillColorBlink:False;FillStyle:0;HDXBINDINGID:7;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SLFP_SectionHeader;textColor:#B0B0B0;textColorBlink:False;TotalRotation:0;Width:154;">Digital 
+Variables</DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_textboxLabelAlarms 
+class="hvg.textbox.1 SLFP_SectionHeader" 
+style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 4.62%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #b0b0b0; TEXT-ALIGN: left; LEFT: 0%; TOP: 88.86%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior)" 
+hdxproperties="FillColor:#404040;fillColorBlink:False;FillStyle:0;HDXBINDINGID:8;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SLFP_SectionHeader;textColor:#B0B0B0;textColorBlink:False;TotalRotation:0;Width:154;">Alarms</DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_shapeAnalogPV class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.4%; FONT-FAMILY: Arial; WIDTH: 96.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 1.29%; TOP: 27.1%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:40;lineColorBlink:False;textColor:#000000;Width:148;" 
+value = "1" src = 
+".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\SL_AnalogPV.sha" parameters 
+= 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?UseNumDecimals:0;Value?NumDecimals:0;Value?VariableType:0;Value?IgnoreStatus:0;Parameter?UnitParameter:HEU;Parameter?ValueParameter:PV;Parameter?StatusParameter:PVSTS;" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeAnalogPV_groupIndicator 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:40;lineColorBlink:False;Width:148;">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeAnalogPV_textboxVariableSymbol 
+title="Process Variable calculated from the analog signal from the transmitter." 
+class="hvg.textbox.1 SLFP_PVSymbol_Analog" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 45%; FONT-FAMILY: arial; WIDTH: 20.27%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0%; TOP: 10%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:9;Height:18;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SLFP_PVSymbol_Analog;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:30;">Text</DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeAnalogPV_alphaVariableValue title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVValue_Analog" style="BORDER-TOP-STYLE: none; FONT-SIZE: 16pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 57.5%; FONT-FAMILY: arial; WIDTH: 52.7%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 23.64%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:10;indicateNaNState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;styleClass:SLFP_PVValue_Analog;textColor:#FFFFFF;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeAnalogPV_alphaVariableName title="" class="hsc.alpha.1 SLFP_PVName_Analog" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 42.5%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 57.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:11;indicateAlarmState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVName_Analog;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeAnalogPV_alphaUnit title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVUnits_Analog" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 21.62%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 77.7%; TOP: 15%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:12;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVUnits_Analog;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalPV class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.4%; FONT-FAMILY: Arial; WIDTH: 96.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 1.29%; TOP: 52.1%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:40;lineColorBlink:False;textColor:#000000;Width:148;" 
+value = "1" src = 
+".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\SL_DynamicVariable.sha" 
+parameters = 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?UseNumDecimals:0;Value?NumDecimals:0;Value?VariableType:PV;Value?IgnoreStatus:1;Parameter?UnitParameter:HDYNEU[1];Parameter?ValueParameter:HDYNVAL[1];Parameter?StatusParameter:HDYNST[1];" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalPV_groupIndicator 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:40;lineColorBlink:False;Width:148;">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalPV_textboxVariableSymbol title="" 
+class="hvg.textbox.1 SLFP_PVSymbol_Digital" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 20.27%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0.67%; TOP: 2.5%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:13;Height:16;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SLFP_PVSymbol_Digital;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:30;"><FONT 
+size=3>Text</FONT></DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalPV_alphaVariableValue title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVValue_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 45%; FONT-FAMILY: arial; WIDTH: 52.7%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 24.32%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:14;indicateNaNState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;styleClass:SLFP_PVValue_Digital;textColor:#FFFFFF;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalPV_alphaUnit title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVUnits_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 21.62%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 78.37%; TOP: 2.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:15;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVUnits_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalPV_alphaVariableName title="" class="hsc.alpha.1  SLFP_PVName_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 42.5%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:16;indicateAlarmState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVName_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalSV class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.4%; FONT-FAMILY: Arial; WIDTH: 96.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 1.29%; TOP: 60.92%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:40;lineColorBlink:False;textColor:#000000;Width:148;" 
+value = "1" src = 
+".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\SL_DynamicVariable.sha" 
+parameters = 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?UseNumDecimals:0;Value?NumDecimals:0;Value?VariableType:SV;Value?IgnoreStatus:1;Parameter?UnitParameter:HDYNEU[2];Parameter?ValueParameter:HDYNVAL[2];Parameter?StatusParameter:HDYNST[2];" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalSV_groupIndicator 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:40;lineColorBlink:False;Width:148;">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalSV_textboxVariableSymbol title="" 
+class="hvg.textbox.1 SLFP_PVSymbol_Digital" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 20.27%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0.67%; TOP: 2.5%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:17;Height:16;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SLFP_PVSymbol_Digital;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:30;"><FONT 
+size=3>Text</FONT></DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalSV_alphaVariableValue title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVValue_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 45%; FONT-FAMILY: arial; WIDTH: 52.7%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 24.32%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:18;indicateNaNState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;styleClass:SLFP_PVValue_Digital;textColor:#FFFFFF;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalSV_alphaUnit title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVUnits_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 21.62%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 78.37%; TOP: 2.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:19;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVUnits_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalSV_alphaVariableName title="" class="hsc.alpha.1  SLFP_PVName_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 42.5%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:20;indicateAlarmState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVName_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalTV class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.4%; FONT-FAMILY: Arial; WIDTH: 96.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 1.29%; TOP: 69.74%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:40;lineColorBlink:False;textColor:#000000;Width:148;" 
+value = "1" src = 
+".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\SL_DynamicVariable.sha" 
+parameters = 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?UseNumDecimals:0;Value?NumDecimals:0;Value?VariableType:TV;Value?IgnoreStatus:1;Parameter?UnitParameter:HDYNEU[3];Parameter?ValueParameter:HDYNVAL[3];Parameter?StatusParameter:HDYNST[3];" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalTV_groupIndicator 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:40;lineColorBlink:False;Width:148;">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalTV_textboxVariableSymbol title="" 
+class="hvg.textbox.1 SLFP_PVSymbol_Digital" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 20.27%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0.67%; TOP: 2.5%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:21;Height:16;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SLFP_PVSymbol_Digital;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:30;"><FONT 
+size=3>Text</FONT></DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalTV_alphaVariableValue title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVValue_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 45%; FONT-FAMILY: arial; WIDTH: 52.7%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 24.32%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:22;indicateNaNState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;styleClass:SLFP_PVValue_Digital;textColor:#FFFFFF;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalTV_alphaUnit title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVUnits_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 21.62%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 78.37%; TOP: 2.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:23;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVUnits_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalTV_alphaVariableName title="" class="hsc.alpha.1  SLFP_PVName_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 42.5%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:24;indicateAlarmState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVName_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalQV class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 8.4%; FONT-FAMILY: Arial; WIDTH: 96.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 1.29%; TOP: 78.57%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="FillColor:#303030;fillColorBlink:False;Height:40;lineColorBlink:False;textColor:#000000;Width:148;" 
+value = "1" src = 
+".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\SL_DynamicVariable.sha" 
+parameters = 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?UseNumDecimals:0;Value?NumDecimals:0;Value?VariableType:QV;Value?IgnoreStatus:1;Parameter?UnitParameter:HDYNEU[4];Parameter?ValueParameter:HDYNVAL[4];Parameter?StatusParameter:HDYNST[4];" 
+linkType = "embedded" globalscripts = "" styleClass = "">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalQV_groupIndicator 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:40;lineColorBlink:False;Width:148;">
+<DIV tabIndex=-1 id=shapeFaceplate_shapeDigitalQV_textboxVariableSymbol title="" 
+class="hvg.textbox.1 SLFP_PVSymbol_Digital" 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 20.27%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; LEFT: 0.67%; TOP: 2.5%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:25;Height:16;indicateAlarmState:False;indicateScanState:False;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SLFP_PVSymbol_Digital;textColor:#FFFFFF;textColorBlink:False;TotalRotation:0;Width:30;"><FONT 
+size=3>Text</FONT></DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalQV_alphaVariableValue title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVValue_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 45%; FONT-FAMILY: arial; WIDTH: 52.7%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 24.32%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:26;indicateNaNState:0;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;styleClass:SLFP_PVValue_Digital;textColor:#FFFFFF;textColorBlink:False;">9999.99</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalQV_alphaUnit title="" class="hsc.alpha.1 HSC.ScriptDataObject.1 SLFP_PVUnits_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 40%; FONT-FAMILY: arial; WIDTH: 21.62%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 78.37%; TOP: 2.5%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:27;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVUnits_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_shapeDigitalQV_alphaVariableName title="" class="hsc.alpha.1  SLFP_PVName_Digital" style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 42.5%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:28;indicateAlarmState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SLFP_PVName_Digital;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaceplate_alarmstate 
+title="Bad Quality, Urgent, Active, Acknowledged" class=hsc.alarmstate.1 
+style="BORDER-TOP-STYLE: solid; FONT-SIZE: 12pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: solid; HEIGHT: 3.57%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 14.28%; WHITE-SPACE: nowrap; BORDER-BOTTOM-STYLE: solid; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: solid; LEFT: 1.94%; BORDER-RIGHT-COLOR: transparent; TOP: 94.53%; BEHAVIOR: url(#AlarmStateIconFactory#AlarmIcon) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" 
+hdxproperties="acknowledged:true;HDXBINDINGID:29;priority:3;quality:0;rtn:false;showDisableIcon:True;showJournalOnlyIcon:True;showTooltip:True;sizeableIcon:False;staticIcon:false;" 
+ObjectType="6"></DIV><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaAlarmStateDesc class="hsc.alpha.1 SLFP_AlarmState" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 4.2%; FONT-FAMILY: arial; WIDTH: 59.74%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 17.53%; TOP: 94.53%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:30;lineColor:transparent;lineColorBlink:False;numberOfChars:11;numericDisplayFormat:%s;styleClass:SLFP_AlarmState;textColor:#FFFFFF;textColorBlink:False;">Acronym</TEXTAREA><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaCMName title="" class="hsc.alpha.1 " style="BORDER-TOP-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.78%; FONT-FAMILY: arial; WIDTH: 66.88%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 29.22%; TOP: 36.76%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:31;lineColor:transparent;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA><INPUT tabIndex=1 id=shapeFaceplate_pushbuttonAckAlarms title="Click here to acknowledge all unacknowledged alarms and events for this device." class="hsc.button.1 Pushbutton_Style" style="FONT-SIZE: 8pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 2px outset; HEIGHT: 4.41%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 2px outset; WIDTH: 14.93%; BACKGROUND-IMAGE: url(file:./sysdtlSmartLineSTT700_fp_files/SL_Faceplate_files/alarm.png); BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px outset; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; LEFT: 81.16%; BORDER-LEFT: #ffffff 2px outset; TOP: 94.53%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: #cbccce" type=button hdxproperties="fillColor:#CBCCCE;fillColorBlink:False;HDXBINDINGID:32;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColor:#FFFFFF;lineColorBlink:False;styleClass:Pushbutton_Style;textColor:#000000;textColorBlink:False;" shapesrc=".\sysdtlSmartLineSTT700_fp_files\SL_Faceplate_files\alarm.png"><TEXTAREA tabIndex=0 id=shapeFaceplate_alphaItemNameEnable class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 4.62%; FONT-FAMILY: Arial; WIDTH: 15.58%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 83.11%; TOP: 15.96%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: #303030; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#303030;fillColorBlink:False;HDXBINDINGID:34;lineColor:#000000;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.0f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaceplate_textboxScanrate class="hvg.textbox.1 " 
+style="FONT-SIZE: 10pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 4.2%; FONT-FAMILY: Arial; WIDTH: 19.48%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #b0b0b0; FONT-STYLE: normal; TEXT-ALIGN: right; LEFT: 74.67%; TOP: 47.26%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" 
+hdxproperties="FillColor:#404040;fillColorBlink:False;FillStyle:0;Height:20;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#B0B0B0;textColorBlink:False;TotalRotation:0;Width:30;">16 
+s</DIV></DIV></DIV></DIV></DIV></BODY></HTML>

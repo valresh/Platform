@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!-- MLSOEConfiguration: MasterLogic Configuration File for configuring SOE settings for each PLC-->
+<MLSOEConfiguration xmlns='MLSOEConfig.xsd'>
+	<!-- PLCID: ID of the PLC as configured in the MLConfig.xml-->
+	<!-- SOEOption: Default setting for raising SOE based on the present value of that Bit. SOEOption attribute can be defined at any subnode level to over-ride this default value -->
+	<!-- DataType: Default Datatype for the SOE parameters under this node. DataType attribute can be defined at any subnode level to over-ride this default value-->
+	<SOEInfo PLCID="ML01" SOEOption="1" DataType="BIT">
+		<!--SOE: Configuration of SOE for one device address(Add as many SOE nodes as required) -->
+		<!-- DeviceAddress: Device address for which the SOE is being configured. -->
+		<!-- Description: Description which has to be appear in the SOE Summary in Station when the SOE is raised for this device address -->
+		<!--SOE DeviceAddress="M0010F" Description="M00100 SOE Alarm" -->
+		<!--SOE DeviceAddress="M00100" SOEOption="C" Description="M00100 SOE Alarm" -->
+	</SOEInfo>
+</MLSOEConfiguration>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="150" height="60">
+	<menuitem id="mnu_createTab" acceleratorKey="">
+		<script type="onclick">            	
+			var equippoint = window.external.parentWindow.currentEquippoint;
+			var pointname = window.external.parentWindow.currentEquippointTitle;
+			if (equippoint != null &amp;&amp; pointname != null) {			
+				var fullPath = window.external.parentWindow.external.FindFile("sysEquipment.htm");
+				window.external.parentWindow.external.parent.CreateTab(fullPath + "?hscequipPoint=" +equippoint, pointname, equippoint); 
+			}
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">
+			if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) 
+				this.disabled=true;
+			if (window.external.application.currentpage.toLowerCase() != "sysequipment.htm") 
+				this.disabled=true; 
+			return true;
+		</script>
+		<text>Open in new tab</text>	
+		<image>.\Toolbar\view-new-tab.png</image>		
+	</menuitem>
+	<separator/>
+	<menuitem id="mnu_trd" acceleratorKey="">
+		<script type="onclick">			
+			if (window.external.parentWindow.navigateToEquipmentTrend) {
+				window.external.parentWindow.navigateToEquipmentTrend();
+			}		
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">
+			if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) 
+				this.disabled=true;
+			if (window.external.application.currentpage.toLowerCase() != "sysequipment.htm") 
+				this.disabled=true; 
+			return true;
+		</script>
+		<text>Equipment Trend</text>
+		<image>.\Toolbar\trend.png</image>
+	</menuitem>
+	
+	<CopyPasteDefinitions>
+		<CopyPasteDefaultParam>PV</CopyPasteDefaultParam>
+		<CopyPasteParams>SP,OP</CopyPasteParams>
+	</CopyPasteDefinitions>
+</menu>

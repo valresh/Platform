@@ -1,0 +1,263 @@
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2006           HONEYWELL LIMITED AUSTRALIA      ****/
+/************************************************************************/
+-->
+<!-- "LocationBrowserScrplt.htm" -->
+<!-- $Revision: 4 $ -->
+
+<HTML>
+
+<script language=jscript>
+
+    // Public interface for EM Browser Prototype
+    public_description = new CreateEmBrowser();
+    function CreateEmBrowser() 
+    {
+        // methods
+        this.SetStationObject = fnSetStationObject;
+        this.SetServerName = fnSetServerName;
+        this.GetServerName = fnGetServerName;
+        this.ConnectServer = fnConnectServer;
+        this.ReconnectServer = fnReconnectServer;
+        this.DisconnectServer = fnDisconnectServer;
+        this.GetServerStatus = fnGetServerStatus;
+        this.GetTagName = fnGetTagName;
+        this.GetAreaNumber = fnGetAreaNumber;
+        this.GetFullName = fnGetFullName;
+        this.GetPointNumber = fnGetPointNumber;
+        this.GetEntityDescription = fnGetEntityDescription;
+        this.Refresh = fnRefresh;
+        this.SetBackgroundColor = fnSetBackgroundColor;
+        this.Show = fnShow;
+        // Events raised via the container's onscriptletevent:
+        // onready
+        // onpointselect
+        // onserverstatuschange
+        this.event_onready = "";
+        this.event_onpointselect = "";
+        this.event_onserverstatuschange = "";
+
+        // Raise event that EM browser is created
+        if (window.external.frozen == false) {
+            window.external.raiseEvent("event_onemcreated", "");
+        }
+    }
+
+    function fnSetStationObject() {
+        PBControlObject.SetExtStnDoc();
+        mfnStationConnectServer();
+    }
+
+    function fnSetServerName(sServerName) {
+        mfnSetServerName(sServerName);
+    }
+
+    function fnGetServerName() {
+        return mfnGetServerName();
+    }
+
+    function fnConnectServer() {
+        return mfnConnectServer();
+    }
+
+    function fnReconnectServer() {
+        return mfnReconnectServer();
+    }
+
+    function fnDisconnectServer() {
+        return mfnDisconnectServer();
+    }
+
+    function fnGetServerStatus() {
+        return mfnGetServerStatus();
+    }
+
+    function fnGetTagName() {
+        return mfnGetTagName();
+    }
+    
+    function fnGetAreaNumber() {
+        return mfnGetAreaNumber();
+    }
+
+	function fnGetFullName() {
+        return mfnGetFullName();
+    }
+
+	function fnGetPointNumber() {
+        return mfnGetPointNumber();
+    }
+    function fnGetEntityDescription() {
+        return mfnGetEntityDescription();
+    }
+
+    function fnRefresh() {
+	return mfnRefresh();
+    }
+    
+    function fnShow(nEntityType) {
+        mfnShow(nEntityType);
+    }
+    
+    function fnSetBackgroundColor(sColor) {
+        g_strBckgndColor = sColor;
+        scrpltBody.style.backgroundColor = sColor;
+        txtDescription.firstChild.style.backgroundColor = sColor;
+    }
+
+    function fnEvent_onpointselect() {
+        if (window.external.frozen == false) {
+            window.external.raiseEvent(EVENT_ONPOINTSELECT, "");
+        }
+    }
+
+    function fnEvent_onserverstatuschange() {
+        if (window.external.frozen == false) {
+            window.external.raiseEvent(EVENT_ONSERVERSTATUSCHANGE, "");
+        }
+    }
+</script>
+
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+
+    <LINK type="text/css" rel="stylesheet" href="Styles/PntBrowserScrplt.css">
+	<script language="VBScript" src="Scripts/PntBrowserScrplt.vbs"></script>
+	<script language="JScript" src="Scripts/LocationBrowserScrplt.js"></script>
+	<script language="VBScript" src="Scripts/EMScripts.vbs"></script>
+
+    <DIV id=divText style="visibility: hidden"></DIV>
+
+    <OBJECT id=PBControlObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:F294C996-D9DB-11D3-80A3-00C04F9A66E9 VIEWASTEXT>
+	</OBJECT>
+
+    <OBJECT id=HDXVectorFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; 
+        TOP: 0px; HEIGHT: 0px" codeBase="" 
+        classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9 VIEWASTEXT>
+    </OBJECT>
+
+    <script language="vbscript" for="PBControlObject" event="OnConnect(status, name)">
+        Handle_OnConnect status, name
+    </script>
+
+    <OBJECT id=HDXElementsFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1 VIEWASTEXT>
+	</OBJECT>
+
+    <OBJECT id=EntityDataObject style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" 
+        codeBase="" classid=clsid:8BF3033E-F348-4ba0-8E6C-992AA2DAFB02 VIEWASTEXT>
+	</OBJECT>
+
+    <xml id="xmlEntityTemplate" src="LocationTemplate.xml"></xml>
+    <xml id="xmlTagTemplate" src="TagTemplate.xml"></xml>
+
+    <script language=jscript>
+        function EntityDataObject::OnSelectionChange(DetailsXML, bSelectionChange, bSelectedRowDataChange)
+        {
+            Handle_OnEntitySelectionChange();
+        }
+
+	    function Handle_OnConnect(status, name) {
+		    mfnConnectServerGUIDisabled(status, name);
+	    }
+    </script>	
+
+</HEAD>
+
+
+<BODY id=scrpltBody onload="OnPageLoad(); fnPositionAll();" onunload="OnPageUnload();">
+
+
+    <DIV id=lblTypePoint style="font:'8pt MS Sans Serif';
+		position: absolute; top: 0px; height: 15px; left: 0px;" 
+    >
+		Select a Location:
+    </DIV>
+	
+	<table id="tblStatus" align=center 
+        bgcolor=window
+        style="top:120px; left:20px; width:180px; height:100px;
+					border-color:activeborder;
+					border-style:double;
+					font:'8pt MS Sans Serif';
+					overflow:auto; 
+					position: absolute;
+					visibility: hidden;
+					word-wrap:break-word;"
+    > <tr height=100% width=100% valign=middle> <td align=center bgcolor=window height=100% width=100%>
+    </td></tr>
+    </table>
+    
+    <div 
+	    id="EntityTable"
+	    onselectstart="javascript: return false;"
+	    ondragstart="javascript: return false;"
+	    dataSrc="#EntityDataObject" 
+	    rowHeight="19"
+	    displayHeader="false"
+	    verticalScrollbar="auto"
+	    horizontalScrollbar="auto"
+	    columnResizing="compact"
+	    bodyStyle=""
+	    colbodyStyle=""
+	    menuStyle="background-color: menu; 
+				    color: menutext; 
+				    border: 1px solid buttonshadow;"
+	    style="border: 1px solid threedshadow;
+			    position: absolute;
+			    behavior: url(#HDXElementsFactory#Table#MSHTMLBinding); 
+			    overflow: visible;
+			    z-index: 1; 
+				top: 40px;
+				left: 0px; 
+			    width: 185px;
+			    height: 90px;
+			    bottom: 10px;
+			    cursor: default;
+			    font-family: 'MS Sans Serif';
+			    font-size: 8;
+			    <!--[if gt IE 8]>;font-size: 11;<![endif]-->; 
+			    scrollbar-face-color: threedface;
+			    scrollbar-arrow-color: buttontext;
+			    scrollbar-track-color: scrollbar;
+			    scrollbar-highlight-color: threedhighlight;
+			    scrollbar-3dlight-color: threedlightshadow;
+			    scrollbar-shadow-color: threedshadow;
+			    scrollbar-darkshadow-color: threeddarkshadow;
+			    background-color: buttonhighlight;
+			    visibility: hidden">
+    </div>
+    
+    
+	<DIV id="lblDescription" 
+        style="font:'8pt MS Sans Serif'; position: absolute; left: 0px; height: 15px;"
+		title="Description associated with the selected point in the point tagname list results pane" 
+		nowrap=true>
+		Description:
+	</DIV> 
+
+	<DIV ID="txtDescription" 
+	    nowrap=true	
+		title=""
+		NAME=ntxtDescription
+		style="font:'8pt MS Sans Serif'; text-overflow: ellipsis; overflow: hidden;	position: absolute; height: 15px;"
+	> 
+        <a id=Unassigned_Cells style="position: relative; text-decoration: none; cursor: default;
+            overflow: hidden; text-overflow: ellipsis; 
+            width: 100%; height: 100%; padding-left: 1px; padding-top: 1px; padding-bottom: 2px; display: inline;" 
+            href="javascript:;" ondrag="fnCancelDefault();"
+		    ondragleave="fnCancelDefault()"				
+            ondragstart="jscript: fnSetInfo(JsTrim(this.innerText));"
+		>
+		</a>
+	</DIV>
+    
+</BODY>
+</HTML>
+
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2006           HONEYWELL LIMITED AUSTRALIA      ****/
+/************************************************************************/
+-->

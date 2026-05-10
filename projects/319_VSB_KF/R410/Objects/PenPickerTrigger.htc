@@ -1,0 +1,299 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited                      
+$Archive: /System Displays/Web Application Displays/Objects/PenPickerTrigger.htc $ 
+$Workfile: PenPickerTrigger.htc $ 
+$Modtime: 10/09/07 12:27a $ 
+$Revision: 2 $ 
+***************************************************************************
+This behavior allows its host element to popup a colour picker when clicked.
+
+The PopupController behavior must also be attached to the host element,
+and its popupURL attribute correctly specified to be the URL of a page that
+has the PenPicker behavior bound to its body.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JSExtensions.js    (parseBoolean)
+ HtmlUtils.js       (HtmlState*)
+***************************************************************************
+-->
+<public:component name="PenPickerTrigger" urn="PenPickerTrigger">
+	<public:property name="PenColor" id="PenColor" get="getPenColor" put="setPenColor"/>
+	<public:property name="PenStyle" id="PenStyle" get="getPenStyle" put="setPenStyle"/>
+	<public:property name="DoLinePicker" value="False"/>
+	<public:property name="ColorDepth" value="3"/>
+	<public:method name="HidePenPicker"/>
+	<public:method name="ShowPenPicker"/>
+	<public:event name="OnPenChange" id="OnPenChange"/>
+	<public:attach event="oncontentready" onevent="javascript: OnContentReady();" for="element"/>
+	<public:attach event="onreadystatechange" onevent="javascript: BindPopupControllerEvents();" for="element"/>
+	<public:attach event="onpropertychange" onevent="javascript: OnPropertyChange();" for="element"/>
+	<public:attach event="onclick" onevent="javascript: ShowPenPicker();" for="element"/>
+</public:component>
+<script language="javascript" type="text/javascript">
+	var m_bInitializing = false;
+	var m_objPopupBody = null;
+
+	//---------------------------------------------------------------
+	// getPenColor
+	//---------------------------------------------------------------
+	// Read-accessor for the elements 'color' property.
+	//---------------------------------------------------------------
+	function getPenColor()
+	{
+		return new String(element.currentStyle.backgroundColor);
+	}
+
+	//---------------------------------------------------------------
+	// setPenColor
+	//---------------------------------------------------------------
+	// Write-accessor for the element's 'color' property.
+	//---------------------------------------------------------------
+	function setPenColor(varPenColor)
+	{
+		m_bInitializing = true;
+		element.style.backgroundColor = varPenColor;
+		m_bInitializing = false;
+	}
+	
+	//---------------------------------------------------------------
+	// getPenStyle
+	//---------------------------------------------------------------
+	// Read-accessor for the element's 'PenStyle' property.
+	//---------------------------------------------------------------
+	function getPenStyle()
+	{
+		return new String(element.currentStyle.borderStyle);
+	}
+	
+	//---------------------------------------------------------------
+	// setPenStyle
+	//---------------------------------------------------------------
+	// Write-accessor for the element's 'PenStyle' property.
+	//---------------------------------------------------------------
+	function setPenStyle(varPenStyle)
+	{
+		m_bInitializing = true;
+		element.style.borderStyle = varPenStyle
+		m_bInitializing = false;
+	}
+	
+	//-----------------------------------------------------------------------
+	// BindPopupControllerEvents
+	//-----------------------------------------------------------------------
+	// This handler fires when the readystate of the host element changes.
+	// Once the element is complete, then the PopupController events are
+	// available and may be bound.
+	//-----------------------------------------------------------------------
+	function BindPopupControllerEvents()
+	{	
+		// Make sure the element is completely loaded.
+		if (element.readyState != HtmlStateComplete)
+		{
+			return;
+		}
+	
+		// Make sure the PopupController behavior is attached.
+		try
+		{
+		    var bLoaded = element.PopupController.PopupIsLoaded;    // Throws if the POpupController is not available yet.
+
+		    // Attach to the popup controller events that we care about.
+		    element.attachEvent("OnBeforePopupShown", OnBeforePopupShown);
+    			
+		    // Explicitly call the OnPopupLoad handler if this has already fired.
+		    if (bLoaded)
+		    {
+			    OnPopupLoaded();
+			}
+		    else
+		    {
+			    // Attempt to pre-load the popup conttent (will cause OnPopupLoad to fire)				
+			    element.PopupController.InitializePopup();
+			}				
+		}
+		catch(e)
+		{
+		    ScriptError("PenPickerTrigger::BindPopupControllerEvents", e);
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnBeforePopupShown
+	//-----------------------------------------------------------------------
+	// This event handler is called just before the popup behavior is 
+	// actually shown. It corrects the contents of the popup document.
+	//-----------------------------------------------------------------------
+	function OnBeforePopupShown()
+	{
+    	try
+    	{
+    		// Cache the popup body object...
+		    m_objPopupBody = element.PopupController.PopupBody;
+		    
+			// Initialize the popup properties.
+		    m_bInitializing = true;
+		    m_objPopupBody.PenPicker.InitPickerProperties(element.PenColor, element.PenStyle, element.ColorDepth, true, element.DoLinePicker);
+		    m_bInitializing = false;
+			
+			// Detach then re-attach the popup event handlers (to make sure they're only attached once).
+		    m_objPopupBody.detachEvent("onmouseleave", HidePenPicker);
+		    m_objPopupBody.detachEvent("onstylechange", OnPenPicked);
+		    m_objPopupBody.detachEvent("oncolorchange", OnPenPicked);
+
+		    m_objPopupBody.attachEvent("onmouseleave", HidePenPicker);
+		    m_objPopupBody.attachEvent("onstylechange", OnPenPicked);
+		    m_objPopupBody.attachEvent("oncolorchange", OnPenPicked);
+		}
+		catch(e)
+		{
+			ScriptError("PenPickerTrigger::OnBeforePopupShown", e);
+			window.event.returnValue = false;
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnContentReady
+	//-----------------------------------------------------------------------
+	// This function is used to initialize the PenPickerTrigger's host
+	// element.
+	//-----------------------------------------------------------------------
+	function OnContentReady()
+	{
+	    try
+	    {	
+		    element.PenStyle = element.currentStyle.borderStyle; 	//"solid"
+		    element.PenColor = element.currentStyle.backgroundColor;	//"#FFFFFF"
+		}
+		catch(e)
+		{
+		    ScriptError("PenPickerTrigger::OnContentReady", e);
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// OnPropertyChange
+	//-----------------------------------------------------------------------
+	// This function is called whenever a property on the host element changes.
+	//-----------------------------------------------------------------------
+	function OnPropertyChange()
+	{
+		// Ignore all propchange events if we are initializing.
+		if (m_bInitializing)
+		{
+		    return;
+		}
+		
+		try
+		{
+		    // Check whether the picker is in view:
+		    var bPickerIsShowing = element.PopupController.PopupIsShowing;
+			    		
+		    // Retrieve the name of the property that has changed.
+		    var strProperty = window.event.propertyName.toLowerCase();
+		    switch(strProperty)
+		    {	
+			    case "style.backgroundcolor":
+			    case "runtimestyle.backgroundcolor":
+			    {
+				    PenColor.fireChange();
+				    if (bPickerIsShowing)
+				    {
+				        ShowPenPicker();	// Refresh the currently displayed pen picker.
+				    }
+				    return true;
+				}
+			    case "style.borderstyle":
+			    case "runtimestyle.borderstyle":
+			    {
+				    PenStyle.fireChange();
+				    if (bPickerIsShowing)
+				    {
+				        ShowPenPicker();	// Refresh the currently displayed pen picker.
+				    }
+				    return true;
+    		    }
+			    case "colordepth":
+			    {
+				    if (bPickerIsShowing)
+				    {
+				        ShowPenPicker();	// Refresh the currently displayed pen picker.
+				    }
+				    return true;
+    			}	
+			    default:
+			    {
+			        return false;
+			    }
+			}
+		}
+		catch(e)
+		{
+		    ScriptError("PenPickerTrigger::OnPropertyChange", e);
+		}
+	}
+	
+	//-----------------------------------------------------------------------
+	// HidePenPicker
+	//-----------------------------------------------------------------------
+	// This function hides the pen picker if it is currently displayed.
+	//-----------------------------------------------------------------------
+	function HidePenPicker()
+	{
+		element.PopupController.HidePopup();		
+	}
+				
+	//---------------------------------------------------------------
+	// ShowPenPicker
+	//---------------------------------------------------------------
+	// This function is called to initialize the pen-picker with
+	// the latest pen properties. 
+	// Note that if there are messageboxes in here then the event
+	// timing gets decidedly stuffed, and the onclick event which 
+	// actually triggers the menu doesn't happen. Be careful with
+	// debug paranoids.
+	//---------------------------------------------------------------
+	function ShowPenPicker()
+	{
+	    try
+	    {	
+		    element.PopupController.ShowPopupAtElement(element, "");
+		}
+		catch(e)
+		{
+			ScriptError("PenPickerTrigger::ShowPenPicker", e);
+        }
+	}
+	
+	//---------------------------------------------------------------
+	// OnPenPicked
+	//---------------------------------------------------------------
+	// This function is called when a selection change is made in the
+	// pen-picker, and the picker is bound to this key-row.
+	//---------------------------------------------------------------
+	function OnPenPicked()
+	{
+		if (m_bInitializing)
+		{
+		    return;
+		}
+		
+		try
+		{
+		    // Make sure the popup is closed.
+		    HidePenPicker()
+		
+		    // Update the pen properties in the trigger element
+		    element.PenColor = m_objPopupBody.color;
+		    element.PenStyle = m_objPopupBody.linestyle;	
+		
+		    // Let the user know that the pen has changed.
+		    OnPenChange.fire();
+		}
+		catch(e)
+		{
+			ScriptError("PenPickerTrigger::OnPenPicked", e);
+		}
+	}
+</script>

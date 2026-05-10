@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="160" height="82">
+		<menuitem id="mnu_dtl" acceleratorKey="">
+
+		<script type="onclick">
+			var oShapeid = window.external.parentWindow.document.activeElement.id.substring(0, window.external.parentWindow.document.activeElement.id.indexOf("_"));
+			var oShape = window.external.parentWindow.document.getElementById(oShapeid);
+			if (oShape.value ==2)oShape.Objects("RGConalpTagName").focus;
+			if (oShape.value ==3)oShape.Objects("RVConalpTagName").focus;
+			if (oShape.value ==4)oShape.Objects("DIConalpTagName").focus;
+			window.external.application.InvokeCommand('Request Point Detail');
+
+			window.external.CloseShortcutMenu();
+
+		</script>
+
+		<script type="onpage">if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;</script>
+
+		<text>Detail</text>
+
+		<image>.\Toolbar\tb017.png</image>
+
+	</menuitem>
+
+	<menuitem id="mnu_addprm" acceleratorKey="">
+
+		<script type="onclick">
+			var oShapeid = window.external.parentWindow.document.activeElement.id.substring(0, window.external.parentWindow.document.activeElement.id.indexOf("_"));
+			var oShape = window.external.parentWindow.document.getElementById(oShapeid);
+			if (oShape.value ==2)
+			{
+				oShape.objects("RGConTxtCusParam").style.visibility = "Inherit";
+				oShape.objects("RGConAlpCusParam").style.visibility = "Hidden";
+				oShape.objects("RGTxtCusParam").style.visibility = "Hidden";
+				oShape.objects("RGConTxtCusParam").focus;
+			}
+			if (oShape.value ==3)
+			{
+				oShape.objects("RVConTxtCusParam").style.visibility = "Inherit";
+				oShape.objects("RVConAlpCusParam").style.visibility = "Hidden";
+				oShape.objects("RVTxtCusParam").style.visibility = "Hidden";
+				oShape.objects("RVConTxtCusParam").focus;
+			}
+			if (oShape.value ==4)
+			{
+				oShape.objects("DIConTxtCusParam").style.visibility = "Inherit";
+				oShape.objects("DIConAlpCusParam").style.visibility = "Hidden";
+				oShape.objects("DITxtCusParam").style.visibility = "Hidden";
+				oShape.objects("DIConTxtCusParam").focus;
+			}
+			window.external.CloseShortcutMenu();
+
+		</script>
+
+		<script type="onpage"><![CDATA[	
+					var oShapeid = window.external.parentWindow.document.activeElement.id.substring(0, window.external.parentWindow.document.activeElement.id.indexOf("_"));
+					var oShape = window.external.parentWindow.document.getElementById(oShapeid);
+					var oshapesrc = oShape.src;
+					if(oshapesrc.indexOf("Shalcn")> -1) this.disabled=true;
+		if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true; ]]></script>
+
+		<text>Add Parameter</text>
+
+	</menuitem>
+
+	<menuitem id="mnu_maintenance" acceleratorKey="">
+		<script type="onclick">
+				var strPointName,objPopupWindow,objHdxPopup;
+
+				objHdxPopup = window.external.parentWindow.document.getElementById("HDXPopupBehavior");
+
+				if (objHdxPopup!= null)
+
+				{ 
+					var oShapeid = window.external.parentWindow.document.activeElement.id.substring(0, window.external.parentWindow.document.activeElement.id.indexOf("_"));
+					var oShape = window.external.parentWindow.document.getElementById(oShapeid);
+					if (oShape.value ==2)
+					{
+						if (oShape.Objects("RGConalpTagName").value!=null)
+						{
+							strPointName = oShape.Objects("RGConalpTagName").value;
+							objHdxPopup.CreatePopupWindow("syshsecteng_fp.htm?CurrentPoint="+strPointName, 0, 0, 1);			
+						}
+					}
+					if (oShape.value ==3)
+					{
+						if (oShape.Objects("RVConalpTagName").value!=null)
+
+						{
+							strPointName = oShape.Objects("RVConalpTagName").value;
+							objHdxPopup.CreatePopupWindow("syshsecteng_fp.htm?CurrentPoint="+strPointName, 0, 0, 1);
+						}
+					}
+					if (oShape.value ==4)
+					{
+						if (oShape.Objects("DIConalpTagName").value!=null)
+
+						{
+							strPointName = oShape.Objects("DIConalpTagName").value;
+							objHdxPopup.CreatePopupWindow ("syshsecteng_fp.htm?CurrentPoint="+strPointName, 0, 0, 1);
+						}
+					}
+					
+
+				}
+			window.external.CloseShortcutMenu();
+			</script>
+			<script type="onpage"><![CDATA[if(window.external.ParentWindow.external.SecurityLevel<4) this.disabled=true;
+					var oShapeid = window.external.parentWindow.document.activeElement.id.substring(0, window.external.parentWindow.document.activeElement.id.indexOf("_"));
+					var oShape = window.external.parentWindow.document.getElementById(oShapeid);
+					var oshapesrc = oShape.src;
+					if(oshapesrc.indexOf("Shalcn")> -1) this.disabled=true;
+			if( !window.external.IsAccessPermitted( window.external.parentWindow.document.activeElement )) this.disabled=true; return true;]]></script>
+		<text>Maintenance</text>
+
+	</menuitem>
+
+</menu>
+

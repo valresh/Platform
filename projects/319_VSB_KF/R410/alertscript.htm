@@ -1,0 +1,582 @@
+<SCRIPT LANGUAGE="JScript" SRC="commonscripteditor.txt"></SCRIPT>
+<SCRIPT LANGUAGE="JScript">
+<!--
+
+// No constant definition for Jscript
+var EnterKey = 13;
+
+EditorType = nAlertScriptEditor;
+function SelectEditorType()
+{
+    try
+    {
+        if(IsSecure())
+        {
+
+            if(true == CStnSpecificGUI())
+            {
+                return;
+            }
+
+            // Check if we want to save
+            CheckSave();
+
+            // Set the alert view
+            if(alertForm.sourceName.value.length > 0)
+            {
+                try
+                {
+                    CombinedEd.SetStationNumber(GetStationNumber());
+                }
+                catch(e)
+                {
+                    // ignore error. Most likely mismatched display/Script Editor versions
+                }
+
+
+                if(alertForm.conditionName.value.length > 0) 
+                {
+                    CombinedEd.SetAlertViewByName(GetServerName(), alertForm.sourceName.value,alertForm.conditionName.value);
+                }
+                else
+                {
+                    CombinedEd.SetAlertViewByName(GetServerName(), alertForm.sourceName.value,"");
+                }
+            }
+            else
+            {
+                CombinedEd.UnsetView();
+            }
+        }
+        else
+        {
+            CombinedEd.UnsetView();
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportSetViewErrors(e);
+    }
+}
+
+// --------------------------------------------------------------------------------------
+// CopyFromSelect() - copy combo box values to text box
+// --------------------------------------------------------------------------------------
+function CopyFromSelect()
+{
+    alertForm.sourceName.value = alertForm.sourceNames.value;
+    alertForm.conditionName.value = alertForm.conditionNames.value;
+}
+
+// --------------------------------------------------------------------------------------
+// LoadAlerts() - Asks CombinedEd to reload alert IDs from server and rebuild the combo
+//                boxes
+// --------------------------------------------------------------------------------------
+function LoadAlerts()
+{
+    try
+    {
+        if(IsSecure())
+        {
+
+            if(true == CStnSpecificGUI())
+            {
+                return;
+            }
+
+            CombinedEd.GetAlertSourceConditions(GetServerName());
+            LoadAlertSources();
+            LoadAlertConditions();
+            CopyFromSelect();
+        }
+        else
+        {
+            InSufficientSecurity();
+        }
+    }
+    catch(e)
+    {
+        ReportSetViewErrors(e);
+    }
+}
+
+// ------------------------------------------------------------------------------------
+// ClearAlerts() - clears the combo box of alerts
+// ------------------------------------------------------------------------------------
+function ClearAlerts()
+{
+    try
+    {
+        while(alertForm.sourceNames.options.length > 0) 
+        {
+            alertForm.sourceNames.options.remove(0);
+        }
+
+        while(alertForm.conditionNames.options.length > 0) 
+        {
+            alertForm.conditionNames.options.remove(0);
+        }
+
+        alertForm.sourceName.value = "";
+        alertForm.conditionName.value = "";
+
+    }
+    catch(e)
+    {
+    }
+}
+
+// ------------------------------------------------------------------------------------
+// LoadAlertSources() - Retrieves sources from CombinedEd and stores them sourceNames
+// ------------------------------------------------------------------------------------
+function LoadAlertSources() 
+{
+    try
+    {
+        var alertCount = CombinedEd.AlertCount();
+        var i ;
+        var oOption;
+
+        while(alertForm.sourceNames.options.length > 0) 
+        {
+            alertForm.sourceNames.options.remove(0);
+        }
+
+        for(i=1;i<=alertCount;i++)
+        {
+            oOption = document.createElement("OPTION");
+            alertForm.sourceNames.options.add(oOption);
+            oOption.innerText = CombinedEd.GetAlert(i);
+            oOption.value = CombinedEd.GetAlert(i);
+        }
+    }
+    catch(e)
+    {
+    }
+}
+
+// ------------------------------------------------------------------------------------
+// LoadAlertConditions() - Retrieves conditions from CombinedEd and stores them conditionNames
+// ------------------------------------------------------------------------------------
+function LoadAlertConditions()
+{
+    try
+    {
+        var alertSource = alertForm.sourceNames.value;
+        var conditionCount = CombinedEd.ConditionCount(alertSource);
+        var i;
+
+        while(alertForm.conditionNames.options.length > 0) 
+        {
+            alertForm.conditionNames.options.remove(0);
+        }
+
+        for(i=1;i<=conditionCount;i++)
+        {
+            oOption = document.createElement("OPTION");
+            alertForm.conditionNames.options.add(oOption);
+            oOption.innerText = CombinedEd.GetCondition(alertSource,i);
+            oOption.value = CombinedEd.GetCondition(alertSource,i);
+        }
+    }
+    catch(e)
+    {
+    }
+}
+
+// ------------------------------------------------------------------------------------
+// The following are functions triggered by events
+// ------------------------------------------------------------------------------------
+
+
+function sourceName_onchange()
+{
+    try
+    {
+        SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function conditionName_onchange()
+{
+    try
+    {
+        SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function sourceNames_onchange()
+{
+    try
+    {
+        LoadAlertConditions();
+        CopyFromSelect();
+        SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function conditionNames_onchange()
+{
+    try
+    {
+        CopyFromSelect();
+        SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function sourceName_onkeypress()
+{
+    if(event.keyCode == EnterKey)
+    {
+        alertForm.sourceName.blur();
+	return false;     // cancels the beep
+    }
+}
+
+function conditionName_onkeypress()
+{
+    if(event.keyCode == EnterKey)
+    {
+        alertForm.conditionName.blur();
+	return false;      // cancels the beep
+    }
+}
+
+function cmdEditExisting_onclick()
+{
+    try
+    {
+        cmdEditExisting.style.visibility = "hidden";
+        cmdAddNew.style.visibility = "visible";
+        cmdDeleteSource.style.visibility = "visible";
+        cmdDeleteCondition.style.visibility = "visible";
+        alertForm.sourceNames.style.visibility = "visible";
+        alertForm.conditionNames.style.visibility = "visible";
+        alertForm.sourceName.style.visibility = "hidden";
+        alertForm.conditionName.style.visibility = "hidden";
+        newSourceLabel.style.visibility = "hidden";
+        newConditionLabel.style.visibility = "hidden";
+        oldSourceLabel.style.visibility = "visible";
+        oldConditionLabel.style.visibility = "visible";
+        LoadAlerts();
+	SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function cmdAddNew_onclick()
+{
+    try
+    {
+        cmdEditExisting.style.visibility = "visible";
+        cmdAddNew.style.visibility = "hidden";
+        cmdDeleteSource.style.visibility = "hidden";
+        cmdDeleteCondition.style.visibility = "hidden";
+        alertForm.sourceName.style.visibility = "visible";
+        alertForm.conditionName.style.visibility = "visible";
+        alertForm.sourceNames.style.visibility = "hidden";
+        alertForm.conditionNames.style.visibility = "hidden";
+        oldSourceLabel.style.visibility = "hidden";
+        oldConditionLabel.style.visibility = "hidden";
+        newSourceLabel.style.visibility = "visible";
+        newConditionLabel.style.visibility = "visible";
+        ClearAlerts();
+        SelectEditorType();
+    }
+    catch(e)
+    {
+    }
+}
+
+function cmdDeleteSource_onclick()
+{
+    try
+    {
+        var alertSource = alertForm.sourceNames.value;
+        var alertCondition;
+        var i;
+        if(alertSource != "")
+        {
+            for(i=0;i<alertForm.conditionNames.options.length;i++)
+            {
+                alertCondition = alertForm.conditionNames.options.item(i).value;
+                CombinedEd.DeleteAlert(GetServerName(),alertSource,alertCondition);
+            }
+            LoadAlerts();
+            SelectEditorType();
+        }
+    }
+    catch(e)
+    {
+    }
+}
+
+function cmdDeleteCondition_onclick()
+{
+    try
+    {
+        var alertSource = alertForm.sourceNames.value;
+        var alertCondition = alertForm.conditionNames.value;
+        var i;
+
+        if(alertSource != "" && alertForm.conditionNames.selectedIndex != -1) 
+        {
+            CombinedEd.DeleteAlert(GetServerName(),alertSource, alertCondition)
+            LoadAlerts();
+            for(i=0;i<alertForm.sourceNames.options.length;i++)
+            {
+                if(alertForm.sourceNames.options.item(i).value == alertSource)
+                {
+                    alertForm.sourceNames.selectedIndex = i;
+                    alertForm.sourceNames.fireEvent("onchange");
+                    return;
+                }
+            }
+            SelectEditorType();
+        }
+    }
+    catch(e)
+    {
+    }
+}
+
+function window_onresize()
+{
+    try
+    {
+        document.body.scroll = "no";
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onresize failed");
+    }
+}
+
+function window_onload()
+{
+    try
+    {
+        document.body.scroll = "no";
+        try
+        {
+            CombinedEd.FullBackColor = 0x00FFFFFF;
+        }
+        catch(e)
+        {
+            // Ignore errors - they probably mean editor was not allowed to run because of security
+            // This allows SelectEditorType() to be executed.
+        }
+        SelectEditorType();
+    }
+    catch(e)
+    {
+        // Ignore errors - probably means we're in a strange container
+        ReportMessage("window_onload failed");
+    }
+}
+
+function window_onunload()
+{
+    try
+    {
+        // See if we want to save
+        CheckSave();
+    }
+    catch(e)
+    {
+        // Ignore errors - they probably mean editor was not allowed to run because of security    
+        ReportMessage("window_onunload failed");
+    }
+}
+
+try
+{
+    window.onload = window_onload;
+    window.onresize = window_onresize;
+    window.onunload = window_onunload;
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage("Window Event Setup failed");
+}
+
+-->
+</SCRIPT>
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+<META HTTP-EQUIV="Content-Type" content="text/html">
+<STYLE TYPE="text/css">
+input { font: bold 10pt Arial; HEIGHT: 30px; WIDTH: 24%}
+select { font: bold 10pt Arial; HEIGHT: 20px}
+P { font: bold 10pt Arial}
+BODY { background: white }
+</STYLE>
+</HEAD>
+<BODY ms_positioning="GridLayout">
+
+<!-- Insert HTML here -->
+
+<!-- Alert labels -->
+<SPAN id="newSourceLabel" style="POSITION: absolute; TOP: 20; LEFT: 0%">New Alert Source:</SPAN>
+<SPAN id="newConditionLabel" style="POSITION: absolute; TOP: 20px; LEFT: 30%">New Condition:</SPAN>
+<SPAN id="oldSourceLabel" style="POSITION: absolute; TOP: 20px; LEFT: 0%; VISIBILITY: HIDDEN;">Existing Alert Source:</SPAN>
+<SPAN id="oldConditionLabel" style="POSITION: absolute; TOP: 20px; LEFT: 30%; VISIBILITY: HIDDEN;">Existing Condition:</SPAN>
+
+<FORM id="alertForm" name="alertForm" ACTION="" METHOD="post">
+<INPUT id="sourceName" name="sourceName" type="text" style="POSITION: absolute; HEIGHT: 25px; WIDTH: 20%; TOP: 50px; LEFT: 0%"></INPUT>
+<INPUT id="conditionName" name="conditionName" type="text" style="POSITION: absolute; HEIGHT: 25px; WIDTH: 20%; TOP: 50px; LEFT: 30%"></INPUT>
+<SELECT id=sourceNames" name="sourceNames" style="POSITION: absolute; WIDTH: 20%; HEIGHT: 25px; TOP: 50px; LEFT: 0%; VISIBILITY: HIDDEN;"></SELECT>
+<SELECT id=conditionNames" name="conditionNames" style="POSITION: absolute; WIDTH: 20%; HEIGHT: 25px; TOP: 50px; LEFT: 30%; VISIBILITY: HIDDEN;"></SELECT>
+</FORM>
+
+<!-- Alert script editing Buttons -->
+<INPUT id="cmdEditExisting" name="cmdEditExisting" type="button" style="POSITION: absolute; HEIGHT: 25px; TOP: 45px; LEFT: 60%;" value="Edit Existing Scripts"></input>
+<INPUT id="cmdAddNew" name="cmdAddNew" type="button" style="POSITION: absolute; HEIGHT: 25px; TOP: 45px; LEFT: 60%; VISIBILITY: HIDDEN;" value="Add New Script"></input>
+<INPUT id="cmdDeleteSource" name="cmdDeleteSource" type="button" style="POSITION: absolute; HEIGHT: 25px; TOP: 80px; LEFT: 0%; VISIBILITY: HIDDEN;" value="Delete Alert Source"></input>
+<INPUT id="cmdDeleteCondition" name="cmdDeleteCondition" type="button" style="POSITION: absolute; HEIGHT: 25px; TOP: 80px; LEFT: 30%; VISIBILITY: HIDDEN;" value="Delete Alert Condition"></input>
+
+<OBJECT id="Reflector" classid="clsid:0AE3084B-970E-482B-A4D6-619D6379D1C5" style="visibility:hidden">
+<SPAN id="txtNoReflect" STYLE="color:red">Station Application Reflector failed to load! 
+-- Please check browser security settings.</SPAN>
+</OBJECT>
+<OBJECT id="CombinedEd" style="POSITION: absolute; WIDTH: 100%; LEFT: 0; TOP: 130px; HEIGHT: expression(document.body.clientHeight - 195)" classid="clsid:80004EC2-FDF4-4163-918E-79ADA926DF15">
+<SPAN id="txtNoEditor" STYLE="color:red">Script Editor control failed to load! 
+-- Please check browser security settings.</SPAN>
+</OBJECT>
+
+<input id="cmdSave" style="LEFT: 0; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Save Draft Changes" disabled="true"/>
+<input id="cmdUndo" style="LEFT: 50.67%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Cancel Draft Changes" disabled="true"/>
+<input id="cmdCommit" style="LEFT: 25.33%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Commit Draft to Online" disabled="true"/>
+<input id="cmdReset" style="LEFT: 76%; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)" type="button" value="Reset Draft from Online" disabled="true"/>
+
+<SPAN id="txtCannotSave" STYLE="visibility:hidden; LEFT: 0; POSITION: absolute; TOP: expression(document.body.clientHeight - 55)">
+<B><FONT style="font: bold 10pt Arial; color: red">Warning:</FONT></B>
+<FONT style="font: normal 10pt Arial;">
+    Draft changes cannot be saved because the server is unavailable.
+    All changes made since the last save will be lost if you leave this page before the server becomes available again.
+    <BR><B>Note:</B> If you need to leave this page, then please copy the changes to another application, eg. notepad.
+</FONT>
+</SPAN>
+
+
+<input id="cmdHelp" style="LEFT: 76%; POSITION: absolute; TOP: 0" type="button" value="Scripting Help"/>
+
+<SCRIPT LANGUAGE="JScript">
+<!--
+try
+{
+    cmdSave.value = GetLocalI18NString(101);
+    cmdUndo.value = GetLocalI18NString(102);
+    cmdCommit.value = GetLocalI18NString(103);
+    cmdReset.value = GetLocalI18NString(104);
+    cmdHelp.value = GetLocalI18NString(105);
+
+    newSourceLabel.innerText = GetLocalI18NString(701);
+    oldSourceLabel.innerText = GetLocalI18NString(702);
+    newConditionLabel.innerText = GetLocalI18NString(703);
+    oldConditionLabel.innerText = GetLocalI18NString(704);
+
+    cmdEditExisting.value = GetLocalI18NString(705);
+    cmdAddNew.value = GetLocalI18NString(706);
+    cmdDeleteSource.value = GetLocalI18NString(707);
+    cmdDeleteCondition.value = GetLocalI18NString(708);
+
+    try
+    {
+        SetI18NStrings(CombinedEd);
+    } catch(e) { // This will fail if the editor fails in loading - so ignore
+    }
+    try
+    {
+        txtNoReflect.innerText = GetLocalI18NString(301);
+        txtNoEditor.innerText = GetLocalI18NString(302);
+    } catch(e) { // These will fail if the editor succeeds in loading - so ignore
+    }
+    cmdReset.onclick = cmdReset_OnClick;
+    cmdUndo.onclick = cmdUndo_OnClick;
+    cmdSave.onclick = cmdSave_OnClick;
+    cmdCommit.onclick = cmdCommit_OnClick;
+    cmdHelp.onclick = cmdHelp_OnClick;
+
+    cmdEditExisting.onclick = cmdEditExisting_onclick;
+    cmdAddNew.onclick = cmdAddNew_onclick;
+    cmdDeleteSource.onclick = cmdDeleteSource_onclick;
+    cmdDeleteCondition.onclick = cmdDeleteCondition_onclick;
+
+    alertForm.sourceName.onchange = sourceName_onchange;
+    alertForm.sourceNames.onchange = sourceNames_onchange;
+    alertForm.sourceName.onkeypress = sourceName_onkeypress;
+    alertForm.conditionNames.onchange = conditionNames_onchange;
+    alertForm.conditionName.onchange = conditionName_onchange;
+    alertForm.conditionName.onkeypress = conditionName_onkeypress;
+    
+    SetCurrentSecurityLevel();
+    Reflector.SetApp(window.external.Application);
+}
+catch(e)
+{
+    // Ignore errors - probably means we're in a strange container
+    ReportMessage(GetLocalI18NString(418));
+}
+-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="CombinedEd" EVENT="OnChangeState">
+<!--
+try
+{
+    CombinedEd_OnChangeState();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("CombinedEd_OnChangeState failed");
+}
+-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JScript" FOR="Reflector" EVENT="OnOperatorChange">
+<!--
+try
+{
+    SecurityLevelChanged();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnOperatorChange failed");
+}
+-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="Reflector" EVENT="OnAppStatusUpdate">
+<!--
+try
+{
+    AppStatusUpdate();
+}
+catch(e)
+{
+    // Ignore errors - they probably mean editor was not allowed to run because of security    
+    ReportMessage("Reflector_OnAppStatusUpdate failed");
+}
+-->
+</SCRIPT>
+</BODY>
+</HTML>

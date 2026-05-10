@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SystemMenu" targetNamespace="http://tempuri.org/SystemMenu.xsd" elementFormDefault="qualified" xmlns="http://tempuri.org/SystemMenu.xsd" xmlns:mstns="http://tempuri.org/SystemMenu.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>System Menu schema for Honeywell System Display Menus.</xs:appinfo>
+    <xs:documentation xml:lang="en">Copyright 2007 Honeywell Limited.</xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="ActionIDType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The actions that can be performed when a menu item or tab is clicked.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Callup Page" />
+      <xs:enumeration value="Callup Popup" />
+      <xs:enumeration value="Request Point Detail" />
+      <xs:enumeration value="Request Task" />
+      <xs:enumeration value="Invoke Menu"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ActionArgumentsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The arguments needed to perform the action for this link.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="MenuNode">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        This is the 'base class' type for all leaf and branch nodes in the menu definition.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Caption" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          The text that will be displayed to the user.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Icon" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          The file name of the icon that should be displayed next to the menu item. 
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ActionID" type="ActionIDType"  use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          Leaf-nodes in the menu must specify an action.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ActionArguments" type="ActionArgumentsType"  use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          Leaf-nodes in the menu must specify an action-target.
+          If the ActionID is 'Callup Page' or 'Callup Popup', then this is a URL to be called up. Use 'page:\\' protocol if at all possible.
+          If the ActionID is 'Request Point Detail' then this is the name of the point.
+          If the ActionID is 'Request Task' then this is the comma-seperated list of arguments to the Application.RequestTask function:
+            LRN, param1, param2, param3, param4, &quot;paramDetails&quot;
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Hidden" fixed="" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          Indicates that the menu item or tab should never be displayed. Used for things like edit-mode displays.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Licence" type="xs:string" use="optional" >
+     <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Any special licence conditions required for the menu item or tab to be displayed.
+        This must consist of a set of tests in the format:
+        licenceName1 (==|!=) licenceValue1 [(And|Or) licenceName1 operator licenceValue1]*
+      </xs:documentation>
+    </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  
+  <xs:complexType name="BranchNode">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        This is the element-type for a branch-node in the menu, which must be an 'Item' element.
+        Branch nodes may have child 'Item' subtrees OR child 'Tab' leaf-nodes but not both.
+        Branch nodes may have associated actions, but these are not required. 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MenuNode">
+        <xs:choice minOccurs="0" maxOccurs="1">
+          <xs:element name="Item" type="BranchNode" minOccurs="1" maxOccurs="unbounded" />
+          <xs:element name="Tab" type="MenuNode" minOccurs="1" maxOccurs="unbounded" />
+        </xs:choice>
+        <xs:attribute name="ActionID" type="ActionIDType"  use="optional">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              Branch-nodes in the menu may specify an action.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ActionArguments" type="ActionArgumentsType"  use="optional">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              Branch-nodes in the menu may specify an action-target.
+              See the description for this property on the MenuNode element for more details.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>      
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MenuRoot">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        This is the element-type for the root-node of a menu definition.
+        The Caption and Icon are for the menu as a whole.
+        The root node may contain 'Item' nodes and 'Separator' nodes only.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Item" type="BranchNode" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="Separator" type="xs:string" fixed="" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="Caption" type="xs:string" use="required" />
+    <xs:attribute name="Icon" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:element name="Menu" type="MenuRoot">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Every Menu-definition document must contain a single MenuRoot node.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="198px" height="24px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="JScript" id="0D4ABCDD-5897-4D54-AAA8-98C9EB9E6E9C"><![CDATA[//var showPointPVUnit;
+//var useNumDecimals;
+//var numDecimals;
+//var fontSize;]]></script><script event="onshapeload" language="JScript" id=""><![CDATA[	var showPointPVUnit = this.GetCustomProperty("Value", "ShowPointPVUnit");
+	//useNumDecimals = this.GetCustomProperty("Value", "UseNumDecimals");
+	//numDecimals = this.GetCustomProperty("Value", "NumDecimals");
+	var fontSize = this.GetCustomProperty("Value", "FontSize");
+	alpha001.style.fontSize = String(fontSize) + "pt";
+	textbox001.style.fontSize = String(fontSize) + "pt";
+
+	if (showPointPVUnit != 1)
+	{
+		textbox001.value = this.GetCustomProperty("Value", "Unit");
+	}]]></script></scripts><parameters><parameter name="SLAnalogPoint" type="Point" description="Point Name" defaultvalue=""/><parameter name="SLAnalogPtParam" type="Parameter" description="Point Parameter Name" defaultvalue=""/><parameter name="ShowPointPVUnit" type="Value" description="Show Point PV Unit" defaultvalue="0"/><parameter name="Unit" type="Value" description="Static unit" defaultvalue=""/><parameter name="FontSize" type="Value" description="Font size" defaultvalue="12"/><parameter name="UseNumDecimals" type="Value" description="Use fixed number of decimal places" defaultvalue="0"/><parameter name="NumDecimals" type="Value" description="Number of decimal places" defaultvalue="0"/><parameter name="CalculatedValue" type="Value" description="Calculated value to be passed into this shape" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alpha001 class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 91.66%; FONT-FAMILY: Arial; WIDTH: 46.96%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateNaNState:0;lineColor:#000000;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var calculatedValue = this.parentElement.parentElement.GetCustomProperty("Value", "CalculatedValue");
+	var useNumDecimals = this.parentElement.parentElement.GetCustomProperty("Value", "UseNumDecimals");
+	var numDecimals = this.parentElement.parentElement.GetCustomProperty("Value", "NumDecimals");
+	if (useNumDecimals == 0)
+	{
+		numDecimals = SL_GetNumDecimals(calculatedValue);	
+	}
+
+	//alpha001.numericDisplayFormat = "%." + String(numDecimals) + "f";
+	if ((calculatedValue != NaN) && (calculatedValue !== undefined) && (calculatedValue != ""))
+	{
+		var calcValue = parseFloat(calculatedValue).toFixed(numDecimals);
+		alpha001.value = calcValue;
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::SLAnalogPtParam%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textbox001 class="hvg.textbox.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 91.66%; FONT-FAMILY: Arial; WIDTH: 48.98%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 50.5%; TOP: 4.16%; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:22;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:97;">Text</DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var showPointPVUnit = this.parentElement.parentElement.GetCustomProperty("Value", "ShowPointPVUnit");
+	if (showPointPVUnit == 1)
+	{
+		var pVUnitCode = textbox001.DataValue("SLAnalogPoint.HEU");
+
+		textbox001.value = HART_GetShortSymbolFromStandardUnitCode(pVUnitCode);
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HEU,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 24px; WIDTH: 198px; POSITION: absolute; LEFT: 151px; TOP: 201px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:24;lineColorBlink:False;Width:198;"></DIV>]]></content></html></group></shape></shapes></shapefile>

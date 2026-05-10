@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'  NOTE (1) This navigation tree currently expects to be run in a frame
+'           (all links are target=_parent)
+'       (2) For the tree to expand to the current leaf the title of the 
+'           parent document must match the text description of the link
+'           at the current leaf.  (parent.document.title = strLinkName)
+'----------------------------------------------------------------------->
+<HTML><HEAD><TITLE>System Configuration Navigation Menu</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<STYLE>
+<!--
+    .parent {
+			FONT-SIZE: x-small;
+			FONT-FAMILY: Helvetica, Arial;
+			FONT-WEIGHT: bolder;
+			COLOR: #e2d274
+			}
+			
+	.activelink	{
+			FONT-SIZE: x-small;
+    			FONT-FAMILY: Helvetica, Arial
+			FONT-WEIGHT: normal;
+			COLOR: #E9E9E9;
+			BACKGROUND-COLOR: #494949
+			}
+	A
+			{
+			TEXT-DECORATION: none;
+			FONT-SIZE: x-small;
+    			FONT-FAMILY: Helvetica, Arial
+			FONT-WEIGHT: normal;
+			COLOR: #E9E9E9
+			}
+	A.par 
+   			{
+   			COLOR: #e2d274
+			}
+	A:hover.par
+	        {
+			COLOR: #f6e688
+			}
+	A:hover.lin
+	        {
+			COLOR: #ffffff
+			}		
+	A.lin_a
+			{
+			BACKGROUND-COLOR: #494949
+			}
+	A.par_a
+			{
+			BACKGROUND-COLOR: #494949;
+			COLOR:#e2d274
+			}
+    .image  	
+			{	
+    	  		cursor:default;
+    	  		ALIGN:MIDDLE;
+    			BORDER:0;
+    			}
+-->
+</STYLE>
+
+<SCRIPT language=vbscript id=clientEventHandlersVBS>
+<!--
+dim strCurrentDoc
+Dim strExpand
+
+Sub window_onload
+    Dim intParentID
+    Dim intContIntParentID
+    Dim intStnParentID
+
+	strCurrentDoc = parent.document.title
+	strExpand = ""
+	
+    intParentID = AddParent("General")
+		Call AddChild(intParentID, "Configuration Menu",		"SysMnuConfiguration.dsp", false, 0)
+		Call AddChild(intParentID, "Server License Details",		"SysLicence.dsp", false, 0)
+
+    intParentID = AddParent("System Hardware")
+    	Call AddChild(intParentID, "Connections",				"sys147.dsp", false, 0)
+    	intContIntParentID = AddChild(intParentID, "Controller Interfaces",	"sys069.dsp", true, 0)
+    	Call AddChild(intContIntParentID, "Channels",				"sys069.dsp", false, 1)
+    	Call AddChild(intContIntParentID, "System Interfaces",			"sysCfgSumPntSrv.dsp", false, 1)
+    	Call AddChild(intContIntParentID, "Controllers",			"sysCfgSumCntrlr.dsp", false, 1)
+    	Call AddChild(intContIntParentID, "OPC Integrator",			"sysCfgOPCIntegrator.htm", false, 1)
+    	Call AddChild(intParentID, "Consoles",					"sysCfgConSummary.dsp", false, 0)
+    	intStnParentID = AddChild(intParentID, "Stations",			"sysCfgStnSummary.dsp", true, 0)
+    	Call AddChild(intStnParentID, "Flex Stations",				"sysCfgStnSummary.dsp", false, 1)
+    	Call AddChild(intStnParentID, "Console Stations",			"sysCfgCStnSummary.dsp", false, 1)
+    	Call AddChild(intParentID, "Printers",					"sys197.dsp", false, 0)
+    	Call AddChild(intParentID, "Redundant Server",				"sysCfgRedundantServer.dsp", false, 0)
+    	Call AddChild(intParentID, "Distributed Servers",			"sys117.dsp", false, 0)
+    	Call AddChild(intParentID, "Server Wide Settings",			"sys008.dsp", false, 0)
+ 	
+    intParentID = AddParent("Operator Security")
+		Call AddChild(intParentID, "Operators",				"sys071.dsp", false, 0)
+		Call AddChild(intParentID, "Sign-on Administrator",		"sys141.dsp", false, 0)
+		Call AddChild(intParentID, "Electronic Signature", 		"sysCfgElecSigGeneral.dsp", false, 0)
+
+    intParentID = AddParent("Profiles")
+		Call AddChild(intParentID, "Profile Definitions",		"SysCfgAssetProfSumm", false, 0)
+
+    intParentID = AddParent("Alarm & Event Management")
+		Call AddChild(intParentID, "Alarm Enable/Disable",		"sysCfgAlarmEnable", false, 0)
+		Call AddChild(intParentID, "Alarm & Point Processing",		"sys082.dsp", false, 0)
+		Call AddChild(intParentID, "Alarm Paging",			"sysCfgAlmPgrComms.dsp", false, 0)
+		Call AddChild(intParentID, "Event Archiving",			"sys144.dsp", false, 0)
+
+    intParentID = AddParent("History")
+    	Call AddChild(intParentID, "History Collection",			"sysHstStd.dsp", false, 0)
+		Call AddChild(intParentID, "History Archiving",			"sysCfgHistoryArchive.dsp", false, 0)
+
+    intParentID = AddParent("Reports")
+		Call AddChild(intParentID, "Reports",				"sysCfgRptSummary.dsp", false, 0)
+		Call AddChild(intParentID, "Server Wide Settings",		"sysCfgRptServerWide.dsp", false, 0)
+		
+    intParentID = AddParent("Schedules")
+		Call AddChild(intParentID, "Point Control Schedules",		"sysCfgPntCtrlSchedule.dsp", false, 0)
+		Call AddChild(intParentID, "Holidays",				"sys076.dsp", false, 0)
+		Call AddChild(intParentID, "Shifts",				"sys083.dsp", false, 0)
+
+    intParentID = AddParent("Trend & Group Displays")
+   		Call AddChild(intParentID, "Trends",				"sysTndConfigSummary.htm", false, 0)
+		Call AddChild(intParentID, "Groups",				"sysGrpConfigSummary.dsp", false, 0)
+		
+    intParentID = AddParent("Acronyms")
+   		Call AddChild(intParentID, "System",				"sys154.dsp", false, 0)
+		Call AddChild(intParentID, "TDC CL",				"sys155.dsp", false, 0)
+		Call AddChild(intParentID, "User",				"sys157.dsp", false, 0)
+		
+    intParentID = AddParent("Applications")
+		Call AddChild(intParentID, "Recipes",				"sys229.dsp", false, 0)
+		Call AddChild(intParentID, "Controller Applications",		"sysMnuControllerApps.dsp", false, 0)
+		
+    intParentID = AddParent("Application Development")
+    	Call AddChild(intParentID, "Applications (User Developed)",		"sys190.dsp", false, 0)
+    	Call AddChild(intParentID, "Application Point Lists",			"sys192.dsp", false, 0)
+    	Call AddChild(intParentID, "System Sinewave",				"sys057.dsp", false, 0)
+    	Call AddChild(intParentID, "Task Timers",				"sys139.dsp", false, 0)
+    	Call AddChild(intParentID, "Watchdog Timers",				"sys133.dsp", false, 0)
+    	Call AddChild(intParentID, "User Defined Data Formats",			"sysCfgDataFormatsUnscaled.dsp", false, 0)
+		    
+    intParentID = AddParent("Server Scripting")
+     	Call AddChild(intParentID, "Script Engines",				"sysCfgScriptingAutomatic.dsp", false, 0)
+   	Call AddChild(intParentID, "Server Scripts",				"sysCfgScriptingGeneral.dsp", false, 0)
+    	Call AddChild(intParentID, "Point Scripts",				"sysCfgScriptingPoint.dsp", false, 0)
+    	
+    If strExpand <> "" then
+		Set objExpand = window.document.getElementById(strExpand)
+		ExpandCollapse objExpand, true
+    end if
+    
+End Sub
+
+-->
+</SCRIPT>
+</HEAD>
+<BODY bgColor=#8c8885>
+<SCRIPT language=vbscript>
+<!--
+
+Dim oldColor
+Dim intCount
+
+intCount = 0
+
+Function AddParent(strName)
+    Dim strID 
+    Dim strTemp
+
+    strID = "ID" & intCount
+    intCount = intCount + 1
+
+    strTemp = "<table cellspacing=1 cellpadding=0 width=""100%""><tr><td width=" & iIndent & "px""></td><td nowrap><DIV ID=""" & strID & """ CLASS=""parent""><IMG CLASS=""image"" SRC=""Images\plus.gif"">&nbsp;" & strName & "<DIV CLASS=""child"" STYLE=""display:none""></DIV></DIV></td></tr></table>"
+
+    outlineDiv.insertAdjacentHTML "BeforeEnd", strTemp
+
+    AddParent = strID
+End Function
+
+Function AddChild(strParentID, strLinkName, strUrl, bHasChild, iLevel)
+    Dim strTemp
+    Dim objTemp
+    Dim strClass
+    dim strStyle
+    dim i
+    dim iIndent
+    Dim strID
+    strID = "ID" & intCount
+    intCount = intCount + 1
+    
+    'If this child is the active child then the class is set to "activelink" 
+    'so that it is highlighted in the menu.
+    strClass = "link"
+	if CStr(strCurrentDoc) = CStr(strLinkName) then
+		strClass = "activelink"
+		strExpand = strParentID
+	end if
+	
+	if strClass = "activelink" then
+		strStyle = "FONT-SIZE: 11pt;FONT-FAMILY: Helvetica, Arial;FONT-WEIGHT: normal;COLOR: #E9E9E9;BACKGROUND-COLOR: #494949"
+	end if
+	
+	iIndent = 5*(iLevel+1)
+	
+	if bHasChild then
+		strTemp = "<table cellspacing=1 cellpadding=0 width=""100%""><tr><td width=" & iIndent & "px""></td><td nowrap><DIV ID=""" & strID & """ CLASS=""parent1""><IMG CLASS=""image"" SRC=""Images\plus.gif""/>&nbsp;<A class=par HREF=""PAGE://" & strUrl & """ target=_parent>" & strLinkName & "</A><DIV CLASS=""child"" STYLE=""display:none""></DIV></DIV></td></tr></table>"
+	else
+		strTemp = "<table cellspacing=1 cellpadding=0 width=""100%""><tr><td width=" & iIndent & "px""></td><td nowrap style=""" & strStyle & """><IMG SRC=""Images\blank.gif""/>&nbsp;<A class=lin HREF=""PAGE://" & strUrl & """ target=_parent>" & strLinkName & "</A><BR></tr></td></table>"
+	end if  
+
+    Set objTemp = document.all.item(strParentID)
+    if objTemp.children(1).className = "child" then
+  		objTemp.children(1).insertAdjacentHTML "BeforeEnd", strTemp
+  	else
+  		objTemp.children(2).insertAdjacentHTML "BeforeEnd", strTemp
+  	end if
+    AddChild = strID
+End Function
+
+Sub ExpandCollapse(objElement, bAuto)    
+    Dim objTargetDiv
+    Dim imgIcon
+
+    ' did the user click the image or the parent name?
+    If objElement.className = "parent" or objElement.className = "parent1" Then
+        Set objTargetDiv = objElement.children(1)
+        If objTargetDiv.className <> "child" then
+        	Set objTargetDiv = objElement.children(2)
+        End if
+        Set imgIcon = objElement.children(0)
+    Else
+        Set objTargetDiv = objElement.parentElement.children(1)
+        if objTargetDiv.className <> "child" then
+        	Set objTargetDiv = objElement.parentElement.children(2)
+        end if
+        Set imgIcon = objElement
+    End If
+    
+    ' if the parent has children, expand or collapse them
+    If objTargetDiv.children.length > 0 Then
+        If objTargetDiv.style.display = "none" Then   
+            objTargetDiv.style.display = ""
+            imgIcon.src = "Images\minus.gif"
+        Else
+            objTargetDiv.style.display = "none"
+            imgIcon.src = "Images\plus.gif"
+        End If
+    End If
+    
+    if bAuto Then
+	    'if the parent has parents, expand them
+	    Dim objParent
+	    Set objParent = objTargetDiv.parentElement
+	    While Not objParent Is Nothing
+	    	if objParent.className = "parent" or objParent.className = "parent1" then
+	    		Dim objChild
+	    		Set objChild = objParent.children(1)
+	    		Set imgIcon = objParent.children(0)
+	    		if objChild.className <> "child" then
+	    			set objChild = objParent.children(2)
+	    		end if
+	    		objChild.style.display = ""
+	    		imgIcon.src = "Images\minus.gif"
+	    	end if
+	    	
+	    	Set objParent = objParent.parentElement
+	    Wend
+	end if
+End Sub
+
+Sub DoClick()
+    If (window.event.srcElement.className = "parent") Or (window.event.srcElement.className = "image") Then
+        ExpandCollapse window.event.srcElement, false
+    End If
+    window.event.cancelBubble = True
+End Sub
+
+-->
+</SCRIPT>
+
+<DIV language=VBScript id=outlineDiv onclick=DoClick></DIV></BODY></HTML>

@@ -1,0 +1,415 @@
+<datasource version="2">
+    <hmipage pageType="1" updateRate="0" forwardAction="1" forwardString="" backwardAction="1" backwardString="" previousIdleTime="0" areaRequestType="0" areaString="" securityLevel="0" requestTaskOnPageCallup="0" callUpTaskSecurityLevel="2" callUpTaskStationIndex="0" callUpTaskTaskLrn="0" callUpTaskTaskParam1="1" callUpTaskTaskParam2="11" callUpTaskTaskParam3="0" callUpTaskTaskParam4="0" periodicTaskOnPageCallup="0" periodicTaskSecurityLevel="2" periodicTaskStationIndex="0" periodicTaskTaskLrn="0" periodicTaskTaskParam1="1" periodicTaskTaskParam2="11" periodicTaskTaskParam3="0" periodicTaskTaskParam4="0" periodicTaskPeriod="60" persistFlags="0" safeviewCategory="HW_SYSTEM_NOTIFPANE_MESSAGES" pageTitle="" pageKey="0" pageFlags="1" zoomingAllowed="0" singleUse="0" appSetName="" associateWithAlarmGroup="0" useDefaultAlarmGroup="1" alarmGroup="%display name%_almgrp" pinchZoomEnabled="0"/>
+    <dataobject id="0" type="HMIPage.MessageSource" format="propertybag">
+        <PROPERTY name="WaitForInit">1</PROPERTY> 
+        <PROPERTY name="SummaryType">7</PROPERTY> 
+        <PROPERTY name="Version">4.5</PROPERTY> 
+        <PROPERTY name="AutoMigrate">0</PROPERTY> 
+        <PROPERTY name="NotificationCenter">1</PROPERTY> 
+        <PROPERTY name="TemplateXML">
+        <![CDATA[
+<TableTemplate>
+    <FieldXML>
+        <fields>
+            <field id="Selected"/>
+            <field id="GenCookie"/>
+            <field id="Time"/>
+            <field id="TimeMicroSeconds"/>
+            <field id="Source"/>
+            <field id="Block"/>
+            <field id="LocationTagName"/>
+            <field id="LocationFullName"/>
+            <field id="ExecutionID"/>
+            <field id="BatchID"/>
+            <field id="Description"/>
+            <field id="Acknowledged"/>
+            <field id="Confirmed"/>
+            <field id="Confirmable"/>
+            <field id="NumSignaturesReqd"/>
+            <field id="SourceTagName"/>
+        </fields>
+    </FieldXML>
+    <XFormXML>
+        <xforms>
+            <defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+        </xforms>
+    </XFormXML>
+    <HTMLWrapperXML>
+        <HTMLWrappers>
+            <MenuItemWrapper>
+                <Begin>
+                    &lt;div&gt;
+                </Begin>
+                <End>
+                    &lt;/div&gt;
+                </End>
+            </MenuItemWrapper>
+            <FilterAppliedWrapper>
+                <Begin>
+                    &lt;span&gt;
+                </Begin>
+                <End>
+                    &lt;/span&gt;
+                </End>
+            </FilterAppliedWrapper>
+            <SortAscIndicator>
+                &amp;nbsp;&lt;img src="Images/SortArrowUp.gif"&gt;
+            </SortAscIndicator>
+            <SortDescIndicator>
+                &amp;nbsp;&lt;img src="Images/SortArrowDown.gif"&gt;
+            </SortDescIndicator>
+            <GroupSeparator>
+                &lt;div/&gt;
+            </GroupSeparator>
+        </HTMLWrappers>
+    </HTMLWrapperXML>
+    <MenuGroupXML>
+        <MenuGroups>
+            <SQLFilterGroup id="SourceFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterDialog id="Filter_SourceCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="" param="$$PARAMDELIM$$Source" modal="true">
+                    <Selected>
+                        &lt;div/&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div/&gt;;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="SourceTagNameFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterDialog id="Filter_SourceTagNameCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="" param="$$PARAMDELIM$$SourceTagName" modal="true">
+                     <Selected>
+                        &lt;div/&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div/&gt;;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="BlockFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterDialog id="Filter_BlockCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="" param="$$PARAMDELIM$$Block" modal="true">
+                     <Selected>
+                        &lt;div/&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div/&gt;;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+            <SQLFilterGroup id="BatchIDFilterMainGroup" SelectionPolicy="supersingle">
+                <SQLFilterDialog id="Filter_BatchIDCustom" DialogState="" Selected="false" url="Dialogs/StringFilterDialog.htm" format="" param="$$PARAMDELIM$$BatchID" modal="true">
+                     <Selected>
+                        &lt;div/&gt;
+                    </Selected>
+                    <NotSelected>
+                        &lt;div/&gt;;
+                    </NotSelected>
+                </SQLFilterDialog>
+            </SQLFilterGroup>
+        </MenuGroups>
+    </MenuGroupXML>
+    <BaseFilterXML>
+        <BaseFilterDef>
+        </BaseFilterDef>
+    </BaseFilterXML>
+    <SortXML>
+        <SortDef DefaultSortColumn="Card" DefaultSortDir="asc">
+            <colref id="Card" 
+                SortAscString="Time asc"
+                SortDescString="Time desc"
+                SortDir="desc"
+                SortOrder="1"/>
+        </SortDef>
+    </SortXML>
+    <ColumnStateXML>
+        <state>
+            <colref id="Card" width="100" hidden="false"/>
+        </state>
+    </ColumnStateXML>
+    <TableDefinitionXML>
+        <table>
+            <tableMenu/>
+            <contextMenu/>
+            <columns>
+                <column id="Card">
+                    <title/>
+                    <action/>
+                    <menu/>
+                    <content/>
+                    <bindings/>
+                </column>
+            </columns>
+        </table>
+    </TableDefinitionXML>
+</TableTemplate>        
+        ]]>
+        </PROPERTY>
+    </dataobject>
+    <dataobject id="1" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">1</property>
+        <property name="CalloutElement"/>
+        <property name="FileRefFile">8</property>
+        <property name="FileRefFlags">0</property>
+        <property name="FileRefFormat">2</property>
+        <property name="FileRefRecord">1</property>
+        <property name="FileRefWord">51</property>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <!-- Instruction Response Shape datasource definition start -->
+    <dataobject id="17" type="HMIPage.ScriptData" format="propertybag">
+        <property name="CommaDelimitedAllowFastUpdateValues"/>
+        <property name="CommaDelimitedCalloutElements"/>
+        <property name="CommaDelimitedParameters"/>
+        <property name="CommaDelimitedPointNames"/>
+        <property name="CommaDelimitedPresentationTypes"/>
+        <property name="CommaDelimitedSecurityLevels"/>
+        <property name="CommaDelimitedUpdateRates"/>
+        <property name="version">1.1</property>
+    </dataobject>
+    <dataobject id="18" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">12</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="19" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">2</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="20" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">1</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">2</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="21" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">12</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="22" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">2</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="23" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">1</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">2</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="24" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="25" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="26" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="27" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="28" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">0</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="29" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="30" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="31" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="32" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+    <dataobject id="33" type="HMIPage.Generic" format="propertybag">
+        <property name="AddressFlags">0</property>
+        <property name="AddressType">0</property>
+        <property name="CalloutElement"/>
+        <property name="ObjectType">0</property>
+        <property name="ParameterFormat">0</property>
+        <property name="PointRefFlags">0</property>
+        <property name="PointRefParamName"/>
+        <property name="PointRefParamOffset">0</property>
+        <property name="PointRefPointName"/>
+        <property name="PresentationType">1</property>
+        <property name="SecurityLevel">0</property>
+        <property name="UpdatePeriod">0</property>
+        <property name="version">1.3</property>
+    </dataobject>
+	<!-- Instruction Response Shape datasource definition end -->
+</datasource>

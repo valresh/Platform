@@ -1,0 +1,1060 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE></TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.21>
+<META name=HMIWebTemplateDescription 
+content="Create a blank HMIWeb Point Detail or Template display.">
+<SCRIPT src="DisplayScripts/SmartLineGlobalVariables.js"></SCRIPT>
+
+<SCRIPT src="DisplayScripts/SmartLineGlobalFunctions.js"></SCRIPT>
+
+<SCRIPT src="DisplayScripts/ST800.js"></SCRIPT>
+
+<SCRIPT type=text/vbscript>
+Function CheckForFDM()
+    Dim Wshell
+    Dim StrPath
+    Dim FDMInstalled
+
+    Err.Clear
+
+    set Wshell = window.external.CreateWhitelistedObject("Wscript.shell",1)
+
+    On Error Resume Next
+    StrPath = Wshell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Honeywell\HFDCM\" & "RootDir")
+    If Err.number = 0 then
+        FDMInstalled = true		
+        Set Wshell = Nothing
+	else
+        FDMInstalled = false
+        Err.Clear
+    End If
+
+    CheckForFDM = FDMInstalled
+End Function</SCRIPT>
+
+<SCRIPT type=text/vbscript>
+Sub LoadDisplayTab(tabName)
+    window.external.Parent.RequestTask 21, 7, 0, 0, 0, tabName
+End Sub</SCRIPT>
+
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<OBJECT id=HDXPageBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT id=DisplayDataRepository 
+style="HEIGHT: 0px; WIDTH: 0px; POSITION: absolute; LEFT: 0px; TOP: 0px" 
+codeBase="" classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT>
+<META name=GENERATOR content="MSHTML 11.00.10570.1001"><LINK id=HDXStylesheet 
+rel=stylesheet type=text/css href=".\Styles\SmartLineStyles.css"></HEAD>
+<SCRIPT language=JScript for=alphaFaultListDataProvider defer 
+event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	SL_UpdateDeviceRevision(this, "CurrentPoint");
+	SL_UpdateFaults(this, "CurrentPoint");
+	groupFaultsResolutions_updateView(shapeFaultsResolutions);</SCRIPT>
+
+<SCRIPT language=JScript defer>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// EXP510.1-35		May   27, 2018		Developer Label D_EXP510.1-35.0-06
+/// [RLEAPFI-675]   May   27, 2018      Moved the handling of the Device Revision from SL_Frame to this display.
+/// EXP510.1-34		May   21, 2018		Developer Label D_EXP510.1-34.0-12
+/// [RLEAPFI-646]   May    3, 2018      Added displaying of Transmitter model mismatch message. 
+/// [RLEAPFI-645]	April 30, 2018		Modified the logic that generates the target display name for all displays in order
+///                                     to support the new display set navigation (see JIRA).
+/// [RLEAPFI-642]   April 25, 2018      Modified the logic that generates the target display name to support the STT700.
+/// EXP510.1-31     April 24, 2018      Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFrame_groupFrame defer event=ondatachange>	SL_LogEvent(this, "ondatachange");
+
+	if (SL_UpdateDeviceType(this, "SLAnalogPoint"))
+	{
+		// If the actual transmitter is not the expected model, disable the navigation buttons and
+		// provide a warning message in the Message Zone.
+		if (SL_Frame_ExpectedModel != SL_Device.type.model)
+		{
+			SL_DisableButtons(this.parentElement);
+
+			var message = "The actual transmitter model (" + SL_Device.type.model + 
+				") does not match the expected model (" + SL_Frame_ExpectedModel +
+				"). Data shown may be invalid.";
+			window.external.MessageZoneText  = message;
+		}
+	}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFrame defer event=onshapeload>	SL_LogEvent(this, "onshapeload");
+
+	try
+	{
+		// Initially disable all buttons to avoid navigation until the required global values are initialized.
+		SL_DisableButtons(this);
+
+		// Check to see if the FDM Maintenance View files have been loaded onto this client.
+		// Set the visibility and availability of the Maintenace View menu item accordingly.
+		SL_Frame_FDMInstalled = CheckForFDM();
+		SL_SetVisibility(shapeFrame_textboxMaintenanceView, SL_Frame_FDMInstalled);
+
+		// Since this shape is contained in all pages, the tab to select when the page loads must be determined.
+		SL_get_Current_Group_and_Expected_Model();
+
+		// The selected tab is highlighted by making the blue line under the text visible (the default is to be hidden).
+		this.objects("line" + SL_Frame_CurrentTab).style.visibility = "visible";
+
+		SL_EnableButtons(this, SL_Frame_CurrentTab);
+
+		// Add trace information to log if enabled.
+		SL_LogDebugLevelMessage(3, "SL_Frame.Page_onshapeload", "CurrentTab = " + SL_Frame_CurrentTab + ", ExpectedModel = " + SL_Frame_ExpectedModel + ", FDMInstalled = " + SL_Frame_FDMInstalled);
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_Frame.Page_onshapeload", "CurrentTab = " + SL_Frame_CurrentTab + ", ExpectedModel = " + SL_Frame_ExpectedModel + ", FDMInstalled = " + SL_Frame_FDMInstalled, error);
+	}</SCRIPT>
+
+<SCRIPT id=89FD7C44-998E-4AAE-9D2F-B44DB2BA1168 language=JScript defer 
+shaperefcount="1">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// History:
+///
+/// [RLEAPFI-675]   May   27, 2018      Use the dictionary to provide expected model to Range and MaintenanceView tabs. 
+/// [RLEAPFI-646]   May    3, 2018      Added displaying of Transmitter model mismatch message. 
+/// [RLEAPFI-645]	April 30, 2018		Modified the logic that generates the target display name for all displays in order
+///                                     to support the new display set navigation (see JIRA).
+/// [RLEAPFI-642]	April 25, 2018		Modified the logic that generates the target display name to support the STT700.
+/// EXP510.1-31		April 24, 2018		Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var SL_Frame_CurrentTab = "";
+var SL_Frame_ExpectedModel = "";
+var SL_Frame_FDMInstalled = false;
+
+
+function SL_get_Current_Group_and_Expected_Model()
+{
+	var myName = window.location.pathname.split("/").pop();
+	var full_name_len = myName.length;
+	var name_base_len = myName.indexOf("_");
+
+	try
+	{
+		if (name_base_len > 0)
+		{
+			SL_Frame_CurrentTab = myName.substr(name_base_len + 1, full_name_len - name_base_len - 5);
+
+			// For the "Range" and "MaintenanceView" displays the expected model cannot be determined from the
+			// the file name. For these displays the previously opened "Overview" display should have left a
+			// copy of the expected model type in the dictionary.
+			if (SL_Frame_CurrentTab == "Range" || SL_Frame_CurrentTab == "MaintenanceView")
+				SL_Frame_ExpectedModel = window.external.Dictionary.Item("sysdtlSmartLine_ExpectedModel").value
+			else
+				SL_Frame_ExpectedModel = myName.substr(15, name_base_len - 15);
+		}
+		else
+		{
+			SL_Frame_CurrentTab = "Overview";
+			SL_Frame_ExpectedModel = myName.substr(15, full_name_len - 19);
+		}
+	}
+	catch (error)
+	{
+		SL_LogErrorMessage("SL_get_Current_Group_and_Expected_Model", "Could not update group and model: filename = " + myName, error);
+	}
+}
+
+function SL_DisableButtons(shape)
+{
+	shape.objects("pushbuttonOverview").disabled = true;
+	shape.objects("pushbuttonDeviceDetails").disabled = true;
+	shape.objects("pushbuttonRange").disabled = true;
+	shape.objects("pushbuttonFaultsResolutions").disabled = true;
+	shape.objects("pushbuttonMaintenanceView").disabled = true;
+}
+
+function SL_EnableButtons(shape, except_button)
+{
+	shape.objects("pushbuttonOverview").disabled = false;
+	shape.objects("pushbuttonDeviceDetails").disabled = false;
+	shape.objects("pushbuttonRange").disabled = false;
+	shape.objects("pushbuttonFaultsResolutions").disabled = false;
+	if (SL_Frame_FDMInstalled)
+		shape.objects("pushbuttonMaintenanceView").disabled = false;
+
+	shape.objects("pushbutton" + except_button).disabled = true;
+}
+
+function SL_DeviceTypeIsCorrect()
+{
+	//compare actual model with expected one
+	if (SL_Frame_ExpectedModel == "Any")
+	{
+		var model_is_correct = false;
+
+		for(i=0; i<SL_SmartLineDeviceTypes.length; i++)
+		{
+			var element = SL_SmartLineDeviceTypes[i];
+			if (element.model == SL_Device.type.model)
+			{
+				model_is_correct = true;
+				break;
+			}
+		}
+
+		if (!model_is_correct)
+		{
+			return false;
+		}
+	}
+	else
+	{
+		if (SL_Frame_ExpectedModel != SL_Device.type.model)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function SL_Frame_onclickHandler(pushbutton, groupName)
+{
+	SL_LogEvent(pushbutton, "onclick");
+
+	// Defualt display name beginning for all SmartLine displays
+	var displayName = "sysdtlSmartLine";
+
+	// "Overview", "DeviceDetails", and "FaultsResolutions" display names include the transmitter model.
+	// "Range" and "MaintenanceView" display names do not include the model; those are same for all transmitters.
+	if (groupName == "Overview" || groupName == "DeviceDetails" || groupName == "FaultsResolutions")
+		displayName += SL_Frame_ExpectedModel;
+
+	// The "Overview" display names do not include the display type but all others do.
+	if (groupName != "Overview")
+		displayName += "_" + groupName;
+
+	// Leave a trace of the Expected Model Type in the dictionary so that the "Range" and "MaintenaceView"
+	// displays can figure out the correct display name required to return to either the "Overview",
+	// "FaultsResolutions" or "DeviceDetails" displays for this model if they are selected from the menu.
+
+	// Initially the actual DeviceType read from the transmitter was used for this purpose but if the
+	// communications to the transmitter is down, this value goes to 0 and can not be used for this purpose.
+	// The new method allows the user to navigate through the menu to see the CDA parameters even when the
+	// communication to the transmitter is down.
+	window.external.Dictionary.remove("sysdtlSmartLine_ExpectedModel");
+	window.external.Dictionary.Add("sysdtlSmartLine_ExpectedModel" , SL_Frame_ExpectedModel);
+
+	// Switch to the selected display tab.
+	LoadDisplayTab(displayName + ".htm");
+
+}</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaultsResolutions_pushbuttonPrev defer 
+event=onclick>	pageIndex = pageIndex - 1;
+	selectedRowIndex = 0;
+
+	DisplayFaultsResolutions();
+	HighlightFault();
+	ShowHidePrevNext();
+
+	//DisplayFaultsResolutions(objRef_groupFaults, objRef_alphaCause, objRef_alphaResolution);
+	//HighlightFault(objRef_groupFaults);
+	//ShowHidePrevNext(objRef_pushbuttonPrev, objRef_pushbuttonNext);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaultsResolutions_pushbuttonNext defer 
+event=onclick>	pageIndex = pageIndex + 1;
+	selectedRowIndex = 0;
+
+	DisplayFaultsResolutions();
+	HighlightFault();
+	ShowHidePrevNext();
+
+	//DisplayFaultsResolutions(objRef_groupFaults, objRef_alphaCause, objRef_alphaResolution);
+	//HighlightFault(objRef_groupFaults);
+	//ShowHidePrevNext(objRef_pushbuttonPrev, objRef_pushbuttonNext);</SCRIPT>
+
+<SCRIPT language=JScript for=shapeFaultsResolutions defer event=onshapeload>	var objRef_groupFaults = shapeFaultsResolutions_groupFaults;
+	var objRef_alphaCause = shapeFaultsResolutions_alphaCause;
+	var objRef_alphaResolution = shapeFaultsResolutions_alphaResolution;;
+	var objRef_pushbuttonPrev = shapeFaultsResolutions_pushbuttonPrev;
+	var objRef_pushbuttonNext = shapeFaultsResolutions_pushbuttonNext;</SCRIPT>
+
+<SCRIPT id=3B7D534E-0C71-4F38-85D0-8C3485EC9F6E language=JScript defer 
+shaperefcount="1">var tag = "";
+var byteIndex;
+var bitIndex;
+var deviceCode;
+var deviceRevision;
+//var faultInfo;
+var criticalFaults = [];
+var nonCriticalFaults = [];
+var allFaults = [];
+var pages = 0;
+var pageIndex = 0;
+var numberOfBytesCmd48;
+var numberOfBytesCmd220;
+var maxRows = 0;
+var selectedRowIndex = 0;
+
+var objRef_groupFaults;
+var objRef_alphaCause;
+var objRef_alphaResolution;
+var objRef_pushbuttonPrev;
+var objRef_pushbuttonNext;
+
+
+function HighlightFault()
+{
+	for (i = 0; i < maxRows; i++)
+	{
+		if (i == selectedRowIndex)
+		{
+			objRef_groupFaults.children[i].objects("rectBackground").fillColor = "#FFFFFF";
+		}
+		else
+		{
+			objRef_groupFaults.children[i].objects("rectBackground").fillColor = "transparent";
+		}
+	}
+}
+
+function PopulateCauseResolution()
+{
+	// Select the desired faultInfo structure from the array of all active faults
+	var faultIndex = selectedRowIndex + (pageIndex * maxRows);
+
+	if ((SL_Device.allFaults.length > faultIndex) && (faultIndex >= 0))
+	{
+		var faultInfo = SL_Device.allFaults[faultIndex];
+
+		// Populate the Cause and Resolution textboxes.
+		objRef_alphaCause.value = faultInfo.description;
+		objRef_alphaResolution.value = faultInfo.resolution;
+	}
+	else
+		SL_LogErrorMessage("PopulateCauseResolution", "Attempt to select an invalid fault condition: Row Index = " + selectedRowIndex + ", Page Index = " + pageIndex + ", Max Rows = " + maxRows + ", Fault Index = " + faultIndex + ", Number Of Faults = " + SL_Device.allFaults.length, null);
+}
+
+function SelectFault(objRef_shapeFault)
+{
+	if (SL_Device.allFaults.length > 0)
+	{
+		selectedRowIndex = parseInt(objRef_shapeFault.GetCustomProperty("Value", "RowIndex"));
+
+		HighlightFault();
+		PopulateCauseResolution();
+	}
+}
+
+
+function DisplayFaultsResolutions(parentShape)
+{
+	var i;
+	var j;
+	var fillColor;
+	var lineColor;
+
+	var faultIndex = pageIndex * maxRows;
+	var rowIndex = 0;
+
+	// Fill in the top rows with any available status information, this will be limited by either the total number of
+	// active faults or the maximum rows for displaying faults in one "page".
+	//
+	// The special case of no active fault conditions is handled by creating a pseudo fault with:
+	//		Title:		"No fault conditions"
+	//		Fill Color:	Grey
+	//		Cause:		None
+	//		Resolution:	None
+
+	var maxFaults = Math.min(maxRows, SL_Device.allFaults.length);
+
+	for (rowIndex = 0; rowIndex < maxRows; rowIndex++, faultIndex++)
+	{
+		var faultShape = parentShape.objects("groupFaults").children[rowIndex];
+
+		if (faultIndex < SL_Device.allFaults.length)
+		{
+			switch (SL_Device.allFaults[faultIndex].criticality)
+			{
+				case 0:
+					fillColor = statusDisplayScheme[3].fillColor;
+					lineColor = statusDisplayScheme[3].lineColor;
+					break;
+
+				case 1:
+					fillColor = statusDisplayScheme[2].fillColor;
+					lineColor = statusDisplayScheme[2].lineColor;
+					break;
+
+				default:
+			}
+
+			faultShape.objects("alphaFault").value = SL_Device.allFaults[faultIndex].name;
+			faultShape.objects("ovalCriticality").fillColor = fillColor;
+			faultShape.objects("ovalCriticality").lineColor = lineColor;
+			faultShape.style.visibility = "visible";
+
+			//objRef_groupFaults.children[rowIndex].objects("alphaFault").value = SL_Device.allFaults[faultIndex].name;
+			//objRef_groupFaults.children[rowIndex].objects("ovalCriticality").fillColor = fillColor;
+			//objRef_groupFaults.children[rowIndex].objects("ovalCriticality").lineColor = lineColor;
+			//objRef_groupFaults.children[rowIndex].style.visibility = "visible";
+		}
+		else
+		{
+			if (rowIndex == 0)
+			{
+				faultShape.objects("alphaFault").value = "No fault conditions";
+				faultShape.objects("ovalCriticality").fillColor = statusDisplayScheme[0].fillColor;
+				faultShape.objects("ovalCriticality").lineColor = statusDisplayScheme[0].lineColor;
+				faultShape.style.visibility = "visible";
+
+				//objRef_groupFaults.children[rowIndex].objects("alphaFault").value = "No fault conditions";
+				//objRef_groupFaults.children[rowIndex].objects("ovalCriticality").fillColor = statusDisplayScheme[0].fillColor;
+				//objRef_groupFaults.children[rowIndex].objects("ovalCriticality").lineColor = statusDisplayScheme[0].lineColor;
+				//objRef_groupFaults.children[rowIndex].style.visibility = "visible";
+			}
+			else
+			{
+				faultShape.style.visibility = "hidden";
+				//objRef_groupFaults.children[rowIndex].style.visibility = "hidden";
+			}
+		}
+	}
+
+	if (SL_Device.allFaults.length > 0)
+	{
+		if ((selectedRowIndex + (pageIndex * maxRows)) > SL_Device.allFaults.length)
+		{
+			selectedRowIndex = 0;
+		}
+		parentShape.objects("alphaCause").style.visibility = "visible";
+		parentShape.objects("alphaResolution").style.visibility = "visible";
+		PopulateCauseResolution();
+		HighlightFault();
+	}
+	else
+	{
+		selectedRowIndex = 0;
+		HighlightFault();
+		parentShape.objects("alphaCause").style.visibility = "hidden";
+		parentShape.objects("alphaResolution").style.visibility = "hidden";
+	}
+}
+
+function ShowHidePrevNext()
+{
+	if (pages <= 1) 
+	{
+		objRef_pushbuttonPrev.style.visibility = "hidden";
+		objRef_pushbuttonNext.style.visibility = "hidden";
+	}
+	else if (pageIndex == 0)
+	{
+		objRef_pushbuttonPrev.style.visibility = "hidden";
+		objRef_pushbuttonNext.style.visibility = "visible";
+	}
+	else if (pageIndex == (pages - 1))
+	{
+		objRef_pushbuttonPrev.style.visibility = "visible";
+		objRef_pushbuttonNext.style.visibility = "hidden";
+	}
+	else
+	{
+		objRef_pushbuttonPrev.style.visibility = "visible";
+		objRef_pushbuttonNext.style.visibility = "visible";
+	}
+}
+
+
+function groupFaultsResolutions_updateView(parentShape)
+{
+
+	SL_LogFunctionEntry(null, "groupFaultsResolutions_updateView");
+
+	try
+	{
+		var faultList = parentShape.objects("groupFaults");
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "faultList = " + faultList.id);
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "SL_Device.allFaults.length = " + SL_Device.allFaults.length);
+		if (SL_Device.allFaults.length > 0)
+		{
+			faultList.style.cursor = "hand";
+		}
+		else
+		{
+			faultList.style.cursor = "default";
+		}
+
+		//Find out number of pages needed to show all active faults
+		maxRows = faultList.children.length;
+		pages = Math.ceil(SL_Device.allFaults.length/maxRows);
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "maxRows = " + maxRows + " pages = " + pages);
+
+		//Reset page index to first page if it exceeds the number of pages
+		if (pageIndex >= pages)
+		{
+			pageIndex = 0;
+		}
+	
+		objRef_groupFaults = parentShape.objects("groupFaults");
+		objRef_alphaCause = parentShape.objects("alphaCause");
+		objRef_alphaResolution = parentShape.objects("alphaResolution");
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "objRef_groupFaults = " + objRef_groupFaults.id);
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "objRef_alphaCause = " + objRef_alphaCause.id);
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "objRef_alphaResolution = " + objRef_alphaResolution.id);
+
+		DisplayFaultsResolutions(parentShape);
+		//DisplayFaultsResolutions(objRef_groupFaults, objRef_alphaCause, objRef_alphaResolution);
+
+		objRef_pushbuttonPrev = parentShape.objects("pushbuttonPrev");
+		objRef_pushbuttonNext = parentShape.objects("pushbuttonNext");
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "objRef_pushbuttonPrev = " + objRef_pushbuttonPrev.id);
+		SL_LogDebugLevelMessage(2, "groupFaultsResolutions_updateView", "objRef_pushbuttonNext = " + objRef_pushbuttonNext.id);
+
+		ShowHidePrevNext();
+		//ShowHidePrevNext(objRef_pushbuttonPrev, objRef_pushbuttonNext);
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_FaultsResolutions.groupFaults_updateView", "Could not update the faults and resolutions list.", error);
+	}
+
+}</SCRIPT>
+
+<BODY 
+style="FONT-SIZE: 12pt; OVERFLOW: auto; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: transparent">
+<DIV id=Background 
+style="HEIGHT: 849px; WIDTH: 1276px; BACKGROUND-REPEAT: no-repeat; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BACKGROUND-COLOR: #ffffff"></DIV>
+<DIV id=Page 
+style="FONT-SIZE: 12pt; HEIGHT: 849px; FONT-FAMILY: Arial; WIDTH: 1276px; POSITION: absolute; ZOOM: 1; MARGIN: 0px; BEHAVIOR: url(#StnEvtReflector) url(#HDXPageBehavior) url(#DisplayDataRepository); BACKGROUND-COLOR: transparent">
+<DIV tabIndex=-1 id=shapeFrame class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 850px; FONT-FAMILY: Arial; WIDTH: 1278px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:850;lineColorBlink:False;Width:1278;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_Frame.sha" parameters = 
+"Point?SLAnalogPoint:{%CurrentPoint%};Value?DisplayTab:FaultsResolutions;" 
+linkType = "embedded" globalscripts = 
+"44145AAD-EB79-466C-AB4B-5A56D9BE2A4D 74459422-D26E-4C4F-B846-420FEE52313F 89FD7C44-998E-4AAE-9D2F-B44DB2BA1168 B1B990FF-D5C2-47E1-9F3F-0ECA21609614 BD954365-3188-491B-8372-19AC7328C3AB C0E6663A-A146-4DCE-8EBB-A5199A95E945 CF5F89F4-A6BD-4084-9D37-951BF4F31805 ECC05ABD-D026-4648-ACDC-E3DBFC82368C FBFB6565-F532-48B6-8CE2-394EC88540A0" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFrame_groupFrame 
+class="hvg.group.1 HSC.ScriptDataObject.1" 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group) url(#HSCScriptDataBehavior) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:3;Height:850;lineColorBlink:False;Width:1276;">
+<DIV tabIndex=-1 id=shapeFrame_rectSidePanel class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 94.82%; FONT-FAMILY: Cambria; WIDTH: 21.86%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 5.05%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#ffffff;fillColorBlink:False;Height:806;LineColor:#ffffff;lineColorBlink:False;Width:279;"></DIV>
+<DIV tabIndex=-1 id=shapeFrame_rectTitleBar class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 5.05%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#000000;fillColorBlink:False;Height:43;LineColor:#000000;lineColorBlink:False;Width:1276;"></DIV>
+<DIV tabIndex=-1 id=shapeFrame_lineHorizontal class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.11%; FONT-FAMILY: Arial; WIDTH: 78.05%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 21.94%; TOP: 13.29%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:996;"></DIV><TEXTAREA tabIndex=0 id=shapeFrame_alphaFullItemName class="hsc.alpha.1 SL_PageTitle" style="BORDER-TOP-STYLE: none; FONT-SIZE: 16pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.7%; FONT-FAMILY: arial; WIDTH: 95.61%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 2.19%; TOP: 1.05%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:21;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_PageTitle;textColor:#FFFFFF;textColorBlink:False;" HDX_LOCK="-1">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFrame_groupOverview class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 10.65%; POSITION: absolute; LEFT: 22.57%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:136;">
+<DIV tabIndex=-1 id=shapeFrame_textboxOverview 
+class="hvg.textbox.1 SL_MenuEntry" 
+style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:136;">Overview</DIV><INPUT onclick='SL_Frame_onclickHandler(this, "Overview");' tabIndex=0 id=shapeFrame_pushbuttonOverview title="Provides an overview of the current status of the transmitter and process conditions." class=hsc.button.1 language=JScript style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #ffffe0; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:22;lineColorBlink:False;textColor:#ffffe0;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>
+<DIV tabIndex=-1 id=shapeFrame_lineOverview class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:136;" 
+hdx_lock="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFrame_groupFaultsResolutions class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 18.18%; POSITION: absolute; LEFT: 35.73%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:232;">
+<DIV tabIndex=-1 id=shapeFrame_textboxFaultsResolutions 
+class="hvg.textbox.1 SL_MenuEntry" 
+style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:232;">Faults 
+&amp; Resolutions</DIV><INPUT onclick='SL_Frame_onclickHandler(this, "FaultsResolutions");' tabIndex=0 id=shapeFrame_pushbuttonFaultsResolutions title="Provide a description of the possible causes and resolutions for each of the active fault conditions." class=hsc.button.1 language=JScript style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:23;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>
+<DIV tabIndex=-1 id=shapeFrame_lineFaultsResolutions class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:232;" 
+hdx_lock="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFrame_groupRange class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 10.65%; POSITION: absolute; LEFT: 56.42%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:136;">
+<DIV tabIndex=-1 id=shapeFrame_textboxRange class="hvg.textbox.1 SL_MenuEntry" 
+style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:136;">Range</DIV><INPUT onclick='SL_Frame_onclickHandler(this, "Range");' tabIndex=0 id=shapeFrame_pushbuttonRange title="Displays the range configuration from the transmitter and the I/O channel. Gives a graphical representation of the relationship between the process, loop current and analog PV." class=hsc.button.1 language=JScript style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:24;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>
+<DIV tabIndex=-1 id=shapeFrame_lineRange class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:136;" 
+hdx_lock="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFrame_groupDeviceDetails class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 13.16%; POSITION: absolute; LEFT: 69.59%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:168;">
+<DIV tabIndex=-1 id=shapeFrame_textboxDeviceDetails 
+class="hvg.textbox.1 SL_MenuEntry" 
+style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: visible" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:168;">Device 
+Details</DIV><INPUT onclick='SL_Frame_onclickHandler(this, "DeviceDetails");' tabIndex=0 id=shapeFrame_pushbuttonDeviceDetails title="Displays the hardware configuration of the transmitter as well as identification parameters from the transmitter and the I/O channel configuration." class=hsc.button.1 language=JScript style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:25;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>
+<DIV tabIndex=-1 id=shapeFrame_lineDeviceDetails class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:168;" 
+hdx_lock="-1"></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFrame_groupMaintenanceView class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 6.82%; WIDTH: 13.79%; POSITION: absolute; LEFT: 85.26%; TOP: 5.64%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:58;lineColorBlink:False;Width:176;">
+<DIV tabIndex=-1 id=shapeFrame_textboxMaintenanceView 
+class="hvg.textbox.1 SL_MenuEntry" 
+style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 48.27%; FONT-FAMILY: arial; WIDTH: 100%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 0%; TOP: 34.48%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:28;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:176;">Maintenance 
+View</DIV><INPUT onclick='SL_Frame_onclickHandler(this, "MaintenanceView");' tabIndex=0 id=shapeFrame_pushbuttonMaintenanceView title="Provides a window into Field Device Manager (FDM) to allow advanced configuration and maintenance of the transmitter." class=hsc.button.1 language=JScript style="BORDER-TOP-STYLE: none; FONT-SIZE: 14pt; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: #ffffff; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: #ffffff; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: #ffffff; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-RIGHT-COLOR: #ffffff; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: transparent" type=button hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:26;lineColorBlink:False;textColor:#000000;textColorBlink:False;" hdx_lock="-1" basefilter basefilterxml basefiltertranslatesqlchars>
+<DIV tabIndex=-1 id=shapeFrame_lineMaintenanceView class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.72%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 84.48%; BEHAVIOR: url(#HDXVectorFactory#line); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#45a8ea;lineColorBlink:False;LineWidth:4;points:0.000000 0.000000 100.000000 0.000000 ;Width:176;" 
+hdx_lock="-1"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=grpFaceplate 
+class="hsc.groupfaceplate.1 hsc.activexcontrol.1" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 806px; FONT-FAMILY: Arial; WIDTH: 279px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 43px; BEHAVIOR: url(#HDXPopupBehavior#GroupFaceplate) url(#BindingBehavior); VISIBILITY: inherit" 
+hdxproperties="HDXBINDINGID:12;" HDX_LOCK="-1"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions class=hsc.shape.1 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 722px; FONT-FAMILY: Arial; WIDTH: 998px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 279px; TOP: 128px; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" 
+hdxproperties="fillColorBlink:False;Height:722;lineColorBlink:False;Width:998;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions.sha" 
+parameters = "Point?SLAnalogPoint:{%CurrentPoint%};" linkType = "embedded" 
+globalscripts = 
+"0C424456-D820-47C7-A6FB-28EAECE970F6 3B7D534E-0C71-4F38-85D0-8C3485EC9F6E 4C362DD8-0FAA-4F37-96E3-ECBF35C057E3 4D6BFD79-7AED-4CE9-A31F-8B4C152D41AC E3394344-0F04-4101-A401-C8897B33F842 E50AC368-F202-4C10-B07B-62F5D28B5174" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_groupFaultsResolutions 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:722;lineColorBlink:False;Width:998;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_rectPanel class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 95.15%; FONT-FAMILY: Arial; WIDTH: 27.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.7%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:687;LineColor:#e0e0e0;lineColorBlink:False;Width:277;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_textboxLabelCondition 
+class="hvg.textbox.1 SL_TableHeader" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.49%; FONT-FAMILY: arial; WIDTH: 13.02%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: center; LEFT: 7.51%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;lineColorBlink:False;LineStyle:0;styleClass:SL_TableHeader;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:130;">Condition</DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_textboxLabelCause 
+class="hvg.textbox.1 SL_TableHeader" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.49%; FONT-FAMILY: arial; WIDTH: 13.02%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: center; LEFT: 39.47%; TOP: 0.13%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;lineColorBlink:False;LineStyle:0;styleClass:SL_TableHeader;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:130;">Cause</DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_textboxLabelResolution 
+class="hvg.textbox.1 SL_TableHeader" 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.49%; FONT-FAMILY: arial; WIDTH: 13.02%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: center; LEFT: 75.35%; TOP: 0.13%; BEHAVIOR: url(#HDXVectorFactory#text)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;lineColorBlink:False;LineStyle:0;styleClass:SL_TableHeader;textColor:#404040;textColorBlink:False;TotalRotation:0;Width:130;">Resolution</DIV><INPUT tabIndex=0 id=shapeFaultsResolutions_pushbuttonPrev class=hsc.button.1 style="FONT-SIZE: 12pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 1px; HEIGHT: 2.77%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 4.8%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 7.61%; BORDER-LEFT: #ffffff 1px; TOP: 95.29%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" type=button value="<Prev " hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:0;lineColorBlink:False;textColor:#000000;textColorBlink:False;" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><INPUT tabIndex=0 id=shapeFaultsResolutions_pushbuttonNext class=hsc.button.1 style="FONT-SIZE: 12pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 1px; HEIGHT: 2.77%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 1px; WIDTH: 4.8%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 15.73%; BORDER-LEFT: #ffffff 1px; TOP: 95.29%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent" type=button value="Next> " hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:1;lineColorBlink:False;textColor:#000000;textColorBlink:False;" BaseFilterTranslateSQLchars="" BaseFilterXML="" BaseFilter=""><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_alphaCause class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 89.75%; FONT-FAMILY: arial; WIDTH: 33.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 29.05%; TOP: 5.54%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:2;lineColor:black;lineColorBlink:False;numberOfChars:2048;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_lineVertical class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 95.15%; FONT-FAMILY: Arial; WIDTH: 0.1%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 63.92%; TOP: 4.7%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:687;LineColor:#e0e0e0;lineColorBlink:False;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_alphaResolution class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 89.75%; FONT-FAMILY: arial; WIDTH: 33.86%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 64.92%; TOP: 5.54%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:4;lineColor:black;lineColorBlink:False;numberOfChars:2048;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_groupFaults 
+class="hvg.group.1 HSC.ScriptDataObject.1" 
+style="FONT-SIZE: 0pt; HEIGHT: 89.19%; WIDTH: 28.05%; POSITION: absolute; LEFT: 0%; TOP: 4.7%; BEHAVIOR: url(#HDXVectorFactory#group) url(#HSCScriptDataBehavior) url(#BindingBehavior)" 
+hdxproperties="fillColorBlink:False;HDXBINDINGID:5;Height:644;lineColorBlink:False;Width:280;">
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault001 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:0;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault001_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault001_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault001_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault001_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:6;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault001_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault002 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 7.14%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:1;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault002_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault002_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault002_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault002_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:7;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault002_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault003 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 14.28%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:2;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault003_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault003_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault003_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault003_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:8;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault003_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault004 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 21.42%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:3;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault004_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault004_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault004_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault004_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:9;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault004_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault005 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 28.57%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:4;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault005_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault005_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault005_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault005_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:10;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault005_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault006 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 35.71%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:5;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault006_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault006_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault006_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault006_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:11;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault006_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault007 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 42.85%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:6;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault007_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault007_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault007_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault007_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:13;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault007_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault008 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 50%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:7;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault008_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault008_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault008_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault008_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:14;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault008_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault009 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 57.14%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:8;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault009_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault009_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault009_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault009_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:15;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault009_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault010 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 64.28%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:9;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault010_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault010_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault010_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault010_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:16;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault010_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault011 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 71.42%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:10;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault011_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault011_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault011_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault011_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:17;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault011_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault012 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 78.57%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:11;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault012_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault012_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault012_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault012_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:18;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault012_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault013 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 85.71%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:12;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault013_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault013_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault013_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault013_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:19;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault013_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV>
+<DIV onclick=SelectFault(this); tabIndex=-1 
+id=shapeFaultsResolutions_shapeFault014 class=hsc.shape.1 language=JScript 
+style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 7.14%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 92.85%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;" 
+value = "1" src = 
+".\sysdtlSmartLineST800_FaultsResolutions_files\SL_FaultsResolutions_files\SL_Fault_Large.sha" 
+parameters = "Value?RowIndex:13;" linkType = "embedded" globalscripts = "" 
+styleClass = "">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault014_groupFault 
+class=hvg.group.1 
+style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" 
+hdxproperties="fillColorBlink:False;Height:46;lineColorBlink:False;Width:280;">
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault014_rectBackground 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault014_ovalCriticality 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 32.6%; FONT-FAMILY: Arial; WIDTH: 5.35%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 4.28%; TOP: 15.21%; BEHAVIOR: url(#HDXVectorFactory#oval)" 
+hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:15;LineColor:#ee3124;lineColorBlink:False;Width:15;"></DIV><TEXTAREA tabIndex=0 id=shapeFaultsResolutions_shapeFault014_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: break-word; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 73.91%; FONT-FAMILY: arial; WIDTH: 82.14%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 13.57%; TOP: 13.04%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:20;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_shapeFault014_rectFront 
+class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#rect)" 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:46;LineColor:transparent;lineColorBlink:False;Width:280;"></DIV></DIV></DIV></DIV>
+<DIV tabIndex=-1 id=shapeFaultsResolutions_lineHorizontal class=hvg.base.1 
+style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.13%; FONT-FAMILY: Arial; WIDTH: 99.89%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 4.57%; BEHAVIOR: url(#HDXVectorFactory#line)" 
+hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;points:0.000000 0.000000 100.000000 0.000000 ;Width:997;"></DIV></DIV></DIV><TEXTAREA tabIndex=-1 id=alphaFaultListDataProvider class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 8pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none line-through; BORDER-LEFT-STYLE: none; HEIGHT: 15px; FONT-FAMILY: Arial; WIDTH: 50px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #9932cc; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 310px; TOP: 130px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:27;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%.2f;textColor:#9932cc;textColorBlink:False;">9999.99</TEXTAREA></DIV></BODY></HTML>

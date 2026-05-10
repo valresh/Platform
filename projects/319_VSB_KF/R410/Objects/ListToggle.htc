@@ -1,0 +1,182 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/ListToggle.htc $								
+$Workfile: ListToggle.htc $												
+$Modtime: 11/01/07 1:08a $											
+$Revision: 8 $
+$Author: Stickell $														
+***************************************************************************
+This attached behavior toggles the visibility on a child list (next-sibling
+ul element) when it is clicked. 
+
+This behavior should be attached to an li element with the following structure:
+<li id="targetListItem" style="behavior: url(ListToggle.htc);">
+    <div>Caption of this list item. Could also be a hyperlink.</div>
+    <ul id="childListWhichIsShownOrHidden">
+        [ child list elements go here ]
+    </ul>
+</li>
+
+Clicking on the bound element will cause display-style of the child-ul 
+element to be toggled between 'block' and 'none'. 
+
+The CSS class applied to the bound element will be toggled between 
+'expanded' and 'collapsed' to match the state of the child-list. 
+
+The expansion indicators ('+' and '-' icons) are set via the list-image
+style in the 'expanded' and 'collapsed' css classes in the system stylesheet.
+***************************************************************************
+If you use this behavior then you need to reference:
+ HTMLUtils.js       (HtmlState* enumeration)
+ ErrorHandling.js   (ScriptError function)
+***************************************************************************
+-->
+<public:component name="ListToggle" urn="ListToggle" lightWeight="true">
+	<public:method name="DoListImage" />
+	<public:attach event="onreadystatechange" onevent="javascript: try{ InitListToggle(); }catch(e){}" for="element"/>
+</public:component>
+<script language="JavaScript" type="text/JavaScript">
+	//-----------------------------------------------------------------------
+	// ChildList
+	//-----------------------------------------------------------------------
+	// This function returns the html element that makes up the child list
+	// which the specified element toggles. It should be a <ul> element that is
+	// the next sibling of the specified element.
+	//-----------------------------------------------------------------------
+	function ChildList()
+	{
+		var childULs = element.getElementsByTagName("ul");
+		if (childULs.length > 0)
+		{
+		    // We have a child list to toggle.
+		    // Note that it is possible to havemore than one - especially since they
+		    // will be nested if any of the child-items are also expandable.
+		    // Only the first child-list will be used.
+			return childULs.item(0);
+		}
+		return null;
+	}
+	
+	//-----------------------------------------------------------------------
+	// DoListImage
+	//-----------------------------------------------------------------------
+	// This function corrects the toggle-image showing for this list item.
+	//-----------------------------------------------------------------------
+	function DoListImage()
+	{	
+		//alert("ListToggle::DoListImage() for '" + element.id + "' with text '" + element.innerText + "'");
+		
+		// Cache the un-modified class that should be applied to this element.
+		var listClass = element.className.replace(/expanded|collapsed/ig, "").replace(/(\s+$)|(^\s+)/g, "");
+		var objChildList = ChildList();
+		if (objChildList == null)
+		{
+			// If there is no child-list, apply only the unmodified class.
+			element.className = listClass;
+			return;
+		}
+		else if (objChildList.currentStyle.display == "none")
+		{
+			// The child list is collapsed. Make sure the appropriate CSS is applied.
+			element.className = listClass + " collapsed";
+		}
+		else
+		{
+			// The child list is expanded. Make sure the approriate CSS is applied.
+			element.className = listClass + " expanded";
+		}		
+	}
+	
+	//-----------------------------------------------------------------------
+	// ToggleListState
+	//-----------------------------------------------------------------------
+	// This function toggles the child-list's visibility.
+	//-----------------------------------------------------------------------
+	function ToggleListState()
+	{
+		//alert("ListToggle::ToggleListState() for '" + element.id + "'");
+		var objChildList = ChildList();
+		if (objChildList == null)
+		{	
+			// There is nothing to do!
+			return;
+		}
+		
+		if (objChildList.currentStyle.display == "none")
+		{
+			// The Child list is presently hidden: show it.
+			objChildList.runtimeStyle.display = "block";
+		}
+		else
+		{
+			// The child list is showing: hide it.
+			objChildList.runtimeStyle.display = "none";
+		}	
+		
+		// Update the toggle-image.
+		DoListImage();	
+	}
+	
+	//-----------------------------------------------------------------------
+	// ToggleOnEnter
+	//-----------------------------------------------------------------------
+	// This function serves as an event handler for the onkeypress method. It
+	// toggles the menu if the enter key is pressed while this link has focus.
+	//-----------------------------------------------------------------------
+	function ToggleOnEnter()
+    {
+	    if (window.event.keyCode == 13)
+	    {
+		    ToggleListState();
+	    }
+    }
+	
+	//-----------------------------------------------------------------------
+	// InitListToggle
+	//-----------------------------------------------------------------------
+	// This function initializes the toggling behavior for the hosting 
+	// element.
+	//-----------------------------------------------------------------------
+	function InitListToggle()
+	{
+	    try
+	    {
+	        if (element.readyState != HtmlStateComplete)
+	        {
+	            // Do nothing yet.
+	            return;
+	        }
+	    
+		    //alert("ListToggle::InitListToggle() for '" + element.id + "'");
+    	
+		    // Initialize the starting appearance of the toggle-image.
+		    DoListImage();
+    		
+		    // Make sure the appropriate click-handlers are bound exactly once. This is done
+		    // by first un-binding the handler in case it is already bound by a previous
+		    // change of ready-state to 'complete'.
+		    element.detachEvent("onclick", ToggleListState);
+		    element.detachEvent("onkeypress", ToggleOnEnter);
+    		
+		    var objChildList = ChildList();
+		    if (objChildList == null)
+		    {	
+			    // There is no child list to toggle, so do nothing more.
+			    return;
+		    }
+    		
+		    // Make sure clicks on the child-list don't trigger a toggle.
+		    objChildList.detachEvent("onclick", EndEventHandling);
+		    objChildList.attachEvent("onclick", EndEventHandling);
+
+		    // But clicks on the actual list definitely should.
+		    element.attachEvent("onclick", ToggleListState);
+		    element.attachEvent("onkeypress", ToggleOnEnter);
+	    }
+	    catch(e)
+	    {
+	        ScriptError("ListToggle::InitListToggle", e);
+	    }
+	}
+</script>

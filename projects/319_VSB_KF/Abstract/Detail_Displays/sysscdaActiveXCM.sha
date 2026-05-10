@@ -1,0 +1,214 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="800px" height="450px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="onshapeload" language="VBScript" id=""><![CDATA[On Error resume Next
+	intERDBStatus = -1
+	set oChartShape = me
+	CmActiveX1.height = me.style.height
+	CmActiveX1.width = me.style.width
+	'Check for the multiple chart shape in the page
+	set objPage = document.getElementById("Page")
+	call Do_Page_Contains_Multiple_Charts(objPage)]]></script><script event="" language="VBScript" id="8B69480C-E532-4D3E-B365-165D80E0A9D8"><![CDATA[Dim intERDBStatus
+Dim oChartShape 'Shape file issue
+Dim blnEsigEnabled
+blnEsigEnabled = 0 ' Disabled
+Dim isServerVersionOK
+isServerVersionOK = True
+Dim isMultipleChartInPage
+isMultipleChartInPage = True
+Dim blnChartInitialized
+blnChartInitialized = False
+Dim oShape
+Dim blnControlConfirmRequired
+blnControlConfirmRequired = 0
+
+ErdbConnToA = 0
+ErdbDiscFromA = 1
+ErdbConnToB = 2
+ErdbDiscFromB = 3
+
+'Check if the page contains multiple chart shape
+Sub Do_Page_Contains_Multiple_Charts(objElem)
+On Error Resume Next
+Dim NumShpChart
+NumShpChart = 0
+set oShape = Nothing
+set objshpElem = objElem
+For i = objshpElem.children.length -1 to 0 Step -1 
+	if objshpElem.children(i).ClassName = "hvg.group.1" then
+		Do_Page_Contains_Multiple_Charts objshpElem.children(i)
+	end if
+	if (objshpElem.children(i).ClassName = "hsc.shape.1") then
+		if instr(objshpElem.children(i).src,"sysscdaActiveXAC.sha") or instr(objshpElem.children(i).src,"sysscdaActiveXCM.sha") then
+			NumShpChart =  NumShpChart+1
+			set oShape =  objshpElem.children(i)
+			oShape.style.visibility = "Hidden"
+		end if
+	end if
+next
+if NumShpChart > 1 then
+	isMultipleChartInPage = True
+else
+	isMultipleChartInPage = false
+end if
+	oShape.style.visibility = "Inherit"
+End sub
+
+' Chart Intialize function
+
+Sub Initialize_Chart(oSource)
+On Error resume Next
+	Set oChartActivex = oChartShape.Objects("CmActiveX1")
+	Set oDSAPointError = oChartShape.Objects("DSAPointError")
+	set oMultipleChartInPageError = oChartShape.Objects("MultipleChartInPageError")
+if oSource.QualityGood("TagName.LocationFullItemName") then
+	if isServerVersionOK = False then
+		oChartActivex.style.visibility = "Hidden"
+		oDSAPointError.style.visibility = "Inherit"
+		oMultipleChartInPageError.style.visibility = "Hidden"
+		blnChartInitialized = false
+		Exit sub
+	end if
+	if (isMultipleChartInPage = True) then
+		oChartActivex.style.visibility = "Hidden"
+		oDSAPointError.style.visibility = "Hidden"
+		oMultipleChartInPageError.style.visibility = "Inherit"
+		blnChartInitialized = false
+		Exit sub
+	end if
+	if ucase(oSource.DataValue("TagName.BLOCKTYPNAME")) = Ucase("SYSTEM:CONTROLMODULE") or ucase(oSource.DataValue("TagName.BLOCKTYPNAME")) = Ucase("SYSTEM:UCM")  then
+		Dim NumSig
+		NumSig=0
+		If (len(oSource.DataValue("TagName.PrimarySignatureMeaning"))) <> 255  Then
+			NumSig=1
+		End If
+		If NumSig=1 And len(oSource.DataValue("TagName.SecondarySignatureMeaning")) <> 255  Then
+			NumSig=2
+		End If
+		oChartActivex.NavigateBlockName = ""
+		isFunctionBlockToFocus = window.external.Application.Dictionary.Item("IsNavigationLinkClicked").Value
+		if  (isFunctionBlockToFocus) then
+			FunctioBlockName = window.external.Application.Dictionary.Item("NavigationBlock").Value
+			'Assigning the block name that need to highlighted
+			oChartActivex.NavigateBlockName = FunctioBlockName
+		end if
+		oChartActivex.PointName = cstr(oSource.DataValue("TagName.Name"))
+		oChartActivex.ServerName = cstr(oSource.DataValue("TagName.SrvConLinkNum"))
+		oChartActivex.SecurityLevel = window.external.Application.SecurityLevel 
+		oChartActivex.OperatorName = window.external.Application.OperatorID 
+		oChartActivex.StationServerName = window.external.Application.ServerName 
+		oChartActivex.StationNumber = window.external.Application.StationNumber	
+		oChartActivex.ElectronicSignature = blnEsigEnabled
+		oChartActivex.ControlConfirm = blnControlConfirmRequired 'Control Confirmation is not enabled or not retuning proper value'
+		oChartActivex.NumberSignatures = NumSig
+		oChartActivex.StationAcronym = window.external.Application.Parent.RuntimeStatus.StationAcronym
+		oChartActivex.style.visibility = "Inherit"
+		oDSAPointError.style.visibility = "Hidden"
+		oMultipleChartInPageError.style.visibility = "Hidden"
+		window.external.Application.Dictionary.Remove "IsNavigationLinkClicked"
+		window.external.Application.Dictionary.Remove "NavigationBlock"
+		blnChartInitialized = True
+	end if
+end if
+End sub]]></script><script event="" language="VBScript" id="CA508B2A-D50E-4AC2-BA0A-B8B64050478D"><![CDATA[Dim intTimerID
+Dim Value
+Dim DataType
+Dim Flag
+Dim o
+
+
+Function UpdateValue()
+'If o <> Null Then
+	If( (DataType=4) OR (DataType=6) OR (DataType=20) OR (DataType=7) ) Then	
+		o.Objects("alpDyn1").value = Value		'Bool/Boolean/Enum/SdEnum/BitString
+	ElseIf(DataType=32) Then	
+		o.Objects("alpDyn2").value = Value		'TimeOfDay
+	ElseIf(DataType=5) Then	
+		o.Objects("alpDyn4").value = Value		'Time
+	Else
+		o.Objects("alpDyn3").value = Value		'Treat rest all in text control
+	End If
+'End If
+	window.clearInterval(intTimerID)
+End Function]]></script><script event="onshapeunload" language="VBScript" id=""><![CDATA[on error resume next
+Set oChartActivex = oChartShape.Objects("CmActiveX1")
+oChartActivex.ReloadInPrgs = true
+if blnChartInitialized = false then
+	window.external.Application.Dictionary.Remove "IsNavigationLinkClicked"
+	window.external.Application.Dictionary.Remove "NavigationBlock"
+end if]]></script></scripts><parameters><parameter name="tagname" type="Point" description="" defaultvalue="{%CurrentPoint%}"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=LimitMessage class=hvg.textbox.1 style="OVERFLOW: hidden; FONT-SIZE: 8pt; TEXT-DECORATION: ; HEIGHT: 3.77%; FONT-FAMILY: Arial; WIDTH: 50.5%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 0.87%; TOP: 66.66%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:404;" HDX_LOCK="-1">Unable to open Display. Maximum limit reached. Try again Later.</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=FailMessage class=hvg.textbox.1 style="OVERFLOW: hidden; FONT-SIZE: 8pt; TEXT-DECORATION: ; HEIGHT: 5.11%; FONT-FAMILY: Arial; WIDTH: 22.5%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 1.12%; TOP: 66.66%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:180;" HDX_LOCK="-1">Cannot Connect to ERDB</DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=alpOwerTagname class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 2.22%; FONT-FAMILY: Arial; WIDTH: 1.25%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 8.25%; BORDER-LEFT-STYLE: none; TOP: 64.44%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;textColor:#ff0000;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[On Error Resume Next
+shaSrvVersion.autoReloadContent = false
+shaSrvVersion.SetCustomProperty "Point" , "TagName" , me.DataValue("TagName.Name")
+shaSrvVersion.SetCustomProperty "Point" , "SrvTagName" , me.DataValue("TagName.OwnerTagName")
+shaSrvVersion.ReloadContent()]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::tagname%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="Name"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::tagname%},{%Point::tagname%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="Name,OwnerTagName,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,1,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><group><group><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=shaSrvVersion_alpOperId class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 83.33%; FONT-FAMILY: Arial; WIDTH: 83.33%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[On Error Resume Next
+if blnChartInitialized = true then
+	oChartShape.Objects("CmActiveX1").OperatorName = window.external.Application.OperatorID
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="2"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="98"/><property name="FileRefFlags" varianttype="VT_UI4" value="2048"/><property name="FileRefFormat" varianttype="VT_UI1" value="5"/><property name="FileRefBitFieldStart" varianttype="VT_UI1" value="0"/><property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="4"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=shaSrvVersion_ESig class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 83.33%; FONT-FAMILY: Arial; BORDER-TOP-COLOR: transparent; WIDTH: 83.33%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; BORDER-RIGHT-COLOR: transparent; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="borderStyle:none;borderWidth:;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:1;numericDisplayFormat:%.0f;textColor:#ff0000;textColorBlink:False;" HDX_LOCK="-1">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[On Error Resume Next
+blnEsigEnabled = me.value]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="1"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="FileRefFile" varianttype="VT_UI4" value="121"/><property name="FileRefRecord" varianttype="VT_UI4" value="1"/><property name="FileRefWord" varianttype="VT_UI4" value="1733"/><property name="FileRefFlags" varianttype="VT_UI4" value="0"/><property name="FileRefFormat" varianttype="VT_UI1" value="5"/><property name="FileRefBitFieldStart" varianttype="VT_UI1" value="10"/><property name="FileRefBitFieldWidth" varianttype="VT_UI1" value="1"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=-1 id=shaSrvVersion_alpsrvVersion class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 100%; FONT-FAMILY: Arial; WIDTH: 91.66%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #ff0000; FONT-STYLE: normal; TEXT-ALIGN: center; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numericDisplayFormat:%.2f;textColor:#ff0000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[On Error Resume Next
+if me.QualityGood("TagName.Name") and me.QualityGood("srVTagName.Release") and me.QualityGood("TagName.LocationFullItemName") then
+	if me.DataValue("srVTagName.Release") = window.external.Application.ServerVersion then
+		isServerVersionOK = true
+		Call Initialize_Chart(me)
+	else
+		isServerVersionOK = false
+		Call Initialize_Chart(me)
+	end if
+end if
+if me.QualityGood("TagName.ControlConfirmRequired") and me.DataValue("TagName.ControlConfirmRequired") = 1 then
+	blnControlConfirmRequired = 1
+else
+	blnControlConfirmRequired = 0
+end if]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value="Release"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%CurrentPoint%},{%CurrentPoint%},{%CurrentPoint%},{%CurrentPoint%},{%CurrentPoint%},{%CurrentPoint%},{%CurrentPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="Name,LocationFullItemName,PrimarySignatureMeaning,SecondarySignatureMeaning,SrvConLinkNum,ControlConfirmRequired,BLOCKTYPNAME,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,1,1,1,1,0,1,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,2,2,2,2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,0,0,0,0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,0,0,0,0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,,,,,,"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shaSrvVersion_grpSrvVersion class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:12;lineColorBlink:False;Width:12;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shaSrvVersion class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 2.66%; FONT-FAMILY: Arial; WIDTH: 1.5%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 12%; TOP: 66.66%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:12;lineColorBlink:False;Width:12;" HDX_LOCK="-1" value = "1" src = ".\sysscdaActiveXCM_files\ShaSrvVersion.sha" parameters = "Point?TagName:{%CurrentPoint%};Point?srvTagName:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn1 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Tahoma; WIDTH: 21.9%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 0%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;indicateScanState:-1;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">State</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="1"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn2 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Tahoma; WIDTH: 26.42%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 73.57%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="dateTimeFormat:2;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:50;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;timeFormat:1;timeIncludeMS:0;">23:15:43.005</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="8"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn3 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 95%; FONT-FAMILY: Tahoma; WIDTH: 26.42%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 53.09%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shpSub_alpDyn4 class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; OVERFLOW: hidden; WORD-WRAP: normal; FONT-SIZE: 8pt; TEXT-DECORATION: none; HEIGHT: 90%; FONT-FAMILY: Tahoma; WIDTH: 29.76%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 23.57%; BORDER-LEFT-STYLE: none; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: white; ROWS: 1" hdxproperties="dateFormat:0;dateTimeFormat:0;fillColor:white;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:50;numericDisplayFormat:%s;textColor:#000000;textColorBlink:False;timeFormat:1;timeIncludeMS:0;">28.10.2005 23:05:43.005</TEXTAREA>]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value=""/><property name="PointRefParamName" varianttype="VT_BSTR" value=""/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="10"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shpSub_group001 class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:20;lineColorBlink:False;Width:420;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shpSub class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 4.44%; FONT-FAMILY: Arial; WIDTH: 52.5%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 36.12%; TOP: 89.55%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:20;lineColorBlink:False;Width:420;" HDX_LOCK="-1" value = "1" src = ".\sysscdaActiveXCM_files\SubShape.sha" parameters = "Point?PointName:;Parameter?ParamName:;Value?strValue:;Value?nDataType:;Value?bFlag:;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content><scripts><script event="onshapeload" language="VBScript"><![CDATA[Set o = me
+Value = me.GetCustomProperty("Value","strValue")
+Flag = me.GetCustomProperty("Value","bFlag")
+DataType = me.GetCustomProperty("Value","nDataType")
+
+If Flag = "True" then
+	intTimerID = window.setInterval ("UpdateValue()", 100)
+End If]]></script></scripts></html></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=LostMessage class=hvg.textbox.1 style="OVERFLOW: hidden; FONT-SIZE: 8pt; TEXT-DECORATION: ; HEIGHT: 4.88%; FONT-FAMILY: Arial; WIDTH: 25.5%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 37.5%; TOP: 66.66%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:22;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:204;" HDX_LOCK="-1">Lost Connection with ERDB</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=SuccMessage class=hvg.textbox.1 style="OVERFLOW: hidden; FONT-SIZE: 8pt; TEXT-DECORATION: ; HEIGHT: 4.22%; FONT-FAMILY: Arial; WIDTH: 34.87%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; LEFT: 37.5%; TOP: 66.66%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;FillStyle:1;Height:19;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:279;" HDX_LOCK="-1">Re-established Connection with ERDB</DIV>]]></content></html></element><element><html><content><![CDATA[
+<OBJECT tabIndex=-1 id=CmActiveX1 class=hsc.activexcontrol.1 style="FONT-SIZE: 12pt; TEXT-DECORATION: none; HEIGHT: 99.77%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%" classid=clsid:B094BC79-20ED-11D4-A744-0000F87B069E HDX_LOCK="-1"><PARAM NAME="_Version" VALUE="65536"><PARAM NAME="_ExtentX" VALUE="21167"><PARAM NAME="_ExtentY" VALUE="11880"><PARAM NAME="_StockProps" VALUE="32"><PARAM NAME="BorderStyle" VALUE="0">]]></content><scripts><script event="InvokeChart(lpszPointName)" language="VBScript"><![CDATA[on error resume next
+window.external.Application.RequestTask 21, 73, 0, 0, 0, lpszPointName]]></script><script event="InvokeERDBStatus(nERDBStatus)" language="VBScript"><![CDATA[On Error Resume Next
+	
+	'Update the ERDB Status in the Display
+    
+
+If ((nERDBStatus = ErdbDiscFromA Or nERDBStatus = ErdbDiscFromB) And intERDBStatus <> -1) Then
+	    'objEStat.Value = "LOST"
+		window.external.Application.MessageZoneText = Me.parentElement.children.namedItem("LostMessage").Value
+    ElseIf ((nERDBStatus = ErdbDiscFromA Or nERDBStatus = ErdbDiscFromB) And intERDBStatus = -1) Then
+	'objEStat.Value = "FAIL"
+		window.external.Application.MessageZoneText = Me.parentElement.children.namedItem("FailMessage").Value
+    ElseIf (intERDBStatus = -1) Then
+        
+
+	'objEStat.Value = "INIT"
+		window.external.Application.MessageZoneText = ""
+    Else
+        'objEStat.Value = "SUCCESS"
+		window.external.Application.MessageZoneText = Me.parentElement.children.namedItem("SuccMessage").Value
+
+    End If
+    
+    intERDBStatus = nERDBStatus]]></script><script event="InvokeValueChanged(bstrPoint, bstrParam, vValue, nDataType)" language="VBScript"><![CDATA[shpSub.autoReloadContent = False
+shpSub.SetCustomProperty "Point", "PointName", CStr(bstrPoint)
+shpSub.SetCustomProperty "Parameter", "ParamName", CStr(bstrParam)
+shpSub.SetCustomProperty "Value", "bFlag", "True"
+shpSub.SetCustomProperty "Value", "strValue", CStr(vValue)
+shpSub.SetCustomProperty "Value", "nDataType", CStr(nDataType)
+shpSub.ReloadContent]]></script><script event="NavigateToChart(lpszPointName, lpszSysDisplayFileName)" language="VBScript"><![CDATA[	Pointname = split(lpszPointName,".")
+	Chartname = lpszSysDisplayFileName & "_Chart.htm"
+	
+	if not window.external.Application.FindFile(Chartname) = "" then
+		window.external.Application.ExecuteOperatorCommand Chartname&"?HSCPOINT="&Pointname(0)
+	else
+		window.external.Application.RequestTask 21, 73, 0, 0, 0, Pointname(0)
+	end if
+
+	window.external.Application.Dictionary.Add "IsNavigationLinkClicked", "True"
+	window.external.Application.Dictionary.Add "NavigationBlock", lpszPointName]]></script></scripts></html></element><element><html><content><![CDATA[<INPUT tabIndex=-1 id=DSAPointError class=hsc.button.1 style="FONT-SIZE: 10pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 2px; HEIGHT: 99.77%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 2px; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; BORDER-LEFT: #ffffff 2px; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: #ffffff" type=button value="Control builder charts do not operate between DSA connected servers/clients of different releases" hdxproperties="fillColor:#ffffff;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1">]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><element><html><content><![CDATA[<INPUT tabIndex=-1 id=MultipleChartInPageError class=hsc.button.1 style="FONT-SIZE: 10pt; TEXT-DECORATION: none; BORDER-TOP: #ffffff 2px; HEIGHT: 99.77%; FONT-FAMILY: Arial; BORDER-RIGHT: #ffffff 2px; WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; BORDER-BOTTOM: #ffffff 2px; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0%; BORDER-LEFT: #ffffff 2px; TOP: 0%; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); VISIBILITY: inherit; BACKGROUND-COLOR: #ffffff" type=button value="Only one chart can be embedded per display&#13;&#10;Extra charts need to be removed from the display to allow the one remaining chart to be functional" hdxproperties="fillColor:#ffffff;fillColorBlink:False;HDXBINDINGID:-4;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1">]]></content></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.PushButton"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="version" varianttype="VT_R4" value="1.3"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="PBActionType" varianttype="VT_UI1" value="0"/><property name="TaskLrn" varianttype="VT_UI2" value="21"/><property name="StationIndex" varianttype="VT_UI1" value="0"/><property name="Flags" varianttype="VT_UI4" value="0"/><property name="TaskParam1" varianttype="VT_BSTR" value="1"/><property name="TaskParam2" varianttype="VT_BSTR" value="11"/><property name="TaskParam3" varianttype="VT_BSTR" value="0"/><property name="TaskParam4" varianttype="VT_BSTR" value="0"/><property name="RepeatFlag" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.PushButton" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=grpChart class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 450px; WIDTH: 800px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:450;lineColorBlink:False;Width:800;"></DIV>]]></content></html></group></shape></shapes></shapefile>

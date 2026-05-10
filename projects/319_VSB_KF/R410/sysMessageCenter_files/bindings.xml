@@ -1,0 +1,105 @@
+<hdx version="1.0">
+    <datasource ID="datasource1" class="progid:HSCDataSources.Application"/>
+    <binding ID="pageparam">
+        <property ID="CurrentRecordOffset" sourcetype="pageelement" sourceobject="pageparam" sourceproperty="HscRecord" targettype="dataobject" targetobject="datasource1" targetproperty="CurrentRecordOffset" hidden="true" editable="false" custompropertytype="Value" custompropertyscope="display"/>
+        <property ID="Null" sourcetype="pageelement" sourceobject="pageparam" sourceproperty="Null" targettype="dataobject" targetobject="datasource1" targetproperty="Null" hidden="false" editable="false" custompropertytype="Point" custompropertyscope="display"/>
+        <property ID="Null" sourcetype="pageelement" sourceobject="pageparam" sourceproperty="Null" targettype="dataobject" targetobject="datasource1" targetproperty="Null" hidden="false" editable="false" custompropertytype="Parameter" custompropertyscope="display"/>
+    </binding>
+	<!-- Instruction Response Shape bindings start -->
+    <binding ID="0">
+        <dataobject ID="sdo1" objectmodelid="datasource1" objecttype="HMIPage.ScriptData" objectid="17"/>
+        <class ID="HSC.ScriptDataobject.1" refcount="1"/>
+    </binding>
+    <binding ID="1">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="18"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="2">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="19"/>
+        <class ID="HSC.Alpha" refcount="1"/>
+    </binding>
+    <binding ID="3">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="20"/>
+        <class ID="HSC.ComboBox" refcount="1"/>
+    </binding>
+    <binding ID="4">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="21"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="5">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="22"/>
+        <class ID="HSC.Alpha" refcount="1"/>
+    </binding>
+    <binding ID="6">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="23"/>
+        <class ID="HSC.ComboBox" refcount="1"/>
+    </binding>
+    <binding ID="7">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="24"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="8">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="25"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="9">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="26"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="10">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="27"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="11">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="28"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="12">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="29"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="13">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="30"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="14">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="31"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="15">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="32"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="16">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="33"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+	<!-- Instruction Response Shape bindings end -->
+    <binding ID="17">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="HMIPage.Generic" objectid="1"/>
+        <class ID="HSC.AlphaReadOnly" refcount="1"/>
+    </binding>
+    <binding ID="18">
+        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="DataSourceObj.MessageSource" objectid="0"/>
+        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnInitialize"
+            targettype="pageelement" targetobject="element" targetmethod="OnInitialize" eventtype="dispatch"/>
+
+        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnRefresh"
+            targettype="pageelement" targetobject="element" targetmethod="OnRefresh" eventtype="dispatch"/>
+
+        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnAckTransaction"
+            targettype="pageelement" targetobject="element" targetmethod="OnAckTransaction" eventtype="dispatch"/>
+
+        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="FilteredUnackCount"
+            targettype="pageelement" targetobject="element" targetproperty="filteredUnackCount"/>
+
+        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="FilteredAckCount"
+            targettype="pageelement" targetobject="element" targetproperty="filteredAckCount"/>
+
+        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="UnfilteredUnackCount"
+            targettype="pageelement" targetobject="element" targetproperty="unfilteredUnackCount"/>
+
+        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="UnfilteredAckCount"
+            targettype="pageelement" targetobject="element" targetproperty="unfilteredAckCount"/>
+    </binding>
+</hdx>

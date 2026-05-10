@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Режим для отладки
+<debug=0>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Объявление шрифтов
+<FontScript=C font="Courier New">
+<FontScript=A font="Arial Cyr">
+<FontScript=T font="Times">
+<FontScript=H font="Tahoma">
+<FontScript=L font="Lucida Console">
+<FontScript=M font="MS Sans Serif">
+% Шрифт для моды регулятора
+<FontScript=ModeFont font="Arial Cyr"  height=12 bold=1>
+% Шрифт для значений переменных
+<FontScript=SensFont font="Lucida Console"  height=12 bold=1 color=gDD>
+% Шрифт для единиц измерения
+<FontScript=UnitFont font="Arial Cyr"  height=10 bold=0 color=gef>
+% Шрифт для названий регуляторов
+<FontScript=NameFont font="Arial Cyr"  height=11 bold=0 color=gff>
+% Шрифт для текстовых сообщений
+<FontScript=TextFont font="Arial Cyr"  height=11 bold=0 color=gff>
+% Шрифт для значений открытия клапанов
+<FontScript=KlapFont font="Lucida Console"  height=13 bold=0 color=c6c3c6>
+% Шрифт для значений переключателей
+<FontScript=HisFont  font="Arial Cyr"  height=9 bold=0 color=gff>
+% Шрифт для значений надписей на трендов
+<FontScript=TrndFont  font="Arial Cyr"  height=14 bold=0 color=gff>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Настройка цветов трубок
+%
+<PipeColor="нефть" fon=04b6fc dark=044a6c>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% МАКРОСЫ
+%
+//
+<macros=StatReg>
+  <fillrect=6b6d6b rect=paramx,paramy,param0,param1>
+  <fillrect=g00  rect=paramx+2,paramy+18,paramx+58,paramy+31>
+  <pen=solid color=gBF>
+    <polyline=paramx,param1,yparamy,xparam0>
+    <polyline=paramx+2,paramy+31,r56,u13>
+  </pen>
+  <pen=solid color=0>
+    <polyline=paramx,param1,xparam0,yparamy>
+  </pen>
+  <pen=solid color=g80>
+    <polyline=paramx+2,paramy+31,u13,r57>
+  </pen>
+  <font=NameFont>
+  <draw="param2" rect=paramx,paramy,param0-2,paramy+14 align=cv>
+  </font>
+  <align=top align=left>
+  <font=UnitFont>
+  <text="param3" pt=paramx+3,paramy+31>
+  </font>
+</macros>
+//
+<macros=StatSensor>
+  <fillrect=6b6d6b rect=paramx,paramy,param0,param1>
+  <fillrect=g00  rect=paramx+2,paramy+14,paramx+58,paramy+27>
+  <pen=solid color=gBF>
+    <polyline=paramx,param1,yparamy,xparam0>
+    <polyline=paramx+2,paramy+27,r56,u13>
+  </pen>
+  <pen=solid color=0>
+    <polyline=paramx,param1,xparam0,yparamy>
+  </pen>
+  <pen=solid color=g80>
+    <polyline=paramx+2,paramy+27,u13,r57>
+  </pen>
+  <font=NameFont>
+  <draw="param2" rect=paramx,paramy,param0,paramy+15 align=cv>
+  </font>
+  <align=top align=left>
+  <font=UnitFont>
+  <text="param3" pt=paramx+3,paramy+27>
+  </font>
+</macros>
+//
+<macros=StatQooler>
+//<volume=param2 x0=paramx y0=paramy x1=param0 y1=param1 g=2 light=ef00 dark=6300 fon=9a00>
+  <volume=param2 rect=paramx,paramy,param0,param1 g=2 light=gef dark=g63 fon=g9a>
+  <pen=solid color=0>
+    <polyline=paramx,paramy,yparam1,xparam0,yparamy,xparamx>
+  </pen>
+</macros>
+//
+<macros=StatName param5=12 param6=0 param7=ff4100 param8=+1 param9=+1>
+  <align=baseline align=center>
+  <font=A bold=1 h=param5 underline=param6>
+    <textcolor=param7>//<textcolor=842000>
+    <text="param0" x=paramxparam8 y=paramyparam9>
+    <textcolor=gfc>
+    <text="param0" x=paramx y=paramy>
+  </font>
+</macros>
+//
+<macros=BlinName param5=11 param6=0 param7=gfc param8=+1 param9=+1>
+  <align=baseline align=center>
+  <font=A bold=1 h=param5 underline=param6>
+    <textcolor=param7>
+    <text="param0" x=paramx y=paramy>
+  </font>
+</macros>
+//
+<macros=TagName>
+  <align=baseline align=center>
+  <font=a bold=0 h=11>
+    <textcolor=gff>
+    <text="param0" x=paramx y=paramy>
+  </font>
+</macros>
+//
+% Стрелка для перехода на другую мнемосхему
+<macros=StatGotoR param2=g61 param3=gcc>
+  <brush=param2>
+    <pen=solid color=param3>
+      <polygon=paramx+24,paramy+8,paramx+16,paramy,d4,l16,d8,r16,d4>
+    </pen>
+  </brush>
+</macros>
+% Стрелка для перехода на другую мнемосхему
+<macros=StatGotoL param2=g61 param3=gcc>
+  <brush=param2>
+    <pen=solid color=param3>
+      <polygon=paramx,paramy+8,paramx+8,paramy,d4,r16,d8,l16,d4>
+    </pen>
+  </brush>
+</macros>
+% Стрелка для перехода на другую мнемосхему
+<macros=StatGotoD param2=g61 param3=gcc>
+  <brush=param2>
+    <pen=solid color=param3>
+      <polygon=paramx+8,paramy+24,paramx+16,paramy+16,l4,u16,l8,d16,l4>
+    </pen>
+  </brush>
+</macros>
+% Стрелка для перехода на другую мнемосхему
+<macros=StatGotoU param2=g61 param3=gcc>
+  <brush=param2>
+    <pen=solid color=param3>
+      <polygon=paramx+8,paramy,paramx,paramy+8,r4,d16,r8,u16,r4>
+    </pen>
+  </brush>
+</macros>
+%
+<macros=StatDatsik>
+  <GradRM=paramx,paramy,param0,param1 count=1 fon=707070>
+  <fillrect=0 rect=paramx+2,paramy+2,param0-2,param1-2>
+</macros>
+%
+<macros=StatHead param0=1000 param1=20 param4=" " param5=bdbabd>
+  <fillrect=param5 rect=paramx,paramy,param0,param1 edge=5>
+  <font=a height=12 bold=1>
+  <textcolor=0>
+  <draw=param3 rect=paramx,paramy,param0,param1 align=cv>
+  <textcolor=g7b>
+  <draw=param4 rect=paramx+20,paramy,param0,param1 align=lv>
+  </font>
+</macros>
+%
+<macros=HWKBD>
+  <Objects=Dynamic>
+    <btn="PRIOR DISP"       rc="  17+paramx, 17+paramy,56,53">
+    <btn="GOTO"             rc="  17+paramx, 84+paramy,56,53">
+    <btn="PRINT DISP"       rc="  17+paramx,151+paramy,56,53">
+    <btn="DISP FWD"         rc="  90+paramx, 17+paramy,56,53">
+    <btn="DISP BACK"        rc="  90+paramx, 84+paramy,56,53">
+    <btn="HELP"             rc="  90+paramx,151+paramy,56,53">
+    <btn="PAGE FWD"         rc=" 164+paramx, 17+paramy,56,53">
+    <btn="PAGE BACK"        rc=" 164+paramx, 84+paramy,56,53">
+    <btn="ASSOC DISP"       rc=" 164+paramx,151+paramy,56,53">
+    <btn="GROUP"            rc=" 248+paramx, 17+paramy,56,53">
+    <btn="TREND"            rc=" 248+paramx, 84+paramy,56,53">
+    <btn="HOUR AVG"         rc=" 248+paramx,151+paramy,56,53">
+    <btn="DETAL"            rc=" 318+paramx, 17+paramy,58,53">
+    <btn="PRINT TREND"      rc=" 318+paramx, 84+paramy,58,53">
+    <btn="CANCL PRINT"      rc=" 318+paramx,151+paramy,58,53">
+    <btn="SCHEM"            rc=" 392+paramx, 17+paramy,58,53">
+    <btn="FAST"             rc=" 392+paramx, 84+paramy,58,53" pt=5,2>
+    <btn="RECRD"            rc=" 392+paramx,151+paramy,58,53">
+    <btn="SYST STATS"       rc=" 475+paramx, 17+paramy,58,53">
+    <btn="PROC NETWK STATS" rc=" 475+paramx, 84+paramy,58,53">
+    <btn="ORG SUMM"         rc=" 475+paramx,151+paramy,58,53">
+    <btn="CONS STATS"       rc=" 549+paramx, 17+paramy,56,53">
+    <btn="COMM NETWK STATS" rc=" 549+paramx, 84+paramy,56,53">
+    <btn="UNIT ASGN"        rc=" 549+paramx,151+paramy,56,53">
+    <btn="SYST MENU"        rc=" 623+paramx, 17+paramy,56,53">
+    <btn="AM STATS"         rc=" 623+paramx, 84+paramy,56,53">
+    <btn="UNIT TREND"       rc=" 623+paramx,151+paramy,56,53">
+    <btn="ALM SUMM"         rc=" 706+paramx, 17+paramy,58,53">
+    <btn="UNIT ALM SUMM"    rc=" 780+paramx, 17+paramy,58,53">
+    <btn="ALM ANNC"         rc=" 854+paramx, 17+paramy,58,53">
+    <btn="MSG SUMM"         rc=" 706+paramx, 84+paramy,58,53">
+    <btn="MSG CONFM"        rc=" 780+paramx, 84+paramy,58,53">
+    <btn="MSG CLEAR"        rc=" 854+paramx, 84+paramy,58,53">
+    <btn="ACK"              rc=" 706+paramx,151+paramy,86,53">
+    <btn="SIL"              rc=" 824+paramx,151+paramy,88,55">
+    <btn="MAN"              rc=" 939+paramx, 17+paramy,56,53">
+    <btn="AUTO"             rc=" 939+paramx, 84+paramy,56,53">
+    <btn="NORM"             rc=" 939+paramx,151+paramy,56,53">
+    <btn="LOAD"             rc="1012+paramx, 17+paramy,56,53">
+    <btn="SP"               rc="1012+paramx, 84+paramy,56,53">
+    <btn="OUT"              rc="1012+paramx,151+paramy,56,53">
+    <btn="UP"               rc="1098+paramx, 84+paramy,56,53">
+    <btn="DOWN"             rc="1098+paramx,151+paramy,56,53">
+    <btn="UPUP"             rc="1178+paramx, 84+paramy,56,53">
+    <btn="DOWNDOWN"         rc="1178+paramx,151+paramy,56,53">
+  </Objects">
+</macros>
+%

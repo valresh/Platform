@@ -1,0 +1,935 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:p = 
+"urn:schemas-microsoft-com:office:powerpoint" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>STEAMPROP Point Detail</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META name=DisplayVersion-PS content=6.11>
+<META name=HMIWebTemplateDescription content="Create a blank HMIWeb display."><!--[if lt IE 9]>
+<SCRIPT language=javascript type=text/javascript 
+src="DisplayScripts\PlottingScripts\excanvas.js"></SCRIPT>
+<![endif]-->
+<SCRIPT class=include type=text/javascript 
+src="DisplayScripts\PlottingScripts\jquery.js"></SCRIPT>
+
+<SCRIPT class=include type=text/javascript 
+src="DisplayScripts\PlottingScripts\jquery.jqplot.js"></SCRIPT>
+
+<SCRIPT class=include type=text/javascript 
+src="DisplayScripts\PlottingScripts\jqplot.cursor.js"></SCRIPT>
+
+<SCRIPT class=include type=text/javascript 
+src="DisplayScripts\PlottingScripts\jqplot.pointLabels.js"></SCRIPT>
+
+<SCRIPT class=include type=text/javascript 
+src="DisplayScripts\PlottingScripts\jqplot.highlighter.js"></SCRIPT>
+
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+
+<STYLE type=text/css>.jqplot-axis {
+	FONT-SIZE: 0.75em
+}
+.jqplot-xaxis {
+	MARGIN-TOP: 10px
+}
+.jqplot-yaxis {
+	MARGIN-RIGHT: 10px
+}
+.jqplot-xaxis-tick {
+	VERTICAL-ALIGN: top; TOP: 0px; LEFT: 15px
+}
+.jqplot-yaxis-tick {
+	TEXT-ALIGN: right; RIGHT: 0px; TOP: 15px
+}
+.jqplot-point-label {
+	TEXT-ALIGN: left; FONT-FAMILY: "Arial"; FONT-SIZE: 7px
+}
+</STYLE>
+
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPageBehavior codeBase="" 
+classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXVectorFactory codeBase="" 
+classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXAlphaBehavior codeBase="" 
+classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPushButtonBehavior codeBase="" 
+classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCComboboxBehavior codeBase="" 
+classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCCheckBoxBehavior codeBase="" 
+classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCIndicatorBehavior codeBase="" 
+classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HoverBehavior codeBase="" 
+classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXPopupBehavior codeBase="" 
+classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=BindingBehavior codeBase="" 
+classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCShapeLinkBehavior codeBase="" 
+classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCActiveXDocumentBehavior codeBase="" 
+classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCBreakpointBehavior codeBase="" 
+classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXLevelFillBehavior codeBase="" 
+classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HDXElementsFactory codeBase="" 
+classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=AlarmStateIconFactory codeBase="" 
+classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=DTFormat codeBase="" 
+classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=HSCScriptDataBehavior codeBase="" 
+classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=StnEvtReflector codeBase="" 
+classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=StnEvtReflector codeBase="" 
+classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<META name=GENERATOR content="MSHTML 9.00.8112.16470">
+<OBJECT style="POSITION: absolute; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; LEFT: 0px" 
+id=DisplayDataRepository codeBase="" 
+classid=clsid:0113964D-CFC2-453a-BA5F-DF740C170064></OBJECT><LINK 
+id=HDXStylesheet rel=stylesheet type=text/css 
+href=".\Styles\SystemDisplay_1276X849.css">
+<SCRIPT language=JScript for=chkSpecificVolume defer event=onchange>if (chkSpecificVolume.value == 1)
+{
+	TSChartSpecificVolumeLinePlot.style.visibility = "Hidden";
+}
+else
+{
+	TSChartSpecificVolumeLinePlot.style.visibility = "Inherit";
+}</SCRIPT>
+
+<SCRIPT language=JScript for=chkPressure defer event=onchange>if (chkPressure.value == 1)
+{
+	TSChartPressureLinePlot.style.visibility = "Hidden";
+}
+else
+{
+	TSChartPressureLinePlot.style.visibility = "Inherit";
+}</SCRIPT>
+
+<SCRIPT language=JScript for=chkEnthalpy defer event=onchange>if (chkEnthalpy.value == 1)
+{
+	TSChartEnthalpyLinePlot.style.visibility = "Hidden";
+}
+else
+{
+	TSChartEnthalpyLinePlot.style.visibility = "Inherit";
+}</SCRIPT>
+
+<SCRIPT language=JScript for=chkQuality defer event=onchange>if (chkQuality.value == 1)
+{
+	TSChartQualityLinePlot.style.visibility = "Hidden";
+}
+else
+{
+	TSChartQualityLinePlot.style.visibility = "Inherit";
+}</SCRIPT>
+
+<SCRIPT language=JScript for=Page defer event=onpagecomplete>TSChartPlot();
+bPageComplete = true;</SCRIPT>
+
+<SCRIPT language=JScript for=alpCurrEntropyTemperature defer event=ondatachange>if((! alpCurrEntropyTemperature.QualityBad("CurrentPoint.STEAMPROPA.ENTROPY"))&& (! alpCurrEntropyTemperature.QualityBad("CurrentPoint.STEAMPROPA.TEMPERATURE")))
+{
+	ConstOperatingPointDataSet = [];
+	var OperatingPointData = new Array();
+	OperatingPointData.push(alpCurrEntropyTemperature.DataValue("CurrentPoint.STEAMPROPA.ENTROPY"))
+	OperatingPointData.push(alpCurrEntropyTemperature.DataValue("CurrentPoint.STEAMPROPA.TEMPERATURE"))
+	var OperatingPointDataSet = new Array();
+	OperatingPointDataSet.push(OperatingPointData);
+	ConstOperatingPointDataSet.push(OperatingPointDataSet);
+	if (bPageComplete)
+	{
+	 	TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+		var TSChartOperatingPointPlot = $.jqplot ('TSChartOperatingPointLinePlot', ConstOperatingPointDataSet,ConstOperatingPointPlotOptions);
+
+	}
+
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpEntropyUnit defer event=onupdate>if(bPageComplete == false)
+{
+	alpEntropy.innerText = alpEntropy.innerText + txtLeftBracket.innerText + alpEntropyUnit.innerText + txtRightBracket.innerText;
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpEnthalpyUnit defer event=onupdate>if(bPageComplete == false)
+{
+	chkEnthalpy.label = chkEnthalpy.label + txtLeftBracket.innerText + alpEnthalpyUnit.innerText + txtRightBracket.innerText;
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpSpecificVolumeUnit defer event=onupdate>if(bPageComplete == false)
+{
+	chkSpecificVolume.label = chkSpecificVolume.label + txtLeftBracket.innerText + alpSpecificVolumeUnit.innerText + txtRightBracket.innerText;
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpPressureUnit defer event=onupdate>if(bPageComplete == false)
+{
+	chkPressure.label = chkPressure.label + txtLeftBracket.innerText + alpPressureUnit.innerText + txtRightBracket.innerText;
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpTemperatureUnit defer event=onupdate>if(bPageComplete == false)
+{
+	txtTemperature.innerText = txtTemperature.innerText + txtLeftBracket.innerText + alpTemperatureUnit.innerText + txtRightBracket.innerText;
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMin defer event=onmouseleave>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMin defer event=onmouseout>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMax defer event=onmouseleave>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMax defer event=onmouseout>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMin defer event=onmouseleave>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMin defer event=onmouseout>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMax defer event=onmouseout>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMax defer event=onmouseleave>SetXYAxisMinMaxValue();</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMax defer event=onchange>if ( alpEngUnit.value == "SI")
+{
+	if (parseInt(273.15) < parseInt(alpyMax.value) <= parseInt(1273.15))
+	{
+		if ( parseInt(alpyMax.value) > parseInt(alpyMin.value))
+		{
+			YaxisMax = parseInt(alpyMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "METRIC")
+{
+	if (parseInt(0) < parseInt(alpyMax.value) <= parseInt(1000))
+	{
+		if ( parseInt(alpyMax.value) > parseInt(alpyMin.value))
+		{
+			YaxisMax = parseInt(alpyMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "ENGLISH")
+{
+	if (parseInt(32) < parseInt(alpyMax.value) <= parseInt(1832))
+	{
+		if ( parseInt(alpyMax.value) > parseInt(alpyMin.value))
+		{
+			YaxisMax = parseInt(alpyMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpyMin defer event=onchange>if ( alpEngUnit.value == "SI")
+{
+	if (parseInt(273.15) < parseInt(alpyMin.value) <= parseInt(1273.15))
+	{
+		if ( parseInt(alpyMin.value) < parseInt(alpyMax.value))
+		{
+			YaxisMin = parseInt(alpyMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "METRIC")
+{
+	if (parseInt(0) < parseInt(alpyMin.value) <= parseInt(1000))
+	{
+		if ( parseInt(alpyMin.value) < parseInt(alpyMax.value))
+		{
+			YaxisMin = parseInt(alpyMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "ENGLISH")
+{
+	if (parseInt(32) < parseInt(alpyMin.value) <= parseInt(1832))
+	{
+		if ( parseInt(alpyMin.value) < parseInt(alpyMax.value))
+		{
+			YaxisMin = parseInt(alpyMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMax defer event=onchange>if ( alpEngUnit.value == "SI")
+{
+	if (0 < parseInt(alpxMax.value) <= 10)
+	{
+		if ( parseInt(alpxMax.value) > parseInt(alpxMin.value))
+		{
+			XaxisMax = parseInt(alpxMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "METRIC")
+{
+	if (0 < parseInt(alpxMax.value) <= parseInt(2.388))
+	{
+		if ( parseInt(alpxMax.value) > parseInt(alpxMin.value))
+		{
+			XaxisMax = parseInt(alpxMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "ENGLISH")
+{
+	if (0 < parseInt(alpxMax.value) <= parseInt(2.388))
+	{
+		if ( parseInt(alpxMax.value) > parseInt(alpxMin.value))
+		{
+			XaxisMax = parseInt(alpxMax.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}</SCRIPT>
+
+<SCRIPT language=JScript for=alpxMin defer event=onchange>if ( alpEngUnit.value == "SI")
+{
+	if (0 < parseInt(alpxMin.value) <= 10)
+	{
+		if ( parseInt(alpxMin.value) < parseInt(alpxMax.value))
+		{
+			XaxisMin = parseInt(alpxMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "METRIC")
+{
+	if (0 < parseInt(alpxMin.value) <= parseInt(2.388))
+	{
+		if ( parseInt(alpxMin.value) < parseInt(alpxMax.value))
+		{
+			XaxisMin = parseInt(alpxMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}
+if ( alpEngUnit.value == "ENGLISH")
+{
+	if (0 < parseInt(alpxMin.value) <= parseInt(2.388))
+	{
+		if ( parseInt(alpxMin.value) < parseInt(alpxMax.value))
+		{
+			XaxisMin = parseInt(alpxMin.value)
+			TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+			TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+			TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element
+
+			ZoomPlot();
+		}
+	}
+}</SCRIPT>
+
+<SCRIPT language=JScript for=chkPointLabel defer event=onchange>	if (chkPointLabel.value == 1)
+	{
+		PointLabelVisible = true;
+	}
+	else
+	{
+		PointLabelVisible = false;
+	}
+	TSChartGridLinePlot.innerHTML= "";  //Clear any plotted div element
+	TSChartPressureLinePlot.innerHTML= ""; //Clear any plotted div element
+	TSChartSpecificVolumeLinePlot.innerHTML= ""; //Clear any plotted div element
+	TSChartQualityLinePlot.innerHTML= ""; //Clear any plotted div element
+	TSChartEnthalpyLinePlot.innerHTML= ""; //Clear any plotted div element
+	TSChartOperatingPointLinePlot.innerHTML= ""; //Clear any plotted div element			
+ 	ZoomPlot();</SCRIPT>
+
+<SCRIPT language=JScript defer>var ConstPressurePlotColor = "#FF0000"; //Pressure line plot color
+var ConstSpecificVolumePlotColor = "#008000"; //Specific volume line plot color
+var ConstQualityPlotColor = "#000000"; //Quality line Plot Color
+var ConstEnthalpyPlotColor = "#0000FF" //Enthalpy line plot color
+var ConstOperatingPointColor = "#FF00FF"
+var XaxisMin = 0; //Entropy Min value
+var XaxisMax = 10; //Entropy Max value
+var XaxisnumberTicks = 11;
+var YaxisMin = 273.15; //Temperature Min value
+var YaxisMax = 1273.15; //Temperature Max value
+var YaxisnumberTicks = 11;
+var ConstLineWidth = 1.2;
+var ConstPressureDataSet = []; // Data to plot Pressure lines
+var ConstSpecificVolumeDataSet = []; //Data to plot Specific Volume lines
+var ConstQualityDataSet = []; //Data to Plot Quality Lines
+var ConstEnthalpyDataSet = []; //Data to plot Enthalpy lines
+var ConstOperatingPointDataSet = [];
+var ConstTSChartBasePlotDataSet = [[0,0],[0,0]];
+var ConstPressurePlotOptions; //Options to plot Pressure lines
+var ConstSpecificVolumePlotOptions; //Options to plot Specific volume lines
+var ConstQualityPlotOptions; //Options to plot Quality lines
+var ConstEnthalpyPlotOptions; //Options to plot Enthalpy lines
+var ConstOperatingPointPlotOptions; //Option to Plot Operating Point
+var CurrEngUnitSystem = "SI";
+var ConstPressureDataSetPath = "/ConstantPressure/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+var ConstSpecificVolumeDataSetPath = "/ConstantSpecificVolume/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+var ConstQualityDataSetPath = "/ConstantQuality/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+var ConstEnthalpyDataSetPath = "/ConstantEnthalpy/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+var xMinSI = 0;
+var xMaxSI = 10;
+var yMinSI = 273.15;
+var yMaxSI = 1273.15;
+var xMinMETRIC = 0;
+var xMaxMETRIC = 2.388;
+var yMinMETRIC = 0;
+var yMaxMETRIC = 1000;
+var xMinENGLISH = 0;
+var xMaxENGLISH = 2.388;
+var yMinENGLISH = 32;
+var yMaxENGLISH = 1832;
+var bPageComplete = false;
+var PointLabelVisible = false;
+
+function SetPlotDataOptions()
+{
+
+ConstTSChartBasePlotOptions = 
+{
+  seriesDefaults:{ rendererOptions: { smooth: true },show: true,xaxis: 'xaxis',yaxis: 'yaxis',label: '',color: 'rgba(0,0,0,0)',lineWidth: ConstLineWidth,shadow: false,showLine: true,showMarker: false },
+  grid: { drawBorder: false, drawGridLines: false, gridLineColor: '#000' , background: 'rgba(0,0,0,0)',  padding: 0,shadow: false },
+  axes: {xaxis: { min: XaxisMin, max: XaxisMax, pad: 0, numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }}
+  
+};
+
+ConstPressurePlotOptions =
+{
+	seriesDefaults: {rendererOptions: {smooth: true}, show: true, color: ConstPressurePlotColor,linePattern: 'dashed',lineWidth: ConstLineWidth, showMarker: false,pointLabels:{ show:PointLabelVisible, location:'ne', ypadding:7,escapeHTML:false,edgeTolerance:-100}},
+	grid: {drawBorder: false, drawGridLines: true, gridLineColor: 'rgba(0,0,0,0)', background: 'rgba(0,0,0,0)',  shadow: false},
+	axes: { xaxis: { min: XaxisMin, max: XaxisMax,  pad: 0,  numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }}
+};
+ConstSpecificVolumePlotOptions =
+{
+	seriesDefaults: {rendererOptions: {smooth: true}, show: true, color: ConstSpecificVolumePlotColor, linePattern: 'dashed',lineWidth: ConstLineWidth, showMarker: false,pointLabels:{ show:PointLabelVisible, location:'se', ypadding:0,escapeHTML:false}},
+	grid: {drawGridLines: true, gridLineColor: 'rgba(0,0,0,0)', background: 'rgba(0,0,0,0)', borderColor: 'rgba(0,0,0,0)',borderWidth: 0, shadow: false},
+	axes: { xaxis: { min: XaxisMin, max: XaxisMax,  pad: 0,  numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }}
+};
+ConstQualityPlotOptions =
+{
+	seriesDefaults: {rendererOptions: {smooth: true}, show: true, color: ConstQualityPlotColor, lineWidth: ConstLineWidth, showMarker: false,pointLabels:{ show:PointLabelVisible, location:'ne', ypadding:1,escapeHTML:false}},
+	grid: {drawGridLines: true, gridLineColor: 'rgba(0,0,0,0)', background: 'rgba(0,0,0,0)', borderColor: 'rgba(0,0,0,0)',borderWidth: 0, shadow: false},
+	axes: { xaxis: { min: XaxisMin, max: XaxisMax,  pad: 0,  numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }}
+};
+ConstEnthalpyPlotOptions =
+{
+	seriesDefaults: {rendererOptions: {smooth: true}, show: true, color: ConstEnthalpyPlotColor, linePattern: 'dashed',lineWidth: ConstLineWidth, showMarker: false,pointLabels:{ show:PointLabelVisible, location:'ne', ypadding:3,escapeHTML:false}},
+	grid: {drawGridLines: true, gridLineColor: 'rgba(0,0,0,0)', background: 'rgba(0,0,0,0)', borderColor: 'rgba(0,0,0,0)',borderWidth: 0, shadow: false},
+	axes: { xaxis: { min: XaxisMin, max: XaxisMax,  pad: 0,  numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }}
+};
+ConstOperatingPointPlotOptions =
+{
+  seriesDefaults: {rendererOptions: {smooth: true},show: true, showDataLabels:true,color: ConstOperatingPointColor,showLine: false,showMarker: true,markerOptions: { size: 15, style:"filledCircle" }},
+  grid: {drawBorder: false, drawGridLines: true,gridLineColor: 'rgba(0,0,0,0)',background: 'rgba(0,0,0,0)', shadow: false},
+  axes: { xaxis: { min: XaxisMin, max: XaxisMax, pad: 0, numberTicks:XaxisnumberTicks }, yaxis: { min: YaxisMin, max: YaxisMax, pad: 0, numberTicks:YaxisnumberTicks }},
+  highlighter: {show: true,showTooltip:true,showMarker:true,tooltipLocation: 'n',tooltipAxes: 'xy'},      cursor: {show: false}
+};
+}
+
+function GetConstPressureData()
+{
+oxmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+oxmlDoc.async = false;
+oxmlDoc.load("ConstantPressure.xml");
+var objPressureDataSetPath =oxmlDoc.selectNodes(ConstPressureDataSetPath);
+for (i = 0; i<objPressureDataSetPath.length; i++)
+{
+	var objPressureData = objPressureDataSetPath(i).selectNodes("Data");
+	var tempPressureDataSet = new Array();
+	for (j = 0; j<objPressureData.length; j++)
+	{
+		var tempPressureData = new Array();
+		tempPressureData.push(objPressureData(j).getAttribute("Entropy"));
+		tempPressureData.push(objPressureData(j).getAttribute("Temperature"));
+		if (j==objPressureData.length-1)
+		{
+		tempPressureData.push('<span style="color:' + ConstPressurePlotColor + '">' + "P=" + objPressureDataSetPath(i).getAttribute("Pressure") + '</span>');
+		}
+		else
+		{
+		tempPressureData.push(null);
+		}
+		
+		tempPressureDataSet.push(tempPressureData);
+		
+	}
+
+ConstPressureDataSet.push(tempPressureDataSet);	
+}
+}
+function GetConstSpecificVolumeData()
+{
+oxmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+oxmlDoc.async = false;
+oxmlDoc.load("ConstantSpecificVolume.xml");
+var objSpecificVolumeDataSetPath =oxmlDoc.selectNodes(ConstSpecificVolumeDataSetPath);
+for (i = 0; i<objSpecificVolumeDataSetPath.length; i++)
+{
+	var objSpecificVolumeData = objSpecificVolumeDataSetPath(i).selectNodes("Data");
+	var tempSpecificVolumeDataSet = new Array();
+	for (j = 0; j<objSpecificVolumeData.length; j++)
+	{
+		var tempSpecificVolumeData = new Array();
+		tempSpecificVolumeData.push(objSpecificVolumeData(j).getAttribute("Entropy"));
+		tempSpecificVolumeData.push(objSpecificVolumeData(j).getAttribute("Temperature"));
+		if (j==objSpecificVolumeData.length-1)
+		{
+		tempSpecificVolumeData.push('<span style="color:' + ConstSpecificVolumePlotColor + '">' + "V=" + objSpecificVolumeDataSetPath(i).getAttribute("SpecificVolume") + '</span>');
+		}
+		else
+		{
+		tempSpecificVolumeData.push(null);
+		}
+		tempSpecificVolumeDataSet.push(tempSpecificVolumeData);
+	}
+
+ConstSpecificVolumeDataSet.push(tempSpecificVolumeDataSet);	
+}
+}
+function GetConstQualityData()
+{
+oxmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+oxmlDoc.async = false;
+oxmlDoc.load("ConstantQuality.xml");
+var objQualityDataSetPath =oxmlDoc.selectNodes(ConstQualityDataSetPath);
+for (i = 0; i<objQualityDataSetPath.length; i++)
+{
+	var objQualityData = objQualityDataSetPath(i).selectNodes("Data");
+	var tempQualityDataSet = new Array();
+	for (j = 0; j<objQualityData.length; j++)
+	{
+		var tempQualityData = new Array();
+		tempQualityData.push(objQualityData(j).getAttribute("Entropy"));
+		tempQualityData.push(objQualityData(j).getAttribute("Temperature"));
+		if (j==0)
+		{
+		
+			tempQualityData.push('<span style="color:' + ConstQualityPlotColor + '">' + "Q="+ objQualityDataSetPath(i).getAttribute("Quality") + '</span>');
+		}
+		else
+		{
+			tempQualityData.push(null);
+		}
+		
+		tempQualityDataSet.push(tempQualityData);
+	}
+
+ConstQualityDataSet.push(tempQualityDataSet);	
+}
+
+}
+function GetConstEnthalpyData()
+{
+oxmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+oxmlDoc.async = false;
+oxmlDoc.load("ConstantEnthalpy.xml");
+var objEnthalpyDataSetPath =oxmlDoc.selectNodes(ConstEnthalpyDataSetPath);
+for (i = 0; i<objEnthalpyDataSetPath.length; i++)
+{
+	var objEnthalpyData = objEnthalpyDataSetPath(i).selectNodes("Data");
+	var tempEnthalpyDataSet = new Array();
+	for (j = 0; j<objEnthalpyData.length; j++)
+	{
+		var tempEnthalpyData = new Array();
+		tempEnthalpyData.push(objEnthalpyData(j).getAttribute("Entropy"));
+		tempEnthalpyData.push(objEnthalpyData(j).getAttribute("Temperature"));
+		if (j==objEnthalpyData.length-1)
+		{
+			tempEnthalpyData.push('<span style="color:' + ConstEnthalpyPlotColor + '">' + "E="+ objEnthalpyDataSetPath(i).getAttribute("Enthalpy") + '</span>');
+		}
+		else
+		{
+			tempEnthalpyData.push(null);
+		}
+		tempEnthalpyDataSet.push(tempEnthalpyData);
+	}
+
+ConstEnthalpyDataSet.push(tempEnthalpyDataSet);	
+}
+}
+function SetPlotLegendColor()
+{
+	chkPressure.textColor = ConstPressurePlotColor;
+	chkEnthalpy.textColor = ConstEnthalpyPlotColor;
+	chkQuality.textColor =  ConstQualityPlotColor;
+	chkSpecificVolume.textColor = ConstSpecificVolumePlotColor;
+}
+function TSChartPlot()
+{
+
+	setPlotDataSetPath(); //Set the dataset path to read data from xml
+	SetAxiasMinMax();  //Set the Axis minimum and maximum value
+	SetPlotLegendColor(); //Set the legent color for different line
+	GetConstPressureData(); //Get the constant data for pressure line plot
+	SetPlotDataOptions(); //Setting the option to plot the different data
+	GetConstSpecificVolumeData(); //Get the constant data for specific vaolume line plot
+	GetConstEnthalpyData(); // //Get the constant data for Enthalpy line plot
+	GetConstQualityData(); // //Get the constant data for Quality line plot
+if (ConstTSChartBasePlotDataSet.length>0)
+{
+	var TSChartBasePlot = $.jqplot ('TSChartGridLinePlot', ConstTSChartBasePlotDataSet,ConstTSChartBasePlotOptions);
+}
+if (ConstPressureDataSet.length>0)
+{
+	var TSChartPressureLinePlot = $.jqplot ('TSChartPressureLinePlot', ConstPressureDataSet,ConstPressurePlotOptions);
+}
+if (ConstSpecificVolumeDataSet.length>0)
+{
+	var TSChartSpecificVolumeLinePlot = $.jqplot ('TSChartSpecificVolumeLinePlot', ConstSpecificVolumeDataSet,ConstSpecificVolumePlotOptions);
+}
+if (ConstEnthalpyDataSet.length>0)
+{
+	var TSChartEnthalpyLinePlot = $.jqplot ('TSChartEnthalpyLinePlot', ConstEnthalpyDataSet,ConstEnthalpyPlotOptions);
+}
+if (ConstQualityDataSet.length>0)
+{
+	var TSChartQualityLinePlot = $.jqplot ('TSChartQualityLinePlot', ConstQualityDataSet,ConstQualityPlotOptions);
+}
+if (ConstOperatingPointDataSet.length>0)
+{
+	var TSChartOperatingPointPlot = $.jqplot ('TSChartOperatingPointLinePlot', ConstOperatingPointDataSet,ConstOperatingPointPlotOptions);
+}	
+}
+function setPlotDataSetPath()
+{
+	CurrEngUnitSystem = alpEngUnit.value;
+	ConstPressureDataSetPath = "/ConstantPressure/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+	ConstSpecificVolumeDataSetPath = "/ConstantSpecificVolume/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+	ConstQualityDataSetPath = "/ConstantQuality/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+	ConstEnthalpyDataSetPath = "/ConstantEnthalpy/Chart[@Type = 'T-S']/EngUnit[@Unit = '" + CurrEngUnitSystem + "']/DataSet";
+}
+function SetAxiasMinMax ()
+{
+if (alpEngUnit.value == "SI")
+{
+	alpxMax.value = xMaxSI;
+	alpxMin.value = xMinSI;
+	alpyMax.value = yMaxSI;
+	alpyMin.value = yMinSI;
+	XaxisMin = xMinSI;
+	XaxisMax = xMaxSI;
+	YaxisMin = yMinSI;
+	YaxisMax = yMaxSI;
+}
+if (alpEngUnit.value == "METRIC")
+{
+	alpxMax.value = xMaxMETRIC;
+	alpxMin.value = xMinMETRIC;
+	alpyMax.value = yMaxMETRIC;
+	alpyMin.value = yMinMETRIC;
+	XaxisMin = xMinMETRIC;
+	XaxisMax = xMaxMETRIC;
+	YaxisMin = yMinMETRIC;
+	YaxisMax = yMaxMETRIC;
+}
+if (alpEngUnit.value == "ENGLISH")
+{
+	alpxMax.value = xMaxENGLISH;
+	alpxMin.value = xMinENGLISH;
+	alpyMax.value = yMaxENGLISH;
+	alpyMin.value = yMinENGLISH;
+	XaxisMin = xMinENGLISH;
+	XaxisMax = xMaxENGLISH;
+	YaxisMin = yMinENGLISH;
+	YaxisMax = yMaxENGLISH;
+}
+}
+function SetXYAxisMinMaxValue()
+{
+	alpxMax.value = XaxisMax;
+	alpxMin.value = XaxisMin;
+	alpyMax.value = YaxisMax;
+	alpyMin.value = YaxisMin;
+}
+
+
+function ZoomPlot()
+{
+ SetPlotDataOptions();
+ 
+ if (ConstTSChartBasePlotDataSet.length>0)
+{
+	var TSChartBasePlot = $.jqplot ('TSChartGridLinePlot', ConstTSChartBasePlotDataSet,ConstTSChartBasePlotOptions);
+}
+if (ConstPressureDataSet.length>0)
+{
+	var TSChartPressureLinePlot = $.jqplot ('TSChartPressureLinePlot', ConstPressureDataSet,ConstPressurePlotOptions);
+}
+if (ConstSpecificVolumeDataSet.length>0)
+{
+	var TSChartSpecificVolumeLinePlot = $.jqplot ('TSChartSpecificVolumeLinePlot', ConstSpecificVolumeDataSet,ConstSpecificVolumePlotOptions);
+}
+if (ConstEnthalpyDataSet.length>0)
+{
+	var TSChartEnthalpyLinePlot = $.jqplot ('TSChartEnthalpyLinePlot', ConstEnthalpyDataSet,ConstEnthalpyPlotOptions);
+}
+if (ConstQualityDataSet.length>0)
+{
+	var TSChartQualityLinePlot = $.jqplot ('TSChartQualityLinePlot', ConstQualityDataSet,ConstQualityPlotOptions);
+}
+if (ConstOperatingPointDataSet.length>0)
+{
+	var TSChartOperatingPointPlot = $.jqplot ('TSChartOperatingPointLinePlot', ConstOperatingPointDataSet,ConstOperatingPointPlotOptions);
+}
+}</SCRIPT>
+</HEAD>
+<BODY 
+style="BACKGROUND-COLOR: transparent; MARGIN: 0px; ZOOM: 1; FONT-SIZE: 12pt; OVERFLOW: auto">
+<DIV 
+style="POSITION: absolute; BACKGROUND-COLOR: #ffffff; MARGIN: 0px; WIDTH: 1334px; ZOOM: 1; BACKGROUND-REPEAT: no-repeat; HEIGHT: 981px" 
+id=Background></DIV>
+<DIV 
+style="POSITION: absolute; BACKGROUND-COLOR: transparent; MARGIN: 0px; WIDTH: 1276px; ZOOM: 1; FONT-FAMILY: Arial; HEIGHT: 849px; FONT-SIZE: 12pt; BEHAVIOR: url(#HDXPageBehavior) url(#StnEvtReflector) url(#DisplayDataRepository)" 
+id=Page HelpFileName="operatorsguide.chm" HelpFileTypeList="HTML help" 
+LocateHelpTopicBy="Topic number" HelpTopic="1969" PageDescription>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 1276px; FONT-FAMILY: Arial; HEIGHT: 849px; FONT-SIZE: 0px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); TOP: 0px; LEFT: 0px" 
+id=shaBackground class="hsc.shape.1 " tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:849;lineColorBlink:False;Width:1276;" 
+HDX_LOCK="-1" value = "1" src = "sysBackground_1276X849_CDA.sha" parameters = 
+"Value?ShowTabs:true;" linkType = "linked" globalscripts = 
+"CFD45B49-72AB-4fb7-9CC8-A7D18331606B" styleClass = ""></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 794px; FONT-FAMILY: Arial; HEIGHT: 29px; FONT-SIZE: 0px; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); TOP: 43px; LEFT: 283px" 
+id=shpTabs class=hsc.shape.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:794;" 
+HDX_LOCK="-1" value = "1" src = 
+".\sysdtlsteampropb_files\sysstabs4b_1276x849.sha" parameters = "" linkType = 
+"embedded" globalscripts = "" styleClass = "">
+<DIV 
+style="POSITION: absolute; WIDTH: 100%; HEIGHT: 100%; FONT-SIZE: 0pt; BEHAVIOR: url(#HDXVectorFactory#group); TOP: 0%; LEFT: 0%" 
+id=shpTabs_group001 class="hvg.group.1 tabSet4" tabIndex=-1 
+hdxproperties="fillColorBlink:False;Height:29;lineColorBlink:False;Width:794;">
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 24.68%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 0%" 
+id=shpTabs_bitmap001 class="hsc.image.1 tab" tabIndex=-1 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 24.68%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 25.06%" 
+id=shpTabs_roundrect5 class="hvg.base.1 tab tabSelected" tabIndex=-1 
+hdxproperties="Height:29;Width:196;" HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 24.68%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 50.12%" 
+id=shpTabs_bitmap1 class="hsc.image.1 tab" tabIndex=-1 
+hdxproperties="Height:29;Width:196;"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 24.68%; FONT-FAMILY: Arial; HEIGHT: 100%; VISIBILITY: inherit; FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; TOP: 0%; LEFT: 75.18%" 
+id=shpTabs_bitmap002 class="hsc.image.1 tab" tabIndex=-1 
+hdxproperties="Height:29;Width:196;"></DIV></DIV></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; PADDING-BOTTOM: 0px; BACKGROUND-COLOR: transparent; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; PADDING-LEFT: 0px; WIDTH: 890px; PADDING-RIGHT: 0px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: inherit; COLOR: white; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 10px; LEFT: 326px; ROWS: 1" id=alphaLocation class="hsc.alpha.1 Titlebar_Text_Style2" title="" tabIndex=-1 hdxproperties="borderStyle:None;borderWidth:0px;BreakpointType:1;DiscreteColors:16777215_16777215_16777215_16777215_16777215_16777215_16777215_16777215;DiscreteStates:00000000;fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:32;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:Titlebar_Text_Style2;textColor:White;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="Acronym">Text</TEXTAREA> 
+
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 279px; FONT-FAMILY: Arial; HEIGHT: 806px; VISIBILITY: visible; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXPopupBehavior#GroupFaceplate) url(#BindingBehavior); TOP: 43px; LEFT: 0px" 
+id=grpfaceplate class="hsc.groupfaceplate.1 hsc.activexcontrol.1" tabIndex=-1 
+hdxproperties="HDXBINDINGID:90;" HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 196px; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior); TOP: 43px; LEFT: 482px" 
+id=pbTSChart class="hvg.textbox.1 Tab_Button__Text_Style2" tabIndex=-1 
+hdxproperties="FillColor:Transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:82;Height:29;indicateAlarmState:0;indicateScanState:0;lineColorBlink:False;LineStyle:0;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;TotalRotation:0;Width:196;" 
+HDX_LOCK="-1">T-S Plot</DIV><INPUT style="BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #ffffff 1px; BACKGROUND-COLOR: transparent; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: black; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 1px; CURSOR: hand; FONT-WEIGHT: bold; BORDER-RIGHT: #ffffff 1px; TEXT-DECORATION: ; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 43px; LEFT: 283px" id=pbMain class="hsc.button.1 Tab_Button__Text_Style2" tabIndex=2 value=Main type=button hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:83;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1"><INPUT style="BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #ffffff 1px; BACKGROUND-COLOR: transparent; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: black; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 1px; CURSOR: hand; FONT-WEIGHT: bold; BORDER-RIGHT: #ffffff 1px; TEXT-DECORATION: ; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 43px; LEFT: 681px" id=pbHSChart class="hsc.button.1 Tab_Button__Text_Style2" tabIndex=3 value="H-S Plot" type=button hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:85;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1"><INPUT style="BORDER-BOTTOM: #ffffff 1px; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #ffffff 1px; BACKGROUND-COLOR: transparent; WIDTH: 196px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: arial; HEIGHT: 29px; VISIBILITY: visible; COLOR: black; FONT-SIZE: 10pt; BORDER-TOP: #ffffff 1px; CURSOR: hand; FONT-WEIGHT: bold; BORDER-RIGHT: #ffffff 1px; TEXT-DECORATION: ; BEHAVIOR: url(#HDXPushButtonBehavior) url(#BindingBehavior); TOP: 43px; LEFT: 880px" id=pbChart class="hsc.button.1 Tab_Button__Text_Style2" tabIndex=6 value="Chart " type=button hdxproperties="fillColor:Transparent;fillColorBlink:True;HDXBINDINGID:89;indicateBadState:False;indicateNaNState:False;indicateScanState:False;lineColorBlink:False;styleClass:Tab_Button__Text_Style2;textColor:black;textColorBlink:False;" HDX_LOCK="-1"> 
+
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 450px; FONT-FAMILY: arial; HEIGHT: 23px; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 330px; LEFT: 96px" 
+id=txtTemperature class="hvg.textbox.1 TableHeader_center_Align_Style" 
+tabIndex=-1 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:23;lineColorBlink:False;LineStyle:0;Rotation:270;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:270;Width:450;" 
+HDX_LOCK="-1">Temperature</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: center; WIDTH: 920px; FONT-FAMILY: arial; HEIGHT: 23px; COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 800px; LEFT: 326px" 
+id=alpEntropy class="hvg.textbox.1 TableHeader_center_Align_Style" tabIndex=-1 
+hdxproperties="FillColor:white;fillColorBlink:False;FillStyle:0;Height:23;lineColorBlink:False;LineStyle:0;styleClass:TableHeader_center_Align_Style;textColor:black;textColorBlink:False;TotalRotation:0;Width:920;" 
+HDX_LOCK="-1">Entropy</DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BACKGROUND-COLOR: white; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 150px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 756px; LEFT: 842px; ROWS: 1" id=alpEntropyUnit class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:0;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="State">State</TEXTAREA> 
+<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; FONT-STYLE: normal; BORDER-LEFT-STYLE: none; WIDTH: 210px; FONT-FAMILY: Arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 41px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 690px; LEFT: 326px; ROWS: 1" id=alpEngUnit class=hsc.alpha.1 tabIndex=-1 hdxproperties="durationFormat:-1;fillColor:transparent;HDXBINDINGID:1;lineColor:black;numberOfChars:9;numericDisplayFormat:%s;textColor:#000000;" HDX_LOCK="-1">State</TEXTAREA> 
+
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartGridLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartPressureLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartSpecificVolumeLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartQualityLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartEnthalpyLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV>
+<DIV 
+style="POSITION: absolute; FONT-STYLE: normal; WIDTH: 950px; FONT-FAMILY: Arial; HEIGHT: 700px; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#rect); TOP: 100px; LEFT: 326px" 
+id=TSChartOperatingPointLinePlot class=hvg.base.1 tabIndex=-1 
+hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:700;LineColor:transparent;lineColorBlink:False;Width:950;" 
+HDX_LOCK="-1"></DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BACKGROUND-COLOR: white; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 150px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 669px; LEFT: 571px; ROWS: 1" id=alpTemperatureUnit class="hsc.alpha.1 " title="" tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:2;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="State">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BACKGROUND-COLOR: white; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 150px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 724px; LEFT: 594px; ROWS: 1" id=alpPressureUnit class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:3;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="State">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BACKGROUND-COLOR: white; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 150px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 706px; LEFT: 737px; ROWS: 1" id=alpSpecificVolumeUnit class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:4;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="State">State</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; BORDER-BOTTOM-COLOR: transparent; TEXT-ALIGN: left; BACKGROUND-COLOR: white; BORDER-TOP-COLOR: transparent; BORDER-LEFT-STYLE: none; WIDTH: 150px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 23px; VISIBILITY: hidden; COLOR: #000000; BORDER-RIGHT-COLOR: transparent; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: transparent; FONT-WEIGHT: bold; TEXT-DECORATION: ; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 704px; LEFT: 862px; ROWS: 1" id=alpEnthalpyUnit class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:none;borderWidth:;durationFormat:-1;fillColor:white;fillColorBlink:False;HDXBINDINGID:5;indicateAlarmState:0;indicateScanState:0;lineColor:black;lineColorBlink:False;numberOfChars:255;numericDisplayFormat:%s;styleClass:;textColor:#000000;textColorBlink:False;" HDX_LOCK="-1" printDisplayValue="State">State</TEXTAREA> 
+
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 76px; FONT-FAMILY: Arial; HEIGHT: 40px; VISIBILITY: hidden; COLOR: #000000; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 654px; LEFT: 1034px" 
+id=txtLeftBracket class=hvg.textbox.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:40;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:76;" 
+HDX_LOCK="-1">&nbsp;(</DIV>
+<DIV 
+style="POSITION: absolute; TEXT-ALIGN: left; FONT-STYLE: normal; WIDTH: 76px; FONT-FAMILY: Arial; HEIGHT: 40px; VISIBILITY: hidden; COLOR: #000000; FONT-SIZE: 12pt; OVERFLOW: hidden; FONT-WEIGHT: 400; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 677px; LEFT: 1088px" 
+id=txtRightBracket class=hvg.textbox.1 tabIndex=-1 
+hdxproperties="fillColorBlink:False;FillStyle:1;Height:40;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:0;Width:76;" 
+HDX_LOCK="-1">)</DIV><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; BACKGROUND-COLOR: transparent; FONT-STYLE: normal; BORDER-LEFT-STYLE: none; WIDTH: 148px; FONT-FAMILY: Arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 19px; COLOR: #000000; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); TOP: 782px; LEFT: 950px; ROWS: 1" id=alpCurrEntropyTemperature class="hsc.alpha.1 HSC.ScriptDataObject.1" tabIndex=-1 hdxproperties="fillColor:transparent;HDXBINDINGID:13;lineColor:black;numericDisplayFormat:%.2f;textColor:#000000;" HDX_LOCK="-1">9999.99</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #cdcdcd; BORDER-LEFT-STYLE: none; PADDING-LEFT: 2px; WIDTH: 40px; PADDING-RIGHT: 2px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 18px; COLOR: black; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 780px; LEFT: 1235px; ROWS: 1" id=alpxMax class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:Inset;borderWidth:2;durationFormat:-1;fillColor:#cdcdcd;HDXBINDINGID:6;lineColor:white;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:;textColor:black;" HDX_LOCK="-1">9999.99</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #cdcdcd; BORDER-LEFT-STYLE: none; PADDING-LEFT: 2px; WIDTH: 60px; PADDING-RIGHT: 2px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 18px; COLOR: black; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 763px; LEFT: 320px; ROWS: 1" id=alpyMin class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:Inset;borderWidth:2;durationFormat:-1;fillColor:#cdcdcd;HDXBINDINGID:15;lineColor:white;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:;textColor:black;" HDX_LOCK="-1">9999.99</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #cdcdcd; BORDER-LEFT-STYLE: none; PADDING-LEFT: 2px; WIDTH: 60px; PADDING-RIGHT: 2px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 18px; COLOR: black; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 105px; LEFT: 320px; ROWS: 1" id=alpyMax class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:Inset;borderWidth:2;durationFormat:-1;fillColor:#cdcdcd;HDXBINDINGID:16;lineColor:white;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:;textColor:black;" HDX_LOCK="-1">9999.99</TEXTAREA><TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: center; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #cdcdcd; BORDER-LEFT-STYLE: none; PADDING-LEFT: 2px; WIDTH: 40px; PADDING-RIGHT: 2px; FONT-FAMILY: arial; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 18px; COLOR: black; BORDER-RIGHT-STYLE: none; FONT-SIZE: 10pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: ; PADDING-TOP: 2px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); TOP: 780px; LEFT: 363px; ROWS: 1" id=alpxMin class="hsc.alpha.1 " tabIndex=-1 hdxproperties="borderStyle:Inset;borderWidth:2;durationFormat:-1;fillColor:#cdcdcd;HDXBINDINGID:14;lineColor:white;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:;textColor:black;" HDX_LOCK="-1">9999.99</TEXTAREA><SPAN 
+style="POSITION: absolute; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LINE-HEIGHT: normal; BACKGROUND-COLOR: transparent; FONT-VARIANT: normal; BORDER-TOP-COLOR: #000000; WIDTH: 180px; FONT-FAMILY: arial; HEIGHT: 23px; BORDER-RIGHT-COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: #000000; CURSOR: default; TEXT-DECORATION: ; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); TOP: 125px; LEFT: 400px" 
+id=chkSpecificVolume class="hsc.checkbox.1 Check_Option_box_style" tabIndex=-1 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:9;inverseLogic:1;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT style="BACKGROUND-COLOR: transparent; MARGIN: 1px" 
+tabIndex=0 CHECKED type=checkbox></INPUT><SPAN style="COLOR: black">Specific 
+volume</SPAN></SPAN><SPAN 
+style="POSITION: absolute; BORDER-BOTTOM-COLOR: #000000; TEXT-ALIGN: left; LINE-HEIGHT: normal; BACKGROUND-COLOR: transparent; FONT-VARIANT: normal; BORDER-TOP-COLOR: #000000; WIDTH: 180px; FONT-FAMILY: arial; HEIGHT: 23px; BORDER-RIGHT-COLOR: #000000; FONT-SIZE: 10pt; OVERFLOW: hidden; BORDER-LEFT-COLOR: #000000; CURSOR: default; TEXT-DECORATION: ; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); TOP: 152px; LEFT: 400px" 
+id=chkPressure class="hsc.checkbox.1 Check_Option_box_style" tabIndex=-1 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:10;inverseLogic:1;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT style="BACKGROUND-COLOR: transparent; MARGIN: 1px" 
+tabIndex=0 CHECKED type=checkbox></INPUT><SPAN 
+style="COLOR: black">Pressure</SPAN></SPAN><SPAN 
+style="POSITION: absolute; TEXT-ALIGN: left; LINE-HEIGHT: normal; BACKGROUND-COLOR: transparent; FONT-VARIANT: normal; WIDTH: 180px; FONT-FAMILY: arial; HEIGHT: 23px; FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); TOP: 179px; LEFT: 400px" 
+id=chkEnthalpy class="hsc.checkbox.1 Check_Option_box_style" tabIndex=-1 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:11;inverseLogic:1;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT style="BACKGROUND-COLOR: transparent; MARGIN: 1px" 
+tabIndex=0 CHECKED type=checkbox></INPUT><SPAN 
+style="COLOR: black">Enthalpy</SPAN></SPAN><SPAN 
+style="POSITION: absolute; TEXT-ALIGN: left; LINE-HEIGHT: normal; BACKGROUND-COLOR: transparent; FONT-VARIANT: normal; WIDTH: 180px; FONT-FAMILY: arial; HEIGHT: 23px; FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); TOP: 206px; LEFT: 400px" 
+id=chkQuality class="hsc.checkbox.1 Check_Option_box_style" tabIndex=-1 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:12;inverseLogic:1;styleClass:Check_Option_box_style;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT style="BACKGROUND-COLOR: transparent; MARGIN: 1px" 
+tabIndex=0 CHECKED type=checkbox></INPUT><SPAN style="COLOR: black">Quality 
+(%)</SPAN></SPAN><SPAN 
+style="POSITION: absolute; TEXT-ALIGN: left; LINE-HEIGHT: normal; BACKGROUND-COLOR: transparent; FONT-VARIANT: normal; WIDTH: 180px; FONT-FAMILY: arial; HEIGHT: 23px; FONT-SIZE: 10pt; OVERFLOW: hidden; CURSOR: default; TEXT-DECORATION: ; BEHAVIOR: url(#HSCCheckBoxBehavior) url(#BindingBehavior); TOP: 233px; LEFT: 400px" 
+id=chkPointLabel class="hsc.checkbox.1 Check_Option_box_style INPUT" tabIndex=-1 
+hdxproperties="fillColor:Transparent;fillColorBlink:False;HDXBINDINGID:7;inverseLogic:0;styleClass:Check_Option_box_style INPUT;textColor:black;textColorBlink:False;" 
+HDX_LOCK="-1"><INPUT style="BACKGROUND-COLOR: transparent; MARGIN: 1px" 
+tabIndex=0 type=checkbox></INPUT><SPAN style="COLOR: black">Data 
+points</SPAN></SPAN></DIV></BODY></HTML>

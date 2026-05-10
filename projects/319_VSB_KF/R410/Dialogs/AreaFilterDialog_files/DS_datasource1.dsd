@@ -1,0 +1,144 @@
+<PSDATASOURCE version="1.0">
+
+<PAGE wType="0" wUpdate="5" wPrevious="0" area_byRequestType="0" area_bstrArea="" area_wFile="0" area_wWord="0"
+      byForwardAction="1" bstrForward="bstrForward" byBackwardAction="1" bstrBackward="bstrBackward" 
+      bRequestTaskOnPageCallup="0" callUpTask_byLevel="2" callUpTask_byStnidx="0" callUpTask_ts_iLrm="0" 
+      callUpTask_ts_bstrParam1="1" callUpTask_ts_bstrParam2="11" callUpTask_ts_bstrParam3="0" 	      	      
+      callUpTask_ts_bstrParam4="0" bRequestPeriodicTask="0" periodicTask_byLevel="2" periodicTask_byStnidx="0"
+      periodicTask_ts_iLrm="0" periodicTask_ts_iPeriod="60" periodicTask_ts_bstrParam1="1" 
+      periodicTask_ts_bstrParam2="11" periodicTask_ts_bstrParam3="0" periodicTask_ts_bstrParam4="0"/>
+
+<TABLESOURCE TableSourceType="DataSourceObj.AreaSource" lBindingID="1" Version="3.0" AutoMigrate="false" >
+<![CDATA[
+
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="AreaNumber" rowId="true"/>
+			<field id="AreaName"/>
+			<field id="Description"/>
+		</fields>
+	</FieldXML>
+
+	<XFormXML>
+		<xforms>
+			<script id="xfCellID" language="VBScript">
+				If Value Then 
+					Return = "Selected_Cells"
+				Else
+					Return = ""
+				End If
+			</script>
+			<script id="xfAreaTooltip" language="VBScript">
+				If (IsEmpty(Value(0))) Then
+					Return = ""
+				Else
+					If (Len(Value(1)) > 0) Then
+						Return = Value(0) &amp; " - " &amp; Value(1) 
+					Else
+						Return = Value(0) 
+					End If
+				End If
+			</script>
+			<defaultValue id="EmptyVariantToString" value="" type="string"/>
+		</xforms>
+	</XFormXML>
+
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+				<Begin>
+					&lt;div style="position: relative; padding-bottom: 2px; padding-top: 1px; padding-right: 5px;" onmouseenter="OnEnter_MenuItem(this)" onmouseleave="OnLeave_MenuItem(this)"&gt;&lt;span&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;&lt;/div&gt;
+				</End>
+			</MenuItemWrapper>
+
+			<FilterAppliedWrapper>
+				<Begin>
+					&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; margin-right: 1px; background-color: mediumblue; color: white; font-weight: bold;"&gt;
+				</Begin>
+				<End>
+					&lt;/span&gt;
+				</End>
+			</FilterAppliedWrapper>
+
+			<SortAscIndicator>
+				&amp;nbsp;&lt;img src="Images/SortArrowUp.gif"&gt;
+			</SortAscIndicator>
+
+			<SortDescIndicator>
+				&amp;nbsp;&lt;img src="Images/SortArrowDown.gif"&gt;
+			</SortDescIndicator>
+		
+			<GroupSeparator>
+				&lt;div style="position:relative; width: 160px; height: 2px; overflow: hidden; display: block; border: 1px inset; margin: 3px;" &gt;&lt;/div&gt;
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+
+	<MenuGroupXML>
+		<MenuGroups>
+			<CommandGroup id="ContextMenuGroup">
+				<StandardCommand id="Command_SelectAll" Command="SelectAll">
+					&amp;nbsp;Select All
+				</StandardCommand>
+				<StandardCommand id="Command_SelectNone" Command="SelectNone">
+					&amp;nbsp;Select None
+				</StandardCommand>
+				<StandardCommand id="Command_InvertSelection" Command="InvertSelection">
+					&amp;nbsp;Invert Selection
+				</StandardCommand>
+			</CommandGroup>
+		</MenuGroups>
+	</MenuGroupXML>
+
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+
+	<SortXML>
+		<SortDef>
+		</SortDef>
+	</SortXML>
+
+	<ColumnStateXML>
+		<state>
+			<colref id="AreaNameColumn" width="50" hidden="false" />
+		</state>
+	</ColumnStateXML>
+
+	<TableDefinitionXML>
+		<table>
+			<tableMenu>
+				<GroupRef GroupId="ContextMenuGroup"/>
+			</tableMenu>
+		
+			<contextMenu>
+				<GroupRef GroupId="ContextMenuGroup"/>
+			</contextMenu>
+
+			<columns>
+				<column id="AreaNameColumn">
+					<title></title>
+					<action/>
+					<menu/>
+					<content>&lt;span style="overflow: hidden; text-overflow: ellipsis; width: 100%; height: 100%; padding-left: 2px;"/&gt;</content>
+					<bindings>
+						<in fields="AreaName" properties="innerText" xforms="EmptyVariantToString"/>
+						<in fields="AreaName;Description" properties="title" xforms="xfAreaTooltip"/>
+						<in fields="Selected" properties="id" xforms="xfCellID"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+
+]]>
+</TABLESOURCE>
+
+</PSDATASOURCE>

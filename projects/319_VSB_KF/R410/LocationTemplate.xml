@@ -1,0 +1,218 @@
+<TableTemplate>
+	<FieldXML>
+		<fields>
+			<field id="Selected"/>
+			<field id="NodeHandle" rowId="true"/>
+			<field id="Depth"/>
+			<field id="Expanded"/>
+			<field id="NumChildren"/>
+			<field id="SiblingNumber"/>
+			<field id="PointNumber"/>
+			<field id="IsAssigned"/>
+			<field id="HasAssignedDescendents"/>
+			<field id="EntityName"/>
+			<field id="TagName"/>
+			<field id="FullName"/>
+			<field id="Description"/>
+			<field id="AlmState"/>
+			<field id="RemoteType"/>
+			<field id="SubType"/>
+			<field id="ItemNumber"/>
+			<field id="AreaNumber"/>
+			<field id="Flags"/>
+			<field id="Redundant"/>
+			<field id="Assignable"/>
+			<field id="DirectConnect"/>
+		</fields>
+	</FieldXML>
+	<XFormXML>
+		<xforms>
+			<defaultValue id="xfEmptyVariantToString" value="" type="string"/>
+
+			<script id="xfSelection" language="VBScript">
+				Dim s
+				s = ""
+
+				If Value(0) Then
+					If Value(9) then
+						g_bIsAssigned = true
+						s = "Selected_Active_Cells"
+					else
+						g_bIsAssigned = false
+						s = "Selected_Active_Cells"
+					end If
+							
+					If (Value(1) = Empty) Then
+						fnSetLastSelectedTagname("")
+					Else
+						fnSetLastSelectedTagname(CStr(Value(1)))
+					End If
+
+					If (Value(2) = Empty) Then
+						fnSetLastSelectedFullname("")
+					Else
+						fnSetLastSelectedFullname(CStr(Value(2)))
+					End If
+
+					If (Value(3) = Empty) Then
+						fnSetLastSelectedAreaNumber("")
+					Else
+						fnSetLastSelectedAreaNumber(CStr(Value(3)))
+					End If
+
+					If (Value(4) = Empty) Then
+						fnSetLastSelectedDescription("")
+					Else
+						fnSetLastSelectedDescription(CStr(Value(4)))
+					End If
+
+					If not ((Value(6) = 2) or (Value(7) = 7) or (Value(5))) Then
+						fnSetLastSelectedTagname("")
+						fnSetLastSelectedAreaNumber("")
+					End If
+					
+					If (Value(8) = Empty) Then
+						fnSetLastSelectedPointNumber("")
+					Else
+						fnSetLastSelectedPointNumber(CStr(Value(8)))
+					End If
+
+					Handle_OnEntitySelectionChange()
+
+				Else
+					s = "Unassigned_Cells"
+				End If
+
+				Return = s
+			</script>
+			<script id="xfIconImg" language="VBScript">
+				Return = GetNodeImagePath(Value)
+			</script>
+			<script id="xfIconVisible" language="VBScript">
+				if (Value = Empty or Value = 0) then
+				    Return = "visible"
+				else
+				    Return = "hidden"
+				end if
+			</script>
+			<script id="xfPadding" language="VBScript">
+				Return = (Value - 1) * 16
+			</script>
+			<script id="xfPlusMinusImg" language="VBScript">
+				if (Value(0) = 0) then
+					Return = "Images/blank.gif"
+				elseif (Value(1)) then
+					Return = "Images/minus.gif"
+				else
+					Return = "Images/plus.gif"
+				end if
+			</script>
+			<script id="xfName" language="VBScript">
+				if( IsEmpty(Value) ) then
+					Return = ""
+				else
+					Return = CStr(Value)
+				end if
+			</script>
+			<script id="xfOrganizationNodes" language="VBScript">
+				if (Value = 9) and not (g_OrganizationNodesFound) then
+						g_OrganizationNodesFound = true
+				end if
+				Return = Value 
+			</script>
+			<script id="xfOpacity" language="VBScript">
+				//Item should be grayed out if it
+				// a) is not assignment to the SOR
+				// b) is not an alarm group or system point, and it is not assignable
+				if ( not Value(0) ) then
+					Return = "alpha(opacity=50)"
+				elseif( ( not IsEmpty(Value(1)) ) and ( not Value(1) ) ) then
+					if ( (Value(2) &lt;&gt; 2)  and (Value(3) &lt;&gt; 7) ) then
+						Return = "alpha(opacity=50)"
+					else
+						Return = ""
+					end if
+				else
+					Return = ""
+				end if
+			</script>
+		</xforms>
+	</XFormXML>
+	<HTMLWrapperXML>
+		<HTMLWrappers>
+			<MenuItemWrapper>
+			</MenuItemWrapper>
+			<FilterAppliedWrapper>
+			</FilterAppliedWrapper>
+			<SortAscIndicator>
+			</SortAscIndicator>
+			<SortDescIndicator>
+			</SortDescIndicator>
+			<GroupSeparator>
+			</GroupSeparator>
+		</HTMLWrappers>
+	</HTMLWrapperXML>
+	<MenuGroupXML>
+		<MenuGroups>
+		</MenuGroups>
+	</MenuGroupXML>
+	<BaseFilterXML>
+		<BaseFilterDef>
+		</BaseFilterDef>
+	</BaseFilterXML>
+	<SortXML>
+		<SortDef>
+		</SortDef>
+	</SortXML>
+	<ColumnStateXML><state><colref id="Tree" width="100" hidden="false"></colref></state></ColumnStateXML>
+	<TableDefinitionXML>
+		<table>
+			<tableMenu/>
+			<contextMenu/>
+			<columns>
+				<column id="Tree">
+					<title>Tree</title>
+					<action/>
+					<menu/>
+					<content>
+					    &lt;div style="padding-left: 0; position: absolute; padding-top: 3px; width: 100%; height: 100%;" 
+					        language="javascript" ExpandCollapseTrigger=0
+					        ondrag="jscript: fnCancelDefault();" ondragleave="jscript: fnCancelDefault();"
+                            			ondragstart="jscript: fnDragPoint(this.title, g_LastSelectedFullname, 'tagname');" 
+					    &gt;
+						    &lt;div style="position: relative; display: inline; padding-left: 2px;"
+							    onmousedown="if( event.button == 1 ) { this.parentElement.ExpandCollapseTrigger = 1; event.cancelBubble = true; }"&gt;
+							    &lt;img style="position: relative; top: -3px; width: 9px; height: 9px;" src="Images/blank.gif"/&gt;
+						    &lt;/div&gt;
+
+				            &lt;div style="position: relative; display: inline;"&gt;
+							    &lt;img style="position: relative; left: 0px; width: 16px; height: 16px; z-index: 2;" src="Images/blank.gif"/&gt;
+						    &lt;/div&gt;
+
+						    &lt;a style="position: relative; text-decoration: none; cursor: default;
+						overflow: hidden; text-overflow: ellipsis;
+						width: 100%; height: 100%; padding-left: 1px; padding-top: 1px; padding-bottom: 2px; display: inline;"
+						href="javascript:;"
+						onclick="jscript: fnEntityCellSelect(JsTrim(this.innerText))"
+						ondblclick="jscript: fnOnDblClickTag()"
+						&gt;
+						    &lt;/a&gt;
+						&lt;/div>
+					</content>
+					<bindings>
+						<in fields="Depth" properties="style.paddingLeft" xforms="xfPadding" />
+						<in fields="NumChildren;Expanded" properties="firstChild.firstChild.src" xforms="xfPlusMinusImg" />
+						<in fields="RemoteType" properties="firstChild.nextSibling.firstChild.src" xforms="xfOrganizationNodes" />
+						<in fields="RemoteType;SubType;ItemNumber;Redundant;Flags" properties="firstChild.nextSibling.firstChild.src" xforms="xfIconImg" />
+						<in fields="Selected;TagName;FullName;AreaNumber;Description;Assignable;ItemNumber;RemoteType;PointNumber;IsAssigned" properties="lastChild.id" xforms="xfSelection" />
+						<in fields="EntityName" properties="lastChild.innerText;title" xforms="xfName" />
+						<in fields="IsAssigned;Assignable;ItemNumber;RemoteType" properties="firstChild.nextSibling.firstChild.style.filter;lastChild.previousSibling.firstChild.style.filter;lastChild.style.filter" xforms="xfOpacity" />
+						<out properties="ExpandCollapseTrigger" fields="Expanded"/>
+					</bindings>
+				</column>
+			</columns>
+		</table>
+	</TableDefinitionXML>
+</TableTemplate>
+
+

@@ -1,0 +1,367 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="103px" height="40px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="" language="VBScript" id="F46F4ABC-90C7-45C5-A04D-7EC7A07ABD61"><![CDATA['MOS and OOS shapes in process displays
+'***********************************************************************************************************************************************
+sub Scd_MOS_OOS_OnUpdate(oSource)
+	dim oShape, iPV
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iValueON = csng(oShape.getcustomproperty("Num","cp_ONValue"))
+	if oSource.value = iValueON then: iPV = 1: else: iPV = 0: end if
+	if (oSource.quality and iQualityGood)<>iQualityGood then iPV = 2
+	index = oShape.getcustomproperty("Style","cp_Style" & iPV)
+	if typename(oShape.objects("TxtMOS"))<>"Nothing" then oShape.objects("TxtMOS").styleclass = "TxtMOS_" & index
+	if typename(oShape.objects("TxtOOS"))<>"Nothing" then oShape.objects("TxtOOS").styleclass = "TxtOOS_" & index
+	if err.number<>0 then window.external.LogMessage "Scd_MOS_OOS_AlpPV_OnUpdate ->" & oSource.id & " " & err.description       			
+end sub
+'***********************************************************************************************************************************************
+
+'------------------------------------------
+'Digital States
+'------------------------------------------
+Sub Scd_DigStateCText_AlpPV_OnUpdate(oSource)
+	dim oShape,oPVObj
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iBad=0
+	if oshape.getcustomproperty("Point","TagnameBAD")<>"" then iBad=oSource.datavalue("tagnameBAD.cp_pvbad") 
+	iBadChn=0
+	if oshape.getcustomproperty("Point","TagnameCHN")<>"" then iBadChn=oSource.datavalue("tagnameCHN.cp_pvchn") 
+	set oPVObj=oShape.objects("TxtPV")	
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+  		oPVObj.innertext=oShape.GetCustomProperty("Text","cp_TextForPV" &  cstr(oSource.value))
+  		oPVObj.styleclass="ScConAlpPV_" & oShape.GetCustomProperty("Style","cp_StyleForPV" &  cstr(oSource.value))
+	elseif (oSource.quality and iQualityGood)<>iQualityGood or iBad=1 or iBadchn=1 then
+  		oPVObj.styleclass="ScConAlpPV_Bad"
+  		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+		oPVObj.innertext=oShape.GetCustomProperty("Text","cp_TextForPV" &  cstr(oSource.value))
+	else
+  		oPVObj.innertext=oShape.GetCustomProperty("Text","cp_TextForPV" &  cstr(oSource.value))
+  		oPVObj.styleclass="ScConAlpPV_" & oShape.GetCustomProperty("Style","cp_StyleForPV" &  cstr(oSource.value))
+  		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+	end if
+	if err.number<>0 then window.external.LogMessage "Scd_DigStateCText_AlpPV_OnUpdate ->" & oSource.id & " " & err.description 
+end sub
+
+Sub Scd_DigStateCColor_AlpPV_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iBad=0
+	if oshape.getcustomproperty("Point","TagnameBAD")<>"" then iBad=oSource.datavalue("tagnameBAD.cp_pvbad") 
+	iBadChn=0
+	if oshape.getcustomproperty("Point","TagnameCHN")<>"" then iBadChn=oSource.datavalue("tagnameCHN.cp_pvchn") 
+	iPV=oSource.value
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("RecPV").styleclass="RecPV_" & index
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+  	elseif (oSource.quality and iQualityGood)<>iQualityGood or iBad=1 or iBadChn=1 then
+  		sBad=oShape.getcustomproperty("Style","cp_StyleForPVBad")
+		oShape.objects("RecPV").styleclass="RecPV_" & sBad
+		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+    else
+   		oSource.styleclass=oShape.objects("ScConAlpPV").styleclass    
+		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+    end if
+	if err.number<>0 then window.external.LogMessage "Scd_DigStateCColor_AlpPV_OnUpdate ->" & oSource.id & " " & err.description       
+end sub
+
+Sub Scd_DigState_AlpPV_OnUpdate(oSource)	
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iBad=0
+	if oshape.getcustomproperty("Point","TagnameBAD")<>"" then iBad=oSource.datavalue("tagnameBAD.cp_pvbad")
+	iBadChn=0
+	if oshape.getcustomproperty("Point","TagnameCHN")<>"" then iBadChn=oSource.datavalue("tagnameCHN.cp_pvchn")
+	if oShape.getcustomproperty("Num","cp_File")="" then
+		iPV=oSource.breakpointvalueenum
+		index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+		oShape.objects("ScConAlpPV").styleclass="ScConAlpPV_" & index
+    else
+		oSource.styleclass="ScConAlpPV" 
+	end if	 
+	if instr(oSource.value,"1.#QNAN")=0 and (oSource.quality and iQualityGood)<>iQualityGood or iBad=1 or iBadChn=1 then
+	  if (oSource.quality and iQualityOffScan)<>iQualityOffScan or iBad=1 or iBadChn=1 then   
+   			sBad=oShape.getcustomproperty("Style","cp_StyleForPVBad")
+			oSource.styleclass="ScConAlpPV_" & sBad
+			oSource.getstyleproperty("hw-fill-color")
+			oSource.style.backgroundcolor=oSource.getstyleproperty("hw-fill-color")
+			oSource.style.color=oSource.getstyleproperty("hw-text-color")
+      end if 
+    end if	
+	if instr(oShape.src,"PU_")>0 then oShape.objects("TxtName").value=oSource.datavalue("tagname.name")
+    if err.number<>0 then window.external.LogMessage " Scd_DigState_AlpPV_OnUpdate ->" & oSource.id & " " & err.description       
+end sub
+
+sub Scd_Burner_AlpPV_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	if ((oSource.quality and iQualityOffScan)=iQualityOffScan) or ((oSource.dataquality("TagnameB.cp_pv") and iQualityOffScan)=iQualityOffScan) then 
+	   oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+       iPV="0"
+	elseif ((oSource.quality and iQualityGood)<>iQualityGood) or ((oSource.dataquality("TagnameB.cp_pv") and iQualityGood)<>iQualityGood) then
+	   oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+	   iPV="Bad"	
+	else   
+	   oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+	   iPVm=oSource.value
+	   iPVb=oSource.datavalue("TagnameB.cp_pv")
+	   iPV=cstr(iPVm*2+iPVb)
+	end if
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV) 
+	oShape.objects("RecBrnrPV").styleclass="RecBrnrPV_" & index
+	if err.number<>0 then window.external.LogMessage " Scd_Burner_AlpPV_OnUpdate ->" & oSource.id & " " & err.description           	
+end sub
+
+sub Scd_BrnrCTxt_AlpOnupdate(oSource)
+	dim oShape
+	'on error resume next
+	set oShape=oSource.parentnode.parentnode
+    iPV=cstr(oSource.value)
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+	elseif (oSource.quality and iQualityGood)<>iQualityGood then
+		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+		iPV="Bad"
+	end if
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("RecFrame").styleclass="RecFrame_" & index
+	oShape.objects("TxtCtext").styleclass="TxtCtext_" & index
+	if err.number<>0 then window.external.LogMessage " Scd_BrnrCTxt_AlpOnupdate(oSource) ->" & oSource.id & " " & err.description           	
+end sub
+
+
+'--------------------------------------
+'Numeric Values
+'--------------------------------------
+sub Scd_Numeric_AlpPVFormat_OnUpdate(oSource)
+	dim sFormat,oShape, nNumericFormat
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iBadStatePV=oShape.getcustomproperty("Num","cp_badstate")
+	nNumericFormat = oshape.getcustomproperty("Text","cp_PVFormat") 
+	if isnumeric(trim(nNumericFormat)) then
+		sFormat="%." & trim(nNumericFormat) & "f"
+		if typename(oshape.objects("ScConAlpPV"))<>"Nothing" then oShape.objects("ScConAlpPV").numericdisplayformat=sFormat
+		if typename(oshape.objects("ConAlpSP"))<>"Nothing" then oShape.objects("ConAlpSP").numericdisplayformat=sFormat
+	else
+		window.external.LogMessage "Scd_Numeric_AlpPVFormat_OnUpdate ->" & oSource.id & " " & "Invalid PV Format: " & nNumericFormat 
+	end if
+	iBad=100
+	if oShape.getcustomproperty("Point","tagnameBAD")<>"" then iBad=oSource.datavalue("TagnameBad.cp_pvBad")
+	iBadChn=0
+	if oShape.getcustomproperty("Point","tagnameCHN")<>"" then iBadChn=oSource.datavalue("TagnameCHN.cp_pvchn")
+	if (oSource.quality and iQualityBad)=iQualityBad then 
+		oSource.innertext="--------"
+		oShape.objects("ScConAlpPV").textcolor=vbred
+    elseif cint(ibad)=cint(iBadStatePV) or iBadChn=1 then 
+		oSource.styleclass="ScConAlpPV_Bad"
+    else
+	    oShape.objects("ScConAlpPV").styleclass="ScConAlpPV"
+    end if
+	if oShape.getcustomproperty("Text","cp_TagnameEU")="" then oShape.objects("TxtEUDesc").innertext = oSource.DataValue("tagname.cp_eudesc")
+    if oSource.dataexists("tagname.name") then oShape.objects("TxtName").value=oSource.datavalue("tagname.name")
+	if err.number<>0 then window.external.LogMessage "Scd_Numeric_AlpPVFormat_OnUpdate ->" & oSource.id & " " & err.description 
+end sub
+
+
+'----------------------------------------
+'Deviation Alarm
+'----------------------------------------
+sub Scd_Dev_Alarm_Icon(oSource,iTagN)
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iDev=0
+	iAllUnack=0
+	for i=1 to iTagN
+		iDev=iDev+oSource.datavalue ("AlmTag" & i & ".cp_DevL" & i)
+		iDev=iDev+oSource.datavalue ("AlmTag" & i & ".cp_DevH" & i)
+		iUnack=oSource.dataAlarm ("AlmTag" & i & ".cp_DevL" & i)
+		if (iUnack and 1024)=1024 then iAllUnack=iAllUnack+1
+	next
+	if iDev>0 then 
+		oShape.objects("AlarmState").priority=1	  
+		if iAllUnack>0 then
+		    oShape.objects("AlarmState").Acknowledged=0
+        else
+			oShape.objects("AlarmState").Acknowledged=1 
+        end if
+     else
+		oShape.objects("AlarmState").priority=0
+	 end if
+	 if err.number<>0 then window.external.LogMessage "Scd_Dev_Alarm_Icon ->" & oSource.id & " " & err.description
+end sub
+
+'----------------------------------------
+'Cause and Effect
+'----------------------------------------
+
+sub Scd_CEXXX_Click
+    dim oShape
+	set oShape=document.getelementbyid(page.getattribute("ESD_matrix"))
+	oShape.objects("RecTarg").click
+	if err.number<>0 then window.external.LogMessage "Scd_CEXXX_Click ->" & oShape.id & " " & err.description       
+end sub
+
+
+Sub Scd_CEXXX_AlpPV_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iPV=oSource.value
+	if (oSource.quality and iQualityGood)<>iQualityGood then iPV=2
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("RecPV").styleclass="RecPV_" & index
+	oShape.objects("TxtCText").styleclass="TxtCText_" & index
+	if typename(oShape.objects("TxtPName"))<>"Nothing" then oShape.objects("TxtPName").styleclass="TxtCText_" & index	
+	if iPV<2 then 
+	   oShape.objects("RecPV").alarm=oSource.alarm
+    else
+	   oShape.objects("RecPV").alarm=2048
+    end if
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+    else
+  		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_Active"
+    end if
+	if err.number<>0 then window.external.LogMessage "Scd_CEXXX_AlpPV_OnUpdate ->" & oSource.id & " " & err.description       
+end sub
+
+'----------------------------------------
+'Fire and Gas
+'----------------------------------------
+
+sub FG_OnUpdate(oSource)
+	dim oShape,iQuality(2)
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	if oShape.getCustomProperty("Num","cp_orientation")<>"" then oShape.objects("WdgB").rotation=oShape.getCustomProperty("Num","cp_orientation")
+	set DetBody=oShape.objects("DetBody")
+	iQuality(0)=oSource.quality
+	iQuality(1)=oSource.dataquality("TagnameInh.cp_inh_pv")
+	for j=0 to 1
+		ipQuality = 4
+		ipQuality = iQuality(j)
+		if (ipQuality and 8)=8 then
+      		sOffScan="Active"
+			elseif (ipQuality and 4)=4 then
+      		sBad="Bad"
+    	end if 
+	next
+	if sOffScan="Active" then
+	  	oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+		DetBody.styleclass="DetBody_" & oShape.getCustomProperty("Style","cp_StyleForInhPV")
+	elseif sBad="Bad"then
+	    oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+  		DetBody.styleclass="DetBody_" & oShape.getCustomProperty("Style","cp_StyleForPVBad")  		
+	else
+  		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+		index=oShape.GetCustomProperty("Style","cp_StyleForPV" &  cstr(oSource.value))
+		DetBody.styleclass="DetBody_" & index
+		if oSource.datavalue("TagnameInh.cp_inh_op")=1 then 
+			index=oShape.GetCustomProperty("Style","cp_StyleForInhOP")
+			DetBody.styleclass="DetBody_" & index
+		end if
+		if oSource.datavalue("TagnameInh.cp_inh_pv")=1 then
+			index=oShape.GetCustomProperty("Style","cp_StyleForInhPV")
+         	DetBody.styleclass="DetBody_" & index
+        end if
+	end if
+	if err.number<>0 then window.external.LogMessage " FG_OnUpdate ->" & oSource.id & " " & err.description 
+end sub
+
+sub Scd_OnOffValves_AlpPV_OnUpdate(oSource) 
+	dim iPV,oShape,iOP,index,indexOP
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	iPV=oSource.value
+	iOP=oSource.datavalue("tagname.cp_op")
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+		oShape.objects("LinExecState").styleclass="LinExecState_OffScan_InActive"
+	elseif (oSource.quality and iQualityGood)<>iQualityGood then
+		oShape.objects("LinExecState").styleclass="LinExecState_OnScan_Active"
+		iPV="Bad"
+	end if
+	index=oShape.getCustomProperty("Style","cp_styleForPV" & iPV)
+	oShape.objects("PlgIn").styleclass="PlgIn_" & index	   
+	oShape.objects("PlgOut").styleclass="PlgOut_" & index 
+	if cstr(iPV)="Bad" then 
+		iBad="B" 
+	elseif iPV=3 then 
+		iBad="B"
+	end if   
+	blf=false
+	if iBad="B" then
+		oShape.objects("WdgC").styleclass = "WdgC_" & index
+	else 
+		if oShape.getCustomProperty("Point","tagnameLF")<>"" then
+			if oSource.datavalue("tagnameLF.cp_pvLF")=cint(oshape.getCustomProperty("Num","cp_LFActive")) then
+				bLF=true
+				if typename(oShape.objects("WdgC"))<>"Nothing" then 
+					oShape.objects("WdgC").styleclass="WdgC_" & oShape.getCustomProperty("Style","cp_styleForPV3")	   
+				end if
+			end if   
+		end if	 
+		if not bLF then 		           
+			if typename(oShape.objects("WdgC"))<>"Nothing" then 
+				oShape.objects("WdgC").styleclass="WdgC_" & oShape.getCustomProperty("Style","cp_styleForPV" & iOP)	   
+			end if 				 	   
+		end if	 
+	end if
+	if err.number<>0 then window.external.LogMessage " SCD_OnOffValves_AlpGPV_OnUpdate ->" & oSource.id & " " & err.description
+end sub
+
+'*******************************************************************************************
+'Channels and RTUs
+'*******************************************************************************************
+sub Scd_ChnRtu_OnUpdate(oSource)
+	'on error resume next
+    set oShape=oSource.parentnode.parentnode
+	if oSOurce.value=0 then
+		oShape.objects("IndbarB").style.visibility="hidden"
+		oShape.objects("OvlStsB").style.visibility="hidden"
+		oShape.objects("TxtLinkB").style.visibility="hidden"
+		oShape.objects("LinScaleB").style.visibility="hidden"
+		oShape.objects("TxtLinkA").value="  Lnk"
+	else
+		oShape.objects("IndbarB").style.visibility="inherit"
+		oShape.objects("OvlStsB").style.visibility="inherit"
+		oShape.objects("TxtLinkB").style.visibility="inherit"
+		oShape.objects("LinScaleB").style.visibility="inherit"
+		oShape.objects("TxtLinkA").value="Lnk A"
+	end if	
+    if oSource.DataChanged("tagname.cp_BarFail") then 
+	    oShape.objects("IndbarA").rangeHi=oSource.datavalue("tagname.cp_BarFail")
+	    oShape.objects("IndbarB").rangeHi=oShape.objects("IndbarA").rangeHi
+	    oShape.objects("IndbarA").rangeLo=0
+	    oShape.objects("IndbarB").rangeLo=0
+	end if   	
+    if oSource.DataChanged("tagname.cp_LnkABarCnt") then
+		oShape.objects("IndbarA").value=oSource.DataValue("tagname.cp_LnkABarCnt")
+	end if
+	if oSource.DataChanged("tagname.cp_LnkBBarCnt") then
+		oShape.objects("IndbarB").value=oSource.DataValue("tagname.cp_LnkBBarCnt")
+	end if
+	if oSource.DataChanged("tagname.cp_LnkStsA") then
+		oShape.objects("OvlStsA").styleclass="OvlStsA_" & oShape.getcustomproperty("Style","cp_StyleForSts" & oSource.Datavalue("tagname.cp_LnkStsA") )
+		oShape.objects("IndbarA").styleclass="IndbarA_" & oShape.getcustomproperty("Style","cp_StyleForSts" & oSource.Datavalue("tagname.cp_LnkStsA") )
+		if oSource.Datavalue("tagname.cp_LnkStsA")=14 then
+			oShape.objects("IndbarA").levelFillColorblink=true
+        else
+			oShape.objects("IndbarA").levelFillColorblink=false
+		end if
+	end if
+	if oSource.DataChanged("tagname.cp_LnkStsB") then
+		oShape.objects("OvlStsB").styleclass="OvlStsB_" & oShape.getcustomproperty("Style","cp_StyleForSts" & oSource.Datavalue("tagname.cp_LnkStsB") )
+		oShape.objects("IndbarB").styleclass="IndbarB_" & oShape.getcustomproperty("Style","cp_StyleForSts" & oSource.Datavalue("tagname.cp_LnkStsB") )
+		if oSource.Datavalue("tagname.cp_LnkStsB")=14 then
+			oShape.objects("IndbarB").levelFillColorblink=true
+        else
+			oShape.objects("IndbarB").levelFillColorblink=false
+		end if
+	end if
+	if err.number<>0 then window.external.LogMessage " Scd_ChnRtu_OnUpdate ->" & oSource.id & " " & err.description
+end sub]]></script></scripts><parameters><parameter name="Revision" type="Num" description="" defaultvalue="R300, Rev.0"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=TxtGSH class=hvg.textbox.1 style="FONT-SIZE: 8pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 40px; FONT-FAMILY: Arial; WIDTH: 103px; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #0000ff; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 4px; TOP: 3px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" globalscripts hdxproperties="FillColor:#00bfff;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:103;">Scada General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="150" height="144">
+	<menuitem id="mnu_det" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Print');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Print</text>
+		<image>.\Images\Print.png</image>
+	</menuitem>
+	<menuitem id="mnu_trd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Back');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Page Back</text>
+		<image>.\Toolbar\tb007.png</image>
+	</menuitem>
+	<menuitem id="mnu_grp" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Forward');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Page Forward</text>
+		<image>.\Toolbar\tb008.png</image>
+	</menuitem>
+	<menuitem id="mnu_asd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Refresh');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Reload</text>
+		<image>.\Toolbar\tb009.png</image>
+	</menuitem>
+	<menuitem id="mnu_copyPointID" acceleratorKey=""> 
+				  
+			<script type="onpage"> 
+				<![CDATA[
+					
+					var comHelperMethods = function(){
+						var isBadHresult = function( prop ){
+							if (typeof(window.external.application[prop]) === "unknown") return true;		
+							return false;
+						};				
+						
+						var isNullUndefinedBlankOrEmptyString = function( prop ){
+							if (!window.external.application[prop]) return true;
+							if (window.external.application[prop].replace(/ /g,'') === "") return true;
+							return false;
+						};				
+						
+						var isPropertyValid = function( prop ){
+							if (isBadHresult( prop )) return false;						
+							if (isNullUndefinedBlankOrEmptyString( prop )) return false;
+							return true;				
+						};	
+					
+						return{
+							isPropertyValid: isPropertyValid
+						};
+					};	
+					
+					
+					// expose helperMethods through the window object
+					// to be used by the other jsHandlers (e.g. onclick):
+					window.comHelperMethods = new comHelperMethods();
+					
+					
+					
+					var shouldMenuItemBeHidden = function(){
+						return ((!window.comHelperMethods.isPropertyValid("CurrentPointID")) && (!window.comHelperMethods.isPropertyValid("DetailPointID")))
+					};
+				
+				
+					// The actual check:
+					if (shouldMenuItemBeHidden()){
+						this.style.display ="none";
+					}			
+					
+					return true;
+				
+				]]>
+			</script> 
+			
+			<script type="onclick"> 
+				 <![CDATA[
+				 	
+					var CopiedTxt;
+				  
+					if (window.comHelperMethods.isPropertyValid("CurrentPointID"))
+					{
+						CopiedTxt = window.external.application.CurrentPointID;
+					}
+					  
+					else if (window.comHelperMethods.isPropertyValid("DetailPointID"))
+					{
+						CopiedTxt= window.external.application.DetailPointID;
+					}
+					  
+					else CopiedTxt=" "; 
+							   
+					clipboardData.setData("Text",CopiedTxt); 
+					window.external.CloseShortcutMenu(); 
+					   
+			]]>
+            </script> 
+            
+
+
+			<text>Copy Point ID</text> 
+           </menuitem>
+</menu>

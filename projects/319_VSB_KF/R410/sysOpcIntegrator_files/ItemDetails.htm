@@ -1,0 +1,830 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html xmlns:viewlink="">
+    <?import namespace="viewlink" implementation="../Objects/TabSet.htc"> 
+    <?import namespace="viewlink" implementation="../Objects/SystemButton.htc">
+    <head>
+        <meta name="VI60_defaultClientScript" content="VBScript">
+        <meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+        <link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="OpciStyles.css" type="text/css">
+        <title></title>
+        <object classid="clsid:5220cb21-c88d-11cf-b347-00aa00a28331" id="Microsoft_Licensed_Class_Manager_1_0" viewastext>
+            <param name="LPKPath" value="vsflex8.lpk">
+        </object>
+        <object id="OPCBrowseSrc" style="display: none; left: 0px; top: 0px" classid="CLSID:882B313F-A59C-497A-9D6D-DC4EA72BE3BA">
+            <param name="_ExtentX" value="4207">
+            <param name="_ExtentY" value="1270">
+        </object>
+        <object id="OPCBrowseDst" style="display: none; left: 0px; top: 0px" classid="CLSID:882B313F-A59C-497A-9D6D-DC4EA72BE3BA">
+            <param name="_ExtentX" value="4207">
+            <param name="_ExtentY" value="1270">
+        </object>
+        <script language="JavaScript" src="../Scripts/Logging.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/ErrorHandling.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/JSExtensions.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/HTMLUtils.js" type="text/JavaScript"></script>
+        <script language="JavaScript" src="../Scripts/Utilities.js" type="text/JavaScript"></script>
+        <script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+        <script id="OpciEvents" language="jscript" src="OpciEvents.js"></script>
+        <script id="OpciFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+        <script id="SecurityFunctions" language="jscript" src="OpciSecurity.js"></script>
+        <script id="clientEventHandlersVBS" language="vbscript">
+<!--
+Dim g_CurrentProgIDBox
+Dim g_bSettingDirty
+Dim g_Mode				' current mode, config Or online
+Dim g_GroupId			' current group id
+Dim g_GroupName			' current group name
+Dim g_GroupDeleted
+Dim g_SourceItemPreEdit
+Dim g_DestItemPreEdit
+Dim g_GroupDetailsTabClicked
+Dim g_strMachineName
+
+
+Sub window_onload
+
+    On Error Resume Next
+    Err.Clear
+    
+    g_GroupDetailsTabClicked = false
+    
+    ' Check to see that the title frame has connected to the database
+    ' and the mode has been set.  If not Then this frame will be reloaded 
+    ' so no need to continue
+    g_Mode = parent.title.g_Mode
+    If (Not parent.title.g_Connected) Or (g_Mode = ERROR_MODE) Then
+        ' Do nothing since we will be reloaded once the title frame is loaded
+        GroupDetails.style.display = "none"
+        WaitingSpan.style.display = "block"
+    Else
+        ' Set up the list box in the title
+        If Not Populate_lstGroups Then Exit Sub
+        
+        parent.title.lstGroups.style.display = ""
+        parent.title.txtGroupId.style.display = ""
+        
+        If parent.title.OpciDashboard.CurrentGroup = 0 Then
+            parent.title.txtGroupId_onchange
+            Exit Sub
+        End If
+        
+        ' set group globals
+        g_GroupId = parent.title.OpciDashboard.GroupId
+        g_GroupName = parent.title.OpciDashboard.GroupName
+        g_GroupDeleted = false
+        g_GroupChange = true
+        g_bSettingDirty = false
+
+        lblDirtyText.innerHTML = MSG_COMMIT_REMINDER
+        Call SetVisibilityOfButtons
+        
+        ' enable/disable import/export buttons
+        ' check If we running on a remote flex station
+        Set WNetwork = m_objStation.Dictionary.Item("WScriptNetworkObject").Value
+        g_strMachineName = WNetwork.ComputerName
+    
+        If LCase(m_ServerName) <> LCase(g_strMachineName) And UCase(m_ServerName) <> LOCAL_SERVER Then
+            cmdImportItems.disabled = true
+            cmdExportItems.disabled = true
+        End If
+        
+        ' Set up the group details form
+        If (g_Mode = CONFIG_MODE) Then
+            GroupButtons.style.display = ""
+            ItemButtons1.style.display = ""
+            ItemButtons2.style.display = ""
+            cmdDeleteItems.Disabled = false
+        Else
+            btnRefresh.style.display = ""
+        End If
+
+        ' Set up the grid 
+        SetupGrid
+        
+        ' Show the ItemDetails section
+        WaitingSpan.style.display = "none"
+        GroupDetails.style.display = "block"
+        
+        If (parent.title.OpciDashboard.GroupBidirectional) Then
+            cmdBrowseSrcItem.innerHTML = "Browse Master"
+            cmdBrowseDstItem.innerHTML = "Browse Slave"
+        Else
+            cmdBrowseSrcItem.innerHTML = "Browse Source"
+            cmdBrowseDstItem.innerHTML = "Browse Destination"
+        End If
+        
+        ' Apply security
+        Call ApplySecurity
+    End If
+    
+    'set the group status in the title bar
+    ShowGroupStatus
+
+    ' Show error text if applicable
+    ShowErrorText
+
+    ' set the correct link text
+    SetLinkText
+
+    document.body.style.cursor = "auto"
+End Sub
+
+Sub cmdDeleteItems_OnClick
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    DeleteItems
+End Sub
+
+'handles deletion of grid items in configuration mode
+Function document_onKeyDown
+    If g_Mode = CONFIG_MODE Then
+        Dim keyCode
+        keyCode = window.event.keyCode
+        If keyCode = DELETE_KEY And dgItems.ColSel > 5 Then
+            DeleteItems
+        End If
+    End If
+End Function
+
+Sub DeleteItems
+    Dim r, iSelStart, iSelEnd
+    Dim iSelColStart, iSelColEnd
+    Dim index
+    Dim size
+            
+    If dgItems.ColSel < 6 Then 
+        m_objStation.TemporaryMessageZoneText = "No rows selected"
+        Exit Sub
+    End If
+
+    iSelStart = dgItems.Row
+    iSelEnd = dgItems.RowSel
+    'do not delete the last row just clear it
+    If iSelStart = dgItems.Rows-1 And iSelEnd = dgItems.Rows-1 Then
+        Exit Sub
+    End If
+    If iSelStart = dgItems.Rows - 1 Then
+        iSelStart = iSelStart - 1
+    End If
+    If iSelEnd = dgItems.Rows - 1 Then
+        iSelEnd = iSelEnd - 1 
+    End If
+    'If no rows selected Then Exit
+    If iSelStart = -1 And iSelEnd = -1 Then
+        Exit Sub
+    End If
+
+    If iSelEnd < iSelStart Then
+        Dim iSwap
+        iSwap = iSelEnd
+        iSelEnd = iSelStart
+        iSelStart = iSwap
+    End If
+
+    size = Abs(CLng(iSelStart) - CLng(iSelEnd)) + 1
+    ReDim itemIds(size)
+    index = 0
+    For r = iSelStart To iSelEnd
+        itemIds(index) = dgItems.TextMatrix(r, dgItems.ColIndex(DB_ITEM_ID))
+        index = index + 1
+    Next
+
+    'delete selected rows
+    ConfirmMsg MSG_ITEM_DELETE_CONFIRM, "DeleteItems", itemIds, "", "", "", ""
+End Sub
+
+Sub SetupGrid
+    On Error Resume Next
+    Dim sGridHeader
+    Dim row
+    Dim bConfigMode
+
+    If (CLng(g_Mode) = CLng(CONFIG_MODE)) Then
+        bConfigMode = true
+    Else
+        bConfigMode = false
+    End If
+
+    ' get the item data and bind it to the grid
+    g_itemData = parent.title.OpciDashboard.GetItemData()
+    ' bind it to the grid
+    BindItemGridData(bConfigMode)
+    
+    'hide the grid while initialising
+    GroupItemsGrid.style.visibility = "hidden"
+    
+    'set grid column headers
+    SetColumnHeaders
+    
+    'set column widths
+    dgItems.AutoSize 0, 6
+    dgItems.AllowUserResizing = flexResizeColumns
+    
+    'hide other columns
+    dgItems.ColHidden(dgItems.ColIndex(DB_GROUP_ID)) = true
+    
+    'set data binding to synchronised
+    dgItems.DataMode = flexDMBound
+    'allow column sorting
+    dgItems.ExplorerBar = flexExSortShowAndMove
+    
+    If g_Mode = CONFIG_MODE Then
+        'allow edits
+        dgItems.Editable = flexEDKbdMouse
+        dgItems.SelectionMode = flexSelectionFree
+        dgItems.TabBehavior = flexTabCells
+    Else
+        dgItems.SelectionMode = flexSelectionListbox
+        dgItems.TabBehavior = flexTabControls	
+    End If
+    
+    ' enable the grid
+    dgItems.Enabled = true
+    
+    'show the grid
+    GroupItemsGrid.style.visibility = ""
+    
+    If bConfigMode Then
+        dgItems.row = dgItems.Rows-1
+        dgItems.Col = dgItems.ColIndex(DB_SOURCE_ITEM)
+        Sleep 0
+    End If
+    
+    ' set grid colours
+    SetColumnColours
+End Sub
+
+Sub SetColumnHeaders
+    Dim strHeaderString
+
+    dgItems.ColKey(1) = DB_ITEM_ID
+    dgItems.ColKey(2) = DB_SOURCE_ITEM
+    dgItems.ColKey(3) = DB_DESTINATION_ITEM
+    dgItems.ColKey(4) = DB_SOURCE_TYPE
+    dgItems.ColKey(5) = DB_DESTINATION_TYPE
+    dgItems.ColKey(6) = DB_ERROR_STRING
+    dgItems.ColKey(7) = DB_GROUP_ID
+
+    For i=1 To dgItems.Cols-1
+        Select Case dgItems.ColKey(i)
+            Case DB_ITEM_ID
+                strHeaderString = strHeaderString & ITEM_ID_HEADER
+            Case DB_SOURCE_ITEM
+                If (parent.title.OpciDashboard.GroupBidirectional) Then
+                    strHeaderString = strHeaderString & MASTER_ITEM_HEADER
+                Else
+                    strHeaderString = strHeaderString & SOURCE_ITEM_HEADER
+                End If
+            Case DB_DESTINATION_ITEM
+                If (parent.title.OpciDashboard.GroupBidirectional) Then
+                    strHeaderString = strHeaderString & SLAVE_ITEM_HEADER
+                Else
+                    strHeaderString = strHeaderString & DEST_ITEM_HEADER
+                End If
+            Case DB_SOURCE_TYPE
+                If (parent.title.OpciDashboard.GroupBidirectional) Then
+                    strHeaderString = strHeaderString & MASTER_TYPE_HEADER
+                Else
+                    strHeaderString = strHeaderString & SOURCE_TYPE_HEADER
+                End If
+            Case DB_DESTINATION_TYPE
+                If (parent.title.OpciDashboard.GroupBidirectional) Then
+                    strHeaderString = strHeaderString & SLAVE_TYPE_HEADER
+                Else
+                    strHeaderString = strHeaderString & DEST_TYPE_HEADER
+                End If
+            Case DB_ERROR_STRING
+                If g_Mode = CONFIG_MODE Then
+                    strHeaderString = strHeaderString & CONFIG_ERROR_HEADER
+                Else
+                    strHeaderString = strHeaderString & ONLINE_ERROR_HEADER
+                End If
+            Case Else
+                'do nothing
+        End Select
+        dgItems.FormatString = strHeaderString
+    Next
+End Sub
+
+Sub SetColumnColours
+    Dim i
+    ' set all columns to readonly
+    dgItems.Cell(flexcpForeColor, 1, dgItems.ColIndex(DB_ITEM_ID), dgItems.Rows-1, dgItems.ColIndex(DB_ITEM_ID)) = COLOUR_READONLY
+    dgItems.Cell(flexcpForeColor, 1, dgitems.ColIndex(DB_SOURCE_ITEM), dgItems.Rows-1, dgitems.ColIndex(DB_SOURCE_ITEM)) = COLOUR_READONLY
+    dgItems.Cell(flexcpForeColor, 1, dgitems.ColIndex(DB_DESTINATION_ITEM), dgItems.Rows-1, dgitems.ColIndex(DB_DESTINATION_ITEM)) = COLOUR_READONLY
+    dgItems.Cell(flexcpForeColor, 1, dgItems.ColIndex(DB_SOURCE_TYPE), dgItems.Rows-1, dgItems.ColIndex(DB_SOURCE_TYPE)) = COLOUR_READONLY
+    dgItems.Cell(flexcpForeColor, 1, dgItems.ColIndex(DB_DESTINATION_TYPE), dgItems.Rows-1, dgItems.ColIndex(DB_DESTINATION_TYPE)) = COLOUR_READONLY
+    dgItems.Cell(flexcpForeColor, 1, dgItems.ColIndex(DB_ERROR_STRING), dgItems.Rows-1, dgItems.ColIndex(DB_ERROR_STRING)) = COLOUR_READONLY
+    
+    If g_Mode = CONFIG_MODE Then
+        ' set source and dest items to normal
+        dgItems.Cell(flexcpForeColor, 1, dgitems.ColIndex(DB_SOURCE_ITEM), dgItems.Rows-1, dgitems.ColIndex(DB_SOURCE_ITEM)) = COLOUR_NORMAL
+        dgItems.Cell(flexcpForeColor, 1, dgitems.ColIndex(DB_DESTINATION_ITEM), dgItems.Rows-1, dgitems.ColIndex(DB_DESTINATION_ITEM)) = COLOUR_NORMAL
+        ' If row contains validation errors highlight the entire row
+        For i = 1 To dgItems.Rows-1
+            If Trim(dgItems.TextMatrix(i, dgItems.ColIndex(DB_ERROR_STRING))) <> "" Then
+                dgItems.Cell(flexcpForeColor, i, 1, i, dgItems.Cols-1) = COLOUR_ERROR
+            End If
+        Next
+    End If
+End Sub
+
+'=============================================================
+' Items DataGrid Event handlers
+'=============================================================
+
+ ' adds a blank row to the item grid for adding new items
+Sub dgItems_AddNewRow
+    On Error Resume Next
+    Dim i
+    Dim rows, cols
+    
+    For i = 1 To dgItems.Rows-1
+        dgItems.TextMatrix(i, 0) = ""
+    Next
+
+    ' Resize the underlying data array and rebind the grid
+    cols = UBound(g_itemData, 1)
+    If (cols = -1) Then
+        cols = 6
+        rows = 0
+        ReDim g_itemData(cols, rows)
+    Else
+        rows = UBound(g_itemData, 2) + 1
+        ReDim Preserve g_itemData(cols, rows)
+    End If
+    g_itemData(0, rows) = parent.title.OpciDashboard.GetNextItemId
+    Call dgItems.BindToArray(g_itemData)
+    dgItems.TextMatrix(dgItems.Rows-1, 0) = "*"
+    SetColumnColours
+End Sub
+
+' remember the item values before they are changed
+Sub dgItems_BeforeEdit(row, col, cancel)
+    If col = dgItems.ColIndex(DB_SOURCE_ITEM) Then
+        g_SourceItemPreEdit = dgItems.TextMatrix(row, col)
+    ElseIf col = dgItems.ColIndex(DB_DESTINATION_ITEM) Then
+        g_DestItemPreEdit = dgItems.TextMatrix(row, col)
+    End If
+End Sub
+
+' If the item name has changed, save the value and clear the error text
+Sub dgItems_AfterEdit(row, col)
+    Dim bChanged
+    Dim itemId
+    itemId = dgItems.TextMatrix(row, dgItems.ColIndex(DB_ITEM_ID))
+
+    If (col = dgItems.ColIndex(DB_SOURCE_ITEM) And dgItems.TextMatrix(row, col) <> g_SourceItemPreEdit) Then
+        Call parent.title.OpciDashboard.UpdateSourceItem(CLng(itemId), CStr(dgItems.TextMatrix(row, col)))
+        bChanged = true
+    ElseIf (col = dgItems.ColIndex(DB_DESTINATION_ITEM) And dgItems.TextMatrix(row, col) <> g_DestItemPreEdit) Then
+        Call parent.title.OpciDashboard.UpdateDestinationItem(CLng(itemId), CStr(dgItems.TextMatrix(row, col)))
+        bChanged = true
+    End If
+
+    If (bChanged) Then
+        If dgItems.TextMatrix(row, dgItems.ColIndex(DB_ERROR_STRING)) <> "" Then
+            dgItems.TextMatrix(row, dgItems.ColIndex(DB_ERROR_STRING)) = ""
+            SetColumnColours
+        End If 
+    End If
+
+    'If modifying the last row, bind the grid data
+    If row = dgItems.Rows - 1 Then
+        If dgItems.TextMatrix(row, col) <> "" Then
+            dgItems_AddNewRow
+            dgItems.Row = row
+            SetGroupDirtyBit
+        End If
+    End If
+End Sub
+
+' set read-only columns dynamically (workaround)
+Sub dgItems_AfterRowColChange(oldrow, oldcol, row, col)
+    Select Case dgItems.colkey(col)
+        Case DB_SOURCE_ITEM, DB_DESTINATION_ITEM
+            If g_Mode = CONFIG_MODE Then
+                dgItems.Editable = flexEDKbdMouse
+            Else
+                dgItems.Editable = flexEDNone 
+            End If
+        Case Else
+            If dgItems.MouseCol = 0 Then
+                dgItems.Editable = flexEDKbdMouse
+            Else
+                dgItems.Editable = flexEDNone
+            End If
+    End Select
+End Sub
+
+' set group dirty bit when cell is edited Or changed
+Sub dgItems_ChangeEdit
+    SetGroupDirtyBit
+End Sub
+
+' called when user clicks ExplorerBar, sort the data
+Sub dgItems_BeforeSort(col, order)
+    ' no records, exit
+    If ((UBound(g_itemData, 1) = -1) Or (dgItems.Rows <= 2)) Then
+        Exit Sub
+    End If
+    
+    ' build the sort query
+    g_sItemSortOrder = dgItems.ColKey(col)
+    If order = 2 Then 
+        g_sItemSortOrder = g_sItemSortOrder + " DESC"
+    End If
+
+    ' request the sorted data
+    g_itemData = parent.title.OpciDashboard.GetItemData(CStr(g_sItemSortOrder))
+    BindItemGridData(false)
+End Sub
+
+'=============================================================
+' Item Button handlers
+'=============================================================
+' show the source OPC item browser
+Sub cmdBrowseSrcItem_onclick
+    Dim strSrcServer, strRedunSrcServer
+    Dim strSrcServerProgId, strRedunSrcServerProgid
+    Dim blnSrcRedundant
+    Dim iBrowseType
+    Dim strServer
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+        
+    strSrcServer = parent.title.OpciDashboard.GroupSourceServer
+    If UCase(strSrcServer) = LOCAL_SERVER Then 
+        strSrcServer = m_ServerName
+        If UCase(strSrcServer) = LOCAL_SERVER Then
+            strSrcServer = LOCAL_IP_ADDRESS
+        End If
+    End If
+    strSrcServerProgId = parent.title.OpciDashboard.GroupSourceProgId
+    
+    blnSrcRedundant = parent.title.OpciDashboard.GroupSourceRedundant
+    If blnSrcRedundant Then
+        strRedunSrcServer = parent.title.OpciDashboard.GroupRedundantSourceServer
+        If UCase(strRedunSrcServer) = LOCAL_SERVER Then 
+            strRedunSrcServer = m_ServerName
+            If UCase(strRedunSrcServer) = LOCAL_SERVER Then
+                strRedunSrcServer = LOCAL_IP_ADDRESS
+            End If
+        End If
+        strRedunSrcServerProgid = parent.title.OpciDashboard.GroupRedundantSourceProgId
+    End If
+    
+    ' set server type
+    ' If bidirectional group, source items must be writable
+    If (parent.title.OpciDashboard.GroupBidirectional) Then
+        iBrowseType = BROWSER_DST
+        strServer = SERVER_TYPE_MASTER
+    Else 
+        iBrowseType = BROWSER_SRC
+        strServer = SERVER_TYPE_SOURCE
+    End If
+    
+    If blnSrcRedundant Then
+        OPCBrowseSrc.ShowBrowser CInt(iBrowseType), CStr(strSrcServerProgId), CStr(strSrcServer), CStr(strServer), CStr(strRedunSrcServerProgid), CStr(strRedunSrcServer), true
+    Else
+        OPCBrowseSrc.ShowBrowser CInt(iBrowseType), CStr(strSrcServerProgId), CStr(strSrcServer), CStr(strServer), CStr(""), CStr(""), true
+    End If
+End Sub
+
+' show the destination OPC item browser
+Sub cmdBrowseDstItem_onclick
+    Dim strDstServer, strRedunDstServer
+    Dim strDstServerProgId, strRedunDstServerProgid
+    Dim blnDestRedundant
+    Dim strServer
+    
+    On Error Resume Next
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+
+    strDstServer = parent.title.OpciDashboard.GroupDestinationServer
+    If UCase(strDstServer) = LOCAL_SERVER Then 
+        strDstServer = m_ServerName
+        If UCase(strDstServer) = LOCAL_SERVER Then 
+            strDstServer = LOCAL_IP_ADDRESS 
+        End If
+    End If
+    strDstServerProgId = parent.title.OpciDashboard.GroupDestinationProgId
+    
+    blnDestRedundant = parent.title.OpciDashboard.GroupDestinationRedundant
+    If blnDestRedundant Then
+        strRedunDstServer = parent.title.OpciDashboard.GroupRedundantDestinationServer
+        If UCase(strRedunDstServer) = LOCAL_SERVER Then 
+            strRedunDstServer = m_ServerName
+            If UCase(strRedunDstServer) = LOCAL_SERVER Then 
+                strRedunDstServer = LOCAL_IP_ADDRESS
+            End If
+        End If
+        strRedunDstServerProgid = parent.title.OpciDashboard.GroupRedundantDestinationProgId
+    End If
+    
+    ' set server type
+    If (parent.title.OpciDashboard.GroupBidirectional) Then
+        strServer = SERVER_TYPE_SLAVE
+    Else 
+        strServer = SERVER_TYPE_DESTINATION
+    End If
+    
+    If blnDestRedundant Then
+        OPCBrowseDst.ShowBrowser BROWSER_DST, CStr(strDstServerProgId), CStr(strDstServer), CStr(strServer), CStr(strRedunDstServerProgid), CStr(strRedunDstServer), true
+    Else
+        OPCBrowseDst.ShowBrowser BROWSER_DST, CStr(strDstServerProgId), CStr(strDstServer), CStr(strServer), CStr(""), CStr(""), true
+    End If
+End Sub
+
+' show the file import dialog
+Sub cmdImportItems_onclick
+    Dim strMsg
+    Dim strClientDataPath
+    Dim WShell
+    Dim WNetwork
+    Dim strMachineName
+    
+    On Error Resume Next
+    
+    ' check If trying to import remotely
+    If LCase(m_ServerName) <> LCase(g_strMachineName) And UCase(m_ServerName) <> LOCAL_SERVER Then
+        m_objStation.TemporaryMessageZoneText = MSG_IMPORTEXPORT_NOT_SUPPORTED
+        Exit Sub
+    End If
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    ' get the client data path from the registry
+    Set WShell = m_objStation.Dictionary.Item("WScriptShellObject").Value
+    strClientDataPath = WShell.RegRead(REG_OPCI_CLIENT_DATAPATH)
+    If strClientDataPath = "" Then
+        strClientDataPath = OPCI_CLIENT_DATAPATH
+    End If
+    
+    Call DisableButtons
+    If (parent.title.OpciDashboard.ImportItems(CLng(g_GroupId), CStr(strClientDataPath), CStr(g_GroupName)) = 0) Then
+        ' group configuration has changed, set it dirty
+        SetGroupDirtyBit
+        Window_Onload
+    End If
+    Call SetVisibilityOfBUttons
+End Sub
+
+' show the file export dialog
+Sub cmdExportItems_onclick
+    Dim strMsg
+    Dim strClientDataPath
+    Dim WShell
+    Dim WNetwork
+    Dim strMachineName
+    
+    On Error Resume Next
+    
+    ' check If trying to import remotely
+    If LCase(m_ServerName) <> LCase(g_strMachineName) And LCase(m_ServerName) <> LOCAL_SERVER Then
+        m_objStation.TemporaryMessageZoneText = MSG_IMPORTEXPORT_NOT_SUPPORTED
+        Exit Sub
+    End If
+    
+    ' check permissions
+    If Not CheckSecurity Then Exit Sub
+    
+    ' get the client data path from the registry
+    Set WShell = m_objStation.Dictionary.Item("WScriptShellObject").Value
+    strClientDataPath = WShell.RegRead(REG_OPCI_CLIENT_DATAPATH)
+    If strClientDataPath = "" Then
+        strClientDataPath = OPCI_CLIENT_DATAPATH
+    End If
+    
+    Call DisableButtons
+    parent.title.OpciDashboard.ExportItems CLng(g_GroupId), CStr(strClientDataPath), CStr(g_GroupName)
+    Call SetVisibilityOfButtons
+End Sub
+
+'=============================================================
+' OPC Browser handling subs
+'=============================================================
+
+Sub OPCBrowseSrc_OnApply(strItem, bMoveNext)
+    On Error Resume Next
+    Dim currentRow
+    Dim currentCol
+
+    If CLng(g_Mode) = CLng(CONFIG_MODE) Then
+        ' remember the current row
+        currentRow = dgItems.Row
+        currentCol = dgItems.Col
+
+        ' need to manually call before edit
+        Call dgItems_BeforeEdit(currentRow, currentCol, false)
+
+        ' add the item name to the grid
+        dgItems.TextMatrix(dgItems.row, dgItems.ColIndex(DB_SOURCE_ITEM)) = strItem
+        
+        ' need to manually call after edit
+        Call dgItems_AfterEdit(currentRow, currentCol)
+
+        If dgItems.row = dgItems.Rows-1 Then
+            dgItems_AddNewRow
+        End If
+        
+        ' reset the current row
+        If bMoveNext Then 
+            dgItems.Row = currentRow+1
+        Else
+            dgItems.Row = currentRow
+        End If
+        
+        ' set the group as dirty
+        SetGroupDirtyBit
+
+        ' Return focus to Browser popup after handling
+        cmdBrowseSrcItem_onclick
+    End If
+End Sub
+
+Sub OPCBrowseDst_OnApply(strItem, bMoveNext)
+    On Error Resume Next
+    Dim currentRow
+    Dim currentCol
+    
+    If CLng(g_Mode) = CLng(CONFIG_MODE) Then
+        ' remember the current row/col
+        currentRow = dgItems.Row
+        currentCol = dgItems.Col
+
+        ' need to manually call before edit
+        Call dgItems_BeforeEdit(currentRow, currentCol, false)
+
+        ' add the item name to the grid
+        dgItems.TextMatrix(dgItems.row, dgItems.ColIndex(DB_DESTINATION_ITEM)) = strItem
+
+        ' need to manually call after edit
+        Call dgItems_AfterEdit(currentRow, currentCol)
+        
+        ' update the database
+        Dim itemId
+        itemId = dgItems.TextMatrix(currentRow, dgItems.ColIndex(DB_ITEM_ID))
+        Call parent.title.OpciDashboard.UpdateDestinationItem(CLng(itemId), CStr(strItem))
+
+        If dgItems.row = dgItems.Rows-1 Then
+            dgItems_AddNewRow
+        End If
+
+        ' reset the current row
+        If bMoveNext Then 
+            dgItems.Row = currentRow+1
+        Else
+            dgItems.Row = currentRow
+        End If
+        
+        ' set the group as dirty
+        SetGroupDirtyBit
+
+        ' Return focus to Browser popup after handling
+        cmdBrowseDstItem_onclick
+    End If
+End Sub
+
+Sub btnRefresh_OnClick
+    g_itemData = parent.title.OpciDashboard.GetItemData()
+    BindItemGridData(false)
+End Sub
+
+Sub GroupDetailsTab_Onclick
+    g_GroupDetailsTabClicked = true
+End Sub
+
+Sub ApplySecurity()
+    On Error Resume Next
+    Dim bDisabled
+    
+    If g_Mode = CONFIG_MODE Then
+        If m_objStation.RuntimeStatus.SecurityLevel = SECURITY_LEVEL_MNGR Then
+            ' Apply manager security here
+            bDisabled = false
+        Else
+            ' Apply other-user security here
+            bDisabled = true
+        End If
+        dgItems.Enabled = Not bDisabled
+    End If
+End Sub
+-->
+        </script>
+        <!------------------------------->
+        <!--  Fix for ActiveX Objects  -->
+        <!------------------------------->
+        <script language="VBScript" src="ItemDetails_activex.vbs"></script>
+        <xml id="TabsXml">
+            <tabset selected="ItemDetails.htm">
+                <tab disabled="false" tabid="GroupDetails.htm" title="Group Details">
+                </tab>
+                <tab disabled="false" tabid="ItemDetails.htm" title="Item List">
+                </tab>
+                <tab disabled="false" tabid="GroupStatus.htm" title="Group Status">
+                </tab>
+            </tabset>
+        </xml>
+    </head>
+    <body scroll="no">
+        <viewlink:tabset id="TabSet">
+        </viewlink:tabset>
+        <div id="DisplayArea" class="DetailsArea" align="left">
+            <table id="TableBody" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top; width: 100%; height: 100%; overflow: hidden;">
+                <tr>
+                    <td colspan="4">
+                        <hr />
+                    </td>
+                </tr>
+                <tr id="WaitingSpan" style="height: 100%;">
+                    <td colspan="4" valign="top">
+                        Initializing display...
+                    </td>
+                </tr>
+                <tr id="GroupDetails" style="height: 100%;">
+                    <td colspan="4">
+                        <div id="GroupItemsGrid" style="visibility: hidden">
+                            <!-- Script injection of ActiveX object -->
+                            <script language="VBScript">
+                                call generateXObject_dgItems
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div id="lblErrorString" style="visibility:hidden"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="lblDirtyText" style="visibility: hidden;" colspan="4"></td>
+                </tr>
+                <tr id="GroupButtons" style="display: none;">
+                    <td valign="top">
+                        <viewlink:systembutton id="cmdValidateGroup" class="pushbutton">
+                            Validate Group
+                        </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdCommitGroup" class="pushbutton">
+                            Commit Group
+                        </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdCancelGroup" class="pushbutton">
+                            Cancel Changes
+                        </viewlink:systembutton>
+                    </td>
+                    <td id="ItemButtons1" style="display: none" valign="top">
+                        <viewlink:systembutton id="cmdDeleteItems" class="pushbutton">
+                            Delete Items
+                        </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdImportItems" class="pushbutton">
+                            Import Items
+                        </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdExportItems" class="pushbutton">
+                            Export Items
+                        </viewlink:systembutton>
+                    </td>
+                    <td id="ItemButtons2" style="display: none" valign="top">
+                        <viewlink:systembutton id="cmdBrowseSrcItem" class="pushbutton">
+                            Browse Source
+                        </viewlink:systembutton>
+                        <br>
+                        <viewlink:systembutton id="cmdBrowseDstItem" class="pushbutton">
+                            Browse Destination
+                        </viewlink:systembutton>
+                    </td>
+                </tr>
+                <tr valign="bottom">
+                    <td colspan="3">
+                        <viewlink:systembutton id="btnRefresh" class="pushbutton" style="display: none;">
+                            Refresh
+                        </viewlink:systembutton>
+                    </td>
+                    <td style="text-align: right; width: 50%; height: 100px;">
+                        <span id="cmdConfiguration" class="clsGroupLink"></span>
+                        <br />
+                        <br />
+                        <span id="cmdSysStatus" class="clsGroupLink"></span>
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="716px" height="426px"><versionheaders><versionheader name="PS" value="5.1"/></versionheaders><scripts><script event="" language="VBScript" id="2048DB88-9D41-4055-A762-4F147698160D"><![CDATA['
+' General Section (sysdtlcomputer_component_aux.sha)
+option explicit
+
+Dim objAuxContainer
+set objAuxContainer = nothing]]></script><script event="onshapeunload" language="VBScript" id=""><![CDATA[	Dim objAuxDisp
+
+	on error resume next
+
+	if not objAuxContainer is nothing and not IsNull(objAuxContainer) and IsObject(objAuxContainer) then
+	   
+       Err.clear
+	   set objAuxDisp = objAuxContainer.AuxDisplay
+	   if Err.Number then 
+	      set objAuxDisp = nothing
+       end if
+
+	   if not objAuxDisp is nothing and not IsNull(objAuxDisp) and IsObject(objAuxDisp) then
+	      objAuxDisp.HostName = "" 'sAuxDisplayTarget
+	      objAuxDisp.HciComponentName = ""  'sComponentName
+	      
+		  ' release control interface
+		   set objAuxDisp = nothing
+       end if
+
+		objAuxContainer.ShowDisplay ""
+		set objAuxContainer = nothing
+	end if]]></script></scripts><parameters><parameter name="AuxComputerTarget" type="Value" description="Computer to show detail data for" defaultvalue=""/><parameter name="AuxComponentName" type="Value" description="Component to display in aux status" defaultvalue=""/><parameter name="AuxProgid" type="Value" description="progid of aux display" defaultvalue=""/><parameter name="AuxHide" type="Value" description="output" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<OBJECT class=hsc.activexcontrol.1 id=ctlAuxContainer style="FONT-WEIGHT: 400; FONT-SIZE: 12pt; BORDER-LEFT-COLOR: #ffb6c1; LEFT: 0%; VISIBILITY: inherit; BORDER-BOTTOM-COLOR: #ffb6c1; WIDTH: 100%; COLOR: #000000; BORDER-TOP-STYLE: none; BORDER-TOP-COLOR: #ffb6c1; FONT-STYLE: normal; FONT-FAMILY: Arial; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 100%; BACKGROUND-COLOR: #ffffe0; TEXT-DECORATION: none; BORDER-RIGHT-COLOR: #ffb6c1; BORDER-BOTTOM-STYLE: none" tabIndex=-1 classid=clsid:01BACB12-F87E-11D0-B970-00A024235D12 SHORTCUTMENUCUSTOM="1" SHORTCUTMENUFILE="sysdtlnomenu_sm.xml"><PARAM NAME="_Version" VALUE="65536"><PARAM NAME="_ExtentX" VALUE="18944"><PARAM NAME="_ExtentY" VALUE="11271"><PARAM NAME="_StockProps" VALUE="0">]]></content></html></element><element><html><content><![CDATA[
+<DIV class=hvg.textbox.1 id=textInitializeAux style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 1.11%; VISIBILITY: hidden; BEHAVIOR: url(#HDXVectorFactory#text); OVERFLOW: hidden; WIDTH: 3.91%; COLOR: #000000; FONT-STYLE: normal; FONT-FAMILY: Tahoma; POSITION: absolute; TOP: 0%; HEIGHT: 2.81%; TEXT-ALIGN: left" tabIndex=-1 hdxproperties="fillColorBlink:False;FillStyle:1;Height:12;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:28;">Text</DIV>]]></content><scripts><script event="onclick" language="VBScript"><![CDATA['
+'Sub textInitialize_onclick
+'DIM sLocalAuxDisplayTarget, objLocalAuxContainer, sLocalAuxDisplayProgid, sLocalComponentName, objLocalAuxDisp
+DIM sAuxDisplayTarget, sAuxDisplayProgid, sComponentName, objAuxDisp
+	set objAuxDisp = nothing
+
+	' can't do anything till we have a target node
+	sAuxDisplayTarget = groupAuxDisplay.parentElement.GetCustomProperty("Value", "AuxComputerTarget")
+	if sAuxDisplayTarget = "" then exit sub
+	' send progid even if blank, as blank is supposed to shut down old display
+	sAuxDisplayProgid = groupAuxDisplay.parentElement.GetCustomProperty("Value", "AuxProgid")
+	ctlAuxContainer.ShowDisplay sAuxDisplayProgid
+	if sAuxDisplayProgid = "" then exit sub
+	' get component name for display
+	sComponentName = groupAuxDisplay.parentElement.GetCustomProperty("Value", "AuxComponentName")
+	if sComponentName = "" then exit sub
+	' only if there was a progid do we need to do the following to specialize the display
+	set objAuxContainer = ctlAuxContainer
+	set objAuxDisp = ctlAuxContainer.AuxDisplay
+	if not objAuxDisp is nothing and not IsNull(objAuxDisp)and IsObject(objAuxDisp) then
+		objAuxDisp.HostName = sAuxDisplayTarget
+		objAuxDisp.HciComponentName = sComponentName
+		' release control interface
+		set objAuxDisp = nothing
+	else
+		ctlAuxContainer.ShowDisplay ""
+		groupAuxDisplay.parentElement.autoReloadContent = false
+		groupAuxDisplay.parentElement.SetCustomProperty "Value", "AuxHide", 1
+		groupAuxDisplay.parentElement.onclick
+	end if
+	' cause the size to change so aux display will fit correctly
+	ctlAuxContainer.style.pixelWidth = ctlAuxContainer.style.pixelWidth Xor 1
+'End Sub textInitialize_onclick
+']]></script></scripts></html></element><html><content><![CDATA[
+<DIV class=hvg.group.1 id=groupAuxDisplay style="FONT-SIZE: 0pt; LEFT: 0px; BEHAVIOR: url(#HDXVectorFactory#group); WIDTH: 716px; POSITION: absolute; TOP: 0px; HEIGHT: 426px" tabIndex=-1 hdxproperties="FillColor:#ffffe0;fillColorBlink:False;Height:426;LineColor:transparent;lineColorBlink:False;LineStyle:0;textColor:#000000;textColorBlink:False;Width:716;" SHORTCUTMENUCUSTOM="0"></DIV>]]></content></html></group></shape></shapes></shapefile>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType  name="AssetLink">
+		<xs:sequence>
+			<xs:element name="DisplayLinks" type="DisplayLinks"/>
+		</xs:sequence>
+		<xs:attribute name="Title" use="optional" type="xs:string"/>
+		<xs:attribute name="AlarmGroup" use="optional" type="xs:string"/>
+		<xs:attribute name="AssociatedDisplay" use="optional" type="xs:string"/>
+		<xs:attribute name="Destination" use="optional" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="AssetLinks">
+		<xs:sequence>
+			<xs:element name="AssetLink" type="AssetLink" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SystemLink">
+		<xs:sequence>
+			<xs:element name="DisplayLinks" type="DisplayLinks"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DisplayLink">
+		<xs:attribute name="Title" use="optional" type="xs:string"/>
+		<xs:attribute name="Url" use="required" type="xs:string"/>
+		<xs:attribute name="AlarmGroup" use="optional" type="xs:string"/>
+		<xs:attribute name="Destination" use="optional" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="DisplayLinks">
+		<xs:sequence>
+			<xs:element name="DisplayLink" type="DisplayLink" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:element name="Plant">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SystemLink" type="SystemLink"/>
+				<xs:element name="AssetLinks" type="AssetLinks"/>
+			</xs:sequence>
+			<xs:attribute name="Title" use="required" type="xs:string"/>
+			<xs:attribute name="AlarmGroup" use="optional" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

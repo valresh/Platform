@@ -1,0 +1,19 @@
+<Schema xmlns="urn:schemas-microsoft-com:xml-data" 
+    xmlns:dt="urn:schemas-microsoft-com:datatypes">
+    <ElementType name='fullname' content='textOnly' />
+    <ElementType name='tagname' content='textOnly' />
+    <ElementType name='point' content='eltOnly'>
+        <element type='fullname' />
+        <element type='tagname' />
+    </ElementType>
+    <AttributeType name='active' dt:type='string' dt:type='enumeration' 
+        dt:values='fullname tagname' default='fullname' />
+    <ElementType name='points' content='mixed'>
+        <attribute type='active'/>
+        <element type='point'/>
+    </ElementType> 
+    <ElementType name='HwEmData' content='eltOnly'>
+        <element type='points'/>
+    </ElementType>
+</Schema> 
+

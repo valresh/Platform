@@ -1,0 +1,99 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="120px" height="22px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[	SL_LogEvent(this, "onshapeload");
+	SL_SetReverseVideo(alphaValueUnitString, this.GetCustomProperty("Value", "TextAlign"), "Numeric");]]></script><script event="" language="JScript" id="485137D7-B633-4BCB-8C6F-283C9DF1EB97"><![CDATA[//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// SL_AlpNum_Unit_OneString.sha
+///
+/// <summary>
+/// Formats a numeric value and the corresponding unit symbol into a single string displayed in a textbox.
+/// </summary>
+///
+/// Revision History
+///
+/// EXP510.1-34		May 21, 2018	Improved debug messaging and error handling
+/// EXP510.1-32		May 4,  2018	Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function SL_ValueAndUnits_onDataChange(alphaNumeric)
+{
+	if ((alphaNumeric != undefined) && (alphaNumeric != null))
+	{
+		try
+		{
+			SL_LogFunctionParameters(2, "SL_ValueAndUnits_onDataChange", "alphaNumeric = " + alphaNumeric.id);
+
+			// Walk back up the hierarchy to get the parent shape so that the custom properties can be fetched.
+			var shape = alphaNumeric.parentElement;
+			if ((shape != undefined) && (shape != null))
+			{
+				// Check to see if the units come from a point parameter or are static.
+				var unitScriptData = new SL_ScriptData("UnitParam");
+				var unitString;
+
+				if (shape.GetCustomProperty("Parameter", "UnitParam") != "")
+				{
+					unitScriptData.Fetch(alphaNumeric, "SLAnalogPoint");
+					if (unitScriptData.valid)
+					{
+						unitString = HART_GetShortSymbolFromStandardUnitCode(unitScriptData.value);
+					}
+				}
+				else
+				{
+					unitScriptData.valid = true;
+					unitString = shape.GetCustomProperty("Value", "Unit");
+				}
+
+				var valueScriptData = new SL_ScriptData("SLAnalogPtParam");
+				var valueString = "";
+
+				valueScriptData.Fetch(alphaNumeric, "SLAnalogPoint");
+
+				if (valueScriptData.changed || unitScriptData.changed)
+				{
+					if (typeof(valueScriptData.value) == "number")
+					{
+						var useNumDecimals = shape.GetCustomProperty("Value", "UseNumDecimals");
+						var numDecimals = shape.GetCustomProperty("Value", "NumDecimals");
+						if (useNumDecimals == 0)
+						{
+							numDecimals = SL_GetNumDecimals(valueScriptData.value);
+						}
+
+						valueString = valueScriptData.value.toFixed(numDecimals).toString();
+					}
+
+					if ((unitString != undefined) && (unitString != ""))
+					{
+						valueString += " " + unitString;
+					}
+					alphaNumeric.value = valueString;
+
+					var styleName = "SL_Numeric_";
+
+					if (shape.GetCustomProperty("Value", "TextAlign") == 1)
+						styleName += "Left_";
+
+					if (valueScriptData.valid && unitScriptData.valid)
+					{
+						styleName += "Normal";
+					}
+					else
+					{
+						styleName += "BadQuality";
+					}
+					alphaNumeric.StyleClass = styleName;
+					
+					SL_LogDebugLevelMessage(4, "SL_ValueAndUnits_onDataChange", "string = " + valueString + ", style = " + styleName);
+				}
+			}
+		}
+		catch (error)
+		{
+			SL_LogErrorMessage("SL_ValueAndUnits_onDataChange", "Could not set the value, unit or style for: alphaNumeric = " + alphaNumeric.id, error);
+			alphaNumeric.StyleClass = "SL_Numeric_Error";
+		}
+	}
+
+}]]></script></scripts><parameters><parameter name="SLAnalogPoint" type="Point" description="Point name" defaultvalue=""/><parameter name="SLAnalogPtParam" type="Parameter" description="Point parameter name" defaultvalue=""/><parameter name="Unit" type="Value" description="Set this only if static unit is used. If UnitParam is not set, this static unit will be used." defaultvalue=""/><parameter name="UnitParam" type="Parameter" description="Set this only if unit is read from a parameter associated with the point. If this is not set, the static unit specified in Unit will be used." defaultvalue=""/><parameter name="UseNumDecimals" type="Value" description="Set this to 1 only if fixed number of decimal places is used." defaultvalue="0"/><parameter name="NumDecimals" type="Value" description="Set the number of decimal places to use if UseNumDecimals is set to 1." defaultvalue="0"/><parameter name="TextAlign" type="Value" description="Right align = 0, left align = 1" defaultvalue="0"/></parameters><shapes><shape><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaValueUnitString class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Numeric_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 22px; FONT-FAMILY: arial; WIDTH: 120px; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Numeric_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+	SL_ValueAndUnits_onDataChange(this);]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::SLAnalogPtParam%},{%Parameter::UnitParam%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element></shape></shapes></shapefile>

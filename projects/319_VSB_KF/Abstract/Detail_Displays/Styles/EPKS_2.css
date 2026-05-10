@@ -1,0 +1,411 @@
+/*****************************************************************************
+Copyright (C) 2011 HONEYWELL INTERNATIONAL SARL
+******************************************************************************/
+
+
+/* Applies to both HMI + DSP */
+#LeftBar #TopLeft {
+	background-color:		#8c96ad;
+	}
+/* When no OperatorsMenuButton */	
+#TopLeftTitle {
+	margin:					10px 0px 0px 10px;
+	font-size:				12pt;
+	}
+
+a#OperatorsMenuButton {
+	display:				block;
+	height:					43px !important;
+/* this height declaration not budging DSP.. */
+	left:					0px !important;
+	border:					none !important;
+	text-align:				left;
+	background-position:	8px 17px !important;
+	font-size:				17px !important;
+	letter-spacing:			.4pt;
+	}
+#LeftBar a#OperatorsMenuButton:hover {
+	border:					none !important;
+	}
+#LeftBar a#OperatorsMenuButton:focus {
+	outline:				0 !important;
+	}
+
+/*
+display: none doesn't work on this element.
+It already has this declaration inline, which is then being changed in the code.
+So visibility is the next best way to kill it.
+*/
+#LeftBar a#OperatorsMenuButton img#TopLeftIcon {
+	position:				absolute;
+	top:					0;
+	left:					0;
+	display:				none !important;
+	visibility:				hidden !important;
+	}
+
+#LeftBar a#OperatorsMenuButton span#TopLeftTitle {
+	margin:					0 !important;
+	padding:				10px 10px 10px 30px;
+	}
+
+
+/* Applies to HMI ONLY - I'm yet to find a DSP equivalent.. */
+#RightBar #TitleBarBackground {
+	display:				block;
+	height:					43px;
+	letter-spacing:			.4pt !important;
+	background-color: #8c96ad;
+/* to position and format Display Title, eg: syscfgcstnassetasn */
+	padding: 10px 0px 0px 45px !important;
+	color: #ffffff !important;
+	font-size: 12pt;
+	}
+
+.TitleBar {
+/* This stretches to the right edge regardless of scaling */
+	background-color:		#8c96ad !important;
+	}
+.titleBarBackground {
+	background-color:		#8c96ad !important;
+	}
+.Titlebar_Text_Style2 {
+	hw-text-size: 12pt;
+	display:			block;
+	height:				23px !important;
+	white-space:			nowrap;
+	letter-spacing:			.4pt !important;
+	font-size: 			12pt !important;	
+	}
+
+.TitleBar select,
+.Titlebar Input {
+	background-color:		#7c8699 !important;
+	}
+
+
+
+#TabSetBackground {
+	background-color:		#7c8699;
+	}
+.tab,
+.tabSet6 .tab,
+.tabSet7 .tab,
+.tabSet8 .tab,
+.tabSet9 .tab,
+.tabSet10 .tab,
+.tabSet11 .tab {
+	background-color: #b9bfcc;
+	background-image: none !important;
+	border-bottom: 4px solid #adb4c4;
+	}
+.tabSelected,
+.tabSet6 .tabSelected,
+.tabSet7 .tabSelected,
+.tabSet8 .tabSelected,
+.tabSet9 .tabSelected,
+.tabSet10 .tabSelected,
+.tabSet11 .tabSelected  {
+	background-color: #ffffff;
+	background-image: none !important;
+	border: none;
+	}
+.TabSet {
+/* This stretches to the right edge regardless of scaling */
+	background-color:		#7c8699 !important;
+	}
+.TabSet .TabScroller {
+	background-color:		#7c8699 !important;
+	}
+
+.tabHidden {
+	background-color: #7c8699 !important;
+}
+
+.TableHeader_Left_Align_Style,
+.TableHeader_Right_Align_Style,
+.TableHeader_center_Align_Style,
+.TableContent_Left_Align_Style,
+.TableContent_Right_Align_Style,
+.TableContent_center_Align_Style
+{
+	font-family: arial !important;
+	font-size: 10pt !important;
+	hw-text-size: 10pt !important;
+}
+
+/* HMI + DSP */
+#NavPane {
+	background-color: #e7e8e9;
+	border-top: 9px solid #8c96ad;
+	padding: 0px;
+	}
+.NavPane {
+	background-color:		#e7e8e9;
+	}
+/* HMI ONLY */
+#Page #NavPane {
+	border: none;
+	}
+#NavPane ul {
+	margin:					28px 0px 0px 0px;
+	padding:				0px;
+	background-color:		#dfe0e5 !important;
+	border-top:				1px solid #b6b6b6;
+	}
+#NavPane ul li {
+	margin:					0px;
+	padding:				0px;
+	border-bottom:			1px solid #b6b6b6;
+	}
+#NavPane ul li:focus {
+	outline:				0 !important;
+	border:					none !important;
+	}
+#NavPane ul li a {
+	margin:					0px;
+	padding:				8px 0px 8px 44px;
+	font-weight:			bold;
+	color:					#1e5c86;
+	}
+/* an alternative way of getting at the top level nav links */
+#NavPane li a.heading {}
+
+/* wrapper around each nav item (parent of text, child of link) */
+#NavPane ul li a span {}
+
+#NavPane ul li.Selected,
+#NavPane ul li.selected {
+	border:					none !important;
+	font-weight:			normal;
+	}
+.NavPane .Selected {
+	border:					none !important;
+	}
+#NavPane ul li.Selected a,
+#NavPane ul li.selected a {
+	border:					none !important;
+	background-color:		#f4f4f6;
+	}
+
+#NavPane ul li.expanded {
+	background:  url(..\Images\imgCollapse_2.png) no-repeat 25px 11px;
+	}
+#NavPane ul li.collapsed {
+	background:  url(..\Images\imgExpand_2.png) no-repeat 25px 11px;
+	}
+
+#NavPane ul li ul {
+	margin:					0px;
+	border:					none;
+	}
+
+#NavPane ul li ul li {
+	border-bottom:			none !important;
+	}
+
+#NavPane ul li ul li a {
+	padding:				5px 0px 5px 44px;
+	font-weight:			normal;
+	color:					#000000;
+	}
+#NavPane ul li ul li.expanded {
+	background-position:	25px 8px;
+	}
+#NavPane ul li ul li.collapsed {
+	background-position:	25px 8px;
+	}
+	
+#NavPane ul li ul li ul li a {
+	padding:				8px 0px 8px 64px;
+	}
+
+#PurpleBox {
+	border:					none !important;
+	}
+
+
+
+/* The following declarations set the background colour in the left column (to faceplate gray) when using the Faceplate background: "sysBackground_1276X849_CDA.sha" */
+
+/* background color of top section of left column
+.SystemDisplayFP #NavPane {
+	background-color: #dedbd6;
+	}
+ */
+/* color of the bottom section of the left column, which is extended dynamically to the bottom of the screen..
+.NavPaneFP {
+	background-color: #dedbd6 !important;
+	}
+ */
+
+
+
+
+
+
+/* Startup Page */
+#btn_base {
+	background:  url(.\sysStartupPage_files\enter_btn.png);
+	}
+#btn_enter_text {
+	text-decoration:		underline;
+	}
+
+
+
+/* appears to be the container for "location browser */
+div#divEmBrowser {
+	background: #ffff00;
+	border: 10px solid #00ffcc;
+	}
+
+#Tree {
+	text-align: left !important;
+	border: 1px solid #aaaaaa !important;
+	}
+
+iframe body {
+	background: #ffff00;
+	border: 10px solid #00ffcc;
+	}
+
+
+	
+
+#base .DataEntry_Alphanumeric_Style
+{
+	hw-text-color: black;
+	hw-text-effect: bold;
+	hw-fill-color: #ffff00;
+	hw-line-width: 1;
+	hw-line-style: solid;
+	hw-line-effect: none;
+	hw-line-color: green;
+	hw-text-align: Right;
+	hw-text-family: arial;
+	hw-text-size: 10pt;
+}
+
+
+/* Icon shapes in top right corner of TitleBar */
+.sysArrow {
+	visibility: hidden !important;
+}
+.sysArrowNew {
+	visibility: visible !important;
+}
+.sysConfigure {
+	visibility: hidden !important;
+}
+.sysConfigureNew {
+	visibility: visible !important;
+}
+
+.Group_Label_Style2 {
+	hw-text-color: #557788;
+	hw-text-size: 12pt;
+
+	margin-top: -2px;
+	color: #557788 !important;
+	font-size: 12pt !important;
+	font-weight: bold !important;
+	white-space: nowrap;
+	}
+	
+.Group_Line_Style {
+	display: none !important;
+	visibility: hidden !important;
+	}
+	
+	
+#DetailsAreaBackground {
+	background-color: #ffffff;
+	}
+
+.Standard_Button_Style  {
+	color: #000000 !important;
+	}
+
+.Readonly_Titlebar_AlphaNumeric_RightAlign_Style,
+.Readonly_Titlebar_AlphaNumeric_LeftAlign_Style,
+.Location_Alpha_Style {
+	font-size: 12pt !important;
+}
+
+div.led_black,
+div.led_green,
+div.led_yellow,
+div.led_red,
+div.led_dkgreen,
+div.led_grey,
+div.led_ltgrey,
+div.led_white,
+div.led_blue {
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+}
+div.led_black div,
+div.led_green div,
+div.led_yellow div,
+div.led_red div,
+div.led_dkgreen div,
+div.led_grey div,
+div.led_ltgrey div,
+div.led_white div,
+div.led_blue div {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+div.led_black {
+	background:  url(..\Images\led.png) no-repeat 0px 0px;
+}
+div.led_green {
+	background:  url(..\Images\led.png) no-repeat 0px -18px;
+}
+div.led_yellow {
+	background:  url(..\Images\led.png) no-repeat 0px -36px;
+}
+div.led_red {
+	background:  url(..\Images\led.png) no-repeat 0px -54px;
+}
+div.led_dkgreen {
+	background:  url(..\Images\led.png) no-repeat 0px -72px;
+}
+div.led_grey {
+	background:  url(..\Images\led.png) no-repeat 0px -90px;
+}
+div.led_ltgrey {
+	background:  url(..\Images\led.png) no-repeat 0px -108px;
+}
+div.led_white {
+	background:  url(..\Images\led.png) no-repeat 0px -126px;
+}
+div.led_blue {
+	background:  url(..\Images\led.png) no-repeat 0px -144px;
+}
+
+/*----------------------------------------------------------------------------
+
+.hsc.combo.1
+
+------------------------------------------------------------------------------
+
+This class matches every combo box in every page that imports this stylesheet.
+
+----------------------------------------------------------------------------*/ 
+
+.hsc\.combo\.1
+
+{
+
+                hw-combo-style: flat;
+
+}
+
+
+/*****************************************************************************
+Copyright (C) 2011 HONEYWELL INTERNATIONAL SARL
+*****************************************************************************/

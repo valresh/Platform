@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu menuItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:menu;color:black; cursor:hand}" highlightItemStyle="{font-family:sans-serif;font-size:9pt;padding-left:2;background-Color:highlight;color:white; cursor:hand}" width="145" height="120">
+	<menuitem id="mnu_det" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Print');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Print</text>
+		<image>.\Images\Print.png</image>
+	</menuitem>
+	<menuitem id="mnu_trd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Back');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Page Back</text>
+		<image>.\Toolbar\tb007.png</image>
+	</menuitem>
+	<menuitem id="mnu_grp" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Forward');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Page Forward</text>
+		<image>.\Toolbar\tb008.png</image>
+	</menuitem>
+	<menuitem id="mnu_asd" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Navigation] Refresh');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Reload</text>
+		<image>.\Toolbar\tb009.png</image>
+	</menuitem>
+	<menuitem id="mnu_cpy" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Edit] Copy');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Copy</text>
+	</menuitem>
+	<menuitem id="mnu_pst" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('[Edit] Paste');
+			window.external.CloseShortcutMenu();
+		</script>
+		<script type="onpage">    
+			if( !window.external.IsTrendPastePermitted())
+				this.disabled=true;
+			return true;
+		</script>
+		<text>Paste</text>
+	</menuitem>
+	<menuitem id="mnu_dtl" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Request Point Detail');
+			window.external.CloseShortcutMenu();
+		</script>	
+		<text>Detail</text>
+		<image>.\Toolbar\tb017.png</image>
+	</menuitem>
+	<menuitem id="mnu_assoc" acceleratorKey="">
+		<script type="onclick">
+			window.external.application.InvokeCommand('Associated Display');
+			window.external.CloseShortcutMenu();
+		</script>
+		<text>Associated Display</text>
+		<image>.\Toolbar\tb003.png</image>
+	</menuitem>
+</menu>

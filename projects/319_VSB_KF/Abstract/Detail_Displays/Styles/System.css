@@ -1,0 +1,1274 @@
+/*****************************************************************************
+Copyright (C) 2006 Honeywell Limited
+$Workfile: System.css $												
+******************************************************************************
+This stylesheet contains the HTML styles that define the default appearance of
+various elements of a standard system display that are available to be
+overridden in the various system brands. 
+It is suitable for use either with or without an XHTML doctype.
+*****************************************************************************/
+
+
+/* -----------------------------*/
+/*	General element styles		*/
+/*------------------------------*/
+a
+{
+	/*border: 1px solid red;*/
+	cursor: hand;
+	vertical-align: middle;
+}
+
+a span
+{
+	/*background-color: blue;*/
+	background-image: none;
+	background-position: left center;
+	background-repeat: no-repeat;
+	display: inline-block;	/* So that overflow stays to the right of the image */
+	line-height: expression(this.parentElement.currentStyle.lineHeight);
+	margin: 0px;
+	vertical-align: middle;
+}
+
+a img
+{
+	border: none 0px;
+	display: expression(this.src.indexOf('.') > 0 ? 'inline' : 'none');
+	/*float: left;*/
+	height: expression(this.parentElement.currentStyle.lineHeight);
+	margin: 0px 5px 0px 0px;
+	vertical-align: middle;
+}
+
+body
+{
+    background-color: #FFFFFF;
+    color: #000000;
+    font-family: helvetica;
+    font-size: 10pt;
+    margin:	0px;
+    padding: 0px;
+}
+
+div
+{
+	font-size: 10pt;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: helvetica; 
+	margin:	0px 0px 0px 0px;
+	padding: 0px;
+}
+
+h1, h2, h3 { font-size: 12pt; }
+h4, h5, h6 { font-size: 10pt; }
+
+h1, h2, h4, h5 { font-weight: bold; }
+h3, h6 { font-weight: normal; }
+
+h2, h5 { font-style: italic; }
+h1, h3, h4, h6 { font-style: normal; }
+	
+hr
+{
+	color: #C0C0C0;
+	margin:	0px;
+	height: 1px;
+	padding: 0px;
+}
+
+input, select, textarea, v\:textbox
+{
+	background-color: transparent;
+	color: #000000;
+	font-family: helvetica;
+	font-size: 10pt;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+img
+{
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+object
+{
+    font-family: helvetica;
+    font-size: 12pt;
+	font-style: normal; 
+	font-weight: 400; 
+}
+
+span
+{
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+table
+{
+    background-color: transparent;
+    background-image: none;
+ 	border-collapse: collapse;
+	color: #000000;
+    font-family: helvetica;
+    font-size: 10pt;
+}
+
+td
+{
+	position: relative;
+}
+
+tr
+{
+	vertical-align: middle;
+}
+
+viewlink\:SystemButton
+{
+	background-color: #C0C0C0;		/* Color for the background. */
+	border: solid 1px #000000;		/* Color for the border. */
+	border-top-color: #FFFFFF;		/* Color for use in the highlight. */
+	border-bottom-color: #494949;	/* Color for use in the shadow. */
+	color: #000000;					
+	cursor: hand;
+	display: inline-block;
+	height: 30px;
+	overflow: hidden;
+	width: 120px;
+}
+
+/*****************************************************************************
+Form Layout Classes
+******************************************************************************
+These classes should be used to get consistent layouts and styles for
+all elements associated with an input form.
+
+The .readonly and .invalid classes may be applied in addition to any of the
+other form layout classes: e.g. <textarea class="value invalid"></textarea>
+*****************************************************************************/
+
+.label, .heading, .validator
+{
+	/*background-color: pink;*/
+	display: inline-block;
+	font-style: normal;
+	font-weight: normal;
+	height: auto;		
+	margin: 0px 5px 5px 0px;
+	overflow-x: hidden;
+	overflow-y: visible;
+	padding: 0px;
+	text-align: left;
+	vertical-align: middle;
+	white-space: normal;
+	width: 300px;
+}
+
+.heading, .subheading
+{
+	/*background-color: cyan;*/
+	font-weight: bold;
+	height: 30px;		/* for quirks mode */
+	min-height: 30px;	/* strict mode only */
+	text-align: left;
+	vertical-align: middle;
+	width: 600px;
+}
+
+div.heading, div.subheading
+{
+	width: auto;
+}
+
+.subheading
+{
+	font-style: italic;
+}
+
+.smallnote
+{
+	font-size: 8pt;
+	font-style: italic;
+}
+
+div.label, div.heading, div.validator,
+td.label, td.heading, td.validator
+{
+	margin: 0px;
+	padding: 0px 5px 5px 0px;
+}
+
+.value, .value *, .control, .control *
+{
+	/*background-color: Lime;*/
+	display: inline-block;	/* Ensures that the object has layout, even if its width and height aren't explicitly set. */
+	font-weight: normal;
+	position: relative;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.value, .control
+{
+	/*background-color: Silver;*/
+	margin: 0px 5px 5px 0px;
+	padding: 0px;
+	width: 300px;	
+}
+
+span.value, span.control
+{
+	width: auto;
+}
+
+div.value, div.control,
+td.value, td.control
+{
+	/*background-color: Teal;*/
+	margin: 0px;
+	padding: 0px 5px 5px 0px;	
+}
+
+input.value, .control input, 
+select.value, textarea.value
+{
+	/*background-color: Gray;*/
+	height: 20px;
+	max-height: 16px;	/* override for strict mode only to take borders into account. */	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+textarea.value
+{
+	padding-right: 5px;
+	rows: 1;
+}
+
+.editcontrol
+{
+	border: 2px inset;
+	height: 100px;
+	max-height: 96px;	/* Override for strict mode that takes borders into account. */
+	width: 600px;		/* Equivalent of label width + value width: indented to take up a whole row. */
+}
+
+.control input, .control select, .control textarea,
+td textarea.value
+{
+	width: 100%;	
+}
+
+.control textarea, .editcontrol
+{
+	/*background-color: Purple;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
+	word-wrap: wrap-word;
+}
+
+select.value[multiple], .control select[multiple], select.multiple
+{
+	/*background-color: cyan;*/
+	height: auto;
+	/*height: 100px;*/
+}
+
+.checkbox, input.checkbox, .checkbox input, 
+.control input[type~=checkbox], .value input[type~=checkbox],
+input#CheckBox, #CheckBox input, 
+.control #CheckBox, .value #CheckBox
+{
+	/*background-color: blue;*/
+	min-width: 16px; /* Override for strict mode that takes borders and margins into account. */
+	width: 20px;
+}
+  
+/*****************************************************************************
+Form Layout Modifiers
+******************************************************************************
+These classes should be used along with the form classes to tweak the
+layout and appearance of those controls for specific purposes.
+*****************************************************************************/
+.checkboxlabel
+{
+	width: 275px;	
+}
+
+.halfsize
+{
+	width: 148px;
+}
+
+.hide
+{
+	display: none;
+}
+
+.indented
+{
+    padding-left: 25px;
+}
+
+.indented .label
+{
+	width: 275px;
+}
+
+.indented .checkboxlabel
+{
+	width: 250px;
+}
+
+.invalid, .validator
+{
+	color:	#FF0000;
+	font-style: italic;
+}
+
+.warning
+{
+	font-style: italic;
+	font-weight: bold;
+}
+
+.pending	/* Validation or ajax postback in progress. */ 
+{
+	background-color: inactiveborder;
+	cursor: wait;
+    font-style: italic;
+}
+
+.readonly
+{
+	border-color: InactiveBorder;
+/*	border-style: none;
+	border-width: 0px; */
+	color: GrayText;
+}
+
+.noborder
+{
+	border-color: transparent;
+	border-style: solid;
+}
+
+.singlerow
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.uncommon	/* for tristate controls where the values don't match. */	
+{
+	background-color: inactiveborder;
+}
+
+/*****************************************************************************
+FormRow Container
+******************************************************************************
+This class should be used to contain a set of form controls in the order
+.validator (optional)
+.value
+.label
+
+For a non-table layout that will always align the controls properly in
+a single row without breaks.
+*****************************************************************************/
+.formrow	
+{
+ 	margin: 0px 0px 5px 0px;
+ 	height: 25px;		/* for quirks mode */
+    min-height: 25px;	/* strict mode only */
+    overflow: visible;
+    width: 600px;
+}
+
+.formrow .label, .formrow .heading
+{
+	width: auto;
+}
+
+.formrow .value, .formrow .control
+{
+	float: right;	
+}
+
+.formrow .checkbox, .formrow *[type~=checkbox]
+{
+	float: left;
+}
+
+.formrow .associate, .formrow .validator
+{
+	/* TODO: left: expression(parentElement.offsetLeft + parentElement.offsetWidth); */
+	margin-left: 5px;
+	position: absolute;
+	/* TODO: top: expression(parentElement.offsetTop); */
+}
+      
+/*****************************************************************************
+Page Layout Classes
+******************************************************************************
+These classes should be used for the containers of the appropriate 
+page-layout regions so that their appearance is consistent with that of
+a standard system display.
+*****************************************************************************/
+/*----------------------------------------------------------------------------
+TopLeft
+------------------------------------------------------------------------------
+The TopLeft CSS class is for the element that provides the top-left title for
+the set of displays that this one belongs to. 
+----------------------------------------------------------------------------*/ 
+.TopLeft
+{
+	/*border: 1px solid orange;*/
+	background-color: #494949;
+	background-image: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	margin: 0px;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/*----------------------------------------------------------------------------
+OperatorsMenu
+------------------------------------------------------------------------------
+The OperatorsMenu element is defined in the TopLeft viewlink behavior.
+We need to define the relative behavior and image URLs here because they will
+always be correct if relative to this CSS. If these are defined inside the
+TopLeft viewlink behavior then they will be interpreted relative to the
+host document of the behavior, which could be incorrect if the host is
+in a different application.
+
+Since we need to define the behavior styles here, we may as well include 
+the rest instead of maintining a style block in the behavior file as well.
+----------------------------------------------------------------------------*/ 
+.TopLeft #OperatorsMenuButton
+{
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	border: solid 2px transparent;
+	display: block;
+	color: #FFFFFF;
+	height: 29px;
+	line-height: 21px;
+	max-height: 25px;	/* For strict doctypes: = 29px - 1px each for top and bottom border*/
+	margin: 0px 3px;
+	overflow: hidden;
+	position: relative;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.TopLeft #OperatorsMenuButton span
+{
+	line-height: 21px;	/* Same as the containing button. */
+}
+
+.TopLeft .DropDown
+{
+	cursor: hand;
+	background-image: url(../Images/DropDownArrow.gif);
+}
+
+.TopLeft .CloseUp
+{
+	cursor: hand;
+	background-image: url(../Images/CloseUpArrow.gif);
+}
+
+.TopLeft .CloseUp:hover,
+.TopLeft .DropDown:hover
+{
+	border: 2px outset #FFFFFF!important;	/* Without the !important, nothing happens :( */
+}
+
+/*----------------------------------------------------------------------------
+NavPane
+------------------------------------------------------------------------------
+The NavPane element takes up the rest of the left-hand bar of the display
+below the TopLeft title element.  
+----------------------------------------------------------------------------*/ 
+.NavPane
+{
+	background-color: #CCCCCC;
+	border: none 0px; 
+	padding: 0px 2px 0px 0px;
+	overflow-x: hidden; 
+	overflow-y: auto; 
+}
+
+.NavPane a,
+.NavPane h1, .NavPane h2, .NavPane h3, .NavPane h4, .NavPane h5, .NavPane h6, .NavPane .heading, .NavPane .Heading
+{
+	/*background-color: red;*/
+	display: block;
+	height: auto;
+	line-height: 16px;
+	margin: 0px 0px 1px 0px;
+	min-height: 0px;
+	overflow-x: hidden;
+	padding: 0px;
+	text-decoration: none;
+	text-align: left;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.NavPane h1, .NavPane h2, .NavPane h3, .NavPane h4, .NavPane h5, .NavPane h6, .NavPane .heading, .NavPane .Heading
+{
+	/*border: 1px solid orange;*/
+	color:	#FFCC00;
+}
+
+.NavPane li .heading, .NavPane li .Heading
+{
+padding-top: 1px;
+margin:0px 0px 0px 0px;
+padding-bottom: 1px;
+}
+
+
+.NavPane li ul li
+{
+padding-top: 1px;
+margin-bottom: 1px;
+margin-left:0px;
+padding-bottom: 1px;
+}
+
+.NavPane hr
+{
+	color:	#FFFFFF;
+}
+
+.NavPane input, .NavPane select
+{
+	background-color: #FFFFFF;
+	color: #000000;
+	vertical-align: middle;
+}
+
+.NavPane ul
+{
+	/*background-color: orange;*/
+	margin: 0px 0px 2px 0px;
+	padding-top: 1px;
+}
+
+.NavPane li ul
+{
+	/*background-color: cyan;*/
+	margin: 0px 0px 2px 0px; /* No gap at top of sub list, big gap at bottom.*/
+	padding-top: 1px;
+}
+
+.NavPane li
+{
+	/*background-color: green;*/
+	background-image: none;
+	background-position:left top;
+	background-repeat: no-repeat;
+	list-style-type: none;
+	list-style-image: none;
+	list-style-position: outside;	/* So no space is reserved on the left for a missing bullet. */ 
+	margin:0px 0px 2px 0px;
+	padding-top: 1px;
+	vertical-align: middle;
+}
+
+/*
+The following two sets of styles allow the selection highlight and clickable are of 
+all menu items nested up to three levels deep to extend all the way to the left-hand
+border of the menu's container. If a fourth level is needed in the future, then its
+margin/padding combo will need to be 48px. For now, three levels is as deep as our menus get.
+*/
+.NavPane li li, .NavPane li li a, .NavPane li.expanded a, .NavPane li.collapsed a
+{
+	margin-top: 1px;
+	padding-left: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.NavPane li li ul, .NavPane li li li, .NavPane li li li a, .NavPane li li.expanded a, .NavPane li li.collapsed a 
+{
+	margin: 1px 0px 1px 1px;
+	padding-left: 6px;
+	padding-bottom: 1px;
+	padding-top: 1px;	
+}
+
+/* 
+Note: in the two classes below, list-style-image and margin _can_ be used in place of 
+background-image and padding, but although that would be a bit more elegant,  
+unfortunately it is then not possible to control the vertical alignment of the 
+bullet-image, and it centers in th emiddle of wrapped text instead of at the top :(
+*/
+.NavPane li.collapsed
+{
+	background-image: url(../Images/imgExpand.gif);
+}
+
+.NavPane li.expanded
+{
+	background-image: url(../Images/imgCollapse.gif);
+}
+
+.NavPane li.collapsed, .NavPane li.expanded
+{
+	cursor: hand;
+	margin: 0px 0px 2px 0px;
+	padding-left: 15px;
+	padding-top: 1px;	
+}
+
+
+/*----------------------------------------------------------------------------
+.NavPane.popup
+------------------------------------------------------------------------------
+A popup navpane (i.e. the dropdown Operator's menu) has slightly differect
+colours so it can be seen over the top of the sidebar NavPane.
+----------------------------------------------------------------------------*/ 
+.popup .NavPane,
+.NavPane[class*=popup],
+#OperatorsMenu.popup
+{
+	border: outset 2px #FFFFFF !important;
+	padding: 0px 5px 5px 5px;
+}
+
+.popup .NavPane a,
+.NavPane[class*=popup] a,
+#OperatorsMenu.popup a
+{
+	border: solid 1px transparent;	/* So the hover-border doesn't affect the layout. */
+	line-height: 20px;
+	margin: 0px;
+}
+
+.popup .NavPane a:hover,
+.NavPane[class*=popup] a:hover,
+#OperatorsMenu.popup a:hover
+{
+	border: outset 1px #FFFFFF;
+}
+
+/*----------------------------------------------------------------------------
+TitleBar
+------------------------------------------------------------------------------
+The TitleBar element stretches across the top of the display to the right of
+the LeftBar element.
+----------------------------------------------------------------------------*/ 
+.TitleBar
+{
+	background-color: #494949;
+	background-image: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: middle;
+}
+
+body.TitleBar
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;	
+}
+
+div.TitleBar, .TitleBar *
+{
+	/*border: 1px solid red;*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+div.TitleBar
+{
+	padding: 7px 10px 7px 10px;	
+}
+
+.TitleBar *
+{
+	margin: 7px 10px 7px 10px;
+}
+
+.TitleBar a	
+{
+	border-bottom:		none;
+	border-left:		1px solid #FFFFFF;
+	border-right:		1px solid #FFFFFF;
+	border-top:			none;
+	cursor:				hand;
+	height:				20px;
+	padding-left:		10px;
+	padding-right:		10px;
+	text-align:			center;
+	text-decoration:	none;
+}
+
+.TitleBar a:hover
+{
+	color:	#FFCC00;
+}
+
+.TitleBar select, .Titlebar Input
+{
+	background-color:	#000000;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.TitleBar td
+{
+	padding: 0px 10px 0px 10px;
+}
+.TitleBar tr
+{
+	margin: 0px;
+	padding: 0px;
+	overflow: visible;
+}
+
+/*----------------------------------------------------------------------------
+TabSet
+------------------------------------------------------------------------------
+The TabSet element stretches across the top of the display under the TitleBar
+and to the right of the LeftBar element. 
+----------------------------------------------------------------------------*/ 
+.TabSet
+{
+	background-color: #000000;
+	background-image: none;
+	color: #FF0000;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.TabSet Table
+{
+	margin:  3px 0px 0px 0px;	
+}
+
+.TabSet .TabScroller
+{
+	background-color: #000000;
+	background-position: center top;
+	background-repeat: no-repeat;
+	color: #FFCC00; /* Will be used	as the color of inactive tabs by the TabSet object */
+	cursor: hand;
+}
+
+.TabSet .ScrollLeft
+{
+	background-image: url(../Images/tabNotFirst.jpg);
+}
+
+.TabSet .ScrollRight
+{
+	background-image: url(../Images/tabNotLast.jpg);
+}
+
+.TabSet .Tab
+{
+	font-weight: bold;
+	padding: 5px 5px 0 5px;
+	text-align: center;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 150px;
+	vertical-align: top;
+}
+
+/*----------------------------------------------------------------------------
+ActionBar
+------------------------------------------------------------------------------
+The ActionBar element is an optional region at the right-hand edge of
+the DisplayArea.
+----------------------------------------------------------------------------*/ 
+.ActionBar
+{
+	border-left: inset 2px;
+	background-color: #FFCC00;
+	color: #000000;
+	margin: 0px;
+	overflow: hidden;
+	padding: 10px;
+}
+
+.ActionBar .ActionBar, table.ActionBar
+{
+	border-left: none 0px;
+	margin: 0px;
+	overflow: none;
+	padding: 0px;
+	position: relative;
+	table-layout: fixed;
+	width: 100%;
+}
+
+/*----------------------------------------------------------------------------
+DetailsArea
+------------------------------------------------------------------------------
+The DetailsArea is the main part of the display space under the TabSet and to 
+the right of the NavPane.
+
+If an action bar is not used, then the DetailsArea class should be applied to
+the full '#DisplayArea'  element.
+----------------------------------------------------------------------------*/ 
+.DetailsArea
+{
+	border: none;
+    background-color: #FFFFFF;
+    background-image: none;
+   	margin: 0px;
+   	overflow: auto;
+   	padding: 0px 10px 10px 30px;
+}
+
+/*----------------------------------------------------------------------------
+.NotLicensed
+------------------------------------------------------------------------------
+This style is applied to the 'Option not licensed' element which is displayed
+the display-content should not be seen. 
+----------------------------------------------------------------------------*/ 
+.NotLicensed
+{
+	font-size: 18pt; 
+	font-weight: bold; 
+	padding-top: 240px;
+	text-align: center;
+}
+
+/*****************************************************************************
+Button Styles
+******************************************************************************
+The style classes below are for various types of buttons that can be used
+anywhere on the displays.
+*****************************************************************************/
+/*----------------------------------------------------------------------------
+HoverButton
+------------------------------------------------------------------------------
+A button which changes its border as the mouse hovers over it.
+----------------------------------------------------------------------------*/ 
+.HoverButton
+{
+	/* background-color: cyan; */
+	border: solid 1px transparent;
+}
+
+.HoverButton:hover
+{
+	border: outset 1px #FFFFFF;
+}
+
+/*----------------------------------------------------------------------------
+PanelButton
+------------------------------------------------------------------------------
+This class creates a button that stretches across the whole width of its
+container, which has a raised, rounded appearance that responds to mouse events.
+----------------------------------------------------------------------------*/ 
+.PanelButton, a.PanelButton
+{
+	border-bottom: solid 1px #494949;
+	border-top: solid 1px #FFFFFF;
+	background-color: transparent;
+    height: 30px;
+    width: 100%;
+}
+
+.PanelButton
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A0FFFFFF', EndColorStr='#80494949');
+}
+
+.PanelButton:hover
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FFFFFFFF', EndColorStr='#80494949');
+}
+
+.PanelButton:active
+{
+	border-bottom: solid 1px #FFFFFF;
+	border-top: solid 1px #494949;
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#80494949', EndColorStr='#A0FFFFFF');
+}
+
+/*----------------------------------------------------------------------------
+PickerButton
+------------------------------------------------------------------------------
+A button that is used to launch a picker of some kind for an associated 
+form control.
+The PickerWrapper contains a PickerButton and a textbox that the button targets.
+----------------------------------------------------------------------------*/ 
+*.PickerButton
+{
+	/*background-color: Magenta;*/
+	float: right;
+	margin: 0px 0px 0px -3px;
+	position: relative;
+}
+
+*.PickerWrapper *.PickerButton
+{
+	margin-right: 2px;
+}
+
+*.PickerWrapper *.value, *.PickerWrapper *.control
+{
+	/*background-color: Green;*/
+	width: 100% !important;
+	margin-right: 0px;
+}
+
+/*----------------------------------------------------------------------------
+PushButton
+------------------------------------------------------------------------------
+A standard-row-height-sized button which  is used for triggering minor
+changes or scripts within a single display that don't affect the way the 
+system works.
+----------------------------------------------------------------------------*/ 
+.PushButton
+{
+	background-color: #F9F2BC;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-color: #494949;
+	color: #000000;
+	height: 28px;
+}
+
+viewlink\:SystemButton.PushButton
+{
+	border-top-color: #FFFFFF;
+	border-bottom-color: #C0C0C0;
+}
+
+.pushbutton90
+{
+    background-color: transparent;
+    background-image: url(../images/pushbutton90.jpg);
+    border-style: none;
+    height: 28px;
+    width: 90px;
+}
+
+.pushbutton120
+{
+    background-color: transparent;
+    background-image: url(../images/pushbutton120.jpg);
+    border-style: none;
+    height: 28px;
+    width: 120px;
+}
+
+.pushbutton200
+{
+    background-color: transparent;
+    background-image: url(../images/pushbutton200.jpg);
+    border-style: none;
+    height: 28px;
+    width: 200px;
+}
+
+/*----------------------------------------------------------------------------
+ActionButton
+------------------------------------------------------------------------------
+A larger-size button which  is used for triggering major system changes.
+----------------------------------------------------------------------------*/ 
+.ActionButton, .actionbutton96, .actionbutton210
+{
+	background-color: #494949;
+	background-repeat: no-repeat;
+	background-position: center center;
+	color: #FFFFFF;
+	font-weight: bold;
+	height: 33px;
+}
+
+viewlink\:SystemButton.ActionButton
+{
+	border-top-color: #FFFFFF;
+	border-bottom-color: #000000;
+}
+
+.actionbutton96
+{
+    background-color: transparent;
+    background-image: url(../images/actionbutton96.jpg);
+    border-style: none;
+    height: 33px;
+    width: 105px;
+}
+.actionbutton210
+{
+    background-color: transparent;
+    background-image: url(../images/actionbutton210.jpg);
+    border-style: none;
+    height: 33px;
+    width: 210px;
+}
+
+/*----------------------------------------------------------------------------
+FormButton
+------------------------------------------------------------------------------
+A button which aligns alongside input elements in a form. 
+----------------------------------------------------------------------------*/ 
+.FormButton, *.PickerButton
+{
+	/*background-color: red;*/
+	height: 24px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+/*----------------------------------------------------------------------------
+DownButton, UpButton
+------------------------------------------------------------------------------
+Buttons which shows a downward or upward-pointing arrow respectively.
+Can be used to indicate scrolling behavior.
+----------------------------------------------------------------------------*/ 
+.Downbutton, .UpButton
+{
+    border: none;
+    background-color: transparent;
+    background-image: url(../Images/down.gif);
+    background-position: center 50%;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 25px;
+}
+
+.Downbutton
+{
+    background-image: url(../Images/down.gif);
+}
+
+.UpButton
+{
+    background-image: url(../Images/up.gif);
+}
+
+/*----------------------------------------------------------------------------
+ToolbarButton
+------------------------------------------------------------------------------
+A square button that has a background image and appropriate colouring for
+use on a system toolbar. Input and span elements are appropriate hosts
+for this class, but other elements will work too.
+----------------------------------------------------------------------------*/ 
+.ToolbarButton
+{
+	background-color:		buttonface;
+	background-position:	center center;
+	background-repeat:		no-repeat;
+	border-width:			2px;
+	height:					25px;
+	max-height:				21px;	/* for xhtml box model*/
+	padding:				1px; 
+}
+
+/*----------------------------------------------------------------------------
+SquareButton
+------------------------------------------------------------------------------
+A button which has a width equal to its height.
+----------------------------------------------------------------------------*/ 
+.SquareButton, *.PickerButton, *.ToolbarButton
+{
+	/*background-color: Fuchsia;*/
+	width: expression(this.offsetHeight);
+}
+
+/*----------------------------------------------------------------------------
+Common Text styles for all buttons...
+----------------------------------------------------------------------------*/ 
+.PanelButton, a.PanelButton, 
+.PushButton, .PushButton90, .PushButton120, .PushButton200, 
+.ActionButton, .ActionButton96, .ActionButton210, 
+.FormButton, .SystemButton v\:TextBox, .SystemButton input, 
+.PickerButton, .ToolbarButton,
+.DownButton, .UpButton
+{
+	cursor: hand;
+	line-height: expression(this.offsetHeight + "px");
+	overflow: hidden;
+	padding: 0px;
+	text-align: center;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+/*----------------------------------------------------------------------------
+Override the line-height attribute for 
+these buttons to ensure button text remains alligned correctly
+----------------------------------------------------------------------------*/ 
+.PushButton90, .PushButton120, .PushButton200, .ActionButton96, .ActionButton210
+{
+	line-height: normal
+}
+
+/*----------------------------------------------------------------------------
+LED
+------------------------------------------------------------------------------
+An indicator that renders a 3D-LED in a particular colour.
+----------------------------------------------------------------------------*/ 
+.LED
+{
+	border: none;
+	height: 20px;
+	overflow: hidden;
+	width: 20px;
+}
+
+/*----------------------------------------------------------------------------
+PenPicker
+------------------------------------------------------------------------------
+The following style classes are used by PenPicker trigger objects and the 
+picker-dialog that they create.
+----------------------------------------------------------------------------*/ 
+.PenPickerTrigger
+{
+	background-color: #FFFFFF;				
+	border: solid 1px #FFFFFF;
+	cursor: hand;
+	text-align: center;
+}
+
+.PenPicker
+{
+	background-color: silver; 
+	border: 2px outset; 
+	margin: 0; 
+	overflow: auto; 
+	padding: 0; 
+}
+
+.pickme
+{
+	border: 2px outset;
+	cursor: hand;
+	height: 15px; 
+	width: 25px;
+}
+
+/*****************************************************************************
+Calendar Styles
+******************************************************************************
+The style classes below are applied to the various sections of a
+Honeywell.Web.UI.Calendar ASP.NET control. The !important rule is applied
+to each of these to make sure that these style override the inline styles
+which ASP.NET will insist on using.
+*****************************************************************************/
+
+/* The Calendar style applies to the top-level table 
+that makes up the rendered calendar control.*/
+.Calendar
+{
+    background-color: #FFFFFF !important;
+}
+
+.Calendar table, .Calendar td, .Calendar tr
+{
+    background-color: transparent !important;
+	border-style: none !important;
+	border-width: 0px !important;
+	margin: 0px;
+	padding: 0px;
+}
+
+.Calendar, .Calendar a
+{
+    color: #000000 !important;
+}
+
+.Calendar a
+{
+	cursor: hand !important;
+	text-decoration: underline;
+}
+
+/* The Day style class is applied to the cell containing the links for all 
+non-weekend days which belong to the current month, are not today and are not selected. */
+.Calendar .Day, .Calendar .Day a
+{}
+
+/* The DayHeader style applies to the listed days of the week. */
+.Calendar .DayHeader 
+{
+	/* Same appearance as display pushbutton and tab */ 
+	background-color: #F9F2BC !important;
+}
+
+/* The NextPrev style applies to the cells which contain the prev/next links/ */
+.Calendar .NextPrev, .Calendar .NextPrev a 
+{}
+
+/* The OtherMonthDay style class is applied to the cell containing the links for all 
+days which do not actually belong to the current month, are not today and are not selected. */
+.Calendar .OtherMonthDay, .Calendar .OtherMonthDay a 
+{ 
+	/* grey text instead of black */
+	color: #C0C0C0 !important; 
+}
+
+/* The SelectedDay style class is applied to the cell containing the 
+link for the currently selected day. */
+.Calendar .SelectedDay, .Calendar .SelectedDay a 
+{ 
+	/* bold text is the general paradigm to indicate selection, but we
+	need a background color as well in case this is a weekend date. */
+	background-color: #00FFFF !important;
+	font-weight: bold !important; 
+}
+
+/* The Selector style applies to the week and month selector column
+which is only visible when the calendar's selection mode is
+set to DayWeek or DayWeekMonth. */
+.Calendar .Selector 
+{}
+
+/* The Title style applies to the titlebar of the calendar 
+which contains the name of the current month and the prev / next links. */
+.Calendar .Title, .Calendar .Title a, .Calendar .Title td
+{
+	/* Same appearance as display titlebar. */
+	border-style: none !important;
+	border-width: 0px !important;
+	background-color: #494949 !important;
+	color: #FFFFFF !important;
+	font-weight: bold !important;
+}
+
+/* The Today style class is applied to the cell containing the 
+link for the current local day. */
+.Calendar .Today 
+{}
+
+/* The WeekendDay style class is applied to the cell containing the links for all 
+weekend days which belong to the current month, are not today and are not selected. */
+.Calendar .WeekendDay , .Calendar .WeekendDay a
+{
+	/* light-grey background. */ 
+	background-color: #C0C0C0 ! important; 
+}

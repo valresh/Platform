@@ -1,0 +1,894 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="906px" height="710px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><scripts><script event="" language="JScript" id="485137D7-B633-4BCB-8C6F-283C9DF1EB97"><![CDATA[//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// SL_AlpNum_Unit_OneString.sha
+///
+/// <summary>
+/// Formats a numeric value and the corresponding unit symbol into a single string displayed in a textbox.
+/// </summary>
+///
+/// Revision History
+///
+/// EXP510.1-34		May 21, 2018	Improved debug messaging and error handling
+/// EXP510.1-32		May 4,  2018	Initial Experion R510 testbed release
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function SL_ValueAndUnits_onDataChange(alphaNumeric)
+{
+	if ((alphaNumeric != undefined) && (alphaNumeric != null))
+	{
+		try
+		{
+			SL_LogFunctionParameters(2, "SL_ValueAndUnits_onDataChange", "alphaNumeric = " + alphaNumeric.id);
+
+			// Walk back up the hierarchy to get the parent shape so that the custom properties can be fetched.
+			var shape = alphaNumeric.parentElement;
+			if ((shape != undefined) && (shape != null))
+			{
+				// Check to see if the units come from a point parameter or are static.
+				var unitScriptData = new SL_ScriptData("UnitParam");
+				var unitString;
+
+				if (shape.GetCustomProperty("Parameter", "UnitParam") != "")
+				{
+					unitScriptData.Fetch(alphaNumeric, "SLAnalogPoint");
+					if (unitScriptData.valid)
+					{
+						unitString = HART_GetShortSymbolFromStandardUnitCode(unitScriptData.value);
+					}
+				}
+				else
+				{
+					unitScriptData.valid = true;
+					unitString = shape.GetCustomProperty("Value", "Unit");
+				}
+
+				var valueScriptData = new SL_ScriptData("SLAnalogPtParam");
+				var valueString = "";
+
+				valueScriptData.Fetch(alphaNumeric, "SLAnalogPoint");
+
+				if (valueScriptData.changed || unitScriptData.changed)
+				{
+					if (typeof(valueScriptData.value) == "number")
+					{
+						var useNumDecimals = shape.GetCustomProperty("Value", "UseNumDecimals");
+						var numDecimals = shape.GetCustomProperty("Value", "NumDecimals");
+						if (useNumDecimals == 0)
+						{
+							numDecimals = SL_GetNumDecimals(valueScriptData.value);
+						}
+
+						valueString = valueScriptData.value.toFixed(numDecimals).toString();
+					}
+
+					if ((unitString != undefined) && (unitString != ""))
+					{
+						valueString += " " + unitString;
+					}
+					alphaNumeric.value = valueString;
+
+					var styleName = "SL_Numeric_";
+
+					if (shape.GetCustomProperty("Value", "TextAlign") == 1)
+						styleName += "Left_";
+
+					if (valueScriptData.valid && unitScriptData.valid)
+					{
+						styleName += "Normal";
+					}
+					else
+					{
+						styleName += "BadQuality";
+					}
+					alphaNumeric.StyleClass = styleName;
+					
+					SL_LogDebugLevelMessage(4, "SL_ValueAndUnits_onDataChange", "string = " + valueString + ", style = " + styleName);
+				}
+			}
+		}
+		catch (error)
+		{
+			SL_LogErrorMessage("SL_ValueAndUnits_onDataChange", "Could not set the value, unit or style for: alphaNumeric = " + alphaNumeric.id, error);
+			alphaNumeric.StyleClass = "SL_Numeric_Error";
+		}
+	}
+
+}]]></script><script event="" language="JScript" id="5D2F9E1C-60C6-44A8-A251-844E2D3D06AB"><![CDATA[//for positioning digital PV and PV values when they are bad or out of range (pixels above top of scale or bottom of scale)
+var offset = 0;
+//for positioning loop current value when it is bad or out of range (pixels above top of scale or bottom of scale)
+var offsetLoopCurrent = 0;
+
+var alphaExtHi_temp = 0.0;
+var alphaHi_temp = 0.0;
+var alphaLo_temp = 0.0;
+var alphaExtLo_temp = 0.0;]]></script><script event="onshapeload" language="JScript" id=""><![CDATA[	SL_LogEvent(this, "onshapeload");
+
+	textboxAcceptTransmitterRange.disabled = false;
+	textboxAcceptTransmitterRange.style.visibility = "hidden";
+
+	textboxEditingMessage.disabled = false;
+	textboxEditingMessage.style.visibility = "hidden";
+
+	alphaExtHi.disabled = true;
+	alphaHi.disabled = true;
+	alphaLo.disabled = true;
+	alphaExtLo.disabled = true;]]></script></scripts><parameters><parameter name="SLAnalogPoint" type="Point" description="Point Name" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectFullRangeLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 51.83%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 20.28%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ffc627;fillColorBlink:False;FillStyle:0;Height:368;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectFailLoRangeLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 47.6%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;Height:338;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectFailHiRangeLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 49.29%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 20.28%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;Height:350;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectAtFailLoLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 46.19%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ffc627;fillColorBlink:False;Height:328;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectAtFailHiLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 47.88%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 21.69%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#ffc627;fillColorBlink:False;Height:340;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectExtRangeLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 47.88%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 22.25%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:340;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelTransform class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 0%; TOP: 85.35%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Transfer Function</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelDamping class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 0%; TOP: 88.59%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Damping</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPercentOfRange class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 0%; TOP: 91.83%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">% of Range</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ovalRangeMismatch class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.11%; FONT-FAMILY: Arial; WIDTH: 1.65%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0.28%; BEHAVIOR: url(#HDXVectorFactory#oval)  url(#BindingBehavior); VISIBILITY: hidden" hdxproperties="FillColor:#ffc627;fillColorBlink:False;HDXBINDINGID:-4;Height:15;indicateAlarmState:False;indicateScanState:False;LineColor:#ffc627;lineColorBlink:False;Width:15;"></DIV>]]></content></html><binding/></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelDigitalPV class="hvg.textbox.1  HSC.ScriptDataObject.1 " style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: Arial; WIDTH: 24.28%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 0.88%; TOP: 78.3%; BEHAVIOR: url(#HDXVectorFactory#text) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:17;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:220;">Digital PV</DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var digitalPVUnitCode = this.DataValue("SLAnalogPoint.HEU");	
+
+	this.value = "Digital PV (" + HART_GetShortSymbolFromStandardUnitCode(digitalPVUnitCode) + ")";]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HEU,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaDigitalPV class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: Arial; WIDTH: 8.38%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 1.1%; TOP: 58.3%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	var position;
+	var badValue = (this.value === undefined) || isNaN(this.value);
+	var badURVLRV = (alphaURV.value === undefined) || isNaN(alphaURV.value) || (alphaLRV.value === undefined) || isNaN(alphaLRV.value) ||
+						(alphaURV.value <= alphaLRV.value);
+	if (!badValue)
+	{
+		this.textColor = statusDisplayScheme[0].textColor;
+	}
+	else
+	{
+		this.textColor = statusDisplayScheme[3].textColor;
+	}
+
+	if (!badValue && !badURVLRV)
+	{
+		if ((this.value >= alphaLRV.value) && (this.value <= alphaURV.value))
+		{
+			position = Math.round(rectScaleDigitalPV.style.pixelTop + rectScaleDigitalPV.style.pixelHeight - rectScaleDigitalPV.style.pixelHeight *
+						(this.value - alphaLRV.value) / (alphaURV.value - alphaLRV.value));
+			polygonCursorDigitalPV.style.visibility = "visible";
+			polygonCursorDigitalPV.style.pixelTop = Math.round(position - (polygonCursorDigitalPV.style.pixelHeight/2));
+		}
+		else if (this.value < alphaLRV.value)
+		{
+			if ((alphaLRL.value !== undefined) && (!isNaN(alphaLRL.value)) && (this.value >= alphaLRL.value))
+			{				
+				position = Math.round(rectExtScaleDigitalPV.style.pixelTop + rectExtScaleDigitalPV.style.pixelHeight - (rectExtScaleDigitalPV.style.pixelTop + rectExtScaleDigitalPV.style.pixelHeight - (rectScaleDigitalPV.style.pixelTop + rectScaleDigitalPV.style.pixelHeight)) *
+						(this.value - alphaLRL.value) / (alphaLRV.value - alphaLRL.value));
+				polygonCursorDigitalPV.style.visibility = "visible";
+				polygonCursorDigitalPV.style.pixelTop = Math.round(position - (polygonCursorDigitalPV.style.pixelHeight/2));				
+			}
+			else
+			{
+				position = rectExtScaleDigitalPV.style.pixelTop + rectExtScaleDigitalPV.style.pixelHeight + offset;
+				polygonCursorDigitalPV.style.visibility = "hidden";							
+			}
+		}
+		else if ((alphaURL.value !== undefined) && (!isNaN(alphaURL.value)) && (this.value <= alphaURL.value))
+		{
+			position = Math.round(rectExtScaleDigitalPV.style.pixelTop + (rectScaleDigitalPV.style.pixelTop - rectExtScaleDigitalPV.style.pixelTop) *
+						(alphaURL.value - this.value) / (alphaURL.value - alphaURV.value));
+			polygonCursorDigitalPV.style.visibility = "visible";
+			polygonCursorDigitalPV.style.pixelTop = Math.round(position - (polygonCursorDigitalPV.style.pixelHeight/2));				
+		}
+		else
+		{
+			position = rectExtScaleDigitalPV.style.pixelTop - offset ;
+			polygonCursorDigitalPV.style.visibility = "hidden";
+		}
+	}
+	else
+	{
+			position = rectExtScaleDigitalPV.style.pixelTop - offset;
+			polygonCursorDigitalPV.style.visibility = "hidden";
+	}
+
+	this.style.pixelTop = Math.round(position - (alphaDigitalPV.style.pixelHeight/2));]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="HDYNVAL[1]"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ovalDigitalPVStatus class="hvg.base.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.11%; FONT-FAMILY: Arial; WIDTH: 1.65%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 11.12%; BEHAVIOR: url(#HDXVectorFactory#oval) url(#HSCScriptDataBehavior) url(#BindingBehavior); VISIBILITY: hidden" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;HDXBINDINGID:-4;Height:15;LineColor:#e0e0e0;lineColorBlink:False;Width:15;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var deviceCode = this.DataValue("SLAnalogPoint.HDEVTYPE7");
+	var deviceType = SL_GetDeviceType(deviceCode);
+	
+	if ((deviceType != "Pressure") && (deviceType != "Temperature"))
+	{
+		var digitalPVStatusCode = this.DataValue("SLAnalogPoint.HDYNST[1]");
+		var digitalPVStatusInfo = SL_GetHARTDeviceVariableStatus(digitalPVStatusCode);
+
+		if (digitalPVStatusInfo != "")
+		{
+			this.style.visibility = "visible";
+			alphaDigitalPVStatus.style.visibility = "visible";
+			this.lineColor = digitalPVStatusInfo.lineColor;
+			this.fillColor = digitalPVStatusInfo.fillColor;
+			polygonCursorDigitalPV.lineColor = digitalPVStatusInfo.lineColor;
+			polygonCursorDigitalPV.fillColor = digitalPVStatusInfo.fillColor;
+
+			if (digitalPVStatusInfo.limitStatus != "")
+			{
+				if (digitalPVStatusInfo.moreStatusAvailable != "")
+				{
+					alphaDigitalPVStatus.value = digitalPVStatusInfo.processDataStatus + ", " + 
+						digitalPVStatusInfo.limitStatus + ", " + digitalPVStatusInfo.moreStatusAvailable;
+				}
+				else
+				{
+					alphaDigitalPVStatus.value = digitalPVStatusInfo.processDataStatus + ", " + 
+						digitalPVStatusInfo.limitStatus;					
+				}
+			}
+			else
+			{
+				alphaDigitalPVStatus.value = digitalPVStatusInfo.processDataStatus;
+			}
+		}
+		else
+		{
+			this.style.visibility = "hidden";
+			alphaDigitalPVStatus.style.visibility = "hidden";
+			polygonCursorDigitalPV.lineColor = statusDisplayScheme[0].lineColor;
+			polygonCursorDigitalPV.fillColor = statusDisplayScheme[0].fillColor;
+		}
+	}
+	else
+	{
+		this.style.visibility = "hidden";
+		alphaDigitalPVStatus.style.visibility = "hidden";
+		polygonCursorDigitalPV.lineColor = statusDisplayScheme[0].lineColor;
+		polygonCursorDigitalPV.fillColor = statusDisplayScheme[0].fillColor;
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HDYNST[1],HDEVTYPE7,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxRangeMismatch class="hvg.textbox.1 SL_GroupHeader" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.53%; FONT-FAMILY: arial; WIDTH: 33.11%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: left; LEFT: 3.53%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;lineColorBlink:False;LineStyle:0;styleClass:SL_GroupHeader;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:300;">Device PV Range Mismatch</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelTransmitter class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 16.22%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 4.96%; TOP: 6.47%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:147;">Transmitter</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polygonCursorDigitalPV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.39%; FONT-FAMILY: Arial; WIDTH: 1.76%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 9.82%; TOP: 58.45%; BEHAVIOR: url(#HDXVectorFactory#polygon)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:17;LineColor:#e0e0e0;lineColorBlink:False;points:8.695656 0 100 52.94118 0 100 0 0 0 0 ;Width:16;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectExtScaleDigitalPV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 57.46%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 11.69%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#c0c0c0;fillColorBlink:False;Height:408;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineNot2ScaleURV_URL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.25%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 11.69%; TOP: 20.14%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:16;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;points:0.000000 56.250000 96.153847 0.000000 0.000000 100.000000 0.000000 100.000000 100.000000 43.750000 100.000000 37.500000 ;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectScaleDigitalPV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 45.07%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 11.69%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:320;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineNot2ScaleLRV_LRL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.25%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 11.69%; TOP: 71.4%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:16;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;points:0.000000 56.250000 96.153847 0.000000 0.000000 100.000000 0.000000 100.000000 100.000000 43.750000 100.000000 37.500000 ;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickURL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 14.67%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickURV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 14.67%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickLRV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 14.67%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickLRL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 14.67%; TOP: 75.77%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTickURL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 6.19%; FONT-FAMILY: Arial; WIDTH: 1.98%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 15.89%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:44;LineColor:#c0c0c0;lineColorBlink:False;points:0.000000 100.000000 33.333332 0.000000 33.333332 0.000000 100.000000 0.000000 ;Width:18;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTickLRL class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 6.19%; FONT-FAMILY: Arial; WIDTH: 1.98%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 15.89%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:44;LineColor:#c0c0c0;lineColorBlink:False;points:0 0 33.33333 100 33.33333 100 100 100 ;Width:18;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelURL class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 4.41%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 17.54%; TOP: 17.18%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:40;">URL:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelURV class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 4.41%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 17.54%; TOP: 23.38%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:40;">URV:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelLRV class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 4.41%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 17.54%; TOP: 68.45%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:40;">LRV:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelLRL class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 4.41%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 17.54%; TOP: 74.64%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:40;">LRL:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineURL_ExtHi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 37.96%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 29.58%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:344;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineURV_LoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 17.43%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 29.58%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:158;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineLRV_LoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 17.43%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 29.58%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:158;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineLRL_ExtLo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 37.96%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 29.58%; TOP: 75.77%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:344;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineVerticalLeft class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.95%; FONT-FAMILY: Arial; WIDTH: 0.11%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 31.56%; TOP: 7.04%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:660;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:2;LineWidth:3;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ovalLoopCurrentStatus class="hvg.base.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.11%; FONT-FAMILY: Arial; WIDTH: 1.65%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 34.65%; TOP: 11.12%; BEHAVIOR: url(#HDXVectorFactory#oval) url(#HSCScriptDataBehavior) url(#BindingBehavior); VISIBILITY: inherit" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;HDXBINDINGID:-4;Height:15;LineColor:#e0e0e0;lineColorBlink:False;Width:15;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var loopCurrentMode = this.DataValue("SLAnalogPoint.loop_current_mode");
+	var loopCurrentFailed = this.DataValue("SLAnalogPoint.HDEVMALF");
+	var loopCurrentFixed = this.DataValue("SLAnalogPoint.HCURRFIX");
+	var loopCurrentSaturated = this.DataValue("SLAnalogPoint.HCURRSAT");
+
+	if (loopCurrentMode == 0)
+	{
+		this.fillColor = statusDisplayScheme[3].fillColor;
+		this.lineColor = statusDisplayScheme[3].lineColor;
+		polygonCursorLoopCurrent.fillColor = statusDisplayScheme[3].fillColor;
+		polygonCursorLoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		alphaLoopCurrentStatus.value = "Disabled";
+	}
+	else if (loopCurrentFailed == 1)
+	{
+		this.fillColor = statusDisplayScheme[3].fillColor;
+		this.lineColor = statusDisplayScheme[3].lineColor;
+		polygonCursorLoopCurrent.fillColor = statusDisplayScheme[3].fillColor;
+		polygonCursorLoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		alphaLoopCurrentStatus.value = "Failed";
+	}
+	else if (loopCurrentFixed == 1)
+	{
+		this.fillColor = statusDisplayScheme[1].fillColor;
+		this.lineColor = statusDisplayScheme[1].lineColor;
+		polygonCursorLoopCurrent.fillColor = statusDisplayScheme[1].fillColor;
+		polygonCursorLoopCurrent.lineColor = statusDisplayScheme[1].lineColor;
+		alphaLoopCurrentStatus.value = "Fixed";
+	}
+	else if (loopCurrentSaturated == 1)
+	{
+		this.fillColor = statusDisplayScheme[2].fillColor;
+		this.lineColor = statusDisplayScheme[2].lineColor;
+		polygonCursorLoopCurrent.fillColor = statusDisplayScheme[2].fillColor;
+		polygonCursorLoopCurrent.lineColor = statusDisplayScheme[2].lineColor;
+		alphaLoopCurrentStatus.value = "Saturated";
+	}
+	else
+	{
+		this.fillColor = statusDisplayScheme[0].fillColor;
+		this.lineColor = statusDisplayScheme[0].lineColor;
+		polygonCursorLoopCurrent.fillColor = statusDisplayScheme[0].fillColor;
+		polygonCursorLoopCurrent.lineColor = statusDisplayScheme[0].lineColor;
+		alphaLoopCurrentStatus.value = "Good";
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="loop_current_mode,HDEVMALF,HCURRFIX,HCURRSAT,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,,,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelLoopCurrent class="hvg.textbox.1 " style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 24.28%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 36.42%; TOP: 78.3%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:220;">Loop Current (mA)</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelAnalogSignal class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 39.73%; TOP: 6.47%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Analog Signal</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectExtRangeNamurLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 47.04%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 23.09%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:334;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectNormalRangeLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 45.07%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 47.24%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:320;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTick21_0mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.4%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 20.28%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:10;LineColor:#c0c0c0;lineColorBlink:False;points:0.000000 100.000000 50.000000 0.000000 100.000000 0.000000 100.000000 0.000000 100.000000 0.000000 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTick20_8mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 22.25%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTick20_5mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 23.09%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTick20_0mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTick4_0mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTick3_8mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 1.26%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 70.14%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:9;LineColor:#c0c0c0;lineColorBlink:False;points:0 0 50 100 100 100 100 100 100 100 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTick3_6mA class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.11%; FONT-FAMILY: Arial; WIDTH: 4.41%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 50.11%; TOP: 70.7%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:15;LineColor:#c0c0c0;lineColorBlink:False;points:0 0 43.90244 100 100 100 95.12195 100 ;Width:40;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel21_0mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 19.15%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">21.0</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel20_8mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 21.12%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">20.8</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel20_5mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 21.69%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">20.5</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel20_0mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 23.52%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">20.0</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel4_0mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 68.02%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">&nbsp;4.0</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel3_8mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 70%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">3.8</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabel3_6mA class="hvg.textbox.1 SL_Numeric_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.17%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 51.65%; TOP: 71.97%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:65;">3.6</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineLoopCurrent_Hi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 8.49%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 59.16%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:77;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineLoopCurrent_Lo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 8.49%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 59.16%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:77;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVExtHi class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 8.38%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 64.79%; TOP: 17.18%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:76;">Ext Hi:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVHi class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 8.38%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 64.79%; TOP: 23.38%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:76;">Hi:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVLo class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 8.38%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 64.79%; TOP: 68.45%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:76;">Lo:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVExtLo class="hvg.textbox.1 SL_Text_Right_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 8.38%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; LEFT: 64.79%; TOP: 74.64%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:76;">Ext Lo:</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineVerticalRight class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 92.95%; FONT-FAMILY: Arial; WIDTH: 0.11%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 65.67%; TOP: 7.04%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:660;LineColor:#e0e0e0;lineColorBlink:False;LineStyle:2;LineWidth:3;points:0.000000 0.000000 0.000000 100.000000 ;Width:1;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelCharacterization class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 68.76%; TOP: 85.35%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">PV Characterization</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelFilteringTime class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 68.76%; TOP: 88.59%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Filter Lag Time</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVClamping class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; CURSOR: hand; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 68.76%; TOP: 91.83%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">PV Clamping</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPVSource class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 68.76%; TOP: 95.07%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:17;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">PV Source</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelPV class="hvg.textbox.1  HSC.ScriptDataObject.1 " style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 24.28%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 72.95%; TOP: 78.3%; BEHAVIOR: url(#HDXVectorFactory#text) url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:17;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:220;">PV</DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var pVUnitCode = this.DataValue("SLAnalogPoint.HEU");	
+
+	this.value = "PV (" + HART_GetShortSymbolFromStandardUnitCode(pVUnitCode) + ")";]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PVEXEULO"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HEU,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.HVG" refcount="1"/><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=ovalPVStatus class="hvg.base.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.11%; FONT-FAMILY: Arial; WIDTH: 1.65%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 68.76%; TOP: 11.12%; BEHAVIOR: url(#HDXVectorFactory#oval) url(#HSCScriptDataBehavior) url(#BindingBehavior); VISIBILITY: hidden" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;HDXBINDINGID:-4;Height:15;LineColor:#e0e0e0;lineColorBlink:False;Width:15;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var pvStatusCode = this.DataValue("SLAnalogPoint.PVSTS");
+	var pvStatusInfo = SL_GetAnalogPVStatus(pvStatusCode);
+
+	if (pvStatusInfo != "")
+	{
+		this.style.visibility = "visible";
+		alphaPVStatus.style.visibility = "visible";
+		this.lineColor = pvStatusInfo.lineColor;
+		this.fillColor = pvStatusInfo.fillColor;
+		alphaPVStatus.value = pvStatusInfo.statusString;
+		polygonCursorPV.lineColor = pvStatusInfo.lineColor;
+		polygonCursorPV.fillColor = pvStatusInfo.fillColor;
+	}
+	else
+	{
+		this.style.visibility = "hidden";
+		alphaPVStatus.style.visibility = "hidden";
+		polygonCursorPV.lineColor = statusDisplayScheme[0].lineColor;
+		polygonCursorPV.fillColor = statusDisplayScheme[0].fillColor;		
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PVSTS,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelAIChannel class="hvg.textbox.1 SL_MenuEntry" style="FONT-SIZE: 14pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 18.76%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: center; LEFT: 75.71%; TOP: 6.47%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:22;lineColorBlink:False;LineStyle:0;styleClass:SL_MenuEntry;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:170;">AI Channel</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickExtHi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTickExtHi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 6.19%; FONT-FAMILY: Arial; WIDTH: 1.98%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:44;LineColor:#c0c0c0;lineColorBlink:False;points:100 100 66.66667 0 66.66667 0 0 0 ;Width:18;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickHi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickLo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineTickExtLo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 6.19%; FONT-FAMILY: Arial; WIDTH: 1.98%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 69.57%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:44;LineColor:#c0c0c0;lineColorBlink:False;points:100 0 66.66667 100 66.66667 100 0 100 ;Width:18;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=lineTickExtLo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 0.14%; FONT-FAMILY: Arial; WIDTH: 3.31%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 80.24%; TOP: 75.77%; BEHAVIOR: url(#HDXVectorFactory#line)" hdxproperties="fillColorBlink:False;Height:1;LineColor:#c0c0c0;lineColorBlink:False;LineStyle:1;LineWidth:1;points:0 0 100 0 ;Width:30;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectExtScalePV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 57.46%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 83.77%; TOP: 18.3%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#c0c0c0;fillColorBlink:False;Height:408;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineNot2ScaleHi_ExtHi class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.25%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 83.77%; TOP: 20.14%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:16;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;points:0.000000 56.250000 96.153847 0.000000 0.000000 100.000000 0.000000 100.000000 100.000000 43.750000 100.000000 37.500000 ;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=rectScalePV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 45.07%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 83.77%; TOP: 24.5%; BEHAVIOR: url(#HDXVectorFactory#rect)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:320;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polygonCursorPV class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.39%; FONT-FAMILY: Arial; WIDTH: 1.76%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 86.53%; TOP: 58.45%; BEHAVIOR: url(#HDXVectorFactory#polygon)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:17;LineColor:#e0e0e0;lineColorBlink:False;points:91.30434 0 0 52.94118 100 100 100 0 100 0 ;Width:16;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaPV title="" class=hsc.alpha.1 style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: Arial; WIDTH: 8.38%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 88.63%; TOP: 58.3%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	var position;
+	var badValue = (this.value === undefined) || isNaN(this.value);
+	var badHiLo = (alphaHi.value === undefined) || isNaN(alphaHi.value) || (alphaLo.value === undefined) || isNaN(alphaLo.value) ||
+						(alphaHi.value <= alphaLo.value);
+
+	if (!badValue)
+	{
+		this.textColor = statusDisplayScheme[0].textColor;
+	}
+	else
+	{
+		this.textColor = statusDisplayScheme[3].textColor;
+	}
+
+	if (!badValue && !badHiLo)
+	{
+		if ((this.value >= alphaLo.value) && (this.value <= alphaHi.value))
+		{
+			position = Math.round(rectScalePV.style.pixelTop + rectScalePV.style.pixelHeight - rectScalePV.style.pixelHeight *
+						(this.value - alphaLo.value) / (alphaHi.value - alphaLo.value));
+			polygonCursorPV.style.visibility = "visible";
+			polygonCursorPV.style.pixelTop = Math.round(position - (polygonCursorPV.style.pixelHeight/2));
+		}
+		else if (this.value < alphaLo.value)
+		{
+			if ((alphaExtLo.value !== undefined) && (!isNaN(alphaExtLo.value)) && (this.value >= alphaExtLo.value))
+			{	
+				position = Math.round(rectExtScalePV.style.pixelTop + rectExtScalePV.style.pixelHeight - (rectExtScalePV.style.pixelTop + rectExtScalePV.style.pixelHeight - (rectScalePV.style.pixelTop + rectScalePV.style.pixelHeight)) *
+						(this.value - alphaExtLo.value) / (alphaLo.value - alphaExtLo.value));
+				polygonCursorPV.style.visibility = "visible";
+				polygonCursorPV.style.pixelTop = Math.round(position - (polygonCursorPV.style.pixelHeight/2));				
+			}
+			else
+			{
+				position = rectExtScalePV.style.pixelTop + rectExtScalePV.style.pixelHeight + offset;
+				polygonCursorPV.style.visibility = "hidden";							
+			}
+		}
+		else if ((alphaExtHi.value !== undefined) && (!isNaN(alphaExtHi.value)) && (this.value <= alphaExtHi.value))
+		{
+			position = Math.round(rectExtScalePV.style.pixelTop + (rectScalePV.style.pixelTop - rectExtScalePV.style.pixelTop) *
+						(alphaExtHi.value - this.value) / (alphaExtHi.value - alphaHi.value));
+			polygonCursorPV.style.visibility = "visible";
+			polygonCursorPV.style.pixelTop = Math.round(position - (polygonCursorPV.style.pixelHeight/2));				
+		}
+		else
+		{
+			position = rectExtScalePV.style.pixelTop - offset;
+			polygonCursorPV.style.visibility = "hidden";
+		}
+	}
+	else
+	{
+			position = rectExtScalePV.style.pixelTop - offset;
+			polygonCursorPV.style.visibility = "hidden";
+	}
+
+	this.style.pixelTop = Math.round(position - (alphaPV.style.pixelHeight/2));]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="2"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polylineNot2ScaleLo_extLo class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.25%; FONT-FAMILY: Arial; WIDTH: 2.75%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 83.66%; TOP: 71.4%; BEHAVIOR: url(#HDXVectorFactory#polyline)" hdxproperties="fillColorBlink:False;Height:16;LineColor:#ffffff;lineColorBlink:False;LineWidth:2;points:0.000000 56.250000 96.153847 0.000000 0.000000 100.000000 0.000000 100.000000 100.000000 43.750000 100.000000 37.500000 ;Width:25;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaLoopCurrent class="hsc.alpha.1 HSC.ScriptDataObject.1" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: none; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: Arial; WIDTH: 8.38%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 36.75%; TOP: 58.3%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #ffffff; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#ffffff;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.1f;textColor:#000000;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var pvRAW = this.DataValue("SLAnalogPoint.PVRAW");
+	var loopCurrent = (pvRAW / 100) * (20.0 - 4.0) + 4.0;
+	this.value = loopCurrent.toFixed(2);
+	var position;
+	if ((this.value >= 0) || (this.value< 0))
+	{	
+		this.textColor = statusDisplayScheme[0].textColor;
+		if ((this.value >= 3.1) && (this.value <= 21.5))
+		{
+			position = Math.round(rectFullRangeLoopCurrent.style.pixelTop + rectFullRangeLoopCurrent.style.pixelHeight *
+				(1 - (this.value - 3.1) / (21.5 - 3.1)));
+			polygonCursorLoopCurrent.style.visibility = "visible";
+			polygonCursorLoopCurrent.style.pixelTop = Math.round(position - (polygonCursorLoopCurrent.style.pixelHeight/2));
+		}
+		else if (this.value < 3.1)
+		{
+			position = rectFullRangeLoopCurrent.style.pixelTop + rectFullRangeLoopCurrent.style.pixelHeight + offset;
+			polygonCursorLoopCurrent.style.visibility = "hidden";
+		}
+		else
+		{
+			position = rectFullRangeLoopCurrent.style.pixelTop - offset;
+			polygonCursorLoopCurrent.style.visibility = "hidden";
+		}
+	}
+	else
+	{
+		this.textColor = statusDisplayScheme[3].textColor;
+		position = rectFullRangeLoopCurrent.style.pixelTop - offset;
+		polygonCursorLoopCurrent.style.visibility = "hidden";
+	}
+
+	this.style.pixelTop = Math.round(position - (alphaLoopCurrent.style.pixelHeight/2));]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PVRAW,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=polygonCursorLoopCurrent class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 2.39%; FONT-FAMILY: Arial; WIDTH: 1.76%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 45.36%; TOP: 58.45%; BEHAVIOR: url(#HDXVectorFactory#polygon)" hdxproperties="FillColor:#e0e0e0;fillColorBlink:False;Height:17;LineColor:#e0e0e0;lineColorBlink:False;points:8.695656 0 100 52.94118 0 100 0 0 0 0 ;Width:16;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaPVStatus title="" class="hsc.alpha.1 SL_GroupHeader" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: arial; WIDTH: 24.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 72.18%; TOP: 10.84%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:SL_GroupHeader;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaLoopCurrentStatus title="" class="hsc.alpha.1 SL_GroupHeader" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: arial; WIDTH: 24.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 38.18%; TOP: 10.84%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:SL_GroupHeader;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaDigitalPVStatus class="hsc.alpha.1 SL_GroupHeader" style="BORDER-TOP-STYLE: none; FONT-SIZE: 12pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.53%; FONT-FAMILY: arial; WIDTH: 24.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 3.53%; TOP: 10.84%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); VISIBILITY: hidden; BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:40;numericDisplayFormat:%s;styleClass:SL_GroupHeader;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaURL title="" class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 21.85%; TOP: 17.18%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaURV.value)
+	{
+		polylineTickURL.style.visibility = "visible";
+		lineTickURL.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickURL.style.visibility = "hidden";
+		lineTickURL.style.visibility = "visible";
+	}
+
+	if (alphaExtHi.value != alphaURL.value)
+	{
+		lineURL_ExtHi.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineURL_ExtHi.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="HTDURL"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaURV title="" class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 21.85%; TOP: 23.38%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+	
+	if (this.value == alphaURL.value)
+	{
+		polylineTickURL.style.visibility = "visible";
+		lineTickURL.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickURL.style.visibility = "hidden";
+		lineTickURL.style.visibility = "visible";
+	}
+
+	if (alphaHi.value != alphaURV.value)
+	{
+		lineURV_LoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		lineLoopCurrent_Hi.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineURV_LoopCurrent.lineColor = statusDisplayScheme[0].lineColor;
+		lineLoopCurrent_Hi.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="HPVURV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaLRV title="" class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 21.85%; TOP: 68.45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaLRL.value)
+	{
+		polylineTickLRL.style.visibility = "visible";
+		lineTickLRL.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickLRL.style.visibility = "hidden";
+		lineTickLRL.style.visibility = "visible";
+	}
+
+	if (alphaLo.value != alphaLRV.value)
+	{
+		lineLRV_LoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		lineLoopCurrent_Lo.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineLRV_LoopCurrent.lineColor = statusDisplayScheme[0].lineColor;
+		lineLoopCurrent_Lo.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="HPVLRV"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaLRL title="" class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.39%; FONT-FAMILY: arial; WIDTH: 7.28%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 21.85%; TOP: 74.64%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaLRV.value)
+	{
+		polylineTickLRL.style.visibility = "visible";
+		lineTickLRL.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickLRL.style.visibility = "hidden";
+		lineTickLRL.style.visibility = "visible";
+	}
+
+	if (alphaExtLo.value != alphaLRL.value)
+	{
+		lineLRL_ExtLo.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineLRL_ExtLo.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="HTDLRL"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelSaturationLimits title="Determines the value at which the loop current saturates on the high end. Hover over the parameter to see the corresponding current level." class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 34.65%; TOP: 88.59%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Saturation Limits</DIV>]]></content></html></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxLabelFailureMode title="Determines the loop current value used to report a device failure. Hover over the parameter to see the corresponding current level." class="hvg.textbox.1 SL_Label_Normal" style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 17.66%; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; LEFT: 34.65%; TOP: 85.35%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:20;lineColorBlink:False;LineStyle:0;styleClass:SL_Label_Normal;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:160;">Failure Mode</DIV>]]></content></html></element><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFilteringTime_alphaValueUnitString class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Numeric_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Numeric_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+	SL_ValueAndUnits_onDataChange(this);]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="TF,,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFilteringTime class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 3.09%; FONT-FAMILY: Arial; WIDTH: 13.24%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 84.1%; TOP: 88.59%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:120;" value = "1" src = ".\SL_Range_files\SL_AlpNum_Unit_OneString.sha" parameters = "Point?SLAnalogPoint:{%Point::SLAnalogPoint%};Parameter?SLAnalogPtParam:TF;Value?Unit:min;Parameter?UnitParam:;Value?UseNumDecimals:1;Value?NumDecimals:2;Value?TextAlign:0;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content><scripts><script event="onshapeload" language="JScript"><![CDATA[	SL_LogEvent(this, "onshapeload");
+	SL_SetReverseVideo(shapeFilteringTime_alphaValueUnitString, this.GetCustomProperty("Value", "TextAlign"), "Numeric");]]></script></scripts></html></group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaTransform title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 13.46%; TOP: 85.35%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var transformCode = parseInt(this.DataValue("SLAnalogPoint.HPVXFRCODE"));
+	var transformType = SL_GetTransformCharType(transformCode);
+	this.value = transformType;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HPVXFRCODE,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaFailureMode title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 47.9%; TOP: 85.35%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	if (SL_CheckScriptDataQuality(this, "SLAnalogPoint", "HPVALMCODE"))
+    {
+		var failureMode = this.DataValue("SLAnalogPoint.HPVALMCODE");
+
+		if (failureMode == 1)
+		{
+			this.value = "Low";
+			this.title = "A device failure will be indicated by a loop current less than 3.6 mA.";
+
+			rectAtFailLoLoopCurrent.style.visibility = "visible";
+			rectFailLoRangeLoopCurrent.style.visibility = "visible";
+			polylineTick3_6mA.style.visibility = "visible";
+			textboxLabel3_6mA.style.visibility = "visible";
+			rectAtFailHiLoopCurrent.style.visibility = "hidden";
+			rectFailHiRangeLoopCurrent.style.visibility = "hidden";
+			polylineTick21_0mA.style.visibility = "hidden";
+			textboxLabel21_0mA.style.visibility = "hidden";
+		}
+		else
+		{
+			this.value = "High";
+			this.title = "A device failure will be indicated by a loop current greater than 21.0 mA.";
+
+			rectAtFailLoLoopCurrent.style.visibility = "hidden";
+			rectFailLoRangeLoopCurrent.style.visibility = "hidden";
+			polylineTick3_6mA.style.visibility = "hidden";
+			textboxLabel3_6mA.style.visibility = "hidden";
+			rectAtFailHiLoopCurrent.style.visibility = "visible";
+			rectFailHiRangeLoopCurrent.style.visibility = "visible";
+			polylineTick21_0mA.style.visibility = "visible";
+			textboxLabel21_0mA.style.visibility = "visible";
+		}
+
+		this.StyleClass = "SL_Text_Right_Normal";
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HPVALMCODE,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaCharacterization title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 82.22%; TOP: 85.35%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var charCode = parseInt(this.DataValue("SLAnalogPoint.PVCHAR"));
+	var charType = SL_GetTransformCharType(charCode);
+	this.value = charType;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PVCHAR,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaPVClamping title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 82.22%; TOP: 91.83%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var pvClampOption = this.DataValue("SLAnalogPoint.PVCLAMP");
+
+	if (pvClampOption == 1)
+	{
+		this.value = "ON";
+	}
+	else
+	{
+		this.value = "OFF";
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PVCLAMP,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaPVSource class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 82.22%; TOP: 95.07%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	var pvSourceOption = this.DataValue("SLAnalogPoint.PVSRCOPT");
+	var pvSource = parseInt(this.DataValue("SLAnalogPoint.PVSOURCE"));
+	var pvSourceString = "Auto";
+
+	if (pvSourceOption == 1)
+	{
+		switch(pvSource)
+		{
+			case 0:	
+			pvSourceString = "External";
+			break;
+
+			case 1:
+			pvSourceString = "Man";
+			break;
+
+			case 2:
+			default:
+			pvSourceString = "Auto";
+			break;
+		}
+	}
+	this.value= pvSourceString;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PVSRCOPT,PVSOURCE,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeDamping_alphaValueUnitString class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Numeric_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Numeric_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+	SL_ValueAndUnits_onDataChange(this);]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="HPVDAMP,,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeDamping class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 3.09%; FONT-FAMILY: Arial; WIDTH: 13.24%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 15.34%; TOP: 88.59%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:120;" value = "1" src = ".\SL_Range_files\SL_AlpNum_Unit_OneString.sha" parameters = "Point?SLAnalogPoint:{%Point::SLAnalogPoint%};Parameter?SLAnalogPtParam:HPVDAMP;Value?Unit:s;Parameter?UnitParam:;Value?UseNumDecimals:1;Value?NumDecimals:2;Value?TextAlign:0;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content><scripts><script event="onshapeload" language="JScript"><![CDATA[	SL_LogEvent(this, "onshapeload");
+	SL_SetReverseVideo(shapeDamping_alphaValueUnitString, this.GetCustomProperty("Value", "TextAlign"), "Numeric");]]></script></scripts></html></group><group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapePercentOfRange_alphaValueUnitString class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Numeric_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 100%; FONT-FAMILY: arial; WIDTH: 100%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior) url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Numeric_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+	SL_ValueAndUnits_onDataChange(this);]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="percentRange,,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapePercentOfRange class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 3.09%; FONT-FAMILY: Arial; WIDTH: 13.24%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 15.34%; TOP: 91.83%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink)" hdxproperties="fillColorBlink:False;Height:22;lineColorBlink:False;Width:120;" value = "1" src = ".\SL_Range_files\SL_AlpNum_Unit_OneString.sha" parameters = "Point?SLAnalogPoint:{%Point::SLAnalogPoint%};Parameter?SLAnalogPtParam:percentRange;Value?Unit:%;Parameter?UnitParam:;Value?UseNumDecimals:1;Value?NumDecimals:2;Value?TextAlign:0;" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content><scripts><script event="onshapeload" language="JScript"><![CDATA[	SL_LogEvent(this, "onshapeload");
+	SL_SetReverseVideo(shapePercentOfRange_alphaValueUnitString, this.GetCustomProperty("Value", "TextAlign"), "Numeric");]]></script></scripts></html></group><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaSaturationLimits title="" class="hsc.alpha.1  HSC.ScriptDataObject.1 SL_Text_Right_BadQuality" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 15.01%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #ffffff; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 47.9%; TOP: 88.59%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior)  url(#HSCScriptDataBehavior); BACKGROUND-COLOR: #404040; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:#404040;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:30;numericDisplayFormat:%s;styleClass:SL_Text_Right_BadQuality;textColor:#FFFFFF;textColorBlink:False;">Text</TEXTAREA>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	if (SL_CheckScriptDataQuality(this, "SLAnalogPoint", "Namur_option"))
+    {
+		var namurOption = this.DataValue("SLAnalogPoint.Namur_option");
+
+		if (namurOption == 0)
+		{
+			this.value = "Honeywell";
+			this.title = "The upper saturation limit for the loop current is 20.8 mA.";
+
+			rectExtRangeLoopCurrent.style.visibility = "visible";
+			lineTick20_8mA.style.visibility = "visible";
+			textboxLabel20_8mA.style.visibility = "visible";
+			rectExtRangeNamurLoopCurrent.style.visibility = "hidden";
+			lineTick20_5mA.style.visibility = "hidden";
+			textboxLabel20_5mA.style.visibility = "hidden";
+		}
+		else if (namurOption == 1)
+		{
+			this.value = "NAMUR";
+			this.title = "The upper saturation limit for the loop current is 20.5 mA.";
+
+			rectExtRangeLoopCurrent.style.visibility = "hidden";
+			lineTick20_8mA.style.visibility = "hidden";
+			textboxLabel20_8mA.style.visibility = "hidden";
+			rectExtRangeNamurLoopCurrent.style.visibility = "visible";
+			lineTick20_5mA.style.visibility = "visible";
+			textboxLabel20_5mA.style.visibility = "visible";
+		}
+		else
+		{
+			this.value = "Unknown";
+			rectExtRangeLoopCurrent.style.visibility = "visible";
+			lineTick20_8mA.style.visibility = "visible";
+			textboxLabel20_8mA.style.visibility = "visible";
+			rectExtRangeNamurLoopCurrent.style.visibility = "hidden";
+			lineTick20_5mA.style.visibility = "hidden";
+			textboxLabel20_5mA.style.visibility = "hidden";
+		}
+
+		this.StyleClass = "SL_Text_Right_Normal";
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="Namur_option,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxAcceptTransmitterRange title="Click here to copy the Transmitter range values to the corresponding AI Channel range values." class="hvg.textbox.1  HSC.ScriptDataObject.1 " style="FONT-SIZE: 12pt; OVERFLOW: hidden; CURSOR: hand; TEXT-DECORATION: ; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 29.8%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #1792e5; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 70.19%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior) url(#HSCScriptDataBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:22;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#1792E5;textColorBlink:False;TotalRotation:-1;Width:270;">Accept Transmitter Range</DIV>]]></content><scripts><script event="OnCalloutResponse" language="JScript"><![CDATA[	SL_LogEvent(this, "OnCalloutResponse");
+
+	if (window.external.calloutresponse == "Y")
+	{
+		// Write to the point parameter that will trigger the action to update the range values.
+		this.DataValue("SLAnalogPoint.ACCEPTRNG") = 1;
+		//this.disabled = true;
+	}]]></script><script event="onclick" language="JScript"><![CDATA[	SL_LogEvent(this, "onclick");
+	window.external.showCallout(this, "Are you sure you want to accept the Transmitter range values?", 1, 60);]]></script><script event="onmouseenter" language="JScript"><![CDATA[	this.style.textDecorationUnderline = true;]]></script><script event="onmouseleave" language="JScript"><![CDATA[	this.style.textDecorationUnderline = false;]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="ACCEPTRNG,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=","/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxEditingMessage class="hvg.textbox.1 " style="FONT-SIZE: 11pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 3.09%; FONT-FAMILY: arial; WIDTH: 29.8%; POSITION: absolute; FONT-WEIGHT: normal; COLOR: #404040; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 70.19%; TOP: 2.25%; BEHAVIOR: url(#HDXVectorFactory#text)  url(#BindingBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:22;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;LineStyle:0;styleClass:;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:270;">(Inactivate&nbsp;channel to enable editing)</DIV>]]></content></html><binding/></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaHi class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 7.06%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 73.06%; TOP: 23.38%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaExtHi.value)
+	{
+		polylineTickExtHi.style.visibility = "visible";
+		lineTickExtHi.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickExtHi.style.visibility = "hidden";
+		lineTickExtHi.style.visibility = "visible";
+	}
+
+	if (alphaHi.value != alphaURV.value)
+	{
+		lineURV_LoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		lineLoopCurrent_Hi.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineURV_LoopCurrent.lineColor = statusDisplayScheme[0].lineColor;
+		lineLoopCurrent_Hi.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script><script event="onchange" language="JScript"><![CDATA[	SL_LogEvent(this, "onchange");
+
+	window.external.showCallout(this, "Are you sure you want to change the Hi range value from " + this.currentValue + " to " + this.value + "?", 1, 60);
+
+	// Store the newly entered value temporarily so that it can be set as the current value if the user confirms the action.
+	alphaHi_temp = this.value;
+
+	// Prevent the database from being updated with the entered value until the user confirms the action.
+	this.CancelChange();
+	window.event.returnValue = "false";]]></script><script event="OnCalloutResponse" language="JScript"><![CDATA[	SL_LogEvent(this, "OnCalloutResponse");
+
+	if (window.external.calloutresponse == "Y")
+	{
+		this.value = alphaHi_temp;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PVEUHI"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaLo class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 7.06%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 73.06%; TOP: 68.45%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaExtLo.value)
+	{
+		polylineTickExtLo.style.visibility = "visible";
+		lineTickExtLo.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickExtLo.style.visibility = "hidden";
+		lineTickExtLo.style.visibility = "visible";
+	}
+
+	if (alphaLo.value != alphaLRV.value)
+	{
+		lineLRV_LoopCurrent.lineColor = statusDisplayScheme[3].lineColor;
+		lineLoopCurrent_Lo.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineLRV_LoopCurrent.lineColor = statusDisplayScheme[0].lineColor;
+		lineLoopCurrent_Lo.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script><script event="onchange" language="JScript"><![CDATA[	SL_LogEvent(this, "onchange");
+
+	window.external.showCallout(this, "Are you sure you want to change the Lo range value from " + this.currentValue + " to " + this.value + "?", 1, 60);
+
+	// Store the newly entered value temporarily so that it can be set as the current value if the user confirms the action.
+	alphaLo_temp = this.value;
+
+	// Prevent the database from being updated with the entered value until the user confirms the action.
+	this.CancelChange();
+	window.event.returnValue = "false";]]></script><script event="OnCalloutResponse" language="JScript"><![CDATA[	SL_LogEvent(this, "OnCalloutResponse");
+
+	if (window.external.calloutresponse == "Y")
+	{
+		this.value = alphaLo_temp;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PVEULO"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaExtLo class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 7.06%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 73.06%; TOP: 74.64%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaLo.value)
+	{
+		polylineTickExtLo.style.visibility = "visible";
+		lineTickExtLo.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickExtLo.style.visibility = "hidden";
+		lineTickExtLo.style.visibility = "visible";
+	}
+
+	if (alphaExtLo.value != alphaLRL.value)
+	{
+		lineLRL_ExtLo.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineLRL_ExtLo.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script><script event="onchange" language="JScript"><![CDATA[	SL_LogEvent(this, "onchange");
+
+	window.external.showCallout(this, "Are you sure you want to change the ExtLo range value from " + this.currentValue + " to " + this.value + "?", 1, 60);
+
+	// Store the newly entered value temporarily so that it can be set as the current value if the user confirms the action.
+	alphaExtLo_temp = this.value;
+
+	// Prevent the database from being updated with the entered value until the user confirms the action.
+	this.CancelChange();
+	window.event.returnValue = "false";]]></script><script event="OnCalloutResponse" language="JScript"><![CDATA[	SL_LogEvent(this, "OnCalloutResponse");
+
+	if (window.external.calloutresponse == "Y")
+	{
+		this.value = alphaExtLo_temp;
+	}]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PVEXEULO"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="-1"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/><class ID="HSC.ParameterFormat" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=alphaExtHi title="" class="hsc.alpha.1 SL_Numeric_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 2.81%; FONT-FAMILY: arial; WIDTH: 7.06%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: right; BORDER-RIGHT-STYLE: none; LEFT: 73.06%; TOP: 17.18%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:black;lineColorBlink:False;numberOfChars:9;numericDisplayFormat:%.2f;styleClass:SL_Numeric_Normal;textColor:#404040;textColorBlink:False;">9999.99</TEXTAREA>]]></content><scripts><script event="onupdate" language="JScript"><![CDATA[	var	numDecimals = SL_GetNumDecimals(this.value);
+
+	this.numericDisplayFormat = "%." + String(numDecimals) + "f";
+
+	if (this.value == alphaHi.value)
+	{
+		polylineTickExtHi.style.visibility = "visible";
+		lineTickExtHi.style.visibility = "hidden";
+	}
+	else
+	{
+		polylineTickExtHi.style.visibility = "hidden";
+		lineTickExtHi.style.visibility = "visible";
+	}
+
+	if (alphaExtHi.value != alphaURL.value)
+	{
+		lineURL_ExtHi.lineColor = statusDisplayScheme[3].lineColor;
+	}
+	else
+	{
+		lineURL_ExtHi.lineColor = statusDisplayScheme[0].lineColor;
+	}]]></script><script event="OnCalloutResponse" language="JScript"><![CDATA[	SL_LogEvent(this, "OnCalloutResponse");
+
+	if (window.external.calloutresponse == "Y")
+	{
+		this.value = alphaExtHi_temp;
+	}]]></script><script event="onchange" language="JScript"><![CDATA[	SL_LogEvent(this, "onchange");
+
+	window.external.showCallout(this, "Are you sure you want to change the ExtHi range value from " + this.currentValue + " to " + this.value + "?", 1, 60);
+
+	// Store the newly entered value temporarily so that it can be set as the current value if the user confirms the action.
+	alphaExtHi_temp = this.value;
+
+	// Prevent the database from being updated with the entered value until the user confirms the action.
+	this.CancelChange();
+	window.event.returnValue = "false";]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.3"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="2"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="PVEXEUHI"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="CalloutElement" varianttype="VT_BSTR" value=""/><property name="ParameterFormat" varianttype="VT_BOOL" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="0"/></dataobjectdef></dataobject><class ID="HSC.Alpha" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupRange class="hvg.group.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 0pt; HEIGHT: 710px; WIDTH: 906px; POSITION: absolute; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:710;lineColorBlink:False;Width:906;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	SL_LogEvent(this, "ondatachange");
+
+	// If the current state is "Active":
+	//      - show the message on how to enable editing
+	//      - disable the AI Channel range value controls
+	//      - hide the border on the AI Channel range value controls
+	//      - hide the Accept Transmitter Range control
+	// If the current state is "Inactive":
+	//      - hide the message on how to enable editing
+	//      - enable the AI Channel range value controls
+	//      - show the border on the AI Channel range value controls
+	//      - show the Accept Transmitter Range control if there is a range mismatch
+
+	var executionState = new SL_ScriptData("PTEXECST");
+	executionState.Fetch(this, "SLAnalogPoint");
+
+	if (executionState.changed && executionState.valid)
+	{
+		// Initialize variables for the "Active" case;
+		var borderStyle = "none";
+		var disableControls = true;
+		var showEditingMessage = true;
+
+		if (executionState.value == "Inactive")
+		{
+			borderStyle = "solid";
+			disableControls = false;
+			showEditingMessage = false;
+			editingEnabled = true;
+		}
+
+		alphaExtHi.style.borderStyle = borderStyle;
+		alphaExtHi.disabled = disableControls;
+
+		alphaHi.style.borderStyle = borderStyle;
+		alphaHi.disabled = disableControls;
+
+		alphaLo.style.borderStyle = borderStyle;
+		alphaLo.disabled = disableControls;
+
+		alphaExtLo.style.borderStyle = borderStyle;
+		alphaExtLo.disabled = disableControls;
+
+		SL_SetVisibility(textboxEditingMessage, showEditingMessage);
+
+		SL_LogDebugLevelMessage(4, "groupRange_ondatachange", "Execution State = " + executionState.value + ", Disable Controls = " + disableControls + ", Border Style = " + borderStyle + ", Show Editing Message = " + showEditingMessage);
+	}
+
+	var rangeMismatch = new SL_ScriptData("HPVMISM");
+	rangeMismatch.Fetch(this, "SLAnalogPoint");
+	if ((rangeMismatch.changed || executionState.changed) && rangeMismatch.valid)
+	{
+		SL_SetVisibility(ovalRangeMismatch, rangeMismatch.value);
+		SL_SetVisibility(textboxRangeMismatch, rangeMismatch.value);
+
+		var editingEnabled = (executionState.valid && (executionState.value == "Inactive"));
+		SL_SetVisibility(textboxAcceptTransmitterRange, (editingEnabled && rangeMismatch.value));
+
+		SL_LogDebugLevelMessage(4, "groupRange_ondatachange", "Range Mismatch = " + rangeMismatch.value + ", Accept Transmitter Range Visibility = " + textboxAcceptTransmitterRange.style.visibility);
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::SLAnalogPoint%},{%Point::SLAnalogPoint%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="PTEXECST,HPVMISM,"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="1,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></group></shape></shapes></shapefile>

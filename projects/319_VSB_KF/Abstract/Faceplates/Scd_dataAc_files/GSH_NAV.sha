@@ -1,0 +1,53 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="124px" height="16px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="" language="VBScript" id="7847A24D-EF2F-4637-BC2A-16B38D159FFA"><![CDATA[sub page_OnMouseOver
+    if instr(window.event.srcelement.id, "Txt")>0 or instr(window.event.srcelement.id, "RecF")>0 then window.event.srcelement.style.cursor="hand"
+end sub
+
+sub page_onClick
+	if instr(window.event.srcelement.id, "Txt")>0 or instr(window.event.srcelement.id, "RecF")>0 then window.external.currentpage=window.event.srcelement.title
+end sub
+
+sub alm_upd(oSource)
+	dim oShape
+	'on Error Resume Next
+	set oShape=oSource.parentnode.parentnode
+	set oObj=oShape.objects("TxtDspName")
+	oObj.value=oSource.datavalue("tagname.description") 
+	sDsp=oShape.getCustomProperty("Point","tagname")
+	oObj.title=mid(sDsp,1,len(sDsp)-2)
+	iAlarm=oSource.dataalarm("tagname.description")
+	iPr=(iAlarm and 48)/16
+	select case iPr
+	case 0 oSource.styleclass=oSource.styleclass
+	case 1 oSource.fillcolor=AlarmStateIconfactory.LowColor
+	case 2 oSource.fillcolor=AlarmStateIconfactory.HighColor
+	case 3 oSource.fillcolor=AlarmStateIconfactory.UrgentColor
+	end select
+	if (iAlarm and 1024)=1024 then 
+		oSource.fillcolorblink=true
+    else
+		oSource.fillcolorblink=false
+	end if
+end sub
+
+
+sub alm_upd_arr(oSource)
+	dim oShape
+	'on Error Resume Next
+	set oShape=oSource.parentnode
+	sDsp=oShape.getCustomProperty("Point","tagname")
+	oSource.title=mid(sDsp,1,len(sDsp)-2)
+	iAlarm=oSource.dataalarm("tagname.description")
+	iPr=(iAlarm and 48)/16
+	select case iPr
+	case 0 oSource.styleclass=oSource.styleclass
+	case 1 oSource.fillcolor=AlarmStateIconfactory.LowColor
+	case 2 oSource.fillcolor=AlarmStateIconfactory.HighColor
+	case 3 oSource.fillcolor=AlarmStateIconfactory.UrgentColor
+	end select
+	if (iAlarm and 1024)=1024 then 
+		oSource.fillcolorblink=true
+    else
+		oSource.fillcolorblink=false
+	end if
+end sub]]></script></scripts><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textbox001 class=hvg.textbox.1 style="FONT-SIZE: 10pt; OVERFLOW: hidden; HEIGHT: 16px; FONT-FAMILY: Arial; WIDTH: 124px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 56px; TOP: 36px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#ffffff;fillColorBlink:False;FillStyle:0;Height:16;lineColorBlink:False;LineStyle:1;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:124;">GSH_NAV</DIV>]]></content></html></element></shape></shapes></shapefile>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="288px" height="196px"><versionheaders><versionheader name="PS" value="6.21"/></versionheaders><stylesheets><stylesheet src=".\Styles\SmartLineStyles.css"/></stylesheets><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[	SL_LogEvent(this, "onshapeload");
+
+	transmitterType = this.GetCustomProperty("Value", "TransmitterType");
+	displayTabName = "sysdtlSmartLine" + transmitterType + "_FaultsResolutions.htm";]]></script><script event="" language="JScript" id="CE670CD2-6F50-4EC7-9D87-89A41572EA69"><![CDATA[function groupFaultList_updateView(shape)
+{
+
+	SL_LogFunctionParameters(2, "groupFaultList_updateView", "shape = " + shape.id);
+
+	// Find out number of rows available to show active faults in the shape.
+	var faultList = shape.objects("groupFaults");
+	maxRows = faultList.children.length;
+
+	// Determine how many rows of faults there are to show. This is limited to
+	// the number of rows in the shape.
+	var maxFaults = Math.min(maxRows, SL_Device.allFaults.length);
+
+	// Fill in the top rows with any available status information
+	var fillColor;
+	var lineColor;
+
+	if (maxFaults > 0)
+	{
+		// Make the "View Details" link visible if there are any active faults to show.
+		shape.objects("textboxViewDetails").style.visibility = "visible";
+
+		for (i = 0; i < maxFaults; i++)
+		{
+			switch (SL_Device.allFaults[i].criticality)
+			{
+				case 0:
+					fillColor = statusDisplayScheme[3].fillColor;
+					lineColor = statusDisplayScheme[3].lineColor;
+					break;
+
+				case 1:
+				default:
+					fillColor = statusDisplayScheme[2].fillColor;
+					lineColor = statusDisplayScheme[2].lineColor;
+					break;
+			}
+
+			faultList.children[i].objects("alphaFault").value = SL_Device.allFaults[i].name;
+			faultList.children[i].objects("ovalCriticality").fillColor = fillColor;
+			faultList.children[i].objects("ovalCriticality").lineColor = lineColor;
+			faultList.children[i].style.visibility = "visible";
+		}
+	}
+	else
+	{
+		faultList.children[0].objects("alphaFault").value = "No fault conditions";
+		faultList.children[0].objects("ovalCriticality").fillColor = statusDisplayScheme[0].fillColor;
+		faultList.children[0].objects("ovalCriticality").lineColor = statusDisplayScheme[0].lineColor;
+		faultList.children[0].style.visibility = "visible";
+
+		maxFaults = 1;
+	}
+
+	// Clear out any leftover text from any remaining empty rows.
+	for (i = maxFaults; i < maxRows; i++)
+	{
+		faultList.children[i].objects("alphaFault").value = "";
+		faultList.children[i].style.visibility = "hidden";
+	}
+}]]></script></scripts><parameters><parameter name="TransmitterType" type="Value" description="Transmitter type: Level, Pressure, Temperature, Multivariable" defaultvalue=""/><parameter name="TransmitterModel" type="Value" description="String that identifies the transmitter model, such as STT850." defaultvalue=""/><parameter name="NumberOfDeviceStatusBytes" type="Value" description="The number of device specific status buyes incorporated in command 220." defaultvalue=""/><parameter name="SLAnalogPoint" type="Point" description="" defaultvalue="&lt;CurrentPoint&gt;"/></parameters><shapes><shape><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxHeader class="hvg.textbox.1 SL_GroupHeader" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: ; HEIGHT: 9.18%; FONT-FAMILY: arial; WIDTH: 57.29%; POSITION: absolute; FONT-WEIGHT: bold; COLOR: #404040; TEXT-ALIGN: left; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SL_GroupHeader;textColor:#404040;textColorBlink:False;TotalRotation:-1;Width:165;">Fault Conditions</DIV>]]></content></html></element><group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault001_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault001_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault001_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault001 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault002_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault002_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault002_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault002 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 17.85%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault003_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault003_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault003_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault003 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 35.71%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault004_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault004_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault004_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault004 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 53.57%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault005_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault005_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault005_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault005 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 71.42%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><group><group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault006_ovalCriticality class=hvg.base.1 style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 61.11%; FONT-FAMILY: Arial; WIDTH: 3.95%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 16.66%; BEHAVIOR: url(#HDXVectorFactory#oval)" hdxproperties="FillColor:#ee3124;fillColorBlink:False;FillStyle:0;Height:11;LineColor:#ee3124;lineColorBlink:False;Width:11;"></DIV>]]></content></html></element><element><html><content><![CDATA[<TEXTAREA tabIndex=0 id=shapeFault006_alphaFault class="hsc.alpha.1 SL_Text_Normal" style="BORDER-TOP-STYLE: none; FONT-SIZE: 11pt; OVERFLOW: hidden; WORD-WRAP: normal; TEXT-DECORATION: ; BORDER-LEFT-STYLE: none; HEIGHT: 94.44%; FONT-FAMILY: arial; WIDTH: 89.92%; BORDER-BOTTOM-STYLE: none; POSITION: absolute; COLOR: #404040; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; LEFT: 10.07%; TOP: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); BACKGROUND-COLOR: transparent; ROWS: 1" hdxproperties="durationFormat:-1;fillColor:transparent;fillColorBlink:False;HDXBINDINGID:-4;lineColor:transparent;lineColorBlink:False;numberOfChars:200;numericDisplayFormat:%s;styleClass:SL_Text_Normal;textColor:#404040;textColorBlink:False;">Text</TEXTAREA>]]></content></html><binding/></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault006_groupFault class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;"></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=shapeFault006 class=hsc.shape.1 style="FONT-SIZE: 0px; TEXT-DECORATION: none; HEIGHT: 10.71%; FONT-FAMILY: Arial; WIDTH: 100%; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0%; TOP: 89.28%; BEHAVIOR: url(#HSCShapeLinkBehavior) url(#HDXVectorFactory#shapelink); VISIBILITY: hidden" hdxproperties="fillColorBlink:False;Height:18;lineColorBlink:False;Width:278;" value = "1" src = ".\SL_FaultList_files\SL_Fault.sha" parameters = "" linkType = "embedded" globalscripts = "" styleClass = ""></DIV>]]></content></html></group><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupFaults class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 85.71%; WIDTH: 96.52%; POSITION: absolute; LEFT: 0%; TOP: 14.28%; BEHAVIOR: url(#HDXVectorFactory#group)  url(#BindingBehavior)" hdxproperties="fillColorBlink:False;HDXBINDINGID:-4;Height:168;indicateAlarmState:False;indicateScanState:False;lineColorBlink:False;Width:278;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[SL_LogFunctionEntry(null, "groupFaults_ondatachange");
+
+	//SL_UpdateFaults(this, "SLAnalogPoint");
+
+	// Find out number of rows available to show active faults in the shape.
+	//maxRows = this.children.length;
+
+	// Determine how many rows of faults there are to show. This is limited to
+	// the number of rows in the shape.
+	//var maxFaults = Math.min(maxRows, SL_Device.allFaults.length);
+
+	// Fill in the top rows with any available status information
+	//var fillColor;
+	//var lineColor;
+
+	//if (maxFaults > 0)
+	//{
+		// Make the "View Details" link visible if there are any active faults to show.
+		//textboxViewDetails.style.visibility = "visible";
+
+		//for (i = 0; i < maxFaults; i++)
+		//{
+			//switch (SL_Device.allFaults[i].criticality)
+			//{
+				//case 0:
+					//fillColor = statusDisplayScheme[3].fillColor;
+					//lineColor = statusDisplayScheme[3].lineColor;
+					//break;
+
+				//case 1:
+				//default:
+					//fillColor = statusDisplayScheme[2].fillColor;
+					//lineColor = statusDisplayScheme[2].lineColor;
+					//break;
+			//}
+
+			//groupFaults.children[i].objects("alphaFault").value = SL_Device.allFaults[i].name;
+			//groupFaults.children[i].objects("ovalCriticality").fillColor = fillColor;
+			//groupFaults.children[i].objects("ovalCriticality").lineColor = lineColor;
+			//groupFaults.children[i].style.visibility = "visible";
+		//}
+	//}
+	//else
+	//{
+		//groupFaults.children[0].objects("alphaFault").value = "No fault conditions";
+		//groupFaults.children[0].objects("ovalCriticality").fillColor = statusDisplayScheme[0].fillColor;
+		//groupFaults.children[0].objects("ovalCriticality").lineColor = statusDisplayScheme[0].lineColor;
+		//groupFaults.children[0].style.visibility = "visible";
+
+		//maxFaults = 1;
+	//}
+
+	// Clear out any leftover text from any remaining empty rows.
+	//for (i = maxFaults; i < maxRows; i++)
+	//{
+		//groupFaults.children[i].objects("alphaFault").value = "";
+		//groupFaults.children[i].style.visibility = "hidden";
+	//}]]></script></scripts></html><binding/></group><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textboxViewDetails title="Click here to navigate to the Faults and Resolution tab to see possibe causes and suggested resolutions for each active condition." class="hvg.textbox.1 SL_Link_Right" style="FONT-SIZE: 11pt; OVERFLOW: hidden; CURSOR: hand; TEXT-DECORATION: ; HEIGHT: 9.18%; FONT-FAMILY: arial; WIDTH: 41.66%; POSITION: absolute; COLOR: #1792e5; TEXT-ALIGN: right; LEFT: 57.98%; TOP: 0%; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;Height:18;LineColor:transparent;lineColorBlink:False;LineStyle:0;styleClass:SL_Link_Right;textColor:#1792E5;textColorBlink:False;TotalRotation:-1;Width:120;">View Details</DIV>]]></content><scripts><script event="onmouseenter" language="JScript"><![CDATA[	this.style.textDecorationUnderline = true;]]></script><script event="onmouseleave" language="JScript"><![CDATA[	this.style.textDecorationUnderline = false;]]></script><script event="onclick" language="JScript"><![CDATA[SL_LogEvent(this, "onclick");
+
+	try
+	{
+		LoadDisplayTab(displayTabName);
+	}
+	catch(error)
+	{
+		SL_LogErrorMessage("SL_FaultList.textboxViewDetails_onclick", "Could not navigate to the Faults and Resolutions page.", error);
+	}]]></script></scripts></html></element><html><content><![CDATA[
+<DIV tabIndex=-1 id=groupFaultList class=hvg.group.1 style="FONT-SIZE: 0pt; HEIGHT: 196px; WIDTH: 288px; POSITION: absolute; LEFT: 85px; TOP: 38px; BEHAVIOR: url(#HDXVectorFactory#group)" hdxproperties="fillColorBlink:False;Height:196;lineColorBlink:False;Width:288;"></DIV>]]></content></html></group></shape></shapes></shapefile>

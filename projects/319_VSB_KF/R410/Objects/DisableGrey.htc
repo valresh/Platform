@@ -1,0 +1,144 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/_Master/Common/Objects/DisableGrey.htc $								
+$Workfile: DisableGrey.htc $												
+$Modtime: 3/18/08 5:02p $											
+$Revision: 5 $
+$Author: Stickell $														
+***************************************************************************
+This behavior provides an 'enabled' property which is the opposite of, and 
+is kept in synch with the DHTML 'disabled' property.
+
+The element and any children (including images) are greyed out whenever 
+'enabled' is false.
+***************************************************************************
+The host page must import the Utilities scripts without the defer
+attribute in order to use this behavior.
+***************************************************************************
+-->
+<public:component name="DisableGrey" urn="DisableGrey">
+	<public:property name="enabled" id="enabled" value="true" put="PutEnabled" get="GetEnabled"/>
+	<public:attach event="oncontentready" onevent="OnContentReady" for="Element"/>
+	<public:attach event="onpropertychange" onevent="OnPropertyChange" for="Element"/>
+</public:component>
+<script language="vbscript" defer>
+	Option Explicit
+	
+	Dim g_bUpdatingDisabled
+	g_bUpdatingDisabled = False
+	
+	Dim g_bInitiallyEnabled
+	g_bInitiallyEnabled = True
+	
+	Dim g_bInitialized
+	g_bInitialized = False
+	
+	'-----------------------------------------------------------------------
+	' PutEnabled
+	'-----------------------------------------------------------------------
+	' This is the write-accessor for the 'enabled' property. It sets the 
+	' filters on the host element, fires a notification then synchronizes
+	' the built-in 'disabled' event.
+	'
+	' Note: because no events get fired if the element is disabled, any
+	' scripts wanting to monitor the state of this object will get a
+	' propertychange event for 'enabled' when the object is about to be 
+	' _dis_abled and a property change event for 'disabled' when the object
+	' has just been _en_abled. Ie, whichever property you get the event for,
+	' the other state is correct.
+	'-----------------------------------------------------------------------
+	Sub PutEnabled(varEnabled)
+	On Error Resume Next
+		Dim bEnabled
+		bEnabled = parseBoolean(varEnabled, True)
+		
+		If g_bInitialized Then
+			Element.filters.item("DXImageTransform.Microsoft.BasicImage").Enabled = Not bEnabled
+			Dim objChild
+			For Each objChild In Element.children
+				objChild.filters.item("DXImageTransform.Microsoft.BasicImage").Enabled = Not bEnabled
+			Next			
+			g_bUpdatingDisabled = True
+			enabled.fireChange	' Only fires if the element is not yet disabled (but is about to be disabled)
+			Element.disabled = Not bEnabled
+			enabled.fireChange	' Only fires when the element has just been enabled. 
+		Else
+			g_bInitiallyEnabled = bEnabled
+		End If
+	End Sub
+	
+	'-----------------------------------------------------------------------
+	' GetEnabled
+	'-----------------------------------------------------------------------
+	' This function is the read-accessor for the built-in 'enabled' state.
+	' It is determined by the state of the filters on the object rather than 
+	' by the inverse of the 'disabled' state because we need to be able to
+	' determine this in the gap between the 'enabled' event being fired and
+	' the element being set to 'disabled'. This is because no events get
+	' sent after the element is disabled, so we need to allow interested
+	' parties to watch for something that occurs before the element is 
+	' actually disabled.
+	'-----------------------------------------------------------------------
+	Function GetEnabled()
+	On Error Resume Next
+		If g_bInitialized Then
+			GetEnabled = Not Element.filters.item("DXImageTransform.Microsoft.BasicImage").Enabled
+		Else
+			GetEnabled = Not Element.isDisabled
+		End If
+	End Function
+		
+	'-----------------------------------------------------------------------
+	' OnContentReady
+	'-----------------------------------------------------------------------
+	' This function initializes the filters on the host element.
+	'-----------------------------------------------------------------------
+	Sub OnContentReady()
+	On Error Resume Next
+		Dim strFilter
+		strFilter = "progid:DXImageTransform.Microsoft.BasicImage(grayscale=1, opacity=0.25, enabled=false)"
+		Element.style.filter = strFilter
+		Dim objChild
+		For Each objChild In Element.childNodes
+			objChild.style.filter = strFilter
+		Next			
+		g_bInitialized = True	' The proper filters are now available.		
+		
+		Dim varDisabled
+		varDisabled = Element.getAttribute("disabled", 2)
+			
+		Dim bInitiallyDisabled
+		bInitiallyDisabled = parseBoolean(Element.getAttribute("disabled", 2), True)
+		If bInitiallyDisabled Or Not g_bInitiallyEnabled Then
+			PutEnabled False
+		End If
+	End Sub
+	
+	'-----------------------------------------------------------------------
+	' OnPropertyChange
+	'-----------------------------------------------------------------------
+	' This function is called whenever a property on the host element changes.
+	'-----------------------------------------------------------------------
+	Function OnPropertyChange()
+	On Error Resume Next
+		OnPropertyChange = False
+		
+		'.......................................................................
+		' Retrieve the name of the property that has changed.
+		'.......................................................................
+		Dim strProperty
+		strProperty = window.event.propertyName
+		Select Case LCase(strProperty)
+			Case "disabled":
+				If g_bUpdatingDisabled Then
+					g_bUpdatingDisabled = False
+				Else				
+					PutEnabled (Not Element.disabled)
+					'OnPropertyChange = True		' We have handled the event.
+				End If
+		End Select
+	End Function
+</script>
+
+

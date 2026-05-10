@@ -1,0 +1,49 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="25px" height="25px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="onshapeload" language="JScript" id=""><![CDATA[document.RequestParamReferenceResolution= function() {
+		scriptDataObj.RequestDemandData();
+	};]]></script><script event="" language="JScript" id="335D6644-125B-41F2-8037-2C20BBCE7839"><![CDATA[//Globals
+
+var PARAM_NAME_LIST = [
+	"TARGETVAL", 
+	"TARGETEUDESC", 
+	"ENTRYVAL", 
+	"ENTRYEUDESC", 
+	"INSTRUCTION", 
+	"NOTE", 
+	"TARGETLABEL", 
+	"ENTRYLABEL", 
+	"ACTENTITY", 
+	"BASENAME",
+	"TARGETCHANGE",
+	"CURRVALREF",
+	"MONTASKREF"
+];
+
+var resolvedParams = {};
+
+function RetrieveBindingValue(elem, customPropertyParamName) {
+
+	var refString = elem.DataValue("MSGPOINT." + customPropertyParamName);
+	if (customPropertyParamName == "TARGETCHANGE" && typeof(refString) == "number") {
+		refString = refString == 0 ? "false" : "true";
+	}
+	if (typeof(refString) != "string"){
+		window.external.application.logMessage("IriParamResolution: failed to resolve value for param " + customPropertyParamName + " (not a string)");
+		return null;
+	} else {
+		return refString;
+	}
+}]]></script></scripts><parameters><parameter name="MSGPOINT" type="Point" description="" defaultvalue=""/><parameter name="TARGETVAL" type="Parameter" description="" defaultvalue=""/><parameter name="ENTRYVAL" type="Parameter" description="" defaultvalue=""/><parameter name="TARGETEUDESC" type="Parameter" description="" defaultvalue=""/><parameter name="ENTRYEUDESC" type="Parameter" description="" defaultvalue=""/><parameter name="INSTRUCTION" type="Parameter" description="" defaultvalue=""/><parameter name="NOTE" type="Parameter" description="" defaultvalue=""/><parameter name="TARGETLABEL" type="Parameter" description="" defaultvalue=""/><parameter name="ENTRYLABEL" type="Parameter" description="" defaultvalue=""/><parameter name="ACTENTITY" type="Parameter" description="" defaultvalue=""/><parameter name="TARGETCHANGE" type="Parameter" description="" defaultvalue=""/><parameter name="CURRVALREF" type="Parameter" description="" defaultvalue=""/><parameter name="MONTASKREF" type="Parameter" description="" defaultvalue=""/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=scriptDataObj class="hvg.base.1 HSC.ScriptDataObject.1" style="FONT-SIZE: 12pt; OVERFLOW: hidden; TEXT-DECORATION: none; HEIGHT: 25px; FONT-FAMILY: Arial; WIDTH: 25px; POSITION: absolute; FONT-WEIGHT: 400; FONT-STYLE: normal; LEFT: 0px; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#rect) url(#HSCScriptDataBehavior) url(#BindingBehavior)" hdxproperties="FillColor:transparent;fillColorBlink:False;FillStyle:1;HDXBINDINGID:-4;Height:25;LineColor:transparent;lineColorBlink:False;Width:25;"></DIV>]]></content><scripts><script event="ondatachange" language="JScript"><![CDATA[	// iterate through all the custom property script data on this object
+	for (var i = 0; i < PARAM_NAME_LIST.length; ++i) 
+	{
+		if (!scriptDataObj.DataChanged("MSGPOINT." + PARAM_NAME_LIST[i])) {
+			continue;
+		}
+		resolvedParams[PARAM_NAME_LIST[i]] = RetrieveBindingValue(this, PARAM_NAME_LIST[i]);
+	}
+
+	if("ACTENTITY" in resolvedParams && "BASENAME" in resolvedParams && document.ParamsResolvedCallback != undefined)
+	{
+		document.ParamsResolvedCallback(resolvedParams);
+		resolvedParams = {"ACTENTITY" : resolvedParams.ACTENTITY, "BASENAME": resolvedParams.BASENAME};
+	}]]></script></scripts></html><binding><dataobject ID="sdo1" class="progid:HSCDataSources.Application" type="HMIPage.ScriptData"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.1"/><property name="CommaDelimitedPointNames" varianttype="VT_BSTR" value="{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},{%Point::MSGPOINT%},"/><property name="CommaDelimitedParameters" varianttype="VT_BSTR" value="{%Parameter::TARGETVAL%},{%Parameter::ENTRYVAL%},{%Parameter::TARGETEUDESC%},{%Parameter::ENTRYEUDESC%},{%Parameter::INSTRUCTION%},{%Parameter::NOTE%},{%Parameter::TARGETLABEL%},{%Parameter::ENTRYLABEL%},{%Parameter::ACTENTITY%},BASENAME,{%Parameter::TARGETCHANGE%},{%Parameter::CURRVALREF%},{%Parameter::MONTASKREF%},"/><property name="CommaDelimitedPresentationTypes" varianttype="VT_BSTR" value="0,0,0,0,0,0,0,0,0,0,0,0,0,"/><property name="CommaDelimitedSecurityLevels" varianttype="VT_BSTR" value="2,2,2,2,2,2,2,2,2,2,0,0,0,"/><property name="CommaDelimitedUpdateRates" varianttype="VT_BSTR" value="-2,-2,-2,0,0,0,-2,-2,-2,-2,-2,-2,-2,"/><property name="CommaDelimitedAllowFastUpdateValues" varianttype="VT_BSTR" value="0,0,0,0,0,0,0,0,0,0,0,0,0,"/><property name="CommaDelimitedCalloutElements" varianttype="VT_BSTR" value=",,,,,,,,,,,,,"/></dataobjectdef></dataobject><class ID="HSC.ScriptDataobject.1" refcount="1"/></binding></element></shape></shapes></shapefile>

@@ -1,0 +1,685 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = "urn:schemas-microsoft-com:office:office" xmlns:p = "urn:schemas-microsoft-com:office:powerpoint" xmlns:w = "urn:schemas-microsoft-com:office:word">
+<HEAD>
+<TITLE>Custom filter</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content=4.0 name=DisplayVersion-PS>
+<META content="Create a blank HMIWeb display." name=HMIWebTemplateDescription>
+<STYLE>
+v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+p\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+</STYLE>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+
+<script language="JScript">
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+// Some key-codes used in key-press handling
+
+var VK_DELETE		= 46;
+var VK_SPACE		= 32;
+var VK_ESC			= 27;
+var VK_ENTER		= 13;
+var VK_UP			= 38;
+var VK_DOWN			= 40;
+
+// Persist state value delimiter
+
+var VALUE_DELIM		= "$$VALUEDELIM$$";
+var STATE_DELIM		= "$$STATEDELIM$$";
+
+// Current dialog version
+
+var DIALOG_VERSION	= "1.0";
+
+// ----------------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------------
+
+// Used to receive the list of user names from the server binding
+
+var g_vbNames		= null;
+var g_oCurrentRow	= null;
+var g_iInterval		= null;
+
+// ----------------------------------------------------------------------------------
+// DoLoad
+//
+//	Invoked by the 'onload' event of the body element. It is responsible for 
+//	retrieving and restoring the previous state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function DoLoad()
+{
+	var strValue = window.dialogArguments.Value;
+
+	// Split the value at the VALUE_DELIM separator. This should return an array
+	// containing three strings - the first being the filter value string, 
+	// the second the persisted state string for the dialog, and the third being
+	// the filter description.
+
+	if( strValue != null )
+	{
+		var rgValue = strValue.split(VALUE_DELIM);
+		
+		SetState(rgValue.length > 1 ? rgValue[1] : null);
+	}
+
+	// Set the cancel value to 'true' in case we terminate early
+	window.returnValue = true;
+}
+
+// ----------------------------------------------------------------------------------
+// DoPageComplete
+//
+// ----------------------------------------------------------------------------------
+
+function DoPageComplete()
+{
+	OperTblBinding.click();
+	g_iInterval = window.setInterval('UpdateNames()', 100);
+}
+
+// ----------------------------------------------------------------------------------
+// DoUnload
+//
+//	Invoked by the user clicking the 'OK' button to apply a filter. 
+// ----------------------------------------------------------------------------------
+
+function DoUnload()
+{
+	OnRowBlur();
+
+	// Set the new value
+	window.dialogArguments.Value = GetValue() + VALUE_DELIM + GetState() + VALUE_DELIM + GetDescription();
+	
+	// Set the cancel value to 'false' since we're setting a new value
+	window.returnValue = false;
+	
+	window.close();
+}
+
+// ----------------------------------------------------------------------------------
+// SetState
+//
+//	Helper routine used to load the current state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function SetState(strState)
+{
+	if( strState == null )
+		return;
+
+	var rgState = strState.split(STATE_DELIM);
+
+	if( rgState[0] != DIALOG_VERSION )
+		return;
+	
+	if( rgState.length > 1 )
+		chkShowPublic.checked = rgState[1] == "true";
+
+	if( rgState.length > 2 )
+		lstUsers.innerHTML = rgState[2];
+}
+
+// ----------------------------------------------------------------------------------
+// GetState
+//
+//	Helper routine used to save the current state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function GetState()
+{
+	return DIALOG_VERSION + STATE_DELIM + chkShowPublic.checked + STATE_DELIM + lstUsers.innerHTML;
+}
+
+// ----------------------------------------------------------------------------------
+// GetValue
+//
+//	Helper routine used to convert the state of the dialog into an SQL expression 
+//	that is used by the TDO to perform the filtering.
+// ----------------------------------------------------------------------------------
+
+function GetValue()
+{
+	var strValue = "";
+
+	if( lstUsers.children.length > 0 )
+	{
+		var strUserFilter = "(AlertAccessibility = 1) and (";
+		var nodes = lstUsers.children;
+
+		for(var r=0; r<nodes.length; r++)
+		{
+			if( r > 0 )	
+				strUserFilter += " or ";
+
+			strUserFilter += "(Author = " + nodes[r].filter + ")";
+		}
+
+		strUserFilter += ")";
+
+		if( chkShowPublic.checked )
+			strValue = "(AlertAccessibility = 0) or (" + strUserFilter + ")";
+		else
+			strValue = strUserFilter;
+	}
+	else
+	{
+		if( chkShowPublic.checked )
+			strValue = "AlertAccessibility = 0";
+		else
+			strValue = "not ( (AlertAccessibility = 0) or (AlertAccessibility = 1) )";
+	}
+		
+	return strValue;
+}
+
+// ----------------------------------------------------------------------------------
+// GetDescription
+//
+//	Returns a textual description of the filter for displaying as a tooltip on the
+//  '(filter applied)' indicator and in the 'Print as Report' header.
+// ----------------------------------------------------------------------------------
+
+function GetDescription()
+{
+	if( lstUsers.children.length > 0 )
+	{
+		if( chkShowPublic.checked )
+			return "Private alerts for some authors, and all public alerts";
+		else
+			return "Private alerts for some authors, and no public alerts";
+	}
+	else
+	{
+		if( chkShowPublic.checked )
+			return "Public alerts only";
+		else
+			return "No alerts";
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// DoKeyPress
+//
+//	Invoked by the 'onkeypress' event on the body element. This is used to provide
+//	keyboard support for such keys as 'ESC' and 'ENTER'
+// ----------------------------------------------------------------------------------
+
+function DoKeyPress()
+{
+	var key = window.event.keyCode;
+
+	switch(key)
+	{
+	case VK_ESC:
+		
+		if( !OnRowEsc() )
+		{
+			window.close();
+		}
+		break;
+
+	case VK_ENTER:
+
+		if( !OnRowEnter() )
+		{
+			if( window.event.srcElement.tagName != "BUTTON" )
+				DoUnload();
+		}
+		break;
+
+	case VK_DELETE:
+
+		OnRowDelete();
+		break;
+
+	case VK_SPACE:
+
+		OnRowSpace();
+		break;
+
+	case VK_DOWN:
+	case VK_UP:
+		
+		break;
+	}	
+}
+
+// ----------------------------------------------------------------------------------
+// UpdateNames
+//
+//	Populates the combo-box of user names
+// ----------------------------------------------------------------------------------
+
+function UpdateNames()
+{
+	if( g_vbNames != null )
+	{
+		window.clearInterval(g_iInterval);
+
+		var jsNames = new VBArray(g_vbNames).toArray();
+
+		for(i in jsNames)
+		{
+			var oOption = document.createElement("OPTION");
+			cboUsers.options.add(oOption);
+			oOption.value = "'" + jsNames[i] + "'";
+			oOption.text = jsNames[i]; 
+			oOption.editable = "yes";
+		}
+
+		// reset this to null so we don't do it again
+		g_vbNames = null;
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function AppendEntry(v, d, f, e)
+{
+	lstUsers.insertAdjacentHTML("beforeEnd", xmlRowTemplate.text);
+	var oEntry = lstUsers.children[lstUsers.children.length - 1];
+	oEntry.value = v;
+	oEntry.defaultValue = d;
+	oEntry.filter = f;
+	oEntry.editable = e;
+
+	return oEntry;
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowFocus(row)
+{
+	// If we still have a row for some reason, blur it
+	if( g_oCurrentRow != null )
+		OnRowBlur();
+
+	g_oCurrentRow = row;
+	g_oCurrentRow.onfocusout = OnRowBlur;
+	g_oCurrentRow.ondblclick = OnRowModify;
+	g_oCurrentRow.style.backgroundColor = "highlight";
+	g_oCurrentRow.style.color = "highlighttext";
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowModify()
+{
+    if( g_oCurrentRow == null )
+	    return;
+
+	// If we're already modifying this one, do nothing
+	if( g_oCurrentRow.readOnly == false || g_oCurrentRow.editable == false )
+		return;
+
+	g_oCurrentRow.readOnly = false;
+	g_oCurrentRow.ondblclick = null;
+	g_oCurrentRow.style.padding = "0px";
+	g_oCurrentRow.style.border = "2px inset";
+	g_oCurrentRow.style.cursor = "text";
+	g_oCurrentRow.style.backgroundColor = "";
+	g_oCurrentRow.style.color = "";
+	g_oCurrentRow.select();
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowBlur()
+{
+    if( g_oCurrentRow == null )
+	    return;
+
+	var newFocus = null;
+
+	// If we've clicked on the list itself (eg scroll), don't want to lose focus
+	if( event.toElement == lstUsers )
+	{
+		lstUsers.onfocusout = OnListBlur;
+		newFocus = g_oCurrentRow;
+	}
+	
+	// If the row is no longer required
+	if( g_oCurrentRow.value == "" )
+	{
+		// Remove the row
+		g_oCurrentRow.removeNode(true);
+		newFocus = null;
+	}
+	// If the value has changed
+	else if( g_oCurrentRow.defaultValue != g_oCurrentRow.value )
+	{
+		// Update the detaultValue and the filter
+		g_oCurrentRow.defaultValue	= g_oCurrentRow.value;
+		g_oCurrentRow.filter		= "'" + g_oCurrentRow.value + "'";
+	}
+
+	g_oCurrentRow.readOnly = true;
+	g_oCurrentRow.style.cursor = "default";
+	g_oCurrentRow.style.padding = "2px";
+	g_oCurrentRow.style.border = "0px";
+	g_oCurrentRow.style.backgroundColor = "";
+	g_oCurrentRow.style.color = "";
+	g_oCurrentRow.onfocusout = null;
+	g_oCurrentRow.ondblclick = null;
+	g_oCurrentRow = null;
+
+	document.selection.empty();
+
+	if( newFocus != null )
+		newFocus.focus();
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnListBlur()
+{
+	if( event.srcElement != lstUsers )
+		return;
+
+	lstUsers.onfocusout = null;
+
+	// If we're focusing on a row, don't do anything
+	if( lstUsers.contains(event.toElement) )
+		return;
+	
+	// Blur just in case something was in focus
+	OnRowBlur();
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowSpace()
+{
+	if( g_oCurrentRow == null || g_oCurrentRow.readOnly == false )
+		return false;
+
+	window.event.returnValue = false;
+	window.event.cancelBubble = true;
+
+	OnRowModify()
+
+	return true;
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowAdd()
+{
+	var oOption = cboUsers.options[cboUsers.selectedIndex];
+	
+	if( oOption.value == "" )
+	{
+		AppendEntry("", "", "", true).focus();
+		OnRowModify();
+	}
+	else
+	{
+		AppendEntry(oOption.text, oOption.text, oOption.value, oOption.editable == "yes");
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowDelete()
+{
+	if( g_oCurrentRow == null || g_oCurrentRow.readOnly == false )
+		return false;
+
+	window.event.returnValue = false;
+	window.event.cancelBubble = true;
+
+	// We clear the value and let OnRowBlur handle the deletion
+	var oRow	= g_oCurrentRow;
+	oRow.value	= "";
+
+	// Re-focus another row in the list
+	if( lstUsers.children.length > 1 )
+	{
+		var nodes = lstUsers.children;
+		for(var r=0; r<nodes.length; r++)
+		{
+			if(nodes[r] == oRow)
+				break;
+		}
+
+		if( r < nodes.length - 1 )
+			oRow = nodes[r+1];
+		else
+			oRow = nodes[r-1];
+
+		OnRowFocus(oRow);
+	}
+	else
+	{
+		OnRowBlur();
+	}
+
+	return true;
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowEnter()
+{
+	if( g_oCurrentRow == null || g_oCurrentRow.readOnly == true )
+		return false;
+
+	var oRow = g_oCurrentRow;
+	OnRowBlur();
+	OnRowFocus(oRow);
+
+	return true;
+}
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+function OnRowEsc()
+{
+	if( g_oCurrentRow == null || g_oCurrentRow.readOnly == true )
+		return false;
+	
+	var oRow = g_oCurrentRow;
+	oRow.value = oRow.defaultValue;
+	OnRowBlur();
+	OnRowFocus(oRow);
+
+	return true;
+}
+
+// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+
+function CheckDrag()
+{
+	return event.srcElement.isContentEditable;
+}
+
+// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+
+function CheckSelect()
+{
+	return event.srcElement.isContentEditable;
+}
+
+</script>
+
+<OBJECT id=HDXPageBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id=HDXElementsFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:2592890C-11DD-4818-BB62-9640E4A050D1></OBJECT>
+<OBJECT id=AlarmStateIconFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:32C06040-FF05-4F15-90EB-9C56D098D188></OBJECT>
+<OBJECT id=DTFormat style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:9E5DB1FD-CE13-4459-BA06-30845E6633AB></OBJECT>
+<OBJECT id=HSCScriptDataBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:15C2FF21-998F-4226-A7A9-221580D5F19F></OBJECT>
+<OBJECT id=StnEvtReflector style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:F5585C3E-DFE6-41A7-98EF-FD6E9547809D></OBJECT>
+<META content="MSHTML 6.00.2800.1170" name=GENERATOR>
+
+</HEAD>
+
+<body style="overflow: hidden; background-color: threedface;"
+      language="javascript"
+	  onload="InitializeLogger(); DoLoad()"
+	  onkeyup="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  ondragstart="return CheckDrag()"
+	  onselectstart="return CheckSelect()">
+
+<div id=Page 
+     language="javascript"
+     onpagecomplete="DoPageComplete()"
+	 style="behavior: url(#StnEvtReflector) url(#HDXPageBehavior); 
+			margin: 0px; 
+			padding: 0px;
+			cursor: default;
+  			overflow: visible; 
+  			display: inline;
+			position: absolute; 
+			height: 100%; 
+			width: 100%; 
+			left: 0px;
+  			top: 0px;">
+
+	<span id="OperTblBinding" hdxproperties="HDXBINDINGID:0;" style="behavior: url(#BindingBehavior); display: none"></span>
+
+	<span style="position: absolute; left: 10px; top: 8px; width: 260px;">
+		Select the author names to include in the filter:
+	</span>
+
+	<span style="position: absolute; left: 5px; top: 45px;">
+
+		<input id="chkShowPublic" checked type="checkbox"></input>
+		Show public alerts
+
+	</span>
+
+	<span style="position: absolute; left: 7px; top: 72px;">
+		Show private alerts for:
+	</span>
+
+	<xml id="xmlRowTemplate">
+		<item>
+		<![CDATA[
+			<input type="text"
+				 onfocusin="OnRowFocus(this)"
+				 readOnly="true"
+				 editable="yes"
+				 filter=""
+				 defaultValue=""
+				 value=""
+				 style="cursor: default;
+						z-index: 2;
+						position: relative;
+						padding: 2px;
+						border: 0px;
+						top: 0px; 
+						left: 0px; 
+						width: 100%;
+						height: 21px;">
+		]]>
+		</item>
+	</xml>
+
+	<select id="cboUsers"
+			style="display: inline;
+				   position: absolute;
+				   width: 175px;
+				   height: 20px;
+				   top: 92px;
+				   left: 5px;">
+			<option editable="no" value="CURRENTUSER()">(Current User)
+			<option editable="yes" value="">(Other User)
+	</select>
+
+	<button id="btnAdd" 
+			onclick="OnRowAdd()" 
+			style="position: absolute; 
+				   top: 90px;
+				   right: 5px; 
+				   width: 80px; 
+				   height: 25px;">
+		Add
+	</button>
+
+	<div id="lstUsers"
+		 style="border: 2px groove;
+				position: absolute; 
+				left: 5px; 
+				top: 120px; 
+				height: 160px; 
+				width: 260px; 
+				overflow: auto;
+				background-color: window;">
+	</div>	
+
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			style="position: absolute; 
+				   bottom: 5px;
+				   right: 90px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			onclick="window.close()" 
+			style="position: absolute; 
+				   bottom: 5px;
+				   right: 5px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</div>
+</body>
+</html>

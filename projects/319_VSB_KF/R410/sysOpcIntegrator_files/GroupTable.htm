@@ -1,0 +1,144 @@
+<!----------------------------------------------------------------------
+'
+'  Copyright 2002 Honeywell Pacific.  All Rights Reserved.
+'
+'----------------------------------------------------------------------->
+<html xmlns:viewlink="">
+	<?import namespace="viewlink" implementation="../Objects/TabSet.htc">
+	<?import namespace="viewlink" implementation="../Objects/SystemButton.htc">
+	<head>
+		<meta name="VI60_defaultClientScript" content="VBScript">
+		<meta name="GENERATOR" content="Microsoft Visual Studio 6.0">
+		<link id="HDXStylesheet" href="..\Styles\SystemDisplay.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="OpciStyles.css" type="text/css">
+		<title></title>
+		<script language="JavaScript" src="../Scripts/Logging.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/ErrorHandling.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/JSExtensions.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/HTMLUtils.js" type="text/JavaScript"></script>
+		<script language="JavaScript" src="../Scripts/Utilities.js" type="text/JavaScript"></script>
+		<script id="OpciClientConstants" language="vbscript" src="OpciConst.vbs"></script>
+		<script id="OpciClientFunctions" language="vbscript" src="OpciFunctions.vbs"></script>
+		<xml id="TabsXml">
+			<tabset selected="GroupTable.htm">
+				<tab disabled="false" tabid="GroupTable.htm" title="Group List">
+				</tab>
+				<tab disabled="false" tabid="Settings.htm" title="Settings">
+				</tab>
+			</tabset>
+		</xml>
+		<script id="clientEventHandlersVBS" language="vbscript">
+<!--
+
+Sub window_onload
+	Dim	mode
+	
+	On Error Resume Next
+	Err.Clear
+	
+	' Check to see that the title frame has connected to the database
+	' and the mode has been set.  If not then this frame will be reloaded 
+	' so no need to continue
+	mode = parent.title.g_Mode
+	If (Not parent.title.g_Connected) Or (mode = ERROR_MODE) Then
+		' Do nothing since we will be reloaded once the title frame is loaded
+		WaitingSpan.style.display = ""
+	Else
+		' We are running under the title frame
+		parent.title.txtGroupId.style.display = "none"
+		parent.title.lstGroups.style.display = "none"
+		parent.title.GroupStatus.style.display = "none"
+		
+		GroupListTable.Initialise parent.title.OpciDashboard
+		
+		WaitingSpan.style.display = "none"
+		GroupListTable.draw
+		
+		' Make sure the correct sections of the page are visible
+		' for the current mode.
+		If Clng(mode) = Clng(CONFIG_MODE) Then
+			cmdAddGroup.style.display = "inline"
+			cmdConfiguration.style.display = "none"
+		Else
+			cmdAddGroup.style.display = "none"
+			cmdSysStatus.Style.Display = "none"
+			
+			' Remove the Settings tab.
+			Dim tabNode
+			Set tabNode = TabsXml.selectSingleNode("//*[string(@tabid)='Settings.htm']")
+			If Not tabNode Is Nothing Then
+				tabNode.parentNode.removeChild tabNode
+			End If
+		End If
+		
+		' Display the tabs now that their content is correct.
+		TabSet.InitContent TabsXml
+	End If
+	
+	' set the correct link text
+	SetLinkText
+
+    ' Hide the group status when displaying all groups
+    parent.title.GroupStatusLabel.innerHTML = ""
+	parent.title.GroupStatusImage.innerHTML = ""
+	parent.title.GroupStatusValue.innerHTML = ""
+End Sub
+
+Sub cmdAddGroup_onclick
+	on error resume next
+	
+	' check permissions
+	If Not CheckSecurity Then Exit Sub
+
+	' add group
+	parent.title.OpciDashboard.AddGroup
+	GroupListTable.scrollIntoView false 
+
+End Sub
+
+-->
+		</script>
+	</head>
+	<body scroll="no">
+		<viewlink:tabset id="TabSet">
+		</viewlink:tabset>
+		<div id="DisplayArea" class="DetailsArea">
+			<table id="TableBody" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top; width: 100%; height: 100%; overflow: hidden;">
+				<tr>
+					<td colspan="2">
+						<hr />
+					</td>
+				</tr>
+				<tr id="WaitingSpan" style="height: 80%;">
+					<td colspan="4" valign="top">
+						Initializing display...
+					</td>
+				</tr>
+				<tr style="height: 80%;">
+					<td colspan="2">
+						<div id="GroupTableDiv" style="width: 100%; height: 100%; overflow: auto;">
+							<table id="GroupListTable" style="behavior: url(GroupTable.htc)" align="left" cellspacing="0" cellpadding="0" border="0">
+							</table>
+						</div>
+					</td>
+				</tr>
+				<tr style="height: 20%">
+					<td>
+						<viewlink:systembutton id="cmdAddGroup" class="pushbutton">
+							Add New Group
+						</viewlink:systembutton>
+					</td>
+					<td align="right">
+						<span id="cmdConfiguration" class="clsGroupLink"></span>
+                        <br />
+                        <br />
+						<span id="cmdSysStatus" class="clsGroupLink"></span>
+                        <br />
+                        <br />
+					</td>
+				</tr>
+			</table>
+			<!-- End of TableBody -->
+		</div>
+	</body>
+</html>

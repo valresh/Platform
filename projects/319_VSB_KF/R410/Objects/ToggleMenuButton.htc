@@ -1,0 +1,81 @@
+<!--
+***************************************************************************
+Copyright (C) 2006 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/ToggleMenuButton.htc $								
+$Workfile: ToggleMenuButton.htc $												
+$Modtime: 9/20/07 2:39p $											
+$Revision: 2 $
+$Author: Stickell $														
+***************************************************************************
+This script behavior encapsulates the functionality of a the trigger-button
+for a toggle menu, such as the operators menu button in the top-left of
+a display.
+
+The 'title' may be provided as the innerText of the viewlink element in
+the host page, or may be set using the 'title' property at runtime.
+***************************************************************************
+If you use this behavior then you need to reference:
+ ErrorHandling.js   (ScriptError)
+ JsExtensions.js    (JsType*)
+***************************************************************************
+-->
+<public:component name="ToggleMenuButton" urn="ToggleMenuButton" lightWeight="true">
+	<public:attach event="onreadystatechange" onevent="javascript: try{ BindPopupEvents(); }catch(e){}" for="element"/>
+</public:component>
+<script language="JavaScript" type="text/JavaScript">		
+	//------------------------------------------------------------------------
+	// BindPopupEvents
+	//------------------------------------------------------------------------
+	// This funtion is called to bind the appropriate handler function to the
+	// popup controller events as soon as they are available.
+	//------------------------------------------------------------------------
+	function BindPopupEvents()
+	{
+	    var eventsBound = false;
+		if (typeof(element.PopupController) != JsTypeUndefined)
+		{
+			try
+			{
+				//.......................................................................
+				// Bind the popup-controller events and handlers (which should now be available)
+				//.......................................................................
+				element.attachEvent("OnPopupLoad", SyncIndicator);
+				element.attachEvent("OnPopupShown", SyncIndicator);
+				element.attachEvent("OnPopupHidden", SyncIndicator);
+				element.attachEvent("onclick", function(){ element.PopupController.TogglePopup(); });						
+		        eventsBound = true;
+			}
+			catch(e)
+			{
+				ScriptError("ToggleMenuButton::InitContent", e);
+			}
+		}
+		return eventsBound;			
+	}
+				
+	//-----------------------------------------------------------------------
+	// SyncIndicator
+	//-----------------------------------------------------------------------
+	// This function is used to make sure the indicator image is correct
+	// for the current popup menu state.
+	//-----------------------------------------------------------------------
+	function SyncIndicator()
+	{
+	    RemoveClassFromElement(element, "CloseUp");
+	    RemoveClassFromElement(element, "DropDown");				
+		if (!element.disabled && typeof(element.PopupController) != JsTypeUndefined)
+		{
+			// Make sure the indicator is appropriate.
+			if (element.PopupController.PopupIsShowing)
+			{
+				// Showing closeup appearance.
+				IncludeClassOnElement(element, "CloseUp");
+			}
+			else
+			{
+				// Showing dropdown appearance.
+				IncludeClassOnElement(element, "DropDown");
+			}
+		}
+	}
+</script>

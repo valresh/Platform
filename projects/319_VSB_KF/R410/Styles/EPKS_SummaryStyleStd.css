@@ -1,0 +1,2033 @@
+@import url("EPKS_Summary_commonColor.css"); /*This will always be remain at the top of the page. */
+/*@import url("EPKS_Summary_Dark.css"); /*This has been moved to the summary HTML to allow changing. */
+
+/*=======================================================================
+Alarm, Events and System Summary style
+======================================================================*/
+.summaryToolbar
+{
+	display: inline;
+	position: absolute;
+	white-space: nowrap;
+	right:0px;
+	top: 48px;
+	z-index: 100;
+	height:27px;
+	overflow: hidden;
+	width:490px;
+	overflow: hidden;
+	border:0px !important;
+}
+
+.summaryToolbarButton
+{
+	position: relative;
+	cursor: default;
+	display: inline;
+	float:left;
+	margin-right:1px;
+	top: 0px;
+	padding:0px;
+	line-height:20px;
+	height: 20px;
+	overflow: hidden;
+	padding:3px 5px 0px 5px;
+	text-align:center;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.summaryToolbarButton img
+{
+	border:0px;
+}
+
+#AreaAndViewToolbar
+{
+	position: relative;
+	float:left;
+	z-index: 1;
+	left: 10px;
+	top: 48px;
+	width:450px;
+	height: 27px;
+	overflow: hidden;
+	border:1px solid;
+}
+
+.alarmSummaryLinkRight
+{
+	position: absolute;
+	padding: 5px;
+	z-index: 2;
+   	right: 5px;
+	top: 8px;
+	width: auto;
+	height: 28px;
+	text-align: right;
+}
+
+.alarmTrackerLinkDisabled
+{
+	color: #E0E0E0;
+	font-weight: 900;
+}
+
+v\:*
+{
+	behavior:url(#default#VML);
+}
+
+#Selected_Active_Cells, #Selected_Active_Unassigned_Cells, #Selected_Inactive_Cells, #Selected_Inactive_Unassigned_Cells, #Unassigned_Cells, #Unselected_Cells
+{
+	display:block;
+}
+
+#Selected_Active_Cells.treeNodeLabel,
+#Selected_Active_Unassigned_Cells.treeNodeLabel,
+#Selected_Inactive_Cells.treeNodeLabel,
+#Selected_Inactive_Unassigned_Cells.treeNodeLabel,
+#Unassigned_Cells.treeNodeLabel
+{
+	padding:1px 6px 1px 6px;
+}
+
+#Table
+{
+	border:0px solid;
+	position: absolute;
+	white-space: nowrap;
+	z-index:5;
+	clear:both;
+	right:0px;
+	width: 100%;
+	line-height:20px;
+	height: 100%;
+	behavior: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior);
+	visibility: hidden;
+	cursor: default;
+}
+
+.SYSTEM_LINK
+{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.DTLPANE_FIELD
+{
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.DTLPANE_VALUE
+{
+	padding-left: 10px;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ViewConfigPaneClass
+{
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    height: 136px !important;
+    border:1px solid;
+    width: 100%; 
+}
+
+.PANE
+{
+	border:0px;
+}
+
+.GridPaneClass
+{
+	border:1px solid;
+}
+
+.PANE_RESIZER_PAD
+{
+	position: absolute;
+	display: none;
+	overflow: hidden;
+	filter: alpha(opacity=0);
+}
+
+.PANE_HEADER
+{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	height: 26px;
+	line-height:21px;
+	font-family: Honeywell Sans Web;
+	font-weight:bold;
+	width: 100%;
+	border-bottom: 1px solid;
+	padding:0px 0px 0px 5px;
+	overflow: hidden;
+}
+
+.PANE_BODY, .PANE_BODY_CREATE_AND_DATA
+{
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+}
+
+.PANE_BODY
+{
+	position: absolute;
+	padding-top:24px;
+	left: 0px;
+	top: 0px;
+}
+
+.PANE_CLOSE_BUTTON
+{
+	position: absolute;
+	right: 5px;
+	top: 3px;
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+	cursor: default;
+}
+
+.HDXTBL_HEAD
+{
+}
+
+.HDXTBL_BODY
+{
+}
+
+.HDXTBL_COLHEAD
+{
+	border:1px;
+	border-left:0px;
+	border-top:0px;
+	border-style:solid;
+	padding:0px 0px 0px 5px !important;
+	text-overflow:ellipsis;
+	font-size:10pt;
+}
+
+.HDXTBL_COLHEAD img
+{
+	margin:3px 0px 0px 0px !important;
+	vertical-align: top;
+}
+
+.HDXTBL_COLHEAD .textHeader,
+.HDXTBL_COLHEAD .textHeaderWithoutMenu
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 100%;
+}
+
+.alarmColHeading
+{
+	font-weight:bold;
+
+	padding:0px 0px 0px 5px !important;
+	margin:0px 0px 0px -5px !important;
+	text-overflow:ellipsis;
+	font-size:10pt;
+	height: 20px;
+}
+
+.blankHeader
+{
+	position:absolute;
+}
+
+.alarmColHeading .blankHeader
+{
+	position:absolute;
+	top: 2px;
+	left: 3px;
+	width: 90%;
+	height: 16px;
+}
+
+.alarmColHeading .textHeader
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.HDXTBL_COLBODY
+{
+}
+
+.HDXTBL_CELL
+{
+}
+
+.HDX_SCROLLBAR
+{
+}
+
+.HDX_MENU
+{
+	border:1px solid;
+	font-size:10pt;
+}
+
+.HDX_MENUITEM
+{
+}
+
+.inputValue
+{
+	border:1px solid;
+	height:24px;
+	line-height:20px;
+	padding-left:5px;
+}
+
+.MENUITEM
+{
+	position: relative;
+	padding-left:0px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+	display: block;
+}
+
+.MENUITEM_HOVER
+{
+	padding-left:0px;
+	cursor:pointer;
+}
+
+.summaryBtnTab
+{
+	position: absolute;
+	padding-top: 3px;
+	left: 4px;
+	top: 28px;
+	cursor:pointer;
+	text-align: center;
+	border:1px solid;
+	border-bottom:0px solid;
+	height: 25px;
+	width: 100px;
+	z-index: 2;
+	overflow: hidden;
+}
+
+.summaryBtnTabSelected
+{
+	position: absolute;
+	cursor: default;
+	padding-top: 3px;
+	left: 4px;
+	top: 28px;
+	text-align: center;
+	border:1px solid;
+	border-bottom:0px solid;
+	height: 25px;
+	width: 100px;
+	z-index: 2;
+	overflow: hidden;
+}
+
+.summaryTabContainer
+{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	margin-top:4px;
+	padding:0px;
+	border:1px solid;
+}
+
+.summaryTabContent
+{
+	display: none;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	margin:0px 0px 0px 0px;
+	padding:0px;
+	border:0px solid;
+}
+
+#AlarmHelpData.summaryTabContent
+{
+	overflow-y: auto;
+}
+
+.DetailsPaneClass
+{
+	width: 100%;
+}
+
+
+#CommentsData table
+{
+	font-size:12px;
+}
+
+textarea
+{
+	border: 1px inset;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: scroll;
+	background:#343434;
+}
+
+.existCommentsClass
+{
+	font-size:12px;
+	margin:0px;
+	border:1px solid;
+	padding:0px 10px 10px 10px;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: scroll
+}
+
+#btnSaveDetails
+{
+	position:absolute;
+	bottom:0px;
+	right:10px;
+	width:156px;
+	height:28px;
+	border:1px solid;
+	behavior:url(#HDXElementsFactory#Button);
+	font-size:12px;
+}
+
+#btnSaveDetails span
+{
+	position: absolute;
+	top: 5px;
+	left: 24px;
+	text-align:center;
+}
+
+.downArrow
+{
+	BEHAVIOR: url(#HDXVectorFactory#polygon);
+	position: relative;
+	display: inline-block;
+	border:0px !important;
+	overflow: hidden;
+	padding-left:0px;
+	margin:-8px 0px 0px 0px;
+	left:5px;
+	height: 4px;
+	width: 8px;
+}
+
+.lblFilter
+{
+	position: absolute;
+	display: inline;
+	visibility: hidden;
+	text-align: right;
+	width: 120px;
+	height: 26px;
+	overflow: hidden;
+	z-index: 50;
+	font-weight: bold;
+}
+
+#AreaPane
+{
+	display: none;
+	position:absolute;
+	z-index:15;
+	left: 10px;
+	overflow: visible;
+}
+
+.AreaPaneClass
+{
+	border:1px solid;
+}
+
+.pauseEnabled, .pauseDisabled, .resumeEnabled, .resumeDisabled
+{
+	position: absolute;
+	top: 0px;
+	height: 27px;
+	width: 120px;
+	z-index: 1;
+	border-width: 1px !important;
+	border-style: solid !important;
+	overflow: hidden;
+	padding:4px 0px 0px 25px !important;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.pauseEnabled, .pauseDisabled
+{
+	left: 0px;
+}
+
+.resumeEnabled, .resumeDisabled
+{
+	left: 130px;
+}
+
+.pauseBtnMsg
+{
+	display: none;
+	position: absolute;
+	border: 0px;
+	font-weight: bold;
+	text-align: right;
+	bottom: 7px;
+	z-index: 100 !important;
+	width: 80px;
+	height: 23px;
+	overflow: hidden;
+}
+
+.AcknowledgePageEnabled, .AcknowledgePageDisabled
+{
+	position: absolute;
+	right: 9px;
+	bottom: 8px;
+	height: 27px;
+	padding:4px 0px 0px 25px !Important;
+	z-index: 1;
+	width:195px;
+	border-width: 1px !important;
+	border-style: solid !important;
+	overflow: hidden;
+	visibility: hidden;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.audibleSuppressionEnabled, .audibleSuppressionDisabled
+{
+	position: absolute;
+	right: 525px;
+	bottom: 8px;
+	height: 27px;
+	border-width: 1px !important;
+	border-style: solid !important;
+	z-index: 1;
+	width: 85px;
+	overflow: hidden;
+	visibility: hidden;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.resumeEnabled, .resumeEnabled_ovr, .pauseEnabled, .pauseEnabled_ovr, .toolBarBtn, .AcknowledgePageEnabled, .clearPageEnabled,
+.generateEventEnabled, .audibleSuppressionEnabled, .saveViewBtnEnabled, .deleteViewEnabled, .alarmOverFlowAck, .alarmOverFlowAck_ovr,
+.resetViewClass, .resetViewClass_ovr, .ClearFilter, .ClearFilter_ovr, .shelveAlarm, .dialogShelveAlarm, .unshelveAlarm, .silenceAudible_ovr
+{
+	cursor:pointer !important;
+}
+
+.toolBarBtnDisabled, .resumeDisabled, .pauseDisabled, .clearPageDisabled, .AcknowledgePageDisabled, .generateEventDisabled,
+.audibleSuppressionDisabled, .saveViewBtnDisabled, .deleteViewDisabled, .shelveAlarmDisabled, .dialogShelveAlarmDisabled, .unshelveAlarmDisabled, .silenceAudible
+{
+	cursor:default;
+}
+
+.generateEventEnabled, .generateEventDisabled
+{
+	position: absolute;
+	right: 9px;
+	bottom: 8px;
+	height: 27px;
+	z-index: 1;
+	border-width: 1px !important;
+	border-style: solid !important;
+	padding:4px 0px 0px 25px !important;
+	width: 195px;
+	overflow: hidden;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.clearPageEnabled, .clearPageDisabled
+{
+	position: absolute;
+	right: 9px;
+	bottom: 37px;
+	border-width: 1px !important;
+	border-style: solid !important;
+	height: 27px;
+	z-index: 1;
+	padding:4px 0px 0px 25px !important;
+	width: 195px;
+	overflow: hidden;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.alarmOverFlowAck
+{
+	position: absolute;
+	bottom:37px;
+	height:27px;
+	width:165px;
+	z-index:5;
+	border-width: 1px !important;
+	border-style: solid !important;
+	padding:4px 0px 0px 25px !important;
+	overflow:hidden;
+	behavior:url(#HDXElementsFactory#Button);
+}
+
+.toolBarBtn, .toolBarBtnDisabled
+{
+	float:left;
+	position:relative;
+	display:block;
+	margin-right:4px !important;
+	width:20px;
+	height:20px;
+	overflow:hidden;
+	padding:0px 0px 0px 0px;
+	background-position:2px 2px;
+	background-repeat:no-repeat;
+}
+
+.shelveAlarm, .shelveAlarmDisabled, .dialogShelveAlarm, .dialogShelveAlarmDisabled, .unshelveAlarm, .unshelveAlarmDisabled
+{
+	position: absolute;
+	overflow: hidden;
+	border-width: 1px !important;
+	border-style: solid !important;
+	z-index: 1;
+	height:27px;
+	bottom:37px;
+	padding:4px 0px 0px 25px !important;
+	behavior: url(#HDXElementsFactory#Button);
+	visibility: visible;
+}
+
+.shelveAlarm, .shelveAlarmDisabled
+{
+	right: 335px;
+	width: 125px;
+}
+
+.dialogShelveAlarm, .dialogShelveAlarmDisabled
+{
+	right:210px;
+	width:120px;
+}
+
+.unshelveAlarm, .unshelveAlarmDisabled
+{
+	right: 10px;
+	width: 195px;
+}
+
+.silenceAudible
+{
+	position: absolute;
+	right: 520px;
+	bottom: 37px;
+	height: 27px;
+	border-width: 1px !important;
+	border-style: solid !important;
+	z-index: 1;
+	padding:4px 0px 0px 25px !important;
+	width: 85px;
+	overflow: hidden;
+}
+
+.resetViewClass, .resetViewClass_ovr, .ClearFilter, .ClearFilter_ovr
+{
+	border:0px solid !important;
+}
+
+.resetViewClass, .resetViewClass_ovr, .resetViewDisabled, .ClearFilter, .ClearFilter_ovr, .FilterDisabled
+{
+	width: 140px;
+	height:26px;
+	padding:4px 0px 0px 20px !important;
+}
+
+.spanViewListClass
+{
+	position: absolute;
+	padding:3px;
+	white-space: nowrap;
+	border:1px solid;
+	left:165px;
+	top:75px;
+	width: 252px;
+	overflow-x: hidden;
+	line-height:21px;
+	overflow-y: auto;
+	z-index:50;
+}
+
+.saveDetailsDisabled
+{
+	position: absolute;
+	color:#717171;
+	bottom: 0px;
+	right: 10px;
+	width: 156px;
+	height: 28px;
+	font-size: 9pt;
+}
+
+.saveDetailsEnabled
+{
+	position: absolute;
+	color: buttontext;
+	bottom: 0px;
+	right: 10px;
+	border-width: 1px !important;
+	border-style: solid !important;
+	cursor:pointer;
+	width: 156px;
+	height: 28px;
+	font-size: 9pt;
+}
+
+.viewTxtAreaName, .viewTxtAreaNameDisabled
+{
+	position: absolute;
+	top: 103px;
+	left: 207px;
+	width: 155px;
+	text-align: right;
+	height:25px;
+	line-height:20px;
+	border:1px solid;
+	padding:0px 5px 0px 5px;
+}
+
+.locationBrowserDisabled
+{
+	position: absolute;
+	border:1px solid;
+	top:0px;
+	left:307px;
+	height:25px;
+	width:25px;
+	text-align:center;
+}
+
+.locationBrowserEnabled
+{
+	position: absolute;
+	border-width: 1px !important;
+	border-style: solid !important;
+	top:0px;
+	left:307px;
+	height:25px;
+	cursor:pointer !important;
+	width:25px;
+	font-weight:bold !important;
+	text-align:center !important;
+	padding:0px 0px 0px 4px !important;
+}
+
+.detailsMainPanel
+{
+	top: 26px;
+	bottom: 2px;
+	left: 2px;
+	right: 172px;
+	overflow: hidden;
+	padding-top: 22px;
+	position: absolute;
+}
+
+.addCommentsTxt
+{
+	font-family:Arial;
+	border: 1px solid;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: scroll;
+	padding:10px;
+}
+
+.detailsSuppressionHeader, .detailsSuppressionValue
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	position: relative;
+	width: 24%;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+.detailsSuppressionHeaderRow
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+	font-weight: bold;
+	position: relative;
+	padding-top: 2px;
+}
+
+.detailsSuppressionListRow
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+	position: relative;
+	padding-top: 8px;
+}
+
+#DefaultData
+{
+	line-height: 21px;
+}
+
+.detailsGeneralField
+{
+	width: 175px;
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.detailsGeneralValue
+{
+	width: calc(100% - 175px);
+	padding-left: 10px;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.saveViewBtnDisabled, .saveViewBtnEnabled
+{
+	position: absolute;
+	right: 10px;
+	top: 56px;
+	height:26px;
+	line-height:23px;
+	width: 86px;
+	border-width:1px !important;
+	border-style: solid !important;
+	padding:0px 0px 0px 25px !important;
+}
+
+.dropAreaPaneEnabled, .dropAreaPaneEnabled_ovr
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 26px;
+	width: 100px;
+	padding:0px 0px 0px 5px !important;
+	line-height:23px !Important;
+	border-width: 1px !important;
+	border-style: solid !important;
+	display:inline;
+	overflow:hidden;
+	cursor:pointer !important;
+	white-space: nowrap;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.deleteViewEnabled, .deleteViewDisabled
+{
+	position: absolute;
+	right: 10px;
+	top: 86px;
+	height: 26px;
+	width: 85px;
+	line-height:23px;
+	border-width:1px !important;
+	border-style: solid !important;
+	padding:0px 0px 0px 25px !important;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.areaPaneClose, .areaPaneOpen
+{
+	height: 100%;
+	width: 100%;
+	border:0px solid !important;
+	cursor:pointer;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.linkTextHidden
+{
+	overflow: hidden;
+	display: none;
+	clear: left;
+	position: relative;
+	height:24px;
+	padding-left:28px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.linkTextFontForActivitySummaries 
+{
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.linkTextVisible 
+{
+	overflow: hidden;
+	display: block;
+	clear: left;
+	position: relative;
+	height:24px;
+	padding:3px 0px 0px 28px;
+	cursor: pointer;
+	white-space: nowrap;
+	left: 13px;
+	width: calc(100% - 28px);
+}
+
+.divActivityCommandLabel {
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	font-size: 14px;
+	padding-top: 4px;
+	left: 13px;
+}
+
+.cmbActivityCommand
+{
+	font-weight: 500;
+	font-style: normal;
+	text-indent: 6px;
+	text-overflow: ellipsis;
+	text-decoration: none;
+	overflow: hidden;
+	padding-top: 4px;
+	position: absolute;
+	left: 100px;
+	width: 140px;
+	height: 24px;
+	hw-text-family: Honeywell Sans Web;
+	hw-text-size: 14px;
+	hw-text-effect: Normal;
+	hw-text-align: Left;
+	hw-line-style: None;
+	hw-line-color: transparent;
+	hw-combo-style: flat;
+}
+
+.selectNoneBtn
+{
+	position: absolute;
+	border-width: 1px !important;
+	border-style: solid !important;
+	top:25px;
+	left:0px;
+	line-height:20px;
+	margin-top:5px !important;
+	padding-left:4px !important	;
+	height:26px;
+	width:100%;
+	cursor:pointer !important;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.sysSumTopBand
+{
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	display: inline;
+	position: absolute;
+	zoom: 1;
+	z-index: 1;
+	left: 0px;
+	border:0px solid #b4b4b4;
+	border-top:0px;
+	border-right:0px;
+	border-left:0px;
+	top: 0px;
+	width: 100%;
+	height: 43px;
+}
+
+.displayTitle
+{
+	display: inline-block;
+	padding: 10px;
+	float:left;
+	font-size: 18px;
+}
+
+.almHlpItem
+{
+	vertical-align: top;
+	padding-top:10px;
+	display: inline-block;
+	width: 50%;
+	font-size: 14px;
+	padding-right:20px;
+	margin-right: -1px;
+}
+
+
+.almHlpSmallItem 
+{
+	margin-top:10px;
+	width: 25%;
+	display: inline-block;
+	padding-right: 20px;
+	font-size: 14px;
+	height: 18px;
+	line-height: 18px;
+	margin-right: -1px;
+}
+
+.almHlpSmallItemLabel 
+{
+	font-weight: 600;
+	width: 50%;
+	padding-left: 20px;
+	overflow: hidden;
+	display:inline-block;
+
+	margin-right: -1px;
+}
+
+.almHlpSmallItemValue 
+{
+	width: 50%;
+	display:inline-block;
+	font-weight: 600;
+	padding-left: 10px;
+}
+
+
+.almHlpItemHead
+{
+	font-weight: 600;
+	height: 18px;
+	line-height: 18px;
+	padding-left: 20px;
+}
+
+
+.almHlpItemContent, .sysAlmHlpContent 
+{   
+	padding-top:5px;
+	padding-left:20px;
+}
+
+.sysAlmHlpContent
+{
+	width:100%;
+	padding-right: 20px;
+	overflow: hidden;
+	line-height: 20px;
+}
+
+.sysAlmHlpExpand,.sysAlmHlpCollapse
+{
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	width:13px;
+	height:13px;
+}
+
+.amlHlpHeader 
+{
+	font-weight: 600;
+	font-size: 16px;
+	text-transform: uppercase;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+
+}
+
+.almHlpArea 
+{
+	padding-left: 20px;
+	width: 100%;
+}
+
+
+.almHlpErr 
+{
+}
+
+.almHlpMoreDetails
+{
+	text-align:right;
+	padding-right: 20px;
+	font-size: 14px;
+	padding-bottom: 5px;
+}
+
+/*================ Ends Here =================================*/
+
+/* Aggregates in bottom left corner */
+#lblUnackLabel,
+#divUnackFilteredTotal,
+#lblOfUnackTotal,
+#divUnackUnfilteredTotal,
+#lblAckLabel,
+#divAckFilteredTotal,
+#lblOfAckTotal,
+#divAckUnfilteredTotal,
+#lblShelvedLabel,
+#divShelvedFilteredTotal,
+#lblOfShelvedTotal,
+#divShelvedUnfilteredTotal,
+#lblSuppressedLabel,
+#divSuppressedFilteredTotal,
+#lblOfSuppressedTotal,
+#divSuppressedUnfilteredTotal
+{
+	display: inline;
+	white-space: nowrap;
+	position: absolute;
+	cursor: default;
+	z-index: 1;
+}
+
+#lblUnackLabel
+{
+	left: 10px;
+	bottom: 53px;
+	overflow: hidden;
+	width: 190px;
+	height: 25px;
+	text-overflow: ellipsis;
+}
+
+#divUnackFilteredTotal
+{
+	left: 160px;
+	bottom: 53px;
+	text-align: right;
+	font-weight: bold;
+	overflow: hidden;
+	width: 35px;
+	height: 25px;
+}
+
+#lblOfUnackTotal
+{
+	left: 200px;
+	bottom: 53px;
+	text-align: center;
+	overflow: hidden;
+	width: 15px;
+	height: 25px;"
+}
+
+#divUnackUnfilteredTotal
+{
+	left: 220px;
+	bottom: 53px;
+	text-align: left;
+	border: 0px;
+	font-weight: bold;
+	background-color: transparent;
+	width: 35px;
+	height: 25px;
+	overflow: hidden;"
+}
+
+#lblAckLabel
+{
+	left: 10px;
+	bottom: 36px;
+	overflow: hidden;
+	width: 190px;
+	height: 25px;
+	text-overflow: ellipsis;
+}
+
+#divAckFilteredTotal
+{
+	text-align: right;
+	left: 160px;
+	bottom: 36px;
+	font-weight: bold;
+	overflow: hidden;
+	width: 35px;
+	height: 25px;
+}
+
+#lblOfAckTotal
+{
+	display: none;
+	left: 200px;
+	bottom: 36px;
+	overflow: hidden;
+	text-align: center;
+	width: 15px;
+	height: 25px;
+}
+
+#divAckUnfilteredTotal
+{
+	display: none;
+	left: 220px;
+	border: 0px;
+	font-weight: bold;
+	text-align: left;
+	bottom: 36px;
+	background-color: transparent;
+	width: 35px;
+	height: 25px;
+	overflow: hidden;
+}
+
+#lblShelvedLabel
+{
+	left: 10px;
+	bottom: 19px;
+	overflow: hidden;
+	width: 190px;
+	height: 25px;
+	text-overflow: ellipsis;
+}
+
+#divShelvedFilteredTotal
+{
+	text-align: right;
+	left: 200px;
+	font-weight: bold;
+	bottom: 19px;
+	overflow: hidden;
+	width: 35px;
+	height: 25px;
+}
+
+#lblOfShelvedTotal
+{
+	left: 245px;
+	bottom: 19px;
+	overflow: hidden;
+	text-align: center;
+	width: 15px;
+	height: 25px;
+}
+
+#divShelvedUnfilteredTotal
+{
+	left: 267px;
+	border: 0px;
+	font-weight: bold;
+	text-align: right;
+	bottom: 19px;
+	background-color: transparent;
+	width: 35px;
+	height: 25px;
+	overflow: hidden;
+}
+
+#lblSuppressedLabel
+{
+	left: 10px;
+	bottom: 2px;
+	overflow: hidden;
+	width: 190px;
+	height: 25px;
+	text-overflow: ellipsis;
+}
+
+#divSuppressedFilteredTotal
+{
+	text-align: right;
+	left: 200px;
+	font-weight: bold;
+	bottom: 2px;
+	overflow: hidden;
+	width: 35px;
+	height: 25px;
+}
+
+#lblOfSuppressedTotal
+{
+	left: 245px;
+	bottom: 2px;
+	overflow: hidden;
+	text-align: center;
+	width: 15px;
+	height: 25px;
+}
+
+#divSuppressedUnfilteredTotal
+{
+	left: 267px;
+	border: 0px;
+	font-weight: bold;
+	text-align: right;
+	bottom: 2px;
+	background-color: transparent;
+	width: 35px;
+	height: 25px;
+	overflow: hidden;
+}
+
+#divDashboardDropdownWrapper
+{
+	display: none; 
+	position: absolute; 
+	z-index: 50; 
+	top: 25px; 
+	height: 90%; 
+}
+
+#btnDropDashboardWrapper
+{
+	position: absolute;
+
+}
+
+#divDashboardIframeWrapper
+{
+	height: 90%; 
+	position: absolute; 
+	bottom: 5px; 
+	left: 5px
+}
+
+#SystemStatusPane
+{
+	position: absolute;
+	z-index: 5;
+	left:0px;
+	top: 0px;
+	width: 100%;
+	height: 450;
+}
+
+.spnViewLabel
+{
+	display: inline;
+	position: absolute;
+	left: 110px;
+	top:5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 20px;
+}
+
+.btnDropViewList, .btnDropViewList_ovr
+{
+	position:absolute;
+	top:0px;
+	width:auto;
+	border-width: 1px !important;
+	border-style: solid !important;
+	height:26px;
+	line-height:23px !important;
+	cursor:pointer !important;
+	overflow:hidden;
+	white-space:nowrap;
+	behavior: url(#HDXElementsFactory#Button);
+	left:160px;
+	padding:0px 10px 0px 5px !important;
+}
+
+.btnDropDashboardList
+{
+	top:0px;
+	border:0px!important;
+	height:25px;
+	line-height:23px;
+	cursor:pointer;
+	white-space:nowrap;
+	behavior: url(#HDXElementsFactory#Button);
+	padding:0px 10px 0px 5px !important;
+}
+
+.dashboardDropdownArrow
+{
+	BEHAVIOR: url(#HDXVectorFactory#polygon);
+	position: relative;
+	display: inline;
+	overflow: hidden;
+	margin:-12px 0px 0px 0px;
+	left:8px;
+	height: 4px;
+	width: 8px;
+}
+
+#btnDashboardBack
+{
+	height: 20px;
+	width: 24px;
+	background-repeat:no-repeat;
+	background-position: 4px 3px;
+}
+
+
+.alarmSummaryIcon
+{
+  behavior: url(#AlarmStateIconFactory#AlarmIcon); 
+	width:100%;
+	height:100%;
+	position:relative;
+	top: 0px;
+	text-align:center;
+	white-space:nowrap;
+	z-index: 10;
+}	
+
+.messageIcon img {
+	margin-top: 2px;
+}
+
+.TreeNodePlusMinus, .TreeAssetIcon, .TreeNodeAlarmIcon,.treeNodeLabel, .TreeNodeIconGroup, .TreeStatusIcon{
+    float:left;
+    position:relative;	
+}
+
+
+
+.TreeNodeGroup{
+    position:absolute;
+    
+	
+}
+
+.TreeNodeIconGroup{
+	/*Set the attribute for + and - icon in the tree */
+}
+
+.TreeNodePlusMinus{
+    position: absolute;
+	display: inline;
+	left:2px;
+	top: 3px;
+
+}
+
+.PlusMinusIcon{
+    /*Set the attribute for + and - icon in the tree */
+	position: relative; 
+	top: -3px; 
+	width: 9px; 
+	height: 9px;
+}
+
+.TreeNodeAlarmIcon
+{
+   position: absolute; 
+   left: -3px;
+   top: -3px;
+   width: 22px; 
+   height: 22px;
+   z-index: 1;
+   white-space: nowrap;
+   text-align: center;
+}
+
+.TreeAssetIcon
+{
+    position: absolute; 
+    left: 0px; 
+    top: 0px; 
+    width: 19px; 
+    height: 19px; 
+    display: inline;
+
+}
+
+.TreeStatusIcon
+{
+    position: absolute; 
+    z-index: 3; 
+    left: 0px; 
+    top: 0px; 
+    width: 19px; 
+    height: 19px; 
+    display: inline;
+}
+
+.TreeAssetIcon img
+{
+    position: absolute; 
+    left: 0px;
+    width: 19px; 
+    height: 19px; 
+    z-index: 2;
+}
+
+.TreeStatusIcon img
+{
+    position: absolute; 
+    top: 2px; 
+    left: 12px;
+    width: 14px; 
+    height: 14px; 
+    z-index: 2;
+}
+.TreeNodeAlarmIcon img{
+    width: 16px;
+    height: 16px;
+    margin: 3px 0 0 3px;
+}
+
+#AreaTableWrapper #Selected_Active_Cells,
+#AreaTableWrapper #Selected_Active_Unassigned_Cells,
+#AreaTableWrapper #Selected_Inactive_Cells,
+#AreaTableWrapper #Selected_Inactive_Unassigned_Cells,
+#AreaTableWrapper #Unassigned_Cells,
+#AreaTableWrapper #Unselected_Cells,
+.treeNodeLabel
+{
+    position: absolute; 
+    left: 44px; 
+    top: 1px; 
+    display: inline;
+}
+
+.treeNodeLabelHover{
+    cursor:pointer;
+    background:#767f92;
+}
+
+.TreeNodeIconGroup
+{
+    position: absolute;
+    left: 15px;
+    top: 1px;
+    display: inline;
+}
+
+
+
+#tree{
+    scrollbar-3dlight-color:#afbad3;
+    scrollbar-arrow-color:#374460;
+    scrollbar-base-color:#afbad3;
+    scrollbar-darkshadow-color:#afbad3;
+    scrollbar-face-color:#d3cfcc;
+    scrollbar-highlight-color:#afbad3;
+    scrollbar-shadow-color:#afbad3;
+    scrollbar-track-color:#afbad3;
+}
+
+#tree img /*taken from System.css to correct alignment of tree nodes*/
+{
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+/* Icon Positioning */
+.unshelveAlarm, .unshelveAlarm_ovr, .unshelveAlarmDisabled,
+.shelveAlarm, .dialogShelveAlarm, .shelveAlarm_ovr, .dialogShelveAlarm_ovr,
+.shelveAlarmDisabled, .dialogShelveAlarmDisabled
+{
+	background-position: 2px 3px;
+	background-repeat: no-repeat;
+}
+
+.pauseEnabled, .pauseEnabled_ovr, .pauseDisabled,
+.resumeEnabled, .resumeEnabled_ovr, .resumeDisabled
+{
+	background-position: 2px 4px;
+	background-repeat: no-repeat;
+}
+
+.AcknowledgePageEnabled, .AcknowledgePageEnabled_ovr, .AcknowledgePageDisabled,
+.generateEventEnabled, .generateEventEnabled_ovr, .generateEventDisabled, .silenceAudible,
+.clearPageEnabled, .clearPageDisabled, .alarmOverFlowAck
+{
+	background-position: 2px 3px;
+	background-repeat: no-repeat;
+}
+
+.ClearFilter, .ClearFilter_ovr
+{
+	background-position: 3px 6px;
+	background-repeat: no-repeat;
+}
+
+.resetViewClass, .resetViewClass_ovr, .resetViewDisabled
+{
+	background-position: 3px 4px;
+	background-repeat:	no-repeat;
+}
+
+/* Icons in detail pane */
+.pointDetailIcon, .assDisplayIcon, .crdHldrIcon, .suppStatusIcon, .lnkCustomIcon
+{
+	background-position:4px 2px;
+	background-repeat: no-repeat;
+}
+
+.saveDetailsDisabled, .saveDetailsEnabled, .saveDetailsEnabled_ovr
+{
+	border-color:transparent !important;
+	background-position:2px 5px;
+	background-repeat:no-repeat;
+}
+
+/* Icons in View Configuation pane */
+.saveViewBtnDisabled, .saveViewBtnEnabled, .saveViewBtnEnabled_ovr,
+.deleteViewDisabled, .deleteViewEnabled, .deleteViewEnabled_ovr
+{
+	background-position: 2px 5px;
+	background-repeat: no-repeat;
+	border-color:transparent;
+}
+
+.areaPaneClose, .areaPaneClose_ovr
+{
+	background-position:5px 6px;
+	background-repeat:no-repeat;
+}
+
+.areaPaneOpen, .areaPaneOpen_ovr
+{
+	background-position:3px 5px;
+	background-repeat:no-repeat;
+}
+
+
+
+/* Toggles for touch/non touch */
+
+#AreaAndViewToolbar
+{
+	position: absolute !important;
+    z-index: 1 !important;
+    left: 10px !important;
+
+	width: 650px !important;
+	height: 500px !important;
+    overflow: hidden !important;
+}
+
+#spnCurrentView
+{
+    position: relative;
+	left: 3px;
+}
+
+#spnDropAreaPane
+{
+    padding:0px 0px 0px 5px !Important;
+}
+
+#lblFilterApplied
+{
+	z-index: 4;
+
+    right: 510px;
+}
+
+#toolbar
+{
+	width:490px;
+}
+
+#AreaTableWrapper
+{
+	padding-top: 60px;
+}
+
+#AreaPane
+{
+    display: none;
+    width: 500px;
+    top:81px;
+    height: 100px;
+}
+
+/*=======================================================================
+Context menu styles to switch icons
+======================================================================*/
+.contextMenu_Ack, .contextMenu_QuickShelve, .contextMenu_Shelve, .contextMenu_Unshelve,
+.contextMenu_PointDetail, .contextMenu_AssDisplay, .contextMenu_SuppStatus, .contextMenu_AlarmHelp,
+.contextMenu_ClearFilters, .contextMenu_ColOrganiser, .contextMenu_Clear, .contextMenu_Confirm,
+.contextMenu_ActGo, .contextMenu_ActHold, .contextMenu_ActStop, .contextMenu_ActRemove, .contextMenu_ActAbort, .contextMenu_PE, .contextMenu_Message
+{
+	position: relative; 
+	top: 2px; left: 2px; right:5px; bottom:2px; 
+	padding:0px 0px 0px 22px !important;
+	vertical-align:middle !important;
+	background-position:2px 1px;
+}
+/*=======================================================================
+End Context menu styles to switch icons
+======================================================================*/
+
+/*=======================================================================
+Batch related styles
+======================================================================*/
+.actCommands
+{
+	display: inline;
+    position: absolute;
+    left: 0px;
+    bottom: -4px;
+    width: 1200px;
+	height: 41px;
+	padding-top: 3px;
+	z-index: 2;
+}
+
+.btnNewActDList, .btnNewActDListHover, .btnNewActDisabledList
+{
+	position: absolute;
+	right: 0px;
+	top: -6px;
+	height: 30px;
+	width: 159px;
+	z-index: 1;
+	overflow: hidden;
+	padding: 0px 10px 10px 60px !important;
+	line-height: 29px !important;
+	border-width: 1px !important;
+	border-style: solid !important;
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.btnNewActDList, .btnNewActDListHover
+{
+	cursor:pointer !important;
+}
+
+.btnGoEnabled, .btnHoldEnabled, .btnStopEnabled, .btnAbortEnabled, .btnRemoveEnabled,
+.btnGoDisabled, .btnHoldDisabled, .btnStopDisabled, .btnAbortDisabled, .btnRemoveDisabled,
+.btnGoHover, .btnHoldHover, .btnStopHover, .btnAbortHover, .btnRemoveHover
+{
+	float:left;
+	position:relative;
+	display:block;
+	margin-right: 8px !important;
+	border:none !important;
+	overflow:hidden;
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	text-align: left;
+	padding-left:40px !important;
+	padding-top:6px !important;
+	width:120px;
+	height:30px;
+	behavior: url(#HDXElementsFactory#Button);
+}
+
+.btnGoEnabled, .btnHoldEnabled, .btnStopEnabled, .btnAbortEnabled, .btnRemoveEnabled,
+.btnGoHover, .btnHoldHover, .btnStopHover, .btnAbortHover, .btnRemoveHover
+{
+	cursor:pointer !important;
+}
+
+.actCmdDivider
+{
+	float:left;
+	position:relative;
+	display:block;
+	margin-right: 0px !important;
+	overflow:hidden;
+	padding-top:10px !important;
+	width: 50px;
+}
+
+.newActOptList, .newActOptListHover
+{
+	font-family: Honeywell Sans Web;
+	display: inline;
+	position: absolute;
+	white-space: nowrap;
+	z-index: 2;
+	right: 0px;
+	top: 20px;
+	width: 159px;
+	height: 70px;
+	visibility: hidden;
+	overflow: hidden;
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	padding: 6px 3px 1px 3px !important;
+}
+	
+.newBatchBtn, .newProcedureBtn
+{
+	width:100%;
+	clear:both;
+	cursor:pointer !important;
+	padding:0px 0px 0px 4px;
+	line-height: 25px;
+	height: 30px;
+}
+
+.btnNewBatch, .btnNewBatchDisabled, .btnNewProcedure, .btnNewProcedureDisabled, .btnNewBatchHover, .btnNewProcedureHover
+{
+	position: absolute;
+	right: 0px;
+	top: -6px;
+	height: 30px;
+	z-index: 1;
+	overflow: hidden;
+	padding: 0px 10px 10px 40px !important;
+	line-height: 29px !important;
+	border-width: 1px !important;
+	border-style: solid !important;
+	width: 159px;
+	behavior: url(#HDXElementsFactory#Button);
+	font-family: Honeywell Sans Web;
+}
+
+.btnNewBatch, .btnNewProcedure, .btnNewBatchHover, .btnNewProcedureHover
+{
+	cursor:pointer !important;
+}
+
+.btnNewActDList, .btnNewActDListHover, .btnNewActDisabledList,
+.btnNewBatch, .btnNewBatchHover, .btnNewBatchDisabled,
+.btnNewProcedure, .btnNewProcedureHover, .btnNewProcedureDisabled,
+.btnGoEnabled, .btnHoldEnabled, .btnStopEnabled, .btnAbortEnabled, .btnRemoveEnabled,
+.btnGoDisabled, .btnHoldDisabled, .btnStopDisabled, .btnAbortDisabled, .btnRemoveDisabled,
+.btnGoHover, .btnHoldHover, .btnStopHover, .btnAbortHover, .btnRemoveHover
+{
+	background-position: 13px 6px;
+	background-repeat:no-repeat;
+}
+
+.actCreateAndDataUI
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.actCreateAndDataUI, .actCreateAndDataUI:before, .actCreateAndDataUI:after
+{
+    box-sizing: content-box;
+}
+
+/*=======================================================================
+End batch related styles
+======================================================================*/
+
+
+/*=======================================================================
+Message summary instruction response interface styles
+======================================================================*/
+
+.iri_fieldLabel, .iri_renderedTextLabel, .iri_writableFieldLabel {
+    cursor: default;
+    position: absolute; 
+    font-weight: normal; 
+    text-align: left;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+.iri_renderedTextLabel {
+    hw-text-size: 12pt;
+}
+
+.iri_fieldData {
+    cursor: default;
+    max-width: 100%;
+    text-overflow: ellipsis; 
+    position: absolute; 
+    font-weight: normal;  
+    white-space: nowrap;
+    text-align: left;
+    position: relative;
+    width: 100%;
+}
+
+.iri_fieldInitialHidden {
+    visibility: hidden;
+}
+
+.iri_content {
+    width: 100%;
+    height: 100%;
+}
+    
+.iri_divRow {
+    position: relative;
+    left: 26px;
+    width: 80%;
+    overflow: hidden;
+}
+
+.iri_divSeparator {
+    height: 100%; 
+    width: 2px; 
+    top: 0px;
+}
+
+.iri_Column {
+	padding-left: 26px;
+}
+
+.iri_middleColumn {
+	width: 68%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.iri_rightColumn {
+	left: 68%;
+	width: 32%;
+}
+
+#iri_divLeftColumn {
+    height: 100%; 
+    width: 400px; 
+    position: absolute; 
+    left: 0px; 
+    top: 0px;
+}
+
+
+
+#iri_divLeftSeparator {
+    position: absolute; 
+    left: 400px;  
+}
+
+#iri_divRow1 {
+    margin-top: 1%;
+    height: 11%;
+}
+
+#iri_divRow2 {
+    height: 24%;
+}
+
+#iri_divRow3 {
+    height: 24%;
+}
+
+#iri_divRow4 {
+    height: 37%;
+}
+
+#iri_imgAckIcon {
+    cursor: pointer;
+    position:absolute;
+    left:20%;
+}
+
+.iri_txtMessage {
+    white-space: normal;
+}
+
+.iri_divIcon {
+    height:100%;
+    width: 50%;
+    position: absolute;
+}
+
+.iri_divIconRight {
+    left: 50%;
+}
+
+.iri_writeableField {
+	width: 125px;
+	left: 0px;
+	cursor: text;
+}
+
+.iri_unitLabel {
+	margin-left: 3px;
+	left: 125px;
+	width: 84px;
+}
+
+.iri_targetWriteable {
+	font-size: 0pt;
+	height: 14.77%;
+	width: 85.33%;
+	position: absolute;
+	left: 0px;
+	top: 47%;
+}
+
+.iri_entryWriteable {
+	font-size: 0pt;
+	height: 14.77%;
+	width: 85.33%;
+	position: absolute;
+	left: 0px;
+	top: 18%;
+}
+
+.iri_btnConfirm {
+    cursor: pointer;
+    position: absolute;
+    width: 212px;
+    text-align: center;
+	vertical-align: middle;
+    bottom: 5px;
+    height: 25px;
+	line-height: 25px;
+	font-size: 11pt;
+	font-family: Honeywell Sans Web;
+	font-weight: bold;
+	font-style: normal; 
+	overflow: hidden; 
+	height: 14.2%; 
+	text-align: center; 
+	left: 0px;
+}
+
+.iri_targetWriteable, .iri_entryWriteable , .iri_btnConfirm, .iri_writableFieldLabel
+{
+	margin-left: 26px;
+}
+
+.iri_disabled {
+    cursor: default;
+}
+
+.iri_combobox
+{
+    hw-text-size: 11pt;
+    hw-text-effect: Normal;
+    hw-text-align: Center;
+    hw-line-width: 0;
+    hw-line-style: None;
+    hw-line-color: transparent;
+    text-align: center;
+}
+
+.iri_renderedText {
+    word-wrap: break-word;
+    overflow: auto;
+    cursor: default;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.spanLiveValuePlaceHolder {
+    width: 100px;
+    height: 17px;
+    border-bottom: 1px solid;
+    vertical-align: text-bottom;
+}
+
+.iri_dynamicInstuctionAlpha {
+	cursor: pointer;
+	width: 5px;
+}

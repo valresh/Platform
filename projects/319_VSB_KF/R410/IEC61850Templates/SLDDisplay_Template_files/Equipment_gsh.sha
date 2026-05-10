@@ -1,0 +1,619 @@
+﻿<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="103px" height="40px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="VBScript" id="47B00346-6131-4089-BF87-989FB451158C"><![CDATA['COPYRIGHT (c) 2004-2013
+'HONEYWELL INTL.,
+'ALL RIGHTS RESERVED
+'--------------------------------------
+'ResizePage
+'--------------------------------------
+sub ResizePage()
+	dim oDisplayTitle,oBackground, oNextPage
+	on error resume next
+	document.getElementById("shaBackground").style.pixelWidth = Background.clientWidth
+	document.getElementById("shaDisplayTitle").style.pixelWidth = Background.clientWidth
+	document.getElementById("shaNextPage").style.pixelLeft = Background.clientWidth - document.getElementById("shaNextPage").style.pixelWidth - 4
+	document.getElementById("PicHoneywell").disabled = true
+	if err.number<>0 and window.external.environment = 0 then window.external.LogMessage "ResizePage ->" & " " & err.description       
+end sub
+'--------------------------------------
+'Quality
+'--------------------------------------
+sub IEC_Graph_AlpError_OnUpdate(oSource)
+	dim oShape
+	on error resume next
+	set oShape=oSource.parentnode.parentnode
+	if (oSource.quality and iQualityOffScan)=iQualityOffScan then
+  		if typename(oShape.objects("TxtError"))<>"Nothing" then oShape.objects("TxtError").styleclass="TxtError_NoError"
+	elseif (oSource.quality and iQualityBad)=iQualityBad then
+  		if typename(oShape.objects("TxtError"))<>"Nothing" then oShape.objects("TxtError").styleclass="TxtError_InError"
+	else
+  		if typename(oShape.objects("TxtError"))<>"Nothing" then oShape.objects("TxtError").styleclass="TxtError_NoError"
+	end if
+	if err.number<>0 and window.external.environment = 0 then window.external.LogMessage "IEC_Graph_AlpError_OnUpdate ->" & oSource.id & " " & err.description       
+end sub
+'--------------------------------------------
+' AuxiliaryNetwork
+'--------------------------------------------
+sub IEC_AuxiliaryNetwork_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_AuxiliaryNetwork" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_AuxiliaryNetwork" &" " & vStyle	
+else
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_AuxiliaryNetwork"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_AuxiliaryNetwork" &" " & vStyle
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_AuxiliaryNetwork_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Battery
+'--------------------------------------------
+sub IEC_Battery_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+ if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Battery" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Battery" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Battery" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Battery"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Battery"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Battery"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Battery_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' BayMeasurements
+'--------------------------------------------
+sub IEC_BayMeasurements_AlpState_OnUpdate(oSource) 
+   dim oShape
+   on error resume next
+   Set oShape = oSource.parentnode.parentnode
+if (oSource.quality and iQualityBad)<>iQualityBad then
+	if typename(oShape.objects("alpBayMeasurements")) <> "Nothing" then
+		if oShape.objects("txtTagnameEU").value <> "" and oShape.objects("txtTagnameEU").value <> vbnullstring and oShape.objects("txtTagnameEU").value <> " "then
+			oShape.objects("alpBayMeasurements").value = oSource.value & " (" &  oShape.objects("txtTagnameEU").value & ")"
+		else
+		oShape.objects("alpBayMeasurements").value = oSource.value
+		end if
+	end if
+end if
+  if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_BayMeasurements_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Bus
+'--------------------------------------------
+sub IEC_Bus_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Bus" &" " & vStyle	   	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Bus"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Bus_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Bushing
+'--------------------------------------------
+sub IEC_Bushing_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Bushing" &" " & vStyle
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Bushing" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("LinT1").styleclass="OvlBody_Bushing" &" " & vStyle	   	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Bushing"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Bushing"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("LinT1").styleclass="OvlBody_Bushing"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Bushing_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Capacitor
+'--------------------------------------------
+sub IEC_Capacitor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Capacitor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Capacitor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Capacitor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Capacitor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Capacitor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Capacitor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Capacitor_OnShapeLoad ->" & oSource.id & " " & err.descriptio    
+end sub
+'--------------------------------------------
+' Circuit Breaker
+'--------------------------------------------
+sub IEC_CircuitBreaker_AlpState_OnUpdate(oSource) 
+   dim iState,oShape
+   on error resume next
+   set oShape=oSource.parentnode.parentnode
+	   iState=oSource.value
+	   index=oShape.getCustomProperty("Style","cp_styleForState" & iState)
+	   if typename(oShape.objects("LinST0")) <> "Nothing" then oShape.objects("LinST0").styleclass="LinST0_" & index	   
+	   if typename(oShape.objects("LinST1")) <> "Nothing" then oShape.objects("LinST1").styleclass="LinST1_" & index	
+	   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_" & index	   
+	   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_" & index
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_CircuitBreaker_AlpState_OnUpdate ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Circuit Isolator
+'--------------------------------------------
+sub IEC_CircuitIsolator_AlpState_OnUpdate(oSource) 
+   dim iState,oShape
+   on error resume next
+   set oShape=oSource.parentnode.parentnode
+	   iState=oSource.value
+	   index=oShape.getCustomProperty("Style","cp_styleForState" & iState)
+	   if typename(oShape.objects("LinST0")) <> "Nothing" then oShape.objects("LinST0").styleclass="LinST0_" & index	   
+	   if typename(oShape.objects("LinST1")) <> "Nothing" then oShape.objects("LinST1").styleclass="LinST1_" & index	
+	   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_" & index	   
+	   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_" & index
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_CircuitIsolator_AlpState_OnUpdate ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Convertor
+'--------------------------------------------
+sub IEC_Convertor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Convertor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Convertor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Convertor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Convertor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Convertor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Convertor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Convertor_OnShapeLoad ->" & oSource.id & " " & err.descriptin    
+end sub
+'--------------------------------------------
+' CurrentTransformer
+'--------------------------------------------
+sub IEC_CurrentTransformer_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_CurrentTransformer" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_CurrentTransformer" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_CurrentTransformer" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_CurrentTransformer"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_CurrentTransformer"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_CurrentTransformer"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_CurrentTransformer_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' EarthFaultNeutralizer
+'--------------------------------------------
+sub IEC_EarthFaultNeutralizer_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_EarthFaultNeutralizer" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_EarthFaultNeutralizer" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_EarthFaultNeutralizer" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_EarthFaultNeutralizer"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_EarthFaultNeutralizer"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_EarthFaultNeutralizer"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_EarthFaultNeutralizer_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Earth Switches
+'--------------------------------------------
+sub IEC_EarthSwitch_AlpState_OnUpdate(oSource) 
+   dim iState,oShape
+   on error resume next
+   set oShape=oSource.parentnode.parentnode
+	   iState=oSource.value
+	   index=oShape.getCustomProperty("Style","cp_styleForState" & iState)
+	   if typename(oShape.objects("LinST0")) <> "Nothing" then oShape.objects("LinST0").styleclass="LinST0_" & index	   
+	   if typename(oShape.objects("LinST1")) <> "Nothing" then oShape.objects("LinST1").styleclass="LinST1_" & index	
+	   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_" & index	   
+	   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_" & index
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_EarthSwitch_AlpState_OnUpdate ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Fan
+'--------------------------------------------
+sub IEC_Fan_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Fan" &" " & vStyle	   
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Fan" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Fan"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Fan"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Fan_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' GasInsulatedLine
+'--------------------------------------------
+sub IEC_GasInsulatedLine_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_GasInsulatedLine" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_GasInsulatedLine" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_GasInsulatedLine" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_GasInsulatedLine"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_GasInsulatedLine"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_GasInsulatedLine"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_GasInsulatedLine_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Generator
+'--------------------------------------------
+sub IEC_Generator_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Generator" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Generator" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Generator" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_Generator" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Generator"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Generator"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Generator"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_Generator" &" " & vStyle
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Generator_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' InfeedingLine
+'--------------------------------------------
+sub IEC_InfeedingLine_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_InfeedingLine" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_InfeedingLine" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_InfeedingLine" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_InfeedingLine"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_InfeedingLine"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_InfeedingLine"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_InfeedingLine_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' LineSegment
+'--------------------------------------------
+sub IEC_LineSegment_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_LineSegment" &" " & vStyle	
+else
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_LineSegment"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_LineSegment_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' LoadTapChanger
+'--------------------------------------------
+sub IEC_LoadTapChanger_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_LoadTapChanger" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_LoadTapChanger" &" " & vStyle
+   if typename(oShape.objects("LinT3")) <> "Nothing" then oShape.objects("LinT3").styleclass="LinTx_LoadTapChanger" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_LoadTapChanger" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_LoadTapChanger"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_LoadTapChanger"
+   if typename(oShape.objects("LinT3")) <> "Nothing" then oShape.objects("LinT3").styleclass="LinTx_LoadTapChanger"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_LoadTapChanger"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_LoadTapChanger_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Motor
+'--------------------------------------------
+sub IEC_Motor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Motor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Motor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Motor" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_Motor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Motor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Motor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Motor"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_Motor" &" " & vStyle
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Motor_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' PageNavigation
+'--------------------------------------------
+sub IEC_PageNavigation_OnShapeLoad(oSource) 
+   dim oShape, sNextPage
+   on error resume next
+   set oShape=oSource
+   sNextPage = oShape.getCustomProperty("Text","NextDisplayPage")
+if sNextPage <> vbnullstring and sNextPage <> "" then
+	oShape.style.visibility = "Inherit"
+else
+	oShape.style.visibility = "Hidden"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_PageNavigation_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' PowerCable
+'--------------------------------------------
+sub IEC_PowerCable_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerCable" &" " & vStyle	
+else
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerCable"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_PowerCable_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' PowerShunt
+'--------------------------------------------
+sub IEC_PowerShunt_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_PowerShunt" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_PowerShunt" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerShunt" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_PowerShunt"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_PowerShunt"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerShunt"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_PowerShunt_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' PowerTransformer
+'--------------------------------------------
+sub IEC_PowerTransformer_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_PowerTransformer" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_PowerTransformer" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerTransformer" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_PowerTransformer"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_PowerTransformer"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_PowerTransformer"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_PowerTransformer_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Reactor
+'--------------------------------------------
+sub IEC_Reactor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Reactor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Reactor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Reactor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Reactor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Reactor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Reactor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Reactor_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' Resistor
+'--------------------------------------------
+sub IEC_Resistor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Resistor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Resistor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Resistor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_Resistor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_Resistor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_Resistor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_Resistor_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' RotatingReactor
+'--------------------------------------------
+sub IEC_RotatingReactor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_RotatingReactor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_RotatingReactor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_RotatingReactor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_RotatingReactor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_RotatingReactor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_RotatingReactor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_RotatingReactor_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' SemiconductorControlledRectifier
+'--------------------------------------------
+sub IEC_SemiconductorControlledRectifier_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SemiconductorControlledRectifier" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SemiconductorControlledRectifier" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SemiconductorControlledRectifier" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SemiconductorControlledRectifier"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SemiconductorControlledRectifier"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SemiconductorControlledRectifier"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_SemiconductorControlledRectifier_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' SurgeArrestor
+'--------------------------------------------
+sub IEC_SurgeArrestor_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SurgeArrestor" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SurgeArrestor" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SurgeArrestor" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SurgeArrestor"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SurgeArrestor"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SurgeArrestor"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_SurgeArrestor_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' SynchronousMachine
+'--------------------------------------------
+sub IEC_Generator_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SynchronousMachine" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SynchronousMachine" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SynchronousMachine" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_SynchronousMachine" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_SynchronousMachine"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_SynchronousMachine"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_SynchronousMachine"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_SynchronousMachine" &" " & vStyle
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_SynchronousMachine_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' ThyristorControlledFrequency
+'--------------------------------------------
+sub IEC_ThyristorControlledFrequency_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_ThyristorControlledFrequency" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_ThyristorControlledFrequency" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_ThyristorControlledFrequency" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_ThyristorControlledFrequency" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_ThyristorControlledFrequency"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_ThyristorControlledFrequency"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_ThyristorControlledFrequency"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_ThyristorControlledFrequency"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_ThyristorControlledFrequency_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' ThyristorControlledReactive
+'--------------------------------------------
+sub IEC_ThyristorControlledReactive_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_ThyristorControlledReactive" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_ThyristorControlledReactive" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_ThyristorControlledReactive" &" " & vStyle
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_ThyristorControlledReactive" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_ThyristorControlledReactive"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_ThyristorControlledReactive"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_ThyristorControlledReactive"
+   if typename(oShape.objects("txtSymbol")) <> "Nothing" then oShape.objects("txtSymbol").styleclass="Symbol_ThyristorControlledReactive"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_ThyristorControlledReactive_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub
+'--------------------------------------------
+' VoltageTransformer
+'--------------------------------------------
+sub IEC_VoltageTransformer_OnShapeLoad(oSource) 
+   dim oShape, vStyle
+   on error resume next
+   set oShape=oSource
+   vStyle = oShape.getCustomProperty("Style","cp_StyleForColor")
+if ucase(page.getstyleclassproperty("Enable_VoltageColor","key")) = "ON" then
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_VoltageTransformer" &" " & vStyle	   
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_VoltageTransformer" &" " & vStyle
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_VoltageTransformer" &" " & vStyle	
+else
+   if typename(oShape.objects("LinT1")) <> "Nothing" then oShape.objects("LinT1").styleclass="LinTx_VoltageTransformer"
+   if typename(oShape.objects("LinT2")) <> "Nothing" then oShape.objects("LinT2").styleclass="LinTx_VoltageTransformer"
+   if typename(oShape.objects("OvlBody")) <> "Nothing" then oShape.objects("OvlBody").styleclass="OvlBody_VoltageTransformer"
+end if
+   if err.number<>0 and window.external.environment = 0 then window.external.LogMessage " IEC_VoltageTransformer_OnShapeLoad ->" & oSource.id & " " & err.description    
+end sub]]></script></scripts><parameters><parameter name="Revision" type="Num" description="Revision" defaultvalue="R430 Rev.1"/></parameters><shapes><shape><element><html><content><![CDATA[
+<DIV style="POSITION: absolute; TEXT-ALIGN: center; FONT-STYLE: normal; WIDTH: 103px; FONT-FAMILY: Arial; HEIGHT: 40px; VISIBILITY: hidden; COLOR: #0000ff; FONT-SIZE: 8pt; OVERFLOW: hidden; FONT-WEIGHT: bold; TEXT-DECORATION: none; BEHAVIOR: url(#HDXVectorFactory#text); TOP: 3px; LEFT: 4px" id=TxtGSH class=hvg.textbox.1 tabIndex=-1 hdxproperties="FillColor:#00bfff;fillColorBlink:False;FillStyle:0;Height:40;lineColorBlink:False;LineStyle:1;textColor:#0000ff;textColorBlink:False;TotalRotation:-1;value:;Width:103;" globalscripts>Equipment&nbsp;General Script Holder<BR>{%Num::Revision%} </DIV>]]></content></html></element></shape></shapes></shapefile>

@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:v = "urn:schemas-microsoft-com:vml">
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE>Custom filter</TITLE>
+
+<STYLE type="text/css">
+v\:* 
+{
+	behavior:url(#default#VML);
+}
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+#Selected_Active_Cells
+{
+	font-weight: bold;
+	background-color: activecaption;
+	color: captiontext;
+}
+
+#Selected_Active_Unassigned_Cells
+{
+	font-weight: bold;
+	background-color: activecaption;
+	color: inactivecaptiontext;
+}
+
+#Selected_Inactive_Cells
+{
+	background-color: activecaption;
+	color: inactivecaptiontext;
+	font-weight: bold;
+}
+
+#Selected_Inactive_Unassigned_Cells
+{
+	background-color: activecaption;
+	color: inactivecaptiontext;
+	font-weight: bold;
+}
+
+#Unassigned_Cells
+{
+	color: graytext;
+}
+
+#Table
+{
+	background-color: threeddarkshadow;
+	color: window;
+}
+
+.MENUITEM_HOVER
+{
+	background-color: highlight;
+	color: highlighttext;
+}
+
+.HDXTBL_HEAD { }
+.HDXTBL_BODY {  }
+.HDXTBL_COLHEAD 
+{ 
+	height: 100%;
+	width: 100%;
+	border: 1px solid;
+	border-top-color: threedhighlight;
+	border-left-color: threedhighlight;
+	border-right-color: threedshadow;
+	border-bottom-color: threedshadow;
+	padding: 2px;
+	background-color: threedface;
+	color: buttontext;
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+}
+.HDXTBL_COLBODY { }
+.HDXTBL_CELL { }
+
+.HDX_SCROLLBAR 
+{ 
+	scrollbar-face-color: threedface;
+	scrollbar-arrow-color: buttontext;
+	scrollbar-track-color: scrollbar;
+	scrollbar-highlight-color: threedhighlight;
+	scrollbar-3dlight-color: threedlightshadow;
+	scrollbar-shadow-color: threedshadow;
+	scrollbar-darkshadow-color: threeddarkshadow;
+}
+.HDX_MENU 
+{ 
+	background-color: menu;
+	color: menutext;
+	border: 2px outset;
+}
+.HDX_MENUITEM { }
+</STYLE>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+<script language="VBScript" src="../Scripts/EMScripts.vbs"></script>
+
+<script language="JScript">
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+// Some key-codes used in key-press handling
+
+var VK_ESC				= 27;
+var VK_ENTER			= 13;
+
+// ----------------------------------------------------------------------------------
+// DoKeyPress
+//
+//	Invoked by the 'onkeypress' event on the body element. This is used to provide
+//	keyboard support for such keys as 'ESC' and 'ENTER'
+// ----------------------------------------------------------------------------------
+
+function DoKeyPress()
+{
+	var key = window.event.keyCode;
+
+	switch(key)
+	{
+	case VK_ESC:
+		window.close();
+		break;
+
+	case VK_ENTER:
+
+		// ENTER on a button element
+		if( window.event.srcElement.tagName != "BUTTON" )
+			DoUnload();
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// DoLoad
+//
+//	Invoked by the 'onload' event of the body element. It is responsible for 
+//	retrieving and restoring the previous state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function DoLoad()
+{
+	// Get the summary type and auxfilter from the parameters
+	if ( window.dialogArguments.param != null )
+	{
+		var strParameters = new String(window.dialogArguments.param);
+		var nDivider = strParameters.indexOf(";");
+		if ( nDivider != -1 )
+		{
+			var strSummaryType = strParameters.substr(0, nDivider);
+			var strAuxFilter = strParameters.substr(nDivider + 1, strParameters.length - nDivider);
+			AreaTable.Binding.DataObjects.Item(0).SummaryType = strSummaryType;
+			AreaTable.Binding.DataObjects.Item(0).AuxFilter = strAuxFilter;
+		}
+	}
+
+	AreaTable.Binding.DataObjects.Item(0).SetState("","");
+
+	// Get the assets currently selected from the dialog arguments
+	AreaTable.Binding.DataObjects.Item(0).SelectionListString = window.dialogArguments.Value;
+
+	// Set the cancel value to 'true' in case we terminate early
+	window.returnValue = true;
+}
+
+// ----------------------------------------------------------------------------------
+// DoUnload
+//
+//	Invoked by the user clicking the 'OK' button to apply a filter. 
+// ----------------------------------------------------------------------------------
+
+function DoUnload()
+{
+	// Set the new value
+	window.dialogArguments.Value = AreaTable.Binding.DataObjects.Item(0).SelectionListString;
+	
+	// Set the cancel value to 'false' since we're setting a new value
+	window.returnValue = false;
+	
+	window.close();
+}
+
+// --------------------------------------------------------------------------------------
+
+function OnEnter_MenuItem(object)
+{
+	if (parent.disabled == true) return;
+	object.className = "MENUITEM_HOVER";
+}
+
+// --------------------------------------------------------------------------------------
+
+function OnLeave_MenuItem(object)
+{
+	if (parent.disabled == true) return;
+	object.className = "";
+}
+
+// --------------------------------------------------------------------------------------
+
+function CheckDrag()
+{
+	return window.event.srcElement.isContentEditable;
+}
+
+// --------------------------------------------------------------------------------------
+
+function CheckSelect()
+{
+	return window.event.srcElement.isContentEditable;
+}
+
+</script>
+</HEAD>
+
+<BODY style="overflow: hidden; background-color: buttonface;"
+	  onload="InitializeLogger(); DoLoad()"
+	  onkeypress="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  ondragstart="javascript:return CheckDrag()"
+	  onselectstart="javascript:return CheckSelect();">
+
+<OBJECT id=HDXPageBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:56144F51-84F2-11D3-8114-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXVectorFactory style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:45A29A51-418F-11D4-816B-00C04F68E0F9></OBJECT>
+<OBJECT id=HDXAlphaBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:00FD97E5-43FE-11D3-964E-00609738C4CB></OBJECT>
+<OBJECT id=HDXPushButtonBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:ACB6C25A-20A8-11D4-B86C-00C04F6022AA></OBJECT>
+<OBJECT id=HSCComboboxBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:87E1DD39-48A6-4188-95F5-26ECF7D6493B></OBJECT>
+<OBJECT id=HSCCheckBoxBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:65CF3A90-0165-4CAE-8DF2-6242FA186238></OBJECT>
+<OBJECT id=HSCIndicatorBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:ABAAEE25-63F3-4F67-9C1C-0AC96A186A73></OBJECT>
+<OBJECT id=HoverBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:51A1B6EC-7507-4A0B-A06D-5FA2742F033D></OBJECT>
+<OBJECT id=HDXPopupBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:034DB16E-AE01-11D3-BE8D-00C04F7915FE></OBJECT>
+<OBJECT id=BindingBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:31C15D64-63ED-11D3-80D0-00C04F6847A2></OBJECT>
+<OBJECT id=HSCShapeLinkBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:0A7E026C-957B-4548-9BB7-7835EF5F8D4D></OBJECT>
+<OBJECT id=HSCActiveXDocumentBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:A4FE97D2-5EC5-4273-A00F-88D8447A0D9A></OBJECT>
+<OBJECT id=HSCBreakpointBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:43C8EF2D-9001-43BA-9ECA-82818E8281D5></OBJECT>
+<OBJECT id=HDXLevelFillBehavior style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase="" classid=clsid:9E860844-C032-46A8-A3F7-FB950475A292></OBJECT>
+<OBJECT id="HDXElementsFactory" style="LEFT: 0px; WIDTH: 0px; POSITION: absolute; TOP: 0px; HEIGHT: 0px" codeBase=""	classid="clsid:2592890C-11DD-4818-BB62-9640E4A050D1"></OBJECT>
+
+<DIV id=Page 
+	  style="margin: 0px; 
+			 padding: 0px;
+			 cursor: default;
+			 behavior: url(#HDXPageBehavior); 
+  			 overflow: visible; 
+  			 display: inline;
+			 position: absolute; 
+			 height: 100%; 
+			 width: 100%; 
+			 left: 0px;
+  			 top: 0px;">
+
+	<span style="position: absolute;
+				 left: 10px;
+				 top: 15px;
+				 width: 300px;">
+				 
+		Select the assets to include in the filter:
+		
+	</span>
+
+	<div
+		 id="AreaTable"
+		 rowHeight="20"
+		 headerHeight="22"
+		 timeoutDelay="0"
+		 hdxproperties="HDXBINDINGID:0;"
+		 displayHeader="false"
+		 verticalScrollbar="auto"
+		 style="position: absolute;
+				background-color: buttonface;
+				border: 2px inset;
+			    white-space: nowrap;
+			    z-index: 100;
+		 	    top: 40px;
+		 	    left: 10px; 
+		 	    width: 250px; 
+		 	    height: 195px;
+			    behavior: url(#HDXElementsFactory#Table#HDXBinding) url(#BindingBehavior);
+		 	    display: inline;
+		 	    cursor: default;">
+	</div>
+	
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			tabIndex=2
+			style="position: absolute; 
+				   top: 245px;
+				   left: 90px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			tabIndex=3
+			onclick="window.close()" 
+			style="position: absolute; 
+				   top: 245px;
+				   left: 180px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</DIV>
+</BODY>
+</HTML>

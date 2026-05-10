@@ -1,0 +1,235 @@
+<!--
+***************************************************************************
+Copyright (C) 2006 Honeywell Limited
+SystemButton.htc								
+SystemButton.htc												
+24/02/2016 10/:43 PM											
+main.R0920_Int.1
+$Author: Stickell $														
+***************************************************************************
+This Viewlink (element behavior) provides the styled layout and appearance
+of a tabstrip for an EBI or SymmetrE display. 
+
+Tabs are provided as an IXMLDOMNodeList where the caption for the tab is
+provided as the 'title' attribute of each node, with the corresponding
+url in the 'src' attribute. The URL for the selected tab will be called
+up in a frame with id 'frmMain' that must be in the same document as the
+host element.
+***************************************************************************
+-->
+<public:component name="SystemButton" urn="SystemButton" tagName="SystemButton">
+	<public:defaults canHaveHTML="false" viewLinkContent="true" viewInheritStyle="true"/>
+	<public:property name="Caption" id="Caption" get="getCaption" put="putCaption" value=""/>
+	<public:property name="LightColor" value="#FFFFFF"/>
+	<public:property name="ShadowColor" value="#494949"/>
+	<public:property name="NormalStyle" value="outset"/>
+	<public:property name="MouseoverStyle" value="highlight"/>
+	<public:property name="MousedownStyle" value="inset"/>
+	<public:attach event="onreadystatechange" onevent="javascript: try{ SetElementStyle('NormalStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseover" onevent="javascript: try{ SetElementStyle('MouseoverStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseout" onevent="javascript: try{ SetElementStyle('NormalStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmousedown" onevent="javascript: try{ SetElementStyle('MousedownStyle'); }catch(e){}" for="element"/>
+	<public:attach event="onmouseup" onevent="javascript: try{ SetElementStyle('MouseoverStyle'); }catch(e){}" for="element"/>
+	<public:attach event="oncontentready" onevent="javascript: try{ InitButton(); }catch(e){}" for="element"/>
+	<public:attach event="onpropertychange" onevent="javascript: try{ OnPropertyChange(); }catch(e){}" for="element"/>
+</public:component>
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<link href="../Styles/SystemDisplayAppearance.css" rel="stylesheet" type="text/css" />
+		<style>
+			
+			body
+			{
+				background-color: transparent;
+				height: 100%;
+				overflow: hidden;
+				margin: 0px 1px 2px 0px;
+				vertical-align: middle;
+				width: 100%;	
+			}
+
+			v\:* {behavior:url(#default#VML);}
+
+			v\:rect, v\:textbox, input
+			{
+				background-color: transparent;
+				border: none;
+				cursor: inherit; 
+				height: 100%; 
+				left: 0%; 
+				margin: 0px;
+				overflow: hidden;
+				padding: 0px; 
+				position: absolute; 
+				top: 0%; 
+				vertical-align: middle;	
+				width: 100%; 
+			}
+			
+		</style>
+		<script language="Javascript" type="text/javascript">
+			var LightColor = "#FFFFFF";
+			var ShadowColor = "#494949";
+			
+			//-----------------------------------------------------------------------
+			// SetElementStyle
+			//-----------------------------------------------------------------------
+			// Set the element's style properties as requested.
+			//-----------------------------------------------------------------------
+			function SetElementStyle(styleName)
+			{
+				// Put the components in their default states (=> outset)
+				rectForeground.fillColor = rectBackground.fillColor;
+				shadeTop.color2 = LightColor;
+				shadeBottom.color2 = ShadowColor;
+
+				//alert("Top shade = '" + shadeTop.color2 + "'\nBottom shade ='" + shadeBottom.color2 + "'");
+				shadeTop.opacity = 1;
+				shadeBottom.opacity = 0;
+				
+				// Retrieve the name of the appearance we want this to have, and make
+				// the appropriate changes.
+				var styleValue = element.getAttribute(styleName);
+				//alert("styleName = '" + styleName + "', styleValue = '" + styleValue + "'");
+				switch(styleValue.toLowerCase())
+				{
+					case "flat":
+					{
+						// Made the shaded bits the same color as the background.
+						shadeTop.color2 = rectBackground.fillColor;
+						shadeBottom.color2 = rectBackground.fillColor;
+						break;
+					}
+					case "inset":
+					{
+						// Put the shadow color on the top.
+						shadeTop.color2 = ShadowColor;
+						shadeBottom.color2 = LightColor;
+						
+						// And dim the foreground with the shadow color.
+						rectForeground.fillColor = ShadowColor;
+						shadeBottom.opacity = 0.1;
+						break;
+					}
+					case "highlight":
+					{
+						// Shade the whole foreground in the light color.
+						rectForeground.fillColor = LightColor;
+						shadeBottom.opacity = 0.1;
+						break;
+					}
+				}
+			}		
+	
+			//-----------------------------------------------------------------------
+			// InitButton
+			//-----------------------------------------------------------------------
+			// This function is called whenever one of the basic style properties
+			// is set. It redraws the button-contents.
+			//-----------------------------------------------------------------------
+			function InitButton()
+			{
+				// Make sure we are not overriding the element colors.
+				element.runtimeStyle.backgroundColor = "";
+				element.runtimeStyle.borderColor = "";
+				
+				// Initialize the VML element colors from the CSS.
+				rectBackground.fillColor = element.currentStyle.backgroundColor;
+				rectForeground.strokeColor = element.currentStyle.borderLeftColor;
+				txtCaption.style.color = element.currentStyle.color;
+				
+				// Cache the colours to use for light and shade.
+				LightColor = element.currentStyle.borderTopColor;
+				ShadowColor = element.currentStyle.borderBottomColor;
+								
+				// Override the CSS to hide any non-rounded corners.
+				element.runtimeStyle.backgroundColor = "transparent";
+				element.runtimeStyle.border = "none";
+			
+				// Include any useful content.
+				txtCaption.innerHTML = element.innerHTML;
+
+				SetElementStyle('NormalStyle');
+			}
+			
+			//------------------------------------------------------------------------
+			// putCaption
+			//------------------------------------------------------------------------
+			// Write-Accessor for the 'Caption' property.
+			//------------------------------------------------------------------------
+			function putCaption(varCaption)
+			{
+				txtCaption.innerText = varCaption;
+				Caption.fireChange();
+			}	
+
+			//------------------------------------------------------------------------
+			// getCaption
+			//------------------------------------------------------------------------
+			// Read-Accessor for the 'Caption' property, which is initially on the
+			// viewlink-element, and afterward in the textbox control.
+			//------------------------------------------------------------------------
+			function getCaption()
+			{
+				if (element.readyState.toLowerCase() != "complete")
+				{
+					return element.innerText;
+				}
+				else
+				{
+					return txtCaption.innerText;
+				}
+			}
+			
+			//-----------------------------------------------------------------------
+			// OnPropertyChange
+			//-----------------------------------------------------------------------
+			// This function is called whenever a property on the host element changes.
+			//-----------------------------------------------------------------------
+			function OnPropertyChange()
+			{
+				//.......................................................................
+				// Act on the property that has changed.
+				//.......................................................................
+				switch(window.event.propertyName.toLowerCase())
+				{
+					case "style.backgroundcolor":
+					case "style.bordercolor":
+					case "lightcolor":
+					case "shadowcolor":
+					{
+						//.......................................................................
+						// We need to re-initialize the shape.
+						//.......................................................................
+						InitButton();
+						window.event.returnValue = true; // We have handled the event.	
+					}			
+					default:
+					{
+						window.event.returnValue = false;
+					}
+				}
+			}
+			
+		</script>
+	</head>
+	<body class="SystemButton" >
+		<v:group style="width: 100%; height: 100%; position: relative;">
+			<v:rect id="rectBackground"
+				
+				filled="yes"
+				fillColor="#ff0000"
+				stroked="no">		
+			</v:rect>
+			<v:rect id="rectForeground"
+				stroked="no"
+				filled="yes"
+				fillColor="#ff0000">
+				
+			</v:rect>
+			<v:textbox id="txtCaption"></v:textbox>
+		</v:group>
+	</body>
+</html>
+
+	

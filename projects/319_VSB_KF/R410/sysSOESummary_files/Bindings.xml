@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?><hdx version="1.0"><datasource ID="datasource1" class="progid:DataSource.HSCDataSourceFactory" /><binding ID="0"> 
+                        <dataobject ID="dso1" objectmodelid="datasource1" objecttype="DataSourceObj.SOESource" objectid="1"/>
+                     
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnInitialize"
+                            targettype="pageelement" targetobject="element" targetmethod="OnInitialize" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnRefresh"
+                            targettype="pageelement" targetobject="element" targetmethod="OnRefresh" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnAckTransaction"
+                            targettype="pageelement" targetobject="element" targetmethod="OnAckTransaction" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnApplyTableState"
+                            targettype="pageelement" targetobject="element" targetmethod="SetState" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnHideMenus"
+                            targettype="pageelement" targetobject="element" targetmethod="OnHideMenus" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnStoreFilterArray"
+                            targettype="pageelement" targetobject="element" targetmethod="OnStoreFilterArray" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnClientReady"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnClientReady" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnViewResize"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnViewResize" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnSelect"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnSelect" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnScroll"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnScroll" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnDataChange"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnDataChange" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnKeyPress"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnKeyPress" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnMenuSelect"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnMenuSelect" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnColumnAction"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnColumnAction" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element" sourceevent="OnTerminate"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="OnTerminate" eventtype="dispatch"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="FiltersApplied"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lblFilterApplied" targetproperty="filterApplied"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.btnDropViewListWrapper" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="RequestViewList" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnRefreshViewList"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="RefreshViewList" eventtype="dispatch"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="ViewSelectorTitle"
+                            targettype="pageelement" targetobject="element.document.parentWindow.spnCurrentView" targetproperty="innerText"/>
+
+                                        <property sourcetype="pageelement" sourceobject="element.document.parentWindow.spnCurrentView" sourceproperty="innerText"
+                            targettype="dataobject" targetobject="dso1" targetproperty="ViewSelectorTitle" />
+                
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="ViewAssignedToArea"
+                            targettype="pageelement" targetobject="element.document.parentWindow.chkAssignArea" targetproperty="checked"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="ViewIncludesAreaFilter"
+                            targettype="pageelement" targetobject="element.document.parentWindow.chkIncludeArea" targetproperty="checked"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CurrentViewName"
+                            targettype="pageelement" targetobject="element.document.parentWindow.txtViewName" targetproperty="value"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CurrentViewArea"
+                            targettype="pageelement" targetobject="element.document.parentWindow.txtAreaName" targetproperty="value"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="ViewModified"
+                            targettype="pageelement" targetobject="element.document.parentWindow.btnDeleteView" targetproperty="btndisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="AreaFilterDescription"
+                            targettype="pageelement" targetobject="element.document.parentWindow.spnAreaButtonTitle" targetproperty="title"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="AreaFilterDescription"
+                            targettype="pageelement" targetobject="element.document.parentWindow.spnAreaPaneTitle" targetproperty="title"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="FilterDescription"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lblFilterApplied" targetproperty="title"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnNotifyErrorStatus"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnNotifyErrorStatus" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnSavePersistance"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnSavePersistance" eventtype="dispatch"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="ColumnOrganizingDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.btnColumnOrganizer" targetproperty="disabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="PrintAsReportDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.toolbar" targetproperty="btnPrintAsReportDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="PrintAsReportDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.toolbar" targetproperty="btnPrintPreviewDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="PrintAsReportDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.toolbar" targetproperty="btnCsvExportDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="SavingViewsDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.ViewConfigBody" targetproperty="disabled"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnSecuritySettingChange"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnSecuritySettingChange" eventtype="dispatch"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="PerformNavigationURL"
+                            targettype="pageelement" targetobject="element.document.parentWindow.external.application" targetproperty="currentpage"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnCreatePopup"
+                            targettype="pageelement" targetobject="element.document.parentWindow.HDXPopupBehavior" targetmethod="CreatePopupWindow" eventtype="dispatch"/>
+
+                                
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="DetailDisplayLinkDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkPointDetail" targetproperty="linkDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="AssocDisplayLinkDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkAssociatedDisplay" targetproperty="linkDisabled"/>
+
+                                            
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CardHldrDetailsLinkDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCardHolderDetail" targetproperty="linkDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink1Disabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink1" targetproperty="linkDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink2Disabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink2" targetproperty="linkDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink3Disabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink3" targetproperty="linkDisabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink1Name"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink1Name" targetproperty="innerText"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink2Name"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink2Name" targetproperty="innerText"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink3Name"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink3Name" targetproperty="innerText"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink1Image"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink1Image" targetproperty="src"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink2Image"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink2Image" targetproperty="src"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="CustomLink3Image"
+                            targettype="pageelement" targetobject="element.document.parentWindow.lnkCustomLink3Image" targetproperty="src"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkPointDetail" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="PointDetail" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkAssociatedDisplay" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="AssociatedDisplay" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkCardHolderDetail" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="CardHolderDetails" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkCustomLink1" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="NavigateLink1" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkCustomLink2" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="NavigateLink2" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.lnkCustomLink3" sourceevent="onclick"
+                            targettype="dataobject"  targetobject="dso1"    targetmethod="NavigateLink3" eventtype="dispatch"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="EntityFilterList"
+                            targettype="pageelement" targetobject="element.document.parentWindow.divEntityFilter" targetproperty="filter" />
+
+                        <property sourcetype="pageelement" sourceobject="element.document.parentWindow.divEntityFilter" sourceproperty="filter"
+                            targettype="dataobject" targetobject="dso1" targetproperty="EntityFilterList" />
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnPersistenceSettingRetrieved"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnPersistenceSettingRetrieved" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnTimeLocaleSettingChange"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnTimeLocaleSettingChange" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnToolTipSettingChange"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnToolTipSettingChange" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnFontSizeChanged"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="OnFontSizeChanged" eventtype="dispatch"/>
+
+                     
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnSelectionChange"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="PopulateDetailsPane" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso1"    sourceevent="OnClearSelection"
+                            targettype="pageelement" targetobject="element.document.parentWindow" targetmethod="ClearDetailsPane" eventtype="dispatch"/>
+                     
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="SortingAndFilteringDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.btnClearFilter" targetproperty="disabled"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="SortingAndFilteringDisabled"
+                            targettype="pageelement" targetobject="element.document.parentWindow.btnResetView" targetproperty="disabled"/>
+                     
+                        <property sourcetype="dataobject" sourceobject="dso1" sourceproperty="TableSize"
+                            targettype="pageelement" targetobject="element.document.parentWindow.divEventCount" targetproperty="innerText"/>
+
+                        <event sourcetype="dataobject"	sourceobject="dso1" sourceevent="OnQueryStart"
+                            targettype="pageelement"	targetobject="element.document.parentWindow" targetmethod="StartProgress" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"	sourceobject="dso1" sourceevent="OnQueryEnd"
+                            targettype="pageelement"	targetobject="element.document.parentWindow" targetmethod="StopProgress" eventtype="dispatch"/>
+                     </binding><binding ID="1"> 
+                        <dataobject ID="dso2" objectmodelid="datasource1" objecttype="DataSourceObj.EntitySource" objectid="2"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso2"    sourceevent="OnInitialize"
+                            targettype="pageelement" targetobject="element.document.parentWindow.AreaTable" targetmethod="OnInitialize" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso2"    sourceevent="OnRefresh"
+                            targettype="pageelement" targetobject="element.document.parentWindow.AreaTable" targetmethod="OnRefresh" eventtype="dispatch"/>
+
+                        <event sourcetype="dataobject"  sourceobject="dso2"    sourceevent="OnAckTransaction"
+                            targettype="pageelement" targetobject="element.document.parentWindow.AreaTable" targetmethod="OnAckTransaction" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnClientReady"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnClientReady" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnViewResize"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnViewResize" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnSelect"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnSelect" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnScroll"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnScroll" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnDataChange"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnDataChange" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnKeyPress"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnKeyPress" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnMenuSelect"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnMenuSelect" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnColumnAction"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnColumnAction" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement" sourceobject="element.document.parentWindow.AreaTable" sourceevent="OnTerminate"
+                            targettype="dataobject"  targetobject="dso2"    targetmethod="OnTerminate" eventtype="dispatch"/>
+
+                        <event sourcetype="pageelement"	sourceobject="element.document.parentWindow.btnSelectNone" sourceevent="OnHDXClick"
+                            targettype="dataobject"	targetobject="dso2"    targetmethod="SelectNone" eventtype="html"/>
+
+                        <property sourcetype="dataobject" sourceobject="dso2" sourceproperty="SelectionListArray"
+                            targettype="pageelement" targetobject="element.document.parentWindow.divEntityFilter" targetproperty="filter" />
+
+                        <property sourcetype="pageelement" sourceobject="element.document.parentWindow.divEntityFilter" sourceproperty="filter"
+                            targettype="dataobject" targetobject="dso2" targetproperty="SelectionListArray" />
+
+                
+                     </binding>   </hdx>

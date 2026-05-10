@@ -1,0 +1,29 @@
+<!--
+***************************************************************************
+Copyright (C) 2005 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/Unselectable.htc $								
+$Workfile: Unselectable.htc $												
+$Modtime: 9/20/07 2:38p $											
+$Revision: 3 $
+$Author: Stickell $														
+***************************************************************************
+This lightweight, attached behavior prevents the contents of an HTML 
+element from being selected.
+***************************************************************************
+-->
+<public:component name="Unselectable" urn="Unselectable" lightWeight="true">
+	<public:attach event="onselectstart" onevent="javascript: try{ CancelEvent(); } catch(e){}" for="element"/>
+	<public:attach event="ondragstart" onevent="javascript: try{ CancelEvent(); } catch(e){}" for="element"/>
+</public:component>
+<script language="JavaScript" type="text/JavaScript">
+
+	//-----------------------------------------------------------------------
+	// CancelEvent
+	//-----------------------------------------------------------------------
+	// This function prevents a DHTML event from proceeding any further.
+	//-----------------------------------------------------------------------
+	function CancelEvent()
+	{
+		window.event.returnValue = false;
+	}
+</script>

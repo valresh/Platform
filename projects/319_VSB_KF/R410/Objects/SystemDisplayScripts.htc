@@ -1,0 +1,296 @@
+<!--
+***************************************************************************
+Copyright (C) 2007 Honeywell Limited
+$Archive: /System Displays/Web Application Displays/Objects/SystemDisplayScripts.htc $								
+$Workfile: SystemDisplayScripts.htc $												
+$Modtime: 11/20/07 8:06p $											
+$Revision: 7 $
+***************************************************************************
+This behavior ensures that the standard set of external script files has 
+been referenced in the hosting document. It does NOT actually require that
+any of those files already be referenced: this behavior has no external
+dependencies.
+
+Once the script library has been parsed, the SystemDisplayBehavior
+styleheet will be linked in to the host document, since the dependencies
+for those behaviors are now present.
+***************************************************************************
+This behavior may only be applied to the top-level 'HTML' document element
+via CSS: it will not work if applied to any other element or via script.
+***************************************************************************
+-->
+<public:component name="SystemDisplayScripts" urn="SystemDisplayScripts" lightWeight="true">
+    <public:defaults canHaveHTML="true" viewLinkContent="false" viewInheritStyle="true"/>
+	<public:method name="ResolveReference" />
+	<public:method name="ScriptsAreParsed" />
+	<public:method name="FireOnScriptsParsed" />
+	<public:method name="VerifyScripts" />
+	<public:event name="onscriptsparsed" id="onscriptsparsed" />
+	<public:attach event="onreadystatechange" onevent="javascript: CompleteBindings()" for="element"/>
+	<public:attach event="onscriptsparsed" onevent="javascript: EnableScriptBehaviors()" for="element"/>
+</public:component>
+<script language="javascript" type="text/javascript">
+     
+	//----------------------------------------------------------
+	// ResolveReference
+	//----------------------------------------------------------
+	// This function finds the specified system display file
+	// in the display paths accessible to the current station
+	// connection.
+	//----------------------------------------------------------
+    function ResolveReference(filePath)
+    {
+        var referencePath = filePath;
+        try
+        {
+            var systemDisplaysPath = window.document.documentElement.currentStyle.systemdisplayspath;
+            if ((systemDisplaysPath == null || systemDisplaysPath == "") &&
+                typeof(window.external.FindFile) != "undefined")
+            {
+                // Go looking for the file in the station display paths if possible.
+                referencePath = window.external.FindFile(filePath);
+            }
+            else            
+            {
+                // Use the pre-calculated system displays path (if any).
+                referencePath = systemDisplaysPath + filePath;
+            }
+        }
+        catch(e)
+        {
+            if (typeof(ScriptError) == "function")
+            {
+                ScriptError("SystemDisplayScripts::ResolveReference", e);
+            }
+            else
+            {
+                alert(e); // Because we have no other way of handling this serious error.
+            }
+        } 
+        return referencePath;       
+    }
+
+	//----------------------------------------------------------
+	// ScriptsAreParsed
+	//----------------------------------------------------------
+	// This function is used to determine whether all the script
+	// blocks have been parsed yet. It does this by checking for
+	// the existence of a function from each required file.
+	//----------------------------------------------------------
+	function ScriptsAreParsed()
+	{
+	    return(
+	        typeof(LogMessage) == "function" &&
+	        typeof(ScriptError) == "function" &&
+	        typeof(parseBoolean) == "function" &&
+	        typeof(IncludeClassOnElement) == "function" &&
+	        typeof(GetStationApp) == "function");
+	}
+		
+	//----------------------------------------------------------
+	// FireOnScriptsParsed
+	//----------------------------------------------------------
+	// This function fires the 'OnScriptsParsed' event to notify
+	// any waiting objects that the scripts are ready. It 
+	// returns 'true' if the scripts _were_ available and the
+	// event fired, false otherwise.
+	//----------------------------------------------------------
+    function FireOnScriptsParsed()
+	{
+	    var eventsFired = false;
+	    if (ScriptsAreParsed())
+	    {
+            LogMessage(L_INFO, "SystemDisplayScripts::FireOnScriptsParsed", "The System Display library scripts are now available."); 
+	        try
+	        {
+	            // Alert anything else that cares that the scripts have now been parsed.
+	            onscriptsparsed.fire();
+	            if (element.readyState == "complete")
+	            {
+	                // fire an extra onreadystatechange event.
+	                element.fireEvent("onreadystatechange");
+	            }
+	            eventsFired = true;
+	        }
+	        catch(e)
+	        {
+                ScriptError("SystemDisplayScripts::FireOnScriptsParsed", e); 
+	        }    
+	    }
+	    
+	    if (!eventsFired)
+	    {
+	        // Try again in a little while...
+	        window.setTimeout(FireOnScriptsParsed, 10);
+	    }
+	    return eventsFired;
+	}
+	
+	//----------------------------------------------------------
+	// EnableScriptBehaviors
+	//----------------------------------------------------------
+	// This function ensures that the ScriptsAvailable class
+	// (used in selectors for behaviors which depend on the script
+	// libraries being loaded) is applied to the document element.
+	//----------------------------------------------------------
+    function EnableScriptBehaviors()
+	{
+        var scriptBehaviorsEnabled = false;
+	    if (ScriptsAreParsed())
+	    {
+	        try
+	        {
+                IncludeClassOnElement(element, "ScriptsAvailable");
+   	            scriptBehaviorsEnabled = true;
+	        }
+	        catch(e)
+	        {
+                ScriptError("SystemDisplayScripts::EnableScriptBehaviors", e); 
+	        }
+	    }
+        return scriptBehaviorsEnabled;
+	}
+		
+	//----------------------------------------------------------
+	// InsertScriptBlock
+	//----------------------------------------------------------
+	// This function adds a new script block to the header of the
+	// document this element is bound to.
+	//----------------------------------------------------------
+    function InsertScriptBlock(language, src, content)
+	{
+	    try
+	    {
+            var scriptBlock = window.document.createElement("script");
+            scriptBlock.language = language;
+            scriptBlock.type = "text/" + language;
+            scriptBlock.src = src;
+            scriptBlock.text = content;
+           (window.document.getElementsByTagName("HEAD")[0]).appendChild(scriptBlock);
+       }
+       catch(e)
+       {
+            if (typeof(ScriptError) == "function")
+            {
+                ScriptError("SystemDisplayScripts::InsertScriptBlock", e);
+            }
+            else
+            {
+                alert(e); // Because we have no other way of handling this serious error.
+            }
+       }
+	}
+	
+	//----------------------------------------------------------
+	// VerifyScripts
+	//----------------------------------------------------------
+	// This function ensures that the window-document (NOT the
+	// viewlink-document) contains references to each of the 
+	// required external script files.
+	//----------------------------------------------------------
+	function VerifyScripts()
+	{        
+	try
+	{  
+      
+        // Ensure that script blocks exist for the required external script files in the window document.
+        var existingScriptBlocks = window.document.scripts;
+
+	}
+	catch(e)
+	{
+		// This catches this error "A script error has occurred, Page: file:///C:/Program%20Files/Honeywell/Experion%20PKS/client/System/R400/Objects/SystemDisplayScripts.htc, Line: 194, Character: 9, Error: 'window' is null or not an object, Code: 0"
+		window.setTimeout(VerifyScripts, 5);
+	
+	}
+        var scriptFiles = new Array("Logging.js",
+                                    "ErrorHandling.js",
+                                    "JSExtensions.js",
+                                    "HTMLUtils.js",
+                                    "Utilities.js");
+        for (var scriptFile in scriptFiles)
+        {
+            try
+            {
+                var scriptFileReferenced = false;
+                for (var scriptBlock in existingScriptBlocks)
+                {
+                    var scriptSrc = existingScriptBlocks[scriptBlock].src;
+                    if (typeof(scriptSrc) == "string" && scriptSrc.toLowerCase().indexOf(scriptFiles[scriptFile].toLowerCase()) >= 0)
+                    {
+                        scriptFileReferenced = true;
+                        break;
+                    }
+                }
+                if (!scriptFileReferenced)
+                {
+                    InsertScriptBlock("javascript", ResolveReference("scripts/" + scriptFiles[scriptFile]), "");
+                }
+            }
+            catch(e)
+            {
+                if (typeof(ScriptError) == "function")
+                {
+                    ScriptError("SystemDisplayScripts::VerifyScripts", e);
+                }
+                else
+                {
+                    alert(e); // Because we have no other way of handling this serious error.
+                }
+            }
+		}
+		
+        FireOnScriptsParsed();
+	}
+	
+	var _completeBindingsCalled = false;
+	
+	//----------------------------------------------------------
+	// CompleteBindings
+	//----------------------------------------------------------
+	// This function ensures that the links to external script
+	// files will be checked at the correct time only.
+	//----------------------------------------------------------
+	function CompleteBindings()
+	{
+	    // Ensure that this function is only executed once, after the element is complete.
+	    if (element.readyState != "complete" || _completeBindingsCalled)
+	    {
+	        return;
+	    }
+	    _completeBindingsCalled = true;	// Make sure this can't be called a second time, even if this call doesn't succeed.
+	    
+        if (element.tagName.toLowerCase() != "html")
+        {
+            // This behavior should only be applied to the top-level 'html' element.
+            throw "SystemDisplayScripts behavior may only be applied to the HTML document element.";
+        }
+        
+        // Determine if we need to verify the existence of the scripts inside _this_ document:
+        if (window.document != element.document)
+        {
+            // This has been applied inside a viewlink. 
+            if (typeof(window.document.documentElement.SystemDisplayScripts) == "object")
+            {
+                // The host document will check for scripts and fire the onscriptsparsed event when
+                // they are available: no need to repeat that inside the viewlink.
+                if (window.document.documentElement.ScriptsAreParsed())
+                {
+                    // The event already fired, so allow the dependant script behaviors to work immediately.
+                    EnableScriptBehaviors();
+                }
+                else
+                {
+                    // Enable the script behaviors as soon as the event
+                    // fires in the host document.
+		            window.document.documentElement.attachEvent("onscriptsparsed", EnableScriptBehaviors); 
+                }
+                return;
+            }
+        }
+        
+        // Do the actual validation in a new thread so that any mucking-around
+        // with the DOM doesn't happen in the handler for the readystatechange event.
+        window.setTimeout(VerifyScripts, 5);
+	}
+</script>

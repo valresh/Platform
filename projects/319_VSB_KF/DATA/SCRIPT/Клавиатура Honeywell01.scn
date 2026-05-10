@@ -1,0 +1,138 @@
+%---------------------------------------------------------
+<macros=Q param7=param4>
+  <round=4 rc=param3,74,65>
+  <bitmap=alarms rc=param3+1,74,15>
+  <draw=param7 align=cv rc=param3+18,74,42>
+  <Objects>
+    <alarm=param4 rc=param3,74,65 real=registr0 red=10,3 yel=-18,3 lampNumber=param1>
+  </Objects>
+</macros>
+
+<macros=QEMPTY param7=param4>
+  <round=4 rc=param3,74,65>
+  <bitmap=alarms rc=param3+1,74,15>
+  <draw=param7 align=cv rc=param3,74,56>
+</macros>
+
+<macros=L param7=param4>
+  <round=4 rc=param3,74,65>
+  <draw=param7 align=left rc=param3+2,74,28>
+  <draw="param6" align=cv rc=param3+2,74,64>
+  <Objects>
+    <btn=param4 goto=param5 rc=param3,74,66 alpha=1>
+  </Objects>
+</macros>
+
+<macros=LSHIFT param7=param4>
+  <round=4 rc=param3,74,65>
+  <draw=param7 align=left rc=param3+2,74,28>
+  <draw="param6" align=cv rc=param3+2,74,64>
+  <Objects>
+    <btn=param4  goto=param5 rc=param3,74,66 alpha=1 shift=1>
+  </Objects>
+</macros>
+
+<macros=B1 param7=param4>
+  <round=4 rc=param3,74,65>
+  <bitmap=1Lamp rc=param3+1,74,15>
+  <draw=param7 align=cv rc=param3+param5,74,28>
+  <Objects>
+     <btn=param4 rc=param3,74,66 virtual=1 pt=10,3>
+  </Objects>
+</macros>
+%
+<pen=solid color=d9dedd><brush=d9dedd>
+<font=Arial height=11 bold=900>
+<textcolor=0>
+%---------------------------------------------------------
+<Q p4="30pl3005" p7="Подгот.\nсырья" par1=0            par3="177,276">
+<Q p4="30pl3008" p7="Н-3001" par1=1            par3="257,276">
+<Q p4="30pl3024" p7="Топлив\nН-3001"      par1=2         par3="337,276">
+<Q p4="30pl3066" p7="Воздух\nН-3001" par1=3     par3="417,276">
+<Q p4="30pl3011" p7="Т-3001/\nТ-3002" par1=4   par3="497,276">
+<Q p4="30pl3015" p7="А-3001/\nРеагент" par1=5    par3="577,276">
+<Q p4="30pl3019" p7="Стабили-\nзация" par1=6   par3="657,276">
+<Q p4="30pl3018" p7="Повтор\nконтакт\nС-3001" par1=7        par3="737,276">
+<Q p4="30pl3017" p7="С-3001\nA/S" par1=8     par3="817,276">
+<Q p4="30pl3022" p7="T-3004" par1=9              par3="897,276">
+
+<Q p4="30pl3023" p7="Пар\nПро-\nдувка"   par1=10           par3=" 177,347">
+<Q p4="30pl3025" p7="Дренаж\nсист"  par1=11	par3="257,347">
+<Q p4="30pl3030" p7="Антифр\nПромыв-\nка" par1=12    par3="337,347">
+<Q p4="30pl3059" p7="С-3001\nСмазка\nОхлаж."  par1=13              par3="417,347">
+<Q p4="30pl3169" p7="Паровы-\nжиг"    par1=14        par3="497,347">
+<Q p4="30PL3070" p7="Реагенты" par1=15               par3="577,347">
+<QEMPTY p4="" p7=""  par1=16     par3="657,347">
+<Q p4="30FL3001" p7="1\nПожГаз\nОбнар"      par1=17       par3="737,347">
+<Q p4="30FL3002" p7="2\nПожГаз\nОбнар"  par1=18    par3="817,347">
+<QEMPTY p4="" p7=""  par1=19    par3="897,347">
+
+<Q p4="30PL3202" p7="1\nКонсол\nнасосы" par1=20         par3=" 177,418">
+<Q p4="30PL3204" p7="Двух\nопор\nнасосы"   par1=21       par3="257,418">
+<Q p4="30PL3203" p7="2\nКонсол\nнасосы" par1=22 	par3="337,418">
+<Q p4="30PL3205" p7="Возду-\nходувка\nДымос" par1=23      par3="417,418">
+<Q p4="30PL3206" p7="АВО\nКВО" par1=24      par3="497,418">
+<Q p4="30PL3043" p7="Р-3001\nР-3003" par1=25       par3="577,418">
+<Q p4="30PL3037"    p7="Р-3005"   par1=26    	par3="657,418">
+<Q p4="30PL3035"    p7="1\nТех.\nнасосы"   par1=27     par3="737,418">
+<Q p4="30PL3039"    p7="2\nТех.\nнасосы"   par1=28     par3="817,418">
+<Q p4="30PL3201"    p7="Погруж.\nнасосы"   par1=29	par3="897,418">
+
+<Q p4="30PL3073" p7="Антивс-\nпенив\nV-3033"  par1=30  par3=" 177,489">
+<Q p4="30PL3075" p7="Нейтра-\nлизат.\nV-3006X"  par1=31        par3="257,489">
+<Q p4="30PL3072" p7="Анти-\nосадит.\nV-3032"  par1=32    par3="337,489">
+<Q p4="30PL3071" p7="Ингиби-\nтор\nV-3029"  par1=33           par3="417,489">
+<Q p4="30PL3074" p7="Ингиби-\nтор\nV-3034"  par1=34    par3="497,489">
+<QEMPTY p4=""    p7=""         par1=35    par3="577,489">
+<QEMPTY p4=""    p7=""        par1=36    par3="657,489">
+<QEMPTY p4=""    p7=""         par1=37    par3="737,489">
+<QEMPTY p4=""    p7=""         par1=38    par3="817,489">
+<QEMPTY p4=""    p7=""         par1=39    par3="897,489">
+
+<LSHIFT p4="1" p7=" !"  par5="30EL4001" par6="Н-3001\nПуск\nпослед\n1-3"  par3=" 177,560">
+<LSHIFT p4="'" p7=" " par5="30EL4002" par6="Н-3001\nПуск\nпослед\n4-7"  par3=" 257,560">
+<bitmap=kavichka rc=258,563,14,12>
+<L p4="\" p7=" \" par5="30PL3009" par6="C-3001A\nГотовн.\nк пуску"  par3="337,560">
+<LSHIFT p4="4" p7=" $"  par5="30PL3010" par6="C-3001S\nГотовн.\nк пуску" par3="417,560">
+<L p4="=" p7=" =" par5="NULL" par6=""  par3="497,560">
+<LSHIFT p4="7" p7=" " par5="NULL" par6=""  par3="577,560">
+<bitmap=amper rc=578,563,14,12>
+<LSHIFT p4="8" p7=" *" par5="NULL" par6=""  par3=" 657,560">
+<LSHIFT p4="," p7=" <"  par5="NULL" par6="" par3="737,560">
+<LSHIFT p4="." p7=" >" par5="NULL" par6=""  par3="817,560">
+<LSHIFT p4="/" p7=" ?" par5="NULL" par6=""  par3="897,560">
+
+<L p4="Q" p7=" Q" par5="30PL2001" par6="Ур. 2\nПодгот.\nсырья"  par3=" 177,631">
+<L p4="W" p7=" W" par5="30PL2002" par6="Ур. 2\nФракц.\nОтпар-\nка"  par3=" 257,631">
+<L p4="E" p7=" E" par5="30PL2003" par6="Ур. 2\nСтабил.\nОчист-\nка газа"  par3="337,631">
+<L p4="R" p7=" R" par5="30PL2005" par6="Ур. 2\nН-3001"  par3="417,631">
+<L p4="T" p7=" T" par5="30PL2004" par6="Ур. 2\nПаро-\nвозд.\nподгот."  par3="497,631">
+<L p4="Y" p7=" Y"  par5="NULL" par6="" par3=" 577,631">
+<L p4="U" p7=" U"  par5="NULL" par6="" par3=" 657,631">
+<L p4="I" p7=" I" par5="NULL" par6=""  par3="737,631">
+<L p4="O" p7=" O" par5="NULL" par6=""  par3="817,631">
+<L p4="P" p7=" P" par5="NULL" par6=""  par3="897,631">
+
+<L p4="A" p7=" A" par5="NULL" par6=""  par3=" 177,702">
+<L p4="S" p7=" S" par5="NULL" par6=""  par3=" 257,702">
+<L p4="D" p7=" D" par5="NULL" par6=""  par3="337,702">
+<L p4="F" p7=" F"  par5="NULL" par6="" par3="417,702">
+<L p4="G" p7=" G"  par5="NULL" par6="" par3="497,702">
+<L p4="H" p7=" H" par5="NULL" par6=""  par3=" 577,702">
+<L p4="J" p7=" J"  par5="NULL" par6="" par3=" 657,702">
+<L p4="K" p7=" K"  par5="NULL" par6="" par3="737,702">
+<L p4="L" p7=" L"  par5="NULL" par6="" par3="817,702">
+<L p4="-" p7=" -"  par5="NULL" par6=""  par3="897,702">
+
+<L p4="%SPACE" par5="NULL" par6="" p7=" SP"   par3=" 177,773">
+<L p4="Z" p7=" Z" par5="NULL" par6=""   par3=" 257,773">
+<L p4="X" p7=" X"  par5="NULL" par6=""  par3="337,773">
+<L p4="C" p7=" C" par5="NULL" par6=""   par3="417,773">
+<L p4="V" p7=" V" par5="NULL" par6=""   par3="497,773">
+<L p4="B" p7=" B" par5="NULL" par6=""   par3=" 577,773">
+<L p4="N" p7=" N" par5="NULL" par6=""   par3=" 657,773">
+<L p4="M" p7=" M" par5="NULL" par6=""   par3="737,773">
+<L p4="Back" p7="" par5="NULL" par6=""   par3="817,773">
+<bitmap=strelka rc=818,778,14,12>
+<B1 p4="ALPHASHIFT" p5=18 p7="ALPHA\nSHIFT"   par3="897,773">
+</pen></brush>

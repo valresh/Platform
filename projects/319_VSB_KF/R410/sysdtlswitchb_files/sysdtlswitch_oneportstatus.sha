@@ -1,0 +1,81 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="140px" height="16px"><versionheaders><versionheader name="PS" value="6.11"/></versionheaders><scripts><script event="" language="VBScript" id="50D7FADC-01C0-4323-B7B5-F0F7450B2421"><![CDATA['
+' General Section (sysdtlswitch_oneportstatus.sha)
+
+Sub InitPort(objPort, sKey)
+Dim sPath
+Dim sDebugStr
+Dim sTest
+
+'	window.external.Parent.LogMessage "sysdtlswitch_oneportstatus.sha - InitPort TOP..."
+	on error resume next  
+
+	sPath = "localhost.[ROOT\SNMP\" & sSwitchName & "].SNMP_RFC1213_MIB_IFTABLE." & sKey
+
+	sTest = objPort.GetCustomProperty("Value", "valuePortKey")
+	if sTest = sKey then
+' 		Debug/keep
+'		window.external.Parent.LogMessage "InitPort - sKey already set for: " & sKey & ", NOT calling SetCustomProperty for this port's custom parameters"
+	else
+
+		objPort.autoReloadContent = false
+		objPort.SetCustomProperty "Parameter", "paramOperStatus", sPath & ".ifOperStatus"
+		objPort.SetCustomProperty "Parameter", "paramPortDescr", sPath & ".ifDescr"
+		objPort.SetCustomProperty "Parameter", "paramPortSpeed", sPath & ".ifSpeed"
+		objPort.SetCustomProperty "Parameter", "paramPortIndex", sPath & ".ifIndex"
+		objPort.SetCustomProperty "Value", "valuePortKey", sKey
+		objPort.SetCustomProperty "Point", "pointPort", sPoint
+
+'Debug/keep
+		'window.external.Parent.LogMessage "InitPort - sPath= " & sPath
+		'sDebugStr = objPort.GetCustomProperty("Parameter", "paramOperStatus")
+		'window.external.Parent.LogMessage "InitPort - paramOperStatus= " & sDebugStr
+		'sDebugStr = objPort.GetCustomProperty("Parameter", "paramPortDescr")
+		'window.external.Parent.LogMessage "InitPort - paramPortDescr= " & sDebugStr
+		'sDebugStr = objPort.GetCustomProperty("Parameter", "paramPortSpeed")
+		'window.external.Parent.LogMessage "InitPort - paramPortSpeed= " & sDebugStr
+		'sDebugStr = objPort.GetCustomProperty("Parameter", "paramPortIndex")
+		'window.external.Parent.LogMessage "InitPort - paramOperStatus= " & sDebugStr
+		'window.external.Parent.LogMessage "sysdtlswitch_oneportstatus.sha - InitPort bottom, calling .ReloadContent on single port..."
+		objPort.ReloadContent
+
+	end if
+
+end sub
+
+
+Sub PDC(objVal, nCol)
+Dim sKey
+
+'	window.external.Parent.LogMessage "oneportstatus - PDC TOP..."
+	on error resume next ' hides script error, possibly addressed by above change to throttle .ReloadContent calls
+
+	sKey = objVal.parentElement.parentElement.GetCustomProperty("Value", "valuePortKey")
+
+'	window.external.Parent.LogMessage "... PDC sKey=" & sKey
+
+	if sKey = "" then exit sub
+
+
+	if IsStsGoodQuality(objVal) then 
+'		window.external.Parent.LogMessage "oneportstatus - PDC IsStsGoodQuality GOOD, calling PortDataChange..."
+		PortDataChange sKey, nCol, objVal.value
+'	else
+'		window.external.Parent.LogMessage "oneportstatus - PDC IsStsGoodQuality BAD - NOT calling PortDataChange"
+	end if
+
+End Sub
+
+Sub PDC100000(objVal)
+Dim sKey
+
+	on error resume next
+	sKey = objVal.parentElement.parentElement.GetCustomProperty("Value", "valuePortKey")
+	if sKey = "" then exit sub
+	if IsStsGoodQuality(objVal) then PortDataChange sKey, 0, objVal.value + 100000
+
+End Sub
+
+' End General Section (sysdtlswitch_oneportstatus.sha)
+']]></script></scripts><parameters><parameter name="pointPort" type="Point" description="Automatically added Point" defaultvalue=""/><parameter name="paramOperStatus" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="paramPortDescr" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="paramPortSpeed" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="valuePortKey" type="Value" description="" defaultvalue=""/><parameter name="paramPortIndex" type="Parameter" description="" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; BACKGROUND-COLOR: white; FONT-STYLE: normal; WIDTH: 24.28%; FONT-FAMILY: Tahoma; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 93.75%; COLOR: #000000; FONT-SIZE: 8pt; BORDER-LEFT-STYLE: none; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 75%; ROWS: 1" id=alphaPortSpeed class=hsc.alpha.1 tabIndex=0 hdxproperties="fillColor:white;HDXBINDINGID:-4;lineColor:black;numberOfChars:80;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[	PDC me, 4]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::pointPort%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramPortSpeed%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; BACKGROUND-COLOR: white; FONT-STYLE: normal; WIDTH: 24.28%; FONT-FAMILY: Tahoma; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 93.75%; COLOR: #000000; FONT-SIZE: 8pt; BORDER-LEFT-STYLE: none; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 50%; ROWS: 1" id=alphaOperStatus class=hsc.alpha.1 tabIndex=0 hdxproperties="fillColor:white;HDXBINDINGID:-4;lineColor:black;numberOfChars:80;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[	PDC me, 3]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::pointPort%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramOperStatus%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; BACKGROUND-COLOR: white; FONT-STYLE: normal; WIDTH: 24.28%; FONT-FAMILY: Tahoma; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 93.75%; COLOR: #000000; FONT-SIZE: 8pt; BORDER-LEFT-STYLE: none; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 25%; ROWS: 1" id=alphaDescr class=hsc.alpha.1 tabIndex=0 hdxproperties="fillColor:white;HDXBINDINGID:-4;lineColor:black;numberOfChars:80;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[	PDC me, 2]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::pointPort%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramPortDescr%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA style="POSITION: absolute; BORDER-BOTTOM-STYLE: none; TEXT-ALIGN: left; BORDER-RIGHT-STYLE: none; BACKGROUND-COLOR: white; FONT-STYLE: normal; WIDTH: 24.28%; FONT-FAMILY: Tahoma; WORD-WRAP: normal; BORDER-TOP-STYLE: none; HEIGHT: 93.75%; COLOR: #000000; FONT-SIZE: 8pt; BORDER-LEFT-STYLE: none; OVERFLOW: hidden; TOP: 0%; FONT-WEIGHT: normal; TEXT-DECORATION: none; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior) url(#HoverBehavior); LEFT: 0%; ROWS: 1" id=alphaIndex class=hsc.alpha.1 tabIndex=0 hdxproperties="fillColor:white;HDXBINDINGID:-4;lineColor:black;numberOfChars:80;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA[	PDC100000 me
+	PDC me, 1]]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::pointPort%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramPortIndex%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV style="POSITION: absolute; WIDTH: 140px; HEIGHT: 16px; FONT-SIZE: 0pt; TOP: 0px; BEHAVIOR: url(#HDXVectorFactory#group); LEFT: 0px" id=grpPortStatus class=hvg.group.1 tabIndex=-1 hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:140;"></DIV>]]></content></html></group></shape></shapes></shapefile>

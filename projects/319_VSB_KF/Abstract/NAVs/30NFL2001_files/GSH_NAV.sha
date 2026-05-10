@@ -1,0 +1,90 @@
+<?xml version="1.0"?><shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="124px" height="16px"><versionheaders><versionheader name="PS" value="6.32"/></versionheaders><scripts><script event="" language="VBScript" id="D91431F9-A43E-42B1-9605-19B32B30FD80"><![CDATA[const  iQualityGood = 192
+sub page_OnMouseOver
+    if instr(window.event.srcelement.id, "Txt")>0 or instr(window.event.srcelement.id, "RecF")>0 then window.event.srcelement.style.cursor="hand"
+end sub
+
+sub page_onClick 	
+	if instr(window.event.srcelement.id, "Txt")>0 or instr(window.event.srcelement.id, "RecF")>0 then 
+		if window.event.srcelement.title <> "" then
+			if window.event.y<=20 then
+				sDsp = lcase(window.event.srcelement.title)
+				sDsp = replace(sDsp,"pl","npl")
+				sDsp = replace(sDsp,"el","nel")
+				sDsp = replace(sDsp,"fl","nfl")
+				if sDsp=lcase(replace(window.external.currentpage,".htm","")) then
+					window.external.currentpage=window.event.srcelement.title
+				else
+					window.external.currentpage=sDsp
+				end if
+			else
+				if not isnull (page.getattribute ("lastselection")) then
+					document.getElementById(page.getattribute ("lastselection")).styleclass = "NavFrame"
+					call alm_upd(document.getElementById(page.getattribute ("lastselection")))
+				end if
+				window.event.srcelement.parentnode.parentnode.objects("RecFrame").styleclass = "ScTxtSelectBox_Selected" 
+				page.setattribute "lastselection", window.event.srcelement.parentnode.parentnode.objects("RecFrame").id
+				window.external.currentpage=window.event.srcelement.title
+			end if		
+		end if
+	end if
+end sub
+
+sub alm_upd(oSource)
+	dim oShape
+	on Error Resume Next
+	set oShape=oSource.parentnode.parentnode
+	set oObj=oShape.objects("TxtDspName")
+	if (oSource.dataquality("tagname.description")  and iQualityGood)<>iQualityGood then 
+		oObj.value =""
+		oObj.title=""
+		exit sub
+	end if
+	oObj.value=oSource.datavalue("tagname.description") 
+	if instr(lcase(oShape.src),"nav_btn_l1.sha")>0 or instr(lcase(oShape.src),"nav_btn_l2.sha")>0 then
+		sDsp=oShape.getCustomProperty("Text","DspName")
+	else
+		sDsp=oShape.getCustomProperty("Point","tagname")
+	end if
+	if instr(lcase(oShape.src),"nav_btn_l2.sha")>0 then sDsp=replace(ucase(sDsp),"NL","PL")
+	if instr(ucase(sDsp),"_G")= len(sDSP)-1 then
+		oObj.title=mid(sDsp,1,len(sDsp)-2)
+	else
+		oObj.Title = sDsp
+	end if
+	iAlarm=oSource.dataalarm("tagname.description")
+	iPr=(iAlarm and 48)/16
+	select case iPr
+	case 0 oSource.styleclass=oSource.styleclass
+	case 1 oSource.fillcolor=AlarmStateIconfactory.LowColor
+	case 2 oSource.fillcolor=AlarmStateIconfactory.HighColor
+	case 3 oSource.fillcolor=AlarmStateIconfactory.UrgentColor
+	end select
+	if (iAlarm and 1024)=1024 then 
+		oSource.fillcolorblink=true
+    else
+		oSource.fillcolorblink=false
+	end if
+end sub
+
+
+sub alm_upd_arr(oSource)
+	dim oShape
+	'on Error Resume Next
+	set oShape=oSource.parentnode
+	sDsp=oShape.getCustomProperty("Text","DspName")
+	oSource.title=sDsp
+	iAlarm=oSource.dataalarm("tagname.description")
+	iPr=(iAlarm and 48)/16
+	select case iPr
+	case 0 oSource.styleclass=oSource.styleclass
+	case 1 oSource.fillcolor=AlarmStateIconfactory.LowColor
+	case 2 oSource.fillcolor=AlarmStateIconfactory.HighColor
+	case 3 oSource.fillcolor=AlarmStateIconfactory.UrgentColor
+	end select
+	if (iAlarm and 1024)=1024 then 
+		oSource.fillcolorblink=true
+    else
+		oSource.fillcolorblink=false
+	end if
+end sub]]></script></scripts><shapes><shape><element><html><content><![CDATA[
+<DIV tabIndex=-1 id=textbox001 class=hvg.textbox.1 style="FONT-SIZE: 10pt; OVERFLOW: hidden; HEIGHT: 16px; FONT-FAMILY: Arial; WIDTH: 124px; POSITION: absolute; FONT-WEIGHT: 400; COLOR: #000000; FONT-STYLE: normal; TEXT-ALIGN: center; LEFT: 56px; TOP: 36px; BEHAVIOR: url(#HDXVectorFactory#text); VISIBILITY: hidden" hdxproperties="FillColor:#ffffff;fillColorBlink:False;FillStyle:0;Height:16;lineColorBlink:False;LineStyle:1;textColor:#000000;textColorBlink:False;TotalRotation:-1;Width:124;">GSH_NAV</DIV>]]></content></html></element></shape></shapes></shapefile>

@@ -1,0 +1,233 @@
+<!-- 
+/************************************************************************/
+/*****     COPYRIGHT 2010           HONEYWELL INTERNATIONAL SARL     ****/
+/************************************************************************/
+-->
+<!-- $Archive:  $ -->
+<!-- $Revision: $ -->
+<HTML>
+<HEAD><meta http-equiv="x-ua-compatible" content="IE=5" >
+<TITLE>Custom filter</TITLE>
+
+<style type="text/css">
+
+body, button
+{
+	font-family: Helvetica;
+	font-size: 9pt;
+}
+
+</style>
+
+<script language="JScript" src="../Scripts/Version.js"></script>
+<script language="JScript" src="../Scripts/HTMLUtils.js"></script>
+<script language="JScript" src="../Scripts/Logging.js"></script>
+<script language="JScript" src="../Scripts/ErrorHandling.js"></script>
+<script language="JScript" src="../Scripts/Common_FilterDialog.js"></script>
+
+<script language="JScript">
+
+// ----------------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------------
+
+var NOT_DELIM = "$$NOTDELIM$$";
+
+// ----------------------------------------------------------------------------------
+// LoadDialog
+//
+//	Helper routine used to load a previous persistence state and re-configure the 
+//	state of the dialog's components to match.
+// ----------------------------------------------------------------------------------
+
+function LoadDialog()
+{
+	lblI18NText.innerText = g_strI18NText;
+
+	if( g_strFilterState == null )
+		return;
+		
+	var rgValue = g_strFilterState.split(NOT_DELIM);		
+	txtValue.value = rgValue[0];
+	txtValue.select();
+	
+	if( rgValue.length > 1 )
+	{
+		radio[1].checked = rgValue[1] == "true";
+		radio[2].checked = rgValue[2] == "true";
+		if ( radio[2].checked )
+			IsEmpty();
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// UnloadDialog
+//
+// ----------------------------------------------------------------------------------
+
+function UnloadDialog()
+{
+}
+
+// ----------------------------------------------------------------------------------
+// GetState
+//
+//	Helper routine used to save the current state of the dialog.
+// ----------------------------------------------------------------------------------
+
+function GetState()
+{
+	return txtValue.value + NOT_DELIM + radio[1].checked + NOT_DELIM + radio[2].checked;
+}
+
+// ----------------------------------------------------------------------------------
+// GetValue
+//
+//	Helper routine used to convert the state of the dialog into an SQL expression 
+//	that is used by the TDO to perform the filtering.
+// ----------------------------------------------------------------------------------
+
+function GetValue()
+{
+	if ((txtValue.value == '') && !( radio[2].checked ))
+		return "";
+	else
+	{	
+		// Escape the quote character
+		var re = /(['])/g;
+		var s = txtValue.value.replace(re, "\'\'");
+		
+		// SQL uses the '%' and '_' characters to represent
+		// wildcards instead of '*' and '?'.\
+		re = /(\[)/g;
+		s = s.replace(re, "[[]");
+		re = /(\%)/g;
+		s = s.replace(re, "[%]");
+		re = /(\_)/g;
+		s = s.replace(re, "[_]");
+		re = /(\*)/g;
+		s = s.replace(re, "%");
+		re = /(\?)/g;
+		s = s.replace(re, "_");
+
+		if (s != "%")
+			s = g_strFieldName + " like \'" + s + "\'";
+		else
+			s = "(" + g_strFieldName + " like \'" + s + "\') OR (" + g_strFieldName + " is NULL)";
+		
+		if( radio[1].checked )
+			s = "not (" + s + ") OR (" + g_strFieldName + " is NULL)";
+
+		if( radio[2].checked )
+			s = "not (" + g_strFieldName + " like \'_%\') OR (" + g_strFieldName + " is NULL)";
+
+		return s;		
+	}
+}
+
+// ----------------------------------------------------------------------------------
+// GetDescription
+//
+//	Returns a textual description of the filter for displaying as a tooltip on the
+//  '(filter applied)' indicator and in the 'Print as Report' header.
+// ----------------------------------------------------------------------------------
+
+function GetDescription()
+{
+	if( radio[1].checked )
+		return "NOT" + " '" + txtValue.value + "'";
+	else if( radio[2].checked )
+		return "EMPTY";
+	else
+		return "'" + txtValue.value + "'";
+}
+
+// ----------------------------------------------------------------------------------
+// IsEmpty
+//
+//	Sets the filter textbox to disabled or not, depending if we are filtering as "empty"
+// ----------------------------------------------------------------------------------
+
+function IsEmpty()
+{
+	if( radio[2].checked )
+	{
+		txtValue.disabled = true;
+		txtValue.style.backgroundColor = "gray";
+	}
+	else 
+	{
+		txtValue.disabled = false;
+		txtValue.style.backgroundColor = "white";
+	}
+}
+
+</script>
+</HEAD>
+
+<BODY onload="InitializeLogger(); DoLoad()"
+	  onkeypress="DoKeyPress()"
+	  onunload="TerminateLogger()"
+	  style="background-color: buttonface;
+			margin: 5px;
+			white-space: nowrap;">
+
+	<span id="lblI18NText" 
+		  style="position: absolute;
+				 left: 10px;
+				 top: 5px;
+				 width: 240px;">
+	</span>
+
+	<span style="position: absolute;
+				 left: 280px;
+				 top: 5px;">
+	
+		<input id="optEquals" tabIndex=4 name="radio" type="radio" checked onclick="IsEmpty()">equals</input><br>
+		<input id="optNotEquals" tabIndex=5 name="radio" type="radio" onclick="IsEmpty()">does not equal</input><br>
+		<input id="optEmpty" tabIndex=6 name="radio" type="radio" onclick="IsEmpty()">is empty</input>
+	
+	</span>
+		
+	<input id="txtValue" 
+	  	   type="text" 
+	  	   tabIndex=1
+		   style="position: absolute; 
+				  top: 75px;
+				  left: 10px;
+				  width: 400px;">
+	</input>
+
+	<span style="position: absolute;
+				 left: 10px;
+				 top: 107px;">
+	
+		<b>Note</b>:	Use the * wildcard to represent any sequence of characters.<br>
+								<span style="padding-left: 42px;"></span>
+								Use the ? wildcard to represent any single character.
+	</span>
+		
+	<button id="btnOK" 
+			onclick="DoUnload()" 
+			tabIndex=2
+			style="position: absolute; 
+				   top: 145px;
+				   left: 240px; 
+				   width: 80px; 
+				   height: 25px;">
+		OK
+	</button>
+	
+	<button id="btnCancel" 
+			tabIndex=3
+			onclick="window.close()" 
+			style="position: absolute; 
+				   top: 145px;
+				   left: 330px; 
+				   width: 80px; 
+				   height: 25px;">
+		Cancel
+	</button>
+
+</BODY>
+</HTML>

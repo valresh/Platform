@@ -1,0 +1,806 @@
+
+/********************
+ * TOOLTIP CSS
+ */
+
+.hscOpAppsTooltip {
+  position: absolute;
+  background-color: rgba(255,255,255,1);
+  padding: 10px;
+  border: 1px solid #ddd;
+
+  font-family: calibri,sans-serif;
+  font-size: 12px;
+
+  transition: opacity 500ms linear;
+  -moz-transition: opacity 500ms linear;
+  -webkit-transition: opacity 500ms linear;
+
+  transition-delay: 500ms
+  -moz-transition-delay: 500ms;
+  -webkit-transition-delay: 500ms;
+
+  -moz-box-shadow: 4px 4px 12px rgba(0,0,0,.5);
+  -webkit-box-shadow: 4px 4px 12px rgba(0,0,0,.5);
+  box-shadow: 4px 4px 12px rgba(0,0,0,.5);
+
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.hscOpAppsTooltip h3 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.hscOpAppsTooltip p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.hscOpAppsTooltip span {
+  display: inline-block;
+  margin: 2px 0;
+}
+
+
+
+
+
+/**********
+*  General SVG CSS
+*/
+
+
+text {
+	font-family:calibri,sans-serif;
+	font-size:12px;
+}
+
+
+
+/**********
+*  Legend
+*/
+
+.legend .series {
+  cursor: pointer;
+}
+
+.legend circle {
+  stroke-width: 2px;
+}
+
+.legend .disabled circle {
+  fill-opacity: 0;
+}
+
+
+/**********
+*  Axes
+*/
+
+.axis path {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .75;
+  shape-rendering: crispEdges;
+}
+
+.axis path.domain {
+  stroke-opacity: .75;
+}
+
+.axis line {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .25;
+  shape-rendering: crispEdges;
+}
+
+.axis line.zero {
+  stroke-opacity: .75;
+}
+
+
+
+/**********
+*  Line chart
+*/
+
+.point-paths path {
+  /*
+  fill: #eee;
+  stroke: #aaa;
+  */
+  stroke-opacity: 0;
+  fill-opacity: 0;
+}
+
+
+.lines path {
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+
+  transition: stroke-width 250ms linear;
+  -moz-transition: stroke-width 250ms linear;
+  -webkit-transition: stroke-width 250ms linear;
+
+  transition-delay: 250ms
+  -moz-transition-delay: 250ms;
+  -webkit-transition-delay: 250ms;
+}
+
+.line.hover path {
+  stroke-width: 6px;
+}
+
+.lines .point {
+  transition: stroke-width 250ms linear;
+  -moz-transition: stroke-width 250ms linear;
+  -webkit-transition: stroke-width 250ms linear;
+}
+
+.lines .point.hover {
+  stroke-width: 20px;
+  stroke-opacity: .5;
+}
+
+
+body
+{
+}
+
+#ruler
+{
+	visibility: hidden; 
+	white-space: nowrap;
+	font-family: calibri,sans-serif;
+	font-size: 12px;
+}
+
+div#JSONLogArea
+{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 400px;
+	bottom: 10px;
+}
+
+div#query
+{
+	position: absolute;
+	top: 0px;
+	height: 90px;
+	left: 10px;
+	right: 10px;
+}
+
+div#query-col1
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 750px;
+}
+
+div#query-col2
+{
+	top: 0px;
+	height: 50px;
+	margin-left: 760px;
+}
+
+div#query-col3
+{
+	top: 60px;
+	bottom: 0px;
+	margin-left: 760px;
+}
+
+div#query-col4
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 10px;
+	width: 20px;
+}
+
+div#graphdiv1
+{
+	position: absolute;
+	top: 100px;
+	height: 400px;
+	margin-left: 0px;
+	margin-right: 0px;
+	left: 0px;
+	width: 820px;
+}
+
+div#graphdiv2
+{
+	position: absolute;
+	top: 100px;
+	height: 400px;
+	margin-left: 0px;
+	margin-right: 0px;
+	left: 830px;
+	width: 820px;
+}
+
+div#graphdiv3
+{
+	position: absolute;
+	margin-top: 500px;
+	margin-left: 0px;
+	margin-right: 0px;
+	left: 0px;
+	width: 820px;
+	height: 400px;
+}
+
+div#graphdiv4
+{
+	position: absolute;
+	margin-top: 500px;
+	margin-left: 0px;
+	margin-right: 0px;
+	left: 830px;
+	width: 820px;
+	height: 400px;
+}
+
+textarea#JSONLog
+{
+	width: 100%;
+	height: 100%;
+}
+
+.series
+{
+	stroke: black;
+}
+
+.line
+{
+	fill: none;
+}
+
+.median
+{
+	stroke: #000;
+	stroke-width: 1.5px;
+	fill: none;
+}
+
+.box 
+{
+	stroke-width: 1.5px;
+}
+
+.box.line,
+.box.rect,
+.box.circle 
+{
+}
+
+.box.center 
+{
+	stroke-dasharray: 3 3;
+}
+
+.box.outlier 
+{
+	stroke: #ccc;
+	fill: none;
+}
+
+
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#container {
+   min-height:100%;
+   position:relative;
+}
+#OpAppsHeader {
+
+}
+#graphdivfull {
+   padding:10px;
+   padding-bottom:30px;   /* Height of the footer */
+}
+#OpAppsFooter {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:30px;   /* Height of the footer */
+}
+
+/* Footer elements - all */
+div#OpAppsFooter #datepicker,
+div#OpAppsFooter #timepicker,
+div#OpAppsFooter #datepicker0,
+div#OpAppsFooter #timepicker0,
+div#OpAppsFooter select,
+div#OpAppsFooter label,
+div#OpAppsFooter .btn
+{
+    margin-top:5px;
+}
+
+/* Footer elements - inputs */
+div#OpAppsFooter #datepicker,
+div#OpAppsFooter #timepicker,
+div#OpAppsFooter #datepicker0,
+div#OpAppsFooter #timepicker0,
+div#OpAppsFooter select
+{
+    width:130px;
+}
+
+/* Footer elements - datetime pickers */
+div#OpAppsFooter #datepicker,
+div#OpAppsFooter #timepicker,
+div#OpAppsFooter #datepicker0,
+div#OpAppsFooter #timepicker0
+{
+    height:24px;
+    font-size:10pt;
+    font-weight:400
+    text-decoration:none;
+}
+
+/* Footer elements - select boxes */
+div#OpAppsFooter select
+{
+    height:23px;
+    margin-top:3px;
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    padding-right:0px;
+    border-radius:0px;
+}
+
+/* Footer elements - labels */
+div#OpAppsFooter label
+{
+    vertical-align:middle;
+    margin-bottom:0px;
+    cursor:inherit;
+}
+
+/* Footer elements - buttons */
+div#OpAppsFooter .btn
+{
+    padding-top:0px;
+    padding-bottom:1px;
+    padding-right:7px;
+    padding-left:7px;
+}
+
+/* Footer elements - link buttons */
+div#OpAppsFooter a.btn
+{
+    border-radius:0px;
+}
+
+/* general OpApps */
+.normalRange
+{
+	stroke: RGB(128,128,128);
+	fill: RGB(240,240,240);
+	opacity: 0.80;
+}
+
+/* pipeline pressure profile */
+.current
+{
+	stroke: rgba(86, 187, 236, 0.25);
+	fill: rgb(86, 187, 236);
+	color: RGB(86, 187, 236);
+}
+
+.baseline
+{
+	stroke: rgba(0,0,0,0.25);
+	fill: rgb(192, 192, 192);
+	color: RGB(102, 102, 102);
+}
+
+.dashed
+{
+	stroke-dasharray: 3, 1;
+}
+
+.PipelinePressureProfileBar0Label
+{
+	stroke: rgba(0,0,0,0.25);
+	fill: RGB(230,230,230);
+}
+
+.PipelinePressureProfileBar0,
+.PipelineInferredFlowProfileBox0,
+.SegmentInferredFlowBox0,
+.SegmentMassBalanceBox0
+{
+	stroke: rgba(0,0,0,0);
+	fill: RGB(230,230,230);
+}
+
+.PipelineInferredFlowProfileBox1,
+.SegmentInferredFlowBox1,
+.SegmentMassBalanceBox1
+{
+	stroke: rgba(0,0,0,0);
+	fill: rgb(57, 165, 198);
+	opacity: 0.3;
+}
+
+.PipelineInferredFlowProfileBox2,
+.SegmentInferredFlowBox2,
+.SegmentMassBalanceBox2
+{
+	stroke: rgba(0,0,0,0);
+	fill: RGB(244, 242, 93);
+	opacity: 0.7;
+}
+
+.PipelineInferredFlowProfileBox3,
+.SegmentInferredFlowBox3,
+.SegmentMassBalanceBox3
+{
+	stroke: rgba(0,0,0,0);
+	fill: RGB(255,0,0);
+}
+
+
+.PipelineInferredFlowProfileValue0,
+.SegmentMassBalanceValue0,
+.SegmentInferredFlowValue0
+{
+	fill: RGB(102, 102, 102);
+	color: RGB(102, 102, 102);
+}
+
+.PipelineInferredFlowProfileValue1,
+.SegmentMassBalanceValue1,
+.SegmentInferredFlowValue1
+{
+	fill: RGB(57, 165, 198);
+	color: RGB(57, 165, 198);
+}
+
+.PipelineInferredFlowProfileValue2,
+.SegmentMassBalanceValue2,
+.SegmentInferredFlowValue2
+{
+	fill: RGB(233, 198, 3);
+	color: RGB(233, 198, 3);
+}
+
+.PipelineInferredFlowProfileValue3,
+.SegmentMassBalanceValue3,
+.SegmentInferredFlowValue3
+{
+	fill: RGB(255, 0, 0);
+	color: RGB(255, 0, 0);
+}
+
+.PipelineProfilePressureSeries,
+.PipelineProfilePressureProfile
+{
+	fill: #239990;
+	stroke-width: 1.5;
+	stroke: #239990;
+}
+
+.PipelineProfileBaselineProfile
+{
+	fill: #616bb2;
+	stroke: #616bb2;
+	stroke-width: 1.5;
+}
+
+.PipelineProfileTemperatureSeries,
+.PipelineProfileTemperatureProfile
+{
+	fill: rgb(52, 152, 219);
+	stroke-width: 1.5;
+	stroke: rgba(52, 152, 219,1);
+}
+
+.PipelineProfileOperatingRange
+{	
+    fill:rgba(35, 153, 144, 0.15);
+}
+
+.PipelineProfileCorrectedPressureSeries
+{
+	fill: #7f993b;
+	stroke-width: 1.5;
+	stroke: #7f993b;
+}
+
+.PipelineProfileLeakPressureSeries
+{
+	fill: red;
+	stroke-width: 1.5;
+	stroke: red;
+}
+
+.PipelineProfileReferenceLine
+{
+	stroke: rgb(0,0,0);
+	stroke-dasharray: 3, 3;
+	opacity: 1;
+}
+
+.RefValueClass
+{
+	fill: none;
+}
+
+
+/*************************
+*  Legend Behaviour
+*/
+
+.LegendItemInactive
+{
+}
+
+.LegeneItemActive
+{
+	fill: rgb(237,238,239);
+}
+
+.LegendItemHovered
+{
+	
+}
+
+.LegendBorder
+{
+	stroke: #eeeeee;
+	fill: "none";
+	stroke-width: 0;
+}
+
+.legendDivider 
+{
+     stroke: #c0c0c0;
+     stroke-width: 1;
+           
+}
+
+/*************************
+*  Completed Batch Report
+*/
+
+.compressorLine
+{
+	stroke-width: 5;
+	stroke: rgba(57, 165, 198, 0.3);
+	fill: rgb(57, 165, 198);
+}
+
+.compressorScatter
+{
+	stroke: rgba(86, 187, 236, 0.6);
+	fill: rgba(86, 187, 236, 0.0);
+}
+
+.compressorFinalScatter
+{
+	stroke-width: 2;
+	stroke: rgba(255, 255, 255, 1);
+	fill: rgba(86, 187, 236, 1);
+}
+
+
+/*************************
+*  Completed Batch Report
+*/
+
+.HDXTBL_COLHEAD
+{
+	border-right: #EAEAEE 1px solid; 
+	border-left: #EAEAEE 1px solid;  
+	border-bottom: #EAEAEE 1px solid;
+	background:#F2F4F7;
+	color:#666666;
+	font-family: calibri, sans-serif;
+	font-size: 12pt;
+	font-weight: normal;
+ 	padding:5px 5px 10px 10px;
+}
+
+textarea.hsc\.alpha\.1
+{
+	padding:5px 5px 5px 10px;
+	font-family: calibri, sans-serif; 
+	color: #000000;
+	font-weight: normal;  
+	font-style: normal; 
+	text-align: left;
+	font-size: 12pt;
+}
+
+.batchHeader1 {
+	height: 40px !important;
+	font-size: 14pt !important;
+	font-family: calibri, sans-serif !important; 
+	color: #333333 !important; 
+	padding:5px 5px 5px 10px !important;
+	background-color: #F1F1F7 !important;
+} 
+
+.batchHeader2 {
+	height: 40px !important;
+	font-size: 14pt !important;
+	font-family: calibri, sans-serif !important; 
+	color: #333333 !important; 
+	padding:5px 5px 5px 5px !important;
+	background-color: #F1F1F7 !important;
+}
+
+.batchTable {
+	width: 100%;
+	border-spacing: 0;
+    border-collapse: collapse;
+	border-top: #EAEAEE 1px solid; 
+	border-right: #EAEAEE 1px solid; 
+	border-left: #EAEAEE 1px solid;  
+	border-bottom: #EAEAEE 1px solid; 
+}
+
+.batchTable tr {
+	background-color: #F1F1F7;
+}
+
+.batchDataTable {
+	width: 100%;
+	border-top: #EAEAEE 1px solid; 
+	border-right: #EAEAEE 1px solid; 
+	border-left: #EAEAEE 1px solid;  
+	border-bottom: #EAEAEE 1px solid; 
+	font-family: calibri, sans-serif; 
+	background-color: #F9F9F9;
+}
+
+.spacerRow {
+	height: 15px;
+	background-color: #ffffff;
+}
+
+/*************************
+*  Station Trend 
+*/
+
+#statAnalysisHeader{
+	padding:10px 5px 0px 10px !important;	
+	width: 100% !important;
+	height: 40px !important;
+
+}
+
+.opappstrend
+{
+	width: 100% !important;
+	padding: 10px 10px;
+	height: 92% !important;
+}
+
+#segmentprofileheader{
+	padding:9px 5px 0px 10px !important;	
+	width: 100% !important;
+	height: 40px !important;
+}
+
+
+/*************************
+*  Differential Pressure 
+*/
+.DifferentialPressuePlotOne
+{
+    fill: rgb(46, 204, 113);
+	stroke-width: 1.5;
+	stroke: rgba(46, 204, 113, 1);
+}
+
+.DifferentialPressuePlotTwo
+{
+    fill: rgb(52, 152, 219);
+	stroke-width: 1.5;
+	stroke: rgba(52, 152, 219,1);
+}
+
+.DifferentialPressureHideValue
+{
+    display: none;
+}
+
+.graphDescription
+{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+rect.RefLeak
+{
+	stroke: #F1F1F7;
+	stroke-width: 1;
+    fill: rgba(255,255,255,1);
+}
+
+rect.RefLeakInner
+{
+	stroke: red;
+    fill: red;
+}
+
+line.RefLeak
+{
+	stroke: #070707;
+}
+
+/*************************
+*  Linepack Balance configuration
+*/
+
+.LBCompConfigText {
+  font-size: 12pt;
+  font-family: calibri, sans-serif;
+  height: 24px;
+  color: #666;
+  border-style: none;
+}
+
+.LBCompHeader1 {
+  height: 40px !important;
+  font-size: 12pt !important;
+  font-family: calibri, sans-serif !important;
+  color: #333333 !important;
+  padding: 5px 5px 5px 10px;
+  background-color: #F1F1F7 !important;
+}
+
+.LBCompTable {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-top: #EAEAEE 1px solid;
+  border-right: #EAEAEE 1px solid;
+  border-left: #EAEAEE 1px solid;
+  border-bottom: #EAEAEE 1px solid;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: #F9F9F9;
+}
+
+.LBCompNestTable {
+   border-collapse: collapse;
+   margin-left: 8px;
+   margin-right: 8px;
+}
+
+.LBAlphaText {
+    font-size: 12pt;
+    font-family: calibri, sans-serif;    
+    border-style: none;
+    text-align: right;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: right !important;
+}   

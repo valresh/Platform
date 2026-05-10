@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<shapefile version="1" type="dynamic" title="" description="" useFirstShapeForBadValue="0" width="256px" height="16px"><versionheaders><versionheader name="PS" value="5.1"/></versionheaders><scripts><script event="" language="VBScript" id="D3FA0EED-774A-4CDE-851A-A517C28ADD20"><![CDATA['
+' General Section (sysdtlcomputer_component_info.sha)
+option explicit
+Dim sHoldDevSts, sHoldCompType, sHoldCompSts
+
+sub InitCompInfoShape(objMe, sLBKey, sPoint, sComponentName)
+Dim sPartPath
+	objMe.autoReloadContent = false
+	if sComponentName <> "" then
+		sPartPath = "[ROOT\HONEYWELL].TPS_HCICOMPONENT.NAME='" & sComponentName & "'"
+		objMe.SetCustomProperty "Parameter", "paramCompStatus", sPartPath & ".StatusArray.1"
+		objMe.SetCustomProperty "Parameter", "paramDeviceStatus", sPartPath & ".DeviceStatusArray.1"
+		objMe.SetCustomProperty "Parameter", "paramDeviceInfo", sPartPath & ".DeviceStatusArray.3"
+		objMe.SetCustomProperty "Parameter", "paramCompType", sPartPath & ".ComponentType"
+		objMe.autoReloadContent = true
+		objMe.SetCustomProperty "Point", "SPSPoint", sPoint
+		objMe.SetCustomProperty "Value", "valListboxKey", sLBKey
+	else
+		objMe.SetCustomProperty "Parameter", "paramCompStatus", ""
+		objMe.SetCustomProperty "Parameter", "paramDeviceStatus", ""
+		objMe.SetCustomProperty "Parameter", "paramDeviceInfo", ""
+		objMe.autoReloadContent = true
+		objMe.SetCustomProperty "Parameter", "paramCompType", ""
+		objMe.SetCustomProperty "Point", "SPSPoint", ""
+	end if
+end sub
+
+sub UpdateDeviceStatus(sKey)
+	if sHoldDevSts = "" then exit sub
+	if sHoldCompType ="" then exit sub
+	if sHoldCompSts = "" then exit sub
+	UpdateLBLine ConvertDevStatus(sHoldDevSts, sHoldCompType, sHoldCompSts), sKey, 2
+end sub
+' End General Section (sysdtlcomputer_component_info.sha)
+']]></script></scripts><parameters><parameter name="SPSPoint" type="Point" description="Automatically added Point" defaultvalue=""/><parameter name="paramCompStatus" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="paramDeviceStatus" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="paramDeviceInfo" type="Parameter" description="Automatically added Parameter" defaultvalue=""/><parameter name="valListboxKey" type="Value" description="" defaultvalue=""/><parameter name="paramCompType" type="Parameter" description="Automatically added Parameter" defaultvalue=""/></parameters><shapes><shape><group><element><html><content><![CDATA[<TEXTAREA class=hsc.alpha.1 id=alphaCompStatus style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 0%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); OVERFLOW: hidden; WIDTH: 23.43%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: #ffdab9; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:#ffdab9;HDXBINDINGID:-4;lineColor:black;numberOfChars:9;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA['
+' sub alphaCompStatus_onupdate
+	if IsStsGoodQuality(me) then
+		sHoldCompSts = me.value
+		UpdateLBLine ConvertStatus(sHoldCompSts), "{%Value::valListboxKey%}", 1
+		UpdateDeviceStatus "{%Value::valListboxKey%}"
+	end if
+' end sub alphaCompStatus_onupdate
+']]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SPSPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramCompStatus%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA class=hsc.alpha.1 id=alphaDeviceStatus style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 25.39%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); OVERFLOW: hidden; WIDTH: 23.43%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: #ffdab9; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:#ffdab9;HDXBINDINGID:-4;lineColor:black;numberOfChars:9;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA['
+' sub alphaDeviceStatus_onupdate
+	if IsStsGoodQuality(me) then
+		sHoldDevSts = me.value
+		UpdateDeviceStatus "{%Value::valListboxKey%}"
+	end if
+' end sub alphaDeviceStatus_onupdate
+']]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SPSPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramDeviceStatus%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA class=hsc.alpha.1 id=alphaDeviceInfo style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 50.78%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); OVERFLOW: hidden; WIDTH: 23.43%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: #ffdab9; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:#ffdab9;HDXBINDINGID:-4;lineColor:black;numberOfChars:9;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA['
+' sub alphaDeviceInfo_onupdate
+	if IsStsGoodQuality(me) then UpdateLBLine me.value, "{%Value::valListboxKey%}", 3
+' end sub alphaDeviceInfo_onupdate
+']]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SPSPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramDeviceInfo%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><element><html><content><![CDATA[<TEXTAREA class=hsc.alpha.1 id=alphaCompType style="FONT-WEIGHT: normal; FONT-SIZE: 8pt; LEFT: 76.17%; BEHAVIOR: url(#HDXAlphaBehavior) url(#BindingBehavior); OVERFLOW: hidden; WIDTH: 23.43%; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-STYLE: normal; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: 0%; HEIGHT: 93.75%; BACKGROUND-COLOR: #ffdab9; TEXT-ALIGN: left; TEXT-DECORATION: none; WORD-WRAP: normal; BORDER-BOTTOM-STYLE: none; ROWS: 1" tabIndex=0 hdxproperties="fillColor:#ffdab9;HDXBINDINGID:-4;lineColor:black;numberOfChars:9;numericDisplayFormat:%s;textColor:#000000;">Text</TEXTAREA>]]></content><scripts><script event="onupdate" language="VBScript"><![CDATA['
+' sub alphaDeviceInfo_onupdate
+	if IsStsGoodQuality(me) then
+		sHoldCompType = me.value
+		UpdateDeviceStatus "{%Value::valListboxKey%}"
+	end if
+' end sub alphaDeviceInfo_onupdate
+']]></script></scripts></html><binding><dataobject ID="dso1" class="progid:HSCDataSources.Application" type="HMIPage.Generic"><dataobjectdef format="propertybag"><property name="version" varianttype="VT_R4" value="1.2"/><property name="ObjectType" varianttype="VT_UI1" value="0"/><property name="UpdatePeriod" varianttype="VT_UI2" value="0"/><property name="SecurityLevel" varianttype="VT_UI1" value="0"/><property name="AddressType" varianttype="VT_UI1" value="0"/><property name="AddressFlags" varianttype="VT_UI1" value="0"/><property name="PointRefPointName" varianttype="VT_BSTR" value="{%Point::SPSPoint%}"/><property name="PointRefParamName" varianttype="VT_BSTR" value="{%Parameter::paramCompType%}"/><property name="PointRefParamOffset" varianttype="VT_UI4" value="0"/><property name="PointRefFlags" varianttype="VT_UI4" value="0"/><property name="PresentationType" varianttype="VT_UI1" value="12"/></dataobjectdef></dataobject><class ID="HSC.AlphaReadOnly" refcount="1"/></binding></element><html><content><![CDATA[
+<DIV class=hvg.group.1 id=group001 style="FONT-SIZE: 0pt; LEFT: 0px; BEHAVIOR: url(#HDXVectorFactory#group); WIDTH: 256px; POSITION: absolute; TOP: 0px; HEIGHT: 16px" tabIndex=-1 hdxproperties="fillColorBlink:False;Height:16;lineColorBlink:False;Width:256;"></DIV>]]></content></html></group></shape></shapes></shapefile>
