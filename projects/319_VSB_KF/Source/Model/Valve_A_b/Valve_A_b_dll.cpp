@@ -1,4 +1,4 @@
-п»ї#include "stdafx.h"
+#include "stdafx.h"
 #include "Info.h"
 #include "TestNodes.h"
 #include "HydroStruct.h"
@@ -7,14 +7,12 @@
 #include "IV.h"
 
 
-#ifndef LINUX
-BOOL APIENTRY DllMain(HANDLE hModule,
+BOOL APIENTRY DllMain(HANDLE hModule, 
 					  DWORD  ul_reason_for_call, 
 					  LPVOID lpReserved )
 {
 	return TRUE;
 }
-#endif
 
 extern "C" 
 {
@@ -36,65 +34,24 @@ extern "C"
 };
 
 NODE_LIST
-NODE_IN  ( 1, 0, "i","Р’С…РѕРґРЅРѕР№ С„Р»Р°РЅРµС†")
-NODE_OUT ( 1, 1, "o","Р’С‹С…РѕРґРЅРѕР№ С„Р»Р°РЅРµС†")
+NODE_IN  ( 1, 0, "i","Входной фланец")
+NODE_OUT ( 1, 1, "o","Выходной фланец")
 END_LIST
 
-//STD_TEST
-int VA_StdTestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )\
-  {\
-  int kIO = 0;\
-  int kErr = 0;\
-  if ( kNodes > kVariablesData )\
-    {\
-    ModMsg ( "РЈ '%s' С‡РёСЃР»Рѕ РїРµСЂРµРјРµРЅРЅС‹С… РЅР° РІС…РѕРґРµ РІРµР»РёРєРѕ ( %d > %d )", ObjName, kNodes, kVariablesData );\
-    return 1;\
-    }\
-    for ( int v = 0; v < kVariablesData; v++ )\
-      VariablesData[v].WasSet = false;\
-      for ( int n = 0; n < kNodes; n++ )\
-        {\
-        CObjectPoint * pObjVar = ppNodes[n];\
-        char * Point = pObjVar->PntName;\
-        bool OK = false;\
-        for ( int v = 0; v < kVariablesData; v++ )\
-          {\
-          if ( lstrcmpi_m ( VariablesData[v].SetVarName, Point ) == 0 )\
-            {\
-            OK = true;\
-            if ( VariablesData[v].WasSet )\
-              {\
-              ModMsg ( "РЈ  '%s' РїРµСЂРµРјРµРЅРЅР°СЏ '%s' Р·Р°РґР°РµС‚СЃСЏ РїРѕРІС‚РѕСЂРЅРѕ", ObjName, Point ), kErr++;\
-              }\
-            else\
-              {\
-              VariablesData[v].WasSet = true;\
-              pObjVar->Type = VariablesData[v].TypeVarStruct;\
-              pObjVar->PntGroup = VariablesData[v].GroupInModel;\
-              pObjVar->NumbInGroup = VariablesData[v].NumbInGroup;\
-              pObjVar->IO = VariablesData[v].IO;\
-              }\
-              break;\
-            }\
-          }\
-          if ( !OK )\
-            ModMsg ( "РЈ  '%s' РѕС€РёР±РѕС‡РЅС‹Р№ РІС…РѕРґ '%s'", ObjName, Point ), kErr++;\
-        }\
-        return kErr;\
-  }
+STD_TEST
 
-STATIC int TestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )
+extern "C" int EXP TestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )
 {
 	if ( kNodes == 1 )
 	{
-		ModMsg ( "Р’РЅРёРјР°РЅРёРµ: РЈ '%s' Р·Р°РґР°РЅР° РѕРґРЅР° С‚РѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ.", (char*)ObjName );
+		ModMsg ( "Внимание: У '%s' задана одна точка соединения.", (char*)ObjName );
 	}
 	else if ( kNodes < 2 )
 	{
-		ModMsg ( "РЈ РєР»Р°РїР°РЅР° '%s' РЅРµРїСЂР°РІРёР»СЊРЅРѕРµ С‡РёСЃР»Рѕ С‚РѕС‡РµРє СЃРѕРµРґРёРЅРµРЅРёСЏ - %d", (char*)ObjName, kNodes );
+		ModMsg ( "У клапана '%s' неправильное число точек соединения - %d", (char*)ObjName, kNodes );
 		return 1;
 	}
-	return VA_StdTestNodes(ObjName, kNodes, ppNodes);
+	return StdTestNodes(ObjName, kNodes, ppNodes);
 }
 
 // MODEL_INFO(CValve_A_b, 0, "Valve_A_b", "Description")

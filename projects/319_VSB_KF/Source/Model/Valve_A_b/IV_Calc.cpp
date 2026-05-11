@@ -1,4 +1,4 @@
-п»ї#include "stdafx.h"
+#include "stdafx.h"
 #include "IV.h"
 #include "Err.h"
 #include "CommProc.h"
@@ -15,23 +15,23 @@ void CIV::Control(double dt)
 	else if(ControlNoElectro(dt));
 	else 
 	{
-		if(РЎРѕР»РµРЅРѕРёРґ.IsConnection)
+		if(Соленоид.IsConnection)
 		{
-			if ( KIP == РћС‚РєСЂС‹РІР°РµС‚СЃСЏ )
+			if ( KIP == Открывается )
 			{
-				VerifyBlk(bOpen, (РЎРѕР»РµРЅРѕРёРґ != 0));
-				CValve_A_b::VerifyBlk(100.0 * РЎРѕР»РµРЅРѕРёРґ);
-				if(РЎРѕР»РµРЅРѕРёРґ)
+				VerifyBlk(bOpen, (Соленоид != 0));
+				CValve_A_b::VerifyBlk(100.0 * Соленоид);
+				if(Соленоид)
 					bClose = false;
 			}
-			else if ( KIP == Р—Р°РєСЂС‹РІР°РµС‚СЃСЏ )
+			else if ( KIP == Закрывается )
 			{
-				VerifyBlk(bClose, (РЎРѕР»РµРЅРѕРёРґ != 0));
-				CValve_A_b::VerifyBlk(100.0 * (1 - РЎРѕР»РµРЅРѕРёРґ));
-				if(РЎРѕР»РµРЅРѕРёРґ)
+				VerifyBlk(bClose, (Соленоид != 0));
+				CValve_A_b::VerifyBlk(100.0 * (1 - Соленоид));
+				if(Соленоид)
 					bOpen = false;
 			}
-			else if (KIP == РќРµ_РјРµРЅСЏРµС‚СЃСЏ)
+			else if (KIP == Не_меняется)
 			{
 				bOpen = bClose = false;
 				bIgnoreBlk = false;
@@ -41,20 +41,20 @@ void CIV::Control(double dt)
 		}
 		else 
 		{
-			if(РћС‚РєСЂС‹С‚СЊ.Use())
+			if(Открыть.Use())
 			{
-				VerifyBlk(bOpen,(РћС‚РєСЂС‹С‚СЊ != 0));
-				if(РћС‚РєСЂС‹С‚СЊ)
+				VerifyBlk(bOpen,(Открыть != 0));
+				if(Открыть)
 				{
 					CValve_A_b::VerifyBlk(100.0);
 					bClose = false;
 				}
 				
 			}
-			if(Р—Р°РєСЂС‹С‚СЊ.Use())
+			if(Закрыть.Use())
 			{
-				VerifyBlk(bClose, (Р—Р°РєСЂС‹С‚СЊ != 0));
-				if(Р—Р°РєСЂС‹С‚СЊ)
+				VerifyBlk(bClose, (Закрыть != 0));
+				if(Закрыть)
 				{
 					CValve_A_b::VerifyBlk(0.0);
 					bOpen = false;
@@ -66,13 +66,11 @@ void CIV::Control(double dt)
 		else if(bOpen)
 			Task = 100.0; 
 	}
-	РљРѕРјР°РЅРґР°_РѕС‚РєСЂС‹С‚СЊ = bOpen;
-	bClose = bOpen = false;
 }
 
 void CIV::Calc(double dt)
 {
 	SET_BP BreakPoint;
-	РЎСЂР°Р±РѕС‚Р°Р»_СЃРѕР»РµРЅРѕРёРґ = РЎРѕР»РµРЅРѕРёРґ.Value;
+	Сработал_соленоид = Соленоид.Value;
 	CValve_A_b::Calc(dt);
 }

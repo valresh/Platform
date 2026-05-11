@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "Valve_A_b.h"
 
 void CValve_A_b::ElectroOn()

@@ -1,4 +1,4 @@
-п»ї#include "stdafx.h"
+#include "stdafx.h"
 #include "Valve_A_b.h"
 
 int CValve_A_b::GetParams( char * )
@@ -6,9 +6,11 @@ int CValve_A_b::GetParams( char * )
 #include "IO_Parms.h"
 	Defect_Params(this);
 	ACS_Params( this );
-	TAB("Р—Р°РґР°РЅРёСЏ", 1 )
-		CTRL_Params( NULL, this, $"Р—Р°РґР°РЅРёСЏ" );
-		PARM( dReg, "Р—Р°РјРµРґР»РµРЅРёРµ СЂРµРіСѓР»РёСЂРѕРІРєРё" )
+	TAB("Задания", 1 )
+		CTRL_Params( NULL, this, $"Задания" );
+		PARM( dReg, "Замедление регулировки" )
+    PARM(ShowConflict,"Показывать конфликты") 
+    PARM(MaxConflict,"Макс. конфликта, %") 
 	ETAB	
 	return CValve_b::GetParams(NULL);
 }
@@ -30,8 +32,20 @@ void CValve_A_b::DrawObj ( struct CDrawObjData * pDraw )
 {
 	//TransparentStd( pDraw->hDC, pDraw->rc, ColZadv(Position));
 	CValve_b::DrawObj(pDraw);
+  if ( Reg_On )
+	  {
+		static HPEN hPenCross = CreatePen(PS_SOLID,3,RGB ( 255, 0, 255 ));
+		HPEN hOld = (HPEN)SelectObject ( pDraw->hDC, hPenCross );
+		MoveToEx ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10, NULL );
+		LineTo ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.top - 10 );
+		LineTo ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.bottom + 10 );
+		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.bottom + 10 );
+		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10 );
+		SelectObject ( pDraw->hDC, hOld );
+    return;
+	 }
 	if(bIgnoreBlk)
-	{
+	  {
 		static HPEN hPenCross = CreatePen(PS_SOLID,3,RGB ( 0, 0, 255 ));
 		HPEN hOld = (HPEN)SelectObject ( pDraw->hDC, hPenCross );
 		MoveToEx ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10, NULL );
@@ -39,5 +53,5 @@ void CValve_A_b::DrawObj ( struct CDrawObjData * pDraw )
 		MoveToEx ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.top - 10, NULL );
 		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.bottom + 10 );
 		SelectObject ( pDraw->hDC, hOld );
-	}
+	 }
 }

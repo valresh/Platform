@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include "Valve_b.h"
 
 #define DEFECT_FULL_OPEN			(1 << 1)
@@ -39,14 +39,13 @@ public:
 	virtual int SetData( int TypeData, void * pData );
 	virtual int GetParams( char * );
 	virtual bool ControlDubler(double dt);
-  virtual void Sbros(){};
 	bool bIgnoreBlk;
 	enum Actions
 	{
-		ÐžÑ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ,
-		Ð—Ð°ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ,
-		ÐÐµ_Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ,
-		ÐÐµ_Ð²Ð»Ð¸ÑÐµÑ‚,
+		Îòêðûâàåòñÿ,
+		Çàêðûâàåòñÿ,
+		Íå_ìåíÿåòñÿ,
+		Íå_âëèÿåò,
 	}KIP, Electro;
 	double Dubler_old;
 	bool IsElectro;

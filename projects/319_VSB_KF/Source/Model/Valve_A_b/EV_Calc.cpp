@@ -1,4 +1,4 @@
-п»ї#include "stdafx.h"
+#include "stdafx.h"
 #include "EV.h"
 #include "Err.h"
 #include "CommProc.h"
@@ -10,7 +10,7 @@ void CEV::Control(double dt)
 		bClose = bOpen = bStop = false;
 		return;
 	}
-	if(Electro == РќРµ_РІР»РёСЏРµС‚)
+	if(Electro == Не_влияет)
 		if(ControlNoKip(dt))
 		{
 			bClose = bOpen = bStop = false;
@@ -21,33 +21,23 @@ void CEV::Control(double dt)
 	{
 	case SWITCH_DIST:
 		{
-			Р”РёСЃС‚Р°РЅС†РёРѕРЅРЅС‹Р№ = 1;
-			if(Р—Р°РєСЂС‹С‚СЊ.On())
+			Дистанционный = 1;
+			if(Закрыть.On())
 				_bClose = true;
-			if(РћС‚РєСЂС‹С‚СЊ.On())
+			if(Открыть.On())
 				_bOpen = true;
-			if(РЎС‚РѕРї.On())
+			if(Стоп.On())
 				_bStop = true;
 			break;
 		}
 	case SWITCH_MEST:
 		{
-			Р”РёСЃС‚Р°РЅС†РёРѕРЅРЅС‹Р№ = 0;
+			Дистанционный = 0;
 			if(bClose)
 				_bClose = true;
 			if(bOpen)
 				_bOpen = true;
 			if(bStop)
-				_bStop = true;
-			break;
-		}
-	 case SWITCH_DUAL:
-		{
-			if(bClose || Р—Р°РєСЂС‹С‚СЊ.On())
-				_bClose = true;
-			if(bOpen || РћС‚РєСЂС‹С‚СЊ.On())
-				_bOpen = true;
-			if(bStop || РЎС‚РѕРї.On())
 				_bStop = true;
 			break;
 		}

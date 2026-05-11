@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 // #include "stdafx.cpp"
 // #include "Valve_A_b.cpp"
 // #include "Valve_A_b_Calc.cpp"
