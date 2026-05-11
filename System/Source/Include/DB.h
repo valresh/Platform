@@ -28,6 +28,8 @@ struct IN_DLL DB
   static int GetInt( const char * Class, const char * Name, int Def );
   static bool GetBool( const char * Class, const char * Name, bool Def );
   static void Test( );
+  static void TestMem();
+
 };
 
 

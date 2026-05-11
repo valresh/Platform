@@ -12,6 +12,7 @@ TrendsVar::TrendsVar(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::TrendsVar)
 {
+  setWindowIcon( QIcon(":/webcam.png"));
   ui->setupUi(this);
   ui->Wnd->pDraw = pDraw;
   Model.IsData = false;

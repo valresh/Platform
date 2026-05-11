@@ -34,6 +34,7 @@ struct ParamsList : public QTableView
 public:
   CParams * pParams;
   int kParams;
+  class ShowParams * pMain;
   ParamsListModel Model;
   ParamsList(QWidget * Parent );
   void contextMenuEvent(QContextMenuEvent *e);

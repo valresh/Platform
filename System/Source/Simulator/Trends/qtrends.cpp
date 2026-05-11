@@ -9,6 +9,18 @@
   if ( E == NULL )\
     continue;
 
+#define To_DB \
+  DB::Set ( "Тренды", FileName, sizeof ( QTrends_W ), static_cast<QTrends_W*>(this));
+
+#define From_DB \
+  {\
+  int L = 0;\
+  if ( DB::Get ( "Тренды", FileName, sizeof ( QTrends_W ), L, static_cast<QTrends_W*>(this)))\
+    {\
+    ASS(L == sizeof ( QTrends_W ))\
+    }\
+  }
+
 QTrends::QTrends(QWidget *parent, const char * FileTrend )
   : QMainWindow(parent)
   , ListVar (this )
@@ -17,7 +29,6 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   ui->setupUi(this);
   setWindowIcon( QIcon(":/windows.png"));
   Type = Trend;
-  ui->Wnd->ShowSteps = true;
   ui->TimeStep->setText( "Шаги" );
   Name = FileTrend;
   FileName = FileTrend;
@@ -29,10 +40,16 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   pDraw->step = ui->step;
   pDraw->SelVar = ui->SelVar;
   pDraw->SelValue = ui->SelValue;
-  QLineEdit *step;;
+//  QLineEdit *step;
+  ScaleT = 1000;
+  ShowSteps = true;
+  QTrends_W::WinRect = geometry();
+  From_DB
+  setGeometry( QTrends_W::WinRect );
+  ui->Wnd->ShowSteps = true;
   ui->ScaleT->setMinimum( 0 );
   ui->ScaleT->setMaximum( 1000 );
-  ui->ScaleT->setValue( 1000 );
+  ui->ScaleT->setValue( ScaleT );
 // Чтение файла
   Char<1024>Path;
   Path.Prt ("%sINI/Trends/%s.csv", PROJECT_ROOT, FileTrend );
@@ -145,13 +162,15 @@ void QTrends::updateTime()
 }
 void QTrends::resizeEvent(QResizeEvent *event)
 {
-  WinRect = geometry();
+  QTrends_W::WinRect = geometry();
   change = true;
+  To_DB
 }
 void QTrends::moveEvent(QMoveEvent *event)
 {
-  WinRect = geometry();
+  QTrends_W::WinRect = geometry();
   change = true;
+  To_DB
 }
 void QTrends::closeEvent(QCloseEvent * event)
 {
@@ -208,7 +227,8 @@ void QTrends::on_Align_clicked()
 
 void QTrends::on_ScaleT_sliderMoved(int position)
 {
-
+  ScaleT = ui->ScaleT->sliderPosition();
+To_DB
 }
 
 
@@ -219,5 +239,19 @@ void QTrends::on_TimeStep_pressed()
     ui->TimeStep->setText( "Шаги" );
   else
     ui->TimeStep->setText( "Время" );
+  }
+
+
+void QTrends::on_ScaleT_sliderPressed()
+  {
+  ScaleT = ui->ScaleT->sliderPosition();
+  To_DB
+  }
+
+
+ void QTrends::on_TimeStep_clicked()
+  {
+  ShowSteps = ui->Wnd->ShowSteps;
+  To_DB
   }
 

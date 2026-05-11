@@ -13,8 +13,14 @@ namespace Ui {
 class QTrends;
 }
 
+struct QTrends_W
+{
+  QRect WinRect;
+  int ScaleT;
+  bool ShowSteps;
+};
 
-class QTrends : public QMainWindow, public WinList
+class QTrends : public QMainWindow, public WinList, public QTrends_W
 {
     Q_OBJECT
 
@@ -44,6 +50,8 @@ class QTrends : public QMainWindow, public WinList
     void on_Align_clicked();
     void on_ScaleT_sliderMoved(int position);
     void on_TimeStep_pressed();
+    void on_ScaleT_sliderPressed();
+    void on_TimeStep_clicked();
 };
 
 #endif // QTRENDS_H

@@ -7,7 +7,8 @@
 ShowTrends::ShowTrends(QWidget *parent)
   : QWidget{parent}, VarProp(this)
   {
-  CLEAR(Vars)
+//  CLEAR(Vars)
+  setWindowIcon( QIcon(":/windows.png"));
   kVar = 0;
   SetShift = 0;
   Shift = 0;
@@ -227,8 +228,10 @@ void ShowTrends::paintEvent( QPaintEvent *event )
             }
 //            painter.setFont(font);
             QRect rc( x + dX_left - 20, nHeight + 5, 40, 15 );
+            P.save();
             P.setPen(Qt::black);
             P.drawText( rc, Qt::AlignCenter, Txt );
+            P.restore();
             NextLab -= dX_Lab;
           }
         }

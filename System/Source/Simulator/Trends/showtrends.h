@@ -24,6 +24,10 @@ struct TrendVar
     bool UseNom;
     char Type;
     bool Out( char Txt[256]);
+    TrendVar()
+    {
+      memset ( this, 0, sizeof ( *this ));
+    }
 };
 
 class ShowTrends : public QWidget

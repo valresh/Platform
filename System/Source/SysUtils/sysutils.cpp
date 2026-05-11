@@ -4,6 +4,10 @@
 #include <qdir.h>
 #include <QSharedMemory>
 #include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <stdio.h>
 
 char PROJECT[32];
 char EXE_PATH[1024];
@@ -78,7 +82,7 @@ void SetPaths()
   }
 
 #define MAX_MEM 500000000
-QSharedMemory mem("SysMem");
+//QSharedMemory mem("SysMem");
 QFile file ("/home/resh/tmp/SysMem.dat");
 
  BYTE * pMem = NULL;
@@ -88,15 +92,24 @@ int MemUsed( )
   return PosMem;
  }
 
+//#define INIT
+
  void * NewMem( size_t size )
   {
-   // int k = size;
-   // BYTE * pAddr = new BYTE[size];
-   // PosMem += size;
-   // memset(pAddr,0,size);
-   //return pAddr;
   if ( pMem == NULL )
     {
+    Char<1024>Path;
+    Path.Prt ( "/home/resh/Platform/DATA/mem.dat" );
+    int fd = open(Path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR ); // | O_CREAT
+#ifdef INIT
+    BYTE Buf[500000];
+    memset ( Buf, 0, sizeof (Buf));
+    for ( int n = 0; n < 1000; n++ )
+      write ( fd, Buf, sizeof (Buf));
+#endif
+    pMem = (BYTE*)mmap(NULL, MAX_MEM, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0 );// | MAP_LOCKED MAP_SHARED
+    close(fd);
+    memset ( pMem, 0, MAX_MEM );
 #if 0
     bool res = mem.create( MAX_MEM );
     if ( !res )

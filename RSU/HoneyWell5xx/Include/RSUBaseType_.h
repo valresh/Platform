@@ -2,7 +2,7 @@
 #include <BaseType.h>
 //#include <crossplatform.h>
 #include <CommProc.h>
-#include </home/resh/Platform/RSU_F/system/CBase.h>
+#include </home/resh/Platform/RSU/system/CBase.h>
 //#pragma warning( disable : 444 ) //Отключаем предупреждение о невиртуальности
 
 #include <QtCore/QtGlobal>

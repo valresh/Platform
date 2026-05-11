@@ -3,6 +3,7 @@
 
 #include <QRect>
 #include "CommProc.h"
+#include "DB.h"
 
 #define WINLIST_PARAMS 128
 
@@ -30,5 +31,6 @@ class WinList
   void Close();
   void Save( QFile * pF );
 };
+
 
 #endif // WINLIST_H

@@ -129,6 +129,8 @@ QVariant ParamsListModel::data(const QModelIndex &index, int role) const
           return QString( N );
       }
       char Txt[256];
+      if ( pParams[r].pShowParam )
+        pParams[r].pShowParam->Show( &pParams[r] );
       pParams[r].Out(Txt);
       return QString ( Txt );
     case Qt::EditRole:

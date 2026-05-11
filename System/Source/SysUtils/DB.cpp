@@ -15,6 +15,11 @@ BYTE * DB::Mem = NULL;
 BYTE B[SISE_DB];
 #endif
 
+void ass( bool Cond )
+  {
+  if ( !Cond )
+    KKK();
+  }
 DB::DB()
 {
   Char<1024>Path;
@@ -53,50 +58,64 @@ int Res;
   int L = 0;
   memset ( A, 0, sizeof( A ));
   Res = Get( "2", "3333",  sizeof( A ), L, A );
-  ASS( L == sizeof( A ) )
+  ass( L == sizeof( A ) );
     for ( int n = 0; n < 100; n++ )
     {
-      ASS(A[n] == n );
+      ass(A[n] == n );
     }
   L = 0;
   memset ( A, 0, sizeof( A ));
   Res = Get( "1", "12345",  sizeof( A ), L, A );
-  ASS( L == sizeof( A ) )
+  ass( L == sizeof( A ) );
     for ( int n = 0; n < 100; n++ )
     {
-      ASS(A[n] == n );
+      ass(A[n] == n );
     }
   L = 0;
   memset ( A, 0, sizeof( A ));
   Res = Get( "2", "444",  sizeof( B ), L, B );
-  ASS( L == sizeof( B ) )
+  ass( L == sizeof( B ) );
     for ( int n = 0; n < 10; n++ )
     {
-      ASS(B[n] == 10-n );
+      ass(B[n] == 10-n );
     }
   L = 0;
   memset ( A, 0, sizeof( A ));
   Res = Get( "2", "12345",  sizeof( A ), L, A );
-  ASS( L == sizeof( A ) )
+  ass( L == sizeof( A ) );
     for ( int n = 0; n < 100; n++ )
     {
-      ASS(A[n] == n );
+      ass(A[n] == n );
     }
   KKK();
 }
 
 #define KEY 0x7F2E564A
+
+void DB::TestMem()
+{
+  int Len = *(int*)Mem;
+  BYTE * P_data = Mem + 4;
+  BYTE * P = P_data;
+  while ( P < Mem + Len )
+    {
+    BYTE * P0 = P; // Начало очередной записи
+    ass( *(int*)P == KEY );
+    int L = *(int*)(P+4);
+    P += L;
+    }
+
+}
 // KEY <int Полный SIZE><int SIZE Class(c 0) + 4><Class c 0><int SIZE Name(c 0) + 4><Name c 0><int L><Data>
 int DB::Set( const char * Class, const char * Name,  int L, void * Data )
   {
-  return -1;
   int Len = *(int*)Mem;
   BYTE * P_data = Mem + 4;
   BYTE * P = P_data;
   while ( P < Mem + Len )
     {
       BYTE * P0 = P; // Начало очередной записи
-      ASS( *(int*)P == KEY )
+    ass( *(int*)P == KEY );
       BYTE * p = P + 8; // пропуск KEY Size
       if ( strcmp ( (const char * )(p + 4), Class ) == 0 )
         {
@@ -107,12 +126,13 @@ int DB::Set( const char * Class, const char * Name,  int L, void * Data )
               // Имя совпала
               p += *(int*)p;
               int Lf = *(int*)p;
-                if ( Lf >= L )
+              if ( Lf >= L )
                 {
                   memmove ( p + 4, Data, L );
                   *(int*)p = L;
+                  TestMem();
                   return 0;
-              }
+                }
               // Не влезает
               int S = P0 - P_data;
               int dL = L - Lf;
@@ -120,6 +140,7 @@ int DB::Set( const char * Class, const char * Name,  int L, void * Data )
               Len += dL;
               *(int*)Mem = Len;
               Set( P0, Class, Name, L, Data );
+              TestMem();
               return 1;
           }
           P += *(int*)(P+4);
@@ -131,6 +152,7 @@ int DB::Set( const char * Class, const char * Name,  int L, void * Data )
   // Не найден - Добавка в конец
   int S = Set( P, Class, Name, L, Data );
   *(int*)Mem += S;
+  TestMem();
   return -1;
 }
 
@@ -164,27 +186,27 @@ int DB::Set( BYTE * Addr, const char * Class, const char * Name,  int L, void * 
 
 bool DB::Get( const char * Class, const char * Name,  int L_max, int & L, void * Data )
   {
-  return false;
   int Len = *(int*)Mem;
   BYTE * P_data = Mem + 4;
   BYTE * P = P_data;
-    while ( P < Mem + Len )
+  while ( P < Mem + Len )
     {
       BYTE * P0 = P; // Начало очередной записи
-      ASS( *(int*)P == KEY )
+      ass( *(int*)P == KEY );
       BYTE * p = P + 8;
         if ( strcmp ( (const char*)(p + 4), Class ) == 0 )
         {
           // Класс совпал
           p += *(int*)p;
-            if ( strcmp ( (const char*)(p + 4), Name ) == 0 )
+          if ( strcmp ( (const char*)(p + 4), Name ) == 0 )
             {
               // Имя совпала
               p += *(int*)p;
               int Lf = *(int*)p;
               if ( Lf > L_max )
                 return 1;
-              memmove ( Data, p + 4, L );
+              p += 4;
+              memmove ( Data, p, Lf );
               L = Lf;
               return true;
             }
@@ -240,7 +262,7 @@ double DB::GetDbl( const char * Class, const char * Name, double Def )
   int L;
   if ( Get( Class, Name, 8, L, &V ))
     {
-      ASS(L==8);
+      ass(L==8);
       return V;
     }
   Set( Class, Name,  8, &Def );
@@ -252,7 +274,7 @@ int DB::GetInt( const char * Class, const char * Name, int Def )
   int L;
   if ( Get( Class, Name, 4, L, &V ))
     {
-      ASS(L==4);
+      ass(L==4);
       return V;
     }
   Set( Class, Name,  4, &Def );
@@ -264,7 +286,7 @@ bool DB::GetBool( const char * Class, const char * Name, bool Def )
   int L;
   if ( Get( Class, Name, 1, L, &V ))
     {
-      ASS(L==1);
+      ass(L==1);
       return V;
     }
   Set( Class, Name,  1, &Def );

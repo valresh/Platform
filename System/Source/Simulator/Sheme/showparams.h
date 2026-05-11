@@ -10,7 +10,14 @@ namespace Ui {
 class ShowParams;
 }
 
-class ShowParams : public QMainWindow
+struct ShowParams_W
+{
+  QRect WinRect;
+  int w_split[2];
+  int cx_0;
+};
+
+class ShowParams : public QMainWindow, public ShowParams_W
 {
     Q_OBJECT
 
@@ -24,7 +31,9 @@ class ShowParams : public QMainWindow
     QSplitter *splitter;
     int Sign;
     void on_Change( double Delta );
-
+    void resizeEvent(QResizeEvent *event);
+    void moveEvent(QMoveEvent *event);
+    void SaveToDB();
   public slots:
     void on_ParamTree_clicked(const QModelIndex &index);
 
@@ -46,6 +55,12 @@ class ShowParams : public QMainWindow
 
 private slots:
     void on_Step1_clicked();
+
+    void on_splitter_splitterMoved(int pos, int index);
+
+    void on_ParamTree_collapsed(const QModelIndex &index);
+
+    void on_ParamTree_expanded(const QModelIndex &index);
 
 private:
     Ui::ShowParams *ui;
