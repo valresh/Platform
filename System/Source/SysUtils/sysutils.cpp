@@ -156,7 +156,7 @@ int MemUsed( )
     return r;
   }
 
-  int CharToUTF8( char * To, int MaxTo, char * From, bool Sign )
+int CharToUTF8( char * To, int MaxTo, char * From, bool Sign )
   {
     unsigned char * F = (unsigned char *)From;
     int p = 0;
