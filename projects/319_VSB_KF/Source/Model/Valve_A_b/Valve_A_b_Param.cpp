@@ -9,8 +9,11 @@ int CValve_A_b::GetParams( char * )
 	TAB("Задания", 1 )
 		CTRL_Params( NULL, this, $"Задания" );
 		PARM( dReg, "Замедление регулировки" )
+<<<<<<< HEAD
     PARM(ShowConflict,"Показывать конфликты") 
     PARM(MaxConflict,"Макс. конфликта, %") 
+=======
+>>>>>>> parent of aceed292 (Reg)
 	ETAB	
 	return CValve_b::GetParams(NULL);
 }
