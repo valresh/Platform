@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include "Err.h"
 
-//#define INIT
+#define INIT
 
 BYTE * DB::Mem = NULL;
 #define SISE_DB 10 * 1024 * 1024
@@ -134,7 +134,7 @@ int DB::Set( const char * Class, const char * Name,  int L, void * Data )
                   return 0;
                 }
               // Не влезает
-              int S = P0 - P_data;
+              int S = P0 - Mem;
               int dL = L - Lf;
               memmove ( Mem + Len + dL, Mem + Len, Len - S );
               Len += dL;

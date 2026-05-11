@@ -39,11 +39,11 @@ class FindObj : public QDialog
 public:
     FindObjModel Model;
  //
-    explicit FindObj(QWidget *parent = nullptr);
+    explicit FindObj( QWidget *parent = nullptr);
     ~FindObj();
     void SetList ( char *szFilter);
     bool FiltrName( char * szFilter, char * Name );
-
+    void Find ( const char * InitQuest );
 private slots:
     void on_Find_clicked();
 

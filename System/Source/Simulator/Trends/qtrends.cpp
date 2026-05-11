@@ -43,9 +43,9 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
 //  QLineEdit *step;
   ScaleT = 1000;
   ShowSteps = true;
-  QTrends_W::WinRect = geometry();
-  From_DB
-  setGeometry( QTrends_W::WinRect );
+  // QTrends_W::WinRect = geometry();
+  // From_DB
+  // setGeometry( QTrends_W::WinRect );
   ui->Wnd->ShowSteps = true;
   ui->ScaleT->setMinimum( 0 );
   ui->ScaleT->setMaximum( 1000 );

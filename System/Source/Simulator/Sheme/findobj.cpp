@@ -15,6 +15,17 @@ FindObj::FindObj(QWidget *parent)
     ui->Tab->setModel( &Model );
 }
 
+void FindObj::Find ( const char * InitQuest )
+{
+  Char<256>Txt = InitQuest;
+  char * P = strchr ( Txt, '.' );
+  if ( P )
+    *P = 0;
+  ui->Filtr->addItem( P );
+  exec();
+//  on_Find_clicked();
+}
+
 FindObj::~FindObj()
 {
     delete ui;
@@ -25,7 +36,7 @@ void FindObj::on_Find_clicked()
     char Txt[1024];
     strcpy ( Txt,  STR(ui->Filtr->currentText()));
     SetList (Txt );
-    repaint();
+    ui->Tab->repaint();
 }
 
 void FindObj::on_OnSheme_checkStateChanged(const Qt::CheckState &arg1)
