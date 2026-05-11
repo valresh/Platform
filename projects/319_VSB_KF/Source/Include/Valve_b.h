@@ -5,7 +5,7 @@
 //#include "SysDataTypes.h"
 //#include "SR.h"
 //#include "SelVar.h"
-//#include "SoftGDI.h"
+#include "SoftGDI.h"
 #include "Data.h"
 //#include "Chem.h"
 #include "Defects.h"
@@ -13,21 +13,12 @@
 #include "EpsVol.h"
 #include "IntReg.h"
 
-#ifdef LINUX
-#include <QtCore/qglobal.h>
-#ifdef UTILS_EXPORTS
-#define IN_DLL Q_DECL_EXPORT
-#else
-#define IN_DLL Q_DECL_IMPORT
-#endif
-#else
 #undef IN_DLL
 #ifdef VALVE_B_EXPORTS
 #undef IN_DLL
 #define IN_DLL __declspec(dllexport)
 #else
 #define IN_DLL __declspec(dllimport)
-#endif
 #endif
 
 #define DEFECT_FALLING_WEDGE		(1 << 0)
@@ -43,6 +34,9 @@ struct _W_Valve_b
 	double Pin, Pout;
 	bool Fixed_Position;
 	double Eps;
+//
+  double Reg_PV_, Reg_MV_, Reg_SP;
+  bool Reg_On;
 	_W_Valve_b();
 };
 
@@ -114,7 +108,6 @@ public:
 	int nDefect;
 	double Omega_Depressurization;
 	double K_F;
-        bool bp;
 	enum
 	{
 		CALC_NO = 0x00,
@@ -122,7 +115,10 @@ public:
 		CALC_SET_VAR = 0x02,
 		CALC_OK = 0x03
 	};
-	short calcConflict;
+  static bool ShowConflict;
+  static double MaxConflict;
+  bool SbrosReg;
+  short calcConflict;
 	//static DWORD ClassRootNode;
 };
 
