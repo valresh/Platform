@@ -39,6 +39,7 @@ public:
 	virtual int SetData( int TypeData, void * pData );
 	virtual int GetParams( char * );
 	virtual bool ControlDubler(double dt);
+  virtual void Sbros(){};
 	bool bIgnoreBlk;
 	enum Actions
 	{

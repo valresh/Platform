@@ -66,6 +66,8 @@ void CIV::Control(double dt)
 		else if(bOpen)
 			Task = 100.0; 
 	}
+	Команда_открыть = bOpen;
+	bClose = bOpen = false;
 }
 
 void CIV::Calc(double dt)

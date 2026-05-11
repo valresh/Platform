@@ -41,6 +41,16 @@ void CEV::Control(double dt)
 				_bStop = true;
 			break;
 		}
+	 case SWITCH_DUAL:
+		{
+			if(bClose || Закрыть.On())
+				_bClose = true;
+			if(bOpen || Открыть.On())
+				_bOpen = true;
+			if(bStop || Стоп.On())
+				_bStop = true;
+			break;
+		}
 	}
 	bClose = bOpen = bStop = false;
 	if(MoveOnSignal)

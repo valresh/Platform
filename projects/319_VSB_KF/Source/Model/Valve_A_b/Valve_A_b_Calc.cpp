@@ -87,11 +87,12 @@ bool CValve_A_b::ControlNoElectro( double dt )
 bool CValve_A_b::ControlDubler(double dt)
 {
 	double dDubler = Dubler - Dubler_old;
-	if(bZacep && !(nDefect & DEFECT_FIXED_POSITION))
-	{
+	if( bZacep && !(nDefect & DEFECT_FIXED_POSITION))
+	  {
 		Position += dDubler;
 		Task = Position;
-	}
+    Sbros();
+	  }
 	Dubler_old = Dubler;
 	return bZacep;
 }
@@ -148,21 +149,12 @@ void CValve_A_b::Calc( double dt )
 {	
 	SET_BP BreakPoint;
 	Old_Position = Position;
-  if ( Reg_On )
-    {
-    Control(dt);
-    SbrosReg = true;
-    }
-  else
-    {
-    SbrosReg = false;
-	  if(Defect_Calc(dt));
-	  else if(IsHydroTask());
-	  else if(ControlDubler(dt));
-	  else Control(dt);
-	  if(!bZacep)
-		  Drive(dt);
-    }
+	if(Defect_Calc(dt));
+	else if(IsHydroTask());
+	else if(ControlDubler(dt));
+	else Control(dt);
+	if(!bZacep)
+		Drive(dt);
 	CValve_b::Calc(dt);
 
 	Положение = Position;

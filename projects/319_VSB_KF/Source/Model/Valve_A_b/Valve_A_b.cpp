@@ -9,7 +9,6 @@ _W_Valve_A_b::_W_Valve_A_b()
 	memset(this, 0, sizeof(*this));
 }
 
-
 CValve_A_b::CValve_A_b( char * _ObjName, char* _Type ) :	CValve_b ( _ObjName, _Type ) 
 #include "ACS_Constr.h"
 #include "Valve_A_b_ACS.h"
@@ -19,7 +18,7 @@ CValve_A_b::CValve_A_b( char * _ObjName, char* _Type ) :	CValve_b ( _ObjName, _T
 	Performance = Равнопроцентная_Характеристика;
 	Dubler_old = Dubler;
 	IsElectro = true;
-  }
+}
 
 CValve_A_b::~CValve_A_b(void)
 {

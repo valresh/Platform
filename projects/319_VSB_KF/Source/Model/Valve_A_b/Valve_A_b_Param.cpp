@@ -9,8 +9,11 @@ int CValve_A_b::GetParams( char * )
 	TAB("Задания", 1 )
 		CTRL_Params( NULL, this, $"Задания" );
 		PARM( dReg, "Замедление регулировки" )
+<<<<<<< HEAD
     PARM(ShowConflict,"Показывать конфликты") 
     PARM(MaxConflict,"Макс. конфликта, %") 
+=======
+>>>>>>> parent of aceed292 (Reg)
 	ETAB	
 	return CValve_b::GetParams(NULL);
 }
@@ -32,20 +35,8 @@ void CValve_A_b::DrawObj ( struct CDrawObjData * pDraw )
 {
 	//TransparentStd( pDraw->hDC, pDraw->rc, ColZadv(Position));
 	CValve_b::DrawObj(pDraw);
-  if ( Reg_On )
-	  {
-		static HPEN hPenCross = CreatePen(PS_SOLID,3,RGB ( 255, 0, 255 ));
-		HPEN hOld = (HPEN)SelectObject ( pDraw->hDC, hPenCross );
-		MoveToEx ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10, NULL );
-		LineTo ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.top - 10 );
-		LineTo ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.bottom + 10 );
-		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.bottom + 10 );
-		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10 );
-		SelectObject ( pDraw->hDC, hOld );
-    return;
-	 }
 	if(bIgnoreBlk)
-	  {
+	{
 		static HPEN hPenCross = CreatePen(PS_SOLID,3,RGB ( 0, 0, 255 ));
 		HPEN hOld = (HPEN)SelectObject ( pDraw->hDC, hPenCross );
 		MoveToEx ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.top - 10, NULL );
@@ -53,5 +44,5 @@ void CValve_A_b::DrawObj ( struct CDrawObjData * pDraw )
 		MoveToEx ( pDraw->hDC, pDraw->rc.right + 10, pDraw->rc.top - 10, NULL );
 		LineTo ( pDraw->hDC, pDraw->rc.left - 10, pDraw->rc.bottom + 10 );
 		SelectObject ( pDraw->hDC, hOld );
-	 }
+	}
 }

@@ -6,14 +6,7 @@
 
 
 void CCV::Control(double dt)
-  {
-  if ( strstr ( ObjName, "2128-FV228"))
-    KKK();
-  if ( Reg_On )
-    {
-    Reg( dt );
-    return;
-    }
+{
 	if(ControlNoKip(dt)) 
 		return;
 	if(KIP == Не_влияет)

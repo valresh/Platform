@@ -7,12 +7,14 @@
 #include "IV.h"
 
 
-BOOL APIENTRY DllMain(HANDLE hModule, 
+#ifndef LINUX
+BOOL APIENTRY DllMain(HANDLE hModule,
 					  DWORD  ul_reason_for_call, 
 					  LPVOID lpReserved )
 {
 	return TRUE;
 }
+#endif
 
 extern "C" 
 {
@@ -38,9 +40,50 @@ NODE_IN  ( 1, 0, "i","Входной фланец")
 NODE_OUT ( 1, 1, "o","Выходной фланец")
 END_LIST
 
-STD_TEST
+//STD_TEST
+int VA_StdTestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )\
+  {\
+  int kIO = 0;\
+  int kErr = 0;\
+  if ( kNodes > kVariablesData )\
+    {\
+    ModMsg ( "У '%s' число переменных на входе велико ( %d > %d )", ObjName, kNodes, kVariablesData );\
+    return 1;\
+    }\
+    for ( int v = 0; v < kVariablesData; v++ )\
+      VariablesData[v].WasSet = false;\
+      for ( int n = 0; n < kNodes; n++ )\
+        {\
+        CObjectPoint * pObjVar = ppNodes[n];\
+        char * Point = pObjVar->PntName;\
+        bool OK = false;\
+        for ( int v = 0; v < kVariablesData; v++ )\
+          {\
+          if ( lstrcmpi_m ( VariablesData[v].SetVarName, Point ) == 0 )\
+            {\
+            OK = true;\
+            if ( VariablesData[v].WasSet )\
+              {\
+              ModMsg ( "У  '%s' переменная '%s' задается повторно", ObjName, Point ), kErr++;\
+              }\
+            else\
+              {\
+              VariablesData[v].WasSet = true;\
+              pObjVar->Type = VariablesData[v].TypeVarStruct;\
+              pObjVar->PntGroup = VariablesData[v].GroupInModel;\
+              pObjVar->NumbInGroup = VariablesData[v].NumbInGroup;\
+              pObjVar->IO = VariablesData[v].IO;\
+              }\
+              break;\
+            }\
+          }\
+          if ( !OK )\
+            ModMsg ( "У  '%s' ошибочный вход '%s'", ObjName, Point ), kErr++;\
+        }\
+        return kErr;\
+  }
 
-extern "C" int EXP TestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )
+STATIC int TestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes )
 {
 	if ( kNodes == 1 )
 	{
@@ -51,7 +94,7 @@ extern "C" int EXP TestNodes( char * ObjName, int kNodes, struct CObjectPoint **
 		ModMsg ( "У клапана '%s' неправильное число точек соединения - %d", (char*)ObjName, kNodes );
 		return 1;
 	}
-	return StdTestNodes(ObjName, kNodes, ppNodes);
+	return VA_StdTestNodes(ObjName, kNodes, ppNodes);
 }
 
 // MODEL_INFO(CValve_A_b, 0, "Valve_A_b", "Description")
