@@ -25,12 +25,16 @@ IV_Calc.cpp\
 IV_Defects.cpp\
 IV_Hydro.cpp\
 IV_Param.cpp\
+  Reg.cpp \
+  Set.cpp \
 Valve_A_b.cpp\
 Valve_A_b_Calc.cpp\
 Valve_A_b_Defects.cpp\
 Valve_A_b_dll.cpp\
 Valve_A_b_Electro.cpp\
-Valve_A_b_Param.cpp
+Valve_A_b_Param.cpp \
+  ___.cpp \
+  stdafx.cpp
 
 HEADERS  += \
 CV.h\

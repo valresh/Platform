@@ -38,7 +38,6 @@ public:
 	virtual int ShowParams( DWORD DataType, struct CShowData * pSD );
 	virtual int SetData( int TypeData, void * pData );
 	virtual int GetParams( char * );
-  virtual int UpdateParam( struct CParams & Param );
 	virtual bool ControlDubler(double dt);
 	bool bIgnoreBlk;
 	enum Actions
