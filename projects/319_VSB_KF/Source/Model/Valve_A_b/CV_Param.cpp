@@ -2,6 +2,9 @@
 #include "CV.h"
 #include "Err.h"
 #include "CommProc.h"
+#ifdef LINUX
+#include "WinDraw.h"
+#endif
 
 
 _W_CV::_W_CV()
@@ -12,8 +15,6 @@ _W_CV::_W_CV()
 
 int CCV::GetParams( char * )
 {	
-  if ( strstr ( ObjName, "2101-FV201" ))
-    KKK();
 	#include "IO_Parms.h"
 	#define GET_PARAMS
 	#include "CV_Pnt.h"

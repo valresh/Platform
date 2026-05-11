@@ -9,7 +9,6 @@ _W_IV::_W_IV()
 	memset ( this, 0, sizeof (_W_IV));
 }
 
-
 int CIV::GetParams( char * )
 {	
 	#include "IO_Parms.h"

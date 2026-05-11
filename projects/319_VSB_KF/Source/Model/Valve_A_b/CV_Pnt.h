@@ -1,6 +1,6 @@
 ﻿TAB("Режим", 1 )
 	PARM( Type, "#Тип клапана")
-	PARM( Position, "#Положение")
+	PARM(Position, "#Положение")
 	PARM( Task, "#Задание" )
 	PARM( _Differential, "#Перепад")
 	PARM( _P_In, "#Давление на входе(и)")
@@ -9,6 +9,7 @@
 	PARM(_Flow_Work_m3, "#Объемный расход")
 	PARM( _Flow_Work_kg, "#Массовый расход")	
 	PARM(_F_mol, "#Мольный расход")
+        PARM(bp, "#")
 ETAB
 TAB("Конструктив", 1 )
 	PARM(Du ,"Условный диаметр")
@@ -68,21 +69,4 @@ TAB("Поле", 1)
 	PARM(bZacep, "#Зацепление")
 	PARM(Dubler, "#Положение колеса дублера")
 ETAB
-TAB("Регулятор", 1)
-  PARM( Reg_On, "Включен" )
-  PARM( Reg_PV_, "#PV=" )
-  PARM( Reg_MV_, "#MV=" )
-  PARM_L( Reg_PV, "PV", "Массовый расход;Объемный расход н.у.;Объемный расход;Давление на входе;Давление на выходе;Ссылка;")
-  PARM_S( Reg_Ref, 128, "Ссылка", "" )
-  PARM( Reg_SP, "Задание" )
-  PARM_D( Reg_P, "P", 1000. )
-  PARM_D( Reg_I, "I", 50. )
-	PARM_B( Reg_Dir, "Прямой", true )
-	PARM_D( Reg_SH, "Масштаб PV", 10. )
-	PARM_D( Reg_MH, "Масштаб MV", 100. )
-	PARM_D( Reg_Tau, "Инерционность PV, c", 0. )
-	PARM_B( Reg_Vent, "Крутить вентиль", true )
-  PARM_D( Reg_dMV_, "dMV=", 0. )
-ETAB
-
 

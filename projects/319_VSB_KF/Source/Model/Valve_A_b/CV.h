@@ -1,8 +1,6 @@
 ﻿#pragma once
 
 #include "Valve_A_b.h"
-#include "IntReg.h"
-
 
 
 #define STRAPPING_IN		0x00000001
@@ -14,11 +12,10 @@ struct _W_CV
 	double Zadv_In;
 	double Zadv_Out;
 	double Zadv_Bypass;
-  double En, En1, PV;
 	_W_CV();
 };
 
-class CCV : public CValve_A_b, public _W_CV, public ISet
+class CCV : public CValve_A_b, public _W_CV
 {
 	//
 public:
@@ -26,7 +23,6 @@ public:
 	virtual ~CCV();
 	// Интерфейс IBaseModel
 	int GetParams( char * );
-  int UpdateParam( CParams & Param );
 	int ShowParams( DWORD DataType, struct CShowData * pSD );
 	int SaveState ( );
 	int RestoreState ( char * StrName );
@@ -45,21 +41,11 @@ public:
 	#undef NO_CREATE_DEFECTS
 	#include "ACS_Create.h"
 	#include "CV_ACS.h"
-  double * pRef;
 	/////////////////////////////////////////////////
 	//
 	void Calc ( double dt );
 	double Calc_Omega(Characteristic eCharacteristic, double _Position);
 	void Control(double dt);
-	void Reg(double dt);
-  double * GetRef ( char * Ref );
 	int Strapping;
-/////////// ISet
-	bool IsOn();
-	void Off();
-	void On();
-	void GetParam();
-	void OutValue ( char Txt[64] );
-	void Set ( double Parm );
 };
 

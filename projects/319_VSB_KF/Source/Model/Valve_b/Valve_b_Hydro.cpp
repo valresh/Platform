@@ -7,7 +7,6 @@
 #include "HydroStruct.h"
 //#include "Valve_b_ACS.h"
 
-STD_TEST
 int CValve_b::TestNodes( int kNodes, struct CObjectPoint ** ppNodes )
 {	
 	Atmosphere = (kNodes == 1);

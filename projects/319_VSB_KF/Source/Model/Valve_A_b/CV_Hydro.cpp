@@ -5,11 +5,11 @@
 #include "SetMatr.h"
 #include "Work.h"
 
-int StdTestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes );
+int VA_StdTestNodes( char * ObjName, int kNodes, struct CObjectPoint ** ppNodes );
 
 int CCV::TestNodes( int kNodes, struct CObjectPoint ** ppNodes )
 {
-	int Res = ::StdTestNodes(ObjName, kNodes, ppNodes);
+	int Res = ::VA_StdTestNodes(ObjName, kNodes, ppNodes);
 	if(Res)
 		return Res;
 	return CValve_A_b::TestNodes(kNodes, ppNodes);
@@ -20,6 +20,8 @@ double CCV::Calc_Omega(Characteristic eCharacteristic, double _Position)
 	double _Omega = 0.0;
 	double Omega_Reg;
 	Omega_Reg = CValve_A_b::Calc_Omega((Characteristic)Performance, _Position);
+    if ( strstr ( ObjName, "PV-026"))
+        KKK();
 	if(Omega_Reg != 0.0)
 	{
 		if(Strapping & STRAPPING_IN &&  Strapping & STRAPPING_OUT)

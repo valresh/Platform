@@ -5,7 +5,7 @@
 #include "Work.h"
 #include "SetData.h"
 
-CCV::CCV( char * _ObjName, char* _Type ) :	CValve_A_b ( _ObjName, _Type ), ISet() 
+CCV::CCV( char * _ObjName, char* _Type ) :	CValve_A_b ( _ObjName, _Type ) 
 #include "ACS_Constr.h"
 #include "CV_ACS.h"
 {
@@ -18,11 +18,6 @@ CCV::CCV( char * _ObjName, char* _Type ) :	CValve_A_b ( _ObjName, _Type ), ISet(
 	Zadv_In = Zadv_Out = 100.0;
 	Zadv_Bypass = 0.0;
 	lstrcpy(Type, "CV");
-  pRef = NULL;
-  PV = -1.;
-  Descr = "Клап-Рег";
-  ISet::Objname = ObjName;
-  ISet::Descr = "Регулятор";
 }
 
 CCV::~CCV()
@@ -36,7 +31,7 @@ int CCV::SetData( int TypeData, void * pData )
 	case sd_SetEquipParam:
 		{
 			CEquipParam* pEP = (CEquipParam*)pData;
-			if(!lstrcmpi(pEP->Name, "Вход"))
+            if(!lstrcmpi(pEP->Name, "Вход"))
 			{
 				if(atoi(pEP->Value) != 0)
 				{

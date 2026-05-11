@@ -4,7 +4,8 @@
 enum Switch
 {
 	SWITCH_DIST,
-	SWITCH_MEST,	
+	SWITCH_MEST,
+	SWITCH_DUAL,
 };
 
 struct _W_EV

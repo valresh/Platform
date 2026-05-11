@@ -9,8 +9,6 @@
 #endif
 
 const double CValve_b::MAX_K_OMEGA = 1e5;
-bool CValve_b::ShowConflict = false;
-double CValve_b::MaxConflict = 10.;
 
 CValve_b::CValve_b( char * _ObjName, char* _Type ) :	IBaseModel ( _ObjName ) 
 , Eps_In("Вход", this )
