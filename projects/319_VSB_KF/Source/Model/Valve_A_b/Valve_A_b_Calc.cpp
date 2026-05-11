@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Valve_A_b.h"
 
 void CValve_A_b::VerifyBlk(double _Task)
@@ -30,22 +30,22 @@ bool CValve_A_b::IsHydroTask()
 
 bool CValve_A_b::ControlNoKip( double dt )
 {
-	if( Press_KIP[nKIP] <= PminKIP && KIP >= Открывается && KIP <= Не_влияет)
+	if( Press_KIP[nKIP] <= PminKIP && KIP >= РћС‚РєСЂС‹РІР°РµС‚СЃСЏ && KIP <= РќРµ_РІР»РёСЏРµС‚)
 	{
-		if(KIP == Не_меняется)
+		if(KIP == РќРµ_РјРµРЅСЏРµС‚СЃСЏ)
 			Fixed_Position = true;
 		else
 		{
 			Fixed_Position = false;
 			switch(KIP)
 			{
-			case Открывается:
+			case РћС‚РєСЂС‹РІР°РµС‚СЃСЏ:
 				Task = 100.;
 				break;
-			case Закрывается:
+			case Р—Р°РєСЂС‹РІР°РµС‚СЃСЏ:
 				Task = 0.0;
 				break;
-			case Не_влияет:
+			case РќРµ_РІР»РёСЏРµС‚:
 				return false;
 			}
 		}			
@@ -58,22 +58,22 @@ bool CValve_A_b::ControlNoKip( double dt )
 
 bool CValve_A_b::ControlNoElectro( double dt )
 {
-	if( !IsElectro && Electro >= Открывается && Electro <= Не_влияет)
+	if( !IsElectro && Electro >= РћС‚РєСЂС‹РІР°РµС‚СЃСЏ && Electro <= РќРµ_РІР»РёСЏРµС‚)
 	{
-		if(Electro == Не_меняется)
+		if(Electro == РќРµ_РјРµРЅСЏРµС‚СЃСЏ)
 			Fixed_Position = true;
 		else
 		{
 			Fixed_Position = false;
 			switch(Electro)
 			{
-			case Открывается:
+			case РћС‚РєСЂС‹РІР°РµС‚СЃСЏ:
 				Task = 100.;
 				break;
-			case Закрывается:
+			case Р—Р°РєСЂС‹РІР°РµС‚СЃСЏ:
 				Task = 0.0;
 				break;
-			case Не_влияет:
+			case РќРµ_РІР»РёСЏРµС‚:
 				return false;
 			}
 		}			
@@ -121,24 +121,24 @@ bool CValve_A_b::Defect_Calc( double dt )
 	if(nDefect & DEFECT_FULL_OPEN)
 	{
 		Task = 100.0;
-		Tau_Open = Время_открытия->Dbl;
+		Tau_Open = Р’СЂРµРјСЏ_РѕС‚РєСЂС‹С‚РёСЏ->Dbl;
 	}
 	if(nDefect & DEFECT_FULL_CLOSE)
 	{
 		Task = 0.0;
-		Tau_Open = Время_закрытия->Dbl;
+		Tau_Open = Р’СЂРµРјСЏ_Р·Р°РєСЂС‹С‚РёСЏ->Dbl;
 	}
 	if(nDefect & DEFECT_LIMIT_STOCK)
 	{
-		if(Position < Минимальная_позиция->Dbl)
+		if(Position < РњРёРЅРёРјР°Р»СЊРЅР°СЏ_РїРѕР·РёС†РёСЏ->Dbl)
 		{
-			Task = Минимальная_позиция->Dbl;
-			Tau_Open = Время_открытя_закрытия->Dbl;
+			Task = РњРёРЅРёРјР°Р»СЊРЅР°СЏ_РїРѕР·РёС†РёСЏ->Dbl;
+			Tau_Open = Р’СЂРµРјСЏ_РѕС‚РєСЂС‹С‚СЏ_Р·Р°РєСЂС‹С‚РёСЏ->Dbl;
 		}
-		else if(Position > Максимальная_позиция->Dbl)
+		else if(Position > РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ_РїРѕР·РёС†РёСЏ->Dbl)
 		{
-			Task = Максимальная_позиция->Dbl;
-			Tau_Open = Время_открытя_закрытия->Dbl;
+			Task = РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ_РїРѕР·РёС†РёСЏ->Dbl;
+			Tau_Open = Р’СЂРµРјСЏ_РѕС‚РєСЂС‹С‚СЏ_Р·Р°РєСЂС‹С‚РёСЏ->Dbl;
 		}		
 	}
 	return CValve_b::Defect_Calc(dt);
@@ -165,21 +165,21 @@ void CValve_A_b::Calc( double dt )
     }
 	CValve_b::Calc(dt);
 
-	Положение = Position;
-	Обратное_положение = 100.0 - Position;
+	РџРѕР»РѕР¶РµРЅРёРµ = Position;
+	РћР±СЂР°С‚РЅРѕРµ_РїРѕР»РѕР¶РµРЅРёРµ = 100.0 - Position;
 	if ( Position > 99. )
-		Открыт = 1;
+		РћС‚РєСЂС‹С‚ = 1;
 	else
-		Открыт = 0;
+		РћС‚РєСЂС‹С‚ = 0;
 	if ( Position < 1. )
-		Закрыт = 1;
+		Р—Р°РєСЂС‹С‚ = 1;
 	else
-		Закрыт = 0;
+		Р—Р°РєСЂС‹С‚ = 0;
 	if(Old_Position > Position)
-		Закрытие = 1;
+		Р—Р°РєСЂС‹С‚РёРµ = 1;
 	else if (Old_Position < Position)
-		Открытие = 1;
+		РћС‚РєСЂС‹С‚РёРµ = 1;
 	else
-		Закрытие = Открытие = 0;
+		Р—Р°РєСЂС‹С‚РёРµ = РћС‚РєСЂС‹С‚РёРµ = 0;
 	
 }

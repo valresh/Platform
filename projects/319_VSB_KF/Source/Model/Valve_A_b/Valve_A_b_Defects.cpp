@@ -1,26 +1,26 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Valve_A_b.h"
 
 int CValve_A_b::OnDefect( CDef * pDefect )
 {
 	SET_BP BreakPoint;	
 	IF_DEFECT(pRecoveryDef, RECOVERY_DEFECT_NAME)
-		Полное_открытие->Fire = 0;
-		Полное_закрытие->Fire = 0;
-		Ограничение_штока->Fire = 0;
-		Повреждение_запорного_устройства->Fire = 0;
+		РџРѕР»РЅРѕРµ_РѕС‚РєСЂС‹С‚РёРµ->Fire = 0;
+		РџРѕР»РЅРѕРµ_Р·Р°РєСЂС‹С‚РёРµ->Fire = 0;
+		РћРіСЂР°РЅРёС‡РµРЅРёРµ_С€С‚РѕРєР°->Fire = 0;
+		РџРѕРІСЂРµР¶РґРµРЅРёРµ_Р·Р°РїРѕСЂРЅРѕРіРѕ_СѓСЃС‚СЂРѕР№СЃС‚РІР°->Fire = 0;
 		return CValve_b::OnDefect(pDefect);
 	END_IF
-	IF_DEFECT(Полное_открытие, "Полное открытие")
+	IF_DEFECT(РџРѕР»РЅРѕРµ_РѕС‚РєСЂС‹С‚РёРµ, "РџРѕР»РЅРѕРµ РѕС‚РєСЂС‹С‚РёРµ")
 		nDefect |= DEFECT_FULL_OPEN;
 	END_IF
-		IF_DEFECT(Полное_закрытие, "Полное закрытие")
+		IF_DEFECT(РџРѕР»РЅРѕРµ_Р·Р°РєСЂС‹С‚РёРµ, "РџРѕР»РЅРѕРµ Р·Р°РєСЂС‹С‚РёРµ")
 		nDefect |= DEFECT_FULL_CLOSE;
 	END_IF
-		IF_DEFECT(Ограничение_штока, "Ограничение штока")
+		IF_DEFECT(РћРіСЂР°РЅРёС‡РµРЅРёРµ_С€С‚РѕРєР°, "РћРіСЂР°РЅРёС‡РµРЅРёРµ С€С‚РѕРєР°")
 		nDefect |= DEFECT_LIMIT_STOCK;
 	END_IF
-	IF_DEFECT(Повреждение_запорного_устройства, "Повреждение запорного устройства")
+	IF_DEFECT(РџРѕРІСЂРµР¶РґРµРЅРёРµ_Р·Р°РїРѕСЂРЅРѕРіРѕ_СѓСЃС‚СЂРѕР№СЃС‚РІР°, "РџРѕРІСЂРµР¶РґРµРЅРёРµ Р·Р°РїРѕСЂРЅРѕРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°")
 		nDefect |= DEFECT_FALLING_WEDGE;
 	END_IF
 	return CValve_b::OnDefect(pDefect);

@@ -1,8 +1,8 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Valve_A_b.h"
 #include "SetDataTypes.h"
 
-static LPCSTR g_szHelpFileName = "Базовый клапан.pdf";
+static LPCSTR g_szHelpFileName = "Р‘Р°Р·РѕРІС‹Р№ РєР»Р°РїР°РЅ.pdf";
 
 _W_Valve_A_b::_W_Valve_A_b()
 {
@@ -16,7 +16,7 @@ CValve_A_b::CValve_A_b( char * _ObjName, char* _Type ) :	CValve_b ( _ObjName, _T
 {
 #include "IO_Clear.h"
 #include "Valve_A_b_Pnt.h"
-	Performance = Равнопроцентная_Характеристика;
+	Performance = Р Р°РІРЅРѕРїСЂРѕС†РµРЅС‚РЅР°СЏ_РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°;
 	Dubler_old = Dubler;
 	IsElectro = true;
   }

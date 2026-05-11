@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "CV.h"
 #include "Err.h"
 #include "CommProc.h"
@@ -16,28 +16,28 @@ void CCV::Control(double dt)
     }
 	if(ControlNoKip(dt)) 
 		return;
-	if(KIP == Не_влияет)
+	if(KIP == РќРµ_РІР»РёСЏРµС‚)
 		if(ControlNoElectro(dt))
 			return;	
-	if(Соленоид.On() && (pSys->IsBlk || LocalBlk))
+	if(РЎРѕР»РµРЅРѕРёРґ.On() && (pSys->IsBlk || LocalBlk))
 	{
-		if ( KIP == Открывается )
+		if ( KIP == РћС‚РєСЂС‹РІР°РµС‚СЃСЏ )
 			Task = 100.0;
-		else if ( KIP == Закрывается )
+		else if ( KIP == Р—Р°РєСЂС‹РІР°РµС‚СЃСЏ )
 			Task = 0.0;
 	}
-	else if(Задание.Use())
+	else if(Р—Р°РґР°РЅРёРµ.Use())
 	{
 			if(Invert_Task)
-				Task = 100.0 - Задание;
+				Task = 100.0 - Р—Р°РґР°РЅРёРµ;
 			else
-				Task = Задание;
-			if(Соленоид.On())
+				Task = Р—Р°РґР°РЅРёРµ;
+			if(РЎРѕР»РµРЅРѕРёРґ.On())
 			{
-				if ( KIP == Открывается )
-					bIgnoreBlk = (Position != Соленоид * 100.0);
-				else if ( KIP == Закрывается )
-					bIgnoreBlk = (Position != (1 - Соленоид) * 100.0);
+				if ( KIP == РћС‚РєСЂС‹РІР°РµС‚СЃСЏ )
+					bIgnoreBlk = (Position != РЎРѕР»РµРЅРѕРёРґ * 100.0);
+				else if ( KIP == Р—Р°РєСЂС‹РІР°РµС‚СЃСЏ )
+					bIgnoreBlk = (Position != (1 - РЎРѕР»РµРЅРѕРёРґ) * 100.0);
 			}
 	}		
 }
@@ -47,5 +47,5 @@ void CCV::Calc(double dt)
 {
 	SET_BP BreakPoint;
 	CValve_A_b::Calc(dt);
-	Сработал_соленоид = Соленоид.Value;
+	РЎСЂР°Р±РѕС‚Р°Р»_СЃРѕР»РµРЅРѕРёРґ = РЎРѕР»РµРЅРѕРёРґ.Value;
 }

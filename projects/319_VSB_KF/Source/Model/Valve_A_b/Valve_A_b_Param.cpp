@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Valve_A_b.h"
 
 int CValve_A_b::GetParams( char * )
@@ -6,11 +6,11 @@ int CValve_A_b::GetParams( char * )
 #include "IO_Parms.h"
 	Defect_Params(this);
 	ACS_Params( this );
-	TAB("Задания", 1 )
-		CTRL_Params( NULL, this, $"Задания" );
-		PARM( dReg, "Замедление регулировки" )
-    PARM(ShowConflict,"Показывать конфликты") 
-    PARM(MaxConflict,"Макс. конфликта, %") 
+	TAB("Р—Р°РґР°РЅРёСЏ", 1 )
+		CTRL_Params( NULL, this, $"Р—Р°РґР°РЅРёСЏ" );
+		PARM( dReg, "Р—Р°РјРµРґР»РµРЅРёРµ СЂРµРіСѓР»РёСЂРѕРІРєРё" )
+    PARM(ShowConflict,"РџРѕРєР°Р·С‹РІР°С‚СЊ РєРѕРЅС„Р»РёРєС‚С‹") 
+    PARM(MaxConflict,"РњР°РєСЃ. РєРѕРЅС„Р»РёРєС‚Р°, %") 
 	ETAB	
 	return CValve_b::GetParams(NULL);
 }

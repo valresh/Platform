@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include "Valve_b.h"
 
 #define DEFECT_FULL_OPEN			(1 << 1)
@@ -42,10 +42,10 @@ public:
 	bool bIgnoreBlk;
 	enum Actions
 	{
-		Открывается,
-		Закрывается,
-		Не_меняется,
-		Не_влияет,
+		           ,
+		           ,
+		  _        ,
+		  _      ,
 	}KIP, Electro;
 	double Dubler_old;
 	bool IsElectro;

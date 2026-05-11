@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "EV.h"
 #include "Err.h"
 #include "CommProc.h"
@@ -10,7 +10,7 @@ void CEV::Control(double dt)
 		bClose = bOpen = bStop = false;
 		return;
 	}
-	if(Electro == Не_влияет)
+	if(Electro == РќРµ_РІР»РёСЏРµС‚)
 		if(ControlNoKip(dt))
 		{
 			bClose = bOpen = bStop = false;
@@ -21,18 +21,18 @@ void CEV::Control(double dt)
 	{
 	case SWITCH_DIST:
 		{
-			Дистанционный = 1;
-			if(Закрыть.On())
+			Р”РёСЃС‚Р°РЅС†РёРѕРЅРЅС‹Р№ = 1;
+			if(Р—Р°РєСЂС‹С‚СЊ.On())
 				_bClose = true;
-			if(Открыть.On())
+			if(РћС‚РєСЂС‹С‚СЊ.On())
 				_bOpen = true;
-			if(Стоп.On())
+			if(РЎС‚РѕРї.On())
 				_bStop = true;
 			break;
 		}
 	case SWITCH_MEST:
 		{
-			Дистанционный = 0;
+			Р”РёСЃС‚Р°РЅС†РёРѕРЅРЅС‹Р№ = 0;
 			if(bClose)
 				_bClose = true;
 			if(bOpen)

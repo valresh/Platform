@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Info.h"
 #include "TestNodes.h"
 #include "HydroStruct.h"
@@ -34,8 +34,8 @@ extern "C"
 };
 
 NODE_LIST
-NODE_IN  ( 1, 0, "i","Входной фланец")
-NODE_OUT ( 1, 1, "o","Выходной фланец")
+NODE_IN  ( 1, 0, "i","Р’С…РѕРґРЅРѕР№ С„Р»Р°РЅРµС†")
+NODE_OUT ( 1, 1, "o","Р’С‹С…РѕРґРЅРѕР№ С„Р»Р°РЅРµС†")
 END_LIST
 
 STD_TEST
@@ -44,11 +44,11 @@ extern "C" int EXP TestNodes( char * ObjName, int kNodes, struct CObjectPoint **
 {
 	if ( kNodes == 1 )
 	{
-		ModMsg ( "Внимание: У '%s' задана одна точка соединения.", (char*)ObjName );
+		ModMsg ( "Р’РЅРёРјР°РЅРёРµ: РЈ '%s' Р·Р°РґР°РЅР° РѕРґРЅР° С‚РѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ.", (char*)ObjName );
 	}
 	else if ( kNodes < 2 )
 	{
-		ModMsg ( "У клапана '%s' неправильное число точек соединения - %d", (char*)ObjName, kNodes );
+		ModMsg ( "РЈ РєР»Р°РїР°РЅР° '%s' РЅРµРїСЂР°РІРёР»СЊРЅРѕРµ С‡РёСЃР»Рѕ С‚РѕС‡РµРє СЃРѕРµРґРёРЅРµРЅРёСЏ - %d", (char*)ObjName, kNodes );
 		return 1;
 	}
 	return StdTestNodes(ObjName, kNodes, ppNodes);

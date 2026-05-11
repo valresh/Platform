@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "CV.h"
 #include "Err.h"
 #include "Param.h"
@@ -12,22 +12,22 @@ void CCV::Reg(double dt)
   double pv;
   switch( Reg_PV )
     {         
-    case 0: // Массовый расход;
+    case 0: // РњР°СЃСЃРѕРІС‹Р№ СЂР°СЃС…РѕРґ;
       pv = _Flow_Work_kg;
     break;
-    case 1: // Объемный расход н.у.;
+    case 1: // РћР±СЉРµРјРЅС‹Р№ СЂР°СЃС…РѕРґ РЅ.Сѓ.;
       pv = _Flow_Work_nm3;
     break;
-    case 2: // Объемный расход;
+    case 2: // РћР±СЉРµРјРЅС‹Р№ СЂР°СЃС…РѕРґ;
       pv = _Flow_Work_m3;
     break;
-    case 3: // Давление на входе;
+    case 3: // Р”Р°РІР»РµРЅРёРµ РЅР° РІС…РѕРґРµ;
       pv = _P_In;
     break;
-    case 4: // Давление на выходе;
+    case 4: // Р”Р°РІР»РµРЅРёРµ РЅР° РІС‹С…РѕРґРµ;
       pv = _P_Out;
     break;
-    case 5: // Ссылка;
+    case 5: // РЎСЃС‹Р»РєР°;
       {
       if ( Reg_Ref[0] == 0 )
         {

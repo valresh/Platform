@@ -1,0 +1,51 @@
+﻿QT       += core gui
+
+CONFIG += c++17
+DESTDIR= "$$PWD/../../../../../EXE"
+TEMPLATE = lib
+LIBS += -L$$DESTDIR$$ -lACS -lIntReg -lValve_b
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../Include\
+$$PWD/../../../../../System/Source/Include
+SOURCES += \
+CV.cpp\
+CV_Calc.cpp\
+CV_Defects.cpp\
+CV_Hydro.cpp\
+CV_Param.cpp\
+EV.cpp\
+EV_Calc.cpp\
+EV_Defects.cpp\
+EV_Hydro.cpp\
+EV_Param.cpp\
+IV.cpp\
+IV_Calc.cpp\
+IV_Defects.cpp\
+IV_Hydro.cpp\
+IV_Param.cpp\
+Valve_A_b.cpp\
+Valve_A_b_Calc.cpp\
+Valve_A_b_Defects.cpp\
+Valve_A_b_dll.cpp\
+Valve_A_b_Electro.cpp\
+Valve_A_b_Param.cpp
+
+HEADERS  += \
+CV.h\
+CV_ACS.h\
+CV_Defects.h\
+CV_Pnt.h\
+EV.h\
+EV_ACS.h\
+EV_Defects.h\
+EV_Pnt.h\
+IV.h\
+IV_ACS.h\
+IV_Defects.h\
+IV_Pnt.h\
+Valve_A_b.h\
+Valve_A_b_ACS.h\
+Valve_A_b_Defects_Pnt.h\
+Valve_A_b_Pnt.h
