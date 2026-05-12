@@ -1,4 +1,1 @@
-﻿
-TAB("Параметры", 1 )
-	PARM_D(Inver_Task_Position, "Инвертировать положение-задание", false)
-ETAB
+﻿TAB("Параметры", 1 )	PARM_D(Inver_Task_Position, "Инвертировать положение-задание", false)ETAB

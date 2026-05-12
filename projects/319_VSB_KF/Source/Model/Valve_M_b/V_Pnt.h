@@ -1,44 +1,1 @@
-﻿TAB("Режим", 1 )
-	PARM(Position, "#Положение штока")
-	PARM( Type, "#Тип задвижки")	
-	PARM( _Differential, "#Перепад")
-	PARM( _P_In, "#Давление на входе(и)")
-	PARM( _P_Out, "#Давление на выходе(и)")
-	PARM(_F_mol, "#Мольный расход")
-	PARM(_Flow_Work_nm3, "#Объемный расход при н.у.")	
-	PARM(_Flow_Work_m3, "#Объемный расход")
-	PARM( _Flow_Work_kg, "#Массовый расход")	
-ETAB
-TAB("Конструктив", 1 )
-	PARM(Du ,"Условный диаметр")
-	PARM( Performance, "Характеристика")
-ETAB
-TAB("Параметры", 1 )
-	PARM(K_Omega, "Коэффициент проходимости")
-	PARM(Gas, "Газовая характеристика")
-	PARM(Reverse, "Обратный клапан")
-	PARM(Omega_Reverse, "Обратная проходимость")
-	PARM(Inver_Task_Position, "Инвертировать положение-задание")
-ETAB
-TAB("Подбор проходимости", 1 )
-	TAB ( $"Газ",LEV0)
-		PARM( dP_Nom_Gas, $"Номинальный перепад" )
-		PARM( P_Nom_Gas, $"Номинальное давление" )                 
-		PARM( F_Nom_Gas, $"Номинальный расход" )      
-		PARM( T_Nom_Gas, $"Номинальная температура" )                
-		PARM( Mw_Nom_Gas, $"Номинальный молекулярный вес" )           
-		PARM( Calc_Gas, $"#Взять параметры газа" )
-	ETAB
-	TAB( $"Жидкость",LEV0)
-		PARM( dP_Nom_Liq, $"Номинальный перепад" )           
-		PARM( F_Nom_Liq,  $"Номинальный расход, м3/ч" )         
-		PARM( Ro_Nom_Liq, $"Номинальная плотность" )          
-		PARM( Mw_Nom_Liq, $"Номинальный молекулярный вес" )            
-		PARM( Calc_Liq,   $"#Взять параметры жидк" )
-	ETAB 	
-ETAB
-TAB("Поле", 1)
-	PARM(Valve, "#Положение")
-ETAB
-
-
+﻿TAB("Режим", 1 )	PARM(Position, "#Положение штока")	PARM( Type, "#Тип задвижки")		PARM( _Differential, "#Перепад")	PARM( _P_In, "#Давление на входе(и)")	PARM( _P_Out, "#Давление на выходе(и)")	PARM(_F_mol, "#Мольный расход")	PARM(_Flow_Work_nm3, "#Объемный расход при н.у.")		PARM(_Flow_Work_m3, "#Объемный расход")	PARM( _Flow_Work_kg, "#Массовый расход")	ETABTAB("Конструктив", 1 )	PARM(Du ,"Условный диаметр")	PARM( Performance, "Характеристика")ETABTAB("Параметры", 1 )	PARM(K_Omega, "Коэффициент проходимости")	PARM(Gas, "Газовая характеристика")	PARM(Reverse, "Обратный клапан")	PARM(Omega_Reverse, "Обратная проходимость")	PARM(Inver_Task_Position, "Инвертировать положение-задание")ETABTAB("Подбор проходимости", 1 )	TAB ( $"Газ",LEV0)		PARM( dP_Nom_Gas, $"Номинальный перепад" )		PARM( P_Nom_Gas, $"Номинальное давление" )                 		PARM( F_Nom_Gas, $"Номинальный расход" )      		PARM( T_Nom_Gas, $"Номинальная температура" )                		PARM( Mw_Nom_Gas, $"Номинальный молекулярный вес" )           		PARM( Calc_Gas, $"#Взять параметры газа" )	ETAB	TAB( $"Жидкость",LEV0)		PARM( dP_Nom_Liq, $"Номинальный перепад" )           		PARM( F_Nom_Liq,  $"Номинальный расход, м3/ч" )         		PARM( Ro_Nom_Liq, $"Номинальная плотность" )          		PARM( Mw_Nom_Liq, $"Номинальный молекулярный вес" )            		PARM( Calc_Liq,   $"#Взять параметры жидк" )	ETAB 	ETABTAB("Поле", 1)	PARM(Valve, "#Положение")ETAB

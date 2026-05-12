@@ -1,6 +1,1 @@
-﻿MODEL( $"Задвижки c заглушкой",true)
-	#ifndef NO_CREATE_DEFECTS
-	#include "Valve_b_Defects_Pnt.h"
-	#include "Valve_M_b_Defects_Pnt.h"
-	#endif
-	DEFECT(Падение_клина, "Падение клина");
+﻿MODEL( $"Задвижки c заглушкой",true)	#ifndef NO_CREATE_DEFECTS	#include "Valve_b_Defects_Pnt.h"	#include "Valve_M_b_Defects_Pnt.h"	#endif	DEFECT(Падение_клина, "Падение клина");
