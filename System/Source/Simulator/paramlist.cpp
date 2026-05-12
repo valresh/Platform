@@ -223,9 +223,10 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
   CParams * pParam = (CParams *)pp;
   QMenu menu;
   QAction * actions[5];
-  actions[0] = menu.addAction("Ссылка");
-  actions[1] = menu.addAction("В тренд");
-  actions[2] = menu.addAction("В минитренд");
+  actions[0] = menu.addAction("Выдать ссылку");
+  actions[1] = menu.addAction("Вставить ссылку");
+  actions[2] = menu.addAction("В тренд");
+  actions[3] = menu.addAction("В минитренд");
   // Получаем индекс ячейки под курсором
   QAction* selectedAction = menu.exec(viewport()->mapToGlobal(e->pos()));
   int N = -1;
@@ -246,6 +247,11 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
         }
       break;
       case 1:
+        {
+
+        }
+        break;
+      case 2:
         {
 //
         // QString Dir = PROJECT_ROOT;
@@ -308,7 +314,7 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
           }
         }
       break;
-      case 2:
+      case 3:
         {
           char Name[256];
           if ( pParam->pModel )

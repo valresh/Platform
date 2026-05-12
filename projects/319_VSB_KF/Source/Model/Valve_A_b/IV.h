@@ -1,1 +1,43 @@
-﻿#pragma once#include "Valve_A_b.h"struct _W_IV{	bool bOpen;	bool bClose;	_W_IV();};class CIV : public CValve_A_b, public _W_IV{	//public:	CIV( char * ObjName, char* Type );	virtual ~CIV();	// Интерфейс IBaseModel	int GetParams( char * );	int ShowParams( DWORD DataType, struct CShowData * pSD );	int SaveState ( );	int RestoreState ( char * StrName );	int OnDefect( CDef * pDefect );	int UpdateParam( CParams & Param );	///////////////////////////////////////////////////	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );	NEW	/////////////////////////////////////////////////	//#include "IO_Conn.h"	#include "IO_Create.h"	#include "IV_Pnt.h"	#define NO_CREATE_DEFECTS	#include "IV_Defects.h"	#undef NO_CREATE_DEFECTS	#include "ACS_Create.h"	#include "IV_ACS.h"	/////////////////////////////////////////////////	//	void Calc ( double dt );	void Control(double dt);	void VerifyBlk(bool& bCommand, bool _bCommand);};
+﻿#pragma once
+#include "Valve_A_b.h"
+
+struct _W_IV
+{
+	bool bOpen;
+	bool bClose;
+	_W_IV();
+};
+
+class CIV : public CValve_A_b, public _W_IV
+{
+	//
+public:
+	CIV( char * ObjName, char* Type );
+	virtual ~CIV();
+	// Интерфейс IBaseModel
+	int GetParams( char * );
+	int ShowParams( DWORD DataType, struct CShowData * pSD );
+	int SaveState ( );
+	int RestoreState ( char * StrName );
+	int OnDefect( CDef * pDefect );
+  int UpdateParam( CParams & Param );
+	///////////////////////////////////////////////////
+	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );
+	NEW
+	/////////////////////////////////////////////////
+	//#include "IO_Conn.h"
+	#include "IO_Create.h"
+	#include "IV_Pnt.h"
+	#define NO_CREATE_DEFECTS
+	#include "IV_Defects.h"
+	#undef NO_CREATE_DEFECTS
+	#include "ACS_Create.h"
+	#include "IV_ACS.h"
+	/////////////////////////////////////////////////
+	//
+	void Calc ( double dt );
+	void Control(double dt);
+	void VerifyBlk(bool& bCommand, bool _bCommand);
+
+};
+

@@ -25,6 +25,8 @@ IV_Calc.cpp\
 IV_Defects.cpp\
 IV_Hydro.cpp\
 IV_Param.cpp\
+  Reg.cpp \
+  Set.cpp \
 Valve_A_b.cpp\
 Valve_A_b_Calc.cpp\
 Valve_A_b_Defects.cpp\
