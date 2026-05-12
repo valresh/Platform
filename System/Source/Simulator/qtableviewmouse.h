@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTableView>
 #include <QWidget>
-#include "showtrends.h"
+#include "Trends/showtrends.h"
 
 class QTableViewMouse : public QTableView
 {

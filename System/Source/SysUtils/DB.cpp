@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include "Err.h"
 
-#define INIT
+//#define INIT
 
 BYTE * DB::Mem = NULL;
 #define SISE_DB 10 * 1024 * 1024
