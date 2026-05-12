@@ -269,23 +269,6 @@ bool TrendVar::Out(char Txt[256])
 
 void TrendsVar::on_Wnd_clicked(const QModelIndex &index)
   {
-    QMenu menu;
-    QAction * actions[5];
-    actions[0] = menu.addAction("Показать параметры");
-    actions[1] = menu.addAction("Найти на схкмах");
-    QAction * selectedAction = menu.exec( QCursor::pos());
-    QModelIndex I = ui->Wnd->indexAt(QCursor::pos());
-    int r = I.row();
-    if ( selectedAction == actions[0])
-      {
-      pDraw->VarProp.Dial( &pDraw->Vars[r] );
-      return;
-      }
-    if ( selectedAction == actions[1])
-      {
-       pMainWnd->Find.Find  ( pDraw->Vars[r].Name );
-      return;
-      }
   }
 
 

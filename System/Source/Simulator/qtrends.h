@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "winlist.h"
 #include <QSlider>
-#include "showtrends.h"
+#include "Trends/showtrends.h"
 #include "trendsvar.h"
 
 

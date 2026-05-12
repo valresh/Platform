@@ -21,7 +21,8 @@ void FindObj::Find ( const char * InitQuest )
   char * P = strchr ( Txt, '.' );
   if ( P )
     *P = 0;
-  ui->Filtr->addItem( P );
+  ui->Filtr->addItem( Txt.Str );
+  SetList (Txt );
   exec();
 //  on_Find_clicked();
 }

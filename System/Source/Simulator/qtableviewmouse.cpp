@@ -14,11 +14,12 @@ void QTableViewMouse::mousePressEvent( QMouseEvent * event)
     {
     int row = I.row();
     pDraw->nSelected = row;
+    pDraw->ListVarLbuttonDown( this, I );
     }
   if ( event->button() == Qt::RightButton )
     {
     int row = I.row();
     pDraw->nSelected = row;
-    pDraw->OnRbuttonDown( event );
+    pDraw->ListVarRbuttonDown( this, I );
     }
   }

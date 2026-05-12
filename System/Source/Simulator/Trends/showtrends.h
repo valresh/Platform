@@ -63,6 +63,9 @@ class ShowTrends : public QWidget
     void paintEvent( QPaintEvent *event );
     void SetLimits( int nVar );
     void OnRbuttonDown(QMouseEvent *event);
+    void OnLbuttonDown(QMouseEvent *event);
+    void ListVarRbuttonDown(QTableView * pTable, QModelIndex & I );
+    void ListVarLbuttonDown(QTableView * pTable, QModelIndex & I );
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;

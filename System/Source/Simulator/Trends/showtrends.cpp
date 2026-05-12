@@ -3,6 +3,7 @@
 #include "Err.h"
 #include <QMenu>
 #include "trendsvar.h"
+#include "mainwindow.h"
 
 ShowTrends::ShowTrends(QWidget *parent)
   : QWidget{parent}, VarProp(this)
@@ -269,6 +270,35 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   }
 
 #include <QMouseEvent>
+void ShowTrends::OnLbuttonDown(QMouseEvent *event)
+  {
+
+  }
+
+void ShowTrends::ListVarRbuttonDown(QTableView * pTable, QModelIndex & I)
+  {
+  QMenu menu;
+  QAction * actions[5];
+  actions[0] = menu.addAction("Показать параметры");
+  actions[1] = menu.addAction("Найти на схемах");
+  QAction * selectedAction = menu.exec(QCursor::pos());
+  int r = I.row();
+  if ( selectedAction == actions[0])
+    {
+      VarProp.Dial( &Vars[r] );
+      return;
+    }
+  if ( selectedAction == actions[1])
+    {
+      pMainWnd->Find.Find  ( Vars[r].Name );
+      return;
+    }
+  }
+
+void ShowTrends::ListVarLbuttonDown(QTableView * pTable, QModelIndex & I )
+  {
+  nSelected = I.row();
+  }
 
 void ShowTrends::OnRbuttonDown(QMouseEvent *event)
   {
