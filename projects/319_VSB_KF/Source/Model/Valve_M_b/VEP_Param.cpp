@@ -15,7 +15,7 @@ _W_VEP::_W_VEP()
 int CVEP::GetParams( char * )
 {	
 	#include "IO_Parms.h"
-	#include "VEP_Pnt.h"
+  #include "Vep_Pnt.h"
 #include "Valve_M_b.h"
 	return CValve_M_b::GetParams(NULL);
 }

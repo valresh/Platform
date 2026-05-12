@@ -1,1 +1,40 @@
-﻿#pragma once#include "Valve_M_b.h"struct _W_VEP{	double Omega_Plug;	bool Plug;	_W_VEP();};class CVEP : CValve_M_b, public _W_VEP{	//public:	CVEP( char * ObjName, char* Type );	virtual ~CVEP();	// Интерфейс IBaseModel	int GetParams( char * );	int SaveState ( );	int RestoreState ( char * StrName );	int OnDefect( CDef * pDefect );	///////////////////////////////////////////////////	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );	int ShowParams( DWORD DataType, struct CShowData * pSD );	virtual void DrawObj ( struct CDrawObjData * pDraw );	/////////////////////////////////////////////////	//#include "IO_Conn.h"	#include "IO_Create.h"	#include "VEP_Pnt.h"	#define NO_CREATE_DEFECTS	#include "VEP_Defects.h"	#undef NO_CREATE_DEFECTS	#include "ACS_Create.h"	#include "VEP_ACS.h"	/////////////////////////////////////////////////	//	double Calc_Omega(Characteristic eCharacteristic, double _Position);};
+﻿#pragma once
+
+#include "Valve_M_b.h"
+
+struct _W_VEP
+{
+	double Omega_Plug;
+	bool Plug;
+	_W_VEP();
+};
+
+class CVEP : CValve_M_b, public _W_VEP
+{
+	//
+public:
+	CVEP( char * ObjName, char* Type );
+	virtual ~CVEP();
+	// Интерфейс IBaseModel
+	int GetParams( char * );
+	int SaveState ( );
+	int RestoreState ( char * StrName );
+	int OnDefect( CDef * pDefect );
+	///////////////////////////////////////////////////
+	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );
+	int ShowParams( DWORD DataType, struct CShowData * pSD );
+	virtual void DrawObj ( struct CDrawObjData * pDraw );
+	/////////////////////////////////////////////////
+	//#include "IO_Conn.h"
+	#include "IO_Create.h"
+  #include "Vep_Pnt.h"
+	#define NO_CREATE_DEFECTS
+	#include "VEP_Defects.h"
+	#undef NO_CREATE_DEFECTS
+	#include "ACS_Create.h"
+	#include "VEP_ACS.h"
+	/////////////////////////////////////////////////
+	//
+	double Calc_Omega(Characteristic eCharacteristic, double _Position);
+};
+
