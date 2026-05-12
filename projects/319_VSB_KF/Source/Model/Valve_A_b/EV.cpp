@@ -1,42 +1,1 @@
-﻿#include "stdafx.h"
-#include "EV.h"
-#include "Err.h"
-//#include "CommProc.h"
-#include "Work.h"
-#include "SetData.h"
-
-CEV::CEV( char * _ObjName, char* _Type ) :	CValve_A_b ( _ObjName, _Type ) 
-#include "ACS_Constr.h"
-#include "EV_ACS.h"
-{
-#include "IO_Clear.h"
-#include "EV_Pnt.h"
-#include "EV_Defects.h"
-	lstrcpy(Type, "EV");
-	Fixed_Task = false;
-}
-
-CEV::~CEV()
-{
-
-}
-
-int CEV::Step1()
-{
-	conditionCross = Position;
-	return CValve_A_b::Step1();
-}
-
-
-int CEV::SaveState( )
-{
-	S_CLASS("_W_EV", _W_EV);
-	return CValve_A_b::SaveState();
-}
-
-int CEV::RestoreState( char * StrName )
-{
-	COPY_FIRST;
-	R_CLASS("_W_EV", _W_EV);
-	return CValve_A_b::RestoreState(StrName);	
-}
+﻿#include "stdafx.h"#include "EV.h"#include "Err.h"//#include "CommProc.h"#include "Work.h"#include "SetData.h"CEV::CEV( char * _ObjName, char* _Type ) :	CValve_A_b ( _ObjName, _Type ) #include "ACS_Constr.h"#include "EV_ACS.h"{#include "IO_Clear.h"#include "EV_Pnt.h"#include "EV_Defects.h"	lstrcpy(Type, "EV");	Fixed_Task = false;}CEV::~CEV(){}int CEV::Step1(){	conditionCross = Position;	return CValve_A_b::Step1();}int CEV::SaveState( ){	S_CLASS("_W_EV", _W_EV);	return CValve_A_b::SaveState();}int CEV::RestoreState( char * StrName ){	COPY_FIRST;	R_CLASS("_W_EV", _W_EV);	return CValve_A_b::RestoreState(StrName);	}

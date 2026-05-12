@@ -1,33 +1,1 @@
-﻿#pragma once
-
-#include "Valve_M_b.h"
-
-class CV : CValve_M_b
-{
-	//
-public:
-	CV( char * ObjName, char* Type );
-	virtual ~CV();
-	// Интерфейс IBaseModel
-	int GetParams( char * );
-	int OnDefect( CDef * pDefect );
-	///////////////////////////////////////////////////
-	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );
-	/////////////////////////////////////////////////
-	//#include "IO_Conn.h"
-	#include "IO_Create.h"
-	#include "V_Pnt.h"
-	#define NO_CREATE_DEFECTS
-	#include "V_Defects.h"
-	#undef NO_CREATE_DEFECTS
-	CDef* Падение_клина;
-	CDef* Повреждение_запорного_механизма;
-	
-	#include "ACS_Create.h"
-	#include "V_ACS.h"
-	/////////////////////////////////////////////////
-	//
-	void Calc ( double dt );
-	bool Defect_Calc(double dt);
-};
-
+﻿#pragma once#include "Valve_M_b.h"class CV : CValve_M_b{	//public:	CV( char * ObjName, char* Type );	virtual ~CV();	// Интерфейс IBaseModel	int GetParams( char * );	int OnDefect( CDef * pDefect );	///////////////////////////////////////////////////	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );	/////////////////////////////////////////////////	//#include "IO_Conn.h"	#include "IO_Create.h"	#include "V_Pnt.h"	#define NO_CREATE_DEFECTS	#include "V_Defects.h"	#undef NO_CREATE_DEFECTS	CDef* Падение_клина;	CDef* Повреждение_запорного_механизма;		#include "ACS_Create.h"	#include "V_ACS.h"	/////////////////////////////////////////////////	//	void Calc ( double dt );	bool Defect_Calc(double dt);};

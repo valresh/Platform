@@ -1,11 +1,1 @@
-﻿#include "stdafx.h"
-#include "CV.h"
-#include "Err.h"
-
-DWORD CCV::ClassRootNode = 0;
-
-int CCV::OnDefect( CDef * pDefect )
-{
-	SET_BP BreakPoint;	
-	return CValve_A_b::OnDefect(pDefect);;
-}
+﻿#include "stdafx.h"#include "CV.h"#include "Err.h"DWORD CCV::ClassRootNode = 0;int CCV::OnDefect( CDef * pDefect ){	SET_BP BreakPoint;		return CValve_A_b::OnDefect(pDefect);;}

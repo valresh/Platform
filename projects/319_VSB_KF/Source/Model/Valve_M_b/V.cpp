@@ -1,45 +1,1 @@
-﻿#include "stdafx.h"
-#include "V.h"
-#include "Err.h"
-//#include "CommProc.h"
-#include "Work.h"
-#include "SetData.h"
-
-static LPCSTR g_szHelpFileName = "Базовый вентиль.pdf";
-
-CV::CV( char * _ObjName, char* _Type ) :	CValve_M_b ( _ObjName, _Type ) 
-#include "ACS_Constr.h"
-#include "V_ACS.h"
-{
-	Падение_клина = NULL;
-	Повреждение_запорного_механизма = NULL;
-	if(_Type[0] == 0)
-		Type[0] = 'V', Type[1] = 0;
-	else
-		lstrcpy(Type, _Type);
-#include "IO_Clear.h"
-#include "V_Pnt.h"
-#include "V_Defects.h"
-	if(Type[0] == 'V' && (Type[1] == '\0' || Type[1] == 'E'))
-	{
-		DEFECT(Падение_клина, "Падение клина");
-	}
-	else if((Type[0] == 'G' && Type[1] == 'V') || (Type[0] == 'B' && Type[1] == 'V'))
-	{
-		const char* szDefecnName;
-		if(Type[0] == 'G' && Type[1] == 'V')
-			szDefecnName = "Повреждение запорного седла";
-		else if(Type[0] == 'B' && Type[1] == 'V')
-			szDefecnName = "Повреждение затворного шара";
-		DEFECT(Повреждение_запорного_механизма, szDefecnName);
-	}
-	if(Type[0] == 'G' && Type[1] == 'V')
-		Performance = Равнопроцентная_Характеристика;
-	else if(Type[0] == 'B' && Type[1] == 'V')
-		Performance = Параболическая_Характеристика;	
-}
-
-CV::~CV()
-{
-
-}
+﻿#include "stdafx.h"#include "V.h"#include "Err.h"//#include "CommProc.h"#include "Work.h"#include "SetData.h"static LPCSTR g_szHelpFileName = "Базовый вентиль.pdf";CV::CV( char * _ObjName, char* _Type ) :	CValve_M_b ( _ObjName, _Type ) #include "ACS_Constr.h"#include "V_ACS.h"{	Падение_клина = NULL;	Повреждение_запорного_механизма = NULL;	if(_Type[0] == 0)		Type[0] = 'V', Type[1] = 0;	else		lstrcpy(Type, _Type);#include "IO_Clear.h"#include "V_Pnt.h"#include "V_Defects.h"	if(Type[0] == 'V' && (Type[1] == '\0' || Type[1] == 'E'))	{		DEFECT(Падение_клина, "Падение клина");	}	else if((Type[0] == 'G' && Type[1] == 'V') || (Type[0] == 'B' && Type[1] == 'V'))	{		const char* szDefecnName;		if(Type[0] == 'G' && Type[1] == 'V')			szDefecnName = "Повреждение запорного седла";		else if(Type[0] == 'B' && Type[1] == 'V')			szDefecnName = "Повреждение затворного шара";		DEFECT(Повреждение_запорного_механизма, szDefecnName);	}	if(Type[0] == 'G' && Type[1] == 'V')		Performance = Равнопроцентная_Характеристика;	else if(Type[0] == 'B' && Type[1] == 'V')		Performance = Параболическая_Характеристика;	}CV::~CV(){}

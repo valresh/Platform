@@ -1,7 +1,1 @@
-﻿MODEL( "Электрозадвижки",true)
-	#ifndef NO_CREATE_DEFECTS
-	#include "Valve_b_Defects_Pnt.h"
-	#include "Valve_A_b_Defects_Pnt.h"
-	#endif
-	DEFECT(Отказ_электродвигателя, $"Отказ электродвигателя")	
-	DEFECT( Отказ_заклинивание, "Заклинивание" )
+﻿MODEL( "Электрозадвижки",true)	#ifndef NO_CREATE_DEFECTS	#include "Valve_b_Defects_Pnt.h"	#include "Valve_A_b_Defects_Pnt.h"	#endif	DEFECT(Отказ_электродвигателя, $"Отказ электродвигателя")		DEFECT( Отказ_заклинивание, "Заклинивание" )
