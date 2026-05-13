@@ -9,10 +9,18 @@ int CValve_A_b::GetParams( char * )
 	TAB("Задания", 1 )
 		CTRL_Params( NULL, this, $"Задания" );
 		PARM( dReg, "Замедление регулировки" )
-    PARM(ShowConflict,"Показывать конфликты") 
-    PARM(MaxConflict,"Макс. конфликта, %") 
-	ETAB	
+    PARM(ShowConflict,"Показывать конфликты")
+    PARM(MaxConflict,"Макс. конфликта, %")
+  ETAB
+  TAB("Регулятор", 1)
+    Reg.GetParams( this );
+  ETAB
 	return CValve_b::GetParams(NULL);
+}
+int CValve_A_b::UpdateParam( CParams & Param )
+{
+  Reg.UpdateParam( Param );
+  return 0;
 }
 
 int CValve_A_b::ShowParams( DWORD DataType, struct CShowData * pSD )

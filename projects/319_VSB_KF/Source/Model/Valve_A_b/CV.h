@@ -51,8 +51,6 @@ public:
 	void Calc ( double dt );
 	double Calc_Omega(Characteristic eCharacteristic, double _Position);
 	void Control(double dt);
-  void Reg(double dt);
-  double * GetRef ( char * Ref );
 	int Strapping;
 /////////// ISet
   bool IsOn();

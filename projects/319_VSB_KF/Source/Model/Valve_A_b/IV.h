@@ -21,7 +21,7 @@ public:
 	int RestoreState ( char * StrName );
 	int OnDefect( CDef * pDefect );
   int UpdateParam( CParams & Param );
-	///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
 	int TestNodes( int kNodes, struct CObjectPoint ** ppNodes );
 	NEW
 	/////////////////////////////////////////////////
@@ -33,7 +33,8 @@ public:
 	#undef NO_CREATE_DEFECTS
 	#include "ACS_Create.h"
 	#include "IV_ACS.h"
-	/////////////////////////////////////////////////
+  double * pRef;
+  /////////////////////////////////////////////////
 	//
 	void Calc ( double dt );
 	void Control(double dt);

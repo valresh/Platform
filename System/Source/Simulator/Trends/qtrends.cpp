@@ -10,12 +10,12 @@
     continue;
 
 #define To_DB \
-  DB::Set ( "Тренды", FileName, sizeof ( QTrends_W ), static_cast<QTrends_W*>(this));
+  DB::Set ( DB::_("Тренды", FileName), sizeof ( QTrends_W ), static_cast<QTrends_W*>(this));
 
 #define From_DB \
   {\
   int L = 0;\
-  if ( DB::Get ( "Тренды", FileName, sizeof ( QTrends_W ), L, static_cast<QTrends_W*>(this)))\
+  if ( DB::Get ( DB::_("Тренды", FileName), sizeof ( QTrends_W ), L, static_cast<QTrends_W*>(this)))\
     {\
     ASS(L == sizeof ( QTrends_W ))\
     }\

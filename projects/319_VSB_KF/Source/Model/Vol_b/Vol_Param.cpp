@@ -54,12 +54,13 @@ int CVol::GetParams(  char * StrName )
 #undef SHOW
 //////////////////////////////////////////////////
 //................................................
+#if 1
     Defect_Params(this);
-	ACS_Params( "АСУ", this );
+    ACS_Params( "АСУ", this );
 //  ShowAllParams = true;
     TAB("Модули",5)
     TAB("Термодинамика",5)
-    VolBase.GetParams( NULL );
+      VolBase.GetParams( NULL );
     ETAB
     if ( UseHeat[0]  )
       {
@@ -93,6 +94,7 @@ int CVol::GetParams(  char * StrName )
     Stable.GetParams( this );
     ETAB
     ETAB
+#endif
     }
 	return 0;
 	}

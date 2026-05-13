@@ -1,1 +1,81 @@
-﻿#include "stdafx.h"#include "IV.h"#include "Err.h"#include "CommProc.h"void CIV::VerifyBlk(bool& bCommand, bool _bCommand){	if(pSys->IsBlk || LocalBlk)		bCommand = _bCommand;}void CIV::Control(double dt){		if (ControlNoKip(dt));		else if(ControlNoElectro(dt));	else 	{		if(Соленоид.IsConnection)		{			if ( KIP == Открывается )			{				VerifyBlk(bOpen, (Соленоид != 0));				CValve_A_b::VerifyBlk(100.0 * Соленоид);				if(Соленоид)					bClose = false;			}			else if ( KIP == Закрывается )			{				VerifyBlk(bClose, (Соленоид != 0));				CValve_A_b::VerifyBlk(100.0 * (1 - Соленоид));				if(Соленоид)					bOpen = false;			}			else if (KIP == Не_меняется)			{				bOpen = bClose = false;				bIgnoreBlk = false;			}			else				bIgnoreBlk = false;						}		else 		{			if(Открыть.Use())			{				VerifyBlk(bOpen,(Открыть != 0));				if(Открыть)				{					CValve_A_b::VerifyBlk(100.0);					bClose = false;				}							}			if(Закрыть.Use())			{				VerifyBlk(bClose, (Закрыть != 0));				if(Закрыть)				{					CValve_A_b::VerifyBlk(0.0);					bOpen = false;				}			}		}		if(bClose)			Task = 0.0;		else if(bOpen)			Task = 100.0; 	}}void CIV::Calc(double dt){	SET_BP BreakPoint;	Сработал_соленоид = Соленоид.Value;	CValve_A_b::Calc(dt);}
+﻿#include "stdafx.h"
+#include "IV.h"
+#include "Err.h"
+#include "CommProc.h"
+
+void CIV::VerifyBlk(bool& bCommand, bool _bCommand)
+{
+	if(pSys->IsBlk || LocalBlk)
+		bCommand = _bCommand;
+}
+
+void CIV::Control(double dt)
+{
+  if ( Reg.Reg_On )
+    {
+      Reg.Reg( dt );
+      return;
+    }
+  if (ControlNoKip(dt));
+	else if(ControlNoElectro(dt));
+	else 
+	{
+		if(Соленоид.IsConnection)
+		{
+			if ( KIP == Открывается )
+			{
+				VerifyBlk(bOpen, (Соленоид != 0));
+				CValve_A_b::VerifyBlk(100.0 * Соленоид);
+				if(Соленоид)
+					bClose = false;
+			}
+			else if ( KIP == Закрывается )
+			{
+				VerifyBlk(bClose, (Соленоид != 0));
+				CValve_A_b::VerifyBlk(100.0 * (1 - Соленоид));
+				if(Соленоид)
+					bOpen = false;
+			}
+			else if (KIP == Не_меняется)
+			{
+				bOpen = bClose = false;
+				bIgnoreBlk = false;
+			}
+			else
+				bIgnoreBlk = false;				
+		}
+		else 
+		{
+			if(Открыть.Use())
+			{
+				VerifyBlk(bOpen,(Открыть != 0));
+				if(Открыть)
+				{
+					CValve_A_b::VerifyBlk(100.0);
+					bClose = false;
+				}
+				
+			}
+			if(Закрыть.Use())
+			{
+				VerifyBlk(bClose, (Закрыть != 0));
+				if(Закрыть)
+				{
+					CValve_A_b::VerifyBlk(0.0);
+					bOpen = false;
+				}
+			}
+		}
+		if(bClose)
+			Task = 0.0;
+		else if(bOpen)
+			Task = 100.0; 
+	}
+}
+
+void CIV::Calc(double dt)
+{
+	SET_BP BreakPoint;
+	Сработал_соленоид = Соленоид.Value;
+	CValve_A_b::Calc(dt);
+}

@@ -19,6 +19,11 @@ int CCV::GetParams( char * )
 	return CValve_A_b::GetParams(NULL);
 }
 
+int CCV::UpdateParam( CParams & )
+{
+  return 0;
+}
+
 int CCV::ShowParams( DWORD DataType, struct CShowData * pSD )
 {
 	int Res = CValve_A_b::ShowParams(DataType, pSD);

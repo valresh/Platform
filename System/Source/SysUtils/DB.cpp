@@ -6,21 +6,107 @@
 #include <unistd.h>
 #include "Err.h"
 
-//#define INIT
+QSettings * DB::pProp = NULL;
+ DB::DB()
+  {
+    pProp = new QSettings("Simulator.conf", QSettings::NativeFormat);
+    pProp->clear();
+  }
 
-BYTE * DB::Mem = NULL;
-#define SISE_DB 10 * 1024 * 1024
+const char * DB::_( const char * Class, const char * Name )
+  {
+    static char Txt[1024];
+    sprintf_s ( Txt, 1024, "%s/%s", Class, Name );
+    return Txt;
+  }
+const char * DB::_( const char * Group, const char * Class, const char * Name )
+  {
+    static char Txt[1024];
+    sprintf_s ( Txt, 1024, "%s/%s/%s", Group, Class, Name );
+    return Txt;
+  }
 
-#ifdef INIT
-BYTE B[SISE_DB];
-#endif
+  const char * DB::_( const char * Name )
+  {
+    static char Txt[1024];
+    sprintf_s ( Txt, 1024, "%s", Name );
+    return Txt;
+  }
 
+void DB::Set( const char * Name,  int L, void * Data )
+  {
+  QByteArray arr ( (char*)Data, L );
+  pProp->setValue( Name, arr );
+  }
+
+void DB::Set( const char * Name, const char * Value )
+  {
+  pProp->setValue( Name, Value );
+  }
+void DB::Set( const char * Name, double & Value )
+  {
+  pProp->setValue( Name, Value );
+  }
+void DB::Set( const char * Name, int & Value )
+  {
+  pProp->setValue( Name, Value );
+  }
+void DB::Set( const char * Name, bool & Value )
+  {
+  pProp->setValue( Name, Value );
+  }
+  //
+bool DB::Get( const char * Name,  int L_max, int & L, void * Data )
+  {
+  QByteArray arr = pProp->value( Name ).toByteArray();
+  if ( arr.isEmpty())
+      return false;
+  L = arr.length();
+  if ( L > L_max )
+      L = L_max;
+  memmove ( Data, arr.data(), L );
+  return true;
+  }
+const char * DB::GetChar( const char * Name, const char * Def )
+  {
+  static char Txt[1024];
+  QVariant V = pProp->value( Name, "9" );
+  QString S = pProp->value( Name, Def ).toString();
+  if ( S.isEmpty())
+    return Def;
+  strcpy_s ( Txt, 1024, STR( S ));
+  return Txt;
+  }
+double DB::GetDbl( const char * Name, double Def )
+  {
+  return pProp->value( Name, Def ).toReal();
+  }
+int DB::GetInt( const char * Name, int Def )
+  {
+  return pProp->value( Name, Def ).toInt();
+  }
+bool DB::GetBool( const char * Name, bool Def )
+  {
+  return pProp->value( Name, Def ).toBool();
+  }
+
+
+#if 0
 void ass( bool Cond )
   {
   if ( !Cond )
     KKK();
   }
-DB::DB()
+//#define INIT
+
+//BYTE * DB::Mem = NULL;
+//#define SISE_DB 10 * 1024 * 1024
+
+#ifdef INIT
+BYTE B[SISE_DB];
+#endif
+
+ DB::DB()
 {
   Char<1024>Path;
   Path.Prt ( "%sDATA/DB.dat", ROOT_PATH );
@@ -237,12 +323,6 @@ int DB::Set( const char * Class, const char * Name, bool & Value )
   return Set( Class, Name,  sizeof( Value ), &Value );
 }
 
-const char * DB::Summ( const char * Group, const char * Class )
-{
-  static char Txt[1024];
-  sprintf_s ( Txt, 1024, "%s/%s", Group, Class );
-  return Txt;
-}
 
 const char * DB::GetChar( const char * Class, const char * Name, const char * Def  )
 {
@@ -292,5 +372,5 @@ bool DB::GetBool( const char * Class, const char * Name, bool Def )
   Set( Class, Name,  1, &Def );
   return Def;
 }
-
+#endif
 

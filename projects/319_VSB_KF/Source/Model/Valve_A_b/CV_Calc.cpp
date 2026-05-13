@@ -7,9 +7,9 @@
 
 void CCV::Control(double dt)
   {
-  if ( Reg_On )
+  if ( Reg.Reg_On )
     {
-    Reg( dt );
+    Reg.Reg( dt );
     return;
     }
 	if(ControlNoKip(dt)) 

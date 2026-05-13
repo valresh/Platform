@@ -38,6 +38,9 @@ int CIV::ShowParams( DWORD DataType, struct CShowData * pSD )
 
 int CIV::UpdateParam( CParams & Param )
 {
+  if ( Param.Addr == Reg_Ref )
+    pRef = NULL;
+
 	if(IS_UPDATE(KIP))
 	{
 		switch(KIP)

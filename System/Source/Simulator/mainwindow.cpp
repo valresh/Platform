@@ -21,19 +21,27 @@
 void Test();
 const char * MainWindow::StateRead()
 {
-    return ui->StateRead->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->StateRead->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::StateWrite()
 {
-    return ui->StateWrite->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->StateWrite->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::ParamsRead()
 {
-    return ui->ParamsRead->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->ParamsRead->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::ParamsWrite()
 {
-    return ui->ParamsWrite->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->ParamsWrite->text().toStdString().c_str() );
+  return Txt;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -45,6 +53,10 @@ MainWindow::MainWindow(QWidget *parent)
     try
     {
       pMainWnd = this;
+      // Установка значения
+//      settings->setValue("section/size", value);
+      // Считывание значения
+ //     int value = settings->value("section/size", default);
       InitErr( this );
       CLEAR(main_cpu)
       CLEAR(Set_cpu)
@@ -58,11 +70,11 @@ MainWindow::MainWindow(QWidget *parent)
       Msgs.Add("#Старт");
       strcpy ( PROJECT, "319_VSB_KF" );
       ui->Project->setText( PROJECT );
-      ui->StateRead->setText( "T" ); //DB::GetChar( "Система", "Чтение состояния", "N" ));
-      ui->StateWrite->setText( "T" ); //DB::GetChar( "Система", "Запись состояния", "T" ));
-      ui->ParamsRead->setText( "T" ); //DB::GetChar( "Система", "Чтение параметров", "N" ));
-      ui->ParamsWrite->setText( "T" ); //DB::GetChar( "Система", "Запись параметров", "T" ));
-      ui->StepStop->setText( DB::GetChar( "Система", "Шаг останова", "0" ));
+      ui->StateRead->setText( DB::GetChar( DB::_("Система", "Чтение состояния"), "T" ));
+      ui->StateWrite->setText( DB::GetChar( DB::_("Система", "Запись состояния"), "T" ));
+      ui->ParamsRead->setText( DB::GetChar( DB::_("Система", "Чтение параметров"), "N" ));
+      ui->ParamsWrite->setText( DB::GetChar( DB::_("Система", "Запись параметров"), "T" ));
+      ui->StepStop->setText( DB::GetChar( DB::_("Система", "Шаг останова"), "0" ));
       ObjectLoaded = false;
       SetPaths();
       listshem.SetList( PROJECT_ROOT );
@@ -318,11 +330,11 @@ void MainWindow::loaded()
 
 void MainWindow::on_Start_clicked()
 {
-  DB::Set( "Система", "Чтение состояния", StateRead() );
-  DB::Set( "Система", "Запись состояния", StateWrite() );
-  DB::Set( "Система", "Чтение параметров", ParamsRead() );
-  DB::Set( "Система", "Запись параметров", ParamsWrite() );
-  DB::Set( "Система", "Шаг останова", STR(ui->StepStop->text()));
+  DB::Set( DB::_("Система", "Чтение состояния"), StateRead() );
+  DB::Set( DB::_("Система", "Запись состояния"), StateWrite() );
+  DB::Set( DB::_("Система", "Чтение параметров"), ParamsRead() );
+  DB::Set( DB::_("Система", "Запись параметров"), ParamsWrite() );
+  DB::Set( DB::_("Система", "Шаг останова"), STR(ui->StepStop->text()));
   //
   int StepStop = atoi (STR(ui->StepStop->text()));
   if ( StepStop >= 0 )

@@ -1121,3 +1121,18 @@ int Split(
       fclose ( F );
       return kParams;
   };
+
+#include <QClipboard>
+#include <QGuiApplication>
+
+void TxtToClp( char * Txt )
+  {
+  QClipboard *clipboard = QGuiApplication::clipboard();
+  clipboard->setText( Txt );
+  }
+void TxtFromClp( int MaxLen, char * Txt )
+  {
+  QClipboard *clipboard = QGuiApplication::clipboard();
+  QString S = clipboard->text( );
+  strcpy_s ( Txt, MaxLen, STR(S));
+  }

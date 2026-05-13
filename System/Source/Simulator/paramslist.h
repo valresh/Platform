@@ -2,10 +2,11 @@
 #define PARAMSLIST_H
 #include "Param.h"
 #include "qheaderview.h"
-
+#include <QItemDelegate>
 #include <QTableView>
 #include <QTimer>
 #define CParams QParams
+
 
 class ParamsListModel : public QAbstractTableModel
   {
@@ -17,6 +18,7 @@ class ParamsListModel : public QAbstractTableModel
     int kParams;
     int kParams_old;
     QTimer * timer;
+    struct ParamsList * pTable;
     explicit ParamsListModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -38,6 +40,7 @@ public:
   ParamsListModel Model;
   ParamsList(QWidget * Parent );
   void contextMenuEvent(QContextMenuEvent *e);
+  void mousePressEvent( QMouseEvent * e );
   void show(CParams * pParams, int kParams);
   private slots:
     void sectionResized( int logicalIndex, int oldSize, int newSize);

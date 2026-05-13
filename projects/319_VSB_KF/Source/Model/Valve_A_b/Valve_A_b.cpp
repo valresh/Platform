@@ -1,1 +1,58 @@
-﻿#include "stdafx.h"#include "Valve_A_b.h"#include "SetDataTypes.h"static LPCSTR g_szHelpFileName = "Базовый клапан.pdf";_W_Valve_A_b::_W_Valve_A_b(){	memset(this, 0, sizeof(*this));}CValve_A_b::CValve_A_b( char * _ObjName, char* _Type ) :	CValve_b ( _ObjName, _Type ) #include "ACS_Constr.h"#include "Valve_A_b_ACS.h"{#include "IO_Clear.h"#include "Valve_A_b_Pnt.h"	Performance = Равнопроцентная_Характеристика;	Dubler_old = Dubler;	IsElectro = true;  }CValve_A_b::~CValve_A_b(void){}int CValve_A_b::SetData( int TypeData, void * pData ){	switch ( TypeData )	{	case sd_GetHelpPath:		{			lstrcpy((char*)pData, HELP_PATH);			lstrcat((char*)pData, g_szHelpFileName);			break;		}	}	return CValve_b::SetData(TypeData, pData);}int CValve_A_b::SaveState( ){	S_CLASS("_W_Valve_A_b", _W_Valve_A_b);	return CValve_b::SaveState();}int CValve_A_b::RestoreState( char * StrName ){	if (!lstrcmp ( StrName, "_W_Valve_A_b" ))	{		ASS(pSRFile->RStruct( sizeof ( _W_Valve_A_b ), static_cast<_W_Valve_A_b*>(this)));		Dubler_old = Dubler;		return 0;		}	return CValve_b::RestoreState(StrName);}
+﻿#include "stdafx.h"
+#include "Valve_A_b.h"
+#include "SetDataTypes.h"
+
+static LPCSTR g_szHelpFileName = "Базовый клапан.pdf";
+
+_W_Valve_A_b::_W_Valve_A_b()
+{
+	memset(this, 0, sizeof(*this));
+}
+
+
+CValve_A_b::CValve_A_b( char * _ObjName, char* _Type ) :	CValve_b ( _ObjName, _Type ),
+  Reg ( this )
+#include "ACS_Constr.h"
+#include "Valve_A_b_ACS.h"
+{
+#include "IO_Clear.h"
+#include "Valve_A_b_Pnt.h"
+	Performance = Равнопроцентная_Характеристика;
+	Dubler_old = Dubler;
+	IsElectro = true;
+  }
+
+CValve_A_b::~CValve_A_b(void)
+{
+}
+
+int CValve_A_b::SetData( int TypeData, void * pData )
+{
+	switch ( TypeData )
+	{
+	case sd_GetHelpPath:
+		{
+			lstrcpy((char*)pData, HELP_PATH);
+			lstrcat((char*)pData, g_szHelpFileName);
+			break;
+		}
+	}
+	return CValve_b::SetData(TypeData, pData);
+}
+
+int CValve_A_b::SaveState( )
+{
+	S_CLASS("_W_Valve_A_b", _W_Valve_A_b);
+	return CValve_b::SaveState();
+}
+
+int CValve_A_b::RestoreState( char * StrName )
+{
+	if (!lstrcmp ( StrName, "_W_Valve_A_b" ))
+	{
+		ASS(pSRFile->RStruct( sizeof ( _W_Valve_A_b ), static_cast<_W_Valve_A_b*>(this)));
+		Dubler_old = Dubler;
+		return 0;	
+	}
+	return CValve_b::RestoreState(StrName);
+}

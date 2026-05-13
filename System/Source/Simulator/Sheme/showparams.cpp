@@ -7,12 +7,12 @@
 #include "DB.h"
 
 #define To_DB \
-DB::Set ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), static_cast<ShowParams_W*>(this));
+DB::Set ( DB::_("Диалоги", "Параметры"), sizeof ( ShowParams_W ), static_cast<ShowParams_W*>(this));
 
 #define From_DB \
 {\
     int L = 0;\
-    if ( DB::Get ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), L, static_cast<ShowParams_W*>(this)))\
+    if ( DB::Get ( DB::_("Диалоги", "Параметры"), sizeof ( ShowParams_W ), L, static_cast<ShowParams_W*>(this)))\
       {ASS(L == sizeof ( ShowParams_W ))}\
 }
 
@@ -70,7 +70,7 @@ void ParamsTree::Init ( int _kParams, CParams * _pParams, char * ObjName )
   pH->hide();
   kParams = _kParams;
   pParams = _pParams;
-  QStandardItem * pItems[10];
+  QStandardItem * pItems[16];
   int Level = 0;
   pRoot = new QStandardItemModel();
   QStandardItem * parentItem = pRoot->invisibleRootItem();
@@ -85,17 +85,26 @@ void ParamsTree::Init ( int _kParams, CParams * _pParams, char * ObjName )
       pTab->setData( n );
       pItems[Level]->appendRow( pTab );
       QModelIndex ind = pTab->index();
-      if (*(int*)P.Addr )
-        expand( ind );
+      if ( P.ParamName[0] )
+        {
+        if (*(int*)P.Addr )
+          expand( ind );
+        else
+          collapse( ind );
+        }
       else
-        collapse( ind );
+        KKK();
       Level++;
+      if ( Level > 15 )
+          Level = 15;
       pItems[Level] = pTab;
       continue;
       }
     if ( P.Type == 'E' )
     {
       Level--;
+      if ( Level < 0 )
+          Level = 0;
     }
   }
   //  pRoot = new QStandardItemModel();
@@ -267,6 +276,7 @@ ParamsList::ParamsList(QWidget * Parent ) : QTableView ( Parent )
     QHeaderView * headerH =  horizontalHeader();
     connect( headerH, &QHeaderView::sectionResized, this, &ParamsList::sectionResized);
     headerV->setVisible(false);
+    Model.pTable = this;
     setModel( &Model );
     setEditTriggers(QAbstractItemView::DoubleClicked);
   }

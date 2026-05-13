@@ -139,7 +139,7 @@ QParams::QParams()
     Used = NULL;
     pShowParam = NULL;
     dwFlags = 0;
-}
+  }
 
 QParams::QParams(struct IBaseModel* _pModel,
                  char* _ParamName, QParams& par)

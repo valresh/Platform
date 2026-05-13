@@ -65,6 +65,7 @@ class MainWindow : public QMainWindow
   MsgList Msgs;
   ShowRSU showRSU;
   List Select;
+/////////////////////
   const char * StateRead();
   const char * StateWrite();
   const char * ParamsRead();
