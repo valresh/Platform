@@ -283,12 +283,14 @@ int CSens::SetData( int TypeData, void * pData )
 			UseMax = true;
 			return 0;
 		}
-	case sd_AddToTrends:
+#if 0
+  case sd_AddToTrends:
 		{
 #include "IO_Trends.h"
 			PARM_D( _Value, "Показания", 0. )
 				return 0;
 		}
+#endif
 	case sd_GetPressKIP:
 		{
 			Type = Тип_Давление_и;

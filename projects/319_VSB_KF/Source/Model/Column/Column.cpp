@@ -410,6 +410,7 @@ int CColumn::SetData( int TypeData, void * pData )
     *(double**)pData = &FlowQ; 
     return sd_GetOverGasSource;
     }
+#if 0
   if ( TypeData == sd_AddToTrends )
     {
 #include "IO_Trends.h"
@@ -435,6 +436,7 @@ int CColumn::SetData( int TypeData, void * pData )
       }
     return 0;
     }
+#endif
   if ( TypeData == sd_SetLev_addr )
     {
     CColLevData * pLev = (CColLevData*)pData;

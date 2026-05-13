@@ -2,16 +2,33 @@
 #include "SysDataTypes.h"
 #include "Err.h"
 #include <QDir>
+#include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <stdio.h>
 
-CTrends Trends;
 
 #define MAX_VARS 64
-#define MAX_STEP 300000
+#define MAX_STEP 3000000
+//#define INIT_TREND
+CommTrends * pTrends = NULL;
 
 
-CTrends::CTrends()
+CommTrends::CommTrends()
   {
-  pRecords = NewArr ( Record, MAX_STEP );
+  Char<1024>Path;
+  Path.Prt ( "/home/resh/Platform/DATA/trends.dat" );
+  int fd = open(Path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR ); // | O_CREAT
+#ifdef INIT_TREND
+  Record Buf[3000];
+  memset ( Buf, 0, sizeof (Buf));
+  for ( int n = 0; n < 1000; n++ )
+    write ( fd, Buf, sizeof (Buf));
+#endif
+  pRecords = (Record*)mmap(NULL, MAX_STEP * sizeof (Record), PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0 );// | MAP_LOCKED MAP_SHARED
+  close(fd);
+  memset ( pRecords, 0, MAX_STEP * sizeof (Record) );
   PosRecords = -1;
   kRecords = 0;
 //
@@ -19,11 +36,11 @@ CTrends::CTrends()
   WasOpen = false;
   }
 
-CTrends::~CTrends()
+CommTrends::~CommTrends()
   {
   }
 
-bool CTrends::ReadData( const char * File )
+bool CommTrends::ReadData( const char * File )
   {
   Char<1024>Path;
   Path.Prt ("%sINI/Trends/%s", PROJECT_ROOT, File );
@@ -45,7 +62,7 @@ bool CTrends::ReadData( const char * File )
     }
   fclose ( F );
   }
-void CTrends::Init( )
+void CommTrends::Init( )
   {
   Add( "Sys_Time", 'D', &pSys->dModelT );
   Add( "Sys_dt", 'D', &pSys->dt );
@@ -68,7 +85,7 @@ void CTrends::Init( )
   }
 
 
-int CTrends::Add( const char * Name, char Type, void * pVar )
+int CommTrends::Add( const char * Name, char Type, void * pVar )
   {
   if ( kItems >= MAX_VARS )
     return -1;
@@ -85,7 +102,7 @@ int CTrends::Add( const char * Name, char Type, void * pVar )
   }
 
 
-bool CTrends::Write( )
+bool CommTrends::Write( )
   {
   int Pos = PosRecords + 1;
   if ( Pos > MAX_STEP - 10)
@@ -122,7 +139,7 @@ bool CTrends::Write( )
   return true;
   }
 
-bool CTrends::GetLine( int Line, float * pVal )
+bool CommTrends::GetLine( int Line, float * pVal )
 {
   // int Lrec = 4 * kData;
   // SetFilePointer( hFile, Line * Lrec, NULL, FILE_BEGIN );
@@ -132,7 +149,7 @@ bool CTrends::GetLine( int Line, float * pVal )
   return true;
 }
 
-bool CTrends::GetGroupVar( int Line, int kVar, int * nVars, float * pVal )
+bool CommTrends::GetGroupVar( int Line, int kVar, int * nVars, float * pVal )
 {
   // if ( Line < 0 )
   // {
@@ -154,7 +171,7 @@ bool CTrends::GetGroupVar( int Line, int kVar, int * nVars, float * pVal )
   return true;
 }
 
-bool CTrends::GetGroupVar( int Line, int nVar, CMem<CTrendsVar,16,16> & Vars )
+bool CommTrends::GetGroupVar( int Line, int nVar, CMem<CTrendsVar,16,16> & Vars )
 {
   // int Lrec = 4 * kData;
   // SetFilePointer( hFile, Line * Lrec, NULL, FILE_BEGIN );

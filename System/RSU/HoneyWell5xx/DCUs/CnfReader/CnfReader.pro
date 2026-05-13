@@ -7,7 +7,7 @@ TEMPLATE = lib
 CONFIG += c++17
 QMAKE_CXXFLAGS_RELEASE -= -O2
 
-INCLUDEPATH += $$PWD/../../../../System/Source/Include \
+INCLUDEPATH += $$PWD/../../../../../System/Source/Include \
 $$PWD/../../Include \
 $$PWD/../../../../system/include/rsus \
 $$PWD/../../../../system \

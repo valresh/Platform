@@ -39,7 +39,7 @@ namespace rsu_cp {
         // Change current folder to the dll's folder. E.g. it's required for OG\OGCtrl.dll
                                 std::filesystem::path libraryFolder = saveCurrentPath; // libraryPath.parent_path();
                 //std::filesystem::current_path(libraryFolder);
-				m_Lib = new dylib(libraryFolder, libraryPath.filename().string(), true);
+        m_Lib = new dylib(libraryFolder, libraryPath.filename().string(), true);
 				m_api_fn = m_Lib->get_symbol(fn_api);
 				if (fn_cleanup != "")
 				{

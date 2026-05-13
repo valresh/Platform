@@ -1016,7 +1016,7 @@ struct Record
     float Vars[MAX_VARS];
   };
 
-struct IN_DLL CTrends
+struct IN_DLL CommTrends
   {
   CTrendsItem Items[MAX_VARS];
   int kItems;
@@ -1031,8 +1031,8 @@ struct IN_DLL CTrends
   int kRecords;
 //  CRITICAL_SECTION  CS;
 //
-  CTrends();
-  ~CTrends();
+  CommTrends();
+  ~CommTrends();
   void Init( );
   bool OpenTrends() { return true; }
   int Add( const char * Name, char Type, void * pVar );
@@ -1044,7 +1044,7 @@ struct IN_DLL CTrends
   NEW
   };
 
-extern IN_DLL CTrends Trends;
+extern IN_DLL CommTrends * pTrends;
 
 IN_DLL int CharToUTF8( char * To, int MaxTo, char * From, bool Sign = false );
 IN_DLL int CharToUTF_s( char * To, int MaxTo, char * From, int L_From );

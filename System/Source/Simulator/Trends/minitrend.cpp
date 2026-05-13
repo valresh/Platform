@@ -2,6 +2,7 @@
 #include "minidraw.h"
 #include "minitrend.h"
 #include "ui_minitrend.h"
+#include "mainwindow.h"
 
 minitrend::minitrend(QWidget *parent)
   : QWidget(parent)
@@ -37,7 +38,7 @@ bool minitrend::AddVar( int N )
   if ( pDraw->kVars >= MAX_VAR )
     return false;
   pDraw->Vars[pDraw->kVars++] = N;
-  ui->VarList->addItem( Trends.Items[N].Name.Str );
+  ui->VarList->addItem( pMainWnd->Trends.Items[N].Name.Str );
   return true;
   }
 
@@ -179,7 +180,7 @@ void minidraw::paintEvent( QPaintEvent *event )
   if ( Shift < 0 )
     Shift = 0;
   if ( !Pause )
-    StartPos = Trends.PosRecords;
+    StartPos = pMainWnd->Trends.PosRecords;
   int xo = -1, yo = -1;
   for ( int nV = 0; nV < kVars;  nV++ )
     {
@@ -195,7 +196,7 @@ void minidraw::paintEvent( QPaintEvent *event )
       int K = 0;
       for ( int j = 0; j < Steps; j++ )
         {
-        Record & R = Trends.pRecords[nStart--];
+        Record & R = pMainWnd->Trends.pRecords[nStart--];
         double V = R.Vars[N];
         V0 += V;
         K++;

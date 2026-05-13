@@ -34,7 +34,7 @@ void ShowTrends::SetLimits( int nVar )
   double Max = -1e10;
   for ( int n = 10; n <StartPos; n++ )
     {
-    Record & R = Trends.pRecords[nStart--];
+    Record & R = pMainWnd->Trends.pRecords[nStart--];
     double V = R.Vars[N];
     if ( V < Min )
       Min = V;
@@ -104,7 +104,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   if ( Shift < 0 )
     Shift = 0;
   if ( !Pause )
-    StartPos = Trends.PosRecords;
+    StartPos = pMainWnd->Trends.PosRecords;
   double m = mT->sliderPosition() * 0.001;
   const double Tmax = log( 100. );
   const double Tmin = log( 1. );
@@ -124,7 +124,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     }
   step->setText( Txt );
   int nStart = StartPos - Shift;
-  Record & R = Trends.pRecords[nStart];
+  Record & R = pMainWnd->Trends.pRecords[nStart];
   double TimeMax = R.Time;
   bool ValidPnt = false;
   int NextLab = 0;
@@ -154,7 +154,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
       int LastStep = 0;
       for ( int j = 0; j < Steps; j++ )
         {
-        Record & R = Trends.pRecords[nStart--];
+        Record & R = pMainWnd->Trends.pRecords[nStart--];
         LastTime = R.Time;
         LastStep = R.Step;
         double V = R.Vars[N];
@@ -242,7 +242,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   if ( nSelected >= 0 )
     {
         int nStart = StartPos;
-        Record & R = Trends.pRecords[nStart];
+        Record & R = pMainWnd->Trends.pRecords[nStart];
         int nV = Vars[nSelected].Trend_ID;
         double V = R.Vars[nV];
         char Txt[256];
@@ -359,7 +359,7 @@ void ShowTrends::mousePressEvent(QMouseEvent *event)
         int N = nVar[x];
         if ( N >= 0 )
         {
-        Record & R = Trends.pRecords[N];
+        Record & R = pMainWnd->Trends.pRecords[N];
         int ID = Vars[nSelected].Trend_ID;
          double V = R.Vars[ID];
         char Txt[256];

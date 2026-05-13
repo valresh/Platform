@@ -2,6 +2,7 @@
 #include "showtrends.h"
 #include "ui_qtrends.h"
 #include "CommProc.h"
+#include "mainwindow.h"
 
 #define NEXT \
   P = E + 1;\
@@ -73,7 +74,7 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
       *E = 0;
     V.Name = P;
     V.Addr = ConnectPoint( V.Name.Str, V.Type );
-    V.Trend_ID =  Trends.Add( V.Name.Str, V.Type, V.Addr );
+    V.Trend_ID =  pMainWnd->Trends.Add( V.Name.Str, V.Type, V.Addr );
     NEXT
     //M ???
     NEXT
@@ -133,7 +134,7 @@ bool QTrends::AddTrend( const char * Name, char Type, void * pVar )
   V.Name = Name;
   V.Type = Type;
   V.Addr = pVar;
-  V.Trend_ID =  Trends.Add( V.Name.Str, V.Type, V.Addr );
+  V.Trend_ID =  pMainWnd->Trends.Add( V.Name.Str, V.Type, V.Addr );
   V.Min = 0.;//atof ( P );
   V.Max = 0.;//atof ( P );
   V.color = RGB(255,255,255);

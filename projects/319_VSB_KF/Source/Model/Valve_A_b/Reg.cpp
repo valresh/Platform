@@ -111,7 +111,7 @@ void KlapReg::Reg(double dt)
 //
   double MV;
   if ( Reg_Vent )
-    MV = pKlap->Position;
+    MV = pKlap->Task;
   else
     MV = pKlap->K_Omega;
   MV += dMV;
@@ -121,7 +121,7 @@ void KlapReg::Reg(double dt)
   if ( MV > Reg_MH )
     MV = Reg_MH;
   if ( Reg_Vent )
-    pKlap->Position = MV;
+    pKlap->Task = MV;
   else
     pKlap->K_Omega = MV;
   Reg_MV_ = MV;

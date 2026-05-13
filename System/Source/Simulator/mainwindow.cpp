@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     try
     {
       pMainWnd = this;
+      pTrends = &Trends;
       // Установка значения
 //      settings->setValue("section/size", value);
       // Считывание значения

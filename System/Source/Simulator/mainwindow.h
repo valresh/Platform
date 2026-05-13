@@ -42,7 +42,7 @@ class MainWindow : public QMainWindow
     virtual void stop ();
     void closeEvent(QCloseEvent * event);
     void ProcInfo();
-
+  CommTrends Trends;
   CPU main_cpu[3];
   bool Set_cpu[3];
   int Max_N_cpu;
