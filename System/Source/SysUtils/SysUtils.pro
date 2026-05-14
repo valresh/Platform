@@ -18,6 +18,7 @@ X64
 SOURCES += \
     BaseModel.cpp \
     Connect.cpp \
+    DB.cpp \
     Defects.cpp \
     Err.cpp \
     Extern_Pnt.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     ../Include/BaseModel.h \
     ../Include/BaseType.h \
     ../Include/CommProc.h \
+    ../Include/DB.h \
     ../Include/DataTypes.h \
     ../Include/Defects.h \
     ../Include/Err.h \
