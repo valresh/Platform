@@ -1,0 +1,6 @@
+String_K(NAME,"",32*4)
+//String_K(BLCKCOMMENT1,"Block Comment 1",40*4)
+//Integer(CBBLOCKPROP,"Block Property")
+//Integer(NUMBLOBS,"Number of Dynamic State Blobs")
+Integer(ORDERINCM,"Execution Order in CM",10)
+//String_K(QUALSTATE,"Qualification State",100*4)

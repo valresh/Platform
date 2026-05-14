@@ -1,0 +1,7 @@
+﻿DOUBLE(Poly5IdealGasCpA)
+DOUBLE(Poly5IdealGasCpB)
+DOUBLE(Poly5IdealGasCpC)
+DOUBLE(Poly5IdealGasCpD)
+DOUBLE(Poly5IdealGasCpE)
+DOUBLE(Poly5IdealGasCpTmin)
+DOUBLE(Poly5IdealGasCpTmax)

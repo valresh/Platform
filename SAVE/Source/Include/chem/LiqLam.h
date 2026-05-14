@@ -1,0 +1,5 @@
+﻿DOUBLE(LiquidThermalConductivityA)
+DOUBLE(LiquidThermalConductivityB)
+DOUBLE(LiquidThermalConductivityC)
+DOUBLE(LiquidThermalConductivityTmin)
+DOUBLE(LiquidThermalConductivityTmax)

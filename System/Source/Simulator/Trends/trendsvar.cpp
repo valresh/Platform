@@ -7,13 +7,11 @@
 #include "CommProc.h"
 #include <QHeaderView>
 #include "showtrends.h"
-#include "mainwindow.h"
 
 TrendsVar::TrendsVar(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::TrendsVar)
 {
-  setWindowIcon( QIcon(":/webcam.png"));
   ui->setupUi(this);
   ui->Wnd->pDraw = pDraw;
   Model.IsData = false;
@@ -269,6 +267,7 @@ bool TrendVar::Out(char Txt[256])
 
 void TrendsVar::on_Wnd_clicked(const QModelIndex &index)
   {
+
   }
 
 

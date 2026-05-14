@@ -1,0 +1,8 @@
+String_K(NAME,"",32*4)
+String_K(DESC,"Block Descriptor",132*4)
+Integer(DEVICEIDX,"",0)
+Boolean(ALMENBSTATE,"Alarm Enable State",true)
+Integer(OVERTEMPTHLD,"",0)
+Integer(CPULOLM,"",0)
+Integer(CPULOLOLM,"",0)
+Integer(DEVDROPOFFDELAY,"",0)

@@ -13,7 +13,7 @@
 #define UTILSH5XX_API Q_DECL_IMPORT
 #endif
 
-struct UTILSH5XX_API CAlarmBase : CRSUBase
+struct UTILSH5XX_API CAlarmBase : CBase
 {
   BYTE btEHLN;// Уровень сигнализации (enum STATUS)
   BYTE btType;// Тип сигнализации     (enum MESS  )
@@ -30,7 +30,7 @@ struct UTILSH5XX_API CAlarmBase : CRSUBase
   int Shelved;//оставшееся время до включения сигнализации ms
 };
 
-struct UTILSH5XX_API SPntTypeInfo : CRSUBase
+struct UTILSH5XX_API SPntTypeInfo : CBase
 {
   enum eNonameType
   {

@@ -5,7 +5,6 @@
 //#include "showtrends.h"
 #include "dialcolor.h"
 #include "trendsvar.h"
-#include <QAbstractButton>
 
 namespace Ui {
 class TrendVarProp;
@@ -19,11 +18,7 @@ class TrendVarProp : public QDialog
     explicit TrendVarProp(QWidget *parent = nullptr);
     ~TrendVarProp();
     bool Dial( TrendVar * pVar );
-    TrendVar * pVar;
-private slots:
-    void on_buttonBox_clicked(QAbstractButton *button);
-
-private:
+  private:
     Ui::TrendVarProp *ui;
 };
 

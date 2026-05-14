@@ -2,7 +2,7 @@
 #include <BaseType.h>
 //#include <crossplatform.h>
 #include <CommProc.h>
-#include </home/resh/Platform/RSU/system/CBase.h>
+#include </home/valresh/Platform/RSU_F/system/CBase.h>
 //#pragma warning( disable : 444 ) //Отключаем предупреждение о невиртуальности
 
 #include <QtCore/QtGlobal>
@@ -13,7 +13,7 @@
 #define UTILSH5XX_API Q_DECL_IMPORT
 #endif
 
-struct UTILSH5XX_API CAlarmBase : CRSUBase
+struct UTILSH5XX_API CAlarmBase : CBase
 {
   BYTE btEHLN;// Уровень сигнализации (enum STATUS)
   BYTE btType;// Тип сигнализации     (enum MESS  )
@@ -30,7 +30,7 @@ struct UTILSH5XX_API CAlarmBase : CRSUBase
   int Shelved;//оставшееся время до включения сигнализации ms
 };
 
-struct UTILSH5XX_API SPntTypeInfo : CRSUBase
+struct UTILSH5XX_API SPntTypeInfo : CBase
 {
   enum eNonameType
   {

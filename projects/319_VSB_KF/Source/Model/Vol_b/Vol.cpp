@@ -306,7 +306,6 @@ int CVol::SetData( int TypeData, void * pData )
       pInfo->Prt( "%s: P(и)=#, T=%4.2lf, L=%4.1lf%%", (char*)ObjName, _T, _Lev_liq );
     return 0;
     }
-#if 0
   if ( TypeData == sd_AddToTrends )
     {
 #include "IO_Trends.h"
@@ -315,7 +314,6 @@ int CVol::SetData( int TypeData, void * pData )
     PARM_D( _Lev_liq, "Уровень жидкости %", 0. )
     return 0;
     }
-#endif
 #undef IF
 #define IF(Parm) if ( strcmp ( pP->Name, Parm ) == 0 ) {
 #undef EIF

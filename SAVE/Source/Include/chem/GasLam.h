@@ -1,0 +1,5 @@
+﻿DOUBLE(GasThermalConductivityA)
+DOUBLE(GasThermalConductivityB)
+DOUBLE(GasThermalConductivityC)
+DOUBLE(GasThermalConductivityTmin)
+DOUBLE(GasThermalConductivityTmax)

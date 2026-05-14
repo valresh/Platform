@@ -52,9 +52,7 @@ int CTrendsW::UpdateParam( CParams & Param )
 
 int CTrendsW::Step0()
 {
-#ifndef LINUX
   Trends.Init();
-#endif
   //  AddVars();
   return 0;
 }
@@ -72,19 +70,13 @@ int CTrendsW::PreStepT()
   //  Trends.Add ( "Sys_Step", 'I', &pSys->m_nStep );
   AddVars();
   AddRegs();
-#ifndef LINUX
   ASS(Trends.OpenTrends())
-#endif
   return 0;
 }
 
 int CTrendsW::StepT ( double dt )
 {
-#ifdef LINUX
-  ASS(pTrends->Write())
-#else
   ASS(Trends.Write())
-#endif
   kStep++;
   return 0;
 }
@@ -160,11 +152,7 @@ void CTrendsW::AddRegs( )
       void * pVar = ConnectM( Txt[5], &TypeVar );
       if ( pVar == NULL )
         continue;
-#ifdef LINUX
-      pTrends->Add ( Txt[5], TypeVar, pVar );
-#else
       Trends.Add ( Txt[5], TypeVar, pVar );
-#endif
     }
   }
   fclose ( F );
@@ -195,11 +183,7 @@ void CTrendsW::AddVars( char * PathCSV )
       pVar = ConnectR( Pnt, &TypeVar );
     if ( pVar == NULL )
       continue;
-#ifdef LINUX
-    pTrends->Add ( Pnt, TypeVar, pVar );
-#else
     Trends.Add ( Pnt, TypeVar, pVar );
-#endif
   }
   fclose ( F );
 }

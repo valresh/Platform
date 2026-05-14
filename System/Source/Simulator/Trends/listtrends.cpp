@@ -4,7 +4,6 @@
 #include "Err.h"
 #include <QStringListModel>
 #include <QMouseEvent>
-#include "mainwindow.h"
 
 ListTrends::ListTrends(QWidget *parent)
   : QDialog(parent)
@@ -57,7 +56,6 @@ void ListTrends::on_buttonBox_accepted()
     {
       QString itemText = Ind.data(Qt::DisplayRole).toString();
       emit ShowTrend ( itemText.toStdString().c_str());
-//      pMainWnd->ShowTrend ( STR(itemText) );
     }
   }
   ui->List->clearSelection();

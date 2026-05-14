@@ -1,0 +1,7 @@
+﻿DOUBLE(Antoine5LogA)
+DOUBLE(Antoine5LogB)
+DOUBLE(Antoine5LogC)
+DOUBLE(Antoine5LogD)
+DOUBLE(Antoine5LogE)
+DOUBLE(Antoine5LogTmin)
+DOUBLE(Antoine5LogTmax)

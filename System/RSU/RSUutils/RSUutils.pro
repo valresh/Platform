@@ -7,7 +7,7 @@ CONFIG += c++17
 
 DESTDIR= "$$PWD/../../EXE"
 
-INCLUDEPATH += $$PWD/../../../System/Source/Include \
+INCLUDEPATH += $$PWD/../../System/Source/Include \
 $$PWD/../../Include \
 $$PWD/../../../../system/include/rsus \
 $$PWD/../../../../system \

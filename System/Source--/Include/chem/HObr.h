@@ -1,0 +1,6 @@
+﻿DOUBLE(IdealGasEnthalpyOfFormationA)
+DOUBLE(IdealGasEnthalpyOfFormationB)
+DOUBLE(IdealGasEnthalpyOfFormationC)
+DOUBLE(IdealGasEnthalpyOfFormationTmin)
+DOUBLE(IdealGasEnthalpyOfFormationTmax)
+DOUBLE(IdealGasEnthalpyOfFormation_298)
