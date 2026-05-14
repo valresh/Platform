@@ -15,8 +15,9 @@ TrendVarProp::~TrendVarProp()
   delete ui;
 }
 
-bool TrendVarProp::Dial( TrendVar * pVar )
+bool TrendVarProp::Dial( TrendVar * _pVar )
   {
+  pVar = _pVar;
   char V[256];
   strcpy ( V, pVar->Name );
   char * P = strchr ( V, '.' );
@@ -44,6 +45,25 @@ bool TrendVarProp::Dial( TrendVar * pVar )
   if ( Res == 0 )
     return false;
   pVar->color = ui->color->color;
+  pVar->Max = atof(STR(ui->Max->text()));
+  pVar->Min = atof(STR(ui->Min->text()));
+  pVar->Nom = atof(STR(ui->Nom->text()));
+  ui->color->color = pVar->color;
   KKK();
   return true;
   }
+
+  void TrendVarProp::on_buttonBox_clicked(QAbstractButton *button)
+  {
+    QString S = button->text();
+    const char * pS = STR(S);
+    if ( strcmp ( pS,"Apply" ) == 0 )
+      {
+        pVar->color = ui->color->color;
+        pVar->Max = atof(STR(ui->Max->text()));
+        pVar->Min = atof(STR(ui->Min->text()));
+        pVar->Nom = atof(STR(ui->Nom->text()));
+        ui->color->color = pVar->color;
+      }
+  }
+

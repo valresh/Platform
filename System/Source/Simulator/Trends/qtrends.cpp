@@ -26,7 +26,10 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   : QMainWindow(parent)
   , ListVar (this )
   , ui(new Ui::QTrends)
-  {
+  ,Started(false)
+{
+  try{
+//  ui = NewArr(Ui::QTrends,1);
   ui->setupUi(this);
   setWindowIcon( QIcon(":/windows.png"));
   Type = Trend;
@@ -44,10 +47,10 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
 //  QLineEdit *step;
   ScaleT = 1000;
   ShowSteps = true;
-  // QTrends_W::WinRect = geometry();
-  // From_DB
-  // setGeometry( QTrends_W::WinRect );
-  ui->Wnd->ShowSteps = true;
+  QTrends_W::WinRect = geometry();
+  From_DB
+  setGeometry( QTrends_W::WinRect );
+  ui->Wnd->ShowSteps = ShowSteps;
   ui->ScaleT->setMinimum( 0 );
   ui->ScaleT->setMaximum( 1000 );
   ui->ScaleT->setValue( ScaleT );
@@ -121,6 +124,12 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   // fileMenu->addSeparator();
   // fileMenu->addAction(openAct);
 //
+  Started = true;
+    }
+    catch( ... )
+    {
+      KKK();
+  }
   }
 
 bool QTrends::AddTrend( const char * Name, char Type, void * pVar )
@@ -154,6 +163,8 @@ QTrends::~QTrends()
 
 void QTrends::updateTime()
 {
+ if ( !Started )
+      return;
   ui->Wnd->repaint();
   ListVar.Model.timerHit();
   if ( ui->Wnd->Pause )
@@ -175,6 +186,10 @@ void QTrends::moveEvent(QMoveEvent *event)
 }
 void QTrends::closeEvent(QCloseEvent * event)
 {
+  QTrends_W::WinRect = geometry();
+  ScaleT = ui->ScaleT->sliderPosition();
+  ShowSteps = ui->Wnd->ShowSteps;
+  To_DB
   Close();
 }
 

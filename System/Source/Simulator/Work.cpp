@@ -23,6 +23,8 @@ int kStep = 0;
 bool SaveParams = false;
 bool SaveState = false;
 extern int ThreadsStopped;
+extern int ThreadsStarted;
+
 void Start::InitWork()
 {
   pMainHydro->SetData( 1003, &HydroGroups );
@@ -92,12 +94,13 @@ void Models::OutMsg( const char * Fmt, ... )
 
 void Models::Go()
 {
+  ThreadsStarted++;
   ptrace(PTRACE_TRACEME, getpid(), 0, 0);
   bool First = true;
-  connect ( this, &Models::ShowSteps, pMainWnd, &MainWindow::ShowSteps,Qt::QueuedConnection );
-  connect ( this, &Models::ShowAccel, pMainWnd, &MainWindow::ShowAccel,Qt::QueuedConnection );
-  connect ( this, &Models::ShowData, pMainWnd, &MainWindow::ShowData_1,Qt::QueuedConnection );
-  connect ( this, &Models::OutTxt, pMainWnd, &MainWindow::OutTxt,Qt::QueuedConnection );
+  // connect ( this, &Models::ShowSteps, pMainWnd, &MainWindow::ShowSteps,Qt::QueuedConnection );
+  // connect ( this, &Models::ShowAccel, pMainWnd, &MainWindow::ShowAccel,Qt::QueuedConnection );
+  // connect ( this, &Models::ShowData, pMainWnd, &MainWindow::ShowData_1,Qt::QueuedConnection );
+  // connect ( this, &Models::OutTxt, pMainWnd, &MainWindow::OutTxt,Qt::QueuedConnection );
   double TimeModel = 0., TimeReal = 0.;
   int Steps = 0;
   QElapsedTimer timer;
@@ -239,8 +242,9 @@ void Models::Go()
 
 void Hydro::Go()
 {
-  ptrace(PTRACE_TRACEME, getpid(), 0, 0);
-  connect ( this, &Hydro::ShowData, pMainWnd, &MainWindow::ShowData_2,Qt::QueuedConnection );
+  ThreadsStarted++;
+//  ptrace(PTRACE_TRACEME, getpid(), 0, 0);
+//  connect ( this, &Hydro::ShowData, pMainWnd, &MainWindow::ShowData_2,Qt::QueuedConnection );
     try {
         while ( !Stop )
         {
@@ -269,7 +273,7 @@ void Hydro::Go()
         }
     } catch (...)
     {
-      SysMSG ( "Работа гидравлики закончилась аварийно" );
+  //    SysMSG ( "Работа гидравлики закончилась аварийно" );
   }
   //  SysMSG ( "Работа гидравлики закончилась" );
   ThreadsStopped++;
@@ -279,8 +283,9 @@ void Hydro::Go()
 
 void DCU::Go()
 {
+  ThreadsStarted++;
   ptrace(PTRACE_TRACEME, getpid(), 0, 0);
-  connect ( this, &DCU::ShowData, pMainWnd, &MainWindow::ShowData_2,Qt::QueuedConnection );
+ // connect ( this, &DCU::ShowData, pMainWnd, &MainWindow::ShowData_2,Qt::QueuedConnection );
   int OLD_CALC_MODE = (HydroGroups->GetCalculationMethod()) >> 0 & 1;
   //
     for (int i = 0; i < kRuntimeModel; i++)
@@ -307,7 +312,7 @@ void DCU::Go()
         }
     } catch (...)
     {
-      SysMSG ( "Работа РСУ закончилась аварийно" );
+  //    SysMSG ( "Работа РСУ закончилась аварийно" );
   }
   ThreadsStopped++;
   Sem_Model.release();

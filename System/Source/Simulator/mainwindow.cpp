@@ -63,9 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
       CLEAR(Set_cpu)
       Max_N_cpu = 0;
       Step_cpu = 0;
-      //
+      restoreGeometry(DB::GetVariant(DB::_("Система","geometry")).toByteArray());
+      restoreState(DB::GetVariant(DB::_("Система","windowState")).toByteArray());     //
       setWindowIcon( QIcon(":/monitor.png"));
-      setWindowIcon( QIcon("monitor.png"));
+//      setWindowIcon( QIcon("monitor.png"));
       ProcInfo();
       ui->setupUi(this);
       Msgs.Add("#Старт");
@@ -73,17 +74,20 @@ MainWindow::MainWindow(QWidget *parent)
       ui->Project->setText( PROJECT );
       ui->StateRead->setText( DB::GetChar( DB::_("Система", "Чтение состояния"), "T" ));
       ui->StateWrite->setText( DB::GetChar( DB::_("Система", "Запись состояния"), "T" ));
+      DB::Set( DB::_("Система", "Чтение параметров"), "T" );
       ui->ParamsRead->setText( DB::GetChar( DB::_("Система", "Чтение параметров"), "N" ));
       ui->ParamsWrite->setText( DB::GetChar( DB::_("Система", "Запись параметров"), "T" ));
       ui->StepStop->setText( DB::GetChar( DB::_("Система", "Шаг останова"), "0" ));
       ObjectLoaded = false;
+//      DB::Set( DB::_("Система", "Чтение параметров"), "T" );
+//      const char * R = DB::GetChar( DB::_("Система", "Чтение параметров"), "UUUUUUUU" );
       SetPaths();
       listshem.SetList( PROJECT_ROOT );
       listtrends.SetList( PROJECT_ROOT );
       bool Res = PROPS.LoadProp();
-        if ( !Res )
-          QMessageBox::information ( this, "Ошибка", "Настройки не загрузились" );
-        pModelDLL = new CCSVData();
+      if ( !Res )
+        QMessageBox::information ( this, "Ошибка", "Настройки не загрузились" );
+      pModelDLL = new CCSVData();
       //  char Root[1024];
       //  sprintf ( Root, "%sINI", PROJECT_ROOT );
       int ResLoad = pModelDLL->Load ( 6, PROJECT_ROOT, "ModelDLL", "" );
@@ -93,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
       connect(timer, &QTimer::timeout, this, &MainWindow::updateTime);
       connect(&listshem, &ListShem::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
       connect(&Find, &FindObj::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
-      connect(&listtrends, &ListTrends::ShowTrend, this, &MainWindow::ShowTrend, Qt::DirectConnection);
+      connect(&listtrends, &ListTrends::ShowTrend, this, &MainWindow::ShowTrend, Qt::QueuedConnection);
       InitMes( );
       timer->start( 1000 );
       pHydro = NULL;
@@ -122,15 +126,17 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 int ThreadsStopped = 0;
+int ThreadsStarted = 0;
 
 MainWindow::~MainWindow()
 {
     //  delete ui;
 //    StartWork.quit();
 //    StartWork.wait();
+    QApplication::exit( 0 );
     ThreadsStopped = 0;
     Stop = true;
-    while ( ThreadsStopped < 3 )
+    while ( ThreadsStopped < ThreadsStarted )
       {
       sleep ( 1 );
       }
@@ -141,6 +147,13 @@ MainWindow::~MainWindow()
 //    DCUWork.quit();
 //    DCUWork.wait();
 
+}
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+  DB::Set(DB::_("Система","geometry"), saveGeometry());
+  DB::Set(DB::_("Система","windowState"), saveState());
+  QMainWindow::closeEvent(event);
+  QApplication::exit( 0 );
 }
 
 void MainWindow::updateTime()
@@ -294,6 +307,10 @@ void MainWindow::ShowTrend ( const char * Trend )
     if ( !ObjectLoaded )
         return;
     QTrends * pT = new QTrends ( NULL, Trend );
+    pT->show();
+    pT = new QTrends ( NULL, Trend );
+    pT->show();
+    pT = new QTrends ( NULL, Trend );
     pT->show();
 }
 
@@ -521,11 +538,11 @@ void MainWindow::on_save_all_clicked()
     SaveState = true;
 }
 
-void MainWindow::closeEvent(QCloseEvent * event)
-{
-    QCoreApplication::exit(0);
+// void MainWindow::closeEvent(QCloseEvent * event)
+// {
+//     QCoreApplication::exit(0);
 
-}
+// }
 
 
 

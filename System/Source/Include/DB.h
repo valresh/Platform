@@ -27,7 +27,8 @@ struct IN_DLL DB
   static const char * _( const char * Class, const char * Name );
   static const char * _( const char * Group, const char * Class, const char * Name );
   static const char * GetChar( const char * Name, const char * Def );
-  static double GetDbl( const char * Nam, double Def );
+  static double GetDbl( const char * Name, double Def );
+  static QVariant GetVariant( const char * Name );
   static int GetInt( const char * Name, int Def );
   static bool GetBool( const char * Name, bool Def );
   static void Test( );

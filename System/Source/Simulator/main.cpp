@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
   try {
 //  ptrace(PTRACE_TRACEME, getpid(), 0, 0);
   QApplication a(argc, argv);
-  DB db;
+//  DB db;
   MainWindow w;
   w.show();
 

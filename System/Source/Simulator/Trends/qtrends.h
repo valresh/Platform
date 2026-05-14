@@ -34,6 +34,8 @@ class QTrends : public QMainWindow, public WinList, public QTrends_W
     bool AddTrend( const char * Name, char Type, void * pVar );
     TrendsVar ListVar;
     CStr Name;
+    bool Started;
+    NEW
   private:
     Ui::QTrends *ui;
   public slots:

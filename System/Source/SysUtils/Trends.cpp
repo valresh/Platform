@@ -10,25 +10,27 @@
 
 
 #define MAX_VARS 64
-#define MAX_STEP 3000000
+#define MAX_STEP 300000
 //#define INIT_TREND
 CommTrends * pTrends = NULL;
 
 
 CommTrends::CommTrends()
   {
-  Char<1024>Path;
-  Path.Prt ( "/home/resh/Platform/DATA/trends.dat" );
-  int fd = open(Path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR ); // | O_CREAT
-#ifdef INIT_TREND
-  Record Buf[3000];
-  memset ( Buf, 0, sizeof (Buf));
-  for ( int n = 0; n < 1000; n++ )
-    write ( fd, Buf, sizeof (Buf));
-#endif
-  pRecords = (Record*)mmap(NULL, MAX_STEP * sizeof (Record), PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0 );// | MAP_LOCKED MAP_SHARED
-  close(fd);
-  memset ( pRecords, 0, MAX_STEP * sizeof (Record) );
+//   Char<1024>Path;
+//   Path.Prt ( "/home/resh/Platform/DATA/trends.dat" );
+//   int fd = open(Path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR ); // | O_CREAT
+// #ifdef INIT_TREND
+//   Record Buf[3000];
+//   memset ( Buf, 0, sizeof (Buf));
+//   for ( int n = 0; n < 1000; n++ )
+//     write ( fd, Buf, sizeof (Buf));
+// #endif
+//   pRecords = (Record*)mmap(NULL, MAX_STEP * sizeof (Record), PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0 );// | MAP_LOCKED MAP_SHARED
+//   close(fd);
+  pRecords = NewArr(Record,MAX_STEP);
+//  pRecords = new Record[MAX_STEP];
+//memset ( pRecords, 0, MAX_STEP * sizeof (Record) );
   PosRecords = -1;
   kRecords = 0;
 //

@@ -36,6 +36,7 @@ class ShowSheme : public EMF, public WinList
     QToolBar * toolbar;
 //    CStr ShemeName;
  ///
+    NEW
     explicit ShowSheme(QWidget *parent, const char * File, const char * Select );
 //    bool event (QEvent * event );
     void SetCrd( const char * crd );

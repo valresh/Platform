@@ -10,7 +10,7 @@ QSettings * DB::pProp = NULL;
  DB::DB()
   {
     pProp = new QSettings("Simulator.conf", QSettings::NativeFormat);
-    pProp->clear();
+//    pProp->clear();
   }
 
 const char * DB::_( const char * Class, const char * Name )
@@ -41,23 +41,28 @@ void DB::Set( const char * Name,  int L, void * Data )
 
 void DB::Set( const char * Name, const char * Value )
   {
+  return;
   pProp->setValue( Name, Value );
   }
 void DB::Set( const char * Name, double & Value )
   {
+  return;
   pProp->setValue( Name, Value );
   }
 void DB::Set( const char * Name, int & Value )
   {
+  return;
   pProp->setValue( Name, Value );
   }
 void DB::Set( const char * Name, bool & Value )
   {
+  return;
   pProp->setValue( Name, Value );
   }
   //
 bool DB::Get( const char * Name,  int L_max, int & L, void * Data )
   {
+  return false;
   QByteArray arr = pProp->value( Name ).toByteArray();
   if ( arr.isEmpty())
       return false;
@@ -69,6 +74,7 @@ bool DB::Get( const char * Name,  int L_max, int & L, void * Data )
   }
 const char * DB::GetChar( const char * Name, const char * Def )
   {
+  return Def;
   static char Txt[1024];
   QVariant V = pProp->value( Name, "9" );
   QString S = pProp->value( Name, Def ).toString();
@@ -79,15 +85,23 @@ const char * DB::GetChar( const char * Name, const char * Def )
   }
 double DB::GetDbl( const char * Name, double Def )
   {
+  return Def;
   return pProp->value( Name, Def ).toReal();
   }
 int DB::GetInt( const char * Name, int Def )
   {
+  return Def;
   return pProp->value( Name, Def ).toInt();
   }
 bool DB::GetBool( const char * Name, bool Def )
   {
+  return Def;
   return pProp->value( Name, Def ).toBool();
+  }
+QVariant DB::GetVariant( const char * Name )
+  {
+  QVariant V;
+    return V;//pProp->value( Name );
   }
 
 

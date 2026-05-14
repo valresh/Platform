@@ -6,9 +6,10 @@
 #include "mainwindow.h"
 
 ShowTrends::ShowTrends(QWidget *parent)
-  : QWidget{parent}, VarProp(this)
+  : QWidget{parent}, VarProp(parent)
   {
 //  CLEAR(Vars)
+      try {
   setWindowIcon( QIcon(":/windows.png"));
   kVar = 0;
   SetShift = 0;
@@ -24,6 +25,11 @@ ShowTrends::ShowTrends(QWidget *parent)
   Drug = false;
   nWidth = 100;
   nHeight = 100;
+  }
+  catch( ... )
+    {
+      KKK();
+    }
   }
 
 void ShowTrends::SetLimits( int nVar )
@@ -55,6 +61,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   const int dY_bott = 20;
   const int dX_left = 40;
   QPainter P(this );
+  P.setClipRegion( event->region());
   QRectF rc = rect();
   rc.setLeft( rc.left() + dX_left );
   rc.setBottom( rc.bottom() - dY_bott );
@@ -80,6 +87,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     Alfa += 0.1;
     P.drawLine( x, 0,  x, nHeight );
   }
+  return;
 ////////////////////////////////////////////
   if ( SetShift == -2 )
     {
@@ -105,10 +113,10 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     Shift = 0;
   if ( !Pause )
     StartPos = pMainWnd->Trends.PosRecords;
-  double m = mT->sliderPosition() * 0.001;
+  //double m = mT->sliderPosition() * 0.001;
   const double Tmax = log( 100. );
   const double Tmin = log( 1. );
-  double K = exp ( Tmax + m * ( Tmin - Tmax ));
+  double K = 1.;//exp ( Tmax + m * ( Tmin - Tmax ));
   Steps = K;
   if ( Steps < 1 )
     Steps = 1;
@@ -129,6 +137,8 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   bool ValidPnt = false;
   int NextLab = 0;
   bool WasSelected = false;
+  return;
+  try {
   for ( int nV = 0; nV < kVar;  nV++ )
     {
     int N = Vars[nV].Trend_ID;
@@ -165,50 +175,56 @@ void ShowTrends::paintEvent( QPaintEvent *event )
         }
       if ( K > 0 )
         V0 /= K;
-      if ( xo < 0 )
+#if 0
+        if ( xo < 0 )
         {
         if ( Vars[nV].UseNom )
           {
-          QPen PenNom ( Qt::DashLine);
-          PenNom.setColor( Vars[nV].color );
-          PenNom.setWidth( 1 );
-          P.setPen( PenNom );
+          // QPen PenNom ( Qt::DashLine);
+          // PenNom.setColor( Vars[nV].color );
+          // PenNom.setWidth( 1 );
+          // P.setPen( PenNom );
           double AlfaY = ( Vars[nV].Max - Vars[nV].Nom ) / ( Vars[nV].Max- Vars[nV].Min);
           if ( AlfaY > 0. && AlfaY <= 1. )
             {
             int y = nHeight * AlfaY;
-            P.drawLine( dX_left, y, nWidth + dX_left, y );
+            //P.drawLine( dX_left, y, nWidth + dX_left, y );
             }
-          P.setPen( Pen );
+          //P.setPen( Pen );
           }
         }
+#endif
+#if 0
       double AlfaY = ( Vars[nV].Max - V0 ) / ( Vars[nV].Max- Vars[nV].Min);
       int x;
       if ( ShowSteps )
         x = p + dX_left;
       else
         x = w - ( TimeMax - LastTime ) * Mtime + dX_left;
-      nVar[x] = nStart + 1;
+      if ( x > 0 && x < 4000 )
+        nVar[x] = nStart + 1;
       if ( x < dX_left )
         break;
       if ( AlfaY > 0. && AlfaY <= 1. )
         {
         int y = nHeight * AlfaY;
-        if ( xo >= 0 )
-          P.drawLine( xo, yo, x, y );
+//??        if ( xo >= 0 )
+//??          P.drawLine( xo, yo, x, y );
         xo = x;
         yo = y;
-        if ( abs ( x - pntMouse.x()) < 8 && abs ( y - pntMouse.y()) < 8)
-          {
-          WasSelected = true;
-          nSelected = nV;
-          }
+        // if ( abs ( x - pntMouse.x()) < 8 && abs ( y - pntMouse.y()) < 8)
+        //   {
+        //   WasSelected = true;
+        //   nSelected = nV;
+        //   }
         }
       else
         {
         xo = -1;
         yo = -1;
         }
+#endif
+#if 0
       if ( nV == 0 )
         {
         if ( p == w - 1 )
@@ -229,16 +245,22 @@ void ShowTrends::paintEvent( QPaintEvent *event )
             }
 //            painter.setFont(font);
             QRect rc( x + dX_left - 20, nHeight + 5, 40, 15 );
-            P.save();
-            P.setPen(Qt::black);
-            P.drawText( rc, Qt::AlignCenter, Txt );
-            P.restore();
+            // P.save();
+            // P.setPen(Qt::black);
+            // P.drawText( rc, Qt::AlignCenter, Txt );
+            // P.restore();
             NextLab -= dX_Lab;
           }
         }
+#endif
       }
     KKK();
     }
+  } catch( ... )
+  {
+    KKK();
+  }
+
   if ( nSelected >= 0 )
     {
         int nStart = StartPos;
@@ -386,6 +408,7 @@ void ShowTrends::mouseReleaseEvent(QMouseEvent *event)
 
 void ShowTrends::mouseMoveEvent(QMouseEvent *event)
   {
+  return;
   QPoint pnt = event->pos();
   if ( nSelected >= 0 )
     {
