@@ -1,8 +1,0 @@
-Boolean(BADPVFL,"Bad PV Flag",false)
-Real(LASTPV,"Last PV",NaN)
-Real(PV,"Process Value",NaN)
-Real(PVAUTO,"PV Auto Value",NaN)
-Enumeration(PVAUTOST,"PV Auto Value Status",BAD,UNCERTN,NORMAL,MANUAL,INITACK,INITREQ,INITBAD,Def=BAD)
-Real(PVCALC,"Calculated PV",NaN)
-Real(PVRAW,"PV Raw Value",NaN)
-Enumeration(PVSTS,"Process Value Status",BAD,UNCERTN,NORMAL,MANUAL,INITACK,INITREQ,INITBAD,Def=BAD)

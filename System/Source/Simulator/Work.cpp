@@ -22,6 +22,7 @@ double gMaxNew_dt = 2e-5;
 int kStep = 0;
 bool SaveParams = false;
 bool SaveState = false;
+int SysSteps = 0;
 
 void Start::InitWork()
 {

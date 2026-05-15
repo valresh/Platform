@@ -6,15 +6,22 @@
 #include <QSlider>
 #include "showtrends.h"
 #include "trendsvar.h"
+#include "DB.h"
 
 
 
-namespace Ui {
+namespace Ui  {
 class QTrends;
 }
 
+struct QTrends_W
+{
+  QRect TrendRect;
+  int ScaleT;
+  bool ShowSteps;
+};
 
-class QTrends : public QMainWindow, public WinList
+class QTrends : public QMainWindow, public WinList, public QTrends_W
 {
     Q_OBJECT
 
@@ -26,6 +33,7 @@ class QTrends : public QMainWindow, public WinList
     void updateTime();
     void closeEvent(QCloseEvent * event);
     bool AddTrend( const char * Name, char Type, void * pVar );
+    NEW
     TrendsVar ListVar;
     CStr Name;
   private:

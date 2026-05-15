@@ -1143,12 +1143,15 @@ IN_DLL extern struct CCSVData * pModelDLL;//
 IN_DLL extern bool ShortParamsList;
 IN_DLL extern bool Stop;
 IN_DLL extern bool Pause;
+IN_DLL extern int SysSteps;
 IN_DLL extern int SysErrors;
 IN_DLL void TestMem();
 IN_DLL void ACS_Params( char * TabName, IBaseModel * pModel );
 IN_DLL void Init_RSU();
 IN_DLL void GetRSUFilesList  ( int *kF, const char * pList[16] );
 IN_DLL void GetRSUModelsList  ( int *kF, const char * pList[256] );
+//IN_DLL void * malloc(size_t size);
+//IN_DLL void free ( void * ptr );
 
 
 

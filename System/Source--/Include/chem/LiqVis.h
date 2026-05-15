@@ -1,6 +1,0 @@
-﻿DOUBLE(LiquidViscosityA)
-DOUBLE(LiquidViscosityB)
-DOUBLE(LiquidViscosityC)
-DOUBLE(LiquidViscosityD)
-DOUBLE(LiquidViscosityTmin)
-DOUBLE(LiquidViscosityTmax)

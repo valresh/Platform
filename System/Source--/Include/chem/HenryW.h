@@ -1,3 +1,0 @@
-﻿DOUBLE(HenryConstantInWaterTemperature)
-DOUBLE(HenryConstantInWaterInMoleFraction)
-DOUBLE(HenryConstantInWaterInVolumeFraction)

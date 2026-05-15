@@ -11,6 +11,7 @@
 ObjData Data[MAX_DATA];
 int kData = 0;
 const int KEY = 0x5F29CD17;
+bool DB::Changet = false;
 
 
 void ass( )
@@ -36,52 +37,52 @@ DB::DB()
 void DB::Read ( )
   {
   kData = 0;
-    QFile F("../DATA/Prop.dat");
-    if ( !F.open(QIODeviceBase::ReadOnly,QFileDevice::ReadOwner))
-      return;
+  int fd = open("../DATA/Prop.dat", O_RDONLY );
+  if ( fd < 0 )
+    return;
   while ( 1 )
-      {
-      int K = 0;
-      if ( F.read ( (char*)&K, 4 ) != 4 )
-        break;
-      QSS( K == KEY );
-      ObjData & D = Data[kData++];
-      char Class[64];
-      QSS( F.read ( Class, 64 ) == 64 );
-      char Name[64];
-      QSS( F.read ( Name, 64 ) == 64 )
-      D.Class = Class;
-      D.Name = Name;
-      QSS( F.read ( (char*)&D.L, 4 ) == 4 )
-      D.pData = NewArr(BYTE,D.L)
-      QSS( F.read ( (char*)D.pData, D.L ) == D.L )
-      }
-    F.close();
+    {
+    int K = 0;
+    QSS( read ( fd, (char*)&K, 4 ) != 4 )
+    QSS( K == KEY );
+    ObjData & D = Data[kData++];
+    char Class[64];
+    QSS( read ( fd, Class, 64 ) == 64 );
+    char Name[64];
+    QSS( read ( fd, Name, 64 ) == 64 )
+    D.Class = Class;
+    D.Name = Name;
+    QSS( read ( fd, (char*)&D.L, 4 ) == 4 )
+    D.pData = NewArr(BYTE,D.L)
+    QSS( read ( fd, (char*)D.pData, D.L ) == D.L )
+    }
+    close( fd );
+  Changet = false;
   }
 
 void DB::Write ( )
   {
-  QFile F("../DATA/Prop.dat");
-  if ( !F.open(QIODeviceBase::WriteOnly,QFileDevice::ReadOwner))
+  int fd = open("../DATA/Prop.dat", O_WRONLY );
+  if ( fd < 0 )
     return;
   for ( int n = 0; n < kData; n++ )
     {
     int K = KEY;
-    if ( F.write ( (char*)&K, 4 ) != 4 )
-      break;
+    QSS( write ( fd, (char*)&K, 4 ) == 4 )
     ObjData & D = Data[kData++];
     char Class[64];
     CLEAR(Class)
     strcpy_s ( Class, 64, D.Class.Str );
-    QSS( F.write ( Class, 64 ) == 64 );
+    QSS( write (  fd, Class, 64 ) == 64 );
     char Name[64];
     CLEAR(Name)
     strcpy_s ( Name, 64, D.Name.Str );
-    QSS( F.write( Name, 64 ) == 64 )
-    QSS( F.write ( (char*)&D.L, 4 ) == 4 )
-    QSS( F.write ( (char*)D.pData, D.L ) == D.L )
+    QSS( write(  fd, Name, 64 ) == 64 )
+    QSS( write (  fd, (char*)&D.L, 4 ) == 4 )
+    QSS( write (  fd, (char*)D.pData, D.L ) == D.L )
     }
-  F.close();
+  close( fd );
+  Changet = false;
   }
 
 ObjData * DB::Find ( const char * Class, const char * Name )
@@ -116,6 +117,7 @@ const char * DB::_( const char * Name )
 
 void DB::Set( const char * Class, const char * Name,  int L, void * Data )
   {
+  Changet = true;
   ObjData * pD = DB::Find ( Class, Name );
   if ( pD )
     {

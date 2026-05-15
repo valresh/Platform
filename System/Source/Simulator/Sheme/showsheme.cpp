@@ -13,6 +13,8 @@
 #include "WinDraw.h"
 #include "SysDataTypes.h"
 #include <QFileInfo>
+#include <QStatusBar>
+
 
 double Ms = 3.771;
 double Sxs = 4;
@@ -29,54 +31,89 @@ QPointF PosMouse;
 void P_to_P( QPointF Pos, double & X, double & Y );
 
 void ExtPaint ( void * _pSheme, QPainter * pP )
-  {
-  ShowSheme * pS = (ShowSheme*)_pSheme;
-  if ( pS )
+{
+    ShowSheme * pS = (ShowSheme*)_pSheme;
+    if ( pS )
     {
-    pS->Draw( pP );
-    QPen pen(Qt::yellow, 2, Qt::SolidLine);
-    pP->setPen( pen );
-    SS * pSS = &pS->ss;
-    double X, Y;
-    P_to_P( pSS, PosMouse, X, Y );
-    QPoint Pnt( X, Y );
-    pP->drawEllipse( Pnt, 3, 3 );
-    //pP->drawPixmapFragments()
+        pS->Draw( pP );
+        QPen pen(Qt::yellow, 2, Qt::SolidLine);
+        pP->setPen( pen );
+        SS * pSS = &pS->ss;
+        double X, Y;
+        P_to_P( pSS, PosMouse, X, Y );
+        QPoint Pnt( X, Y );
+        pP->drawEllipse( Pnt, 3, 3 );
+        //pP->drawPixmapFragments()
     }
-// //    pP->drawLine(200, 200, 300, 300);
-//     double L, T, R, B;
-//     pS->Model_To_Emf ( L, T, R, B, pS->Etalon );
-//     pP->drawLine( L, T, R, T);
-//     pP->drawLine( R, T, R, B);
-//     pP->drawLine( R, B, L, B);
-//     pP->drawLine( L, B, L, T );
-  // pP->fillRect( 200, 200, 200, 200, Qt::GlobalColor::white );
-  // QString S = QString("%1").number ( K++ );
-  // pP->setFont(QFont("Arial", 50));
-  // pP->drawText( QPointF(250,300), S );
-  }
+    // //    pP->drawLine(200, 200, 300, 300);
+    //     double L, T, R, B;
+    //     pS->Model_To_Emf ( L, T, R, B, pS->Etalon );
+    //     pP->drawLine( L, T, R, T);
+    //     pP->drawLine( R, T, R, B);
+    //     pP->drawLine( R, B, L, B);
+    //     pP->drawLine( L, B, L, T );
+    // pP->fillRect( 200, 200, 200, 200, Qt::GlobalColor::white );
+    // QString S = QString("%1").number ( K++ );
+    // pP->setFont(QFont("Arial", 50));
+    // pP->drawText( QPointF(250,300), S );
+}
 
 
 int kObCrdj;
 const char * crd = NULL;
+#include <QToolBar>
 
 ShowSheme::ShowSheme( QWidget *parent, const char * File, const char * _Select  )
-  : EMF( parent, File )
-  {
-  Type = Shema;
-  Select = _Select;
-  ss.pSheme = this;
-//  QFileInfo file ( Path );
-  FileName = File;//STR(file.baseName());
-  Char<1024> Crd;
-  Crd.Prt( "%sDATA/SCHEME/%s.crd", PROJECT_ROOT, FileName );
-  SetCrd( Crd );
-  setMinimumSize( 1500, 1000 );
-  Drug = false;
-  pMainHydro->SetData ( 1019, (void*)&pDataPtr);
-  //pDataPtr
-  setMouseTracking(true);
-  }
+    : EMF( parent, File )
+{
+    Type = Shema;
+    Select = _Select;
+    ss.pSheme = this;
+    //  QFileInfo file ( Path );
+    FileName = File;//STR(file.baseName());
+    setWindowTitle( FileName.Str );
+    Char<1024> Crd;
+    Crd.Prt( "%sDATA/SCHEME/%s.crd", PROJECT_ROOT, FileName );
+    SetCrd( Crd );
+    setMinimumSize( 1500, 1000 );
+    Drug = false;
+    pMainHydro->SetData ( 1019, (void*)&pDataPtr);
+    toolbar = addToolBar(tr("Control"));
+ //
+    QAction * Pause = new QAction(tr("&Пауза"), this);
+    Pause->setIcon( QIcon(":/pause.png"));
+    Pause->setStatusTip(tr("Пуск"));
+    connect(Pause, &QAction::triggered, this, &ShowSheme::tbPause);
+ //
+    QAction * Cont = new QAction(tr("&Продолжить"), this);
+    Cont->setIcon( QIcon(":/next_step.png"));
+    Cont->setStatusTip(tr("Продолжить"));
+    connect(Cont, &QAction::triggered, this, &ShowSheme::tbCont);
+//
+    QAction * SaveParams = new QAction(tr("&Сохранить параметры"), this);
+    SaveParams->setIcon( QIcon(":/diskette_down.png"));
+    SaveParams->setStatusTip(tr("Пуск"));
+    connect(SaveParams, &QAction::triggered, this, &ShowSheme::tbSaveParams);
+//
+    QAction * SaveState = new QAction(tr("&Сохранить состояние"), this);
+    SaveState->setIcon( QIcon(":/diskette_reload.png"));
+    SaveState->setStatusTip(tr("Пуск"));
+    connect(SaveState, &QAction::triggered, this, &ShowSheme::tbSaveState);
+    //
+    QAction * SaveAll = new QAction(tr("&Сохранить все"), this);
+    SaveAll->setIcon( QIcon(":/diskette.png"));
+    SaveAll->setStatusTip(tr("Пуск"));
+    connect(SaveAll, &QAction::triggered, this, &ShowSheme::tbSaveAll);
+    //
+    toolbar->addAction ( Pause );
+    toolbar->addAction ( Cont );
+    toolbar->addSeparator();
+    toolbar->addAction ( SaveParams );
+    toolbar->addAction ( SaveState );
+    toolbar->addAction ( SaveAll );
+    setWindowIcon(QIcon(":/List.png"));
+//    connect(this, &ShowSheme::on_Start, pMainWnd, &MainWindow::on_Start_clicked);
+}
 #if 0
 BOOL CSchemeView::IsOnScheme (LPCTSTR szObjScheme)
 {
@@ -166,59 +203,110 @@ BOOL CSchemeView::IsOnScheme (LPCTSTR szObjScheme)
 //  {
 //
 //  }
-
+extern char * GoTo;
 void ShowSheme::mousePressEvent(QMouseEvent *event)
-  {
-  PosMouse = event->scenePosition();
-      // if ( m_pDataPtr )
-      // {
-      //     for ( int n = 0; n < m_cDrawObj.L; n++ )
-      //     {
-      //         CDrawObject & Obj = m_cDrawObj[n];
-      //         if ( Obj.Selected )
-      //             m_nWaitSec = DEF_WAIT_REFRESH;
-      //         Obj.Selected = false;
-      //     }
-      //     for(DWORD n = 0; n < m_pDataPtr->kPipeRef; n++ )
-      //     {
-      //         CPipeRef * pP = m_pDataPtr->pPipeRef[n];
-      //         if ( !IsOnScheme ((LPCTSTR)pP->Shema) )
-      //             continue;
-      //         pP->Selected = false;
-      //     }
-      // }
-  IBaseModel * pShemaObj[16];
-  int k = Find_Object( event->scenePosition(), pShemaObj );
-  if ( k > 0 )
-    {
- //   CObjectRef * pO = pDataPtr->pObjRef[N];
- //   IBaseModel * pObj = IBaseModel::Find((char*)pO->ObjName);
- //   if ( pObj == NULL )
- //     return;
-    IBaseModel * pO = pShemaObj[0];
-    ShowParams * pParams = new ShowParams( this, pO );
-    char Title[256];
-    Sprintf( Title, "%s(%s)",  pO->ObjName.Str, pO->Model.Str);
-    pParams->setWindowTitle( Title );
-    pParams->move(PosMouse.x(), PosMouse.y());
-    pParams->show();
-    return;
-    }
-  int N = Find_Pipe( event->scenePosition() );
-  if ( N >= 0 )
+{
+    PosMouse = event->scenePosition();
+    // if ( m_pDataPtr )
+    // {
+    //     for ( int n = 0; n < m_cDrawObj.L; n++ )
+    //     {
+    //         CDrawObject & Obj = m_cDrawObj[n];
+    //         if ( Obj.Selected )
+    //             m_nWaitSec = DEF_WAIT_REFRESH;
+    //         Obj.Selected = false;
+    //     }
+    //     for(DWORD n = 0; n < m_pDataPtr->kPipeRef; n++ )
+    //     {
+    //         CPipeRef * pP = m_pDataPtr->pPipeRef[n];
+    //         if ( !IsOnScheme ((LPCTSTR)pP->Shema) )
+    //             continue;
+    //         pP->Selected = false;
+    //     }
+    // }
+    IBaseModel * pShemaObj[16];
+    int k = Find_Object( event->scenePosition(), pShemaObj );
+    if ( k > 0 )
       {
-      CPipeRef *pP = pDataPtr->pPipeRef[N];
-      IBaseModel * pObj = IBaseModel::Find((char*)pP->PipeName);
-      if ( pObj == NULL )
-          return;
-      ShowParams * pParams = new ShowParams( this, pObj );
-      char Title[256];
-      Sprintf( Title, "%s(%s)",  pObj->ObjName.Str, pObj->Model.Str);
-      pParams->setWindowTitle( Title );
-      pParams->move(PosMouse.x(), PosMouse.y());
-      pParams->show();
-      return;
-  }
+      if ( k == 1 && GoTo == NULL )
+        {
+        IBaseModel * pO = pShemaObj[0];
+        ShowParams * pParams = new ShowParams( this, pO );
+        char Title[256];
+        Sprintf( Title, "%s(%s)",  pO->ObjName.Str, pO->Model.Str);
+        pParams->setWindowTitle( Title );
+        pParams->move(PosMouse.x(), PosMouse.y());
+        pParams->show();
+        return;
+        }
+        //   CObjectRef * pO = pDataPtr->pObjRef[N];
+        //   IBaseModel * pObj = IBaseModel::Find((char*)pO->ObjName);
+        //   if ( pObj == NULL )
+        //     return;
+      if ( k > 1 || GoTo )
+        {
+        QMenu menu;
+        QAction * actions[100];
+        int p = 0;
+        for ( int n = 0; n < k; n++ )
+          {
+          actions[n] = menu.addAction(pShemaObj[n]->ObjName.Str);
+          }
+        if ( GoTo )
+          {
+          menu.addSeparator();
+          menu.addAction( GoTo );
+          }
+        QAction * selectedItem = menu.exec(event->globalPosition().toPoint());
+        if ( selectedItem )
+          {
+          for ( int n = 0; n < k; n++ )
+            {
+            if ( selectedItem == actions[n] )
+              {
+              IBaseModel * pO = pShemaObj[n];
+              ShowParams * pParams = new ShowParams( this, pO );
+              char Title[256];
+              Sprintf( Title, "%s(%s)",  pO->ObjName.Str, pO->Model.Str);
+              pParams->setWindowTitle( Title );
+              pParams->move(PosMouse.x(), PosMouse.y());
+              pParams->show();
+              return;
+              }
+            }
+// GoTo
+          FileName = GoTo;
+          Char<1024> Crd;
+          Crd.Prt( "%sDATA/SCHEME/%s.crd", PROJECT_ROOT, FileName );
+          crd = NULL;
+          SetCrd( Crd );
+          Select = GoTo;
+          setWindowTitle( GoTo );
+//          pMainHydro->SetData ( 1019, (void*)&pDataPtr);
+          static Char<1024>Go;
+          Go.Prt( "%sDATA/SCHEME/%s.emf", PROJECT_ROOT, GoTo );
+          ss.NewPath = Go;
+          KKK();
+          }
+        else
+          KKK();
+        }
+      }
+    int N = Find_Pipe( event->scenePosition() );
+    if ( N >= 0 )
+    {
+        CPipeRef *pP = pDataPtr->pPipeRef[N];
+        IBaseModel * pObj = IBaseModel::Find((char*)pP->PipeName);
+        if ( pObj == NULL )
+            return;
+        ShowParams * pParams = new ShowParams( this, pObj );
+        char Title[256];
+        Sprintf( Title, "%s(%s)",  pObj->ObjName.Str, pObj->Model.Str);
+        pParams->setWindowTitle( Title );
+        pParams->move(PosMouse.x(), PosMouse.y());
+        pParams->show();
+        return;
+    }
     Drug = true;
     PosDrug = event->scenePosition();
     ss.pSheme = this;
@@ -226,23 +314,23 @@ void ShowSheme::mousePressEvent(QMouseEvent *event)
     // char Txt[128];
     // sprintf ( Txt, "%3.0lf,%3.0lf", PosMouse.x(), PosMouse.y());
     // QMessageBox::question(this, "Clik", Txt, QMessageBox::Ok );
-  }
+}
 
- // void ShowContextMenu(const QPoint &pos)
- //  {
- //  QMenu *menu = new QMenu;
- //  menu->addAction("Remove Data Point", this,
- //                  SLOT(test_slot()));
+// void ShowContextMenu(const QPoint &pos)
+//  {
+//  QMenu *menu = new QMenu;
+//  menu->addAction("Remove Data Point", this,
+//                  SLOT(test_slot()));
 
- //  menu->exec(w->mapToGlobal(pos));
- //  }
+//  menu->exec(w->mapToGlobal(pos));
+//  }
 
-  void ShowSheme::mouseReleaseEvent(QMouseEvent *event)
-  {
-  if (event->button()==Qt::RightButton)
+void ShowSheme::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button()==Qt::RightButton)
     {
-    pMainWnd->listshem.show();
-    return;
+        pMainWnd->listshem.show();
+        return;
     }
     QPointF Pos = event->scenePosition();
     Drug = false;
@@ -251,266 +339,255 @@ void ShowSheme::mousePressEvent(QMouseEvent *event)
     // char Txt[128];
     // sprintf ( Txt, "%3.0lf,%3.0lf", Pos.x(), Pos.y());
     // QMessageBox::question(this, "Clik", Txt, QMessageBox::Ok );
-  }
-  void ShowSheme::mouseMoveEvent(QMouseEvent *event)
-  {
-   if ( Drug )
+}
+void ShowSheme::mouseMoveEvent(QMouseEvent *event)
+{
+    if ( Drug )
     {
-    QPointF Pos = event->pos();
-    ss.pSheme = this;
-    ss.ShiftX += Pos.x() - PosDrug.x();
-    ss.ShiftY += Pos.y() - PosDrug.y();
-    PosDrug = Pos;
-    renderEmf(&ss,QString(""));
+        QPointF Pos = event->pos();
+        ss.pSheme = this;
+        ss.ShiftX += Pos.x() - PosDrug.x();
+        ss.ShiftY += Pos.y() - PosDrug.y();
+        PosDrug = Pos;
+        renderEmf(&ss,QString(""));
     }
-   IBaseModel * pShemaObj[16];
-   int k = Find_Object( event->scenePosition(), pShemaObj );
-   if ( k > 0 )
-      setCursor(Qt::PointingHandCursor);
+    IBaseModel * pShemaObj[16];
+    int k = Find_Object( event->scenePosition(), pShemaObj );
+    if ( k > 0 )
+        setCursor(Qt::PointingHandCursor);
     else
-      setCursor(Qt::ArrowCursor);
+        setCursor(Qt::ArrowCursor);
     // int k = 0;
     // char Txt[128];
     // sprintf ( Txt, "%3.0lf,%3.0lf", Pos.x(), Pos.y());
     // QMessageBox::question(this, "Clik", Txt, QMessageBox::Ok );
-  }
+}
 
 void ShowSheme::wheelEvent(QWheelEvent *event)
-  {
-  QPoint Pnt = event->angleDelta();
-  const double k = 0.0001;
-  ss.pSheme = this;
-  ss.ScaleX *= 1. + k * Pnt.y();
-  ss.ScaleY *= 1. + k * Pnt.y();
-  renderEmf(&ss,QString(""));
-  }
+{
+    QPoint Pnt = event->angleDelta();
+    const double k = 0.0001;
+    ss.pSheme = this;
+    ss.ScaleX *= 1. + k * Pnt.y();
+    ss.ScaleY *= 1. + k * Pnt.y();
+    renderEmf(&ss,QString(""));
+}
 
 void ShowSheme::ShowSheme::updateTime()
-  {
-  ss.pSheme = this;
-  ss.pExtPaint = ExtPaint;
-//  m_imageLabel->update();
-//  m_imageLabel->repaint();
-  renderEmf(&ss,QString(""));
-  }
+{
+    ss.pSheme = this;
+    ss.pExtPaint = ExtPaint;
+    //  m_imageLabel->update();
+    //  m_imageLabel->repaint();
+    renderEmf(&ss,QString(""));
+    Char<128>Txt;
+    Txt.Prt ( "%d", pSys->m_nStep );
+    statusBar()->showMessage( Txt.Str );
+}
 
 void SpecKey ( int key );
 void ShowSheme::keyPressEvent ( QKeyEvent * event )
-  {
-  int key = event->key() & 0xFFFF;
-  LastPressedKey = key;
+{
+    int key = event->key() & 0xFFFF;
+    LastPressedKey = key;
     switch ( key )
-  {
+    {
     case 81: //Q
-      QCoreApplication::exit(0);
-    break;
+        QCoreApplication::exit(0);
+        break;
     case 'S': //Q
         Pause = true;
-    break;
+        break;
     case 'C': //Q
         Pause = false;
-    break;
+        break;
     case 43: //+
         if ( pMainWnd->TS())
             Ms *= 1.01;
         else
         {
-        ss.pExtPaint = ExtPaint;
-        ss.ScaleX *= 1.1;
-        ss.ScaleY *= 1.1;
-        renderEmf(&ss,QString(""));
+            ss.pExtPaint = ExtPaint;
+            ss.ScaleX *= 1.1;
+            ss.ScaleY *= 1.1;
+            renderEmf(&ss,QString(""));
         }
-    break;
+        break;
     case 45: //-
         if ( pMainWnd->TS())
             Ms /= 1.01;
         else
         {
-        ss.pExtPaint = ExtPaint;
-        ss.ScaleX *= 0.9;
-        ss.ScaleY *= 0.9;
-        renderEmf(&ss,QString(""));
+            ss.pExtPaint = ExtPaint;
+            ss.ScaleX *= 0.9;
+            ss.ScaleY *= 0.9;
+            renderEmf(&ss,QString(""));
         }
-    break;
+        break;
     case 16: //home
-      ss.ScaleX = 1.;
-      ss.ScaleY = 1.;
-      ss.ShiftX = 0.;
-      ss.ShiftY = 0.;
-      renderEmf(&ss,QString(""));
-    break;
+        ss.ScaleX = 1.;
+        ss.ScaleY = 1.;
+        ss.ShiftX = 0.;
+        ss.ShiftY = 0.;
+        renderEmf(&ss,QString(""));
+        break;
     case 49: // 1
-      SpecKey ( key );
-    break;
+        SpecKey ( key );
+        break;
     case 50: // 2
         if ( pMainWnd->TS())
-          Sys++;
+            Sys++;
         else
-          SpecKey ( key );
-      break;
+            SpecKey ( key );
+        break;
     case 51: // 3
-      SpecKey ( key );
-      break;
+        SpecKey ( key );
+        break;
     case 52: // 4
         if ( pMainWnd->TS())
-          Sxs--;
+            Sxs--;
         else
-          SpecKey ( key );
-      break;
+            SpecKey ( key );
+        break;
     case 53: // 5
-      SpecKey ( key );
-      break;
+        SpecKey ( key );
+        break;
     case 54: // 6
-//      SpecKey ( key );
+        //      SpecKey ( key );
         Sxs++;
-      break;
+        break;
     case 55: // 7
-      SpecKey ( key );
-      break;
+        SpecKey ( key );
+        break;
     case 56: // 8
         if ( pMainWnd->TS())
-          Sys--;
+            Sys--;
         else
-          SpecKey ( key );
-      break;
+            SpecKey ( key );
+        break;
     case 57: // 9
-      SpecKey ( key );
-      break;
-  }
+        SpecKey ( key );
+        break;
+    }
     if ( pMainWnd->TS())
         renderEmf(&ss,QString(""));
 
-//  char Txt[128];
-//  sprintf ( Txt, "%d", key);
-//  QMessageBox::question(this, "Clik", Txt, QMessageBox::Ok );
-  }
+    //  char Txt[128];
+    //  sprintf ( Txt, "%d", key);
+    //  QMessageBox::question(this, "Clik", Txt, QMessageBox::Ok );
+}
 
 #define END \
-  {\
-  int L = strlen ( Str ) - 1;\
-  while ( Str[L] == 0x0a || Str[L] == 0x0d ) Str[L--] = 0;\
-  }
+{\
+        int L = strlen ( Str ) - 1;\
+        while ( Str[L] == 0x0a || Str[L] == 0x0d ) Str[L--] = 0;\
+}
 
 void ShowSheme::SetCrd( const char * _crd )
-  {
-  if ( crd )
-    return;
-  crd = _crd;
-  FILE * F = fopen ( crd, "rt" );
-  if ( F == NULL )
-    return;
-  ObjCrd Crd[MAX_OBJ];
-  char Str[1024];
-  int nObj = 0;
-  while ( fgets ( Str, 1024, F ) )
-    {
-    END
-    int L = ChatToUTF8( Crd[nObj].ObjName, 64, Str, false );
-    if ( strstr ( Crd[nObj].ObjName, "Сырье печи к" ))
-        KKK();
-    fgets ( Str, 1024, F );
-    END
-    L = ChatToUTF8( Crd[nObj].GoTo, 64, Str, false );
-    fgets ( Str, 1024, F );
-    END
-    fgets ( Str, 1024, F );
-    END
-    char * P = Str;
-    while ( *P == ' ' ) P++;
-    Crd[nObj].L = atof ( P );
-    while ( *P != ' ' ) P++;
-    while ( *P == ' ' ) P++;
-    Crd[nObj].B = atof ( P );
-    while ( *P != ' ' ) P++;
-    while ( *P == ' ' ) P++;
-    Crd[nObj].R = atof ( P );
-    while ( *P != ' ' ) P++;
-    while ( *P == ' ' ) P++;
-    Crd[nObj].T = atof ( P );
-    nObj++;
-    }
-  fclose ( F );
-//
-  kCrd = nObj;
-  pCrd = new ObjCrd[nObj];
-  memmove ( pCrd, Crd, nObj * sizeof ( ObjCrd ));
-  }
+{
+    crd = _crd;
+    FILE * F = fopen ( crd, "rt" );
+    if ( F == NULL )
+        return;
+    ObjCrd Crd[MAX_OBJ];
+    char Str[1024];
+    int nObj = 0;
+    while ( fgets ( Str, 1024, F ) )
+      {
+      END
+      Crd[nObj].ObjName = Str;
+      Crd[nObj].pObj = IBaseModel::Find( Str );
+      fgets ( Str, 1024, F );
+      END
+      Crd[nObj].GoTo = Str;
+      fgets ( Str, 1024, F );
+      END
+      fgets ( Str, 1024, F );
+      END
+      char * P = Str;
+      while ( *P == ' ' ) P++;
+      Crd[nObj].L = atof ( P );
+      while ( *P != ' ' ) P++;
+      while ( *P == ' ' ) P++;
+      Crd[nObj].B = atof ( P );
+      while ( *P != ' ' ) P++;
+      while ( *P == ' ' ) P++;
+      Crd[nObj].R = atof ( P );
+      while ( *P != ' ' ) P++;
+      while ( *P == ' ' ) P++;
+      Crd[nObj].T = atof ( P );
+      nObj++;
+      }
+    fclose ( F );
+    //
+    kCrd = nObj;
+    pCrd = new ObjCrd[nObj];
+    memmove ( pCrd, Crd, nObj * sizeof ( ObjCrd ));
+}
 void ShowSheme::paintEvent(QPaintEvent *event)
-  {
-  }
+{
+}
+
 
 bool ShowSheme::OnScheme (LPCTSTR ObjScheme )
-  {
-    int L = ObjScheme ? lstrlen (ObjScheme) : 0;
-    if ( L <= 1 )
-        return false;
-    char OS[1024];
-    strcpy_s( OS, 1024, ObjScheme );
-    char * P = OS;
-    while ( 1 )
+{
+  int L = ObjScheme ? lstrlen (ObjScheme) : 0;
+  if ( L <= 1 )
+      return false;
+  char OS[1024];
+  strcpy_s( OS, 1024, ObjScheme );
+  char * P = OS;
+  while ( 1 )
     {
-        char * E = strchr( P, ';' );
+      char * E = strchr( P, ';' );
         if ( E )
-            *E = 0;
+          *E = 0;
         if ( strcmp ( FileName, P ) == 0 )
-            return true;
+          return true;
         if ( E == NULL )
-            break;
+          break;
         P = E + 1;
     }
-    return false;
-  }
+  return false;
+}
 
 void ShowSheme::Draw( QPainter * pP )
   {
-//  QPen pen(Qt::yellow, 1, Qt::SolidLine);
-//  pP->setPen( pen );
+  //  QPen pen(Qt::yellow, 1, Qt::SolidLine);
+    //  pP->setPen( pen );
   pMainWnd->DrawData.pCol = NULL;
   pMainWnd->DrawData.hWnd = NULL;
   pMainWnd->DrawData.ID_Dial = 0;
   pMainWnd->DrawData.nModelID = 0;
   pMainWnd->DrawData.hDC.pixmap = ss.pixmap;
   if ( pMainWnd->TS())
-  {
-      pP->save();
-      QPen Pen(Qt::SolidLine);
-      Pen.setWidth( 1 );
-      Pen.setColor( RGB ( 255, 255, 0 ));
-      pP->setPen( Pen );
-      for( int n = 0; n < kCrd; n++)
-      {
-          ObjCrd * pO = &pCrd[n];
-          double L = pO->L * Ms + Sxs, T = -pO->T * Ms + Sys, R = pO->R * Ms + Sxs, B = -pO->B * Ms + Sys;
-          pP->drawLine( L, T, R, T);
-          pP->drawLine( R, T, R, B);
-          pP->drawLine( L, B, L, T );
-          pP->drawLine( R, B, L, B);
-      }
-      pP->restore();
-  }
-  pCollector = &pMainWnd->DrawData.hDC;
-//
-  bool D = true;
-  if ( pDataPtr )
-  for( int n = 0; n < pDataPtr->kObjRef; n++)
     {
-    CObjectRef * pO = pDataPtr->pObjRef[n];
-    if ( !OnScheme ((LPCTSTR)pO->Shema) )
-      continue;
-    if ( pO->pObject == NULL )
-      continue;
-    if ( pO->pObject->ModelFlags & 0x80 )
-      continue;
-//    if ( pO->pObject->NeedDrawBefore() != bBefore )
-//      continue;
-    double L, T, R, B;
-    Model_To_Emf ( L, T, R, B, pO );
-//    L += 3;
-    R += 10;
-//    T += 0;
-    B += 5;
-    pMainWnd->DrawData.ObjName = pO->pObject->ObjName;
-    pMainWnd->DrawData.ShemaName = pO->Shema;
+    pP->save();
+    QPen Pen(Qt::SolidLine);
+    Pen.setWidth( 1 );
+    Pen.setColor( RGB ( 255, 255, 0 ));
+    pP->setPen( Pen );
+    for( int n = 0; n < kCrd; n++)
+      {
+      ObjCrd * pO = &pCrd[n];
+      double L = pO->L * Ms + Sxs, T = -pO->T * Ms + Sys, R = pO->R * Ms + Sxs, B = -pO->B * Ms + Sys;
+      pP->drawLine( L, T, R, T);
+      pP->drawLine( R, T, R, B);
+      pP->drawLine( L, B, L, T );
+      pP->drawLine( R, B, L, B);
+      }
+    pP->restore();
+    }
+    pCollector = &pMainWnd->DrawData.hDC;
+    //
+  bool D = true;
+  for( int n = 0; n < kCrd; n++)
+    {
+    ObjCrd * pO = &pCrd[n];
+    if ( pO == NULL || pO->pObj == NULL )
+        continue;
+    double L = pO->L * Ms + Sxs, T = -pO->T * Ms + Sys, R = pO->R * Ms + Sxs, B = -pO->B * Ms + Sys;
+    pMainWnd->DrawData.ObjName = pO->pObj->ObjName;
+    pMainWnd->DrawData.ShemaName = FileName;
     pMainWnd->DrawData.rc.left = L;
     pMainWnd->DrawData.rc.right = R;
     pMainWnd->DrawData.rc.top = T;
@@ -519,25 +596,9 @@ void ShowSheme::Draw( QPainter * pP )
     pMainWnd->DrawData.hDC.Sx = ss.ShiftX;
     pMainWnd->DrawData.hDC.Sy = ss.ShiftY;
     pMainWnd->DrawData.hDC.M = ss.ScaleX;
-     // pP->drawLine( L, T, R, T);
-     // pP->drawLine( R, T, R, B);
-     // pP->drawLine( L, B, L, T );
-     // pP->drawLine( R, B, L, B);
-     pO->pObject->DrawObj ( &pMainWnd->DrawData );
- //   if ( strstr ( pO->pObject->ObjName, "A-3001A"))
- //     KKK();
-     // if ( D )
-     // {
-     //   D = false;
-     // pMainWnd->DrawData.rc.setLeft( 0 );
-     // pMainWnd->DrawData.rc.setRight( 100 );
-     // pMainWnd->DrawData.rc.setTop( 0 );
-     // pMainWnd->DrawData.rc.setBottom( 100 );
-     // TransparentStd( pMainWnd->DrawData.hDC, pMainWnd->DrawData.rc, RGB ( 0, 255, 0 ));
-     //}
-
-     if ( Select &&  strcmp ( Select, pO->pObject->ObjName.Str) == 0 )
-    {
+    pO->pObj->DrawObj ( &pMainWnd->DrawData );
+    if ( Select &&  strcmp ( Select, pO->pObj->ObjName.Str) == 0 )
+      {
       CRect rc = pMainWnd->DrawData.rc;
       int s = 10;
       int x = rc.left-s;
@@ -545,26 +606,125 @@ void ShowSheme::Draw( QPainter * pP )
       int w = abs ( rc.right - rc.left ) + 2*s;
       int h = ( rc.bottom - rc.top ) + 2*s;
       pP->fillRect( x, y, w, h,QBrush(QColor(255,255,0,80)));
+      }
     }
-  }
+/*
+    if ( pDataPtr )
+        for( int n = 0; n < pDataPtr->kObjRef; n++)
+        {
+            CObjectRef * pO = pDataPtr->pObjRef[n];
+            if ( !OnScheme ((LPCTSTR)pO->Shema) )
+                continue;
+            if ( pO->pObject == NULL )
+                continue;
+            if ( pO->pObject->ModelFlags & 0x80 )
+                continue;
+            //    if ( pO->pObject->NeedDrawBefore() != bBefore )
+            //      continue;
+            double L, T, R, B;
+            Model_To_Emf ( L, T, R, B, pO );
+            //    L += 3;
+            R += 10;
+            //    T += 0;
+            B += 5;
+            pMainWnd->DrawData.ObjName = pO->pObject->ObjName;
+            pMainWnd->DrawData.ShemaName = pO->Shema;
+            pMainWnd->DrawData.rc.left = L;
+            pMainWnd->DrawData.rc.right = R;
+            pMainWnd->DrawData.rc.top = T;
+            pMainWnd->DrawData.rc.bottom = B;
+            pMainWnd->DrawData.hDC.Init ( pP );
+            pMainWnd->DrawData.hDC.Sx = ss.ShiftX;
+            pMainWnd->DrawData.hDC.Sy = ss.ShiftY;
+            pMainWnd->DrawData.hDC.M = ss.ScaleX;
+            // pP->drawLine( L, T, R, T);
+            // pP->drawLine( R, T, R, B);
+            // pP->drawLine( L, B, L, T );
+            // pP->drawLine( R, B, L, B);
+            pO->pObject->DrawObj ( &pMainWnd->DrawData );
+            //   if ( strstr ( pO->pObject->ObjName, "A-3001A"))
+            //     KKK();
+            // if ( D )
+            // {
+            //   D = false;
+            // pMainWnd->DrawData.rc.setLeft( 0 );
+            // pMainWnd->DrawData.rc.setRight( 100 );
+            // pMainWnd->DrawData.rc.setTop( 0 );
+            // pMainWnd->DrawData.rc.setBottom( 100 );
+            // TransparentStd( pMainWnd->DrawData.hDC, pMainWnd->DrawData.rc, RGB ( 0, 255, 0 ));
+            //}
+
+            if ( Select &&  strcmp ( Select, pO->pObject->ObjName.Str) == 0 )
+            {
+                CRect rc = pMainWnd->DrawData.rc;
+                int s = 10;
+                int x = rc.left-s;
+                int y = rc.top-s;
+                int w = abs ( rc.right - rc.left ) + 2*s;
+                int h = ( rc.bottom - rc.top ) + 2*s;
+                pP->fillRect( x, y, w, h,QBrush(QColor(255,255,0,80)));
+            }
+        }
+*/
+}
+
+void ShowSheme::tbPause()
+{
+  Pause = true;
+}
+void ShowSheme::tbCont()
+{
+  Pause = false;
+}
+
+extern bool SaveParams;
+extern bool SaveState;
+
+void ShowSheme::tbSaveParams()
+{
+  SaveParams = true;
+}
+void ShowSheme::tbSaveState()
+{
+  SaveState = true;
+
+}
+void ShowSheme::tbSaveAll()
+{
+  SaveParams = true;
+  SaveState = true;
+
+}
+
+void ShowSheme::on_New_Shema_triggered()
+  {
+  pMainWnd->listshem.show();
+  return;
   }
 
-  void ShowSheme::closeEvent(QCloseEvent * event)
+
+void ShowSheme::on_Exit_triggered()
   {
-  Close();
+  QCoreApplication::exit(0);
   }
+
+
+void ShowSheme::closeEvent(QCloseEvent * event)
+{
+    Close();
+}
 
 void ShowSheme::resizeEvent(QResizeEvent *event)
-  {
-  WinRect = geometry();
-  change = true;
-  }
+{
+    WinRect = geometry();
+    change = true;
+}
 
 void ShowSheme::moveEvent(QMoveEvent *event)
-  {
-  WinRect = geometry();
-  change = true;
-  }
+{
+    WinRect = geometry();
+    change = true;
+}
 
 // void ListEMF::mousePressEvent(QMouseEvent *event)
 //   {

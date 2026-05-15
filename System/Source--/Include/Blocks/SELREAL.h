@@ -1,3 +1,0 @@
-Boolean(G,"Selector input value",false)
-Real_A(IN,"",2,false)
-Real(OUT,"",false)

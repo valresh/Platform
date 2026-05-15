@@ -2,16 +2,18 @@
 #include "DB.h"
 
 #include <QApplication>
-//#include <sys/ptrace.h>
 
 int main(int argc, char *argv[])
 {
   try {
 //  ptrace(PTRACE_TRACEME, getpid(), 0, 0);
-  DB::Test( );
+//  DB::Test( );
+//  uint customStackSize = 4 * 1024 * 1024;
+//  setStackSize(customStackSize);
+  DB::Read( );
   QApplication a(argc, argv);
   MainWindow w;
-   w.show();
+  w.show();
 
   return a.exec();
   } catch (...)

@@ -1,4 +1,0 @@
-Real_A(OP,"PWM Output Value (%)",32,NaN)
-Real_A(OPINITVAL,"PWM Echoback Value",32,NaN)
-Boolean_A(SO,"Status Output Value",32,false)
-Boolean_A(SOINITVAL,"Status Echoback Value",32,false)

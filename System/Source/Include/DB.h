@@ -23,6 +23,7 @@ struct ObjData
 struct IN_DLL DB
 {
   DB();
+  static bool Changet;
   static void Read ( );
   static void Write ( );
   static ObjData * Find ( const char * Class, const char * Name );

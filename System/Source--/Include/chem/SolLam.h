@@ -1,5 +1,0 @@
-﻿DOUBLE(SolidThermalConductivityA)
-DOUBLE(SolidThermalConductivityB)
-DOUBLE(SolidThermalConductivityC)
-DOUBLE(SolidThermalConductivityTmin)
-DOUBLE(SolidThermalConductivityTmax)

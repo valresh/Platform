@@ -1,5 +1,0 @@
-Real_A(D,"Float connection",10,NaN)
-Boolean(FORCEREADREQ,"Force Enabling Read Requests",false)
-String_K(NEXTCOMP,"Next Comp Reference",132*4)
-String_K(HANDLERREF,"Next Comp Reference",132*4)
-Boolean(SO,"Trans Status Output",false)

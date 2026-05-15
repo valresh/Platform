@@ -1,5 +1,0 @@
-﻿DOUBLE(SurfaceTensionA)
-DOUBLE(SurfaceTensionB)
-DOUBLE(SurfaceTensionN)
-DOUBLE(SurfaceTensionTmin)
-DOUBLE(SurfaceTensionTmax)

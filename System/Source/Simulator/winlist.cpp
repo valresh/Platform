@@ -1,7 +1,8 @@
 #include "winlist.h"
-#include "showsheme.h"
+#include "Sheme/showsheme.h"
 #include "l_trends.h"
 #include "minitrend.h"
+#include "DB.h"
 
 
 WinList * WinList::pFirst = NULL;
@@ -65,6 +66,8 @@ void WinList::Close()
 
 void WinList::SaveAll()
   {
+  if ( DB::Changet )
+    DB::Write();
   Char<1024>Path;
   Path.Prt ( "%sWND/Linux.dat", PROJECT_ROOT );
   QFile save( (char*)Path );

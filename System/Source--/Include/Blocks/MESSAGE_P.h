@@ -1,8 +1,0 @@
-String_K(NAME,"",31*4)
-String_K(DESC,"Description",132*4)
-String_K(EUDESC,"Engineering Units",24*4)
-String_A(MEANINGPRI,"Meaning of Pri Signature",24 * 4,16)
-String_A(MEANINGSEC,"Meaning of Sec Signature",24 * 4,16)
-String_A(MESSAGE,"Message Text",132 * 4,16)
-Enumeration_A(MINLVLSECSIG,"Sec Signature Security Lvl",16,ViewOnly,AckOnly,Operator,Supervisor,Engineer,Manager,Def=ViewOnly)
-Enumeration_A(MSGTYPE,"Message Type",16,Info,Confirm,SingleSignature,DoubleSignature,Def=Info)

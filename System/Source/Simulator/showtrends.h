@@ -49,6 +49,7 @@ class ShowTrends : public QWidget
     int nSelected;
     bool PressMouse;
     bool Drug;
+    NEW
 //
     explicit ShowTrends(QWidget *parent = nullptr);
     void paintEvent( QPaintEvent *event );

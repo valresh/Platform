@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "showsheme.h"
+#include "./Sheme/showsheme.h"
 #include <QTimer>
 #include <QLibrary>
 #include "CommProc.h"
@@ -14,25 +14,34 @@
 #include "qtrends.h"
 #include "minitrend.h"
 #include "SysDataTypes.h"
+#include "DB.h"
 
 //extern Q_DECL_IMPORT PosErrInFile PosErr;
 
 void Test();
 const char * MainWindow::StateRead()
 {
-    return ui->StateRead->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->StateRead->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::StateWrite()
 {
-    return ui->StateWrite->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->StateWrite->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::ParamsRead()
 {
-    return ui->ParamsRead->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->ParamsRead->text().toStdString().c_str() );
+  return Txt;
 }
 const char * MainWindow::ParamsWrite()
 {
-    return ui->ParamsWrite->text().toStdString().c_str();
+  static char Txt[256];
+  strcpy( Txt, ui->ParamsWrite->text().toStdString().c_str() );
+  return Txt;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -43,49 +52,57 @@ MainWindow::MainWindow(QWidget *parent)
 {
     try
     {
-        pMainWnd = this;
-        InitErr( this );
-        CLEAR(main_cpu)
-        CLEAR(Set_cpu)
-         Max_N_cpu = 0;
-        Step_cpu = 0;
-//
-        ProcInfo();
-        ui->setupUi(this);
-        Msgs.Add("#Старт");
-        strcpy ( PROJECT, "319_VSB_KF" );
-        ui->Project->setText( PROJECT );
-        ui->StateRead->setText( "T" );
-        ui->StateWrite->setText( "T" );
-        ui->ParamsRead->setText( "T" );
-        ui->ParamsWrite->setText( "T" );
-        ObjectLoaded = false;
-        SetPaths();
-        listshem.SetList( PROJECT_ROOT );
-        listtrends.SetList( PROJECT_ROOT );
-        bool Res = PROPS.LoadProp();
-        if ( !Res )
-            QMessageBox::information ( this, "Ошибка", "Настройки не загрузились" );
-        pModelDLL = new CCSVData();
-        //  char Root[1024];
-        //  sprintf ( Root, "%sINI", PROJECT_ROOT );
-        int ResLoad = pModelDLL->Load ( 6, PROJECT_ROOT, "ModelDLL", "" );
-        pModelDLL->Sort( );
-        pStart = NULL;
-        timer = new QTimer ( this );
-        connect(timer, &QTimer::timeout, this, &MainWindow::updateTime);
-        connect(&listshem, &ListShem::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
-        connect(&Find, &FindObj::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
-        connect(&listtrends, &ListTrends::ShowTrend, this, &MainWindow::ShowTrend, Qt::DirectConnection);
-        InitMes( );
-        timer->start( 1000 );
-        pHydro = NULL;
-        KKK();
-        //  minitrend * pM = new minitrend();
-        //  pM->show();
-        set_thread_affinity( 0 );
-        time = QTime::currentTime();
-//        on_Start_clicked();
+      pMainWnd = this;
+      // Установка значения
+//      settings->setValue("section/size", value);
+      // Считывание значения
+ //     int value = settings->value("section/size", default);
+      InitErr( this );
+      CLEAR(main_cpu)
+      CLEAR(Set_cpu)
+      Max_N_cpu = 0;
+      Step_cpu = 0;
+      setWindowIcon( QIcon(":/monitor.png"));
+//      setWindowIcon( QIcon("monitor.png"));
+      ProcInfo();
+      ui->setupUi(this);
+      Msgs.Add("#Старт");
+      strcpy ( PROJECT, "319_VSB_KF" );
+      ui->Project->setText( PROJECT );
+      ui->StateRead->setText( DB::GetChar( "Система", "Чтение состояния", "T" ));
+      ui->StateWrite->setText( DB::GetChar( "Система", "Запись состояния", "T" ));
+      ui->ParamsRead->setText( DB::GetChar( "Система", "Чтение параметров", "T" ));
+      ui->ParamsWrite->setText( DB::GetChar( "Система", "Запись параметров", "T" ));
+//      ui->StepStop->setText( DB::GetChar( "Система", "Шаг останова", "0" ));
+      ObjectLoaded = false;
+//      DB::Set( DB::_("Система", "Чтение параметров"), "T" );
+//      const char * R = DB::GetChar( DB::_("Система", "Чтение параметров"), "UUUUUUUU" );
+      SetPaths();
+      listshem.SetList( PROJECT_ROOT );
+      listtrends.SetList( PROJECT_ROOT );
+      bool Res = PROPS.LoadProp();
+      if ( !Res )
+        QMessageBox::information ( this, "Ошибка", "Настройки не загрузились" );
+      pModelDLL = new CCSVData();
+      //  char Root[1024];
+      //  sprintf ( Root, "%sINI", PROJECT_ROOT );
+      int ResLoad = pModelDLL->Load ( 6, PROJECT_ROOT, "ModelDLL", "" );
+      pModelDLL->Sort( );
+      pStart = NULL;
+      timer = new QTimer ( this );
+      connect(timer, &QTimer::timeout, this, &MainWindow::updateTime);
+      connect(&listshem, &ListShem::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
+      connect(&Find, &FindObj::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
+      connect(&listtrends, &ListTrends::ShowTrend, this, &MainWindow::ShowTrend, Qt::DirectConnection );
+      InitMes( );
+      timer->start( 1000 );
+      pHydro = NULL;
+      KKK();
+      //  minitrend * pM = new minitrend();
+      //  pM->show();
+      set_thread_affinity( 0 );
+      time = QTime::currentTime();
+      //        on_Start_clicked();
     }
     catch ( const char * error )
     {
@@ -104,17 +121,34 @@ MainWindow::MainWindow(QWidget *parent)
     //Qt::BlockingQueuedConnection
 }
 
+int ThreadsStopped = 0;
+int ThreadsStarted = 0;
+
 MainWindow::~MainWindow()
 {
     //  delete ui;
-    StartWork.quit();
-    StartWork.wait();
-    ModelsWork.quit();
- //   ModelsWork.wait();
-    HydroWork.quit();
+//    StartWork.quit();
+//    StartWork.wait();
+    QApplication::exit( 0 );
+    ThreadsStopped = 0;
+    Stop = true;
+    while ( ThreadsStopped < ThreadsStarted )
+      {
+      sleep ( 1 );
+      }
+//    ModelsWork.quit();
+//    ModelsWork.wait();
+//    HydroWork.quit();
 //    HydroWork.wait();
-    DCUWork.quit();
+//    DCUWork.quit();
 //    DCUWork.wait();
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+  QMainWindow::closeEvent(event);
+  QApplication::exit( 0 );
 }
 
 void MainWindow::updateTime()
@@ -265,10 +299,10 @@ void MainWindow::Show_Sheme  ( const char * Sheme,  const char * Selected  )
 
 void MainWindow::ShowTrend ( const char * Trend )
 {
-    if ( !ObjectLoaded )
-        return;
-    QTrends * pT = new QTrends ( NULL, Trend );
-    pT->show();
+  if ( !ObjectLoaded )
+      return;
+  QTrends * pT = new QTrends ( NULL, Trend );
+  pT->show();
 }
 
 void MainWindow::start()
@@ -305,38 +339,50 @@ void MainWindow::loaded()
 
 void MainWindow::on_Start_clicked()
 {
-    time = QTime::currentTime();
-    StartWork.setStackSize(10000000);
-    pStart = new Start();
-    pStart->pMainWnd = this;
-    pStart->moveToThread(&StartWork);
-    connect(&StartWork,&QThread::started,  pStart, &Start::start, Qt::QueuedConnection);
- //
-    connect(&ModelsWork,&QThread::started,  pStart, &Start::start, Qt::QueuedConnection);
-    connect(pStart, &Start::started,   this, &MainWindow::started, Qt::QueuedConnection);
-    connect(pStart, &Start::stopped,   this, &MainWindow::stopped, Qt::QueuedConnection);
-    connect(pStart, &Start::loaded,   this, &MainWindow::loaded, Qt::QueuedConnection);
-    connect(pStart, &Start::stopped,   &ModelsWork,   &QThread::quit,   Qt::QueuedConnection);
-    //  connect(pStart, &Start::stopped,   p_worker, &Worker::deleteLater,      Qt::DirectConnection);
-    //  connect(Models, &QThread::finished, thread,   &QThread::deleteLater,     Qt::DirectConnection);
-    ModelsWork.setStackSize(10000000);
-    pModels = new Models();
-    pModels->moveToThread(&ModelsWork);
-    connect(&ModelsWork,&QThread::started,  pModels, &Models::start, Qt::QueuedConnection);
-//
-    HydroWork.setStackSize(10000000);
-    pHydro = new Hydro();
-    pHydro->moveToThread(&HydroWork);
-    connect(&HydroWork,&QThread::started,  pHydro, &Hydro::start, Qt::QueuedConnection);
-    //
-    DCUWork.setStackSize(10000000);
-    pDCU = new DCU();
-    pDCU->moveToThread(&DCUWork);
-    connect(&DCUWork,&QThread::started,  pDCU, &DCU::start, Qt::QueuedConnection);
-//
-    StartWork.start();
-    ui->Msg->setText( "Загрузка ..." );
-    //  pStart->start();
+  DB::Set( "Система", "Чтение состояния", StateRead() );
+  DB::Set( "Система", "Запись состояния", StateWrite() );
+  DB::Set( "Система", "Чтение параметров", ParamsRead() );
+  DB::Set( "Система", "Запись параметров", ParamsWrite() );
+//  DB::Set( "Система", "Шаг останова", STR(ui->StepStop->text()));
+  //
+  // int StepStop = atoi (STR(ui->StepStop->text()));
+  // if ( StepStop >= 0 )
+  //   {
+  //     Pause = true;
+  //   SysSteps = StepStop;
+  //   }
+  time = QTime::currentTime();
+  StartWork.setStackSize(10000000);
+  pStart = new Start();
+  pStart->pMainWnd = this;
+  pStart->moveToThread(&StartWork);
+  connect(&StartWork,&QThread::started,  pStart, &Start::start, Qt::QueuedConnection);
+  //
+  connect(&ModelsWork,&QThread::started,  pStart, &Start::start, Qt::QueuedConnection);
+  connect(pStart, &Start::started,   this, &MainWindow::started, Qt::QueuedConnection);
+  connect(pStart, &Start::stopped,   this, &MainWindow::stopped, Qt::QueuedConnection);
+  connect(pStart, &Start::loaded,   this, &MainWindow::loaded, Qt::QueuedConnection);
+  connect(pStart, &Start::stopped,   &ModelsWork,   &QThread::quit,   Qt::QueuedConnection);
+  //  connect(pStart, &Start::stopped,   p_worker, &Worker::deleteLater,      Qt::DirectConnection);
+  //  connect(Models, &QThread::finished, thread,   &QThread::deleteLater,     Qt::DirectConnection);
+  ModelsWork.setStackSize(10000000);
+  pModels = new Models();
+  pModels->moveToThread(&ModelsWork);
+  connect(&ModelsWork,&QThread::started,  pModels, &Models::start, Qt::QueuedConnection);
+  //
+  HydroWork.setStackSize(10000000);
+  pHydro = new Hydro();
+  pHydro->moveToThread(&HydroWork);
+  connect(&HydroWork,&QThread::started,  pHydro, &Hydro::start, Qt::QueuedConnection);
+  //
+  DCUWork.setStackSize(10000000);
+  pDCU = new DCU();
+  pDCU->moveToThread(&DCUWork);
+  connect(&DCUWork,&QThread::started,  pDCU, &DCU::start, Qt::QueuedConnection);
+  //
+  StartWork.start();
+  ui->Msg->setText( "Загрузка ..." );
+  //  pStart->start();
 }
 
 bool MainWindow::Use_RSU()
@@ -483,11 +529,11 @@ void MainWindow::on_save_all_clicked()
     SaveState = true;
 }
 
-void MainWindow::closeEvent(QCloseEvent * event)
-{
-    QCoreApplication::exit(0);
+// void MainWindow::closeEvent(QCloseEvent * event)
+// {
+//     QCoreApplication::exit(0);
 
-}
+// }
 
 
 
@@ -506,4 +552,11 @@ void MainWindow::on_RSU_clicked()
     showRSU.Go();
 
 }
+
+
+// void MainWindow::on_Stop_clicked()
+// {
+//   QCoreApplication::exit(0);
+
+// }
 

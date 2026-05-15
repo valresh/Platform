@@ -1,14 +1,14 @@
-#include "showsheme.h"
+#include "./Sheme/showsheme.h"
 #include <QMessageBox>
 #include <QChar>
-
+#include "CommProc.h"
 
 static double dx_0 = 0;
 static double dy_0 = 0;
 static double M_0 = 1.001;
 
 static double dx_p = 0.;
-static double dy_p = -35.;
+static double dy_p = -65.;
 static double M_p = 1.;
 
 void P_to_P( SS * pSS, QPointF Pos, double & X, double & Y )
@@ -22,42 +22,42 @@ void P_to_P( SS * pSS, QPointF Pos, double & X, double & Y )
 
 bool IsNearPipe (CPipeRef *pP, double Xp, double Yp)
   {
-      CSegment * pS = pP->pFirstSeg;
-      double X = Xp;
-      double Y = Yp;
-      while ( pS )
-      {
-          int kPnt = pS->kPnt;
-          double Xe = pS->XY[0];
-          double Ye = pS->XY[1];
-          double Xb, Yb;
-          for ( int n = 1; n < kPnt; n++ )
-          {
-              Xb = Xe;
-              Yb = Ye;
-              Xe = pS->XY[2*n];
-              Ye = pS->XY[2*n+1];
-              double dXs = Xe - Xb;
-              double dYs = Ye - Yb;
-              double dX = X - Xb;
-              double dY = Y - Yb;
-              double C = dX * dXs + dY * dYs;
-              double Z = dXs * dXs + dYs * dYs;
-              if ( C < 0. )
-                  continue;
+  CSegment * pS = pP->pFirstSeg;
+  double X = Xp;
+  double Y = Yp;
+    while ( pS )
+    {
+      int kPnt = pS->kPnt;
+      double Xe = pS->XY[0];
+      double Ye = pS->XY[1];
+      double Xb, Yb;
+        for ( int n = 1; n < kPnt; n++ )
+        {
+          Xb = Xe;
+          Yb = Ye;
+          Xe = pS->XY[2*n];
+          Ye = pS->XY[2*n+1];
+          double dXs = Xe - Xb;
+          double dYs = Ye - Yb;
+          double dX = X - Xb;
+          double dY = Y - Yb;
+          double C = dX * dXs + dY * dYs;
+          double Z = dXs * dXs + dYs * dYs;
+            if ( C < 0. )
+              continue;
               if ( C > Z )
-                  continue;
+              continue;
               double t = C / Z;
-              double dXt = dX - dXs * t;
-              double dYt = dY - dYs * t;
-              double D = dXt * dXt + dYt * dYt;
-              if ( D < EPS )
-                  return true;
+          double dXt = dX - dXs * t;
+          double dYt = dY - dYs * t;
+          double D = dXt * dXt + dYt * dYt;
+            if ( D < EPS )
+              return true;
           }
-          pS = pS->pNext;
-      }
-      return false;
-  }
+      pS = pS->pNext;
+    }
+  return false;
+}
 
 int ShowSheme::Find_Pipe ( QPointF Pos )
   {
@@ -84,10 +84,10 @@ extern double Ms;
 extern double Sxs;
 extern double Sys;
 
-
+char * GoTo = NULL;
 int ShowSheme::Find_Object ( QPointF Pos, IBaseModel * pObj[]  )
-  {
-// В координатах EMF
+{
+  // В координатах EMF
   double M = ss.ScaleX;
   double X = ( Pos.x() * M_p + dx_p ) / M - ss.ShiftX;
   double Y = ( Pos.y() * M_p + dy_p ) / M - ss.ShiftY;
@@ -95,16 +95,17 @@ int ShowSheme::Find_Object ( QPointF Pos, IBaseModel * pObj[]  )
   double Ym = ( Y - dy_0 ) / M_0;
   KKK();
   int k = 0;
+  GoTo = NULL;
   for( int n = 0; n < kCrd; n++)
-  {
+    {
       ObjCrd * pO = &pCrd[n];
       if ( strstr ( pO->ObjName, "Сырье печи к" ))
-      {
+        {
           KKK();
-      }
+        }
       double L = pO->L * Ms + Sxs, T = -pO->T * Ms + Sys, R = pO->R * Ms + Sxs, B = -pO->B * Ms + Sys;
       if ( Xm < L )
-          continue;
+        continue;
       if ( Xm > R )
           continue;
       if ( Ym < T )
@@ -112,10 +113,14 @@ int ShowSheme::Find_Object ( QPointF Pos, IBaseModel * pObj[]  )
       if ( Ym > B )
           continue;
       IBaseModel * O = IBaseModel::Find( pO->ObjName );
-      if ( O )
-          pObj[k++] = O;
-  }
-/*
+      if ( O && strcmp( O->Model, "Pipe" ))
+        {
+        pObj[k++] = O;
+        if ( pO->GoTo[0] )
+          GoTo = pO->GoTo;
+        }
+    }
+  /*
   for( int n = 0; n < pDataPtr->kObjRef; n++)
   {
     CObjectRef * pO = pDataPtr->pObjRef[n];
@@ -166,7 +171,7 @@ void ShowSheme::Model_To_Emf ( double & L, double & T, double & R, double & B, C
     R = ( pO->R * M_0 + dx_0 );
     B = ( pO->B * M_0 + dy_0 );
   }
-#if 1
+#if 0
  void ShowSheme::SpecKey ( int key )
     {
     switch ( key )
@@ -242,32 +247,41 @@ void ShowSheme::Model_To_Emf ( double & L, double & T, double & R, double & B, C
     }
   }
 #endif
-      int ChatToUTF8( char * To, int MaxTo, char * From, bool Prefix )
-        {
-        unsigned char * F = (unsigned char *)From;
-        int p = 0;
-        if ( Prefix )
-        {
+#if 1
+void ShowSheme::SpecKey ( int key )
+  {
+  int N = key - 48;
+  if ( N <= 0 )
+    N = 10;
+  SysSteps += N;
+  }
+#endif
+  int ChatToUTF8( char * To, int MaxTo, char * From, bool Prefix )
+  {
+    unsigned char * F = (unsigned char *)From;
+    int p = 0;
+      if ( Prefix )
+      {
         To[p++] = 0xEF;
         To[p++] = 0xBB;
         To[p++] = 0xBF;
-        }
-        while ( 1 )
-          {
+    }
+      while ( 1 )
+      {
           if ( p + 3 > MaxTo )
             break;
           int s = *F++;
           if ( s == 0 )
             break;
           if ( s < 0x80 )
-            {
+          {
             To[p++] = s;
             continue;
-            }
+        }
           if ( s < 0x7FF )
-            {
-            if ( s >= 0xC0 )
-              s += 0x410 - 0xC0;
+          {
+              if ( s >= 0xC0 )
+                s += 0x410 - 0xC0;
             // требуется 2 символа
             int r2 = 0b10000000 | ( s & 0x3F );
             s = s >> 6;
@@ -275,17 +289,17 @@ void ShowSheme::Model_To_Emf ( double & L, double & T, double & R, double & B, C
             To[p++] = r1;
             To[p++] = r2;
             continue;
-            }
-          assert( 0 ); // больше 2-х не будем
-          }
-        To[p] = 0;
-        return p;
         }
-
-      void Test()
-      {
-      //QString Src = "ййиллquyt";
-      // char * pDest = NULL;
-      // std::u16string Q = Src.toStdU16String();
-      // size_t Res = UnicodeToUTF8( &pDest, Q, (size_t)Src.size());
+        assert( 0 ); // больше 2-х не будем
       }
+    To[p] = 0;
+    return p;
+  }
+
+  void Test()
+  {
+    //QString Src = "ййиллquyt";
+    // char * pDest = NULL;
+    // std::u16string Q = Src.toStdU16String();
+    // size_t Res = UnicodeToUTF8( &pDest, Q, (size_t)Src.size());
+  }

@@ -2,8 +2,11 @@
 #include "CommProc.h"
 #include "Err.h"
 #include <qdir.h>
-#include <QSharedMemory>
 #include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <stdio.h>
 
 char PROJECT[32];
 char EXE_PATH[1024];
@@ -77,16 +80,27 @@ void SetPaths()
   }
 
 #define MAX_MEM 500000000
-QSharedMemory mem("SysMem");
-QFile file ("/home/resh/tmp/SysMem.dat");
-
- BYTE * pMem = NULL;
- int PosMem = 0;
+//QSharedMemory mem("SysMem");
+//QFile file ("/home/resh/tmp/SysMem.dat");
+static BYTE * pMem = NULL;
+static int PosMem = 0;
 int MemUsed( )
  {
   return PosMem;
  }
 
+ // void * malloc(size_t size)
+ // {
+ //   return NewMem( size );
+ // }
+
+ // void free ( void * ptr )
+ // {
+
+ // }
+
+#include <QMutex>
+ QMutex M;
  void * NewMem( size_t size )
   {
    // int k = size;
@@ -94,29 +108,12 @@ int MemUsed( )
    // PosMem += size;
    // memset(pAddr,0,size);
    //return pAddr;
+  M.lock();
   if ( pMem == NULL )
     {
-#if 0
-    bool res = mem.create( MAX_MEM );
-    if ( !res )
-//       res = mem.attach();
-// //    QSharedMemory::SharedMemoryError err = mem.error();
-//     pMem = (BYTE*)mem.data();
-    if (!file.open(QIODevice::ReadWrite))
-      {
-      KKK();  //handle error
-      }
-#define MAX_BUF 10000
-    char Buf[MAX_BUF];
-      memset ( Buf, 0, MAX_BUF );
-    for ( int n = 0; n <= MAX_MEM; n += 10000 )
-      {
-        file.write ( Buf, MAX_BUF );
-      }
-    pMem = file.map(0, MAX_MEM, QFileDevice::NoOptions );
-    memset ( pMem, 0, MAX_MEM );
-#endif
-    pMem = new BYTE[MAX_MEM];
+    int fd = open ( "/home/resh/Platform/DATA/mem.dat", O_RDWR );
+    pMem = (BYTE*)mmap(0, MAX_MEM, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0 );
+    close ( fd );
     PosMem = 0;
     }
 //  assert(PosMem + size < MAX_MEM );
@@ -125,6 +122,7 @@ int MemUsed( )
   BYTE * Addr = pMem + PosMem;
   memset(Addr,0,size);
   PosMem += size;
+  M.unlock();
   return Addr;
   }
   const double MM = MAX_MEM;

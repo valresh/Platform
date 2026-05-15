@@ -31,6 +31,7 @@ struct SS
     tExtPaint pExtPaint;
     void * pSheme;
     class QPixmap * pixmap;
+    const char * NewPath;
     SS()
     {
       ScaleX= 1.;
@@ -41,6 +42,7 @@ struct SS
       Size = 0;
       pExtPaint = NULL;
       pSheme = NULL;
+      NewPath = NULL;
     }
 };
 

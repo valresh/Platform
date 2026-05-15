@@ -1,6 +1,0 @@
-﻿DOUBLE(RackettLiquidDensityA)
-DOUBLE(RackettLiquidDensityB)
-DOUBLE(RackettLiquidDensityN)
-DOUBLE(RackettLiquidDensityTc)
-DOUBLE(RackettLiquidDensityTmin)
-DOUBLE(RackettLiquidDensityTmax)

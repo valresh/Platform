@@ -1,6 +1,0 @@
-﻿DOUBLE(LiquidHeatCapacityA)
-DOUBLE(LiquidHeatCapacityB)
-DOUBLE(LiquidHeatCapacityC)
-DOUBLE(LiquidHeatCapacityD)
-DOUBLE(LiquidHeatCapacityTmin)
-DOUBLE(LiquidHeatCapacityTmax)

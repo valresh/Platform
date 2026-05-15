@@ -1,1 +1,0 @@
-Real(OP,"Output",-6.9)//Defines the output value from this point in percent

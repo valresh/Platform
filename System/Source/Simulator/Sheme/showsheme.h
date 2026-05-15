@@ -11,14 +11,14 @@
 #include "winlist.h"
 
 #define MAX_OBJ 10000
-#define MAX_NAME 64
 
 
 struct ObjCrd
 {
     double L,B,R,T;
-    char ObjName[MAX_NAME];
-    char GoTo[MAX_NAME];
+    CStr ObjName;
+    CStr GoTo;
+    IBaseModel * pObj;
 };
 
 class ShowSheme : public EMF, public WinList
@@ -33,8 +33,10 @@ class ShowSheme : public EMF, public WinList
     int kCrd;
     CDataPtr * pDataPtr;
     const char * Select;
+    QToolBar * toolbar;
 //    CStr ShemeName;
  ///
+    NEW
     explicit ShowSheme(QWidget *parent, const char * File, const char * Select );
 //    bool event (QEvent * event );
     void SetCrd( const char * crd );
@@ -59,8 +61,16 @@ class ShowSheme : public EMF, public WinList
     bool OnScheme (LPCTSTR ObjScheme);
   signals:
     void Closed( ShowSheme * I );
+    void on_Start();
   public slots:
 //    void Show ( const char * Sheme );
+      virtual void on_New_Shema_triggered();
+      virtual void on_Exit_triggered();
+      void tbPause();
+      void tbCont();
+      void tbSaveParams();
+      void tbSaveState();
+      void tbSaveAll();
 };
 void KKK();
 void P_to_P( SS * pSS, QPointF Pos, double & X, double & Y );

@@ -1,5 +1,0 @@
-﻿DOUBLE(EnthalpyOfVapourizationA)
-DOUBLE(EnthalpyOfVapourizationB)
-DOUBLE(EnthalpyOfVapourizationN)
-DOUBLE(EnthalpyOfVapourizationTmin)
-DOUBLE(EnthalpyOfVapourizationTmax)

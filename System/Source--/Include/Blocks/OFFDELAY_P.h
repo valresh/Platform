@@ -1,6 +1,0 @@
-String_K(NAME,"Имя",31*4)
-//String_K(BLCKCOMMENT1,"Block Comment 1",40*4)
-//Integer(CBBLOCKPROP,"Block Property",0)
-Integer(DELAYTIME,"Delay Time",0)
-//Integer(NUMBLOBS,"Number of Dynamic State Blobs",0)
-//String_K(QUALSTATE,"Qualification State",100*4)

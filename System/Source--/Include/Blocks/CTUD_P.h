@@ -1,6 +1,0 @@
-String_K(NAME,"Имя",32*4)
-String_K(DESC,"Description",132*4)
-String_K(EUDESC,"Engineering Units",24*4)
-Boolean(INCLAMPOPT,"Input Clamping Option",false)
-Boolean(SELINT32FL,"Input Selection Specifier",false)
-Enumeration(CNTEQN,"Counter Equation",Eq_A,Eq_B,Eq_C,Eq_D,Eq_E,Eq_F,Eq_G,Eq_H,Def=Eq_A)
