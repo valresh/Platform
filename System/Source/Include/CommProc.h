@@ -1152,6 +1152,11 @@ IN_DLL void GetRSUFilesList  ( int *kF, const char * pList[16] );
 IN_DLL void GetRSUModelsList  ( int *kF, const char * pList[256] );
 //IN_DLL void * malloc(size_t size);
 //IN_DLL void free ( void * ptr );
+#include <QClipboard>
+#include <QGuiApplication>
+
+IN_DLL void TxtToClp( char * Txt );
+IN_DLL void TxtFromClp( int MaxLen, char * Txt );
 
 
 

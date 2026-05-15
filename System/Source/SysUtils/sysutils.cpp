@@ -83,7 +83,7 @@ void SetPaths()
 //QSharedMemory mem("SysMem");
 //QFile file ("/home/resh/tmp/SysMem.dat");
 static BYTE * pMem = NULL;
-static int PosMem = 0;
+static int64_t PosMem = 0;
 int MemUsed( )
  {
   return PosMem;
@@ -117,6 +117,7 @@ int MemUsed( )
     PosMem = 0;
     }
 //  assert(PosMem + size < MAX_MEM );
+    PosMem = (( PosMem >> 4 ) + 1 ) << 4;
   if ( PosMem + size >= MAX_MEM )
     KKK();
   BYTE * Addr = pMem + PosMem;
@@ -1105,3 +1106,18 @@ int Split(
       fclose ( F );
       return kParams;
   };
+
+#include <QClipboard>
+#include <QGuiApplication>
+
+void TxtToClp( char * Txt )
+  {
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText( Txt );
+  }
+void TxtFromClp( int MaxLen, char * Txt )
+  {
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    QString S = clipboard->text( );
+    strcpy_s ( Txt, MaxLen, STR(S));
+  }

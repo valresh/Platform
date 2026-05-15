@@ -49,14 +49,6 @@ void minitrend::PreSave()
   P += sizeof (pDraw->Vars);
   memmove ( Params + P, &pDraw->kVars, sizeof (pDraw->kVars) );
   }
-void minitrend::AfterRestore( class MainWindow * pMainWnd )
-  {
-  // int P = 0;
-  // minidraw * pDraw = ui->Wnd;
-  // memmove ( pDraw->Vars, Params + P, sizeof (pDraw->Vars) );
-  // P += sizeof (pDraw->Vars);
-  // memmove ( &pDraw->kVars, Params + P, sizeof (pDraw->kVars) );
-  }
 /////////////////////////////////////////////////////////////////////////////
 minidraw::minidraw( QWidget * pMain ) : QWidget ( pMain )
   {
@@ -80,6 +72,16 @@ minidraw::minidraw( QWidget * pMain ) : QWidget ( pMain )
     CLEAR(Min)
     CLEAR(Max);
     Steps = 1;
+  }
+
+void minitrend::AfterRestore( class MainWindow * pMainWnd )
+  {
+//  bool Res = DB::
+    // int P = 0;
+    // minidraw * pDraw = ui->Wnd;
+    // memmove ( pDraw->Vars, Params + P, sizeof (pDraw->Vars) );
+    // P += sizeof (pDraw->Vars);
+    // memmove ( &pDraw->kVars, Params + P, sizeof (pDraw->kVars) );
   }
 
 void minidraw::MM( int N, double V0 )

@@ -1,4 +1,4 @@
-#include "showparams.h"
+#include "Sheme/showparams.h"
 #include "BaseModel.h"
 #include "Param.h"
 #include "Err.h"
@@ -10,6 +10,8 @@
 #include "list.h"
 #include "mainwindow.h"
 #include "qtrends.h"
+#include <QComboBox>
+
 
 bool ParamsListModel::NoRefresh = false;
 
@@ -129,6 +131,8 @@ QVariant ParamsListModel::data(const QModelIndex &index, int role) const
           return QString( N );
       }
       char Txt[256];
+      if ( pParams[r].pShowParam )
+        pParams[r].pShowParam->Show( &pParams[r] );
       pParams[r].Out(Txt);
       return QString ( Txt );
     case Qt::EditRole:
@@ -152,6 +156,10 @@ QVariant ParamsListModel::data(const QModelIndex &index, int role) const
       break;
     case Qt::ForegroundRole:
       {
+        if ( c == 0 && pParams[r].Type == 'L' )
+          {
+            return QColor( 0, 0, 255 );
+          }
         if ( c == 0 && pParams[r].ParamName[0] == '#' )
         {
           return QColor( 255, 0, 0 );
@@ -208,11 +216,64 @@ void ParamsList::show(CParams * _pParams, int _kParams)
 
 #include <QMenu>
 
+void ParamsList::mousePressEvent( QMouseEvent * e )
+{
+  QTableView::mousePressEvent( e );
+  Qt::MouseEventFlags flags = e->flags();
+  if ( flags & Qt::MouseEventCreatedDoubleClick )
+    {
+    return;
+    }
+  QModelIndex index = indexAt(e->pos());
+  if ( !index.isValid())
+    return;
+  qlonglong pp = index.data( Qt::UserRole).toLongLong();
+  CParams * pParam = (CParams *)pp;
+  if ( pParam == NULL )
+    return;
+  if ( pParam->Type != 'L' )
+    return;
+  QMenu menu;
+  QAction * actions[64];
+  char Txt[1024];
+  strcpy ( Txt, (char*)pParam->pDefValue );
+  char* P = Txt;
+  char* Pb = NULL;
+  char* Pe = NULL;
+  int n = 0;
+  int nSel = *(int*)pParam->Addr;
+  while ( 1 )
+    {
+    Pb = P;
+    char* Pn = strchr(P, ';');
+    Pe = Pn;
+    if ( Pn == NULL)
+      break;
+    *Pe = 0;
+    actions[n] = menu.addAction( P );
+    if ( n == nSel )
+      menu.setActiveAction( actions[n] );
+    n++;
+    P = Pn + 1;
+    }
+  QAction * sel = menu.exec( QCursor::pos());
+  if ( sel == NULL )
+    return;
+  for ( int i = 0; i < n; i++ )
+    {
+      if ( sel == actions[i] )
+      {
+        *(int*)pParam->Addr = i;
+        break;
+      }
+    }
+}
 
 #include <QContextMenuEvent>
 
 void ParamsList::contextMenuEvent(QContextMenuEvent *e)
   {
+  resizeRowsToContents();
   QModelIndex index = indexAt(e->pos());
   if ( !index.isValid())
     return;
@@ -220,9 +281,10 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
   CParams * pParam = (CParams *)pp;
   QMenu menu;
   QAction * actions[5];
-  actions[0] = menu.addAction("Ссылка");
-  actions[1] = menu.addAction("В тренд");
-  actions[2] = menu.addAction("В минитренд");
+  actions[0] = menu.addAction("Выдать ссылку");
+  actions[1] = menu.addAction("Вставить ссылку");
+  actions[2] = menu.addAction("В тренд");
+  actions[3] = menu.addAction("В минитренд");
   // Получаем индекс ячейки под курсором
   QAction* selectedAction = menu.exec(viewport()->mapToGlobal(e->pos()));
   int N = -1;
@@ -239,10 +301,20 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
     {
       case 0:
         {
-
+          Char<256>Txt;
+          Txt.Prt( "%s.%s", pParam->pModel->ObjName.Str, pParam->ParamName );
+          TxtToClp( Txt.Str );
         }
       break;
       case 1:
+        {
+          if ( pParam->Type == 'S')
+            {
+            TxtFromClp( pParam->Len, (char*)pParam->Addr );
+            }
+        }
+        break;
+      case 2:
         {
 //
         // QString Dir = PROJECT_ROOT;
@@ -305,7 +377,7 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
           }
         }
       break;
-      case 2:
+      case 3:
         {
           char Name[256];
           if ( pParam->pModel )

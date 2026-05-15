@@ -4,17 +4,43 @@
 #include "BaseModel.h"
 #include "Err.h"
 #include <QStandardItemModel>
+#include "DB.h"
+
+#define To_DB \
+DB::Set ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), static_cast<ShowParams_W*>(this));
+
+#define From_DB \
+{\
+    int L = 0;\
+    if ( DB::Get ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), L, static_cast<ShowParams_W*>(this)))\
+      {ASS(L == sizeof ( ShowParams_W ))}\
+}
 
 ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
   : QMainWindow(parent)
   , ui(new Ui::ShowParams)
 {
+  setWindowIcon( QIcon(":/book.png"));
   ui->setupUi(this);
+  ui->ParamList->pMain = this;
   pObj = _pObj;
   if ( pObj->bp )
-      ui->bp->setCheckState(Qt::Checked);
+    ui->bp->setCheckState(Qt::Checked);
   else
-      ui->bp->setCheckState(Qt::Unchecked);
+    ui->bp->setCheckState(Qt::Unchecked);
+  WinRect = geometry();
+  QByteArray w = ui->splitter->saveState();
+  w_split[0] = w[0];
+  w_split[1] = w[1];
+  cx_0 = ui->ParamList->columnWidth( 0 );
+  From_DB
+  setGeometry( WinRect );
+  QByteArray S;
+  S.append(w_split[0]);
+  S.append(w_split[1]);
+  ui->splitter->restoreState( S );
+  ui->ParamList->setColumnWidth( 0, cx_0 );
+//
   CLockParams Lock;
   pObj->GetParams( "" );
   kParams = CParams::kParams;
@@ -26,6 +52,7 @@ ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
   //ui->ParamList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch );
   //ui->ParamList->resizeColumnToContents( 1 );
   ui->ParamList->resizeRowsToContents();
+//  ui->ParamList->setSectionResizeMode(QHeaderView::ResizeToContents);
   Sign = 0;
   KKK();
 }
@@ -43,27 +70,41 @@ void ParamsTree::Init ( int _kParams, CParams * _pParams, char * ObjName )
   pH->hide();
   kParams = _kParams;
   pParams = _pParams;
-  QStandardItem * pItems[10];
+  QStandardItem * pItems[16];
   int Level = 0;
   pRoot = new QStandardItemModel();
   QStandardItem * parentItem = pRoot->invisibleRootItem();
   //  pItems[0] = NULL;
   pItems[Level] = parentItem;
   for ( int n = 0; n < kParams; n++ )
-  {
+    {
     CParams & P = pParams[n];
     if ( P.Type == 'T' )
-    {
+      {
       QStandardItem * pTab = new QStandardItem( P.ParamName ) ;
       pTab->setData( n );
       pItems[Level]->appendRow( pTab );
+      QModelIndex ind = pTab->index();
+      if ( P.ParamName[0] )
+        {
+        if (*(int*)P.Addr )
+          expand( ind );
+        else
+          collapse( ind );
+        }
+      else
+        KKK();
       Level++;
+      if ( Level > 15 )
+          Level = 15;
       pItems[Level] = pTab;
       continue;
-    }
+      }
     if ( P.Type == 'E' )
     {
       Level--;
+      if ( Level < 0 )
+          Level = 0;
     }
   }
   //  pRoot = new QStandardItemModel();
@@ -196,5 +237,77 @@ void ShowParams::on_Change( double Delta )
   void ShowParams::on_bp_checkStateChanged(const Qt::CheckState &arg1)
   {
       pObj->bp = ui->bp->isChecked();
+  }
+
+#include <SetDataTypes.h>
+
+void ShowParams::on_Step1_clicked()
+  {
+  pObj->SetData( sd_PipeState, NULL );
+  }
+
+  void ShowParams::resizeEvent(QResizeEvent *event)
+  {
+    WinRect = geometry();
+    To_DB
+  }
+  void ShowParams::moveEvent(QMoveEvent *event)
+  {
+    WinRect = geometry();
+    To_DB
+  }
+
+
+void ParamsList::sectionResized( int logicalIndex, int oldSize, int newSize )
+  {
+  resizeRowsToContents();
+  if ( logicalIndex == 0 )
+    {
+      pMain->cx_0 = newSize;
+      pMain->SaveToDB();
+    }
+  }
+
+ParamsList::ParamsList(QWidget * Parent ) : QTableView ( Parent )
+  {
+    pParams = NULL;
+    kParams = 0;
+    QHeaderView * headerV =  verticalHeader();
+    QHeaderView * headerH =  horizontalHeader();
+    connect( headerH, &QHeaderView::sectionResized, this, &ParamsList::sectionResized);
+    headerV->setVisible(false);
+    Model.pTable = this;
+    setModel( &Model );
+    setEditTriggers(QAbstractItemView::DoubleClicked);
+  }
+
+void ShowParams::on_splitter_splitterMoved(int pos, int index)
+  {
+  QByteArray w = ui->splitter->saveState();
+  w_split[0] = w[0];
+  w_split[1] = w[1];
+  To_DB
+  }
+
+void ShowParams::SaveToDB()
+  {
+  To_DB
+  }
+
+void ShowParams::on_ParamTree_collapsed(const QModelIndex &index)
+  {
+  QVariant N = ui->ParamTree->pRoot->data( index, Qt::UserRole + 1 );
+  int n = N.toInt() + 1;
+  CParams & P = pParams[n];
+  *(int*)P.Addr = 0;
+  }
+
+
+void ShowParams::on_ParamTree_expanded(const QModelIndex &index)
+  {
+  QVariant N = ui->ParamTree->pRoot->data( index, Qt::UserRole + 1 );
+  int n = N.toInt() + 1;
+  CParams & P = pParams[n];
+  *(int*)P.Addr = 1;
   }
 
