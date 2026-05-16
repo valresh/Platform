@@ -70,6 +70,7 @@ TrendsVarModel::TrendsVarModel(QObject *parent)
 
 void TrendsVarModel::timerHit()
   {
+  return;
   if ( !IsData )
     return;
   if ( NoRefresh )

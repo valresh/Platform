@@ -874,8 +874,8 @@ bool EmfParser::readRecord( QDataStream &stream )
 		size -= 8;
 
 		// The only difference between ExtTextOutA and ...W is that A uses 8 bit chars and W uses 16 bit chars.
-		EmrTextObject emrText(stream, size, (type == EMR_EXTTEXTOUTA) ? EmrTextObject::EightBitChars : EmrTextObject::SixteenBitChars);
-		mOutput->extTextOut(bounds, emrText);
+    EmrTextObject emrText(stream, size, (type == EMR_EXTTEXTOUTA) ? EmrTextObject::EightBitChars : EmrTextObject::SixteenBitChars);
+    mOutput->extTextOut(bounds, emrText);
 	}
 	break;
 	case EMR_SETLAYOUT:

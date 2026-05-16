@@ -134,11 +134,12 @@ int MemUsed( )
 
 #include <QRandomGenerator>
 
-  double r01()
+double r01()
   {
-    QRandomGenerator qr;
-    double r = qr.generateDouble();
-    return r;
+    // QRandomGenerator qr;
+    // double r = qr.generateDouble();
+    // return r;
+    return 0.5;
   }
 
   int CharToUTF8( char * To, int MaxTo, char * From, bool Sign )

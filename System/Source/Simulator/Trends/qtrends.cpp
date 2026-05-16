@@ -11,9 +11,10 @@
 
 QTrends::QTrends(QWidget *parent, const char * FileTrend )
   : QMainWindow(parent)
-  , ListVar (this )
-  , ui(new Ui::QTrends)
+//  , ListVar (this )
   {
+  IsReady = false;
+  ui = new Ui::QTrends();
   ui->setupUi(this);
   Type = Trend;
   ui->Wnd->ShowSteps = true;
@@ -102,6 +103,7 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   // fileMenu->addSeparator();
   // fileMenu->addAction(openAct);
 //
+  IsReady = true;
   }
 
 bool QTrends::AddTrend( const char * Name, char Type, void * pVar )
@@ -135,12 +137,14 @@ QTrends::~QTrends()
 
 void QTrends::updateTime()
 {
+  if ( !IsReady )
+      return;
   ui->Wnd->repaint();
-  ListVar.Model.timerHit();
-  if ( ui->Wnd->Pause )
-    ui->Pause->setStyleSheet("QPushButton { background-color: #FF0000; } " );
-  else
-    ui->Pause->setStyleSheet("QPushButton { background-color: #F0F0F0; } " );
+  //ListVar.Model.timerHit();
+  // if ( ui->Wnd->Pause )
+  //   ui->Pause->setStyleSheet("QPushButton { background-color: #FF0000; } " );
+  // else
+  //   ui->Pause->setStyleSheet("QPushButton { background-color: #F0F0F0; } " );
 }
 void QTrends::resizeEvent(QResizeEvent *event)
 {
@@ -159,8 +163,8 @@ void QTrends::closeEvent(QCloseEvent * event)
 
 void QTrends::on_ShowVars_clicked()
 {
-  ListVar.setWindowTitle( Name.Str );
-  ListVar.show( ui->Wnd->Vars, ui->Wnd->kVar );
+//??  ListVar.setWindowTitle( Name.Str );
+//??  ListVar.show( ui->Wnd->Vars, ui->Wnd->kVar );
 }
 
 void QTrends::on_Back_clicked()

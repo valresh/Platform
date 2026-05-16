@@ -63,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent)
       Max_N_cpu = 0;
       Step_cpu = 0;
       setWindowIcon( QIcon(":/monitor.png"));
-//      setWindowIcon( QIcon("monitor.png"));
       ProcInfo();
       ui->setupUi(this);
       Msgs.Add("#Старт");
@@ -75,8 +74,6 @@ MainWindow::MainWindow(QWidget *parent)
       ui->ParamsWrite->setText( DB::GetChar( "Система", "Запись параметров", "T" ));
 //      ui->StepStop->setText( DB::GetChar( "Система", "Шаг останова", "0" ));
       ObjectLoaded = false;
-//      DB::Set( DB::_("Система", "Чтение параметров"), "T" );
-//      const char * R = DB::GetChar( DB::_("Система", "Чтение параметров"), "UUUUUUUU" );
       SetPaths();
       listshem.SetList( PROJECT_ROOT );
       listtrends.SetList( PROJECT_ROOT );
@@ -103,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
       set_thread_affinity( 0 );
       time = QTime::currentTime();
       //        on_Start_clicked();
-    }
+      }
     catch ( const char * error )
     {
         KKK();
@@ -150,9 +147,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
   QMainWindow::closeEvent(event);
   QApplication::exit( 0 );
 }
+extern char TrendsName[256];
 
 void MainWindow::updateTime()
 {
+    if ( TrendsName[0])
+    {
+    ShowTrend ( TrendsName );
+    }
     // for ( int n = 0; n < kSH; n++ )
     // {
     //   pSHm[n]->updateTime();
@@ -297,12 +299,17 @@ void MainWindow::Show_Sheme  ( const char * Sheme,  const char * Selected  )
     // pSH->loadEmfFile(QString(Path));
 }
 
+#include "wtrends.h"
+
 void MainWindow::ShowTrend ( const char * Trend )
 {
   if ( !ObjectLoaded )
       return;
-  QTrends * pT = new QTrends ( NULL, Trend );
-  pT->show();
+   QTrends * pT = new QTrends ( NULL, Trend );
+   pT->show();
+//   WTrends * pT = new WTrends ( Trend );
+//   pT->show();
+  TrendsName[0] = 0;
 }
 
 void MainWindow::start()
@@ -559,4 +566,10 @@ void MainWindow::on_RSU_clicked()
 //   QCoreApplication::exit(0);
 
 // }
+
+
+void MainWindow::on_Stop_clicked()
+{
+  QApplication::exit( 0 );
+}
 

@@ -73,6 +73,8 @@ class MainWindow : public QMainWindow
   bool TS();
  //
   QTime time;
+  void ShowTrend ( const char * Trend );
+  void updateTime();
   signals:
     void SetAccel ( double Accel );
   private slots:
@@ -103,14 +105,14 @@ class MainWindow : public QMainWindow
 
     void on_RSU_clicked();
 
+    void on_Stop_clicked();
+
 public slots:
-    void updateTime();
     void on_Start_clicked();
     void started();
     void stopped();
     void loaded();
     void Show_Sheme ( const char * Sheme,  const char * Selected );
-    void ShowTrend ( const char * Trend );
     void ClosedShema( ShowSheme * I );
     void OutTxt( const char * Txt );
 //    void OutMsg( const char * Title, const char * Txt, QMessageBox::StandardButtons flags, QMessageBox::StandardButton def, int * Res );

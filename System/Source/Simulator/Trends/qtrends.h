@@ -36,6 +36,7 @@ class QTrends : public QMainWindow, public WinList, public QTrends_W
     NEW
     TrendsVar ListVar;
     CStr Name;
+    bool IsReady;
   private:
     Ui::QTrends *ui;
   public slots:

@@ -41,7 +41,8 @@ SOURCES += \
     qlistliewmouse.cpp \
     qtableviewmouse.cpp \
     showrsu.cpp \
-    winlist.cpp
+    winlist.cpp \
+  wtrends.cpp
 
 HEADERS += \
     ../../Include/dialcolor.h \
@@ -74,7 +75,8 @@ HEADERS += \
     paramstree.h \
     qlistliewmouse.h \
     qtableviewmouse.h \
-    showrsu.h
+    showrsu.h \
+  wtrends.h
 
 FORMS += \
     Msg/msglist.ui \
@@ -89,7 +91,8 @@ FORMS += \
     list.ui \
     listtrends.ui \
     mainwindow.ui \
-  showrsu.ui
+  showrsu.ui \
+  wtrends.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

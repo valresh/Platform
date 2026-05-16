@@ -52,7 +52,6 @@ class ShowTrends : public QWidget
     NEW
 //
     explicit ShowTrends(QWidget *parent = nullptr);
-    void paintEvent( QPaintEvent *event );
     void SetLimits( int nVar );
     void OnRbuttonDown(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event) override;
@@ -61,6 +60,7 @@ class ShowTrends : public QWidget
     void mouseMoveEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     signals:
+    virtual void paintEvent( QPaintEvent *event );
 };
 
 #endif // SHOWTRENDS_H

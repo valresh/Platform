@@ -62,6 +62,9 @@ int main(int argc, char *argv[])
       void * addr = NewMem ( 5 );
       addr = NewMem ( 5 );
       KKK();
+      // int Res = mallopt(M_ARENA_MAX, 200);
+      // Res = mallopt(M_TRIM_THRESHOLD, -1);
+      // Res = mallopt(M_CHECK_ACTION,7);
 //  ptrace(PTRACE_TRACEME, getpid(), 0, 0);
 //  DB::Test( );
 //  uint customStackSize = 4 * 1024 * 1024;

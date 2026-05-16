@@ -1139,15 +1139,16 @@ void QEmfRenderer::extTextOut( const QRect &bounds, const EmrTextObject &textObj
 	// Use the special pen defined by mTextPen for text.
 	QPen savePen = m_painter->pen();
 	m_painter->setPen(m_textPen);
-	if (m_textRotation != .0){
-		m_painter->setWorldTransform(m_outputTransform);
-		m_painter->translate(referencePoint.x(), referencePoint.y());
-		m_painter->rotate(m_textRotation);
-		if (scaleX < qreal(1.0))
-			m_painter->scale((1.0 - scaleX), 1.0);
-		m_painter->drawText(0, 0, text);
-	} else
-		m_painter->drawText(int(x / scaleX), int(y / scaleY), textWidth, textHeight, Qt::AlignLeft | Qt::AlignTop, text);
+//
+  if (m_textRotation != .0){
+    m_painter->setWorldTransform(m_outputTransform);
+    m_painter->translate(referencePoint.x(), referencePoint.y());
+    m_painter->rotate(m_textRotation);
+    if (scaleX < qreal(1.0))
+      m_painter->scale((1.0 - scaleX), 1.0);
+    m_painter->drawText(0, 0, text);
+  } else
+    m_painter->drawText(int(x / scaleX), int(y / scaleY), textWidth, textHeight, Qt::AlignLeft | Qt::AlignTop, text);
 	m_painter->setPen(savePen);
 
 	m_painter->restore();

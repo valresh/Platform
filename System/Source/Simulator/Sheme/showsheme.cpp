@@ -349,7 +349,8 @@ void ShowSheme::mouseMoveEvent(QMouseEvent *event)
         ss.ShiftX += Pos.x() - PosDrug.x();
         ss.ShiftY += Pos.y() - PosDrug.y();
         PosDrug = Pos;
-        renderEmf(&ss,QString(""));
+        repaint();
+//##        renderEmf(&ss,QString(""));
     }
     IBaseModel * pShemaObj[16];
     int k = Find_Object( event->scenePosition(), pShemaObj );
@@ -370,16 +371,18 @@ void ShowSheme::wheelEvent(QWheelEvent *event)
     ss.pSheme = this;
     ss.ScaleX *= 1. + k * Pnt.y();
     ss.ScaleY *= 1. + k * Pnt.y();
-    renderEmf(&ss,QString(""));
+    repaint();
+//##    renderEmf(&ss,QString(""));
 }
 
 void ShowSheme::ShowSheme::updateTime()
 {
     ss.pSheme = this;
     ss.pExtPaint = ExtPaint;
+    repaint();
     //  m_imageLabel->update();
     //  m_imageLabel->repaint();
-    renderEmf(&ss,QString(""));
+//##    renderEmf(&ss,QString(""));
     Char<128>Txt;
     Txt.Prt ( "%d", pSys->m_nStep );
     statusBar()->showMessage( Txt.Str );
@@ -409,7 +412,9 @@ void ShowSheme::keyPressEvent ( QKeyEvent * event )
             ss.pExtPaint = ExtPaint;
             ss.ScaleX *= 1.1;
             ss.ScaleY *= 1.1;
-            renderEmf(&ss,QString(""));
+            repaint();
+
+//##            renderEmf(&ss,QString(""));
         }
         break;
     case 45: //-
@@ -420,7 +425,9 @@ void ShowSheme::keyPressEvent ( QKeyEvent * event )
             ss.pExtPaint = ExtPaint;
             ss.ScaleX *= 0.9;
             ss.ScaleY *= 0.9;
-            renderEmf(&ss,QString(""));
+            repaint();
+
+//##            renderEmf(&ss,QString(""));
         }
         break;
     case 16: //home
@@ -428,7 +435,8 @@ void ShowSheme::keyPressEvent ( QKeyEvent * event )
         ss.ScaleY = 1.;
         ss.ShiftX = 0.;
         ss.ShiftY = 0.;
-        renderEmf(&ss,QString(""));
+        repaint();
+//##        renderEmf(&ss,QString(""));
         break;
     case 49: // 1
         SpecKey ( key );
@@ -469,7 +477,10 @@ void ShowSheme::keyPressEvent ( QKeyEvent * event )
         break;
     }
     if ( pMainWnd->TS())
-        renderEmf(&ss,QString(""));
+    {
+      repaint();
+//##        renderEmf(&ss,QString(""));
+    }
 
     //  char Txt[128];
     //  sprintf ( Txt, "%d", key);
@@ -523,8 +534,12 @@ void ShowSheme::SetCrd( const char * _crd )
     pCrd = new ObjCrd[nObj];
     memmove ( pCrd, Crd, nObj * sizeof ( ObjCrd ));
 }
+
 void ShowSheme::paintEvent(QPaintEvent *event)
 {
+  ss.pSheme = this;
+  ss.pExtPaint = ExtPaint;
+  renderEmf(&ss,QString(""));
 }
 
 

@@ -125,7 +125,8 @@ bool EMF::renderEmf( struct SS * pSS, const QString &filePath)
     pSS->pixmap = pMap;
     pixmap.fill(Qt::white);
 
-    QPainter painter(&pixmap);
+    static QPainter painter;//(&pixmap);
+    painter.begin(&pixmap);
     QBrush br(QColor( 0,0,0 ));
     painter.setBrush(br);// setBackground( br );
     painter.drawRect( 0, 0, targetSize.width(), targetSize.height() );
@@ -137,6 +138,7 @@ bool EMF::renderEmf( struct SS * pSS, const QString &filePath)
     if (!renderer.load( pSS,filePath)) {
         return false;
     }
+    painter.end();
 //##
 /*
     double L = 681 + 200;

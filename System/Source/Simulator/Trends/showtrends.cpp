@@ -51,6 +51,7 @@ void ShowTrends::SetLimits( int nVar )
 
 void ShowTrends::paintEvent( QPaintEvent *event )
 {
+//  return;
   const int dY_bott = 20;
   const int dX_left = 40;
   QPainter P(this );
@@ -79,6 +80,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     Alfa += 0.1;
     P.drawLine( x, 0,  x, nHeight );
   }
+//  return;
 ////////////////////////////////////////////
   if ( SetShift == -2 )
     {
@@ -104,10 +106,10 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     Shift = 0;
   if ( !Pause )
     StartPos = Trends.PosRecords;
-  double m = mT->sliderPosition() * 0.001;
+  double m = 1.;//mT->sliderPosition() * 0.001;
   const double Tmax = log( 100. );
   const double Tmin = log( 1. );
-  double K = exp ( Tmax + m * ( Tmin - Tmax ));
+  double K = 1.;//exp ( Tmax + m * ( Tmin - Tmax ));
   Steps = K;
   if ( Steps < 1 )
     Steps = 1;
@@ -121,7 +123,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     {
     Sprintf ( Txt, "%3.1lfмин", nWidth / ( 60. * Mtime ));
     }
-  step->setText( Txt );
+//@@  step->setText( Txt );
   int nStart = StartPos - Shift;
   Record & R = Trends.pRecords[nStart];
   double TimeMax = R.Time;
@@ -141,6 +143,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     int w = nStart / Steps;
     if ( w > nWidth || !ShowSteps )
       w = nWidth;
+    ShowSteps = true;
     int po = -1;
     for ( int p = w - 1; p >= 0; p-- )
       {
@@ -238,19 +241,19 @@ void ShowTrends::paintEvent( QPaintEvent *event )
       }
     KKK();
     }
-  if ( nSelected >= 0 )
-    {
-        int nStart = StartPos;
-        Record & R = Trends.pRecords[nStart];
-        int nV = Vars[nSelected].Trend_ID;
-        double V = R.Vars[nV];
-        char Txt[256];
-        OutDI( &V, 'D', Txt );
-        SelValue->setText(Txt);
-        SelVar->setText(Vars[nSelected].Name.Str);
-    }
-  else
-      SelVar->setText("");
+  // if ( nSelected >= 0 )
+  //   {
+  //       int nStart = StartPos;
+  //       Record & R = Trends.pRecords[nStart];
+  //       int nV = Vars[nSelected].Trend_ID;
+  //       double V = R.Vars[nV];
+  //       char Txt[256];
+  //       OutDI( &V, 'D', Txt );
+  //       SelValue->setText(Txt);
+  //       SelVar->setText(Vars[nSelected].Name.Str);
+  //   }
+  // else
+  //     SelVar->setText("");
   pntMouse.setX( -100 );
   pntMouse.setY( -100 );
   if ( PressMouse )

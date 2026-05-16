@@ -47,6 +47,7 @@ void ListTrends::SetList( char * Root )
 //{
 //  return QListView::selectedIndexes();
 //}
+char TrendsName[256];
 
 void ListTrends::on_buttonBox_accepted()
 {
@@ -57,8 +58,8 @@ void ListTrends::on_buttonBox_accepted()
     {
       QString itemText = Ind.data(Qt::DisplayRole).toString();
       static char Name[256];
-      strcpy ( Name, STR(itemText));
-      emit ShowTrend ( Name );
+      strcpy ( TrendsName, STR(itemText));
+//      emit ShowTrend ( Name );
     }
   }
   ui->List->clearSelection();
