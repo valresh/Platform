@@ -15,6 +15,8 @@ TrendVarProp::~TrendVarProp()
   delete ui;
 }
 
+void OutDI( double V, char Txt[256]);
+
 bool TrendVarProp::Dial( TrendVar * pVar )
   {
   char V[256];
@@ -32,11 +34,11 @@ bool TrendVarProp::Dial( TrendVar * pVar )
     ui->Param->setText( "" );
     }
   char Txt[256];
-  OutDI( &pVar->Max, 'D', Txt );
+  OutDI( pVar->Max, Txt );
   ui->Max->setText( Txt );
-  OutDI( &pVar->Min, 'D', Txt );
+  OutDI( pVar->Min, Txt );
   ui->Min->setText( Txt );
-  OutDI( &pVar->Nom, 'D', Txt );
+  OutDI( pVar->Nom, Txt );
   ui->Nom->setText( Txt );
 //  ui->color->color = pVar->color;
   exec();

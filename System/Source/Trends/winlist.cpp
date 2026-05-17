@@ -132,3 +132,7 @@ void WinList::Restore( class MainWindow * pMainWnd )
     }
   }
 
+void WinList::save( )
+  {
+  }
+

@@ -16,14 +16,14 @@
 struct TrendVar
 {
     CStr Name;
-    double Min, Max, Nom;
+    double Min, Max, Nom, Value;
     int Pres;
     QColor color;
     void * Addr;
     int Trend_ID;
     bool UseNom;
     char Type;
-    bool Out( char Txt[256]);
+    void Out( char Txt[256]);
 };
 
 class ShowTrends : public QWidget

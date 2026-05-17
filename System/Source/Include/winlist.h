@@ -6,7 +6,13 @@
 
 #define WINLIST_PARAMS 128
 
-class WinList
+struct WinList_W
+{
+  QRect WinRect;
+  BYTE Params[WINLIST_PARAMS];
+};
+
+class WinList : public WinList_W
 {
   public:
   static WinList * pFirst;
@@ -16,8 +22,6 @@ class WinList
   CStr FileName;
   enum Types{Shema, Trend, MiniTrend };
   Types Type;
-  QRect WinRect;
-  BYTE Params[WINLIST_PARAMS];
 //
   WinList();
   virtual void updateTime() = 0;
@@ -29,6 +33,7 @@ class WinList
   static void Restore(class MainWindow * pMainWnd);
   void Close();
   void Save( QFile * pF );
+  void save( );
 };
 
 #endif // WINLIST_H

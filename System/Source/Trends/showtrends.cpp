@@ -3,6 +3,7 @@
 #include "Err.h"
 #include <QMenu>
 #include "trendsvar.h"
+void OutDI( double V, char Txt[256]);
 
 ShowTrends::ShowTrends(QWidget *parent)
   : QWidget{parent}, VarProp(this)
@@ -69,6 +70,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   PenRamk.setWidth( 1 );
   PenRamk.setColor(RGB ( 0, 92, 0 ));
   P.setPen( PenRamk );
+  P.drawLine( xShow, 0,  xShow, nHeight );
   double Alfa = 0.1;
   for ( int n = 0; n < 9; n++ )
   {
@@ -84,6 +86,9 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     Alfa += 0.1;
     P.drawLine( x, 0,  x, nHeight );
   }
+  PenRamk.setStyle( Qt::SolidLine);
+  PenRamk.setColor(RGB ( 255, 255, 255 ));
+  P.setPen( PenRamk );
   P.drawLine( xShow, 0,  xShow, nHeight );
 //  return;
 ////////////////////////////////////////////
@@ -190,16 +195,15 @@ void ShowTrends::paintEvent( QPaintEvent *event )
           }
         }
       double AlfaY = ( Vars[nV].Max - V0 ) / ( Vars[nV].Max- Vars[nV].Min);
-      if ( x == xShow )
-        {
-          Vars[nV].Value = V0;
-        }
-      }
       int x;
       if ( ShowSteps )
         x = p + dX_left;
       else
         x = w - ( TimeMax - LastTime ) * Mtime + dX_left;
+      if ( x == xShow )
+        {
+          Vars[nV].Value = V0;
+        }
       nVar[x] = nStart + 1;
       if ( x < dX_left )
         break;
@@ -346,12 +350,12 @@ void ShowTrends::mousePressEvent(QMouseEvent *event)
         {
         Record & R = Trends.R(N);
         int ID = Vars[nSelected].Trend_ID;
-         double V = R.Vars[ID];
+        double V = R.Vars[ID];
         char Txt[256];
-        OutDI( &V, 'D', Txt);
+        OutDI( V, Txt);
         QToolTip::showText(mapToGlobal(event->pos()),Txt);
         }
-        }
+      }
     }
   if (event->button() == Qt::RightButton)
     {

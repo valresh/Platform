@@ -29,6 +29,18 @@ void MainTrends::updateTime()
   WinList::UpdateAllTime();
   }
 
+void MainTrends::resizeEvent(QResizeEvent *event)
+  {
+  WinRect = geometry();
+  save();
+  }
+
+void MainTrends::moveEvent(QMoveEvent *event)
+  {
+  WinRect = geometry();
+  save();
+  }
+
 void MainTrends::on_Open_clicked()
 {
   QModelIndexList Sel = ui->listTrends->selectedIndexes();

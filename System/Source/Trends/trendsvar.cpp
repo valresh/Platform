@@ -260,10 +260,11 @@ QVariant TrendsVarModel::data(const QModelIndex &index, int role) const
 //       break;
 //   }
 // }
+void OutDI( double V, char Txt[256]);
 
-bool TrendVar::Out(char Txt[256])
+void TrendVar::Out(char Txt[256])
   {
-  return OutDI( Addr, Type, Txt );
+  OutDI( Value, Txt );
   }
 
 void TrendsVar::on_Wnd_clicked(const QModelIndex &index)

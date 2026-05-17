@@ -868,80 +868,60 @@ void ProcessData::SetCPU( int n0, int n1, int n2 )
   // KKK();
   };
 
-bool OutDI( void * Addr, char Type, char Txt[256])
+void OutDI( double V, char Txt[256])
   {
-    if (Addr < (void*)0x1000)
-    {
-      strcpy(Txt, "????");
-      return false;
-    }
-    switch (Type)
-    {
-      case 'D':
-        {
-          double V = *(double*)Addr;
-          if (!finite(V))
-          {
-            strcpy(Txt, "#");
-            break;
-          }
-          if (V > 1e10)
-          {
-            strcpy(Txt, ">");
-            break;
-          }
-          if (V < -1e10)
-          {
-            strcpy(Txt, "<");
-            break;
-          }
-          if (V == 0.)
-            strcpy(Txt, "0");
+  if (!finite(V))
+  {
+    strcpy(Txt, "#");
+    return;
+  }
+  if (V > 1e10)
+  {
+    strcpy(Txt, ">");
+    return;
+  }
+  if (V < -1e10)
+  {
+    strcpy(Txt, "<");
+    return;
+  }
+  if (V == 0.)
+    strcpy(Txt, "0");
+  else
+    if (fabs(V) < 1e-5)
+      snprintf(Txt, 128, "%13.5le", V);
+    else
+      if (fabs(V) < 1e-4)
+        snprintf(Txt, 128, "%11.9lf", V);
+      else
+        if (fabs(V) < 1e-3)
+          snprintf(Txt, 128, "%10.8lf", V);
+        else
+          if (fabs(V) < 1e-2)
+            snprintf(Txt, 128, "%9.7lf", V);
           else
-            if (fabs(V) < 1e-5)
-              snprintf(Txt, 128, "%13.5le", V);
+            if (fabs(V) < 1e-1)
+              snprintf(Txt, 128, "%8.6lf", V);
             else
-              if (fabs(V) < 1e-4)
-                snprintf(Txt, 128, "%11.9lf", V);
+              if (fabs(V) < 1.)
+                snprintf(Txt, 128, "%7.5lf", V);
               else
-                if (fabs(V) < 1e-3)
-                  snprintf(Txt, 128, "%10.8lf", V);
+                if (fabs(V) < 10.)
+                  snprintf(Txt, 128, "%6.4lf", V);
                 else
-                  if (fabs(V) < 1e-2)
-                    snprintf(Txt, 128, "%9.7lf", V);
+                  if (fabs(V) < 100.)
+                    snprintf(Txt, 128, "%5.3lf", V);
                   else
-                    if (fabs(V) < 1e-1)
-                      snprintf(Txt, 128, "%8.6lf", V);
+                    if (fabs(V) < 1000.)
+                      snprintf(Txt, 128, "%5.2lf", V);
                     else
-                      if (fabs(V) < 1.)
-                        snprintf(Txt, 128, "%7.5lf", V);
+                      if (fabs(V) < 10000.)
+                        snprintf(Txt, 128, "%5.1lf", V);
                       else
-                        if (fabs(V) < 10.)
-                          snprintf(Txt, 128, "%6.4lf", V);
+                        if (fabs(V) > 10000000.)
+                          snprintf(Txt, 128, "%e", V);
                         else
-                          if (fabs(V) < 100.)
-                            snprintf(Txt, 128, "%5.3lf", V);
-                          else
-                            if (fabs(V) < 1000.)
-                              snprintf(Txt, 128, "%5.2lf", V);
-                            else
-                              if (fabs(V) < 10000.)
-                                snprintf(Txt, 128, "%5.1lf", V);
-                              else
-                                if (fabs(V) > 10000000.)
-                                  snprintf(Txt, 128, "%e", V);
-                                else
-                                  snprintf(Txt, 128, "%5.0lf", V);
-        }
-        break;
-        break;
-      case 'I':
-        {
-          int V = *(int*)Addr;
-          snprintf(Txt, 128, "%d", V);
-        }
-        break;
-    }
+                          snprintf(Txt, 128, "%5.0lf", V);
   }
 
   int Skip( char * Txt )
