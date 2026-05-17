@@ -16,8 +16,8 @@ class INDLL DialColor : public QWidget
   public:
     QColor color;
     explicit DialColor( QWidget *parent = nullptr);
-    void mousePressEvent(QMouseEvent *event);
-    void paintEvent(QPaintEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
   signals:
 };
 

@@ -182,7 +182,7 @@ void WTrends::paintEvent( QPaintEvent *event )
     if ( Shift < 0 )
       Shift = 0;
   if ( !Pause )
-      StartPos = Trends.PosRecords;
+      StartPos = Trends.pHead->PosRecords % MAX_STEP;
   double m = 1.;//mT->sliderPosition() * 0.001;
   const double Tmax = log( 100. );
   const double Tmin = log( 1. );
@@ -202,7 +202,7 @@ void WTrends::paintEvent( QPaintEvent *event )
     }
   //@@  step->setText( Txt );
   int nStart = StartPos - Shift;
-  Record & R = Trends.pRecords[nStart];
+  Record & R = Trends.R(nStart);
   double TimeMax = R.Time;
   bool ValidPnt = false;
   int NextLab = 0;
@@ -233,7 +233,7 @@ void WTrends::paintEvent( QPaintEvent *event )
       int LastStep = 0;
         for ( int j = 0; j < Steps; j++ )
         {
-          Record & R = Trends.pRecords[nStart--];
+          Record & R = Trends.R(nStart--);
           LastTime = R.Time;
           LastStep = R.Step;
           double V = R.Vars[N];

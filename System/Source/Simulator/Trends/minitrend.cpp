@@ -37,7 +37,7 @@ bool minitrend::AddVar( int N )
   if ( pDraw->kVars >= MAX_VAR )
     return false;
   pDraw->Vars[pDraw->kVars++] = N;
-  ui->VarList->addItem( Trends.Items[N].Name.Str );
+  ui->VarList->addItem( Trends.pHead->Items[N].Name );
   return true;
   }
 
@@ -179,7 +179,7 @@ void minidraw::paintEvent( QPaintEvent *event )
   if ( Shift < 0 )
     Shift = 0;
   if ( !Pause )
-    StartPos = Trends.PosRecords;
+    StartPos = Trends.pHead->PosRecords % MAX_STEP;
   int xo = -1, yo = -1;
   for ( int nV = 0; nV < kVars;  nV++ )
     {
@@ -195,7 +195,7 @@ void minidraw::paintEvent( QPaintEvent *event )
       int K = 0;
       for ( int j = 0; j < Steps; j++ )
         {
-        Record & R = Trends.pRecords[nStart--];
+        Record & R = Trends.R(nStart--);
         double V = R.Vars[N];
         V0 += V;
         K++;

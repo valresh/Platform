@@ -2,21 +2,49 @@
 #include "SysDataTypes.h"
 #include "Err.h"
 #include <QDir>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <stdio.h>
+
+#define INIT_TREND
 
 CTrends Trends;
-
-#define MAX_VARS 64
-#define MAX_STEP 100000
-
+bool CTrends::WasOpen = false;
+Record * CTrends::pRecs = NULL;
 
 CTrends::CTrends()
   {
-  pRecords = NewArr ( Record, MAX_STEP );
-  PosRecords = -1;
-  kRecords = 0;
-//
-  kItems = 0;
-  WasOpen = false;
+    int fd = open ( "/home/resh/Platform/DATA/trends.dat", O_RDWR );
+#ifdef INIT_TREND
+    Record Buf[MAX_STEP/1000];
+    BYTE Head[sizeof(TrendsHead)];
+    CLEAR(Buf)
+    CLEAR(Head)
+    write ( fd, Head, sizeof ( Head ) );
+    for ( int n = 0; n < 1000; n++ )
+      write ( fd, Buf, sizeof ( Buf ) );
+#endif
+    int Size = sizeof ( TrendsHead ) + MAX_STEP * sizeof ( Record );
+    BYTE * pMem = (BYTE*)mmap(0, Size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0 );
+    pHead = (TrendsHead*)pMem;
+    pRecs = (Record *)( pMem + sizeof( TrendsHead ));
+    close ( fd );
+    pHead->PosRecords = -1;
+    pHead->MaxRecords = MAX_STEP;
+    //
+    pHead->kItems = 0;
+    WasOpen = true;
+  }
+
+Record & CTrends::R( int n )
+  {
+  while ( n < 0 )
+    n += MAX_STEP;
+  if ( n > MAX_STEP )
+    n = n % MAX_STEP;
+  return pRecs[n];
   }
 
 CTrends::~CTrends()
@@ -68,7 +96,7 @@ void CTrends::Init( )
   }
 
 
-int CTrends::Add( const char * Name, char Type, void * pVar )
+int TrendsHead::AddItem( const char * Name, char Type, void * pVar )
   {
   if ( kItems >= MAX_VARS )
     return -1;
@@ -77,25 +105,27 @@ int CTrends::Add( const char * Name, char Type, void * pVar )
     if ( strcmp ( Items[n].Name, Name ) == 0 )
       return n;
     }
-  Items[kItems].Name = Name;
+  strcpy_s(Items[kItems].Name, 128, Name );
   Items[kItems].Type = Type;
   Items[kItems].pVar = pVar;
   int N = kItems++;
   return N;
   }
 
+int CTrends::Add( const char * Name, char Type, void * pVar )
+  {
+  return pHead->AddItem( Name, Type, pVar );
+  }
 
 bool CTrends::Write( )
   {
-  int Pos = PosRecords + 1;
-  if ( Pos > MAX_STEP - 10)
-    return false;
-  Record & R = pRecords[Pos];
+  int Pos = ( pHead->PosRecords + 1 ) % MAX_STEP;
+  Record & R = pRecs[Pos];
   R.Time = pSys->dModelT * 3600.;
   R.Step = pSys->m_nStep;
-  for ( int n = 0; n < kItems; n++ )
+  for ( int n = 0; n < pHead->kItems; n++ )
     {
-    CTrendsItem & pI = Items[n];
+    CTrendsItem & pI = pHead->Items[n];
     switch ( pI.Type )
       {
       case 'D':
@@ -118,7 +148,7 @@ bool CTrends::Write( )
         break;
       }
     }
-  PosRecords = Pos;
+  pHead->PosRecords++;
   return true;
   }
 

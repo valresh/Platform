@@ -7,6 +7,7 @@
 ShowTrends::ShowTrends(QWidget *parent)
   : QWidget{parent}, VarProp(this)
   {
+  ReadyDraw = false;
   CLEAR(Vars)
   setWindowIcon( QIcon(":/windows.png"));
   kVar = 0;
@@ -33,7 +34,7 @@ void ShowTrends::SetLimits( int nVar )
   double Max = -1e10;
   for ( int n = 10; n <StartPos; n++ )
     {
-    Record & R = Trends.pRecords[nStart--];
+    Record & R = Trends.R(nStart--);
     double V = R.Vars[N];
     if ( V < Min )
       Min = V;
@@ -52,6 +53,8 @@ void ShowTrends::SetLimits( int nVar )
 void ShowTrends::paintEvent( QPaintEvent *event )
 {
 //  return;
+  if ( !ReadyDraw )
+    return;
   const int dY_bott = 20;
   const int dX_left = 40;
   QPainter P(this );
@@ -105,11 +108,11 @@ void ShowTrends::paintEvent( QPaintEvent *event )
   if ( Shift < 0 )
     Shift = 0;
   if ( !Pause )
-    StartPos = Trends.PosRecords;
-  double m = 1.;//mT->sliderPosition() * 0.001;
+    StartPos = Trends.pHead->PosRecords & MAX_STEP;
+  double m = mT->sliderPosition() * 0.001;
   const double Tmax = log( 100. );
   const double Tmin = log( 1. );
-  double K = 1.;//exp ( Tmax + m * ( Tmin - Tmax ));
+  double K = exp ( Tmax + m * ( Tmin - Tmax ));
   Steps = K;
   if ( Steps < 1 )
     Steps = 1;
@@ -123,9 +126,9 @@ void ShowTrends::paintEvent( QPaintEvent *event )
     {
     Sprintf ( Txt, "%3.1lfмин", nWidth / ( 60. * Mtime ));
     }
-//@@  step->setText( Txt );
+  step->setText( Txt );
   int nStart = StartPos - Shift;
-  Record & R = Trends.pRecords[nStart];
+  Record & R = Trends.R(nStart);
   double TimeMax = R.Time;
   bool ValidPnt = false;
   int NextLab = 0;
@@ -156,7 +159,7 @@ void ShowTrends::paintEvent( QPaintEvent *event )
       int LastStep = 0;
       for ( int j = 0; j < Steps; j++ )
         {
-        Record & R = Trends.pRecords[nStart--];
+        Record & R = Trends.R(nStart--);
         LastTime = R.Time;
         LastStep = R.Step;
         double V = R.Vars[N];
@@ -332,7 +335,7 @@ void ShowTrends::mousePressEvent(QMouseEvent *event)
         int N = nVar[x];
         if ( N >= 0 )
         {
-        Record & R = Trends.pRecords[N];
+        Record & R = Trends.R(N);
         int ID = Vars[nSelected].Trend_ID;
          double V = R.Vars[ID];
         char Txt[256];

@@ -13,7 +13,7 @@ INCLUDEPATH +=  $$PWD/../Include
 
 DEFINES += LINUX
 
-QMAKE_CFLAGS += -Wl,--stack= 100000000
+#QMAKE_CFLAGS += -Wl,--stack= 100000000
 
 SOURCES += \
   DCU.cpp \

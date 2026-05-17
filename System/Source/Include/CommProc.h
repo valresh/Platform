@@ -986,7 +986,7 @@ extern IN_DLL BOOL g_bInstructor;
 
 struct IN_DLL CTrendsItem
   {
-  CStr Name;
+  char Name[128];
   char Type;
   void * pVar;
   NEW
@@ -1008,7 +1008,8 @@ struct CTrendsVar
   };
 
 #define MAX_VARS 64
-#define MAX_STEP 100000
+#define MAX_STEP 1000000
+
 struct Record
   {
     float Time;
@@ -1016,31 +1017,37 @@ struct Record
     float Vars[MAX_VARS];
   };
 
-struct IN_DLL CTrends
-  {
+struct IN_DLL TrendsHead  {
   CTrendsItem Items[MAX_VARS];
   int kItems;
+  int PosRecords;
+  int MaxRecords;
+  int AddItem( const char * Name, char Type, void * pVar );
+  };
+
+struct IN_DLL CTrends
+  {
+  TrendsHead * pHead;
 //   float * pValues;
 //   int kVars;
 //   int kData;
 // //  _HANDLE hFile;
 //   DWORD CurrLine;
-  bool WasOpen;
-  Record * pRecords;
-  int PosRecords;
-  int kRecords;
+  static bool WasOpen;
+  static Record * pRecs;
 //  CRITICAL_SECTION  CS;
 //
   CTrends();
   ~CTrends();
   void Init( );
   bool OpenTrends() { return true; }
-  int Add( const char * Name, char Type, void * pVar );
   bool Write( );
   bool GetLine( int Line, float * pValues );
   bool GetGroupVar( int Line, int kVar, int * nVars, float * pVal );
   bool GetGroupVar( int Line, int nVar, CMem<CTrendsVar,16,16> & Vars );
   bool ReadData( const char * Path );
+  int Add( const char * Name, char Type, void * pVar );
+  Record & R( int n );
   NEW
   };
 

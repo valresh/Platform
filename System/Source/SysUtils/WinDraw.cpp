@@ -175,8 +175,7 @@ QBrush * CreateSolidBrush( DWORD color )
 #include <QRect>
 void TransparentRect( Collector & C, CRect & rc, DWORD color, DWORD fon)
 {
-//@@  if ( C.pixmap == NULL )
-    return;
+//  if ( C.pixmap == NULL )
 //  QRect VP = C.pP->viewport();
 //  QRect WP = C.pP->window();
   double L = ( rc.left + C.Sx ) * C.M;// / C.M + C.Sx;

@@ -99,16 +99,14 @@ struct IN_DLL C_BP
 	}
 #define  BreakPoint bp
 
-  struct Q_DECL_EXPORT SendMsg : public QObject
+struct Q_DECL_EXPORT SendMsg : public QObject
     {
-        Q_OBJECT;
-      public:
-        SendMsg();
-        void Init();
-        void SysOutTxt( const char * Txt );
-//        void SysOutMsg( const char * Title, const char * Txt, QMessageBox::StandardButtons flags,
-//                       QMessageBox::StandardButton def,int * Res );
-        void SysOutMsg( const char * Title, const char * Txt, DWORD flags,
+    Q_OBJECT;
+    public:
+      SendMsg();
+      void Init();
+      void SysOutTxt( const char * Txt );
+      void SysOutMsg( const char * Title, const char * Txt, DWORD flags,
                        DWORD def,int * Res );
       signals:
         void OutTxt( const char * Txt );

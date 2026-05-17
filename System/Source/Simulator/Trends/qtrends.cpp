@@ -103,6 +103,7 @@ QTrends::QTrends(QWidget *parent, const char * FileTrend )
   // fileMenu->addSeparator();
   // fileMenu->addAction(openAct);
 //
+  ui->Wnd->ReadyDraw = true;
   IsReady = true;
   }
 
