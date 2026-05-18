@@ -21,6 +21,7 @@ bool TrendVarProp::Dial( TrendVar * pVar )
   {
   char V[256];
   strcpy ( V, pVar->Name );
+  setWindowTitle( pVar->Name.Str );
   char * P = strchr ( V, '.' );
   if ( P )
     {
@@ -40,12 +41,17 @@ bool TrendVarProp::Dial( TrendVar * pVar )
   ui->Min->setText( Txt );
   OutDI( pVar->Nom, Txt );
   ui->Nom->setText( Txt );
-//  ui->color->color = pVar->color;
+  OutDI( pVar->Value, Txt );
+  ui->Current->setText( Txt );
+  ui->color->color = pVar->color;
   exec();
   int Res = result();
   if ( Res == 0 )
     return false;
-//  pVar->color = ui->color->color;
+  pVar->color = ui->color->color;
+  pVar->Max = atof ( STR(ui->Max->text()));
+  pVar->Min = atof ( STR(ui->Min->text()));
+  pVar->Nom = atof ( STR(ui->Nom->text()));
   KKK();
   return true;
   }

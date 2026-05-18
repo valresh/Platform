@@ -21,7 +21,14 @@ struct ObjCrd
     IBaseModel * pObj;
 };
 
-class ShowSheme : public EMF, public WinList
+struct ShowSheme_W
+{
+  QRect WinRect;
+  void Init_W( const char * Name );
+  void Save_W( const char * Name );
+};
+
+class ShowSheme : public EMF, public WinList, public ShowSheme_W
 {
     Q_OBJECT
   public:

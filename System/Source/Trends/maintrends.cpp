@@ -7,13 +7,16 @@ MainTrends::MainTrends(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainTrends)
 {
+  Update = false;
   strcpy ( PROJECT, "319_VSB_KF" );
   ui->setupUi(this);
   setWindowTitle( "Вывод трендов" );
 //  setObjectName("319_VSB_KF");
   ui->centralwidget->setWindowTitle( "319_VSB_KF" );
   SetPaths();
+  DB::Read ( );
   ui->listTrends->SetList( PROJECT_ROOT );
+  RestoreWnd( );
   timer = new QTimer ( this );
   connect(timer, &QTimer::timeout, this, &MainTrends::updateTime);
   timer->start( 1000 );
@@ -32,13 +35,19 @@ void MainTrends::updateTime()
 void MainTrends::resizeEvent(QResizeEvent *event)
   {
   WinRect = geometry();
-  save();
+//  change = true;
+  }
+
+void MainTrends::closeEvent(QCloseEvent * event)
+  {
+  SaveAll();
+    QApplication::exit( 0 );
   }
 
 void MainTrends::moveEvent(QMoveEvent *event)
   {
   WinRect = geometry();
-  save();
+//  change = true;
   }
 
 void MainTrends::on_Open_clicked()

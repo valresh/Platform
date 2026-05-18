@@ -15,6 +15,8 @@ struct ShowParams_W
   QRect WinRect;
   int w_split[2];
   int cx_0;
+  void Init_W( const char * Name );
+  void Save_W( const char * Name );
 };
 
 class ShowParams : public QMainWindow, public ShowParams_W
@@ -27,6 +29,7 @@ class ShowParams : public QMainWindow, public ShowParams_W
     IBaseModel * pObj;
     CParams * pParams;
     int kParams;
+    CStr Name;
 //    ParamsListModel ParamsModel;
     QSplitter *splitter;
     int Sign;

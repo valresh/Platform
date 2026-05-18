@@ -2,6 +2,18 @@
 #include "minidraw.h"
 #include "minitrend.h"
 #include "ui_minitrend.h"
+#include "DB.h"
+
+void minitrend_W::Init_W(  const char * Name  )
+{
+  DB::Get( "Минитренды", "Минитренд",  sizeof ( *this ), this );
+}
+
+void minitrend_W::Save_W(  const char * Name  )
+{
+  DB::Set( "Минитренды", "Минитренд",  sizeof ( *this ), this );
+}
+
 
 minitrend::minitrend(QWidget *parent)
   : QWidget(parent)
@@ -41,14 +53,6 @@ bool minitrend::AddVar( int N )
   return true;
   }
 
-void minitrend::PreSave()
-  {
-  int P = 0;
-  minidraw * pDraw = ui->Wnd;
-  memmove ( Params + P, pDraw->Vars, sizeof (pDraw->Vars) );
-  P += sizeof (pDraw->Vars);
-  memmove ( Params + P, &pDraw->kVars, sizeof (pDraw->kVars) );
-  }
 /////////////////////////////////////////////////////////////////////////////
 minidraw::minidraw( QWidget * pMain ) : QWidget ( pMain )
   {
@@ -56,33 +60,24 @@ minidraw::minidraw( QWidget * pMain ) : QWidget ( pMain )
   Pen.setWidth( 1 );
   Pen.setStyle( Qt::SolidLine );
   CLEAR(Vars)
-    kVars = 0;
-    colVars[0] = RGB(255,0,0);
-    colVars[1] = RGB(0,255,0);
-    colVars[2] = RGB(0,0,255);
-    colVars[3] = RGB(255,255,255);
-    colVars[4] = RGB(255,255,0);
-    colVars[5] = RGB(255,0,255);
-    colVars[6] = RGB(0,255,255);
-    colVars[7] = RGB(192,192,192);
-    New_Pres = true;
-    FirstDraw = true;
-    StartPos = 0;
-    Pause = false;
-    CLEAR(Min)
-    CLEAR(Max);
-    Steps = 1;
+  kVars = 0;
+  colVars[0] = RGB(255,0,0);
+  colVars[1] = RGB(0,255,0);
+  colVars[2] = RGB(0,0,255);
+  colVars[3] = RGB(255,255,255);
+  colVars[4] = RGB(255,255,0);
+  colVars[5] = RGB(255,0,255);
+  colVars[6] = RGB(0,255,255);
+  colVars[7] = RGB(192,192,192);
+  New_Pres = true;
+  FirstDraw = true;
+  StartPos = 0;
+  Pause = false;
+  CLEAR(Min)
+  CLEAR(Max);
+  Steps = 1;
   }
 
-void minitrend::AfterRestore( class MainWindow * pMainWnd )
-  {
-//  bool Res = DB::
-    // int P = 0;
-    // minidraw * pDraw = ui->Wnd;
-    // memmove ( pDraw->Vars, Params + P, sizeof (pDraw->Vars) );
-    // P += sizeof (pDraw->Vars);
-    // memmove ( &pDraw->kVars, Params + P, sizeof (pDraw->kVars) );
-  }
 
 void minidraw::MM( int N, double V0 )
   {

@@ -16,9 +16,12 @@ class QTrends;
 
 struct QTrends_W
 {
-  QRect TrendRect;
+  QRect WinRect;
   int ScaleT;
+  int xShow;
   bool ShowSteps;
+  void Init_W( const char * Name );
+  void Save_W( const char * Name );
 };
 
 class QTrends : public QMainWindow, public WinList, public QTrends_W
@@ -37,6 +40,7 @@ class QTrends : public QMainWindow, public WinList, public QTrends_W
     TrendsVar ListVar;
     CStr Name;
     bool IsReady;
+    ShowTrends * pDraw;
   private:
     Ui::QTrends *ui;
   public slots:

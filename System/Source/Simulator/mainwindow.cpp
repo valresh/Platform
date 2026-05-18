@@ -94,9 +94,6 @@ MainWindow::MainWindow(QWidget *parent)
       InitMes( );
       timer->start( 1000 );
       pHydro = NULL;
-      KKK();
-      //  minitrend * pM = new minitrend();
-      //  pM->show();
       set_thread_affinity( 0 );
       time = QTime::currentTime();
       //        on_Start_clicked();
@@ -336,7 +333,7 @@ void MainWindow::stopped()
 void MainWindow::loaded()
 {
     ObjectLoaded = true;
-    WinList::Restore( this );
+    WinList::RestoreWnd( );
     int sec = time.secsTo( QTime::currentTime() );
     char Txt[64];
     sprintf ( Txt, "#Проект загружен %dс", sec );

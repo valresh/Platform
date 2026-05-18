@@ -1157,6 +1157,10 @@ IN_DLL void ACS_Params( char * TabName, IBaseModel * pModel );
 IN_DLL void Init_RSU();
 IN_DLL void GetRSUFilesList  ( int *kF, const char * pList[16] );
 IN_DLL void GetRSUModelsList  ( int *kF, const char * pList[256] );
+IN_DLL char * Path( const char * Root, const char * Dir );
+IN_DLL char * Summ( const char * s1, const char * s2 );
+IN_DLL char * Summ( const char * s1, const char * s2, const char * s3 );
+
 //IN_DLL void * malloc(size_t size);
 //IN_DLL void free ( void * ptr );
 #include <QClipboard>

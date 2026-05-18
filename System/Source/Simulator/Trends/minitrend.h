@@ -8,8 +8,16 @@ namespace Ui {
 class minitrend;
 }
 
+struct minitrend_W
+{
+  QRect WinRect;
+  void Init_W( const char * Name );
+  void Save_W( const char * Name );
+};
+
+
 #define MAX_VAR 8
-class minitrend : public QWidget, public WinList
+class minitrend : public QWidget, public WinList, public minitrend_W
 {
     Q_OBJECT
 
@@ -22,8 +30,6 @@ class minitrend : public QWidget, public WinList
     void moveEvent(QMoveEvent *event);
     void closeEvent(QCloseEvent * event);
     bool AddVar( int N );
-    void PreSave();
-    void AfterRestore( class MainWindow * pMainWnd );
 //  private:
     Ui::minitrend *ui;
   private slots:

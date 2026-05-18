@@ -28,7 +28,7 @@ struct IN_DLL DB
   static void Write ( );
   static ObjData * Find ( const char * Class, const char * Name );
   static void Set( const char * Class, const char * Name,  int L, void * Data );
-  static bool Get( const char * Class, const char * Name,  int L_max, int & L, void * Data );
+  static bool Get( const char * Class, const char * Name,  int L_data, void * Data );
   static void Set( const char * Class, const char * Name, const char * Value );
   static void Set( const char * Class, const char * Name, double & Value );
   static void Set( const char * Class, const char * Name, int & Value );

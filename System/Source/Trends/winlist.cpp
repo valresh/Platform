@@ -1,6 +1,7 @@
 #include "winlist.h"
 #include "DB.h"
 #include "Err.h"
+#include "qtrends.h"
 
 
 WinList * WinList::pFirst = NULL;
@@ -16,24 +17,20 @@ WinList::WinList()
     pLast->pNext = this;
   pLast = this;
   pNext = NULL;
+  Update = true;
   }
 
 struct Data
   {
   char FileName[64];
   WinList::Types Type;
-  QRect WinRect;
-  BYTE Params[WINLIST_PARAMS];
   };
 
 void WinList::Save( QFile * pF )
   {
   Data data;
   strcpy_s ( data.FileName, 64, FileName.Str );
-  memcpy ( data.Params, Params, WINLIST_PARAMS );
   data.Type = Type;
-  data.WinRect = WinRect;
-  PreSave();
   pF->write( (const char *)&data, sizeof (data ));
   }
 
@@ -70,13 +67,13 @@ void WinList::SaveAll()
   Path.Prt ( "%sWND/Linux.dat", PROJECT_ROOT );
   QFile save( (char*)Path );
   if ( save.open(QIODeviceBase::Truncate|QIODeviceBase::WriteOnly))
-  {
+    {
     WinList * pCurr = pFirst;
     while ( pCurr )
-    {
+      {
       pCurr->Save( &save );
       pCurr = pCurr->pNext;
-    }
+      }
     save.close();
   }
   else
@@ -91,7 +88,8 @@ void WinList::UpdateAllTime()
   WinList * pCurr = pFirst;
   while ( pCurr )
     {
-    pCurr->updateTime();
+    if ( pCurr->Update )
+      pCurr->updateTime();
     pCurr = pCurr->pNext;
     }
   if ( change )
@@ -99,9 +97,11 @@ void WinList::UpdateAllTime()
     SaveAll();
     change = false;
     }
+  if ( DB::Changet )
+    DB::Write();
   }
 
-void WinList::Restore( class MainWindow * pMainWnd )
+void WinList::RestoreWnd( )
   {
   Data data;
   Char<1024>Path;
@@ -115,12 +115,8 @@ void WinList::Restore( class MainWindow * pMainWnd )
         {
         case WinList::Trend:
           {
-          // QTrends * pTrends = new  QTrends ( NULL, data.FileName );
-          // pTrends->pMainWnd = pMainWnd;
-          // pTrends->setGeometry( data.WinRect );
-          // memcpy ( pTrends->Params, data.Params, WINLIST_PARAMS );
-          // pTrends->AfterRestore( pMainWnd );
-          // pTrends->show();
+          QTrends * pTrends = new  QTrends ( NULL, data.FileName );
+          pTrends->show();
           }
         break;
         }
@@ -130,9 +126,5 @@ void WinList::Restore( class MainWindow * pMainWnd )
 //    WinRect = data.WinRect;
     rest.close();
     }
-  }
-
-void WinList::save( )
-  {
   }
 

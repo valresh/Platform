@@ -28,18 +28,6 @@ struct Data
   BYTE Params[WINLIST_PARAMS];
   };
 
-void WinList::Save( QFile * pF )
-  {
-  Data data;
-  strcpy_s ( data.FileName, 64, FileName.Str );
-  memcpy ( data.Params, Params, WINLIST_PARAMS );
-  data.Type = Type;
-  data.WinRect = WinRect;
-  PreSave();
-  pF->write( (const char *)&data, sizeof (data ));
-  }
-
-
 void WinList::Close()
   {
   WinList * pCurr = pFirst;
@@ -63,6 +51,15 @@ void WinList::Close()
     }
   SaveAll();
   }
+
+void WinList::Save( QFile * pF )
+  {
+    Data data;
+    strcpy_s ( data.FileName, 64, FileName.Str );
+    data.Type = Type;
+    pF->write( (const char *)&data, sizeof (data ));
+  }
+
 
 void WinList::SaveAll()
   {
@@ -103,8 +100,9 @@ void WinList::UpdateAllTime()
     }
   }
 
-void WinList::Restore( class MainWindow * pMainWnd )
+void WinList::RestoreWnd(  )
   {
+  return;
   Data data;
   Char<1024>Path;
   Path.Prt ( "%sWND/Linux.dat", PROJECT_ROOT );
@@ -119,29 +117,13 @@ void WinList::Restore( class MainWindow * pMainWnd )
           {
           ShowSheme * pSheme = new  ShowSheme( NULL, data.FileName, NULL );
           pSheme->pMainWnd = pMainWnd;
-          pSheme->setGeometry( data.WinRect );
-          memcpy ( pSheme->Params, data.Params, WINLIST_PARAMS );
-          pSheme->AfterRestore( pMainWnd );
           pSheme->show();
-          }
-        break;
-        case WinList::Trend:
-          {
-          // QTrends * pTrends = new  QTrends ( NULL, data.FileName );
-          // pTrends->pMainWnd = pMainWnd;
-          // pTrends->setGeometry( data.WinRect );
-          // memcpy ( pTrends->Params, data.Params, WINLIST_PARAMS );
-          // pTrends->AfterRestore( pMainWnd );
-          // pTrends->show();
           }
         break;
         case WinList::MiniTrend:
           {
           minitrend * pminitrend = new  minitrend ( NULL );
           pminitrend->pMainWnd = pMainWnd;
-          pminitrend->setGeometry( data.WinRect );
-          memcpy ( pminitrend->Params, data.Params, WINLIST_PARAMS );
-          pminitrend->AfterRestore( pMainWnd );
           pminitrend->show();
           }
           break;

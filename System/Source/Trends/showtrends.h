@@ -59,7 +59,7 @@ class ShowTrends : public QWidget
 //
     explicit ShowTrends(QWidget *parent = nullptr);
     void paintEvent( QPaintEvent *event );
-    void SetLimits( int nVar );
+    void SetLimits( int nVar, double M );
     void OnRbuttonDown(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;

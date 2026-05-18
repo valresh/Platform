@@ -3,6 +3,9 @@
 #include "Err.h"
 #include <QMenu>
 #include "trendsvar.h"
+#include "CommProc.h"
+
+
 void OutDI( double V, char Txt[256]);
 
 ShowTrends::ShowTrends(QWidget *parent)
@@ -28,27 +31,28 @@ ShowTrends::ShowTrends(QWidget *parent)
   xShow = 100;
   }
 
-void ShowTrends::SetLimits( int nVar )
+void ShowTrends::SetLimits( int nVar, double Delta )
   {
-  int N = Vars[nVar].Trend_ID;
-  int nStart = StartPos - Shift;
-  double Min = 1e10;
-  double Max = -1e10;
-  for ( int n = 10; n <StartPos; n++ )
-    {
-    Record & R = Trends.R(nStart--);
-    double V = R.Vars[N];
-    if ( V < Min )
-      Min = V;
-    if ( V > Max )
-      Max = V;
-    }
-  double M = 0.5 * ( Min + Max );
-  double D = ( Max - Min );
-  if ( D < 1e-6 )
-    D = 1e-6;
-  Vars[nVar].Min = M - 0.6 * D;
-  Vars[nVar].Max = M + 0.6 * D;
+  // int N = Vars[nVar].Trend_ID;
+  // int nStart = StartPos - Shift;
+  // double Min = 1e10;
+  // double Max = -1e10;
+  // for ( int n = 10; n < StartPos; n++ )
+  //   {
+  //   Record & R = Trends.R(nStart--);
+  //   double V = R.Vars[N];
+  //   if ( V < Min )
+  //     Min = V;
+  //   if ( V > Max )
+  //     Max = V;
+  //   }
+  // double M = 0.5 * ( Min + Max );
+  // double D = ( Max - Min );
+  // if ( D < 1e-6 )
+  //   D = 1e-6;
+  double V = Vars[nVar].Value;
+  Vars[nVar].Min = V * ( 1. - Delta );
+  Vars[nVar].Max = V * ( 1. + Delta );
   }
 
 
@@ -292,21 +296,25 @@ void ShowTrends::paintEvent( QPaintEvent *event )
 void ShowTrends::OnRbuttonDown(QMouseEvent *event)
   {
   QMenu menu;
-  QAction * actions[5];
+  QAction * actions[8];
   int K = 0;
   actions[0] = menu.addAction("Пауза");
   K++;
   actions[1] = menu.addAction("Продолжить");
   K++;
   if ( nSelected >= 0 )
-  {
+    {
     actions[2] = menu.addAction( Vars[nSelected].Name.Str );
     K++;
-  }
+    actions[3] = menu.addAction( "Пределы 50%" );//Summ("Пределы +-50% ", Vars[nSelected].Name.Str ));
+    K++;
+    actions[4] = menu.addAction( "Пределы 10%" );// Summ("+-10% ", Vars[nSelected].Name.Str ));
+    K++;
+    }
   // Получаем индекс ячейки под курсором
   QAction* selectedAction = menu.exec(this->mapToGlobal(event->pos()));
   int N = -1;
-  for ( int n = 0; n < 3; n++ )
+  for ( int n = 0; n < K; n++ )
   {
     if ( selectedAction == actions[n])
     {
@@ -325,7 +333,17 @@ void ShowTrends::OnRbuttonDown(QMouseEvent *event)
       break;
     case 2:
       {
-        VarProp.Dial( &Vars[nSelected] );
+      VarProp.Dial( &Vars[nSelected] );
+      break;
+      }
+    case 3:
+      {
+        SetLimits( nSelected, 0.5 );
+        break;
+      }
+    case 4:
+      {
+        SetLimits( nSelected, 0.1 );
         break;
       }
   }

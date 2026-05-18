@@ -6,14 +6,14 @@
 #include <QStandardItemModel>
 #include "DB.h"
 
-#define To_DB \
-DB::Set ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), static_cast<ShowParams_W*>(this));
+void ShowParams_W::Init_W(  const char * Name  )
+{
+  DB::Get( "Параметры", Name,  sizeof ( *this ), this );
+}
 
-#define From_DB \
-{\
-    int L = 0;\
-    if ( DB::Get ( "Диалоги", "Параметры", sizeof ( ShowParams_W ), L, static_cast<ShowParams_W*>(this)))\
-      {ASS(L == sizeof ( ShowParams_W ))}\
+void ShowParams_W::Save_W(  const char * Name  )
+{
+  DB::Set( "Параметры", Name,  sizeof ( *this ), this );
 }
 
 ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
@@ -24,6 +24,7 @@ ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
   ui->setupUi(this);
   ui->ParamList->pMain = this;
   pObj = _pObj;
+  Name = pObj->ObjName;
   if ( pObj->bp )
     ui->bp->setCheckState(Qt::Checked);
   else
@@ -33,7 +34,7 @@ ShowParams::ShowParams(QWidget *parent, IBaseModel * _pObj )
   w_split[0] = w[0];
   w_split[1] = w[1];
   cx_0 = ui->ParamList->columnWidth( 0 );
-  From_DB
+  Init_W ( Name.Str );
   setGeometry( WinRect );
   QByteArray S;
   S.append(w_split[0]);
@@ -249,12 +250,12 @@ void ShowParams::on_Step1_clicked()
   void ShowParams::resizeEvent(QResizeEvent *event)
   {
     WinRect = geometry();
-    To_DB
+    Save_W ( Name.Str );
   }
   void ShowParams::moveEvent(QMoveEvent *event)
   {
     WinRect = geometry();
-    To_DB
+    Save_W ( Name.Str );
   }
 
 
@@ -286,12 +287,12 @@ void ShowParams::on_splitter_splitterMoved(int pos, int index)
   QByteArray w = ui->splitter->saveState();
   w_split[0] = w[0];
   w_split[1] = w[1];
-  To_DB
+  Save_W ( Name.Str );
   }
 
 void ShowParams::SaveToDB()
   {
-  To_DB
+  Save_W ( Name.Str );
   }
 
 void ShowParams::on_ParamTree_collapsed(const QModelIndex &index)

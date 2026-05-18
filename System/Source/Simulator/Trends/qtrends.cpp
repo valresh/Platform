@@ -149,13 +149,13 @@ void QTrends::updateTime()
 }
 void QTrends::resizeEvent(QResizeEvent *event)
 {
-  WinRect = geometry();
-  change = true;
+//  WinRect = geometry();
+//  change = true;
 }
 void QTrends::moveEvent(QMoveEvent *event)
 {
-  WinRect = geometry();
-  change = true;
+//  WinRect = geometry();
+//  change = true;
 }
 void QTrends::closeEvent(QCloseEvent * event)
 {

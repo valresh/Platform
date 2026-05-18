@@ -14,6 +14,7 @@
 #include "SysDataTypes.h"
 #include <QFileInfo>
 #include <QStatusBar>
+#include "DB.h"
 
 
 double Ms = 3.771;
@@ -63,6 +64,17 @@ int kObCrdj;
 const char * crd = NULL;
 #include <QToolBar>
 
+void ShowSheme_W::Init_W(  const char * Name  )
+{
+  DB::Get( "Схемы", Name,  sizeof ( *this ), this );
+}
+
+void ShowSheme_W::Save_W(  const char * Name  )
+{
+  DB::Set( "Схемы", Name,  sizeof ( *this ), this );
+}
+
+
 ShowSheme::ShowSheme( QWidget *parent, const char * File, const char * _Select  )
     : EMF( parent, File )
 {
@@ -71,6 +83,7 @@ ShowSheme::ShowSheme( QWidget *parent, const char * File, const char * _Select  
     ss.pSheme = this;
     //  QFileInfo file ( Path );
     FileName = File;//STR(file.baseName());
+    Init_W( FileName );
     setWindowTitle( FileName.Str );
     Char<1024> Crd;
     Crd.Prt( "%sDATA/SCHEME/%s.crd", PROJECT_ROOT, FileName );
@@ -731,14 +744,14 @@ void ShowSheme::closeEvent(QCloseEvent * event)
 
 void ShowSheme::resizeEvent(QResizeEvent *event)
 {
-    WinRect = geometry();
-    change = true;
+  WinRect = geometry();
+  Save_W( FileName );
 }
 
 void ShowSheme::moveEvent(QMoveEvent *event)
 {
-    WinRect = geometry();
-    change = true;
+  WinRect = geometry();
+  Save_W( FileName );
 }
 
 // void ListEMF::mousePressEvent(QMouseEvent *event)

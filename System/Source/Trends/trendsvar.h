@@ -2,6 +2,7 @@
 #define TRENDSVAR_H
 
 #include <QMainWindow>
+#include "CommProc.h"
 
 namespace Ui {
 class TrendsVar;
@@ -32,17 +33,29 @@ class TrendsVarModel : public QAbstractTableModel
   };
 
 
-class TrendsVar : public QMainWindow
+struct TrendsVar_W
+  {
+    QRect WinRect;
+    int cx_0;
+    void Init_W( const char * Name );
+    void Save_W( const char * Name );
+  };
+
+class TrendsVar : public QMainWindow, public TrendsVar_W
 {
     Q_OBJECT
 
   public:
-    explicit TrendsVar(QWidget *parent = nullptr);
+    explicit TrendsVar( const char * Name, QWidget *parent = nullptr);
     ~TrendsVar();
     TrendsVarModel Model;
+    CStr Name;
     ShowTrends * pDraw;
     void Recv ( ShowTrends * pDraw );
     void show( TrendVar * _pVars, int _kVars);
+    void resizeEvent(QResizeEvent *event);
+    void moveEvent(QMoveEvent *event);
+    void closeEvent(QCloseEvent * event);
   private slots:
     void on_Wnd_clicked(const QModelIndex &index);
 

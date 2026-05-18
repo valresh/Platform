@@ -15,206 +15,217 @@ bool DB::Changet = false;
 
 
 void ass( )
-  {
+{
   KKK();
-  }
+}
 void ass( bool Cond )
-  {
+{
     if ( !Cond )
       KKK();
   }
 
 #define QSS(C) \
-    if ( !(C) ) { ass();break; }
+  if ( !(C) ) { ass();break; }
 
 DB::DB()
-  {
-// Чтение данных
-  kData = 0;
-  }
+{
+  // Чтение данных
+}
 
-
+#include <errno.h>
 void DB::Read ( )
-  {
+{
   kData = 0;
-  int fd = open("../DATA/Prop.dat", O_RDONLY );
-  if ( fd < 0 )
-    return;
-  while ( 1 )
+  QFile F(Path(SYSTEM_PATH,"DATA/Prop.dat"));
+    if ( !F.open( QIODeviceBase::ReadOnly ))
     {
-    int K = 0;
-    QSS( read ( fd, (char*)&K, 4 ) != 4 )
-    QSS( K == KEY );
-    ObjData & D = Data[kData++];
-    char Class[64];
-    QSS( read ( fd, Class, 64 ) == 64 );
-    char Name[64];
-    QSS( read ( fd, Name, 64 ) == 64 )
-    D.Class = Class;
-    D.Name = Name;
-    QSS( read ( fd, (char*)&D.L, 4 ) == 4 )
-    D.pData = NewArr(BYTE,D.L)
-    QSS( read ( fd, (char*)D.pData, D.L ) == D.L )
-    }
-    close( fd );
-  Changet = false;
+      Changet = false;
+      const char * err = STR(F.errorString());
+      return;
   }
+    while ( 1 )
+    {
+      int K = 0;
+      QSS( F.read ( (char*)&K, 4 ) == 4 )
+      QSS( K == KEY );
+      ObjData & D = Data[kData++];
+      char Class[64];
+      QSS( F.read ( Class, 64 ) == 64 );
+      char Name[64];
+      QSS( F.read ( Name, 64 ) == 64 )
+      D.Class = Class;
+      D.Name = Name;
+      QSS( F.read ( (char*)&D.L, 4 ) == 4 )
+      D.pData = NewArr(BYTE,D.L)
+        QSS( F.read ( (char*)D.pData, D.L ) == D.L )
+    }
+  F.close( );
+  Changet = false;
+}
 
 void DB::Write ( )
-  {
-  int fd = open("../DATA/Prop.dat", O_WRONLY );
-  if ( fd < 0 )
-    return;
-  for ( int n = 0; n < kData; n++ )
+{
+  QFile F(Path(SYSTEM_PATH,"DATA/Prop.dat"));
+  bool Res = F.exists();
+    if ( !F.open( QIODeviceBase::WriteOnly|QIODeviceBase::Truncate ))
     {
-    int K = KEY;
-    QSS( write ( fd, (char*)&K, 4 ) == 4 )
-    ObjData & D = Data[kData++];
-    char Class[64];
-    CLEAR(Class)
-    strcpy_s ( Class, 64, D.Class.Str );
-    QSS( write (  fd, Class, 64 ) == 64 );
-    char Name[64];
-    CLEAR(Name)
-    strcpy_s ( Name, 64, D.Name.Str );
-    QSS( write(  fd, Name, 64 ) == 64 )
-    QSS( write (  fd, (char*)&D.L, 4 ) == 4 )
-    QSS( write (  fd, (char*)D.pData, D.L ) == D.L )
-    }
-  close( fd );
-  Changet = false;
+      Changet = false;
+      const char * err = STR(F.errorString());
+      //    QString err = F.errorString();
+      return;
   }
+    for ( int n = 0; n < kData; n++ )
+    {
+      int K = KEY;
+      QSS( F.write ( (char*)&K, 4 ) == 4 )
+      ObjData & D = Data[n];
+      char Class[64];
+      CLEAR(Class)
+      strcpy_s ( Class, 64, D.Class.Str );
+      QSS( F.write ( Class, 64 ) == 64 );
+      char Name[64];
+      CLEAR(Name)
+      strcpy_s ( Name, 64, D.Name.Str );
+      QSS( F.write(  Name, 64 ) == 64 )
+      QSS( F.write ( (char*)&D.L, 4 ) == 4 )
+      QSS( F.write ( (char*)D.pData, D.L ) == D.L )
+    }
+  F.close( );
+  Changet = false;
+}
 
 ObjData * DB::Find ( const char * Class, const char * Name )
-  {
-  for ( int n = 0; n < kData; n++ )
+{
+    for ( int n = 0; n < kData; n++ )
     {
-    if ( strcmp ( Data[n].Class.Str, Class ) == 0 && strcmp ( Data[n].Name.Str, Name ) == 0 )
-        return &Data[n];
+        if ( strcmp ( Data[n].Class.Str, Class ) == 0 && strcmp ( Data[n].Name.Str, Name ) == 0 )
+          return &Data[n];
     }
-    return NULL;
-  }
+  return NULL;
+}
 const char * DB::_( const char * Class, const char * Name )
-  {
-    static char Txt[1024];
-    sprintf_s ( Txt, 1024, "%s/%s", Class, Name );
-    return Txt;
-  }
+{
+  static char Txt[1024];
+  sprintf_s ( Txt, 1024, "%s/%s", Class, Name );
+  return Txt;
+}
 const char * DB::_( const char * Group, const char * Class, const char * Name )
-  {
-    static char Txt[1024];
-    sprintf_s ( Txt, 1024, "%s/%s/%s", Group, Class, Name );
-    return Txt;
-  }
+{
+  static char Txt[1024];
+  sprintf_s ( Txt, 1024, "%s/%s/%s", Group, Class, Name );
+  return Txt;
+}
 
 const char * DB::_( const char * Name )
-  {
-    static char Txt[1024];
-    sprintf_s ( Txt, 1024, "%s", Name );
-    return Txt;
-  }
+{
+  static char Txt[1024];
+  sprintf_s ( Txt, 1024, "%s", Name );
+  return Txt;
+}
 
 
 void DB::Set( const char * Class, const char * Name,  int L, void * Data )
-  {
+{
   Changet = true;
   ObjData * pD = DB::Find ( Class, Name );
-  if ( pD )
+    if ( pD )
     {
-    if ( pD->L == L )
-      {
+        if ( pD->L == L )
+        {
+          memmove ( pD->pData, Data, L );
+          return;
+      }
+      pD->L = L;
+      pD->pData = NewArr ( BYTE, L );
       memmove ( pD->pData, Data, L );
       return;
-      }
-    pD->L = L;
-    pD->pData = NewArr ( BYTE, L );
-    memmove ( pD->pData, Data, L );
-    return;
-    }
+  }
   pD = &::Data[kData++];
   pD->Class = Class;
   pD->Name = Name;
   pD->L = L;
   pD->pData = NewArr ( BYTE, L );
   memmove ( pD->pData, Data, L );
-  }
+}
 
 void DB::Set( const char * Class, const char * Name, const char * Value )
-  {
+{
   Set( Class, Name,  strlen( Value ) + 1, (void*)Value );
-  }
+}
 
 void DB::Set( const char * Class, const char * Name, double & Value )
-  {
+{
   Set( Class, Name,  8, &Value );
-  }
+}
 
 void DB::Set( const char * Class, const char * Name, int & Value )
-  {
+{
   Set( Class, Name,  4, &Value );
-  }
+}
 void DB::Set( const char * Class, const char * Name, bool & Value )
-  {
+{
   Set( Class, Name,  1, &Value );
-  }
-  //
-bool DB::Get( const char * Class, const char * Name,  int L_max, int & L, void * Data )
-  {
+}
+//
+bool DB::Get( const char * Class, const char * Name,  int L_data, void * Data )
+{
   ObjData * pD = DB::Find ( Class, Name );
-  if ( pD == NULL )
-    return false;
-  L = pD->L;
-  if ( L > L_max )
-    L = L_max;
-   memmove ( Data, pD->pData, L );
-  return true;
+    if ( pD == NULL )
+      return false;
+  int L = pD->L;
+    if ( L_data > 0 && L != L_data )
+    {
+      Set( Class, Name,  L_data, Data );
+      return false;
   }
+  memmove ( Data, pD->pData, L );
+  return true;
+}
 
 const char * DB::GetChar( const char * Class, const char * Name, const char * Def )
-  {
+{
   static char Txt[1024];
-  int L = 0;
-  if ( Get( Class, Name,  1024, L, Txt ))
-    {
-      Txt[L] = 0;
-      return Txt;
-    }
-  return Def;
-  }
+  ObjData * pD = DB::Find ( Class, Name );
+    if ( pD == NULL )
+      return Def;
+  int L = pD->L;
+  ASS(L<1024)
+  memmove ( Txt, pD->pData, L );
+  Txt[L] = 0;
+  return Txt;
+}
 
 double DB::GetDbl( const char * Class, const char * Name, double Def )
-  {
+{
   double V;
-  int L = 0;
-  if ( Get( Class, Name,  8, L, &V ))
+    if ( Get( Class, Name,  8, &V ))
     {
-    return V;
-    }
-  return Def;
+      return V;
   }
+  return Def;
+}
 
 int DB::GetInt( const char * Class, const char * Name, int Def )
-  {
+{
   int V;
-  int L = 0;
-  if ( Get( Class, Name,  4, L, &V ))
+    if ( Get( Class, Name,  4, &V ))
     {
-    return V;
-    }
-  return Def;
+      return V;
   }
+  return Def;
+}
 
 bool DB::GetBool( const char * Class, const char * Name, bool Def )
-  {
+{
   bool V;
-  int L = 0;
-  if ( Get( Class, Name,  1, L, &V ))
+    if ( Get( Class, Name,  1, &V ))
     {
-    return V;
-    }
-  return Def;
+      return V;
   }
+  return Def;
+}
 
+#if 0
 void DB::Test( )
   {
       int A[100];
@@ -232,9 +243,8 @@ void DB::Test( )
       Set( "2", "12345",  sizeof( A ), A );
 //#endif
       //
-      int L = 0;
       memset ( A, 0, sizeof( A ));
-      Res = Get( "2", "3333",  sizeof( A ), L, A );
+      Res = Get( "2", "3333",  sizeof( A ), A );
       ass( L == sizeof( A ) );
       for ( int n = 0; n < 100; n++ )
         {
@@ -266,7 +276,7 @@ void DB::Test( )
         }
       KKK();
     }
-
+#endif
 
 #if 0
 void ass( bool Cond )

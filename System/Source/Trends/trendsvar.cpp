@@ -7,13 +7,30 @@
 #include "CommProc.h"
 #include <QHeaderView>
 #include "showtrends.h"
+#include "DB.h"
 
-TrendsVar::TrendsVar(QWidget *parent)
+void TrendsVar_W::Init_W(  const char * Name  )
+{
+  cx_0 = 100;
+  DB::Get( "Переменные трендов", Name,  sizeof ( *this ), this );
+}
+
+void TrendsVar_W::Save_W(  const char * Name  )
+{
+  DB::Set( "Переменные трендов", Name,  sizeof ( *this ), this );
+}
+
+
+TrendsVar::TrendsVar( const char * _Name, QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::TrendsVar)
 {
   ui->setupUi(this);
-  ui->Wnd->pDraw = pDraw;
+  Name = _Name;
+  Init_W( Name.Str );
+  setGeometry( WinRect );
+  ui->Wnd->setColumnWidth( 0, cx_0 );
+  setWindowIcon( QIcon(":/webcam.png"));
   Model.IsData = false;
   QHeaderView * headerV = ui->Wnd->verticalHeader();
   headerV->setVisible(false);
@@ -51,6 +68,24 @@ void TrendsVar::show(TrendVar * _pVars, int _kVars)
 TrendsVar::~TrendsVar()
 {
   delete ui;
+}
+
+void TrendsVar::resizeEvent(QResizeEvent *event)
+{
+  WinRect = geometry();
+  Save_W( Name.Str );
+}
+
+void TrendsVar::moveEvent(QMoveEvent *event)
+{
+  WinRect = geometry();
+  Save_W( Name.Str );
+}
+
+void TrendsVar::closeEvent(QCloseEvent * event)
+{
+  cx_0 = ui->Wnd->columnWidth( 0 );
+  Save_W( Name.Str );
 }
 
 bool TrendsVarModel::NoRefresh = false;
@@ -121,17 +156,10 @@ bool TrendsVarModel::setData(const QModelIndex &index, const QVariant &value, in
   int c = index.column();
   if ( c != 1 )
     return false;
-  // if (role == Qt::EditRole)
-  //   {
-  //   QString Txt = value.toString();
-  //   pParams[r].SetValue ( (char*)Txt.toStdString().c_str());
-  //   NoRefresh = false;
-  //   return true;
-  //   }
   if (role == Qt::CheckStateRole)
     {
     //if ( value.toInt() == Qt::Checked )
-    pTrends->SetLimits( r );
+    pTrends->SetLimits( r, 0.6 );
     return true;
     }
     // Update your internal data structure with the new state
@@ -183,9 +211,9 @@ QVariant TrendsVarModel::data(const QModelIndex &index, int role) const
       //        return int(Qt::AlignRight | Qt::AlignVCenter);
       break;
     case Qt::CheckStateRole:
-      if ( c == 1 && pVars[r].Type == 'D' )
+      if ( c == 1 )
         {
-        double V = *(double*)pVars[r].Addr;
+        double V = pVars[r].Value;
         if ( V > pVars[r].Max || V < pVars[r].Min)
           return Qt::Checked;
         else

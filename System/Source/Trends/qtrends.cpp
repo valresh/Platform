@@ -2,6 +2,7 @@
 #include "showtrends.h"
 #include "ui_qtrends.h"
 #include "CommProc.h"
+#include "DB.h"
 
 #define NEXT \
   P = E + 1;\
@@ -9,30 +10,48 @@
   if ( E == NULL )\
     continue;
 
+
+void QTrends_W::Init_W(  const char * Name  )
+  {
+  ScaleT = 1000.;
+  ShowSteps = true;
+  xShow = 500;
+  DB::Get( "Тренды", Name,  sizeof ( *this ), this );
+  }
+
+void QTrends_W::Save_W(  const char * Name  )
+  {
+  DB::Set( "Тренды", Name,  sizeof ( *this ), this );
+  }
+
 QTrends::QTrends(QWidget *parent, const char * FileTrend )
   : QMainWindow(parent)
-//  , ListVar (this )
+ , ListVar ( FileTrend, this )
   {
   IsReady = false;
   ui = new Ui::QTrends();
   ui->setupUi(this);
   Type = Trend;
-  ui->Wnd->ShowSteps = true;
-  ui->TimeStep->setText( "Шаги" );
-  Name = FileTrend;
   FileName = FileTrend;
+  Init_W( FileName );
+  setGeometry( WinRect );
+  setWindowIcon( QIcon(":/windows.png"));
+  pDraw = ui->Wnd;
+  pDraw->xShow = xShow;
+  ui->Wnd->ShowSteps = ShowSteps;
+  ui->TimeStep->setText( "Шаги" );
+  ui->step->setText( "1" );
+  Name = FileTrend;
   setWindowTitle( FileTrend );
   ListVar.Model.pTrends = ui->Wnd;
-  ShowTrends * pDraw = ui->Wnd;
   ListVar.Recv( pDraw );
   pDraw->mT = ui->ScaleT;
   pDraw->step = ui->step;
   pDraw->SelVar = ui->SelVar;
   pDraw->SelValue = ui->SelValue;
-  QLineEdit *step;;
   ui->ScaleT->setMinimum( 0 );
   ui->ScaleT->setMaximum( 1000 );
-  ui->ScaleT->setValue( 1000 );
+  ui->ScaleT->setValue( ScaleT );
 // Чтение файла
   Char<1024>Path;
   Path.Prt ("%sINI/Trends/%s.csv", PROJECT_ROOT, FileTrend );
@@ -142,24 +161,40 @@ void QTrends::updateTime()
   if ( !IsReady )
       return;
   ui->Wnd->repaint();
+  ShowSteps = ui->Wnd->ShowSteps;
+  ScaleT = ui->ScaleT->sliderPosition();
+  xShow = pDraw->xShow;
   //ListVar.Model.timerHit();
   // if ( ui->Wnd->Pause )
   //   ui->Pause->setStyleSheet("QPushButton { background-color: #FF0000; } " );
   // else
   //   ui->Pause->setStyleSheet("QPushButton { background-color: #F0F0F0; } " );
 }
+
 void QTrends::resizeEvent(QResizeEvent *event)
 {
+  if ( !IsReady )
+    return;
   WinRect = geometry();
-  change = true;
+  Save_W( FileName );
 }
+
 void QTrends::moveEvent(QMoveEvent *event)
 {
+  if ( !IsReady )
+    return;
   WinRect = geometry();
-  change = true;
+  Save_W( FileName );
 }
+
 void QTrends::closeEvent(QCloseEvent * event)
 {
+  if ( !IsReady )
+    return;
+  ShowSteps = ui->Wnd->ShowSteps;
+  ScaleT = ui->ScaleT->sliderPosition();
+  xShow = pDraw->xShow;
+  Save_W( FileName );
   Close();
 }
 

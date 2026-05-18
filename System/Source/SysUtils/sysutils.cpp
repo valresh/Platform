@@ -1122,3 +1122,26 @@ void TxtFromClp( int MaxLen, char * Txt )
     QString S = clipboard->text( );
     strcpy_s ( Txt, MaxLen, STR(S));
   }
+  char * Path( const char * Root, const char * Dir )
+  {
+    static char Txt[1024];
+    sprintf_s ( Txt, 1024, "%s%s", Root, Dir );
+    return Txt;
+  }
+
+  char * Summ( const char * s1, const char * s2 )
+  {
+    static char Txt[1024];
+    strcpy ( Txt, s1 );
+    strcat ( Txt, s2 );
+    return Txt;
+  }
+
+  char * Summ( const char * s1, const char * s2, const char * s3 )
+  {
+    static char Txt[1024];
+    strcpy ( Txt, s1 );
+    strcat ( Txt, s2 );
+    strcat ( Txt, s3 );
+    return Txt;
+  }

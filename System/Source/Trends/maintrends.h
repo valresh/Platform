@@ -10,7 +10,12 @@ class MainTrends;
 }
 QT_END_NAMESPACE
 
-class MainTrends : public QMainWindow, public WinList
+struct MainTrends_W
+{
+  QRect WinRect;
+};
+
+class MainTrends : public QMainWindow, public WinList, public MainTrends_W
 {
   Q_OBJECT
 
@@ -21,9 +26,10 @@ class MainTrends : public QMainWindow, public WinList
   void updateTime();
   void resizeEvent(QResizeEvent *event);
   void moveEvent(QMoveEvent *event);
+  void closeEvent(QCloseEvent * event);
   private slots:
   void on_Open_clicked();
-      void on_listTrends_doubleClicked(const QModelIndex &index);
+  void on_listTrends_doubleClicked(const QModelIndex &index);
 
   private:
   Ui::MainTrends *ui;
