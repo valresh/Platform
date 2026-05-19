@@ -56,12 +56,20 @@ void * realloc(void *__ptr, size_t __size) noexcept (true)
 }
 /**/
 //https://www.linuxjournal.com/article/6390
+#include "malloc.h"
+#include "stdio.h"
+#include <sys/resource.h>
+
 int main(int argc, char *argv[])
 {
   try {
-      void * addr = NewMem ( 5 );
-      addr = NewMem ( 5 );
+      struct rlimit rl;
+      int err;
+      rl.rlim_cur = 400 * 1024 * 1024; // задаём размер стека в байтах
+      err = setrlimit(RLIMIT_STACK, &rl);
       KKK();
+      mallopt( M_ARENA_MAX, 16 );
+ //     struct mallinfo2 Info2 = mallinfo2();
       // int Res = mallopt(M_ARENA_MAX, 200);
       // Res = mallopt(M_TRIM_THRESHOLD, -1);
       // Res = mallopt(M_CHECK_ACTION,7);

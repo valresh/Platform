@@ -80,7 +80,7 @@ class MainWindow : public QMainWindow
   private slots:
     void on_Shema_clicked();
 
-    void on_Trends_clicked();
+//    void on_Trends_clicked();
 
     void on_Messages_clicked();
 
@@ -88,7 +88,7 @@ class MainWindow : public QMainWindow
 
     void on_exit_triggered();
 
-    void on_AccelZ_returnPressed();
+//    void on_AccelZ_returnPressed();
 
     void on_save_params_clicked();
 

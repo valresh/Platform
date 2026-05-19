@@ -424,15 +424,15 @@ void MainWindow::on_Shema_clicked()
 }
 
 
-void MainWindow::on_Trends_clicked()
-{
-    if ( !ObjectLoaded )
-        return;
-    listtrends.show();
-    KKK();
-    //  Trends * pTrends = new Trends ( NULL, NULL );
-    //  pTrends->show();
-}
+// void MainWindow::on_Trends_clicked()
+// {
+//     if ( !ObjectLoaded )
+//         return;
+//     listtrends.show();
+//     KKK();
+//     //  Trends * pTrends = new Trends ( NULL, NULL );
+//     //  pTrends->show();
+// }
 
 
 void MainWindow::on_Messages_clicked()
@@ -486,12 +486,12 @@ void MainWindow::OutMsg( const char * Title, const char * Txt,
 }
 
 
-void MainWindow::on_AccelZ_returnPressed()
-{
-    // QString S = ui->AccelZ->text();
-    // double Acc = S.toDouble();
-    // emit SetAccel ( Acc );
-}
+// void MainWindow::on_AccelZ_returnPressed()
+// {
+//     // QString S = ui->AccelZ->text();
+//     // double Acc = S.toDouble();
+//     // emit SetAccel ( Acc );
+// }
 
 void MainWindow::ShowData_1 ( double ProcUser, int Mem )
 {
@@ -551,9 +551,13 @@ void MainWindow::on_FindObj_clicked()
 
 void MainWindow::on_RSU_clicked()
 {
-    Init_RSU();
-    showRSU.Init();
-    showRSU.Go();
+  minitrend * pTrend = new minitrend( NULL );
+  pTrend->AddVar( 0 );
+  pTrend->show();
+
+    // Init_RSU();
+    // showRSU.Init();
+    // showRSU.Go();
 
 }
 

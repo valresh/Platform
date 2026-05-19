@@ -157,9 +157,15 @@ struct CParamInfo
           break;
         case 'B':
           ASS(Param.Len==1)
+          try{
           if ( *(bool*)Addr != B )
             Update = true;
           *(bool*)Addr = B;
+          }
+          catch(...)
+          {
+            qDebug() << pModel->ObjName.Str << Param.ParamName;
+          }
           break;
         case 'S':
           {
@@ -1534,7 +1540,12 @@ struct CHead
     DWORD LenTxt;
     CHead()
     {
-      memset ( this, 0, sizeof ( *this ));
+    Key = 0;
+    kObjects = 0;
+    AddrParams = 0;
+    kParams = 0;
+    AddrTxt = 0;
+    LenTxt = 0;
     }
 };
 

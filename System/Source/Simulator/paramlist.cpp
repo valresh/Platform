@@ -288,7 +288,7 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
   // Получаем индекс ячейки под курсором
   QAction* selectedAction = menu.exec(viewport()->mapToGlobal(e->pos()));
   int N = -1;
-  for ( int n = 0; n < 3; n++ )
+  for ( int n = 0; n <= 3; n++ )
     {
     if (selectedAction == actions[n])
       {

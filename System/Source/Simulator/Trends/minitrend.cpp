@@ -14,11 +14,15 @@ void minitrend_W::Save_W(  const char * Name  )
   DB::Set( "Минитренды", "Минитренд",  sizeof ( *this ), this );
 }
 
+#include "malloc.h"
+#include "Err.h"
 
 minitrend::minitrend(QWidget *parent)
   : QWidget(parent)
   , ui(new Ui::minitrend)
 {
+  void * Addr = (void*)&ui;
+  struct mallinfo2 Info2 = mallinfo2();
   ui->setupUi(this);
   Type = MiniTrend;
   ui->Wnd->show();

@@ -24,8 +24,6 @@ struct Data
   {
   char FileName[64];
   WinList::Types Type;
-  QRect WinRect;
-  BYTE Params[WINLIST_PARAMS];
   };
 
 void WinList::Close()
