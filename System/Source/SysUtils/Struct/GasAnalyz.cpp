@@ -8,6 +8,7 @@ int CGasAnalyz::Init()
   {
 	INIT(CGasAnalyz)
   //
+  Busy = NULL;
 	memset( C, 0, sizeof ( C ));
 	return 0;
 	}

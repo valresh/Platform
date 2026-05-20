@@ -1705,8 +1705,8 @@ int RestoreParamsFromFile_1 ( LPCTSTR FilePath )
     CloseHandle( hFile );
     // if ( ErrInParams )
     //   Fclose( ErrInParams );
-    delete pMem;
-    delete pModInfo;
+    delete[] pMem;
+    delete[] pModInfo;
     QParams::SaveAllParams = false;
   }
   catch(...)

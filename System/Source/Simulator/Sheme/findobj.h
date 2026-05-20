@@ -5,6 +5,16 @@
 #include <QTableView>
 #include "BaseModel.h"
 
+class QTableViewM : public QTableView
+{
+  Q_OBJECT
+  public:
+  QTableViewM( QWidget * parent );
+  void mousePressEvent( QMouseEvent * event);
+  signals:
+  void Show_Sheme();
+  void Show_Params();
+};
 
 namespace Ui {
 class FindObj;
@@ -52,7 +62,8 @@ private slots:
     void on_OnSheme_checkStateChanged(const Qt::CheckState &arg1);
 
     void on_Modeles_checkStateChanged(const Qt::CheckState &arg1);
-
+    void Show_Sheme();
+    void Show_Params();
 private:
     Ui::FindObj *ui;
 signals:

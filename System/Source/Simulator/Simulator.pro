@@ -16,6 +16,7 @@ DEFINES += LINUX
 #QMAKE_CFLAGS += -Wl,--stack= 100000000
 
 SOURCES += \
+  CommStruct.cpp \
   DCU.cpp \
     Msg/msglist.cpp \
   RSU/RSU.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     ../../Include/qtrends.h \
     ../Include/dialcolor.h \
     ../Include/list.h \
+  CommStruct.h \
     Msg/msglist.h \
   RSU/RSU.h \
   RSU/fs_path.h \

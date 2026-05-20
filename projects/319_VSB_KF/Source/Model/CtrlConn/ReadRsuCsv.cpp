@@ -263,7 +263,7 @@ void CCtrlConn::ReadRsuCsv( int NumbFile, char * File )
             SrcType = pPnt->GetType();
         /////////////
         //
-        if ( strstr ( StrXLS[0], "301_11_AI02.30TC037.30TT037"))
+        if ( strstr ( StrXLS[0], "026"))
             KKK();
         IMM * pRSU = GetRSUPnt( &Err, StrXLS[0], StrXLS[2], Path );
         if ( pRSU == NULL )

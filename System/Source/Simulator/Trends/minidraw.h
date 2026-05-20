@@ -26,6 +26,7 @@ class minidraw : public QWidget
     bool Pause;
     int StartPos;
 //
+    NEW
     minidraw( QWidget * pMain );
     void paintEvent( QPaintEvent *event );
     void MM( int N, double V );

@@ -63,12 +63,12 @@ void * realloc(void *__ptr, size_t __size) noexcept (true)
 int main(int argc, char *argv[])
 {
   try {
-      struct rlimit rl;
-      int err;
-      rl.rlim_cur = 400 * 1024 * 1024; // задаём размер стека в байтах
-      err = setrlimit(RLIMIT_STACK, &rl);
-      KKK();
-      mallopt( M_ARENA_MAX, 16 );
+      // struct rlimit rl;
+      // int err;
+      // rl.rlim_cur = 400 * 1024 * 1024; // задаём размер стека в байтах
+      // err = setrlimit(RLIMIT_STACK, &rl);
+      // KKK();
+      // mallopt( M_ARENA_MAX, 16 );
  //     struct mallinfo2 Info2 = mallinfo2();
       // int Res = mallopt(M_ARENA_MAX, 200);
       // Res = mallopt(M_TRIM_THRESHOLD, -1);

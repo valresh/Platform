@@ -53,7 +53,10 @@ MainWindow::MainWindow(QWidget *parent)
     try
     {
       pMainWnd = this;
-      // Установка значения
+      CLEAR(main_cpu);
+      CLEAR(Set_cpu);
+      CLEAR(PD.SysProc)
+        // Установка значения
 //      settings->setValue("section/size", value);
       // Считывание значения
  //     int value = settings->value("section/size", default);
@@ -551,13 +554,13 @@ void MainWindow::on_FindObj_clicked()
 
 void MainWindow::on_RSU_clicked()
 {
-  minitrend * pTrend = new minitrend( NULL );
-  pTrend->AddVar( 0 );
-  pTrend->show();
+  // minitrend * pTrend = new minitrend( NULL );
+  // pTrend->AddVar( 0 );
+  // pTrend->show();
 
-    // Init_RSU();
-    // showRSU.Init();
-    // showRSU.Go();
+    Init_RSU();
+    showRSU.Init();
+    showRSU.Go();
 
 }
 

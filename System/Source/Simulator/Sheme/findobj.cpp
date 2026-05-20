@@ -2,6 +2,42 @@
 #include "ui_findobj.h"
 #include "BaseModel.h"
 #include "Sheme/showparams.h"
+#include "Err.h"
+#include <QMouseEvent>
+#include <QMenu>
+
+QTableViewM::QTableViewM( QWidget * parent ) :
+  QTableView(parent)
+{
+  setContextMenuPolicy(Qt::CustomContextMenu);
+}
+
+void QTableViewM::mousePressEvent( QMouseEvent * event)
+  {
+  QModelIndex I = indexAt(event->pos());
+  if ( event->button() == Qt::LeftButton )
+    {
+      int row = I.row();
+    QTableView::mousePressEvent( event );
+    }
+  if ( event->button() == Qt::RightButton )
+    {
+    int row = I.row();
+    QMenu menu;
+    QAction * actions[5];
+    actions[0] = menu.addAction( "Показать на схеме");
+    actions[1] = menu.addAction( "Показать параметры");
+    QAction * selectedItem = menu.exec(event->globalPosition().toPoint());
+    if ( selectedItem == actions[0])
+      {
+      emit Show_Sheme();
+      }
+    if ( selectedItem == actions[1])
+      {
+      emit Show_Params();
+      }
+    }
+}
 
 FindObj::FindObj(QWidget *parent)
     : QDialog(parent)
@@ -13,6 +49,8 @@ FindObj::FindObj(QWidget *parent)
     QHeaderView * headerH = ui->Tab->horizontalHeader();
     headerH->setStretchLastSection(true);
     ui->Tab->setModel( &Model );
+    connect(ui->Tab,&QTableViewM::Show_Params,this,&FindObj::Show_Params );
+    connect(ui->Tab,&QTableViewM::Show_Sheme,this,&FindObj::Show_Sheme );
 }
 
 FindObj::~FindObj()
@@ -39,16 +77,48 @@ void FindObj::on_Modeles_checkStateChanged(const Qt::CheckState &arg1)
     on_Find_clicked();
 }
 
+void FindObj::Show_Sheme()
+  {
+  QModelIndexList selected = ui->Tab->selectionModel()->selectedIndexes();
+  for (const QModelIndex &index : selected)
+    {
+    int r = index.row();
+    int c = index.column();
+    FindData * pFD = Model.List.Get( r );
+    char Shema[256];
+    strcpy (Shema, pFD->Shema );
+    char * P = strchr ( Shema, ';');
+    if ( P )
+      *P = 0;
+    emit ShowSheme  ( Shema,  pFD->pObj->ObjName.Str  );
+    }
+  accept();
+  }
+
+void FindObj::Show_Params()
+  {
+  QModelIndexList selected = ui->Tab->selectionModel()->selectedIndexes();
+  for (const QModelIndex &index : selected)
+    {
+      int r = index.row();
+      int c = index.column();
+      FindData * pFD = Model.List.Get( r );
+      ShowParams * pParams = new ShowParams( this, pFD->pObj );
+      pParams->setWindowTitle( (char*)pFD->pObj->ObjName.Str );
+      pParams->show();
+    }
+  accept();
+  }
 
 void FindObj::on_OK_clicked()
 {
     QModelIndexList selected = ui->Tab->selectionModel()->selectedIndexes();
     for (const QModelIndex &index : selected)
-       {
+      {
        int r = index.row();
        int c = index.column();
        FindData * pFD = Model.List.Get( r );
-       if ( c == 2 )
+      if ( c == 2 )
        {
         char Shema[256];
         strcpy (Shema, pFD->Shema );
@@ -57,7 +127,7 @@ void FindObj::on_OK_clicked()
             *P = 0;
        emit ShowSheme  ( Shema,  pFD->pObj->ObjName.Str  );
        }
-       else
+      else
        {
         ShowParams * pParams = new ShowParams( this, pFD->pObj );
         pParams->setWindowTitle( (char*)pFD->pObj->ObjName.Str );

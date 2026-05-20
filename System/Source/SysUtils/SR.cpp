@@ -26,7 +26,7 @@ CSRFile::CSRFile()
 CSRFile::~CSRFile()
   {
   if ( m_szBuff )
-    delete m_szBuff;
+    delete[] m_szBuff;
   m_szBuff = nullptr;
   if ( hFile != INVALID_HANDLE_VALUE )
     {
@@ -142,12 +142,12 @@ bool CSRFile::Open( const char* szPath )
       {
       if( read != m_dwSize )
         {
-        delete m_szBuff;
+        delete[] m_szBuff;
         return false;
       }
     }
     else
-      delete m_szBuff;
+      delete[] m_szBuff;
     }
   else
     {

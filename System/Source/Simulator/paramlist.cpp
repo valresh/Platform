@@ -379,12 +379,13 @@ void ParamsList::contextMenuEvent(QContextMenuEvent *e)
       break;
       case 3:
         {
-          char Name[256];
+          //char Name[256];
           if ( pParam->pModel )
             {
-            Sprintf( Name, "%s.%s", pParam->pModel->ObjName.Str, pParam->ParamName );
-            int ID =  Trends.Add( Name, pParam->Type, pParam->Addr );
+         //   Sprintf( Name, "%s.%s", pParam->pModel->ObjName.Str, pParam->ParamName );
+         //   int ID =  Trends.Add( Name, pParam->Type, pParam->Addr );
             minitrend * pTrend = new minitrend( NULL );
+            int ID = 0;
             pTrend->AddVar( ID );
             pTrend->show();
             }

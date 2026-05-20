@@ -1121,6 +1121,7 @@ struct IN_DLL ProcessData
     ProcessData()
     {
       CLEAR(User)
+      CLEAR(Idle)
       CLEAR(System);
       Mem = 0;
       S = 0;

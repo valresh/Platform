@@ -3,10 +3,11 @@
 
 #include <QWidget>
 #include "winlist.h"
+#include "CommStruct.h"
 
-namespace Ui {
-class minitrend;
-}
+ namespace Ui {
+ class minitrend;
+ }
 
 struct minitrend_W
 {
@@ -31,7 +32,7 @@ class minitrend : public QWidget, public WinList, public minitrend_W
     void closeEvent(QCloseEvent * event);
     bool AddVar( int N );
 //  private:
-    Ui::minitrend *ui;
+    Ui::minitrend * ui;
   private slots:
     void on_ScaleV_sliderMoved(int position);
     void on_Back_clicked();

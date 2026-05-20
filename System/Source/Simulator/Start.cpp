@@ -209,7 +209,7 @@ bool Start::Prepare()
     //  {
     //   Load_Object("OGCtrl", "OG", "OG");
     //   }
-
+    pExt->Init();
     // pExt->T_Air = 15.0;	// Температура окружающего воздуха//-параметр(2)
     // pExt->PressAirKip = 7.0;//Давление воздуха КИП
     // pExt->WorkUPS = true;

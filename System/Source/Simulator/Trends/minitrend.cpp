@@ -19,12 +19,11 @@ void minitrend_W::Save_W(  const char * Name  )
 
 minitrend::minitrend(QWidget *parent)
   : QWidget(parent)
-  , ui(new Ui::minitrend)
 {
-  void * Addr = (void*)&ui;
-  struct mallinfo2 Info2 = mallinfo2();
+  ui = (Ui::minitrend*)NewMem(sizeof (Ui::minitrend ));
   ui->setupUi(this);
   Type = MiniTrend;
+  void * Ptr = &ui->Wnd;
   ui->Wnd->show();
   minidraw * pDraw = ui->Wnd;
   pDraw->pMain = this;

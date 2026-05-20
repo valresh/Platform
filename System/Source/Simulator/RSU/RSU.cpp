@@ -33,6 +33,9 @@ void LoadRsuModelsCP(int& iRuntimeModel)
             pO = Load_ObjectRSU( Model, Obj );
             }
         ASS(pO);
+        if ( pO == NULL )
+          continue;
+        pO->Model = Split.Cols[0];
         pO->PropsWasRead = strcmp( Split.Cols[2], "Save") == 0 ;
         g_RuntimeModels[iRuntimeModel++] = pO;
         pO->ModelFlags = Flag_NoAll;
