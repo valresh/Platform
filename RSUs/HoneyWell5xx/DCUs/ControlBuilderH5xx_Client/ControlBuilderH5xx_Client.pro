@@ -14,9 +14,14 @@ $$PWD/../../Include
 DESTDIR= "$$PWD/../../../../../EXE"
 
 HEADERS += \
+  BaseType.h \
+  BaseType.hpp \
+  CBase.h \
   CBsPool.h \
   H_RemoteClient.h \
   ICBsPool.h \
+  RsuX.h \
+  RsuX_types.h \
   stdafx.h
 
 SOURCES += \
