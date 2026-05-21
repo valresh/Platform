@@ -15,7 +15,9 @@ DESTDIR= "$$PWD/../../EXE"
 #    $$PWD/libqemf/src
 
 HEADERS += \
+  BaseType_.h \
   CBsPool.h \
+  DataTypes_.h \
   H_RemoteClient.h \
   ICBsPool.h \
   stdafx.h
