@@ -1,5 +1,5 @@
 #pragma once
-#include "./BaseType_.h"
+#include "BaseType_.h"
 #include <HoneywellStruct.h>
 
 struct UTILSH5XX_API COneMnemoHoney : public CAlarmBase
