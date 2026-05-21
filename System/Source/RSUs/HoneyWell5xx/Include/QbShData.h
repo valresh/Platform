@@ -1,0 +1,1 @@
+﻿#pragma once#include <shemedata.h>//#include <H_Class.h>#undef  QB_TYPE#define QB_TYPE( a, b, c ) \struct CSh##b: public CShBase, public W_##b \  { \  CSh##b() : CShBase( sizeof(CSh##b) ){}; \  };#include "QuickBuilderType.hpp"

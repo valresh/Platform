@@ -1,0 +1,1 @@
+﻿Boolean(G,"G Selector",false)Boolean_A(IN,"Input",2,false)Boolean(OUT,"Output",false)

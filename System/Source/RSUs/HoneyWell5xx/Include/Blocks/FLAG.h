@@ -1,0 +1,1 @@
+﻿String_K(PV,"",12)Boolean(PVFL,"Actual State Flag",false)Boolean(STATE0,"",false)Boolean(STATE1,"",false)Struct_BEI(OFFNRMALM,FL,ALPRIOR,PR,SV)String_A(STATETEXT,"State Descriptor Text",12,2)

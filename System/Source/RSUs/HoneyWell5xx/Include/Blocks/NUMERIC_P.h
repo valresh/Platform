@@ -1,0 +1,1 @@
+﻿String_K(NAME,"Имя",32)String_K(DESC,"Description",132)Enumeration(ACCLOCK,"Access Lock",Operator,Engineer,OtherFB,Def=Operator)//Integer(ORDERINCM,"Execution order",10)Enumeration(PVFORMAT,"Process Variable (PV) Display Format",D0,D1,D2,D3,Def=D1)//D0 (-XXXXXX.) D1 (-XXXXX.X) D2 (-XXXX.XX) D3 (XXX.XXX)Real(PVHILM,"",NaN)Real(PVLOLM,"",NaN)

@@ -1,0 +1,1 @@
+﻿String_K(NAME,"Имя",31)Integer(NUMOFINPUTS,"Number of Inputs",0)Real(DEADBAND,"Deadband",0)Real(TP,"Trip Point",0.5)Boolean(INBADOPT,"Output for Bad Input",0)

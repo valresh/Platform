@@ -1,0 +1,1 @@
+﻿String_K(NAME,"Имя",32)Real(IN,"Input",NaN)Real(OUT,"Output",NaN)

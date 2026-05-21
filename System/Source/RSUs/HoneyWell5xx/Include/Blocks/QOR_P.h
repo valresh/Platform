@@ -1,0 +1,1 @@
+﻿String_K(NAME,"Имя",32)Integer(K,"K Selector",1)

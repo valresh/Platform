@@ -1,0 +1,1 @@
+﻿Enumeration(CONVOPT,"",int32,float32,uint64,float64x32,Def=uint64)Boolean(SAFEOUT,"",false)

@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef CONNECTHCD_EXPORTS#define CONNECTHCD_API __declspec(dllexport)#else#define CONNECTHCD_API __declspec(dllimport)#endiftypedef void (*tRegisterHCDstructs)();extern CONNECTHCD_API tRegisterHCDstructs pRegisterHCDstructs;

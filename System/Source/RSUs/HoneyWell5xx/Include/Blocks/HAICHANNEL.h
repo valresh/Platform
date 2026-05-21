@@ -1,0 +1,1 @@
+﻿Real(LASTPV,"Last PV",NaN)Real_A(HSLOTVAL,"Value",8,NaN)Real(PV,"Process Value",NaN)Boolean(BADPVFL,"Bad PV Flag",false)Real(PVCALC,"Calculated PV",NaN)Real(PVRAW,"PV Raw Value",NaN)Enumeration(PVSTS,"Process Value Status",BAD,UNCERTN,NORMAL,MANUAL,INITACK,INITREQ,INITBAD,Def=BAD)

@@ -1,0 +1,1 @@
+﻿String_K(DESC,"Block Descriptor",132)String_K(EUDESC,"Block Engineering Units Descriptor",24)

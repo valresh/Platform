@@ -1,0 +1,1 @@
+﻿String_K(NAME,"Имя",31)String_K(DESC,"Description",132)Enumeration(ACCLOCK,"Access Lock",OPERATOR,ENGINEER,OTHERFB,Def=OPERATOR)Integer(NSTRING,"Number of String Values",0)String_A(STR,"String Value",64,120)Integer(STRLEN,"Char Length of String Values",0)

@@ -1,0 +1,1 @@
+﻿Enumeration(CEESTATE,"",Idle,Run,Failed,NotLoaded,Def=Run)Integer(DAY,"",0)Integer(HOUR,"",0)Integer(MINUTE,"",0)Integer(MONTH,"",0)Integer(SECOND,"",0)Integer(YEAR,"",0)Real( timeHolder4Phase,"",0)

@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef UTILSSM5XX_EXPORTS#define UTILSSM5XX_API __declspec(dllexport)#else#define UTILSSM5XX_API __declspec(dllimport)#endifUTILSSM5XX_API SValueDef* NameToValueSM( DWORD eData, LPCTSTR name );UTILSSM5XX_API LPCSTR EnumStrSM( SValueDef& def, BYTE val );UTILSSM5XX_API BYTE   EnumValSM( SValueDef& def, LPCSTR name );

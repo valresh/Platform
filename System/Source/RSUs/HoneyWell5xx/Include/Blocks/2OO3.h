@@ -1,0 +1,1 @@
+﻿Boolean_A(IN,"INPUT",3,false)Boolean(DISCREP,"Discrep Output",false)Boolean(MAJ,"Majority Output",false)
