@@ -1,8 +1,9 @@
 #pragma once
 #include <BaseType.h>
+#include <DataTypes.h>
 //#include <crossplatform.h>
 #include <CommProc.h>
-#include </home/resh/Platform/RSU/system/CBase.h>
+//#include </home/resh/Platform/RSU/system/CBase.h>
 //#pragma warning( disable : 444 ) //Отключаем предупреждение о невиртуальности
 
 #include <QtCore/QtGlobal>
@@ -59,7 +60,7 @@ enum eVarType
   evtInt2,
   evtInt4,
 };
-
+#if 0
 enum
 {
   id_OneMnemoHoney = 24000,
@@ -73,7 +74,7 @@ enum
   id_PntTypeInfo = 24995,
   id_OneAlmGrHoney = 24996,
 };
-
+#endif
 inline bool IsAcy( UINT nType )
 {
   return id_AcyMin <= nType && nType < id_AcyMax;

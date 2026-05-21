@@ -7,7 +7,10 @@ TEMPLATE = lib
 
 DEFINES += LINUX
 
-INCLUDEPATH += $$PWD/../../../../Include
+INCLUDEPATH += $$PWD/../../../../Include\
+$$PWD/../../../Common/Include\
+$$PWD/../../Include
+
 
 DESTDIR= "$$PWD/../../../../../EXE"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "/home/resh/Platform/RSU/HoneyWell5xx/Include/RSUBaseType_.h"
+#include "RSUBaseType_.h"
 
 #include <WP_Declare.h>
 
