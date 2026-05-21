@@ -7,8 +7,7 @@ TEMPLATE = lib
 
 DEFINES += LINUX
 
-INCLUDEPATH += $$PWD/../../../../Include\
-$$PWD/../../../Common/Include\
+INCLUDEPATH += $$PWD/../../../Common/Include\
 $$PWD/../../Include
 
 
