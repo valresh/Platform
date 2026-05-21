@@ -1,0 +1,1 @@
+﻿#pragma once#define YOKO_KBD_MSG		_T("Yoko Keyboard Msg")#define YOKO_KBD_WND_CLASS	_T("Yoko Keyboard Comms Window")

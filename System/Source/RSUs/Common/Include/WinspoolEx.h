@@ -1,0 +1,1 @@
+﻿#pragma once#ifndef IN#define IN#endif#include <Winspool.h> 

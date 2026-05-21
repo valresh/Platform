@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API __declspec(dllexport)#else#define SYSTEMREPLACE_API __declspec(dllimport)#pragma comment( lib, "SystemReplace.lib")#endifbool SYSTEMREPLACE_API IsInt(const char* ptr);bool SYSTEMREPLACE_API IsFlt(const char* ptr);double SYSTEMREPLACE_API Atos(char* ptr);double SYSTEMREPLACE_API atos(const char* ptr);

@@ -1,0 +1,43 @@
+typedef enum  EDataTypes
+  {
+  // Специфика модели
+  #undef  DATATYPE
+  #define DATATYPE( Id, Nomer, Text, Icon ) id_##Id = Nomer,
+  #include "BaseType.hpp"
+  id_ObjInfo   = 19,// 19 - расширенная информация об объекте
+  //
+//200 - 209 DeltaV
+//210 - 219 RsLogix
+//230 -  231   Intouch платформа2
+//240 -     ArchestrA Wonderware
+//249 - 408 Honeywell 3xx
+//0x199(409)- OneMnemo, Centum
+//0x200 - 0x53DD Centum
+//22000 - 22599 - ABB, из них до 22299 - базовые, остальные распределяются между отдельными приложениями
+//22600 - 22617 - Intouch платформа3
+//23000 - 23995 Honeywell 4xx
+//23996 - 23999 QuickBuilder 4xx
+//24000 - 24995 Honeywell 5xx
+//24996 - 24999 QuickBuilder 5xx
+//30000 - 31999 TSoft Ручной АРМ
+//32000 - 32009 SiemensS2
+//32010 - 32019 SiemensS7e
+//33000 - 33009 FlexRsu TSoft Ручной АРМ v2
+//33010 - 33019 Prosafe4
+//33020 - 33050 AstraIDE
+//33050 - 33054 AStudio
+//33060 - 33065 Abb FreeLance
+//33070 - 33075 TeCon
+//33080 - 33085 SupCon DCU
+//33090 - 33095 SafeContrix ESD (by SupCon)
+//40000 - (40002)40099 QuickBuilder 311
+//40003 - 40017 SafetyManager 511
+//40018 - 40020 Nafta
+//40021 - 40030 HCD 510
+//40031 - 40039 Schneider Triconex
+//40040 - 40049 Consen
+//40050 - 40059 Xinhua
+//40100 - 40199 RsLogix500
+//40200 - 40299 MetsoDNA - только передаваемые типы
+//40300 - 40399 Schneider FoxboroEvo
+  } EDataTypes ;

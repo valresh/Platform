@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API __declspec(dllexport)#else#define SYSTEMREPLACE_API __declspec(dllimport)#pragma comment( lib, "SystemReplace.lib")#endifvoid SYSTEMREPLACE_API DblToStr( char* lp, double d, size_t dstSize );template<size_t _S>void DblToStr(char (&lp)[_S],double d ){  DblToStr( lp, d, _S );}

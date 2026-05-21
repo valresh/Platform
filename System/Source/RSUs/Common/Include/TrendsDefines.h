@@ -1,0 +1,1 @@
+﻿#pragma once#define FormatMappingDataTrends "Data Trends %d"#define FormatMappingHeaderTrends "Header Trends_"
