@@ -1,31 +1,1 @@
-#pragma once
-#include <basemodel.h>
-#include <rsuSharedClient.h>
-#include <rsuNoNames.h>
-#include <DataTypes_.h>
-#include "ICBsPool.h"
-
-class KH_RemoteClient
-  : public IBaseModel
-  , protected KRsuSharedClient
-  , protected ICBsPool
-{
-  KNoName m_IOs, m_Objs;
-  CCBHSystem* m_pCBSystem;
-  DWORD m_nAcsFindStep;
-public:
-  KH_RemoteClient( LPSTR ObjName );
-  // »ÌÚÂÙÂÈÒ IBaseModel
-  virtual int Init( int );
-  virtual int Step0();
-  virtual int Step1();
-  virtual int StepT(double dt);
-  virtual int SetData( int TypeData, void * pData );
-  NEW
-  //
-  //ICBsPool
-  virtual LPCSTR GetName();
-  virtual bool GetFirstACSObject();
-  virtual bool GetNextACSObject( void ** pData, char *Name, size_t sn, char *Data, size_t sd );
-  virtual bool ShowACSObject( HWND hMainWnd, char * Name, void * pData );
-};
+Ôªø#pragma once#include <basemodel.h>#include <rsuSharedClient.h>#include <rsuNoNames.h>#include <DataTypes_.h>#include "ICBsPool.h"class KH_RemoteClient  : public IBaseModel  , protected KRsuSharedClient  , protected ICBsPool{  KNoName m_IOs, m_Objs;  CCBHSystem* m_pCBSystem;  DWORD m_nAcsFindStep;public:  KH_RemoteClient( LPSTR ObjName );  // –ò–Ω—Ç–µ—Ä—Ñ–µ–π—Å IBaseModel  virtual int Init( int );  virtual int Step0();  virtual int Step1();  virtual int StepT(double dt);  virtual int SetData( int TypeData, void * pData );  NEW  //  //ICBsPool  virtual LPCSTR GetName();  virtual bool GetFirstACSObject();  virtual bool GetNextACSObject( void ** pData, char *Name, size_t sn, char *Data, size_t sd );  virtual bool ShowACSObject( HWND hMainWnd, char * Name, void * pData );};
