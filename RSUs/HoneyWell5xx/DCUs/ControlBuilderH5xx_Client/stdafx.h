@@ -27,7 +27,7 @@
 // Windows Header Files:
 #include <windows.h>
 #endif
-#define SIZE_MAX 0xffffffffffffffffULL
 
 // TODO: reference additional headers your program requires here
 #include <stdlib.h>
+#include <stdint.h>
