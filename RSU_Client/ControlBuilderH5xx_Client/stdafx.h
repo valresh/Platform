@@ -28,6 +28,9 @@
 #include <windows.h>
 
 
+#else
+#include "CommProc.h"
 #endif
+
 // TODO: reference additional headers your program requires here
 #include <stdlib.h>
