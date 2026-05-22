@@ -1,19 +1,21 @@
-QT += core gui
-QT += widgets
-
-CONFIG += c++17
-
-TEMPLATE = lib
-
-DEFINES += LINUX\
-X64
-
-INCLUDEPATH += $$PWD/../../../Common/Include\
-$$PWD/../../Include
-
-
-DESTDIR= $$PWD/../../../../../EXE
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
+  Common.h \
+  Names.h \
   stdafx.h
 SOURCES += \
   ExtendCommon.cpp\

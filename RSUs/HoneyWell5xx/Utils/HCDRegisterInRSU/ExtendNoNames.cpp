@@ -13,7 +13,7 @@ void RegisterHCDstructs()
 #define PNT(Class) KNoName::RegisterClassInNames( Class::TypeID, Class::ClassName);
 #undef  HCD_TYPE
 #define HCD_TYPE( a, b, c ) PNT(W_##b)
-#include <HcdType.hpp>
+#include <HCDType.hpp>
 
     KNoName::RegisterInitCBaseCall( RsuHandleInitData );
 }
@@ -35,7 +35,7 @@ int RsuHandleInitData( CBase* pObj )
 
 #undef  HCD_TYPE
 #define HCD_TYPE( a, b, c ) PNT(W_##b)
-#include <HcdType.hpp>
+#include <HCDType.hpp>
   };
   return -1;
 }

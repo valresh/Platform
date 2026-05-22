@@ -250,11 +250,8 @@ struct CStr
   bool operator != ( char * pStr );
   operator char *( );
 };
-int strcpy_s(
-  char *dest,
-  int dest_size,
-  const char *src
-  );
+int strcpy_s(char *dest, int dest_size, const char *src );
+int strcpy_s(char *dest, const char *src );
 int _strcmpi(const char *, const char *);
 int sprintf_s(char *, const char *, ... );
 int sprintf_s(char *, int, const char *, ... );

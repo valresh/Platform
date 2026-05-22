@@ -9,7 +9,6 @@ SUBDIRS += \
    KeybSensor\
    KeybUSB\
    ListXmlRsu\
-   MnemoWnd\
    ModB\
    ModelMessages\
    RsuSharedClient\
