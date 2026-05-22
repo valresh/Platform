@@ -9,7 +9,7 @@
 
 #define APPR
 
-CWater __declspec(dllexport) Water;
+CWater Q_DECL_EXPORT Water;
 
 static CIF_97 W;
 

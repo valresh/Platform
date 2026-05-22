@@ -1,1 +1,14 @@
-﻿#pragma once#ifdef CONNECTH5XX_EXPORTS#define CONNECTH5XX_API __declspec(dllexport)#else#define CONNECTH5XX_API __declspec(dllimport)#endiftypedef void (*tRegisterHWstructs)();extern CONNECTH5XX_API tRegisterHWstructs pRegisterHWstructs;typedef void (*tAlarm)( LPCSTR PointName, int Alarm, BYTE Prty, bool ON, double Value, void * bMod, BYTE qbaN, LPCSTR pszValue );extern CONNECTH5XX_API tAlarm pAlarm;
+﻿#pragma once
+
+#include <QtCore/qglobal.h>
+#ifdef CONNECTH5XX_EXPORTS
+#define CONNECTH5XX_API Q_DECL_EXPORT
+#else
+#define CONNECTH5XX_API Q_DECL_IMPORT
+#endif
+
+typedef void (*tRegisterHWstructs)();
+extern CONNECTH5XX_API tRegisterHWstructs pRegisterHWstructs;
+
+typedef void (*tAlarm)( LPCSTR PointName, int Alarm, BYTE Prty, bool ON, double Value, void * bMod, BYTE qbaN, LPCSTR pszValue );
+extern CONNECTH5XX_API tAlarm pAlarm;

@@ -12,7 +12,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
   return TRUE;
 }
 
-extern "C" __declspec(dllexport) IBaseModel* CreateObject(LPCTSTR ObjName )
+extern "C" Q_DECL_EXPORT IBaseModel* CreateObject(LPCTSTR ObjName )
 {
   return new CTrendsW(ObjName);
 }

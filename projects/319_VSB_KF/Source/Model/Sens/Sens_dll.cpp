@@ -27,7 +27,7 @@ BEGIN_ACS_INFO
 END_ACS_INFO
 
 // extern "C"
-// __declspec(dllexport) int Support ( int TypeData, void * pData )
+// Q_DECL_EXPORT int Support ( int TypeData, void * pData )
 //   {
 //   switch ( TypeData )
 //     {

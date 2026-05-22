@@ -9,11 +9,11 @@
 #else
 #define IN_DLL Q_DECL_IMPORT
 #endif
+#if 0
 
-
-typedef void (*tSysMsg)( char * Fmt, ... );
-IN_DLL extern tSysMsg pSysMsg;
-#define SysMSG if ( pSysMsg ) (*pSysMsg)
+// typedef void (*tSysMsg)( char * Fmt, ... );
+// IN_DLL extern tSysMsg pSysMsg;
+// #define SysMSG if ( pSysMsg ) (*pSysMsg)
 
 typedef void (*tShowGroup)( char * Group, char * ObjName );
 IN_DLL extern tShowGroup pShowGroup;
@@ -51,8 +51,6 @@ extern IN_DLL tGetNextConnection pGetNextConnection;
 typedef bool (*tShowACSObject)( void * pInfo, HWND hMainWnd, char * Name, void * pData );
 extern IN_DLL tShowACSObject pShowACSObject;
 
-typedef void (*tRegisterFinderACSobj)(tGetFirstACSObject pGetF, tGetNextACSObject pGetN, tShowACSObject pShowACS);
-extern IN_DLL tRegisterFinderACSobj pRegisterFinderACSobj;
 
 typedef bool (*tFindAndShowACSObj) ( HWND hWndMain, char * FullName );
 extern IN_DLL tFindAndShowACSObj pFindAndShowACSObj;
@@ -139,7 +137,19 @@ typedef
 extern  tScriptErr IN_DLL pScriptErr;
 extern  tScriptMsg IN_DLL pScriptMsg;
 
-typedef void (*tMessagingUser)( char *pMessage, COLORREF clrBkg,  COLORREF clrTxt );
-extern IN_DLL tMessagingUser pMessagingUser;
-
+//typedef void (*tMessagingUser)( char *pMessage, COLORREF clrBkg,  COLORREF clrTxt );
+//extern IN_DLL tMessagingUser pMessagingUser;
+#endif
+typedef bool (*tShowACSObject)( void * pInfo, HWND hMainWnd, char * Name, void * pData );
+extern IN_DLL tShowACSObject pShowACSObject;
+typedef bool (*tFindAndShowACSObj) ( HWND hWndMain, char * FullName );
+extern IN_DLL tFindAndShowACSObj pFindAndShowACSObj;
+typedef bool (*tGetACSObjectValue)( char * Name, void ** ppPV, char * Type );
+extern IN_DLL tGetACSObjectValue pGetACSObjectValue;
+typedef bool (*tGetFirstACSObject)( );
+extern IN_DLL tGetFirstACSObject pGetFirstACSObject;
+typedef bool (*tGetNextACSObject)( DWORD & Type, void ** pData, char Name[256], char Info[256] );
+extern IN_DLL tGetNextACSObject pGetNextACSObject;
+typedef void (*tRegisterFinderACSobj)(tGetFirstACSObject pGetF, tGetNextACSObject pGetN, tShowACSObject pShowACS);
+extern IN_DLL tRegisterFinderACSobj pRegisterFinderACSobj;
 #endif // CONNECT_H

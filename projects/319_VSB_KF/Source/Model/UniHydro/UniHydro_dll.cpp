@@ -10,7 +10,7 @@ BOOL APIENTRY DllMain(_HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 static CUniHydro * point = NULL;
 extern "C"
 {
-__declspec(dllexport) IBaseModel * CreateObject(const char * ObjectName)
+Q_DECL_EXPORT IBaseModel * CreateObject(const char * ObjectName)
 {
   point = new CUniHydro(ObjectName);
   return point;
@@ -20,12 +20,12 @@ NO_NODE_INFO
 NO_PARM_INFO
 NO_ACS_INFO
 
-extern "C" __declspec(dllexport) IBaseModel * GetBaseModelInterface()
+extern "C" Q_DECL_EXPORT IBaseModel * GetBaseModelInterface()
 {
     return static_cast<IBaseModel*>(point);
 }
 
-extern "C" __declspec(dllexport) HydroGroupsInterface * GetHydroGroupsInterface()
+extern "C" Q_DECL_EXPORT HydroGroupsInterface * GetHydroGroupsInterface()
 {
     HydroGroupsInterface * HydroGroups = static_cast<HydroGroupsInterface*>(point);
     return HydroGroups;

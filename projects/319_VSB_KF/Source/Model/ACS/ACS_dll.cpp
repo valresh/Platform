@@ -9,7 +9,7 @@ BOOL APIENTRY DllMain(_HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
   return TRUE;
 }
 
-extern "C" __declspec(dllexport) ACSInterface * GetACSInterface()
+extern "C" Q_DECL_EXPORT ACSInterface * GetACSInterface()
 {
   return new ACScomponent();
 };

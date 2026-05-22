@@ -108,14 +108,14 @@ struct IN_DLL IBaseModel
     struct CDef * pLastDefect;
     struct ISet * pFirstISet;
     struct ISet * pLastISet;
-    CExtern_Pnt * pModel_Pnt;
+    struct CExtern_Pnt * pModel_Pnt;
     bool PropsWasRead;
     //
     struct IUniModel * pUniModel;
     struct IPoolCtrlModel * pPoolCtrl;
     static IBaseModel ** AllObjects;
     static int kObjects;
-    __int64 Counter;  // microseconds
+    quint64 Counter;  // microseconds
     DWORD nThread;
     DWORD kGroups;
     DWORD nGroup;
@@ -160,7 +160,7 @@ struct IN_DLL IBaseModel
     virtual int SetProp ( struct CObjProps * pProp );
     virtual int GetProp( );
     virtual void DrawObj ( struct CDrawObjData * pDraw ){};
-    virtual void DrawObject ( struct CDrawObjData * pDraw, CGDIResourceMgr *pResMgr) {}
+    virtual void DrawObject ( struct CDrawObjData * pDraw, class CGDIResourceMgr *pResMgr) {}
 #ifdef _WIN32
     virtual BOOL NeedDrawBefore() { return FALSE; }
     virtual void Render(IRenderer &);

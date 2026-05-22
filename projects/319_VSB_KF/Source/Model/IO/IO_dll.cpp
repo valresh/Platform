@@ -16,7 +16,7 @@ MODEL_INFO(CIO,0,"IO","Источник-потребитель")
 
 #if 0
 extern "C"
-__declspec(dllexport) int Support ( int TypeData, void * pData )   
+Q_DECL_EXPORT int Support ( int TypeData, void * pData )   
   {
   switch ( TypeData )
     {

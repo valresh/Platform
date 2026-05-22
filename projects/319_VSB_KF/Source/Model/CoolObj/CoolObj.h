@@ -12,7 +12,7 @@
 #include "Data.h"
 
 #ifdef COOL_OBJ_EXPORTS
-#define COOL_OBJ_API __declspec(dllexport)
+#define COOL_OBJ_API Q_DECL_EXPORT
 #else
 #define COOL_OBJ_API __declspec(dllimport)
 #endif

@@ -237,7 +237,7 @@ IN_DLL COLORREF GetTextColor (CGDIResourceMgr *pResMgr, int nModelID, int nType)
 IN_DLL HPEN GetPen (CGDIResourceMgr *pResMgr, int nModelID, int nType);
 IN_DLL HFONT GetFont (CGDIResourceMgr *pResMgr, int nModelID, int nType, COLORREF *pcr = NULL);
 
-//class __declspec(dllexport) CGDIResourceMgr;
+//class Q_DECL_EXPORT CGDIResourceMgr;
 
 
 #endif // GDI_H

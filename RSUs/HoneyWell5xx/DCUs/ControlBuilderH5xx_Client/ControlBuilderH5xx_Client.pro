@@ -5,7 +5,8 @@ CONFIG += c++17
 
 TEMPLATE = lib
 
-DEFINES += LINUX
+DEFINES += LINUX\
+X64
 
 INCLUDEPATH += $$PWD/../../../Common/Include\
 $$PWD/../../Include
@@ -24,6 +25,7 @@ HEADERS += \
   RsuX.h \
   RsuX_types.h \
   SetDataTypes.h \
+  Str.h \
   stdafx.h
 
 SOURCES += \

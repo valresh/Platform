@@ -22,7 +22,7 @@
 
 
 #ifdef PUMP_EXPORTS
-#define PUMP_API __declspec(dllexport)
+#define PUMP_API Q_DECL_EXPORT
 #else
 #define PUMP_API __declspec(dllimport)
 #endif

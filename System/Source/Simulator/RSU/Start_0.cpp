@@ -31,8 +31,8 @@
 
 //bool Release = false;
 #ifdef _WIN32
-__declspec(dllexport) IBaseModel* pMainHydro = NULL;
-__declspec(dllexport) HydroGroupsInterface* HydroGroups = NULL;
+Q_DECL_EXPORT IBaseModel* pMainHydro = NULL;
+Q_DECL_EXPORT HydroGroupsInterface* HydroGroups = NULL;
 
 HWND hInstrWnd = NULL;
 

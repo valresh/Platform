@@ -6,7 +6,7 @@
 #include "Extensions.h"
 
 
-__declspec(dllexport) CKarman::CKarman()
+Q_DECL_EXPORT CKarman::CKarman()
   {
   Vol = 5.;
   Alfa_Karman = 0.5;

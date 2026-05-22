@@ -9,7 +9,7 @@
 #include "IntReg.h"
 
 #ifdef MOTOR_EXPORTS
-#define MOTOR_API __declspec(dllexport)
+#define MOTOR_API Q_DECL_EXPORT
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif

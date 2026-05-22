@@ -12,7 +12,7 @@
 #undef IN_DLL
 #ifdef DLL_CTRL
 #undef IN_DLL
-#define IN_DLL __declspec(dllexport)
+#define IN_DLL Q_DECL_EXPORT
 #else
 #define IN_DLL __declspec(dllimport)
 #endif

@@ -2,11 +2,13 @@
 #include <BaseType.h>
 //#pragma warning( disable : 444 ) //Отключаем предупреждение о невиртуальности
 
+#include <QtCore/qglobal.h>
 #ifdef UTILSH5XX_EXPORTS
-#define UTILSH5XX_API __declspec(dllexport)
+#define UTILSH5XX_API Q_DECL_EXPORT
 #else
-#define UTILSH5XX_API __declspec(dllimport)
+#define UTILSH5XX_API Q_DECL_IMPORT
 #endif
+
 
 struct UTILSH5XX_API CAlarmBase : CBase
 {

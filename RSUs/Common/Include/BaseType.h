@@ -2,7 +2,7 @@
 #define BASETYPE_H
 #pragma once
 #include "CBase.h"
-
+#include <string.h>
 #pragma warning( disable : 444 ) //Отключаем предупреждение о невиртуальности
 //
 enum EValueType : unsigned char

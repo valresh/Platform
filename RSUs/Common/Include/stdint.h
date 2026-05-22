@@ -87,13 +87,8 @@ typedef unsigned int      uint_fast32_t;
 typedef unsigned __INT64_TYPE__ uint_fast64_t;
 
 // 7.18.1.4 Integer types capable of holding object pointers
-#ifdef _WIN64 // [
-   typedef __int64           intptr_t;
-   typedef unsigned __int64  uintptr_t;
-#else // _WIN64 ][
-   typedef int               intptr_t;
-   typedef unsigned int      uintptr_t;
-#endif // _WIN64 ]
+   typedef __INT64_TYPE__           intptr_t;
+   typedef unsigned __INT64_TYPE__  uintptr_t;
 
 // 7.18.1.5 Greatest-width integer types
 typedef int64_t   intmax_t;
@@ -221,11 +216,50 @@ typedef uint64_t  uintmax_t;
 
 #define SIZE_MAX 0xffffffffffffffffULL
 typedef const char * LPCSTR;
+typedef const char * LPCTSTR;
 typedef char * LPSTR;
 typedef void * HWND;
+typedef void * HANDLE;
+typedef unsigned int DWORD_PTR;
 typedef int32_t DWORD;
 typedef unsigned char BYTE;
 typedef unsigned int WORD;
+typedef unsigned int UINT;
+typedef unsigned int BOOL;
+typedef unsigned short USHORT;
+typedef unsigned __INT64_TYPE__ UINT64;
+typedef unsigned __INT64_TYPE__ __time64_t;
 
+struct CStr
+{
+  const char * Str;
+  CStr()
+  {
+    Str = NULL;
+  }
+  static void Free();
+  static void Reset( void * pMaxAddr );
+  void Set( const char * pStr );
+  void operator = ( const char * pStr );
+  void operator << ( const char * pStr );
+  bool operator == ( CStr & Str );
+  bool operator != ( CStr & Str );
+  bool operator == ( char * pStr );
+  bool operator != ( char * pStr );
+  operator char *( );
+};
+int strcpy_s(
+  char *dest,
+  int dest_size,
+  const char *src
+  );
+int _strcmpi(const char *, const char *);
 
+#include <ctype.h>
+//char toupper( char );
+#define _countof(array) (sizeof(array) / sizeof(array[0]))
+#define UINT32_C(val) val##UL
+#define UINT64_C(val) val##ULL
+#define ZeroMemory(V,S) memset(V,0,S)
+void * LoadLibrary(const char * lpLibFileName);
 #endif // _MSC_STDINT_H_ ]

@@ -5,7 +5,7 @@
 CCtrlReg* g_pCtrlReg;
 
 
-extern "C" __declspec(dllexport) IRegInterface* GetInterface()
+extern "C" Q_DECL_EXPORT IRegInterface* GetInterface()
 {
   return static_cast<IRegInterface*>(g_pCtrlReg);
 }

@@ -26,7 +26,7 @@ bool ICreateColumnExtensions::ReadData( IBaseModel * pModel )
 
 extern "C" 
   {
-  __declspec(dllexport) IExtension * GetModelExtension( char * Type )
+  Q_DECL_EXPORT IExtension * GetModelExtension( char * Type )
     {
     if ( lstrcmp ( Type, "Расширения" ) == 0 )
       {

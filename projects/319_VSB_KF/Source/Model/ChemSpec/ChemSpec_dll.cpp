@@ -48,7 +48,7 @@ extern "C"
 #ifdef LINUX
 Q_DECL_EXPORT CGas * GetGasComp( const char * CompName )
 #else
-__declspec(dllexport) CGas * GetGasComp( const char * CompName )
+Q_DECL_EXPORT CGas * GetGasComp( const char * CompName )
 #endif
 
     {
@@ -89,7 +89,7 @@ __declspec(dllexport) CGas * GetGasComp( const char * CompName )
 #ifdef LINUX
     Q_DECL_EXPORT CReal * GetRealComp( const char * CompName )
 #else
-    __declspec(dllexport) CReal * GetRealComp( const char * CompName )
+    Q_DECL_EXPORT CReal * GetRealComp( const char * CompName )
 #endif
   {
   IF( "ETHYLENE")
