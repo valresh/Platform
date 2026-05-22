@@ -15,8 +15,7 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ../../Include/ListXML.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   ListXML.cpp\
   ListXmlRsu_dll.cpp\

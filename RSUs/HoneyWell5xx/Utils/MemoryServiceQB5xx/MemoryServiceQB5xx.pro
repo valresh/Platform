@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   ../../Include/MemoryServiceQB5xx.h
 SOURCES += \
   MemoryServiceQB5xx_dll.cpp\

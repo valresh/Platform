@@ -18,7 +18,6 @@ HEADERS += \
   ScriptoH.h\
   stdafx.h\
   ../../Include/transtypes.h\
-  ../../../Version/DCUVers.rc\
   Trans.h
 SOURCES += \
   ScriptoH.cpp\

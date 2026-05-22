@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   TrendsRemoteClient.h
 SOURCES += \
   stdafx.cpp\

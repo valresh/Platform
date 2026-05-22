@@ -15,8 +15,7 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ModelMessages.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   ModelMessages-File.cpp\
   ModelMessages.cpp\

@@ -18,7 +18,6 @@ HEADERS += \
   LocalUtils.h\
   ServerExSharedPlugin_Honey.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   EventStringH.h
 SOURCES += \
   alarmsext.cpp\

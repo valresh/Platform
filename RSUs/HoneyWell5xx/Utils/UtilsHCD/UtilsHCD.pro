@@ -31,8 +31,7 @@ HEADERS += \
   ../../Include/HCDType.hpp\
   ListValue.h\
   stdafx.h\
-  ../../Include/UtilsHCD.h\
-  ../../../Version/DCUVers.rc
+  ../../Include/UtilsHCD.h
 SOURCES += \
   BuildList.cpp\
   HCDStruct.cpp\

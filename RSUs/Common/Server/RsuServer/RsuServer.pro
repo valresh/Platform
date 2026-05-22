@@ -17,7 +17,6 @@ HEADERS += \
   Resource.h\
   RsuServer.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   RsuServer.ico\
   RsuServer.rc\
   small.ico\

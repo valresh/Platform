@@ -31,8 +31,7 @@ HEADERS += \
   ../../Include/QuickBuilderStruct.h\
   ../../Include/QuickBuilderType.hpp\
   stdafx.h\
-  ../../Include/UtilsQB.h\
-  ../../../Version/DCUVers.rc
+  ../../Include/UtilsQB.h
 SOURCES += \
   BuildList.cpp\
   ListValue.cpp\

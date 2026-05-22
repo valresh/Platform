@@ -49,8 +49,7 @@ HEADERS += \
   ../../Include/SmDataTypes_.h\
   ../../Include/SmShData.h\
   stdafx.h\
-  ../../Include/UtilsSM.h\
-  ../../../Version/DCUVers.rc
+  ../../Include/UtilsSM.h
 SOURCES += \
   BuildList.cpp\
   ListValue.cpp\

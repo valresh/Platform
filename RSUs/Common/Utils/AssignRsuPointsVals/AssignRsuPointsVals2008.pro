@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   AssignRsuPointsVals.h
 SOURCES += \
   AssignRsuPointsVals_dll.cpp\

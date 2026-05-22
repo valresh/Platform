@@ -18,7 +18,6 @@ HEADERS += \
   ServerRsuTcp.h\
   stdafx.h\
   _ttached.ico\
-  ../../../Version/DCUVers.rc\
   ServerRsuTcp.rc\
   ClientConnection.h\
   ServerImpl.h\

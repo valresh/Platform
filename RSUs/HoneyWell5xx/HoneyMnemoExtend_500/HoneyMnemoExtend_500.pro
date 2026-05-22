@@ -15,8 +15,7 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ../Include/HoneyMnemoExtend.h\
-  stdafx.h\
-  ../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   HoneyMnemoExtend.cpp\
   HoneyMnemoExtend_dll.cpp\

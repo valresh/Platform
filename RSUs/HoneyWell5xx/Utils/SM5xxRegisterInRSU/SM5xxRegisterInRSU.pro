@@ -14,8 +14,7 @@ $$PWD/../../Include
 
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   ExtendNoNames.cpp\
   SM5xxRegisterInRSU.cpp\

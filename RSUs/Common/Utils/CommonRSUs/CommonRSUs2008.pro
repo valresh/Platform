@@ -16,8 +16,7 @@ DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ../../Include/CommonRSUs.h\
   ../../Include/hashRSU.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   CommonRSUs.cpp\
   CommonRSUs_dll.cpp\

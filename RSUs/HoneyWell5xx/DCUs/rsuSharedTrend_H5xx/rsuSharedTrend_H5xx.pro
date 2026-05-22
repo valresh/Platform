@@ -15,8 +15,7 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   rsuSharedTrend_H5xx.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   rsuSharedTrend_H5xx_dll.cpp\
   stdafx.cpp

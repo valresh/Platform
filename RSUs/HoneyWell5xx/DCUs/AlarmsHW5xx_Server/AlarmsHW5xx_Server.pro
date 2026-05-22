@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   AlarmServer.h
 SOURCES += \
   AlarmsHW5xx_Server_dll.cpp\

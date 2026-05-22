@@ -26,7 +26,6 @@ HEADERS += \
   ../../Include/QuickBuilder/Analog_P.h\
   ../../Include/QuickBuilder/Status.h\
   ../../Include/QuickBuilder/Status_P.h\
-  ../../../Version/DCUVers.rc\
   QuickBuilder.h\
   stateKeys.h\
   ParmVarInfo.h\

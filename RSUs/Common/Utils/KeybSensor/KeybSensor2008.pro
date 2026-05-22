@@ -19,7 +19,6 @@ HEADERS += \
   Resource.h\
   stdafx.h\
   YokoUSB.h\
-  ../../../Version/DCUVers.rc\
   KeybHW.ico\
   KeybHW.rc\
   small.ico\

@@ -19,7 +19,6 @@ HEADERS += \
   MyMultiDocTemplate.h\
   Resource.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   GuiH.rc\
   res/GuiH.rc2
 SOURCES += \

@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   ../../Include/ConnectHCD.h
 SOURCES += \
   ConnectHCD_dll.cpp\

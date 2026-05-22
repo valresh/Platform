@@ -18,7 +18,6 @@ HEADERS += \
   ServerEx.h\
   stdafx.h\
   _ttached.ico\
-  ../../../Version/DCUVers.rc\
   ServerEx.rc\
   TrendReaderImpl.h\
   TrendReaderV0.h\

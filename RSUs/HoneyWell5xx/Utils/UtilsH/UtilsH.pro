@@ -24,7 +24,6 @@ HEADERS += \
   stdafx.h\
   ../../Include/UtilsH.h\
   ../../Include/WP_Declare.h\
-  ../../../Version/DCUVers.rc\
   ../../Include/Blocks/DATAACQ.h\
   ../../Include/Blocks/DATAACQ_P.h\
   ../../Include/Blocks/DEVCTL.h\

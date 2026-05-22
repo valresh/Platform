@@ -17,7 +17,6 @@ HEADERS += \
   resource.h\
   SafetyManagerDebug_dll.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   res/folders.bmp\
   res/handtrackyes.cur\
   SafetyManagerH5xx_Debug.rc\

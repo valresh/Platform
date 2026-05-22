@@ -20,7 +20,6 @@ HEADERS += \
   ../../Include/HcdDataTypes_.h\
   ../../Include/HcdVarTypes.h\
   ../../Include/IHcdDrawable.h\
-  ../../../Version/DCUVers.rc\
   HcdRsu.h\
   HcdConnection.h\
   HcdPage.h\

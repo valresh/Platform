@@ -28,7 +28,6 @@ HEADERS += \
   ../../../Common/Include/xmlhelper.h\
   res/bmp161.bmp\
   ControlBuilder.rc\
-  ../../../Version/DCUVers.rc\
   CBPool.h\
   ControlBuilder.h\
   ../../Include/IControlBuilder.h\

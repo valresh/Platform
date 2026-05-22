@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   MbPointConfig.h\
   ModbusTcpServerImpl.h\
   ModbusTcpHandle.h\

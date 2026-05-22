@@ -17,7 +17,6 @@ HEADERS += \
   ModbusTcpDebug.h\
   Resource.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   ModbusTcpDebug.rc\
   DebugApp.h\
   ModbusTcpDoc.h\

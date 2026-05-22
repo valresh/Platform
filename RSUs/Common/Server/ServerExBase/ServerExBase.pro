@@ -17,7 +17,6 @@ HEADERS += \
   Resource.h\
   ServerExBase.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   ServerExBase.rc\
   MemBuffer.h\
   ../../Include/ServerExPluginTypes.h\

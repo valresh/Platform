@@ -20,7 +20,6 @@ HEADERS += \
   ../../Include/HcdVarTypes.h\
   stdafx.h\
   ../../Include/HCD/DynString.h\
-  ../../../Version/DCUVers.rc\
   PrivateVars/NumbConstant.h\
   PrivateVars/PageConnectorDest.h\
   PrivateVars/PageConnectorSource.h\

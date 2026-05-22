@@ -16,7 +16,6 @@ DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ServerExPlugin_Honey.h\
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   EventStringH.h
 SOURCES += \
   alarmsext.cpp\

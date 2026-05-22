@@ -15,7 +15,6 @@ $$PWD/../../Include
 DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   stdafx.h\
-  ../../../Version/DCUVers.rc\
   QB_RemoteClient.h
 SOURCES += \
   QuickBuilderH5xx_Client.cpp\

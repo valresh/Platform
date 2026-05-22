@@ -16,8 +16,7 @@ DESTDIR= $$PWD/../../../../../EXE
 HEADERS += \
   ServerExPlugin_Model.h\
   ../../../Common/Include/ServerExPluginTypes.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   MessagesExt.cpp\
   ServerExPlugin_Model_dll.cpp\

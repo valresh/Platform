@@ -36,7 +36,6 @@ HEADERS += \
   res/button_images.bmp\
   res/CJ60Lib.rc2\
   res/cj_logo.bmp\
-  ../../../Version/DCUVers.rc\
   res/hsplitba.cur\
   res/vsplitba.cur
 SOURCES += \

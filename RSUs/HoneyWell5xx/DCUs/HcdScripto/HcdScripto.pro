@@ -18,8 +18,7 @@ HEADERS += \
   Translator.h\
   export.h\
   HcdScripto.h\
-  stdafx.h\
-  ../../../Version/DCUVers.rc
+  stdafx.h
 SOURCES += \
   HcdScripto.cpp\
   stdafx.cpp\
