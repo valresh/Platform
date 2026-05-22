@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef HCDSCRIPTO_EXPORTS#define HCDSCRIPTO_API __declspec(dllexport)#else#define HCDSCRIPTO_API __declspec(dllimport)#pragma comment( lib, "HcdScripto.lib")#endif
+﻿#pragma once#ifdef HCDSCRIPTO_EXPORTS#define HCDSCRIPTO_API Q_DECL_DLLEXPORT     #else#define HCDSCRIPTO_API Q_DECL_DLLIMPORT     #pragma comment( lib, "HcdScripto.lib")#endif

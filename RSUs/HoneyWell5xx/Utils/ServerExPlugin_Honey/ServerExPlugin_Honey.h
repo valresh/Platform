@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SERVEREXPLUGIN_HONEY5XX_EXPORTS#define SERVEREXPLUGIN_HONEY5XX_API __declspec(dllexport)#else#define SERVEREXPLUGIN_HONEY5XX_API __declspec(dllimport)#endif
+﻿#pragma once#ifdef SERVEREXPLUGIN_HONEY5XX_EXPORTS#define SERVEREXPLUGIN_HONEY5XX_API Q_DECL_DLLEXPORT     #else#define SERVEREXPLUGIN_HONEY5XX_API Q_DECL_DLLIMPORT     #endif

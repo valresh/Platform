@@ -1,1 +1,1 @@
-﻿#pragma once#include <IHcdDrawable.h>#ifdef HCDDEBUG_EXPORTS#define HCDDEBUG_API __declspec(dllexport)#else#define HCDDEBUG_API __declspec(dllimport)#endifHCDDEBUG_API bool ShowDebugWnd( IHcdDrawable **ppCtrls, size_t c, LPCSTR pszPrjName, SStepCalcParams *pParams );
+﻿#pragma once#include <IHcdDrawable.h>#ifdef HCDDEBUG_EXPORTS#define HCDDEBUG_API Q_DECL_DLLEXPORT     #else#define HCDDEBUG_API Q_DECL_DLLIMPORT     #endifHCDDEBUG_API bool ShowDebugWnd( IHcdDrawable **ppCtrls, size_t c, LPCSTR pszPrjName, SStepCalcParams *pParams );

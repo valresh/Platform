@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API __declspec(dllexport)#else#define SYSTEMREPLACE_API __declspec(dllimport)#pragma comment( lib, "SystemReplace.lib")#endifSYSTEMREPLACE_API double r01();
+﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API Q_DECL_DLLEXPORT     #else#define SYSTEMREPLACE_API Q_DECL_DLLIMPORT     #pragma comment( lib, "SystemReplace.lib")#endifSYSTEMREPLACE_API double r01();

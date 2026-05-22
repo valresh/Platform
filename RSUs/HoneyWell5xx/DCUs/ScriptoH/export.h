@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SCRIPTOH5XX_EXPORTS#define SCRIPTOH5XX_API __declspec(dllexport)#else#define SCRIPTOH5XX_API __declspec(dllimport)#endif
+﻿#pragma once#ifdef SCRIPTOH5XX_EXPORTS#define SCRIPTOH5XX_API Q_DECL_DLLEXPORT     #else#define SCRIPTOH5XX_API Q_DECL_DLLIMPORT     #endif
