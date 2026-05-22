@@ -1,4 +1,20 @@
+QT += widgets
+
 TEMPLATE = subdirs
+
+BUILDDIR = $$PWD/../../../SYSTEM/TEMP/UniHydro
+
+OBJECTS_DIR = $${BUILDDIR}
+DEFINES += LINUX
+
+DESTDIR= $$PWD/../../../../../EXE
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+QMAKE_CXXFLAGS_WARN_OFF += -Wwrite-strings\
+-Wattributes
+
 SUBDIRS += \
    CommonH\
    ConnectH\

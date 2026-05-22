@@ -231,6 +231,7 @@ typedef unsigned __INT64_TYPE__ UINT64;
 typedef unsigned __INT64_TYPE__ __time64_t;
 typedef void * HMODULE;
 typedef void * LPVOID;
+typedef char CHAR;
 struct CStr
 {
   const char * Str;
@@ -255,6 +256,9 @@ int strcpy_s(
   const char *src
   );
 int _strcmpi(const char *, const char *);
+int sprintf_s(char *, const char *, ... );
+int sprintf_s(char *, int, const char *, ... );
+void * LoadLibrary(const char * lpLibFileName);
 
 #include <ctype.h>
 //char toupper( char );
@@ -262,7 +266,6 @@ int _strcmpi(const char *, const char *);
 #define UINT32_C(val) val##UL
 #define UINT64_C(val) val##ULL
 #define ZeroMemory(V,S) memset(V,0,S)
-void * LoadLibrary(const char * lpLibFileName);
 #define DLL_PROCESS_ATTACH 1
 #define DLL_THREAD_ATTACH  2
 #define DLL_THREAD_DETACH  3
@@ -270,5 +273,5 @@ void * LoadLibrary(const char * lpLibFileName);
 #define APIENTRY
 #define TRUE 1
 #define FALSE 0
-
+#define _MAX_PATH 1024
 #endif // _MSC_STDINT_H_ ]
