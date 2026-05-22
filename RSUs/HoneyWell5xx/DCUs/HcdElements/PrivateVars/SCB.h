@@ -1,0 +1,1 @@
+﻿PrivateAnalog32( ScaleFactor, "Scale Factor")PrivateAnalog32( Bias, NULL )PrivateAnalog32Savebale( INU0, NULL )PrivateAnalog32Savebale( OUTD0, NULL )

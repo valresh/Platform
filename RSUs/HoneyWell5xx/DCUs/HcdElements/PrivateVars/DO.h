@@ -1,0 +1,1 @@
+﻿PrivateBoolSavebale(INL0,NULL)PrivateBoolSavebale(FAIL,NULL)PrivateBoolSavebale(OUTR0,NULL)PrivateBool(Invert,NULL)PrivateEnum( FTC, "Failsafe type", Off,On,Hold,_Def=Off )

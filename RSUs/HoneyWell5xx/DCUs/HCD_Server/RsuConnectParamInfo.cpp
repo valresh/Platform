@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include "Server.h"#include "HcdPool.h"using namespace nRSUx;KHcdPool g_Pool;nRSUx::SParamInfo RsuConnectParamInfo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pSuffix ){  nRSUx::SParamInfo info;  info = g_Pool.GetObj( pszPointName, pszIOtype, pSuffix );  return info;}

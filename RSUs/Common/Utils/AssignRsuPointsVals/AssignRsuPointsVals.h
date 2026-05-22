@@ -1,0 +1,1 @@
+﻿#pragma once#include <BaseInt.h>#include <string>#include <vector>#include <RsuX.h>class KAssignRsuPointsVals : public IBaseModel{public:  KAssignRsuPointsVals( char * _ObjName );  virtual ~KAssignRsuPointsVals();  // Интерфейс IBaseModel  int Step1();  NEW};

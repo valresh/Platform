@@ -1,0 +1,1 @@
+﻿#pragma once#include "../HcdFactory/IHcdElement.h"struct IHcdServer{  virtual IHcdElement* FindObj( LPCSTR pszName ) = 0;};

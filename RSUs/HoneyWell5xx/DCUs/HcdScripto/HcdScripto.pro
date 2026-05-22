@@ -1,0 +1,31 @@
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  Trans.h\
+  Translator.h\
+  export.h\
+  HcdScripto.h\
+  stdafx.h\
+  ..\..\..\Version\DCUVers.rc
+SOURCES += \
+  HcdScripto.cpp\
+  stdafx.cpp\
+  AnalizeTok.cpp\
+  Func.cpp\
+  GetTokens.cpp\
+  Prior.cpp\
+  Translator.cpp\
+  Var.cpp

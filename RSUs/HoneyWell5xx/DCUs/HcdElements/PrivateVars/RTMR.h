@@ -1,0 +1,1 @@
+﻿#undef OUTPrivateBoolSavebale(RST,"^RST")PrivateBoolSavebale(EN,NULL)PrivateBoolSavebale(TIM_DN,NULL)PrivateAnalog32Savebale(RPRES,NULL)PrivateAnalog32Savebale(PREL,NULL)PrivateAnalog32Savebale(TIME,NULL)PrivateBoolSavebale(OUT,NULL)PrivateBool(UEP,"Use external preload")PrivateAnalog32(LocalPreset,"Local Preset")PrivateBool(Remote,NULL)

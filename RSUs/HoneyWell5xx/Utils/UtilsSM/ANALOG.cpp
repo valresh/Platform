@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <SafetyManagerStruct.h>#include "ParamShow.h"int W_SMANALOG::GetParams( KSmBridge2SysParam &params ){#include "SafetyManager/SmAnalog.h"#include "SafetyManager/SmAnalog_P.h"  return 0;}

@@ -1,0 +1,1 @@
+﻿#pragma once#include "../QuickBuilderH/QbBase.h"#ifdef QUICKBUILDERH5XXDEBUG_EXPORTS#define QUICKBUILDERH5XXDEBUG_API __declspec(dllexport)#else#define QUICKBUILDERH5XXDEBUG_API __declspec(dllimport)#endifQUICKBUILDERH5XXDEBUG_API bool ShowDebugWnd( KQbBase *pPnt );

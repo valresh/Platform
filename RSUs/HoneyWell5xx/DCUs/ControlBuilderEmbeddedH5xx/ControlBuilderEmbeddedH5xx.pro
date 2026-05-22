@@ -1,0 +1,26 @@
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  stdafx.h\
+  ControlBuilderE.h
+SOURCES += \
+  ControlBuilderEmbeddedH5xx_dll.cpp\
+  stdafx.cpp\
+  ControlBuilderE.cpp\
+  ControlBuilderE_ACS.cpp\
+  ControlBuilderE_Parm.cpp\
+  ControlBuilderE_State.cpp\
+  RsuConnectionImpl.cpp

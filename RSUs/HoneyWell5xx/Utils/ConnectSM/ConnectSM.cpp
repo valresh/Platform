@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <ConnectSM.h>tRegisterSMstructs pRegisterSMstructs = NULL;tGetSourceFromSM pGetSourceFromSM = NULL;

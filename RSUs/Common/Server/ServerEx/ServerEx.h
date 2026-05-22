@@ -1,0 +1,1 @@
+﻿//#include <windows.h> #include <afx.h>VOID InstanceThread(LPVOID);void MyErrExit(LPTSTR str);void StartService(void);void StopService(void);

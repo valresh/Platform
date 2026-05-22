@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include "Server.h"int KServer::ParamsSave( LPCSTR pszPath ){  return 0;}int KServer::ParamsRestore( LPCSTR pszPath ){  return 0;}

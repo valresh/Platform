@@ -1,0 +1,1 @@
+﻿#pragma onceclass CMemBuffer : public CMemFile{public:  BYTE* GetBuffer()   {     if (m_nFileSize)       return m_lpBuffer;     return NULL;  }};

@@ -1,0 +1,1 @@
+﻿// ListOfBlocks.cpp : implementation file//#include "stdafx.h"#include "FlexRsuDebugBridge.h"#include "ListOfBlocks.h"// KListOfBlocksIMPLEMENT_DYNAMIC(KListOfBlocks, CWnd)KListOfBlocks::KListOfBlocks(){}KListOfBlocks::~KListOfBlocks(){}BEGIN_MESSAGE_MAP(KListOfBlocks, CWnd)END_MESSAGE_MAP()// KListOfBlocks message handlers

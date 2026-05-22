@@ -1,0 +1,1 @@
+﻿PrivateAnalog32( AvgPeriod, "Averaging Period")PrivateBool( HOLD, NULL )PrivateBool( RST, NULL )PrivateAnalog32Savebale( I_AVG, NULL )PrivateAnalog32Savebale( P_AVG, NULL )PrivateAnalog32Savebale( INU0, NULL )PrivateAnalog32Savebale( _accum, NULL )PrivateDigital32Savebale( _samples, NULL )PrivateAnalog32Savebale( _time, NULL )

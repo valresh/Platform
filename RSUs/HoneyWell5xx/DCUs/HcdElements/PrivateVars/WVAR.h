@@ -1,0 +1,1 @@
+﻿PrivateDigital32( VariableNumber, "Variable Number")PrivatePoint2String( VariableName, "Variable Name")PrivateAnalog32Savebale(X,NULL)PrivateBoolSavebale(EN,NULL)

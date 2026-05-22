@@ -1,0 +1,1 @@
+﻿#pragma once#include <basemodel.h>#include "../AlarmKernalHW5xx/AlarmKernalHW5xx.h"class CAlarmsW   : public IBaseModel  , protected KAlarmKernalHW5xx{  bool m_bInited, m_bStep0, m_bStep1;  //public:  CAlarmsW( LPCTSTR ObjName );  virtual ~CAlarmsW();  NEWprotected:  //  Интерфейс IBaseModel  virtual int Init( int );  virtual int StepT(double dt);};

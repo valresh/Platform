@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <HCDDataTypes_.h>#include <HCDStruct.h>#undef  HCD_TYPE#define HCD_TYPE( a, b, c ) LPCSTR W_##b::ClassName = c;#include <HCDType.hpp>

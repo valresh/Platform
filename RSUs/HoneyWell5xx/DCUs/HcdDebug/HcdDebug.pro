@@ -1,0 +1,38 @@
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  HcdDebug.h\
+  Resource.h\
+  stdafx.h\
+  res\bmp161.bmp\
+  HcdDebug.rc\
+  HcdDebugApp.h\
+  FieldsView.h\
+  HcdDebugDoc.h\
+  HcdDebugSimpleFrame.h\
+  ListOfBlocksView.h\
+  PrjView.h\
+  FindByName.h
+SOURCES += \
+  HcdDebug_dll.cpp\
+  stdafx.cpp\
+  HcdDebugApp.cpp\
+  FieldsView.cpp\
+  HcdDebugDoc.cpp\
+  HcdDebugSimpleFrame.cpp\
+  ListOfBlocksView.cpp\
+  PrjView.cpp\
+  FindByName.cpp

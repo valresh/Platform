@@ -1,0 +1,1 @@
+﻿#pragma once#include "IHcdElement.h"class HCDFACTORY_API KHcdFactory{  typedef IHcdElement* (*tfCreateNP)();  static KHcdFactory * pFirst;  static KHcdFactory * pLast;  KHcdFactory * pNext;  LPCSTR pszType;  tfCreateNP fnCreateNP;public:  KHcdFactory( LPCSTR pType, tfCreateNP pCreate );  static IHcdElement * Create( LPCSTR pType );};

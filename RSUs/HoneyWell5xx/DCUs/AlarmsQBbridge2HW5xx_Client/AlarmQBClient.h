@@ -1,0 +1,1 @@
+﻿#pragma once#include <basemodel.h>#include <rsuSharedClient.h>class KAlarmQBClient  : public IBaseModel  , protected KRsuSharedClient{public:  KAlarmQBClient( LPSTR ObjName );  // Интерфейс IBaseModel  virtual int Init( int );  virtual int Step0();  virtual int Step1();  virtual int StepT(double dt);  NEW};

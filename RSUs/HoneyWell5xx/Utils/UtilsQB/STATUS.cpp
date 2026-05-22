@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <QuickBuilderStruct.h>#include "ParamShow.h"int W_QBSTATUS::GetParams( KQbBridge2SysParam &params ){#include "QuickBuilder/Status.h"#include "QuickBuilder/Status_P.h"  return 0;}

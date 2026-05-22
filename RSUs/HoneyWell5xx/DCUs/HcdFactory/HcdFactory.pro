@@ -1,0 +1,25 @@
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  stdafx.h\
+  ..\..\..\Version\DCUVers.rc\
+  HcdFactory.h\
+  IHcdController.h\
+  IHcdElement.h
+SOURCES += \
+  HcdFactory_dll.cpp\
+  stdafx.cpp\
+  HcdFactory.cpp

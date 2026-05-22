@@ -1,0 +1,1 @@
+﻿PrivateAnalog32( CAP, NULL )PrivateAnalog32( RATE1, NULL )PrivateAnalog32( RATE2, NULL )PrivateAnalog32( RATE3, NULL )

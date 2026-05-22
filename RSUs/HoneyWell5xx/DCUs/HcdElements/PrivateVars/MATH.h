@@ -1,0 +1,1 @@
+﻿#undef OUTPrivateAnalog32Savebale(A,NULL)PrivateAnalog32Savebale(B,NULL)PrivateAnalog32Savebale(C,NULL)PrivateAnalog32Savebale(D,NULL)PrivateAnalog32Savebale(E,NULL)PrivateAnalog32Savebale(F,NULL)PrivateAnalog32Savebale(G,NULL)PrivateAnalog32Savebale(H,NULL)PrivateAnalog32Savebale(OUT,NULL)PrivateDigital32Savebale(ERR,NULL)PrivatePoint2String( Equation, NULL )

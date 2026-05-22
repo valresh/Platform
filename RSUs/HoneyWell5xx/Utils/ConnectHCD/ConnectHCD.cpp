@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <ConnectHCD.h>tRegisterHCDstructs pRegisterHCDstructs = NULL;

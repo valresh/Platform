@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include "SafetyManager.h"#include "..\SafetyManagerH5xx_Debug\SafetyManagerDebug_dll.h"void KSafetyManager::ShowACSObject( HWND hMainWnd, char * Name, void * pData ){  ShowDebugWindow( Name, this );}

@@ -1,0 +1,1 @@
+﻿#pragma once#include <HcdDataTypes_.h>#include <rsuNoNames.h>struct ISharedWrapper{  LPCSTR pszName;  LPCSTR pszOtherName;  virtual CBase* GetBase() = 0;  virtual BYTE* GetField( eHcdVType *pType = NULL, tHcdVarSizeType_ *pVarSize = NULL ) = 0;};

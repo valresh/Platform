@@ -1,0 +1,1 @@
+﻿#pragma once// KQuickBuilderAppclass KQuickBuilderApp : public CWinThread{	DECLARE_DYNCREATE(KQuickBuilderApp)public:	KQuickBuilderApp();           // protected constructor used by dynamic creation	virtual ~KQuickBuilderApp();public:	virtual BOOL InitInstance();	virtual int ExitInstance();protected:	DECLARE_MESSAGE_MAP()};

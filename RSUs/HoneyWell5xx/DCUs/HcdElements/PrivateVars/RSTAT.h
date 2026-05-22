@@ -1,0 +1,1 @@
+﻿PrivateBool( FOVER, "^FOVER" )PrivateBool( AL, "A LEAD" )PrivateBool( BL, "B LEAD" )PrivateBool( AR, "A RSRV" )PrivateBool( BR, "b RSRV" )

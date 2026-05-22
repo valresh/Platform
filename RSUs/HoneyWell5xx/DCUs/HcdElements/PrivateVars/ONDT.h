@@ -1,0 +1,1 @@
+﻿PrivateBoolSavebale(RUN,NULL)PrivateBoolSavebale(OUTR0,NULL)PrivateAnalog32(DT,"Delay time (tenths sec.)")PrivateAnalog32Savebale(time,NULL)

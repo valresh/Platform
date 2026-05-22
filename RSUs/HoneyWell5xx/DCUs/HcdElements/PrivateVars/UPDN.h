@@ -1,0 +1,1 @@
+﻿#undef OUTPrivateDigital32( LocalPreset, "Local Preset" )PrivateBool( RemotePreset, "Remote Preset" )PrivateBoolSavebale( X, "^X" )PrivateDigital32Savebale( RPRE, NULL )PrivateBoolSavebale( RST, NULL )PrivateBoolSavebale( CNTDN, NULL )PrivateDigital32Savebale( OUT, NULL )PrivateBoolSavebale( PREI, NULL )PrivateBoolSavebale( prevX, NULL )

@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef HCDRSUIMPL_EXPORTS#define HCDRSUIMPL_API __declspec(dllexport)#else#define HCDRSUIMPL_API __declspec(dllimport)#endif

@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include "HcdRsu.h"#include <macros/AutoRestore.h>using namespace tinyxml2;using namespace TINYXMLHELPER;

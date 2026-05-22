@@ -1,0 +1,1 @@
+﻿PrivateAnalog32Savebale( Y, NULL )PrivateAnalog32Savebale( INU0, NULL )PrivateAnalog32Savebale( OUTD0, NULL )PrivateBoolSavebale( SY, NULL )
