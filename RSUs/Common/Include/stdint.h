@@ -264,6 +264,9 @@ int _strcmpi(const char *, const char *);
 #define ZeroMemory(V,S) memset(V,0,S)
 void * LoadLibrary(const char * lpLibFileName);
 #define DLL_PROCESS_ATTACH 1
+#define DLL_THREAD_ATTACH  2
+#define DLL_THREAD_DETACH  3
+#define DLL_PROCESS_DETACH 4
 #define APIENTRY
 #define TRUE 1
 #define FALSE 0
