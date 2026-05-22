@@ -1,48 +1,1 @@
-QT += core gui
-QT += widgets
-
-CONFIG += c++17
-
-TEMPLATE = lib
-
-DEFINES += LINUX\
-X64
-
-INCLUDEPATH += $$PWD/../../../Common/Include\
-$$PWD/../../Include
-
-
-DESTDIR= $$PWD/../../../../../EXE
-HEADERS += \
-  stdafx.h\
-  SystemReplace.h\
-  ..\..\Include\rsuClipboard.h\
-  ..\..\Include\rsuErr.h\
-  ..\..\Include\rsuFormats.h\
-  ..\..\Include\rsuIsType.h\
-  ..\..\Include\rsuMemoryManager.h\
-  ..\..\Include\rsuNoNames.h\
-  ..\..\Include\rsuNoNames2D.h\
-  ..\..\Include\rsuPaths.h\
-  ..\..\Include\rsuRand.h\
-  ..\..\Include\rsuStr.h\
-  ..\..\Include\eVersion.h\
-  ..\..\Include\rsuProjectVersion.h\
-  OnDiskAllocator.h
-SOURCES += \
-  ..\..\..\..\SYSTEM\Source\Utils\Utils\LogFile.cpp\
-  stdafx.cpp\
-  SystemReplace_dll.cpp\
-  OnDiskAllocator.cpp\
-  rsuClipboard.cpp\
-  rsuErr.cpp\
-  rsuFormats.cpp\
-  rsuIsType.cpp\
-  rsuLocalCrc.cpp\
-  rsuMemoryManager.cpp\
-  rsuNoNames.cpp\
-  rsuNoNames2D.cpp\
-  rsuPath.cpp\
-  rsuProjectVersion.cpp\
-  rsuRand.cpp\
-  rsuStr.cpp
+﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  stdafx.h\  SystemReplace.h\  ../../Include/rsuClipboard.h\  ../../Include/rsuErr.h\  ../../Include/rsuFormats.h\  ../../Include/rsuIsType.h\  ../../Include/rsuMemoryManager.h\  ../../Include/rsuNoNames.h\  ../../Include/rsuNoNames2D.h\  ../../Include/rsuPaths.h\  ../../Include/rsuRand.h\  ../../Include/rsuStr.h\  ../../Include/eVersion.h\  ../../Include/rsuProjectVersion.h\  OnDiskAllocator.hSOURCES += \  ../../../../SYSTEM/Source/Utils/Utils/LogFile.cpp\  stdafx.cpp\  SystemReplace_dll.cpp\  OnDiskAllocator.cpp\  rsuClipboard.cpp\  rsuErr.cpp\  rsuFormats.cpp\  rsuIsType.cpp\  rsuLocalCrc.cpp\  rsuMemoryManager.cpp\  rsuNoNames.cpp\  rsuNoNames2D.cpp\  rsuPath.cpp\  rsuProjectVersion.cpp\  rsuRand.cpp\  rsuStr.cpp

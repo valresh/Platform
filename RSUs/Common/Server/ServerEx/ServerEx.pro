@@ -1,37 +1,1 @@
-QT += core gui
-QT += widgets
-
-CONFIG += c++17
-
-TEMPLATE = lib
-
-DEFINES += LINUX\
-X64
-
-INCLUDEPATH += $$PWD/../../../Common/Include\
-$$PWD/../../Include
-
-
-DESTDIR= $$PWD/../../../../../EXE
-HEADERS += \
-  resource.h\
-  ServerEx.h\
-  stdafx.h\
-  _ttached.ico\
-  ..\..\..\Version\DCUVers.rc\
-  ServerEx.rc\
-  TrendReaderImpl.h\
-  TrendReaderV0.h\
-  ServerThreadPipe.h
-SOURCES += \
-  ExerciseState.cpp\
-  ..\..\..\..\SYSTEM\Source\Utils\Utils\LogFile.cpp\
-  ServerEx.cpp\
-  ServerWindow.cpp\
-  ..\..\..\..\SYSTEM\Source\IIIClassLibTrial\iiidwordstringarrex.c..\..\..\..\SYSTEM\Source\IIIClassLibTrial\IIIIndexedDWordString..\..\..\..\SYSTEM\Source\IIIClassLibTrial\iiiptrarray.cpp\
-  ..\..\..\..\SYSTEM\Source\IIIClassLibTrial\IIIIndexedDWordString..\..\..\..\SYSTEM\Source\IIIClassLibTrial\iiiptrarray.cpp\
-  ..\..\..\..\SYSTEM\Source\IIIClassLibTrial\iiiptrarray.cpp\
-  ..\..\..\..\SYSTEM\Source\IIIClassLibTrial\iiistring.cpp\
-  TrendReaderImpl.cpp\
-  TrendReaderV0.cpp\
-  ServerThreadPipe.cpp
+﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  resource.h\  ServerEx.h\  stdafx.h\  _ttached.ico\  ../../../Version/DCUVers.rc\  ServerEx.rc\  TrendReaderImpl.h\  TrendReaderV0.h\  ServerThreadPipe.hSOURCES += \  ExerciseState.cpp\  ../../../../SYSTEM/Source/Utils/Utils/LogFile.cpp\  ServerEx.cpp\  ServerWindow.cpp\  ../../../../SYSTEM/Source/IIIClassLibTrial/iiidwordstringarrex.c../../../../SYSTEM/Source/IIIClassLibTrial/IIIIndexedDWordString../../../../SYSTEM/Source/IIIClassLibTrial/iiiptrarray.cpp\  ../../../../SYSTEM/Source/IIIClassLibTrial/IIIIndexedDWordString../../../../SYSTEM/Source/IIIClassLibTrial/iiiptrarray.cpp\  ../../../../SYSTEM/Source/IIIClassLibTrial/iiiptrarray.cpp\  ../../../../SYSTEM/Source/IIIClassLibTrial/iiistring.cpp\  TrendReaderImpl.cpp\  TrendReaderV0.cpp\  ServerThreadPipe.cpp

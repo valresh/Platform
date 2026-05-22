@@ -1,125 +1,1 @@
-QT += core gui
-QT += widgets
-
-CONFIG += c++17
-
-TEMPLATE = lib
-
-DEFINES += LINUX\
-X64
-
-INCLUDEPATH += $$PWD/../../../Common/Include\
-$$PWD/../../Include
-
-
-DESTDIR= $$PWD/../../../../../EXE
-HEADERS += \
-  stdafx.h\
-  ..\..\..\Version\DCUVers.rc\
-  SM_Server.h\
-  IStateSer.h\
-  stateKeys.h\
-  StateSer.h\
-  SafetyManager.h\
-  ..\..\Include\FSC_Info.h\
-  DbfFiles.h\
-  FscFile.h\
-  FscFiles.h\
-  FscList.h\
-  IFscStorage.h\
-  FscBase.h\
-  FscDeclEnum.hpp\
-  FscEnum.hpp\
-  FscTypes.h\
-  ISMsPool.h\
-  SMsPool.h\
-  Get2Buffer.h
-SOURCES += \
-  SafetyManagerH5xx_Server_dll.cpp\
-  stdafx.cpp\
-  RsuConnectionImpl.cpp\
-  SM_Server.cpp\
-  SM_States.cpp\
-  StateSer.cpp\
-  Load.cpp\
-  ReadProject.cpp\
-  RestoryData.cpp\
-  SafetyManager.cpp\
-  SafetyManager_ACS.cpp\
-  SafetyManager_Calc.cpp\
-  SafetyManagerIimpl.cpp\
-  DbfFiles.cpp\
-  FscFile.cpp\
-  FscFiles.cpp\
-  FscList.cpp\
-  FscBase.cpp\
-  FSC\Fsc26.cpp\
-  FSC\Fsc27.cpp\
-  FSC\Fsc3E.cpp\
-  FSC\Fsc48.cpp\
-  FSC\Fsc49.cpp\
-  FSC\FscDo.cpp\
-  FSC\Fsc01.cpp\
-  FSC\Fsc02.cpp\
-  FSC\Fsc03.cpp\
-  FSC\Fsc04.cpp\
-  FSC\Fsc05.cpp\
-  FSC\Fsc06.cpp\
-  FSC\Fsc08.cpp\
-  FSC\Fsc09.cpp\
-  FSC\Fsc0A.cpp\
-  FSC\Fsc0B.cpp\
-  FSC\Fsc0C.cpp\
-  FSC\Fsc46.cpp\
-  FSC\Fsc12.cpp\
-  FSC\Fsc13.cpp\
-  FSC\Fsc0D.cpp\
-  FSC\Fsc0E.cpp\
-  FSC\Fsc0F.cpp\
-  FSC\Fsc10.cpp\
-  FSC\Fsc15.cpp\
-  FSC\Fsc16.cpp\
-  FSC\Fsc17.cpp\
-  FSC\Fsc18.cpp\
-  FSC\Fsc2F.cpp\
-  FSC\Fsc19.cpp\
-  FSC\Fsc1A.cpp\
-  FSC\Fsc47.cpp\
-  FSC\Fsc20.cpp\
-  FSC\Fsc25.cpp\
-  FSC\Fsc2B.cpp\
-  FSC\Fsc2C.cpp\
-  FSC\Fsc2D.cpp\
-  FSC\Fsc2E.cpp\
-  FSC\Fsc30.cpp\
-  FSC\Fsc32.cpp\
-  FSC\Fsc33.cpp\
-  FSC\Fsc34.cpp\
-  FSC\Fsc1E.cpp\
-  FSC\Fsc1F.cpp\
-  FSC\Fsc21.cpp\
-  FSC\Fsc22.cpp\
-  FSC\Fsc23.cpp\
-  FSC\Fsc24.cpp\
-  FSC\Fsc31.cpp\
-  FSC\Fsc3A.cpp\
-  FSC\Fsc3B.cpp\
-  FSC\Fsc3C.cpp\
-  FSC\Fsc3D.cpp\
-  FSC\Fsc29.cpp\
-  FSC\Fsc2A.cpp\
-  FSC\Fsc1D.cpp\
-  FSC\Fsc35.cpp\
-  FSC\Fsc4A.cpp\
-  FSC\Fsc28.cpp\
-  FSC\Fsc36.cpp\
-  FSC\Fsc37.cpp\
-  FSC\Fsc41.cpp\
-  FSC\Fsc42.cpp\
-  FSC\Fsc43.cpp\
-  FSC\Fsc44.cpp\
-  FSC\Fsc45.cpp\
-  Fsc1C.cpp\
-  Fsc4B.cpp\
-  SMsPool.cpp\
-  Get2Buffer.cpp
+﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  stdafx.h\  ../../../Version/DCUVers.rc\  SM_Server.h\  IStateSer.h\  stateKeys.h\  StateSer.h\  SafetyManager.h\  ../../Include/FSC_Info.h\  DbfFiles.h\  FscFile.h\  FscFiles.h\  FscList.h\  IFscStorage.h\  FscBase.h\  FscDeclEnum.hpp\  FscEnum.hpp\  FscTypes.h\  ISMsPool.h\  SMsPool.h\  Get2Buffer.hSOURCES += \  SafetyManagerH5xx_Server_dll.cpp\  stdafx.cpp\  RsuConnectionImpl.cpp\  SM_Server.cpp\  SM_States.cpp\  StateSer.cpp\  Load.cpp\  ReadProject.cpp\  RestoryData.cpp\  SafetyManager.cpp\  SafetyManager_ACS.cpp\  SafetyManager_Calc.cpp\  SafetyManagerIimpl.cpp\  DbfFiles.cpp\  FscFile.cpp\  FscFiles.cpp\  FscList.cpp\  FscBase.cpp\  FSC/Fsc26.cpp\  FSC/Fsc27.cpp\  FSC/Fsc3E.cpp\  FSC/Fsc48.cpp\  FSC/Fsc49.cpp\  FSC/FscDo.cpp\  FSC/Fsc01.cpp\  FSC/Fsc02.cpp\  FSC/Fsc03.cpp\  FSC/Fsc04.cpp\  FSC/Fsc05.cpp\  FSC/Fsc06.cpp\  FSC/Fsc08.cpp\  FSC/Fsc09.cpp\  FSC/Fsc0A.cpp\  FSC/Fsc0B.cpp\  FSC/Fsc0C.cpp\  FSC/Fsc46.cpp\  FSC/Fsc12.cpp\  FSC/Fsc13.cpp\  FSC/Fsc0D.cpp\  FSC/Fsc0E.cpp\  FSC/Fsc0F.cpp\  FSC/Fsc10.cpp\  FSC/Fsc15.cpp\  FSC/Fsc16.cpp\  FSC/Fsc17.cpp\  FSC/Fsc18.cpp\  FSC/Fsc2F.cpp\  FSC/Fsc19.cpp\  FSC/Fsc1A.cpp\  FSC/Fsc47.cpp\  FSC/Fsc20.cpp\  FSC/Fsc25.cpp\  FSC/Fsc2B.cpp\  FSC/Fsc2C.cpp\  FSC/Fsc2D.cpp\  FSC/Fsc2E.cpp\  FSC/Fsc30.cpp\  FSC/Fsc32.cpp\  FSC/Fsc33.cpp\  FSC/Fsc34.cpp\  FSC/Fsc1E.cpp\  FSC/Fsc1F.cpp\  FSC/Fsc21.cpp\  FSC/Fsc22.cpp\  FSC/Fsc23.cpp\  FSC/Fsc24.cpp\  FSC/Fsc31.cpp\  FSC/Fsc3A.cpp\  FSC/Fsc3B.cpp\  FSC/Fsc3C.cpp\  FSC/Fsc3D.cpp\  FSC/Fsc29.cpp\  FSC/Fsc2A.cpp\  FSC/Fsc1D.cpp\  FSC/Fsc35.cpp\  FSC/Fsc4A.cpp\  FSC/Fsc28.cpp\  FSC/Fsc36.cpp\  FSC/Fsc37.cpp\  FSC/Fsc41.cpp\  FSC/Fsc42.cpp\  FSC/Fsc43.cpp\  FSC/Fsc44.cpp\  FSC/Fsc45.cpp\  Fsc1C.cpp\  Fsc4B.cpp\  SMsPool.cpp\  Get2Buffer.cpp

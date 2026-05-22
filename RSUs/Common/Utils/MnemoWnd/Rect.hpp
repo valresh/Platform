@@ -1,1 +1,0 @@
-﻿#if 1MACROS(TYPE_LIBRARY   ,Queue_Library    ,"Специфика модели")MACROS(TYPE_MACROS    ,Queue_Macros     ,"Макрос")#undef  MACROS#endif

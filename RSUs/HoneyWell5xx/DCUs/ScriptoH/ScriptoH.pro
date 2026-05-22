@@ -1,32 +1,1 @@
-QT += core gui
-QT += widgets
-
-CONFIG += c++17
-
-TEMPLATE = lib
-
-DEFINES += LINUX\
-X64
-
-INCLUDEPATH += $$PWD/../../../Common/Include\
-$$PWD/../../Include
-
-
-DESTDIR= $$PWD/../../../../../EXE
-HEADERS += \
-  export.h\
-  ScriptoH.h\
-  stdafx.h\
-  ..\..\Include\transtypes.h\
-  ..\..\..\Version\DCUVers.rc\
-  Trans.h
-SOURCES += \
-  ScriptoH.cpp\
-  stdafx.cpp\
-  AnalizeTok.cpp\
-  Func.cpp\
-  Logic.cpp\
-  SET.cpp\
-  Tokens.cpp\
-  Trans.cpp\
-  Var.cpp
+﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  export.h\  ScriptoH.h\  stdafx.h\  ../../Include/transtypes.h\  ../../../Version/DCUVers.rc\  Trans.hSOURCES += \  ScriptoH.cpp\  stdafx.cpp\  AnalizeTok.cpp\  Func.cpp\  Logic.cpp\  SET.cpp\  Tokens.cpp\  Trans.cpp\  Var.cpp
