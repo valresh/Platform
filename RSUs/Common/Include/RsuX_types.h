@@ -2,10 +2,11 @@
 #define RSUX_TYPES_H
 
 
+#include <QtCore/qglobal.h>
 #ifdef RSUX_EXPORTS
-#define RSUX_API __declspec(dllexport)
+#define RSUX_API Q_DECL_EXPORT
 #else
-#define RSUX_API __declspec(dllimport)
+#define RSUX_API Q_DECL_IMPORT
 #endif
 
 namespace nRSUx

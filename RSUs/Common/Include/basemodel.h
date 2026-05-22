@@ -128,8 +128,8 @@ struct IN_DLL IBaseModel
     enum eType { None, MainModel, SubModel, GroupModel, Y_Obj, RSU_Obj };
     eType TypeObj;
     //
-    CSortTree RootPoint;
-    CSortTreeInfo Points;
+//    CSortTree RootPoint;
+//    CSortTreeInfo Points;
     int ModelGroup;
     DWORD ModelFlags;
     DWORD ClassID;
