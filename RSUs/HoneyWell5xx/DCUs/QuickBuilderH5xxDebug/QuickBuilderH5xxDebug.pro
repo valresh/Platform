@@ -1,1 +1,33 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  QuickBuilderH5xxDebug.h\  Resource.h\  stdafx.h\  QuickBuilderH5xxDebug.rc\  QuickBuilderApp.h\  Dial_Value.h\  GridCtrl.h\  InPlaceCombo.h\  InPlaceEdit.hSOURCES += \  QuickBuilderH5xxDebug_dll.cpp\  stdafx.cpp\  QuickBuilderApp.cpp\  Dial_Value.cpp\  GridCtrl.cpp\  InPlaceCombo.cpp\  InPlaceEdit.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  QuickBuilderH5xxDebug.h\
+  Resource.h\
+  stdafx.h\
+  QuickBuilderH5xxDebug.rc\
+  QuickBuilderApp.h\
+  Dial_Value.h\
+  GridCtrl.h\
+  InPlaceCombo.h\
+  InPlaceEdit.h
+SOURCES += \
+  QuickBuilderH5xxDebug_dll.cpp\
+  stdafx.cpp\
+  QuickBuilderApp.cpp\
+  Dial_Value.cpp\
+  GridCtrl.cpp\
+  InPlaceCombo.cpp\
+  InPlaceEdit.cpp

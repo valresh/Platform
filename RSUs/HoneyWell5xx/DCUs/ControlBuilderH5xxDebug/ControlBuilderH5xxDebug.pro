@@ -1,1 +1,46 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  ControlBuilderH5xxDebug.h\  Resource.h\  stdafx.h\  res/bmp161.bmp\  ControlBuilderH5xxDebug.rc\  ControlBuilderApp.h\  BlkDraw.h\  ControlBuilderDoc.h\  ControlBuilderSimpleFrame.h\  ControlBuilderView.h\  PrjView.h\  Dial_Value.h\  GridCtrl.h\  ../../Include/HParamInfo.h\  InPlaceCombo.h\  InPlaceEdit.hSOURCES += \  ControlBuilderH5xxDebug_dll.cpp\  stdafx.cpp\  ControlBuilderApp.cpp\  BlkDraw.cpp\  ControlBuilderDoc.cpp\  ControlBuilderSimpleFrame.cpp\  ControlBuilderView.cpp\  PrjView.cpp\  Dial_Value.cpp\  GridCtrl.cpp\  HParamInfo.cpp\  InPlaceCombo.cpp\  InPlaceEdit.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  ControlBuilderH5xxDebug.h\
+  Resource.h\
+  stdafx.h\
+  res/bmp161.bmp\
+  ControlBuilderH5xxDebug.rc\
+  ControlBuilderApp.h\
+  BlkDraw.h\
+  ControlBuilderDoc.h\
+  ControlBuilderSimpleFrame.h\
+  ControlBuilderView.h\
+  PrjView.h\
+  Dial_Value.h\
+  GridCtrl.h\
+  ../../Include/HParamInfo.h\
+  InPlaceCombo.h\
+  InPlaceEdit.h
+SOURCES += \
+  ControlBuilderH5xxDebug_dll.cpp\
+  stdafx.cpp\
+  ControlBuilderApp.cpp\
+  BlkDraw.cpp\
+  ControlBuilderDoc.cpp\
+  ControlBuilderSimpleFrame.cpp\
+  ControlBuilderView.cpp\
+  PrjView.cpp\
+  Dial_Value.cpp\
+  GridCtrl.cpp\
+  HParamInfo.cpp\
+  InPlaceCombo.cpp\
+  InPlaceEdit.cpp

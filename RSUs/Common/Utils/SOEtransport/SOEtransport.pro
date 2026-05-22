@@ -1,1 +1,22 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  stdafx.h\  SOEtransport.hSOURCES += \  SOEtransport_dll.cpp\  stdafx.cpp\  SOEtransport.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  stdafx.h\
+  SOEtransport.h
+SOURCES += \
+  SOEtransport_dll.cpp\
+  stdafx.cpp\
+  SOEtransport.cpp

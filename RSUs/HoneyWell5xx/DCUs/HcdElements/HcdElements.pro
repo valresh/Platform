@@ -1,1 +1,149 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  _InitInfo.h\  ../../Include/HcdPrivateDeclare.h\  ../../Include/HcdVarInfo.h\  ../../Include/HcdVarTypes.h\  stdafx.h\  ../../Include/HCD/DynString.h\  ../../../Version/DCUVers.rc\  PrivateVars/NumbConstant.h\  PrivateVars/PageConnectorDest.h\  PrivateVars/PageConnectorSource.h\  PrivateVars/SignalDest.h\  PrivateVars/SignalSource.h\  PrivateVars/VariableIn.h\  ../../Include/HCD/AnalogVar.h\  ../../Include/HCD/DigitalVar.h\  ../../Include/HCD/AnalogSignal.h\  ../../Include/HCD/DigitalSignal.h\  CalcRes.h\  Calculon.h\  HcdDataCopy.h\  HcdElementBase.h\  PrivateVars/4ADD.h\  PrivateVars/8DI.h\  PrivateVars/8DO.h\  PrivateVars/ABS.h\  PrivateVars/ADD.h\  PrivateVars/AI.h\  PrivateVars/AND.h\  PrivateVars/AO.h\  PrivateVars/ASYS.h\  PrivateVars/CAVG.h\  PrivateVars/CMPR.h\  PrivateVars/DENC.h\  PrivateVars/DIV.h\  PrivateVars/DLAY.h\  PrivateVars/DO.h\  PrivateVars/FRCP.h\  PrivateVars/HSEL.h\  PrivateVars/LTCH.h\  PrivateVars/MATH.h\  PrivateVars/MDSW.h\  PrivateVars/MUL.h\  PrivateVars/NOT.h\  PrivateVars/OFDT.h\  PrivateVars/ONDT.h\  PrivateVars/OR.h\  PrivateVars/PID.h\  PrivateVars/PTMR.h\  PrivateVars/RK.h\  PrivateVars/RSTAT.h\  PrivateVars/RSW.h\  PrivateVars/RTC.h\  PrivateVars/RTMR.h\  PrivateVars/SCB.h\  PrivateVars/STRIG.h\  PrivateVars/SUB.h\  PrivateVars/SW.h\  PrivateVars/TCPR.h\  PrivateVars/TCPS.h\  PrivateVars/TGFF.h\  PrivateVars/TOT.h\  PrivateVars/TPSC.h\  PrivateVars/TRIG.h\  PrivateVars/TRND.h\  PrivateVars/TRPT.h\  PrivateVars/UPDN.h\  PrivateVars/WVAR.h\  ../../Include/HCD/8DI.h\  ../../Include/HCD/8DO.h\  ../../Include/HCD/AI.h\  ../../Include/HCD/AO.h\  ../../Include/HCD/DO.h\  ISharedWrapper.h\  SharedWrapperImpl.hSOURCES += \  HcdElements_dll.cpp\  stdafx.cpp\  4ADD.cpp\  ABS.cpp\  ADD.cpp\  AND.cpp\  ASYS.cpp\  CAVG.cpp\  CMPR.cpp\  DENC.cpp\  DIV.cpp\  DLAY.cpp\  FRCP.cpp\  HSEL.cpp\  LTCH.cpp\  MATH.cpp\  MDSW.cpp\  MUL.cpp\  NOT.cpp\  OFDT.cpp\  ONDT.cpp\  OR.cpp\  PID.cpp\  PTMR.cpp\  RK.cpp\  RSTAT.cpp\  RSW.cpp\  RTC.cpp\  RTMR.cpp\  SCB.cpp\  STRIG.cpp\  SUB.cpp\  SW.cpp\  TCPR.cpp\  TCPS.cpp\  TGFF.cpp\  TOT.cpp\  TPSC.cpp\  TRIG.cpp\  TRND.cpp\  TRPT.cpp\  UPDN.cpp\  WVAR.cpp\  NumbConstant.cpp\  PageConnectorDest.cpp\  PageConnectorSource.cpp\  SignalDest.cpp\  SignalSource.cpp\  VariableIn.cpp\  CalcRes.cpp\  Calculon.cpp\  8DI.cpp\  8DO.cpp\  AI.cpp\  AO.cpp\  DO.cpp\  HcdDataCopy.cpp\  HcdElementBase.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  _InitInfo.h\
+  ../../Include/HcdPrivateDeclare.h\
+  ../../Include/HcdVarInfo.h\
+  ../../Include/HcdVarTypes.h\
+  stdafx.h\
+  ../../Include/HCD/DynString.h\
+  ../../../Version/DCUVers.rc\
+  PrivateVars/NumbConstant.h\
+  PrivateVars/PageConnectorDest.h\
+  PrivateVars/PageConnectorSource.h\
+  PrivateVars/SignalDest.h\
+  PrivateVars/SignalSource.h\
+  PrivateVars/VariableIn.h\
+  ../../Include/HCD/AnalogVar.h\
+  ../../Include/HCD/DigitalVar.h\
+  ../../Include/HCD/AnalogSignal.h\
+  ../../Include/HCD/DigitalSignal.h\
+  CalcRes.h\
+  Calculon.h\
+  HcdDataCopy.h\
+  HcdElementBase.h\
+  PrivateVars/4ADD.h\
+  PrivateVars/8DI.h\
+  PrivateVars/8DO.h\
+  PrivateVars/ABS.h\
+  PrivateVars/ADD.h\
+  PrivateVars/AI.h\
+  PrivateVars/AND.h\
+  PrivateVars/AO.h\
+  PrivateVars/ASYS.h\
+  PrivateVars/CAVG.h\
+  PrivateVars/CMPR.h\
+  PrivateVars/DENC.h\
+  PrivateVars/DIV.h\
+  PrivateVars/DLAY.h\
+  PrivateVars/DO.h\
+  PrivateVars/FRCP.h\
+  PrivateVars/HSEL.h\
+  PrivateVars/LTCH.h\
+  PrivateVars/MATH.h\
+  PrivateVars/MDSW.h\
+  PrivateVars/MUL.h\
+  PrivateVars/NOT.h\
+  PrivateVars/OFDT.h\
+  PrivateVars/ONDT.h\
+  PrivateVars/OR.h\
+  PrivateVars/PID.h\
+  PrivateVars/PTMR.h\
+  PrivateVars/RK.h\
+  PrivateVars/RSTAT.h\
+  PrivateVars/RSW.h\
+  PrivateVars/RTC.h\
+  PrivateVars/RTMR.h\
+  PrivateVars/SCB.h\
+  PrivateVars/STRIG.h\
+  PrivateVars/SUB.h\
+  PrivateVars/SW.h\
+  PrivateVars/TCPR.h\
+  PrivateVars/TCPS.h\
+  PrivateVars/TGFF.h\
+  PrivateVars/TOT.h\
+  PrivateVars/TPSC.h\
+  PrivateVars/TRIG.h\
+  PrivateVars/TRND.h\
+  PrivateVars/TRPT.h\
+  PrivateVars/UPDN.h\
+  PrivateVars/WVAR.h\
+  ../../Include/HCD/8DI.h\
+  ../../Include/HCD/8DO.h\
+  ../../Include/HCD/AI.h\
+  ../../Include/HCD/AO.h\
+  ../../Include/HCD/DO.h\
+  ISharedWrapper.h\
+  SharedWrapperImpl.h
+SOURCES += \
+  HcdElements_dll.cpp\
+  stdafx.cpp\
+  4ADD.cpp\
+  ABS.cpp\
+  ADD.cpp\
+  AND.cpp\
+  ASYS.cpp\
+  CAVG.cpp\
+  CMPR.cpp\
+  DENC.cpp\
+  DIV.cpp\
+  DLAY.cpp\
+  FRCP.cpp\
+  HSEL.cpp\
+  LTCH.cpp\
+  MATH.cpp\
+  MDSW.cpp\
+  MUL.cpp\
+  NOT.cpp\
+  OFDT.cpp\
+  ONDT.cpp\
+  OR.cpp\
+  PID.cpp\
+  PTMR.cpp\
+  RK.cpp\
+  RSTAT.cpp\
+  RSW.cpp\
+  RTC.cpp\
+  RTMR.cpp\
+  SCB.cpp\
+  STRIG.cpp\
+  SUB.cpp\
+  SW.cpp\
+  TCPR.cpp\
+  TCPS.cpp\
+  TGFF.cpp\
+  TOT.cpp\
+  TPSC.cpp\
+  TRIG.cpp\
+  TRND.cpp\
+  TRPT.cpp\
+  UPDN.cpp\
+  WVAR.cpp\
+  NumbConstant.cpp\
+  PageConnectorDest.cpp\
+  PageConnectorSource.cpp\
+  SignalDest.cpp\
+  SignalSource.cpp\
+  VariableIn.cpp\
+  CalcRes.cpp\
+  Calculon.cpp\
+  8DI.cpp\
+  8DO.cpp\
+  AI.cpp\
+  AO.cpp\
+  DO.cpp\
+  HcdDataCopy.cpp\
+  HcdElementBase.cpp

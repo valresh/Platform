@@ -1,1 +1,25 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  CbTest.h\  Resource.h\  stdafx.h\  CbTest.ico\  CbTest.rc\  small.icoSOURCES += \  CbTest.cpp\  stdafx.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  CbTest.h\
+  Resource.h\
+  stdafx.h\
+  CbTest.ico\
+  CbTest.rc\
+  small.ico
+SOURCES += \
+  CbTest.cpp\
+  stdafx.cpp

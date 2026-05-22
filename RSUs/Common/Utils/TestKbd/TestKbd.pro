@@ -1,1 +1,29 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  Resource.h\  stdafx.h\  targetver.h\  TestKbd.h\  TestKbdDlg.h\  res/TestKbd.ico\  TestKbd.rc\  res/TestKbd.rc2\  ReadMe.txtSOURCES += \  stdafx.cpp\  TestKbd.cpp\  TestKbdDlg.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  Resource.h\
+  stdafx.h\
+  targetver.h\
+  TestKbd.h\
+  TestKbdDlg.h\
+  res/TestKbd.ico\
+  TestKbd.rc\
+  res/TestKbd.rc2\
+  ReadMe.txt
+SOURCES += \
+  stdafx.cpp\
+  TestKbd.cpp\
+  TestKbdDlg.cpp

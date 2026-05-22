@@ -1,1 +1,325 @@
-﻿QT += core guiQT += widgetsCONFIG += c++17TEMPLATE = libDEFINES += LINUX\X64INCLUDEPATH += $$PWD/../../../Common/Include\$$PWD/../../IncludeDESTDIR= $$PWD/../../../../../EXEHEADERS += \  ../../Include/BaseType_.h\  ../../Include/DataTypes_.h\  ../../Include/HoneywellEnums.h\  ../../Include/HoneywellStruct.h\  ../../Include/HoneywellType.hpp\  ListValue.h\  Sh_Sheme.h\  stdafx.h\  ../../Include/UtilsH.h\  ../../Include/WP_Declare.h\  ../../../Version/DCUVers.rc\  ../../Include/Blocks/DATAACQ.h\  ../../Include/Blocks/DATAACQ_P.h\  ../../Include/Blocks/DEVCTL.h\  ../../Include/Blocks/DEVCTL_P.h\  ../../Include/Blocks/FFLINK.h\  ../../Include/Blocks/FFLINK_P.h\  ../../Include/Blocks/FIM4.h\  ../../Include/Modules/FIM4_P.h\  ../../Include/Blocks/PCDIFLAGARRCH.h\  ../../Include/Blocks/PCDIFLAGARRCH_P.h\  ../../Include/Blocks/PCDINUMARRCH.h\  ../../Include/Blocks/PCDINUMARRCH_P.h\  ../../Include/Blocks/RBPERMISSION.h\  ../../Include/Blocks/RBPERMISSION_P.h\  ../../Include/Blocks/ABS.h\  ../../Include/Blocks/ABS_P.h\  ../../Include/Blocks/ADD.h\  ../../Include/Blocks/ADD_P.h\  ../../Include/Blocks/DIV.h\  ../../Include/Blocks/DIV_P.h\  ../../Include/Blocks/MUL.h\  ../../Include/Blocks/MUL_P.h\  ../../Include/Blocks/NEG.h\  ../../Include/Blocks/NEG_P.h\  ../../Include/Blocks/ROLLAVG.h\  ../../Include/Blocks/ROLLAVG_P.h\  ../../Include/Blocks/SUB.h\  ../../Include/Blocks/SUB_P.h\  ../../Include/Blocks/2OO3.h\  ../../Include/Blocks/2OO3_P.h\  ../../Include/Blocks/AND.h\  ../../Include/Blocks/AND_P.h\  ../../Include/Blocks/CHECKBAD.h\  ../../Include/Blocks/CHECKBAD_P.h\  ../../Include/Blocks/DELAY.h\  ../../Include/Blocks/DELAY_P.h\  ../../Include/Blocks/EQ.h\  ../../Include/Blocks/EQ_P.h\  ../../Include/Blocks/FTRIG.h\  ../../Include/Blocks/FTRIG_P.h\  ../../Include/Blocks/GE.h\  ../../Include/Blocks/GE_P.h\  ../../Include/Blocks/GT.h\  ../../Include/Blocks/GT_P.h\  ../../Include/Blocks/LE.h\  ../../Include/Blocks/LE_P.h\  ../../Include/Blocks/LIMIT.h\  ../../Include/Blocks/LIMIT_P.h\  ../../Include/Blocks/LT.h\  ../../Include/Blocks/LT_P.h\  ../../Include/Blocks/MAX.h\  ../../Include/Blocks/MAX_P.h\  ../../Include/Blocks/MAXPULSE.h\  ../../Include/Blocks/MAXPULSE_P.h\  ../../Include/Blocks/MIN.h\  ../../Include/Blocks/MIN_P.h\  ../../Include/Blocks/MINPULSE.h\  ../../Include/Blocks/MINPULSE_P.h\  ../../Include/Blocks/MUXREAL.h\  ../../Include/Blocks/MUXREAL_P.h\  ../../Include/Blocks/NAND.h\  ../../Include/Blocks/NAND_P.h\  ../../Include/Blocks/NE.h\  ../../Include/Blocks/NE_P.h\  ../../Include/Blocks/NOR.h\  ../../Include/Blocks/NOR_P.h\  ../../Include/Blocks/NOT.h\  ../../Include/Blocks/NOT_P.h\  ../../Include/Blocks/OFFDELAY.h\  ../../Include/Blocks/OFFDELAY_P.h\  ../../Include/Blocks/ONDELAY.h\  ../../Include/Blocks/ONDELAY_P.h\  ../../Include/Blocks/OR.h\  ../../Include/Blocks/OR_P.h\  ../../Include/Blocks/PULSE.h\  ../../Include/Blocks/PULSE_P.h\  ../../Include/Blocks/QOR.h\  ../../Include/Blocks/QOR_P.h\  ../../Include/Blocks/RS.h\  ../../Include/Blocks/RS_P.h\  ../../Include/Blocks/RTRIG.h\  ../../Include/Blocks/RTRIG_P.h\  ../../Include/Blocks/SELREAL.h\  ../../Include/Blocks/SELREAL_P.h\  ../../Include/Blocks/SR.h\  ../../Include/Blocks/SR_P.h\  ../../Include/Blocks/TRIG.h\  ../../Include/Blocks/TRIG_P.h\  ../../Include/Blocks/WATCHDOG.h\  ../../Include/Blocks/WATCHDOG_P.h\  ../../Include/Blocks/XOR.h\  ../../Include/Blocks/XOR_P.h\  ../../Include/Blocks/DIGACQ.h\  ../../Include/Blocks/DIGACQ_P.h\  ../../Include/Blocks/FIRSTOUT.h\  ../../Include/Blocks/FIRSTOUT_P.h\  ../../Include/Blocks/FLAG.h\  ../../Include/Blocks/FLAG_P.h\  ../../Include/Blocks/FLAGARRAY.h\  ../../Include/Blocks/FLAGARRAY_P.h\  ../../Include/Blocks/MESSAGE.h\  ../../Include/Blocks/MESSAGE_P.h\  ../../Include/Blocks/NUMERIC.h\  ../../Include/Blocks/NUMERIC_P.h\  ../../Include/Blocks/NUMERICARRAY.h\  ../../Include/Blocks/NUMERICARRAY_P.h\  ../../Include/Blocks/PUSH.h\  ../../Include/Blocks/PUSH_P.h\  ../../Include/Blocks/TEXTARRAY.h\  ../../Include/Blocks/TEXTARRAY_P.h\  ../../Include/Blocks/TEXTCOMMENT.h\  ../../Include/Blocks/TEXTCOMMENT_P.h\  ../../Include/Blocks/TIMER.h\  ../../Include/Blocks/TIMER_P.h\  ../../Include/Blocks/TYPECONVERT.h\  ../../Include/Blocks/TYPECONVERT_P.h\  ../../Include/Blocks/AUXCALC.h\  ../../Include/Blocks/AUXCALC_P.h\  ../../Include/Blocks/AUXSUMMER.h\  ../../Include/Blocks/AUXSUMMER_P.h\  ../../Include/Blocks/CTUD.h\  ../../Include/Blocks/CTUD_P.h\  ../../Include/Blocks/DATAACQ.h\  ../../Include/Blocks/DATAACQ_P.h\  ../../Include/Blocks/DEADTIME.h\  ../../Include/Blocks/DEADTIME_P.h\  ../../Include/Blocks/DEVCTL.h\  ../../Include/Blocks/DEVCTL_P.h\  ../../Include/Blocks/ENHAUXCALC.h\  ../../Include/Blocks/ENHAUXCALC_P.h\  ../../Include/Blocks/FLOWCOMP.h\  ../../Include/Blocks/FLOWCOMP_P.h\  ../../Include/Blocks/GENLIN.h\  ../../Include/Blocks/GENLIN_P.h\  ../../Include/Blocks/SIGNALSEL.h\  ../../Include/Blocks/SIGNALSEL_P.h\  ../../Include/Blocks/TOTALIZER.h\  ../../Include/Blocks/TOTALIZER_P.h\  ../../Include/Blocks/AUTOMAN.h\  ../../Include/Blocks/AUTOMAN_P.h\  ../../Include/Blocks/ENHREGCALC.h\  ../../Include/Blocks/ENHREGCALC_P.h\  ../../Include/Blocks/FANOUT.h\  ../../Include/Blocks/FANOUT_P.h\  ../../Include/Blocks/OVRDSEL.h\  ../../Include/Blocks/OVRDSEL_P.h\  ../../Include/Blocks/PID.h\  ../../Include/Blocks/PID_P.h\  ../../Include/Blocks/PIDFF.h\  ../../Include/Blocks/PIDFF_P.h\  ../../Include/Blocks/RATIOBIAS.h\  ../../Include/Blocks/RATIOBIAS_P.h\  ../../Include/Blocks/RATIOCTL.h\  ../../Include/Blocks/RATIOCTL_P.h\  ../../Include/Blocks/REGCALC.h\  ../../Include/Blocks/REGCALC_P.h\  ../../Include/Blocks/REGSUMMER.h\  ../../Include/Blocks/REGSUMMER_P.h\  ../../Include/Blocks/SWITCH.h\  ../../Include/Blocks/SWITCH_P.h\  ../../Include/Modules/CEEC300.h\  ../../Include/Modules/CEEC300_P.h\  ../../Include/Modules/CEEFB.h\  ../../Include/Modules/CEEFB_P.h\  ../../Include/Modules/CONTROLMODULE.h\  ../../Include/Modules/CONTROLMODULE_P.h\  ../../Include/Modules/CPMFB.h\  ../../Include/Modules/CPMFB_P.h\  ../../Include/Modules/Dx_24y.h\  ../../Include/Modules/Dx_24y_P.h\  ../../Include/Modules/FTEB.h\  ../../Include/Modules/FTEB_P.h\  ../../Include/Modules/IOLINK.h\  ../../Include/Modules/IOLINK_P.h\  ../../Include/Modules/PCDI_MASTER.h\  ../../Include/Modules/PCDI_MASTER_P.h\  ../../Include/Modules/RMFBCLASS.h\  ../../Include/Modules/RMFBCLASS_P.h\  ../../Include/Modules/ROOT_P.h\  ../../Include/Modules/SCM.h\  ../../Include/Modules/SCM_P.h\  ../../Include/Modules/xC300.h\  ../../Include/Modules/xC300_P.h\  ../../Include/Modules/9413-DIGIT_0102.h\  ../../Include/Modules/9413-DIGIT_0102_P.h\  ../../Include/Modules/AO16.h\  ../../Include/Modules/AO16_P.h\  ../../Include/Modules/DI.h\  ../../Include/Modules/DI24V.h\  ../../Include/Modules/DI24V_P.h\  ../../Include/Modules/DI_P.h\  ../../Include/Blocks/DISOE.h\  ../../Include/Blocks/DISOE_P.h\  ../../Include/Modules/DO32.h\  ../../Include/Modules/DO32_P.h\  ../../Include/Blocks/HLAI.h\  ../../Include/Blocks/HLAI_P.h\  ../../Include/Blocks/HLAIHART.h\  ../../Include/Blocks/HLAIHART_P.h\  ../../Include/Modules/LLMUX.h\  ../../Include/Modules/LLMUX_P.h\  ../../Include/Modules/UIO-2.h\  ../../Include/Modules/UIO-2_P.h\  ../../Include/Modules/UIO.h\  ../../Include/Modules/UIO_P.h\  ../../Include/Modules/SP.h\  ../../Include/Modules/SP_P.h\  ../../Include/Blocks/848_0601.h\  ../../Include/Blocks/848_0601_P.h\  ../../Include/Blocks/MAI.h\  ../../Include/Blocks/MAI_P.h\  ../../Include/Blocks/9413-DIGIT_0102.AI.h\  ../../Include/Blocks/9413-DIGIT_0102.AI_P.h\  ../../Include/Blocks/9413-DIGIT_0102.DO1TB.h\  ../../Include/Blocks/9413-DIGIT_0102.DO1TB_P.h\  ../../Include/Blocks/9413-DIGIT_0102.MDI.h\  ../../Include/Blocks/9413-DIGIT_0102.MDI_P.h\  ../../Include/Blocks/9413-DIGIT_0102.MDO.h\  ../../Include/Blocks/9413-DIGIT_0102.MDO_P.h\  ../../Include/Blocks/9413-DIGIT_0102.RESOURCE.h\  ../../Include/Blocks/9413-DIGIT_0102.RESOURCE_P.h\  ../../Include/Blocks/SPARE.h\  ../../Include/Blocks/SPARE_P.h\  ../../Include/Modules/Dx_24y.h\  ../../Include/Modules/Dx_24y_P.h\  ../../Include/Modules/Dx_SOE.h\  ../../Include/Modules/Dx_SOE_P.h\  ../../Include/Modules/TC-IAH161.h\  ../../Include/Modules/TC-IAH161_P.h\  ../../Include/Modules/TC-IDD321.h\  ../../Include/Modules/TC-IDD321_P.h\  ../../Include/Modules/TC-IXL061.h\  ../../Include/Modules/TC-IXL061_P.h\  ../../Include/Modules/TC-IXL062.h\  ../../Include/Modules/TC-IXL062_P.h\  ../../Include/Modules/TC-IXR061.h\  ../../Include/Modules/TC-IXR061_P.h\  ../../Include/Modules/TC-OAV081.h\  ../../Include/Modules/TC-OAV081_P.h\  ../../Include/Modules/TC-ODD321.h\  ../../Include/Modules/TC-ODD321_P.h\  ../../Include/Blocks/PICHANNEL.h\  ../../Include/Blocks/PICHANNEL_P.h\  ../../Include/Blocks/PITOTALIZER.h\  ../../Include/Blocks/PITOTALIZER_P.h\  ../../Include/Modules/TC-MDP081.h\  ../../Include/Modules/TC-MDP081_P.h\  ../../Include/Blocks/AIREF.h\  ../../Include/Blocks/AIREF_P.h\  ../../Include/Blocks/AOREF.h\  ../../Include/Blocks/AOREF_P.h\  ../../Include/Blocks/DIREF.h\  ../../Include/Blocks/DIREF_P.h\  ../../Include/Blocks/DOREF.h\  ../../Include/Blocks/DOREF_P.h\  ../../Include/Blocks/BOOL2NUM.h\  ../../Include/Blocks/BOOL2NUM_P.h\  ../../Include/Blocks/NUM2BOOL.h\  ../../Include/Blocks/NUM2BOOL_P.h\  ../../Include/Blocks/INTERLOCK.h\  ../../Include/Blocks/INTERLOCK_P.h\  ../../Include/Blocks/HANDLER.h\  ../../Include/Blocks/HANDLER_P.h\  ../../Include/Blocks/STEP.h\  ../../Include/Blocks/STEP_P.h\  ../../Include/Blocks/TRANSITION.h\  ../../Include/Blocks/TRANSITION_P.h\  ../../Include/Blocks/AICHANNEL.h\  ../../Include/Blocks/AICHANNEL_P.h\  ../../Include/Blocks/AOCHANNEL.h\  ../../Include/Blocks/AOCHANNEL_P.h\  ../../Include/Blocks/DICHANNEL.h\  ../../Include/Blocks/DICHANNEL_P.h\  ../../Include/Blocks/DOCHANNEL.h\  ../../Include/Blocks/DOCHANNEL_P.h\  ../../Include/Blocks/HAICHANNEL.h\  ../../Include/Blocks/HAICHANNEL_P.h\  ../../Include/Blocks/SP_AI.h\  ../../Include/Blocks/SP_AI_P.h\  ../../Include/Blocks/SP_AO.h\  ../../Include/Blocks/SP_AO_P.h\  ../../Include/Blocks/SP_DI.h\  ../../Include/Blocks/SP_DI_P.h\  ../../Include/Blocks/SP_DO.h\  ../../Include/Blocks/SP_DO_P.h\  ../../Include/Blocks/SP_SPDVOTE.h\  ../../Include/Blocks/SP_SPDVOTE_P.h\  ../../Include/Blocks/SP_SPEED.h\  ../../Include/Blocks/SP_SPEED_P.hSOURCES += \  CBHSystem.cpp\  HoneywellStruct.cpp\  ListValue.cpp\  OneAlmGrHoney.cpp\  OneMnemoHoney.cpp\  stdafx.cpp\  UtilsH.cpp\  BuildLists.cpp
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  ../../Include/BaseType_.h\
+  ../../Include/DataTypes_.h\
+  ../../Include/HoneywellEnums.h\
+  ../../Include/HoneywellStruct.h\
+  ../../Include/HoneywellType.hpp\
+  ListValue.h\
+  Sh_Sheme.h\
+  stdafx.h\
+  ../../Include/UtilsH.h\
+  ../../Include/WP_Declare.h\
+  ../../../Version/DCUVers.rc\
+  ../../Include/Blocks/DATAACQ.h\
+  ../../Include/Blocks/DATAACQ_P.h\
+  ../../Include/Blocks/DEVCTL.h\
+  ../../Include/Blocks/DEVCTL_P.h\
+  ../../Include/Blocks/FFLINK.h\
+  ../../Include/Blocks/FFLINK_P.h\
+  ../../Include/Blocks/FIM4.h\
+  ../../Include/Modules/FIM4_P.h\
+  ../../Include/Blocks/PCDIFLAGARRCH.h\
+  ../../Include/Blocks/PCDIFLAGARRCH_P.h\
+  ../../Include/Blocks/PCDINUMARRCH.h\
+  ../../Include/Blocks/PCDINUMARRCH_P.h\
+  ../../Include/Blocks/RBPERMISSION.h\
+  ../../Include/Blocks/RBPERMISSION_P.h\
+  ../../Include/Blocks/ABS.h\
+  ../../Include/Blocks/ABS_P.h\
+  ../../Include/Blocks/ADD.h\
+  ../../Include/Blocks/ADD_P.h\
+  ../../Include/Blocks/DIV.h\
+  ../../Include/Blocks/DIV_P.h\
+  ../../Include/Blocks/MUL.h\
+  ../../Include/Blocks/MUL_P.h\
+  ../../Include/Blocks/NEG.h\
+  ../../Include/Blocks/NEG_P.h\
+  ../../Include/Blocks/ROLLAVG.h\
+  ../../Include/Blocks/ROLLAVG_P.h\
+  ../../Include/Blocks/SUB.h\
+  ../../Include/Blocks/SUB_P.h\
+  ../../Include/Blocks/2OO3.h\
+  ../../Include/Blocks/2OO3_P.h\
+  ../../Include/Blocks/AND.h\
+  ../../Include/Blocks/AND_P.h\
+  ../../Include/Blocks/CHECKBAD.h\
+  ../../Include/Blocks/CHECKBAD_P.h\
+  ../../Include/Blocks/DELAY.h\
+  ../../Include/Blocks/DELAY_P.h\
+  ../../Include/Blocks/EQ.h\
+  ../../Include/Blocks/EQ_P.h\
+  ../../Include/Blocks/FTRIG.h\
+  ../../Include/Blocks/FTRIG_P.h\
+  ../../Include/Blocks/GE.h\
+  ../../Include/Blocks/GE_P.h\
+  ../../Include/Blocks/GT.h\
+  ../../Include/Blocks/GT_P.h\
+  ../../Include/Blocks/LE.h\
+  ../../Include/Blocks/LE_P.h\
+  ../../Include/Blocks/LIMIT.h\
+  ../../Include/Blocks/LIMIT_P.h\
+  ../../Include/Blocks/LT.h\
+  ../../Include/Blocks/LT_P.h\
+  ../../Include/Blocks/MAX.h\
+  ../../Include/Blocks/MAX_P.h\
+  ../../Include/Blocks/MAXPULSE.h\
+  ../../Include/Blocks/MAXPULSE_P.h\
+  ../../Include/Blocks/MIN.h\
+  ../../Include/Blocks/MIN_P.h\
+  ../../Include/Blocks/MINPULSE.h\
+  ../../Include/Blocks/MINPULSE_P.h\
+  ../../Include/Blocks/MUXREAL.h\
+  ../../Include/Blocks/MUXREAL_P.h\
+  ../../Include/Blocks/NAND.h\
+  ../../Include/Blocks/NAND_P.h\
+  ../../Include/Blocks/NE.h\
+  ../../Include/Blocks/NE_P.h\
+  ../../Include/Blocks/NOR.h\
+  ../../Include/Blocks/NOR_P.h\
+  ../../Include/Blocks/NOT.h\
+  ../../Include/Blocks/NOT_P.h\
+  ../../Include/Blocks/OFFDELAY.h\
+  ../../Include/Blocks/OFFDELAY_P.h\
+  ../../Include/Blocks/ONDELAY.h\
+  ../../Include/Blocks/ONDELAY_P.h\
+  ../../Include/Blocks/OR.h\
+  ../../Include/Blocks/OR_P.h\
+  ../../Include/Blocks/PULSE.h\
+  ../../Include/Blocks/PULSE_P.h\
+  ../../Include/Blocks/QOR.h\
+  ../../Include/Blocks/QOR_P.h\
+  ../../Include/Blocks/RS.h\
+  ../../Include/Blocks/RS_P.h\
+  ../../Include/Blocks/RTRIG.h\
+  ../../Include/Blocks/RTRIG_P.h\
+  ../../Include/Blocks/SELREAL.h\
+  ../../Include/Blocks/SELREAL_P.h\
+  ../../Include/Blocks/SR.h\
+  ../../Include/Blocks/SR_P.h\
+  ../../Include/Blocks/TRIG.h\
+  ../../Include/Blocks/TRIG_P.h\
+  ../../Include/Blocks/WATCHDOG.h\
+  ../../Include/Blocks/WATCHDOG_P.h\
+  ../../Include/Blocks/XOR.h\
+  ../../Include/Blocks/XOR_P.h\
+  ../../Include/Blocks/DIGACQ.h\
+  ../../Include/Blocks/DIGACQ_P.h\
+  ../../Include/Blocks/FIRSTOUT.h\
+  ../../Include/Blocks/FIRSTOUT_P.h\
+  ../../Include/Blocks/FLAG.h\
+  ../../Include/Blocks/FLAG_P.h\
+  ../../Include/Blocks/FLAGARRAY.h\
+  ../../Include/Blocks/FLAGARRAY_P.h\
+  ../../Include/Blocks/MESSAGE.h\
+  ../../Include/Blocks/MESSAGE_P.h\
+  ../../Include/Blocks/NUMERIC.h\
+  ../../Include/Blocks/NUMERIC_P.h\
+  ../../Include/Blocks/NUMERICARRAY.h\
+  ../../Include/Blocks/NUMERICARRAY_P.h\
+  ../../Include/Blocks/PUSH.h\
+  ../../Include/Blocks/PUSH_P.h\
+  ../../Include/Blocks/TEXTARRAY.h\
+  ../../Include/Blocks/TEXTARRAY_P.h\
+  ../../Include/Blocks/TEXTCOMMENT.h\
+  ../../Include/Blocks/TEXTCOMMENT_P.h\
+  ../../Include/Blocks/TIMER.h\
+  ../../Include/Blocks/TIMER_P.h\
+  ../../Include/Blocks/TYPECONVERT.h\
+  ../../Include/Blocks/TYPECONVERT_P.h\
+  ../../Include/Blocks/AUXCALC.h\
+  ../../Include/Blocks/AUXCALC_P.h\
+  ../../Include/Blocks/AUXSUMMER.h\
+  ../../Include/Blocks/AUXSUMMER_P.h\
+  ../../Include/Blocks/CTUD.h\
+  ../../Include/Blocks/CTUD_P.h\
+  ../../Include/Blocks/DATAACQ.h\
+  ../../Include/Blocks/DATAACQ_P.h\
+  ../../Include/Blocks/DEADTIME.h\
+  ../../Include/Blocks/DEADTIME_P.h\
+  ../../Include/Blocks/DEVCTL.h\
+  ../../Include/Blocks/DEVCTL_P.h\
+  ../../Include/Blocks/ENHAUXCALC.h\
+  ../../Include/Blocks/ENHAUXCALC_P.h\
+  ../../Include/Blocks/FLOWCOMP.h\
+  ../../Include/Blocks/FLOWCOMP_P.h\
+  ../../Include/Blocks/GENLIN.h\
+  ../../Include/Blocks/GENLIN_P.h\
+  ../../Include/Blocks/SIGNALSEL.h\
+  ../../Include/Blocks/SIGNALSEL_P.h\
+  ../../Include/Blocks/TOTALIZER.h\
+  ../../Include/Blocks/TOTALIZER_P.h\
+  ../../Include/Blocks/AUTOMAN.h\
+  ../../Include/Blocks/AUTOMAN_P.h\
+  ../../Include/Blocks/ENHREGCALC.h\
+  ../../Include/Blocks/ENHREGCALC_P.h\
+  ../../Include/Blocks/FANOUT.h\
+  ../../Include/Blocks/FANOUT_P.h\
+  ../../Include/Blocks/OVRDSEL.h\
+  ../../Include/Blocks/OVRDSEL_P.h\
+  ../../Include/Blocks/PID.h\
+  ../../Include/Blocks/PID_P.h\
+  ../../Include/Blocks/PIDFF.h\
+  ../../Include/Blocks/PIDFF_P.h\
+  ../../Include/Blocks/RATIOBIAS.h\
+  ../../Include/Blocks/RATIOBIAS_P.h\
+  ../../Include/Blocks/RATIOCTL.h\
+  ../../Include/Blocks/RATIOCTL_P.h\
+  ../../Include/Blocks/REGCALC.h\
+  ../../Include/Blocks/REGCALC_P.h\
+  ../../Include/Blocks/REGSUMMER.h\
+  ../../Include/Blocks/REGSUMMER_P.h\
+  ../../Include/Blocks/SWITCH.h\
+  ../../Include/Blocks/SWITCH_P.h\
+  ../../Include/Modules/CEEC300.h\
+  ../../Include/Modules/CEEC300_P.h\
+  ../../Include/Modules/CEEFB.h\
+  ../../Include/Modules/CEEFB_P.h\
+  ../../Include/Modules/CONTROLMODULE.h\
+  ../../Include/Modules/CONTROLMODULE_P.h\
+  ../../Include/Modules/CPMFB.h\
+  ../../Include/Modules/CPMFB_P.h\
+  ../../Include/Modules/Dx_24y.h\
+  ../../Include/Modules/Dx_24y_P.h\
+  ../../Include/Modules/FTEB.h\
+  ../../Include/Modules/FTEB_P.h\
+  ../../Include/Modules/IOLINK.h\
+  ../../Include/Modules/IOLINK_P.h\
+  ../../Include/Modules/PCDI_MASTER.h\
+  ../../Include/Modules/PCDI_MASTER_P.h\
+  ../../Include/Modules/RMFBCLASS.h\
+  ../../Include/Modules/RMFBCLASS_P.h\
+  ../../Include/Modules/ROOT_P.h\
+  ../../Include/Modules/SCM.h\
+  ../../Include/Modules/SCM_P.h\
+  ../../Include/Modules/xC300.h\
+  ../../Include/Modules/xC300_P.h\
+  ../../Include/Modules/9413-DIGIT_0102.h\
+  ../../Include/Modules/9413-DIGIT_0102_P.h\
+  ../../Include/Modules/AO16.h\
+  ../../Include/Modules/AO16_P.h\
+  ../../Include/Modules/DI.h\
+  ../../Include/Modules/DI24V.h\
+  ../../Include/Modules/DI24V_P.h\
+  ../../Include/Modules/DI_P.h\
+  ../../Include/Blocks/DISOE.h\
+  ../../Include/Blocks/DISOE_P.h\
+  ../../Include/Modules/DO32.h\
+  ../../Include/Modules/DO32_P.h\
+  ../../Include/Blocks/HLAI.h\
+  ../../Include/Blocks/HLAI_P.h\
+  ../../Include/Blocks/HLAIHART.h\
+  ../../Include/Blocks/HLAIHART_P.h\
+  ../../Include/Modules/LLMUX.h\
+  ../../Include/Modules/LLMUX_P.h\
+  ../../Include/Modules/UIO-2.h\
+  ../../Include/Modules/UIO-2_P.h\
+  ../../Include/Modules/UIO.h\
+  ../../Include/Modules/UIO_P.h\
+  ../../Include/Modules/SP.h\
+  ../../Include/Modules/SP_P.h\
+  ../../Include/Blocks/848_0601.h\
+  ../../Include/Blocks/848_0601_P.h\
+  ../../Include/Blocks/MAI.h\
+  ../../Include/Blocks/MAI_P.h\
+  ../../Include/Blocks/9413-DIGIT_0102.AI.h\
+  ../../Include/Blocks/9413-DIGIT_0102.AI_P.h\
+  ../../Include/Blocks/9413-DIGIT_0102.DO1TB.h\
+  ../../Include/Blocks/9413-DIGIT_0102.DO1TB_P.h\
+  ../../Include/Blocks/9413-DIGIT_0102.MDI.h\
+  ../../Include/Blocks/9413-DIGIT_0102.MDI_P.h\
+  ../../Include/Blocks/9413-DIGIT_0102.MDO.h\
+  ../../Include/Blocks/9413-DIGIT_0102.MDO_P.h\
+  ../../Include/Blocks/9413-DIGIT_0102.RESOURCE.h\
+  ../../Include/Blocks/9413-DIGIT_0102.RESOURCE_P.h\
+  ../../Include/Blocks/SPARE.h\
+  ../../Include/Blocks/SPARE_P.h\
+  ../../Include/Modules/Dx_24y.h\
+  ../../Include/Modules/Dx_24y_P.h\
+  ../../Include/Modules/Dx_SOE.h\
+  ../../Include/Modules/Dx_SOE_P.h\
+  ../../Include/Modules/TC-IAH161.h\
+  ../../Include/Modules/TC-IAH161_P.h\
+  ../../Include/Modules/TC-IDD321.h\
+  ../../Include/Modules/TC-IDD321_P.h\
+  ../../Include/Modules/TC-IXL061.h\
+  ../../Include/Modules/TC-IXL061_P.h\
+  ../../Include/Modules/TC-IXL062.h\
+  ../../Include/Modules/TC-IXL062_P.h\
+  ../../Include/Modules/TC-IXR061.h\
+  ../../Include/Modules/TC-IXR061_P.h\
+  ../../Include/Modules/TC-OAV081.h\
+  ../../Include/Modules/TC-OAV081_P.h\
+  ../../Include/Modules/TC-ODD321.h\
+  ../../Include/Modules/TC-ODD321_P.h\
+  ../../Include/Blocks/PICHANNEL.h\
+  ../../Include/Blocks/PICHANNEL_P.h\
+  ../../Include/Blocks/PITOTALIZER.h\
+  ../../Include/Blocks/PITOTALIZER_P.h\
+  ../../Include/Modules/TC-MDP081.h\
+  ../../Include/Modules/TC-MDP081_P.h\
+  ../../Include/Blocks/AIREF.h\
+  ../../Include/Blocks/AIREF_P.h\
+  ../../Include/Blocks/AOREF.h\
+  ../../Include/Blocks/AOREF_P.h\
+  ../../Include/Blocks/DIREF.h\
+  ../../Include/Blocks/DIREF_P.h\
+  ../../Include/Blocks/DOREF.h\
+  ../../Include/Blocks/DOREF_P.h\
+  ../../Include/Blocks/BOOL2NUM.h\
+  ../../Include/Blocks/BOOL2NUM_P.h\
+  ../../Include/Blocks/NUM2BOOL.h\
+  ../../Include/Blocks/NUM2BOOL_P.h\
+  ../../Include/Blocks/INTERLOCK.h\
+  ../../Include/Blocks/INTERLOCK_P.h\
+  ../../Include/Blocks/HANDLER.h\
+  ../../Include/Blocks/HANDLER_P.h\
+  ../../Include/Blocks/STEP.h\
+  ../../Include/Blocks/STEP_P.h\
+  ../../Include/Blocks/TRANSITION.h\
+  ../../Include/Blocks/TRANSITION_P.h\
+  ../../Include/Blocks/AICHANNEL.h\
+  ../../Include/Blocks/AICHANNEL_P.h\
+  ../../Include/Blocks/AOCHANNEL.h\
+  ../../Include/Blocks/AOCHANNEL_P.h\
+  ../../Include/Blocks/DICHANNEL.h\
+  ../../Include/Blocks/DICHANNEL_P.h\
+  ../../Include/Blocks/DOCHANNEL.h\
+  ../../Include/Blocks/DOCHANNEL_P.h\
+  ../../Include/Blocks/HAICHANNEL.h\
+  ../../Include/Blocks/HAICHANNEL_P.h\
+  ../../Include/Blocks/SP_AI.h\
+  ../../Include/Blocks/SP_AI_P.h\
+  ../../Include/Blocks/SP_AO.h\
+  ../../Include/Blocks/SP_AO_P.h\
+  ../../Include/Blocks/SP_DI.h\
+  ../../Include/Blocks/SP_DI_P.h\
+  ../../Include/Blocks/SP_DO.h\
+  ../../Include/Blocks/SP_DO_P.h\
+  ../../Include/Blocks/SP_SPDVOTE.h\
+  ../../Include/Blocks/SP_SPDVOTE_P.h\
+  ../../Include/Blocks/SP_SPEED.h\
+  ../../Include/Blocks/SP_SPEED_P.h
+SOURCES += \
+  CBHSystem.cpp\
+  HoneywellStruct.cpp\
+  ListValue.cpp\
+  OneAlmGrHoney.cpp\
+  OneMnemoHoney.cpp\
+  stdafx.cpp\
+  UtilsH.cpp\
+  BuildLists.cpp
