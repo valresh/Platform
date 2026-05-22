@@ -229,7 +229,8 @@ typedef unsigned int BOOL;
 typedef unsigned short USHORT;
 typedef unsigned __INT64_TYPE__ UINT64;
 typedef unsigned __INT64_TYPE__ __time64_t;
-
+typedef void * HMODULE;
+typedef void * LPVOID;
 struct CStr
 {
   const char * Str;
@@ -262,4 +263,9 @@ int _strcmpi(const char *, const char *);
 #define UINT64_C(val) val##ULL
 #define ZeroMemory(V,S) memset(V,0,S)
 void * LoadLibrary(const char * lpLibFileName);
+#define DLL_PROCESS_ATTACH 1
+#define APIENTRY
+#define TRUE 1
+#define FALSE 0
+
 #endif // _MSC_STDINT_H_ ]

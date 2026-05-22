@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS += HoneyWell5xx
+SUBDIRS += HoneyWell5xx\
+Common
