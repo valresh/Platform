@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef HCDRSUIMPL_EXPORTS#define HCDRSUIMPL_API Q_DECL_DLLEXPORT     #else#define HCDRSUIMPL_API Q_DECL_DLLIMPORT     #endif
+﻿#pragma once#ifdef HCDRSUIMPL_EXPORTS#define HCDRSUIMPL_API Q_DECL_EXPORT        #else#define HCDRSUIMPL_API Q_DECL_IMPORT        #endif

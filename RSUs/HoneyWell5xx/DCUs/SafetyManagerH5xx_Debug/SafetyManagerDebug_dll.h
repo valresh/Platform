@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SAFETYMANAGERDEBUG_EXPORTS#define SAFETYMANAGERDEBUG_API Q_DECL_DLLEXPORT     #else#define SAFETYMANAGERDEBUG_API Q_DECL_DLLIMPORT     #endifvoid SAFETYMANAGERDEBUG_API ShowDebugWindow( LPCSTR pszPrj, IFscStorage *pOwner );
+﻿#pragma once#ifdef SAFETYMANAGERDEBUG_EXPORTS#define SAFETYMANAGERDEBUG_API Q_DECL_EXPORT        #else#define SAFETYMANAGERDEBUG_API Q_DECL_IMPORT        #endifvoid SAFETYMANAGERDEBUG_API ShowDebugWindow( LPCSTR pszPrj, IFscStorage *pOwner );

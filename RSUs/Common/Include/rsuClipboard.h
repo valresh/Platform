@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API Q_DECL_DLLEXPORT     #else#define SYSTEMREPLACE_API Q_DECL_DLLIMPORT     #pragma comment( lib, "SystemReplace.lib")#endifSYSTEMREPLACE_API void rsuTxtToClp( LPCSTR pszTxt );
+﻿#pragma once#ifdef SYSTEMREPLACE_EXPORTS#define SYSTEMREPLACE_API Q_DECL_EXPORT        #else#define SYSTEMREPLACE_API Q_DECL_IMPORT        #pragma comment( lib, "SystemReplace.lib")#endifSYSTEMREPLACE_API void rsuTxtToClp( LPCSTR pszTxt );

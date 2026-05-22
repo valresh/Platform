@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef CONNECTHCD_EXPORTS#define CONNECTHCD_API Q_DECL_DLLEXPORT     #else#define CONNECTHCD_API Q_DECL_DLLIMPORT     #endiftypedef void (*tRegisterHCDstructs)();extern CONNECTHCD_API tRegisterHCDstructs pRegisterHCDstructs;
+﻿#pragma once#ifdef CONNECTHCD_EXPORTS#define CONNECTHCD_API Q_DECL_EXPORT        #else#define CONNECTHCD_API Q_DECL_IMPORT        #endiftypedef void (*tRegisterHCDstructs)();extern CONNECTHCD_API tRegisterHCDstructs pRegisterHCDstructs;

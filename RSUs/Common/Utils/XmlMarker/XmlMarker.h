@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef XMLMARKER_EXPORTS#define XMLMARKER_API Q_DECL_DLLEXPORT     #else#define XMLMARKER_API Q_DECL_DLLIMPORT     #endif
+﻿#pragma once#ifdef XMLMARKER_EXPORTS#define XMLMARKER_API Q_DECL_EXPORT        #else#define XMLMARKER_API Q_DECL_IMPORT        #endif

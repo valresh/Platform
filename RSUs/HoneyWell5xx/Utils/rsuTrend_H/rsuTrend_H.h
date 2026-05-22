@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef RSUTREND_H5XX_EXPORTS#define RSUTREND_H5XX_API Q_DECL_DLLEXPORT     #else#define RSUTREND_H5XX_API Q_DECL_DLLIMPORT     #endif
+﻿#pragma once#ifdef RSUTREND_H5XX_EXPORTS#define RSUTREND_H5XX_API Q_DECL_EXPORT        #else#define RSUTREND_H5XX_API Q_DECL_IMPORT        #endif

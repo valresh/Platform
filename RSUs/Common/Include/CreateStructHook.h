@@ -1,1 +1,1 @@
-﻿#pragma once#include <BaseType.h>#ifdef CREATESTRUCTHOOK_EXPORTS#define CREATESTRUCTHOOK_API Q_DECL_DLLEXPORT     #else#define CREATESTRUCTHOOK_API Q_DECL_DLLIMPORT     #endifCREATESTRUCTHOOK_API CBase* CreateStructHook( LPCSTR ObjName, DWORD TypeID, int number = 0 );
+﻿#pragma once#include <BaseType.h>#ifdef CREATESTRUCTHOOK_EXPORTS#define CREATESTRUCTHOOK_API Q_DECL_EXPORT        #else#define CREATESTRUCTHOOK_API Q_DECL_IMPORT        #endifCREATESTRUCTHOOK_API CBase* CreateStructHook( LPCSTR ObjName, DWORD TypeID, int number = 0 );

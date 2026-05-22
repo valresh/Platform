@@ -3,9 +3,9 @@
 #include <QtCore/qglobal.h>
 
 #ifdef MEMORYSERVICEH5XX_EXPORTS
-#define MEMORYSERVICEH5XX_API Q_DECL_DLLEXPORT     
+#define MEMORYSERVICEH5XX_API Q_DECL_EXPORT        
 #else
-#define MEMORYSERVICEH5XX_API Q_DECL_DLLIMPORT     
+#define MEMORYSERVICEH5XX_API Q_DECL_IMPORT        
 #endif
 
 typedef void*(*tMemAllocatorImpl)( size_t size );

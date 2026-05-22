@@ -1,1 +1,1 @@
-﻿#pragma once#include "../QuickBuilderH/QbBase.h"#ifdef QUICKBUILDERH5XXDEBUG_EXPORTS#define QUICKBUILDERH5XXDEBUG_API Q_DECL_DLLEXPORT     #else#define QUICKBUILDERH5XXDEBUG_API Q_DECL_DLLIMPORT     #endifQUICKBUILDERH5XXDEBUG_API bool ShowDebugWnd( KQbBase *pPnt );
+﻿#pragma once#include "../QuickBuilderH/QbBase.h"#ifdef QUICKBUILDERH5XXDEBUG_EXPORTS#define QUICKBUILDERH5XXDEBUG_API Q_DECL_EXPORT        #else#define QUICKBUILDERH5XXDEBUG_API Q_DECL_IMPORT        #endifQUICKBUILDERH5XXDEBUG_API bool ShowDebugWnd( KQbBase *pPnt );

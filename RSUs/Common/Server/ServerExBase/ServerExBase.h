@@ -1,1 +1,1 @@
-﻿#pragma once#ifdef SERVEREXBASE_EXPORTS#define SERVEREXBASE_API Q_DECL_DLLEXPORT     #else#define SERVEREXBASE_API Q_DECL_DLLIMPORT     #endif
+﻿#pragma once#ifdef SERVEREXBASE_EXPORTS#define SERVEREXBASE_API Q_DECL_EXPORT        #else#define SERVEREXBASE_API Q_DECL_IMPORT        #endif

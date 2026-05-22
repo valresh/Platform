@@ -2,9 +2,9 @@
 #include <CBase.h>
 
 #ifdef UTILSHCD_EXPORTS
-#define UTILSHCD_API Q_DECL_DLLEXPORT     
+#define UTILSHCD_API Q_DECL_EXPORT        
 #else
-#define UTILSHCD_API Q_DECL_DLLIMPORT     
+#define UTILSHCD_API Q_DECL_IMPORT        
 #endif
 
 struct UTILSHCD_API CHcdBase : CBase
