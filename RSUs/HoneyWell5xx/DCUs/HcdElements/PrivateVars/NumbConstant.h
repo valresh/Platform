@@ -1,0 +1,1 @@
+﻿PrivateEnum( DataType, NULL, Digital, Analog, _Def=Digital )PrivatePoint2String( Description, NULL )PrivateAnalog32( OUTR0, "OUTR1" )

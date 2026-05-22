@@ -1,0 +1,1 @@
+﻿#pragma once#include <macros/IntrusivePtr.h>struct IModelHandler : ref_counted{  IModelHandler() : hCmdWnd( 0 )  {}  virtual ~IModelHandler(){}  HWND hCmdWnd;};typedef TIntrusivePtr<IModelHandler> tModelHandlerPtr_;

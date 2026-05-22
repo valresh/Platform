@@ -1,0 +1,1 @@
+﻿PrivateBool( RST, NULL )PrivateBool( PROCESS, NULL )PrivateBool( SAFETY, NULL )PrivateBool( FORCED, NULL )

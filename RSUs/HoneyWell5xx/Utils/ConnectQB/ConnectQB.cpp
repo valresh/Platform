@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <ConnectQB.h>tRegisterQBstructs pRegisterQBstructs = NULL;tGetSourceFromMOD pGetSourceFromMOD = NULL;tAlarmQB pAlarmQB = NULL;

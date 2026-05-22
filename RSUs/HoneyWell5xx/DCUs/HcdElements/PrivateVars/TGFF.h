@@ -1,0 +1,1 @@
+﻿#undef OUTPrivateBoolSavebale( TOG, "^TOG" )PrivateBoolSavebale( RESET, NULL )PrivateBoolSavebale( OUT, NULL )PrivateBoolSavebale( prevTOG, NULL )

@@ -1,0 +1,1 @@
+﻿#pragma once// KNumEditstruct MEN_KEYDOWN_NOTIFY {  // generic notification info  NMHDR nmhdr;  UINT  nChar;  UINT  nFlags;};enum{  MEN_KEYDOWN = 0x0003,};class KNumEdit : public CEdit{	DECLARE_DYNAMIC(KNumEdit)public:	KNumEdit();	virtual ~KNumEdit();protected:	DECLARE_MESSAGE_MAP()  afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);};

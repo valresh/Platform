@@ -1,0 +1,1 @@
+﻿#pragma onceclass KAssignWvarToVariable{public:  KAssignWvarToVariable(void);  ~KAssignWvarToVariable(void);  void Assign( LPCSTR lpszWVarsCsv, LPCSTR lpszVariablesCsv, LPCSTR lpszResultCsv, LPCSTR lpszAioCsv, CHAR sep = ';' );};

@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef SAFETYMANAGERDEBUG_EXPORTS#define SAFETYMANAGERDEBUG_API __declspec(dllexport)#else#define SAFETYMANAGERDEBUG_API __declspec(dllimport)#endifvoid SAFETYMANAGERDEBUG_API ShowDebugWindow( LPCSTR pszPrj, IFscStorage *pOwner );

@@ -1,0 +1,1 @@
+﻿// MnemoScn.h : main header file for the MnemoScn DLL//#pragma once#include "resource.h"		// main symbols#include "Queue.h"#include "QueueAPM.h"#include "Lang.h"#include "QueueWnd.h"#include "KeybCOM.h"#include <assert.h>#define ASSERT(a) assert(a)extern HINSTANCE g_hModule;

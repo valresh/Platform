@@ -1,0 +1,1 @@
+﻿#pragma once#include <basemodel.h>#include <rsuSharedClient.h>class KClient  : public IBaseModel  , protected KRsuSharedClient{public:  KClient( LPSTR ObjName );  // Интерфейс IBaseModel  virtual int Init( int );  virtual int Step0();  virtual int Step1();  virtual int StepT(double dt);  NEW};

@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef RSUSHAREDTREND_H5XX_EXPORTS#define RSUSHAREDTREND_H5XX_API __declspec(dllexport)#else#define RSUSHAREDTREND_H5XX_API __declspec(dllimport)#endif

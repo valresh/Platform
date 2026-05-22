@@ -1,0 +1,1 @@
+﻿PrivateAnalog32Savebale( X, NULL )PrivateAnalog32Savebale( Y, NULL )PrivateBoolSavebale( XGY, NULL )PrivateBoolSavebale( XEY, NULL )PrivateBoolSavebale( XLY, NULL )

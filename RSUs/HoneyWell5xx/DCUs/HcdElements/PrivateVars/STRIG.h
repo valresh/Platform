@@ -1,0 +1,1 @@
+﻿#undef OUT#undef INPrivatePoint2String( SM ,"Set Monitor digital wire colors")PrivatePoint2String( TT,"Trigger Type")// Off to On, On to Off, BothPrivateBoolSavebale(IN, NULL)PrivateBoolSavebale(OUT, NULL)PrivateBoolSavebale(prevIn, NULL)

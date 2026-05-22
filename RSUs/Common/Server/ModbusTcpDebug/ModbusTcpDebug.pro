@@ -1,0 +1,40 @@
+QT += core gui
+QT += widgets
+
+CONFIG += c++17
+
+TEMPLATE = lib
+
+DEFINES += LINUX\
+X64
+
+INCLUDEPATH += $$PWD/../../../Common/Include\
+$$PWD/../../Include
+
+
+DESTDIR= $$PWD/../../../../../EXE
+HEADERS += \
+  ModbusTcpDebug.h\
+  Resource.h\
+  stdafx.h\
+  ..\..\..\Version\DCUVers.rc\
+  ModbusTcpDebug.rc\
+  DebugApp.h\
+  ModbusTcpDoc.h\
+  ModbusTcpFrame.h\
+  QimView.h\
+  MyTreeCtrl.h\
+  TreeListView.h\
+  EditValue.h\
+  NumEdit.h
+SOURCES += \
+  ModbusTcpDebug.cpp\
+  stdafx.cpp\
+  DebugApp.cpp\
+  ModbusTcpDoc.cpp\
+  ModbusTcpFrame.cpp\
+  QimView.cpp\
+  MyTreeCtrl.cpp\
+  TreeListView.cpp\
+  EditValue.cpp\
+  NumEdit.cpp

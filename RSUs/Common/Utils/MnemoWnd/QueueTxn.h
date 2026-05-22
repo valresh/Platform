@@ -1,0 +1,1 @@
+﻿#pragma once#include "QueueWnd.h"#include "SocketClient.h"class CQueueTexno : public CQueueWnd  {  public:    CQueueTexno(HWND hWnd);    virtual ~CQueueTexno();    //    virtual void MainTimer(DWORD dwMainTimer);    virtual LRESULT OnBuildQueue( const char* pszName);    //  };

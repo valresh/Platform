@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <ConnectH.h>tRegisterHWstructs pRegisterHWstructs = NULL;tAlarm pAlarm = NULL;

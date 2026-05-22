@@ -1,0 +1,1 @@
+﻿#pragma once#include <string>enum eTypeText{  ettHZ,  ettAnalogPageConnector = 1,  ettDigitalPageConnector = 2,  ettAnyPageConnector = 3,};eTypeText TrimName( std::string &name );

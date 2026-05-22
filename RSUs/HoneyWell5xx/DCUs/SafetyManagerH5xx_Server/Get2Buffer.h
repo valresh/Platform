@@ -1,0 +1,1 @@
+﻿#pragma oncevoid* Get2Buffer( LPCSTR pszFile, DWORD &size );void ClearBuffer( void *pMem );BOOL GetAttr( const char* name, _WIN32_FILE_ATTRIBUTE_DATA& attr  );bool EqAttr( _WIN32_FILE_ATTRIBUTE_DATA& a, FILETIME& b );

@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <H_Data.h>static SModuleCreate CPM200( "CPM200", S_CPM200::Create );#include <HPARM_INIT.h> #include "ParmVarInfo.h"LIST_PARM(S_CPM200,W_CPM200,50)void S_CPM200::InitParm(){#include "Modules/CPM200.h"   s_defFlag = SVarInfo::efParam;#include "Modules/CPM200_P.h"  qsort ( VarInfo, kVarInfo, sizeof ( SVarInfo ), CompVarInfo );}

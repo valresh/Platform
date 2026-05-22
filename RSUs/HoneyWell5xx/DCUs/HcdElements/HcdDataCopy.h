@@ -1,0 +1,1 @@
+﻿#pragma once#include <HcdVarTypes.h>bool HcdDataCopy( void *pDestData, eHcdVType destType, void *pSourceData, eHcdVType sourceType );

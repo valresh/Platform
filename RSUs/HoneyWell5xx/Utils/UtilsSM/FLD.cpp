@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include <SafetyManagerStruct.h>#include "ParamShow.h"int W_SMFLD::GetParams( KSmBridge2SysParam &params ){#include "SafetyManager/SmFld.h"#include "SafetyManager/SmFld_P.h"  return 0;}

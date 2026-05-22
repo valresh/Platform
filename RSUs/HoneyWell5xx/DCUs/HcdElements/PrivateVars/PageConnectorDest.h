@@ -1,0 +1,1 @@
+﻿PrivateEnum( DataType, NULL, Digital, Analog, _Def=Digital )

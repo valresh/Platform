@@ -1,0 +1,1 @@
+﻿#pragma onceclass AFX_EXT_CLASS CMyDocManager : public CDocManager{	DECLARE_DYNAMIC(CMyDocManager)public:	CMyDocManager();	virtual ~CMyDocManager();	BOOL	CreateNewDocument(int doc_index) ;	int		GetMyDocumentCount() ;#if 0	virtual void AssertValid() const;	virtual void Dump(CDumpContext& dc) const;#endif};

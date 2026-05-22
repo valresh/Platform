@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef SERVEREXSHAREDPLUGIN_HONEY5XX_EXPORTS#define SERVEREXSHAREDPLUGINSHARED_HONEY5XX_API __declspec(dllexport)#else#define SERVEREXSHAREDPLUGINSHARED_HONEY5XX_API __declspec(dllimport)#endif

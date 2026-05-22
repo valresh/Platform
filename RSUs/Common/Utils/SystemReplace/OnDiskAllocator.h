@@ -1,0 +1,1 @@
+﻿#pragma onceBYTE* OnDiskAllocator( HANDLE &hVarMapping, bool &bNewMem, DWORD Size, LPCSTR pszName, LPCSTR pszExt, bool bCreateAlways );

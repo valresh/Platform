@@ -1,0 +1,1 @@
+﻿#pragma once#ifdef RSUTREND_H5XX_EXPORTS#define RSUTREND_H5XX_API __declspec(dllexport)#else#define RSUTREND_H5XX_API __declspec(dllimport)#endif

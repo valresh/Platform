@@ -1,0 +1,1 @@
+﻿PrivateAnalog32Savebale( INL0, "INL1" )PrivateAnalog32Savebale( INU0, NULL )PrivateAnalog32Savebale( OUTD0, NULL )

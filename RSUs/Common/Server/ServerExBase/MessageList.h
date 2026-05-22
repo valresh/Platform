@@ -1,0 +1,1 @@
+﻿#pragma once#include <eventstring.h>#include <Common.h>#include "SMessage.h"class CMessageList{  enum  {    STEP_REALLOC = 100,  };public:  CMessageList(void);  ~CMessageList(void);  void Open();  void Parser( char* ptr );  bool Realloc();  int m_nCount;  SMessage* m_list;};

@@ -1,0 +1,1 @@
+﻿PrivateEnum( DataType, NULL, HZ, Digital, Analog, _Def=HZ )PrivatePoint2String( Description, NULL )

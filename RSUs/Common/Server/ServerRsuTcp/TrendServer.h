@@ -1,0 +1,1 @@
+﻿#pragma once#include "ServerImpl.h"class KTrendServerListener : public KServerImpl{public:  static bool s_isStopClientService;public:  KTrendServerListener( u_short listenPort = KServerImpl::defListenPort+1 );  virtual int Start();  virtual void Stop();private:  static DWORD WINAPI SingleConnectionTrend( LPVOID lpParam );};

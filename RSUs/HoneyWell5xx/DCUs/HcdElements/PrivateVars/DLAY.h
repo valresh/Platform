@@ -1,0 +1,1 @@
+﻿#undef OUTPrivateDigital32(TimerMode,"On/Off Delay Mode")PrivateBoolSavebale(INPUT,NULL)PrivateBoolSavebale(OUT,NULL)PrivateAnalog32Savebale(TSPI,NULL)PrivateAnalog32Savebale(TSPO,NULL)PrivateAnalog32Savebale(TREM,NULL)PrivateAnalog32Savebale(TELPS,NULL)

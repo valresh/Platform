@@ -1,0 +1,1 @@
+﻿#pragma once#include "ParsGraph.h"class KCppGenerator : public KParsGraph{public:  KCppGenerator();protected:  void CreateCode();  void OutCommonInclude();  void OutNumericVariables();};

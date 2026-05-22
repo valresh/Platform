@@ -1,0 +1,1 @@
+﻿#include "stdafx.h"#include "QB_Server.h"#include "../QuickBuilderH5xxDebug/QuickBuilderH5xxDebug.h"bool KServer::ShowACSObject( HWND hMainWnd, char * Name, void * pData ){  KQbBase* pPnt = __super::Find( Name );  if( pPnt )    return ShowDebugWnd( pPnt );  return false;}

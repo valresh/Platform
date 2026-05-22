@@ -1,0 +1,1 @@
+﻿PrivateBoolSavebale( AUTO, "^AUTO" )PrivateBoolSavebale( MAN, "^MAN" )PrivateBoolSavebale( LOCAL, "^LOCAL" )PrivateBoolSavebale( REM, "^REM" )PrivateDigital32Savebale( MDRQO, NULL )PrivateDigital32Savebale( _prevMDRQO, NULL )

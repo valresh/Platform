@@ -1,0 +1,1 @@
+﻿#pragma once#include <HcdVarInfo.h>struct IHcdController{  virtual void RegisterVar( struct IHcdElement *pSingleVar ) = 0;  virtual BYTE* GetVarPV( LPCSTR pszName, eHcdVType *pType ) = 0;  virtual BYTE** RegisterSignal( LPCSTR pszName, eHcdVType **ppType, bool bOutConection ) = 0;  virtual BYTE* RegisterPageConnector( LPCSTR pszName, eHcdVType **ppType ) = 0;};
