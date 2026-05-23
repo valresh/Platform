@@ -7,13 +7,13 @@
 #else
 #define IN_DLL Q_DECL_IMPORT
 #endif
-//#include "CommProc.h"
+// #include "CommProc.h"
 
-#pragma once
+// #pragma once
 #define __int64 qint64
-//#include <crossplatform.h>
-//#include "Param.h"
-//#include "GDI.h"// #include "Err.h"
+// #include <crossplatform.h>
+// #include "Param.h"
+// #include "GDI.h"// #include "Err.h"
 
 #define PURE = 0
 #define NOT_USED { ASS(FALSE); return 1; }
@@ -47,6 +47,70 @@ struct IBaseModelInfo
     virtual int GetParams(int & N, struct QParams Params[]);
     virtual int GetConnections(int & Cnt, struct CConnection Connections[/*100*/]);
 };
+
+struct IN_DLL CSortTree
+{
+  CSortTree * pNext_Group_Pnt;
+  int Balance;
+  //
+  void * Key;
+  CSortTree * pL;
+  CSortTree * pR;
+  CSortTree( )
+  {
+    Key = NULL;
+    pL = NULL;
+    pR = NULL;
+    Balance = 0;
+    pNext_Group_Pnt = NULL;
+  }
+  void Init( )
+  {
+    Key = NULL;
+    pL = NULL;
+    pR = NULL;
+    Balance = 0;
+    pNext_Group_Pnt = NULL;
+  }
+};
+
+typedef
+  int (*tCompKey)( void * TestKey, void * NodeKey, int Type );
+
+typedef
+  CSortTree * (*tNew)( void * Key, int Type );
+
+struct IN_DLL CSortTreeInfo
+{
+  CSortTree * Root;
+  CSortTree * FirstInGroup;
+  CSortTree * LastInGroup;
+  tCompKey pCompKey;
+  tNew pNew;
+  int Type;
+  CSortTreeInfo( )
+  {
+    Type = 0;
+    Root = NULL;
+    pCompKey = NULL;
+    pNew = NULL;
+    FirstInGroup = NULL;
+    LastInGroup = NULL;
+  };
+  CSortTreeInfo( CSortTree * _Root, tCompKey _pCompKey, tNew _pNew, int _Type )
+  {
+    Type = _Type;
+    Root = _Root;
+    pCompKey = _pCompKey;
+    pNew = _pNew;
+    FirstInGroup = NULL;
+    LastInGroup = NULL;
+  }
+  CSortTree * GetFirst( );
+  CSortTree * GetNext( CSortTree * pPrev );
+  void Add( CSortTree * pItem );
+};
+
 
 struct IN_DLL ISet
 {
@@ -134,8 +198,8 @@ struct IN_DLL IBaseModel
     enum eType { None, MainModel, SubModel, GroupModel, Y_Obj, RSU_Obj };
     eType TypeObj;
     //
-//    CSortTree RootPoint;
-//    CSortTreeInfo Points;
+    CSortTree RootPoint;
+    CSortTreeInfo Points;
     int ModelGroup;
     DWORD ModelFlags;
     DWORD ClassID;

@@ -30,30 +30,6 @@
 #endif
 #endif
 
-struct Summ
-  {
-  double H_summ_in_gas_A[K_GAS];
-  double H_summ_in_liq_A[K_GAS];
-  double H_summ_in_gas_B[K_GAS];
-  double H_summ_in_liq_B[K_GAS];
-  double Summ_FS_Gas[K_GAS];
-  double Summ_FS_Liq[K_GAS];
-  double Q;
-  double Q_Cool;
-  double dH_in;
-  double dQ_mix;
-  double dF_Gas_in;
-  double dF_Liq_in;
-  double dF_Gas_out;
-  double dF_Liq_out_1;
-  double dF_Liq_out_2;
-  double F_Summ;
-  double Flow_in_liq_kg;
-  void Clear()
-    {
-    memset ( this, 0, sizeof ( *this ));
-    }
-  };
 
 #define MAX_NODES 16 
 struct IN_DLL CVolHeat
@@ -161,6 +137,31 @@ struct IN_DLL CVolBase_P
 	CVolBase_P();
 	};
 
+  struct SummXXX
+  {
+    double H_summ_in_gas_A[K_GAS];
+    double H_summ_in_liq_A[K_GAS];
+    double H_summ_in_gas_B[K_GAS];
+    double H_summ_in_liq_B[K_GAS];
+    double Summ_FS_Gas[K_GAS];
+    double Summ_FS_Liq[K_GAS];
+    double Q;
+    double Q_Cool;
+    double dH_in;
+    double dQ_mix;
+    double dF_Gas_in;
+    double dF_Liq_in;
+    double dF_Gas_out;
+    double dF_Liq_out_1;
+    double dF_Liq_out_2;
+    double F_Summ;
+    double Flow_in_liq_kg;
+    void Clear()
+    {
+      memset ( this, 0, sizeof ( *this ));
+    }
+  };
+
 class IN_DLL CVolBase : public IBaseModel, public CVolBase_W, public CVolBase_P
 	{
 	public:
@@ -221,7 +222,7 @@ class IN_DLL CVolBase : public IBaseModel, public CVolBase_W, public CVolBase_P
 //
 	CNewComp * pAddComp;
 	CFlow AddFlow;
-  Summ S;
+  SummXXX S;
 //
   int SaveState ( );
   int RestoreState ( char * StrName );

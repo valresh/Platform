@@ -33,11 +33,11 @@ LPCSTR KH_RemoteClient::GetName()
 
 int KH_RemoteClient::Init( int )
 {
-#ifdef _DEBUG
+//#ifdef _DEBUG
   int r = KRsuSharedClient::InitializeServer( "ControlBuilderH5xx_Server", ObjName, true );
-#else
-  int r = KRsuSharedClient::InitializeServer( "ControlBuilderH5xx_Server", ObjName );
-#endif
+//#else
+//  int r = KRsuSharedClient::InitializeServer( "ControlBuilderH5xx_Server", ObjName );
+//#endif
   if( r )
     return 1;
 

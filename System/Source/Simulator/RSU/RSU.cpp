@@ -32,7 +32,7 @@ void LoadRsuModelsCP(int& iRuntimeModel)
             char * Obj = Split.Cols[1];
             pO = Load_ObjectRSU( Model, Obj );
             }
-        ASS(pO);
+//        ASS(pO);
         if ( pO == NULL )
           continue;
         pO->Model = Split.Cols[0];
@@ -48,9 +48,9 @@ IBaseModel * Load_ObjectEx ( const char * DllName, const char * ObjName );
 IBaseModel* Load_ObjectRSU( const char * DllName, const char * ObjName)
     {
     bool v_ValidLib = false;
-    IBaseModel* ret = g_RsuHolder.create_client (DllName, "", ObjName, v_ValidLib );
-    if ( !ret && !v_ValidLib)
-        ret = Load_ObjectEx ( DllName, ObjName );
+//    IBaseModel* ret = g_RsuHolder.create_client (DllName, "", ObjName, v_ValidLib );
+//    if ( !ret && !v_ValidLib)
+    IBaseModel * ret = Load_ObjectEx ( DllName, ObjName );
     if (!ret)
         {
         std::string v_msg = "Load rsu library error: " + g_RsuHolder.get_last_error();

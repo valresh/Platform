@@ -12,7 +12,7 @@ INCLUDEPATH += $$PWD/../../../Common/Include\
 $$PWD/../../Include
 
 
-DESTDIR= $$PWD/../../../../../EXE
+DESTDIR= $$PWD/../../../../EXE
 HEADERS += \
   BaseInt.h \
   stdafx.h\

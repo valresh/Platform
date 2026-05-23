@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 SUBDIRS += \
    AssignRsuPointsVals\
    CommonRSUs\
+   RsuSharedClient\
    CreateStructHook
 ##   CsvMerge\
 ##   GuiH\
@@ -12,7 +13,6 @@ SUBDIRS += \
 ##   ModelMessages\
 #################
 ##     ModB\
-##     RsuSharedClient\
 ##     ServerExPlugin_Model\
 ##     SOEtransport\
 ##     SOEtransport_Client\
