@@ -232,6 +232,7 @@ typedef unsigned __INT64_TYPE__ __time64_t;
 typedef void * HMODULE;
 typedef void * LPVOID;
 typedef char CHAR;
+typedef void * HINSTANCE;
 struct CStr
 {
   const char * Str;
@@ -256,7 +257,13 @@ int _strcmpi(const char *, const char *);
 int sprintf_s(char *, const char *, ... );
 int sprintf_s(char *, int, const char *, ... );
 void * LoadLibrary(const char * lpLibFileName);
-
+int _makepath_s(
+  char *path,
+  const char *drive,
+  const char *dir,
+  const char *fname,
+  const char *ext
+  );
 #include <ctype.h>
 //char toupper( char );
 #define _countof(array) (sizeof(array) / sizeof(array[0]))
@@ -271,4 +278,5 @@ void * LoadLibrary(const char * lpLibFileName);
 #define TRUE 1
 #define FALSE 0
 #define _MAX_PATH 1024
+#define MAX_PATH 1024
 #endif // _MSC_STDINT_H_ ]

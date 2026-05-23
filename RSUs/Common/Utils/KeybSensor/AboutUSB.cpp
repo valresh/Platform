@@ -1,1 +1,23 @@
-﻿#include "stdafx.h"#include "KeybCOM.h"#include "Resource.h"#include <ShellApi.h>LRESULT CALLBACK About(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)  {  switch (uMsg)    {    case WM_INITDIALOG:    return TRUE;    case WM_COMMAND:    if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)       {      EndDialog(hDlg, LOWORD(wParam));      return TRUE;      }    break;    }  return FALSE;  }
+﻿#if 0
+#include "stdafx.h"
+#include "KeybCOM.h"
+#include "Resource.h"
+#include <ShellApi.h>
+
+LRESULT CALLBACK About(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+  {
+  switch (uMsg)
+    {
+    case WM_INITDIALOG:
+    return TRUE;
+    case WM_COMMAND:
+    if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) 
+      {
+      EndDialog(hDlg, LOWORD(wParam));
+      return TRUE;
+      }
+    break;
+    }
+  return FALSE;
+  }
+#endif

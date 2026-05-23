@@ -3,14 +3,14 @@ SUBDIRS += \
    AssignRsuPointsVals\
    CommonRSUs\
    CreateStructHook\
-   CsvMerge\
-   GuiH\
-   JLib\
-   KeybSensor\
-   KeybUSB\
-   ListXmlRsu\
+##   CsvMerge\
+##   GuiH\
+##   JLib\
+##   KeybSensor\
+##   KeybUSB\
+##   ListXmlRsu\
    ModB\
-   ModelMessages\
+##   ModelMessages\
    RsuSharedClient\
    ServerExPlugin_Model\
    SOEtransport\
