@@ -7,7 +7,13 @@
 #else
 #define IN_DLL Q_DECL_IMPORT
 #endif
+//#include "CommProc.h"
 
+#pragma once
+#define __int64 qint64
+//#include <crossplatform.h>
+//#include "Param.h"
+//#include "GDI.h"// #include "Err.h"
 
 #define PURE = 0
 #define NOT_USED { ASS(FALSE); return 1; }
@@ -115,7 +121,7 @@ struct IN_DLL IBaseModel
     struct IPoolCtrlModel * pPoolCtrl;
     static IBaseModel ** AllObjects;
     static int kObjects;
-    quint64 Counter;  // microseconds
+    __int64 Counter;  // microseconds
     DWORD nThread;
     DWORD kGroups;
     DWORD nGroup;
@@ -160,7 +166,7 @@ struct IN_DLL IBaseModel
     virtual int SetProp ( struct CObjProps * pProp );
     virtual int GetProp( );
     virtual void DrawObj ( struct CDrawObjData * pDraw ){};
-    virtual void DrawObject ( struct CDrawObjData * pDraw, class CGDIResourceMgr *pResMgr) {}
+    virtual void DrawObject ( struct CDrawObjData * pDraw, struct CGDIResourceMgr *pResMgr) {}
 #ifdef _WIN32
     virtual BOOL NeedDrawBefore() { return FALSE; }
     virtual void Render(IRenderer &);
