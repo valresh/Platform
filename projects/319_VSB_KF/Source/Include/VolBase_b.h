@@ -30,7 +30,7 @@
 #endif
 #endif
 
-struct IN_DLL Summ
+struct Summ
   {
   double H_summ_in_gas_A[K_GAS];
   double H_summ_in_liq_A[K_GAS];

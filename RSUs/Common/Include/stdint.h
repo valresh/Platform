@@ -215,6 +215,7 @@ typedef uint64_t  uintmax_t;
 #endif // __STDC_CONSTANT_MACROS ]
 
 #define SIZE_MAX 0xffffffffffffffffULL
+typedef char TCHAR;
 typedef const char * LPCSTR;
 typedef const char * LPCTSTR;
 typedef char * LPSTR;
@@ -224,6 +225,7 @@ typedef unsigned int DWORD_PTR;
 typedef int32_t DWORD;
 typedef unsigned char BYTE;
 typedef unsigned int WORD;
+typedef unsigned int LONG;
 typedef unsigned int UINT;
 typedef unsigned int BOOL;
 typedef unsigned short USHORT;
@@ -233,6 +235,7 @@ typedef void * HMODULE;
 typedef void * LPVOID;
 typedef char CHAR;
 typedef void * HINSTANCE;
+typedef int32_t * LPDWORD;
 struct CStr
 {
   const char * Str;
@@ -253,10 +256,13 @@ struct CStr
 };
 int strcpy_s(char *dest, int dest_size, const char *src );
 int strcpy_s(char *dest, const char *src );
+int strcat_s(char *dest, int dest_size, const char *src );
+int strcat_s(char *dest, const char *src );
 int _strcmpi(const char *, const char *);
 int sprintf_s(char *, const char *, ... );
 int sprintf_s(char *, int, const char *, ... );
 void * LoadLibrary(const char * lpLibFileName);
+const char * GetBasePath();
 int _makepath_s(
   char *path,
   const char *drive,

@@ -1,1 +1,2237 @@
-﻿#pragma once#include <BaseType_.h>#include <WP_Declare.h>#ifdef DEBUG#undef DEBUG#endif#ifdef IN#undef IN#endif#ifdef OUT#undef OUT#endif#include <HoneywellEnums.h>struct UTILSH5XX_API W_PCDIFLAGARRCH_W{  #include "Blocks/PCDIFLAGARRCH.h" };struct UTILSH5XX_API W_PCDIFLAGARRCH_P{  #include "Blocks/PCDIFLAGARRCH_P.h"};struct UTILSH5XX_API W_PCDIFLAGARRCH : CAlarmBase, W_PCDIFLAGARRCH_P, W_PCDIFLAGARRCH_W{  static LPCSTR ClassName;  enum { TypeID = id_PCDIFLAGARRCH };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PCDINUMARRCH_W{  #include "Blocks/PCDINUMARRCH.h" };struct UTILSH5XX_API W_PCDINUMARRCH_P{  #include "Blocks/PCDINUMARRCH_P.h"};struct UTILSH5XX_API W_PCDINUMARRCH : CAlarmBase, W_PCDINUMARRCH_P, W_PCDINUMARRCH_W{  static LPCSTR ClassName;  enum { TypeID = id_PCDINUMARRCH };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AICHANNEL_W{  #include "Blocks/AICHANNEL.h" };struct UTILSH5XX_API W_AICHANNEL_P{  #include "Blocks/AICHANNEL_P.h"};struct UTILSH5XX_API W_AICHANNEL : CAlarmBase, W_AICHANNEL_P, W_AICHANNEL_W{  static LPCSTR ClassName;  enum { TypeID = id_AICHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AOCHANNEL_W{  #include "Blocks/AOCHANNEL.h" };struct UTILSH5XX_API W_AOCHANNEL_P{  #include "Blocks/AOCHANNEL_P.h"};struct UTILSH5XX_API W_AOCHANNEL : CAlarmBase, W_AOCHANNEL_P, W_AOCHANNEL_W{  static LPCSTR ClassName;  enum { TypeID = id_AOCHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////#undef CONSTstruct UTILSH5XX_API W_AUXCALC_W{#include "Blocks/AUXCALC.h" };struct UTILSH5XX_API W_AUXCALC_P{#include "Blocks/AUXCALC_P.h"};struct UTILSH5XX_API W_AUXCALC : CAlarmBase, W_AUXCALC_P, W_AUXCALC_W{  static LPCSTR ClassName;  enum { TypeID = id_AUXCALC };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DATAACQ_W{#include "Blocks/DATAACQ.h" };struct UTILSH5XX_API W_DATAACQ_P{#include "Blocks/DATAACQ_P.h"};struct UTILSH5XX_API W_DATAACQ : CAlarmBase, W_DATAACQ_W, W_DATAACQ_P{  static LPCSTR ClassName;  enum { TypeID = id_DATAACQ };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DEVCTL_W{#include "Blocks/DEVCTL.h" };struct UTILSH5XX_API W_DEVCTL_P{#include "Blocks/DEVCTL_P.h"};struct UTILSH5XX_API W_DEVCTL : CAlarmBase, W_DEVCTL_W, W_DEVCTL_P{  static LPCSTR ClassName;  enum { TypeID = id_DEVCTL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DICHANNEL_W{#include "Blocks/DICHANNEL.h" };struct UTILSH5XX_API W_DICHANNEL_P{#include "Blocks/DICHANNEL_P.h"};struct UTILSH5XX_API W_DICHANNEL : CAlarmBase, W_DICHANNEL_W, W_DICHANNEL_P{  static LPCSTR ClassName;  enum { TypeID = id_DICHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DOCHANNEL_W{#include "Blocks/DOCHANNEL.h" };struct UTILSH5XX_API W_DOCHANNEL_P{#include "Blocks/DOCHANNEL_P.h"};struct UTILSH5XX_API W_DOCHANNEL : CAlarmBase, W_DOCHANNEL_W, W_DOCHANNEL_P{  static LPCSTR ClassName;  enum { TypeID = id_DOCHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SPARE_W{#include "Blocks/SPARE.h" };struct UTILSH5XX_API W_SPARE_P{#include "Blocks/SPARE_P.h"};struct UTILSH5XX_API W_SPARE : CAlarmBase, W_SPARE_W, W_SPARE_P{  static LPCSTR ClassName;  enum { TypeID = id_SPARE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FLAG_W{#include "Blocks/FLAG.h" };struct UTILSH5XX_API W_FLAG_P{#include "Blocks/FLAG_P.h"};struct UTILSH5XX_API W_FLAG : CAlarmBase, W_FLAG_W, W_FLAG_P{  static LPCSTR ClassName;  enum { TypeID = id_FLAG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NUMERIC_W{#include "Blocks/NUMERIC.h" };struct UTILSH5XX_API W_NUMERIC_P{#include "Blocks/NUMERIC_P.h"};struct UTILSH5XX_API W_NUMERIC : CAlarmBase, W_NUMERIC_W, W_NUMERIC_P{  static LPCSTR ClassName;  enum { TypeID = id_NUMERIC };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PID_W{#include "Blocks/PID.h" };struct UTILSH5XX_API W_PID_P{#include "Blocks/PID_P.h"};struct UTILSH5XX_API W_PID : CAlarmBase, W_PID_W, W_PID_P{  static LPCSTR ClassName;  enum { TypeID = id_PID };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TOTALIZER_W{#include "Blocks/TOTALIZER.h" };struct UTILSH5XX_API W_TOTALIZER_P{#include "Blocks/TOTALIZER_P.h"};struct UTILSH5XX_API W_TOTALIZER : CAlarmBase, W_TOTALIZER_W, W_TOTALIZER_P{  static LPCSTR ClassName;  enum { TypeID = id_TOTALIZER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TYPECONVERT_W{#include "Blocks/TYPECONVERT.h" };struct UTILSH5XX_API W_TYPECONVERT_P{#include "Blocks/TYPECONVERT_P.h"};struct UTILSH5XX_API W_TYPECONVERT : CAlarmBase, W_TYPECONVERT_W, W_TYPECONVERT_P{  static LPCSTR ClassName;  enum { TypeID = id_TYPECONVERT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_OR_W{#include "Blocks/OR.h" };struct UTILSH5XX_API W_OR_P{#include "Blocks/OR_P.h"};struct UTILSH5XX_API W_OR : CAlarmBase, W_OR_W, W_OR_P{  static LPCSTR ClassName;  enum { TypeID = id_OR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AND_W{#include "Blocks/AND.h" };struct UTILSH5XX_API W_AND_P{#include "Blocks/AND_P.h"};struct UTILSH5XX_API W_AND : CAlarmBase, W_AND_W, W_AND_P{  static LPCSTR ClassName;  enum { TypeID = id_AND };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PULSE_W{#include "Blocks/PULSE.h" };struct UTILSH5XX_API W_PULSE_P{#include "Blocks/PULSE_P.h"};struct UTILSH5XX_API W_PULSE : CAlarmBase, W_PULSE_W, W_PULSE_P{  static LPCSTR ClassName;  enum { TypeID = id_PULSE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_EQ_W{#include "Blocks/EQ.h" };struct UTILSH5XX_API W_EQ_P{#include "Blocks/EQ_P.h"};struct UTILSH5XX_API W_EQ : CAlarmBase, W_EQ_W, W_EQ_P{  static LPCSTR ClassName;  enum { TypeID = id_EQ };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SELREAL_W{#include "Blocks/SELREAL.h" };struct UTILSH5XX_API W_SELREAL_P{#include "Blocks/SELREAL_P.h"};struct UTILSH5XX_API W_SELREAL : CAlarmBase, W_SELREAL_W, W_SELREAL_P{  static LPCSTR ClassName;  enum { TypeID = id_SELREAL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ADD_W{#include "Blocks/ADD.h" };struct UTILSH5XX_API W_ADD_P{#include "Blocks/ADD_P.h"};struct UTILSH5XX_API W_ADD : CAlarmBase, W_ADD_W, W_ADD_P{  static LPCSTR ClassName;  enum { TypeID = id_ADD };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MUL_W{#include "Blocks/MUL.h" };struct UTILSH5XX_API W_MUL_P{#include "Blocks/MUL_P.h"};struct UTILSH5XX_API W_MUL : CAlarmBase, W_MUL_W, W_MUL_P{  static LPCSTR ClassName;  enum { TypeID = id_MUL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DIV_W{#include "Blocks/DIV.h" };struct UTILSH5XX_API W_DIV_P{#include "Blocks/DIV_P.h"};struct UTILSH5XX_API W_DIV : CAlarmBase, W_DIV_W, W_DIV_P{  static LPCSTR ClassName;  enum { TypeID = id_DIV };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PCDI_MASTER_W{#include "Modules/PCDI_MASTER.h" };struct UTILSH5XX_API W_PCDI_MASTER_P{#include "Modules/PCDI_MASTER_P.h"};struct UTILSH5XX_API W_PCDI_MASTER : CAlarmBase, W_PCDI_MASTER_W, W_PCDI_MASTER_P{  static LPCSTR ClassName;  enum { TypeID = id_PCDI_MASTER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CEEC300_W{#include "Modules/CEEC300.h" };struct UTILSH5XX_API W_CEEC300_P{#include "Modules/CEEC300_P.h"};struct UTILSH5XX_API W_CEEC300 : CAlarmBase, W_CEEC300_W, W_CEEC300_P{  static LPCSTR ClassName;  enum { TypeID = id_CEEC300 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_IOLINK_W{#include "Modules/IOLINK.h" };struct UTILSH5XX_API W_IOLINK_P{#include "Modules/IOLINK_P.h"};struct UTILSH5XX_API W_IOLINK : CAlarmBase, W_IOLINK_W, W_IOLINK_P{  static LPCSTR ClassName;  enum { TypeID = id_IOLINK };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CONTROLMODULE_W{#include "Modules/CONTROLMODULE.h" };struct UTILSH5XX_API W_CONTROLMODULE_P{#include "Modules/CONTROLMODULE_P.h"};struct UTILSH5XX_API W_CONTROLMODULE : CAlarmBase, W_CONTROLMODULE_W, W_CONTROLMODULE_P{  static LPCSTR ClassName;  enum { TypeID = id_CONTROLMODULE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_xHART_HL_W{#include "Modules/xHART_HL.h" };struct UTILSH5XX_API W_xHART_HL_P{#include "Modules/xHART_HL_P.h"};struct UTILSH5XX_API W_xHART_HL : CAlarmBase, W_xHART_HL_W, W_xHART_HL_P{  static LPCSTR ClassName;  enum { TypeID = id_xHART_HL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_Dx_24y_W{#include "Modules/Dx_24y.h" };struct UTILSH5XX_API W_Dx_24y_P{#include "Modules/Dx_24y_P.h"};struct UTILSH5XX_API W_Dx_24y : CAlarmBase, W_Dx_24y_W, W_Dx_24y_P{  static LPCSTR ClassName;  enum { TypeID = id_Dx_24y };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_xC300_W{#include "Modules/xC300.h" };struct UTILSH5XX_API W_xC300_P{#include "Modules/xC300_P.h"};struct UTILSH5XX_API W_xC300 : CAlarmBase, W_xC300_W, W_xC300_P{  static LPCSTR ClassName;  enum { TypeID = id_xC300 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TEXTCOMMENT_W{#include "Blocks/TEXTCOMMENT.h" };struct UTILSH5XX_API W_TEXTCOMMENT_P{#include "Blocks/TEXTCOMMENT_P.h"};struct UTILSH5XX_API W_TEXTCOMMENT : CAlarmBase, W_TEXTCOMMENT_W, W_TEXTCOMMENT_P{  static LPCSTR ClassName;  enum { TypeID = id_TEXTCOMMENT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FANOUT_W{#include "Blocks/FANOUT.h" };struct UTILSH5XX_API W_FANOUT_P{#include "Blocks/FANOUT_P.h"};struct UTILSH5XX_API W_FANOUT : CAlarmBase, W_FANOUT_W, W_FANOUT_P{  static LPCSTR ClassName;  enum { TypeID = id_FANOUT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AUTOMAN_W{#include "Blocks/AUTOMAN.h" };struct UTILSH5XX_API W_AUTOMAN_P{#include "Blocks/AUTOMAN_P.h"};struct UTILSH5XX_API W_AUTOMAN : CAlarmBase, W_AUTOMAN_W, W_AUTOMAN_P{  static LPCSTR ClassName;  enum { TypeID = id_AUTOMAN };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RBPERMISSION_W{#include "Blocks/RBPERMISSION.h" };struct UTILSH5XX_API W_RBPERMISSION_P{#include "Blocks/RBPERMISSION_P.h"};struct UTILSH5XX_API W_RBPERMISSION : CAlarmBase, W_RBPERMISSION_W, W_RBPERMISSION_P{  static LPCSTR ClassName;  enum { TypeID = id_RBPERMISSION };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DIGACQ_W{#include "Blocks/DIGACQ.h" };struct UTILSH5XX_API W_DIGACQ_P{#include "Blocks/DIGACQ_P.h"};struct UTILSH5XX_API W_DIGACQ : CAlarmBase, W_DIGACQ_W, W_DIGACQ_P{  static LPCSTR ClassName;  enum { TypeID = id_DIGACQ };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NOT_W{#include "Blocks/NOT.h" };struct UTILSH5XX_API W_NOT_P{#include "Blocks/NOT_P.h"};struct UTILSH5XX_API W_NOT : CAlarmBase, W_NOT_W, W_NOT_P{  static LPCSTR ClassName;  enum { TypeID = id_NOT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ROOT_P{#include "Modules/ROOT_P.h"};struct UTILSH5XX_API W_ROOT : CAlarmBase, W_ROOT_P{  static LPCSTR ClassName;  enum { TypeID = id_ROOT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FIM4_W{#include "Modules/FIM4.h" };struct UTILSH5XX_API W_FIM4_P{#include "Modules/FIM4_P.h"};struct UTILSH5XX_API W_FIM4 : CAlarmBase, W_FIM4_W, W_FIM4_P{  static LPCSTR ClassName;  enum { TypeID = id_FIM4 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FFLINK_W{#include "Modules/FFLINK.h" };struct UTILSH5XX_API W_FFLINK_P{#include "Modules/FFLINK_P.h"};struct UTILSH5XX_API W_FFLINK : CAlarmBase, W_FFLINK_W, W_FFLINK_P{  static LPCSTR ClassName;  enum { TypeID = id_FFLINK };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_848_0601_W{#include "Blocks/848_0601.h" };struct UTILSH5XX_API W_848_0601_P{#include "Blocks/848_0601_P.h"};struct UTILSH5XX_API W_848_0601 : CAlarmBase, W_848_0601_W, W_848_0601_P{  static LPCSTR ClassName;  enum { TypeID = id_848_0601 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FLOWCOMP_W{#include "Blocks/FLOWCOMP.h" };struct UTILSH5XX_API W_FLOWCOMP_P{#include "Blocks/FLOWCOMP_P.h"};struct UTILSH5XX_API W_FLOWCOMP : CAlarmBase, W_FLOWCOMP_W, W_FLOWCOMP_P{  static LPCSTR ClassName;  enum { TypeID = id_FLOWCOMP };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_OFFDELAY_W{#include "Blocks/OFFDELAY.h" };struct UTILSH5XX_API W_OFFDELAY_P{#include "Blocks/OFFDELAY_P.h"};struct UTILSH5XX_API W_OFFDELAY : CAlarmBase, W_OFFDELAY_W, W_OFFDELAY_P{  static LPCSTR ClassName;  enum { TypeID = id_OFFDELAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ONDELAY_W{#include "Blocks/ONDELAY.h" };struct UTILSH5XX_API W_ONDELAY_P{#include "Blocks/ONDELAY_P.h"};struct UTILSH5XX_API W_ONDELAY : CAlarmBase, W_ONDELAY_W, W_ONDELAY_P{  static LPCSTR ClassName;  enum { TypeID = id_ONDELAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NOR_W{#include "Blocks/NOR.h" };struct UTILSH5XX_API W_NOR_P{#include "Blocks/NOR_P.h"};struct UTILSH5XX_API W_NOR : CAlarmBase, W_NOR_W, W_NOR_P{  static LPCSTR ClassName;  enum { TypeID = id_NOR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DELAY_W{#include "Blocks/DELAY.h" };struct UTILSH5XX_API W_DELAY_P{#include "Blocks/DELAY_P.h"};struct UTILSH5XX_API W_DELAY : CAlarmBase, W_DELAY_W, W_DELAY_P{  static LPCSTR ClassName;  enum { TypeID = id_DELAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MAI_W{#include "Blocks/MAI.h" };struct UTILSH5XX_API W_MAI_P{#include "Blocks/MAI_P.h"};struct UTILSH5XX_API W_MAI : CAlarmBase, W_MAI_W, W_MAI_P{  static LPCSTR ClassName;  enum { TypeID = id_MAI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MAXPULSE_W{#include "Blocks/MAXPULSE.h" };struct UTILSH5XX_API W_MAXPULSE_P{#include "Blocks/MAXPULSE_P.h"};struct UTILSH5XX_API W_MAXPULSE : CAlarmBase, W_MAXPULSE_W, W_MAXPULSE_P{  static LPCSTR ClassName;  enum { TypeID = id_MAXPULSE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_Dx_SOE_W{#include "Modules/Dx_SOE.h" };struct UTILSH5XX_API W_Dx_SOE_P{#include "Modules/Dx_SOE_P.h"};struct UTILSH5XX_API W_Dx_SOE : CAlarmBase, W_Dx_SOE_P, W_Dx_SOE_W{  static LPCSTR ClassName;  enum { TypeID = id_Dx_SOE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ROLLAVG_W{#include "Blocks/ROLLAVG.h" };struct UTILSH5XX_API W_ROLLAVG_P{#include "Blocks/ROLLAVG_P.h"};struct UTILSH5XX_API W_ROLLAVG : CAlarmBase, W_ROLLAVG_W, W_ROLLAVG_P{  static LPCSTR ClassName;  enum { TypeID = id_ROLLAVG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_LT_W{#include "Blocks/LT.h" };struct UTILSH5XX_API W_LT_P{#include "Blocks/LT_P.h"};struct UTILSH5XX_API W_LT : CAlarmBase, W_LT_W, W_LT_P{  static LPCSTR ClassName;  enum { TypeID = id_LT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ENHAUXCALC_W{#include "Blocks/ENHAUXCALC.h" };struct UTILSH5XX_API W_ENHAUXCALC_P{#include "Blocks/ENHAUXCALC_P.h"};struct UTILSH5XX_API W_ENHAUXCALC : CAlarmBase, W_ENHAUXCALC_W, W_ENHAUXCALC_P{  static LPCSTR ClassName;  enum { TypeID = id_ENHAUXCALC };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SIGNALSEL_W{#include "Blocks/SIGNALSEL.h" };struct UTILSH5XX_API W_SIGNALSEL_P{#include "Blocks/SIGNALSEL_P.h"};struct UTILSH5XX_API W_SIGNALSEL : CAlarmBase, W_SIGNALSEL_W, W_SIGNALSEL_P{  static LPCSTR ClassName;  enum { TypeID = id_SIGNALSEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_W{#include "Modules/9413-DIGIT_0102.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_P{#include "Modules/9413-DIGIT_0102_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102 : CAlarmBase, W_9413_DIGIT_0102_W, W_9413_DIGIT_0102_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE_W{#include "Blocks/9413-DIGIT_0102.RESOURCE.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE_P{#include "Blocks/9413-DIGIT_0102.RESOURCE_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE : CAlarmBase, W_9413_DIGIT_0102_RESOURCE_W, W_9413_DIGIT_0102_RESOURCE_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102_RESOURCE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB_W{#include "Blocks/9413-DIGIT_0102.DO1TB.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB_P{#include "Blocks/9413-DIGIT_0102.DO1TB_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB : CAlarmBase, W_9413_DIGIT_0102_DO1TB_W, W_9413_DIGIT_0102_DO1TB_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102_DO1TB };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_MDO_W{#include "Blocks/9413-DIGIT_0102.MDO.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_MDO_P{#include "Blocks/9413-DIGIT_0102.MDO_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102_MDO : CAlarmBase, W_9413_DIGIT_0102_MDO_W, W_9413_DIGIT_0102_MDO_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102_MDO };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_AI_W{#include "Blocks/9413-DIGIT_0102.AI.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_AI_P{#include "Blocks/9413-DIGIT_0102.AI_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102_AI : CAlarmBase, W_9413_DIGIT_0102_AI_W, W_9413_DIGIT_0102_AI_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102_AI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RS_W{#include "Blocks/RS.h" };struct UTILSH5XX_API W_RS_P{#include "Blocks/RS_P.h"};struct UTILSH5XX_API W_RS : CAlarmBase, W_RS_W, W_RS_P{  static LPCSTR ClassName;  enum { TypeID = id_RS };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SR_W{#include "Blocks/SR.h" };struct UTILSH5XX_API W_SR_P{#include "Blocks/SR_P.h"};struct UTILSH5XX_API W_SR : CAlarmBase, W_SR_W, W_SR_P{  static LPCSTR ClassName;  enum { TypeID = id_SR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_IAH161_W{#include "Modules/TC-IAH161.h" };struct UTILSH5XX_API W_TC_IAH161_P{#include "Modules/TC-IAH161_P.h"};struct UTILSH5XX_API W_TC_IAH161 : CAlarmBase, W_TC_IAH161_W, W_TC_IAH161_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_IAH161 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PUSH_W{#include "Blocks/PUSH.h" };struct UTILSH5XX_API W_PUSH_P{#include "Blocks/PUSH_P.h"};struct UTILSH5XX_API W_PUSH : CAlarmBase, W_PUSH_W, W_PUSH_P{  static LPCSTR ClassName;  enum { TypeID = id_PUSH };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TIMER_W{#include "Blocks/TIMER.h" };struct UTILSH5XX_API W_TIMER_P{#include "Blocks/TIMER_P.h"};struct UTILSH5XX_API W_TIMER : CAlarmBase, W_TIMER_W, W_TIMER_P{  static LPCSTR ClassName;  enum { TypeID = id_TIMER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CHECKBAD_W{#include "Blocks/CHECKBAD.h" };struct UTILSH5XX_API W_CHECKBAD_P{#include "Blocks/CHECKBAD_P.h"};struct UTILSH5XX_API W_CHECKBAD : CAlarmBase, W_CHECKBAD_W, W_CHECKBAD_P{  static LPCSTR ClassName;  enum { TypeID = id_CHECKBAD };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_GE_W{#include "Blocks/GE.h" };struct UTILSH5XX_API W_GE_P{#include "Blocks/GE_P.h"};struct UTILSH5XX_API W_GE : CAlarmBase, W_GE_W, W_GE_P{  static LPCSTR ClassName;  enum { TypeID = id_GE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_GT_W{#include "Blocks/GT.h" };struct UTILSH5XX_API W_GT_P{#include "Blocks/GT_P.h"};struct UTILSH5XX_API W_GT : CAlarmBase, W_GT_W, W_GT_P{  static LPCSTR ClassName;  enum { TypeID = id_GT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SWITCH_W{#include "Blocks/SWITCH.h" };struct UTILSH5XX_API W_SWITCH_P{#include "Blocks/SWITCH_P.h"};struct UTILSH5XX_API W_SWITCH : CAlarmBase, W_SWITCH_W, W_SWITCH_P{  static LPCSTR ClassName;  enum { TypeID = id_SWITCH };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_REGCALC_W{#include "Blocks/REGCALC.h" };struct UTILSH5XX_API W_REGCALC_P{#include "Blocks/REGCALC_P.h"};struct UTILSH5XX_API W_REGCALC : CAlarmBase, W_REGCALC_W, W_REGCALC_P{  static LPCSTR ClassName;  enum { TypeID = id_REGCALC };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_OVRDSEL_W{#include "Blocks/OVRDSEL.h" };struct UTILSH5XX_API W_OVRDSEL_P{#include "Blocks/OVRDSEL_P.h"};struct UTILSH5XX_API W_OVRDSEL : CAlarmBase, W_OVRDSEL_W, W_OVRDSEL_P{  static LPCSTR ClassName;  enum { TypeID = id_OVRDSEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RATIOCTL_W{#include "Blocks/RATIOCTL.h" };struct UTILSH5XX_API W_RATIOCTL_P{#include "Blocks/RATIOCTL_P.h"};struct UTILSH5XX_API W_RATIOCTL : CAlarmBase, W_RATIOCTL_W, W_RATIOCTL_P{  static LPCSTR ClassName;  enum { TypeID = id_RATIOCTL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ENHREGCALC_W{#include "Blocks/ENHREGCALC.h" };struct UTILSH5XX_API W_ENHREGCALC_P{#include "Blocks/ENHREGCALC_P.h"};struct UTILSH5XX_API W_ENHREGCALC : CAlarmBase, W_ENHREGCALC_W, W_ENHREGCALC_P{  static LPCSTR ClassName;  enum { TypeID = id_ENHREGCALC };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_LE_W{#include "Blocks/LE.h"};struct UTILSH5XX_API W_LE_P{#include "Blocks/LE_P.h"};struct UTILSH5XX_API W_LE : CAlarmBase, W_LE_W, W_LE_P{  static LPCSTR ClassName;  enum { TypeID = id_LE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CPM200_W{#include "Modules/CPM200.h" };struct UTILSH5XX_API W_CPM200_P{#include "Modules/CPM200_P.h"};struct UTILSH5XX_API W_CPM200 : CAlarmBase, W_CPM200_W, W_CPM200_P{  static LPCSTR ClassName;  enum { TypeID = id_CPM200 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CEEFB_W{#include "Modules/CEEFB.h" };struct UTILSH5XX_API W_CEEFB_P{#include "Modules/CEEFB_P.h"};struct UTILSH5XX_API W_CEEFB : CAlarmBase, W_CEEFB_W, W_CEEFB_P{  static LPCSTR ClassName;  enum { TypeID = id_CEEFB };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_IDD321_W{#include "Modules/TC-IDD321.h" };struct UTILSH5XX_API W_TC_IDD321_P{#include "Modules/TC-IDD321_P.h"};struct UTILSH5XX_API W_TC_IDD321 : CAlarmBase, W_TC_IDD321_W, W_TC_IDD321_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_IDD321 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_ODD321_W{#include "Modules/TC-ODD321.h" };struct UTILSH5XX_API W_TC_ODD321_P{#include "Modules/TC-ODD321_P.h"};struct UTILSH5XX_API W_TC_ODD321 : CAlarmBase, W_TC_ODD321_W, W_TC_ODD321_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_ODD321 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FTRIG_W{#include "Blocks/FTRIG.h" };struct UTILSH5XX_API W_FTRIG_P{#include "Blocks/FTRIG_P.h"};struct UTILSH5XX_API W_FTRIG : CAlarmBase, W_FTRIG_W, W_FTRIG_P{  static LPCSTR ClassName;  enum { TypeID = id_FTRIG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RTRIG_W{#include "Blocks/RTRIG.h" };struct UTILSH5XX_API W_RTRIG_P{#include "Blocks/RTRIG_P.h"};struct UTILSH5XX_API W_RTRIG : CAlarmBase, W_RTRIG_W, W_RTRIG_P{  static LPCSTR ClassName;  enum { TypeID = id_RTRIG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NUMERICARRAY_W{#include "Blocks/NUMERICARRAY.h" };struct UTILSH5XX_API W_NUMERICARRAY_P{#include "Blocks/NUMERICARRAY_P.h"};struct UTILSH5XX_API W_NUMERICARRAY : CAlarmBase, W_NUMERICARRAY_W, W_NUMERICARRAY_P{  static LPCSTR ClassName;  enum { TypeID = id_NUMERICARRAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SUB_W{#include "Blocks/SUB.h" };struct UTILSH5XX_API W_SUB_P{#include "Blocks/SUB_P.h"};struct UTILSH5XX_API W_SUB : CAlarmBase, W_SUB_W, W_SUB_P{  static LPCSTR ClassName;  enum { TypeID = id_SUB };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_REGSUMMER_W{#include "Blocks/REGSUMMER.h" };struct UTILSH5XX_API W_REGSUMMER_P{#include "Blocks/REGSUMMER_P.h"};struct UTILSH5XX_API W_REGSUMMER : CAlarmBase, W_REGSUMMER_W, W_REGSUMMER_P{  static LPCSTR ClassName;  enum { TypeID = id_REGSUMMER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_9413_DIGIT_0102_MDI_W{#include "Blocks/9413-DIGIT_0102.MDI.h" };struct UTILSH5XX_API W_9413_DIGIT_0102_MDI_P{#include "Blocks/9413-DIGIT_0102.MDI_P.h"};struct UTILSH5XX_API W_9413_DIGIT_0102_MDI : CAlarmBase, W_9413_DIGIT_0102_MDI_W, W_9413_DIGIT_0102_MDI_P{  static LPCSTR ClassName;  enum { TypeID = id_9413_DIGIT_0102_MDI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MESSAGE_W{#include "Blocks/MESSAGE.h" };struct UTILSH5XX_API W_MESSAGE_P{#include "Blocks/MESSAGE_P.h"};struct UTILSH5XX_API W_MESSAGE : CAlarmBase, W_MESSAGE_W, W_MESSAGE_P{  static LPCSTR ClassName;  enum { TypeID = id_MESSAGE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FTEB_W{#include "Modules/FTEB.h" };struct UTILSH5XX_API W_FTEB_P{#include "Modules/FTEB_P.h"};struct UTILSH5XX_API W_FTEB : CAlarmBase, W_FTEB_W, W_FTEB_P{  static LPCSTR ClassName;  enum { TypeID = id_FTEB };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TEXTARRAY_W{#include "Blocks/TEXTARRAY.h" };struct UTILSH5XX_API W_TEXTARRAY_P{#include "Blocks/TEXTARRAY_P.h"};struct UTILSH5XX_API W_TEXTARRAY : CAlarmBase, W_TEXTARRAY_W, W_TEXTARRAY_P{  static LPCSTR ClassName;  enum { TypeID = id_TEXTARRAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RMFBCLASS_W{#include "Modules/RMFBCLASS.h" };struct UTILSH5XX_API W_RMFBCLASS_P{#include "Modules/RMFBCLASS_P.h"};struct UTILSH5XX_API W_RMFBCLASS : CAlarmBase, W_RMFBCLASS_W, W_RMFBCLASS_P{  static LPCSTR ClassName;  enum { TypeID = id_RMFBCLASS };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_IXL061_W{#include "Modules/TC-IXL061.h" };struct UTILSH5XX_API W_TC_IXL061_P{#include "Modules/TC-IXL061_P.h"};struct UTILSH5XX_API W_TC_IXL061 : CAlarmBase, W_TC_IXL061_W, W_TC_IXL061_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_IXL061 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PITOTALIZER_W{#include "Blocks/PITOTALIZER.h" };struct UTILSH5XX_API W_PITOTALIZER_P{#include "Blocks/PITOTALIZER_P.h"};struct UTILSH5XX_API W_PITOTALIZER : CAlarmBase, W_PITOTALIZER_W, W_PITOTALIZER_P{  static LPCSTR ClassName;  enum { TypeID = id_PITOTALIZER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PICHANNEL_W{#include "Blocks/PICHANNEL.h" };struct UTILSH5XX_API W_PICHANNEL_P{#include "Blocks/PICHANNEL_P.h"};struct UTILSH5XX_API W_PICHANNEL : CAlarmBase, W_PICHANNEL_W, W_PICHANNEL_P{  static LPCSTR ClassName;  enum { TypeID = id_PICHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_MDP081_W{#include "Modules/TC-MDP081.h" };struct UTILSH5XX_API W_TC_MDP081_P{#include "Modules/TC-MDP081_P.h"};struct UTILSH5XX_API W_TC_MDP081 : CAlarmBase, W_TC_MDP081_W, W_TC_MDP081_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_MDP081 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_IXL062_W{#include "Modules/TC-IXL062.h" };struct UTILSH5XX_API W_TC_IXL062_P{#include "Modules/TC-IXL062_P.h"};struct UTILSH5XX_API W_TC_IXL062 : CAlarmBase, W_TC_IXL062_W, W_TC_IXL062_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_IXL062 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_OAV081_W{#include "Modules/TC-OAV081.h" };struct UTILSH5XX_API W_TC_OAV081_P{#include "Modules/TC-OAV081_P.h"};struct UTILSH5XX_API W_TC_OAV081 : CAlarmBase, W_TC_OAV081_W, W_TC_OAV081_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_OAV081 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_PIDFF_W{#include "Blocks/PIDFF.h" };struct UTILSH5XX_API W_PIDFF_P{#include "Blocks/PIDFF_P.h"};struct UTILSH5XX_API W_PIDFF : CAlarmBase, W_PIDFF_W, W_PIDFF_P{  static LPCSTR ClassName;  enum { TypeID = id_PIDFF };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DEADTIME_W{#include "Blocks/DEADTIME.h" };struct UTILSH5XX_API W_DEADTIME_P{#include "Blocks/DEADTIME_P.h"};struct UTILSH5XX_API W_DEADTIME : CAlarmBase, W_DEADTIME_W, W_DEADTIME_P{  static LPCSTR ClassName;  enum { TypeID = id_DEADTIME };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AI_LLMUX_W{#include "Modules/AI-LLMUX.h" };struct UTILSH5XX_API W_AI_LLMUX_P{#include "Modules/AI-LLMUX_P.h"};struct UTILSH5XX_API W_AI_LLMUX : CAlarmBase, W_AI_LLMUX_W, W_AI_LLMUX_P{  static LPCSTR ClassName;  enum { TypeID = id_AI_LLMUX };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TC_IXR061_W{#include "Modules/TC-IXR061.h" };struct UTILSH5XX_API W_TC_IXR061_P{#include "Modules/TC-IXR061_P.h"};struct UTILSH5XX_API W_TC_IXR061 : CAlarmBase, W_TC_IXR061_W, W_TC_IXR061_P{  static LPCSTR ClassName;  enum { TypeID = id_TC_IXR061 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AIREF_W{#include "Blocks/AIREF.h" };struct UTILSH5XX_API W_AIREF_P{#include "Blocks/AIREF_P.h"};struct UTILSH5XX_API W_AIREF : CAlarmBase, W_AIREF_W, W_AIREF_P{  static LPCSTR ClassName;  enum { TypeID = id_AIREF };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AOREF_W{#include "Blocks/AOREF.h" };struct UTILSH5XX_API W_AOREF_P{#include "Blocks/AOREF_P.h"};struct UTILSH5XX_API W_AOREF : CAlarmBase, W_AOREF_W, W_AOREF_P{  static LPCSTR ClassName;  enum { TypeID = id_AOREF };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DIREF_W{#include "Blocks/DIREF.h" };struct UTILSH5XX_API W_DIREF_P{#include "Blocks/DIREF_P.h"};struct UTILSH5XX_API W_DIREF : CAlarmBase, W_DIREF_W, W_DIREF_P{  static LPCSTR ClassName;  enum { TypeID = id_DIREF };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DOREF_W{#include "Blocks/DOREF.h" };struct UTILSH5XX_API W_DOREF_P{#include "Blocks/DOREF_P.h"};struct UTILSH5XX_API W_DOREF : CAlarmBase, W_DOREF_W, W_DOREF_P{  static LPCSTR ClassName;  enum { TypeID = id_DOREF };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NUM2BOOL_W{#include "Blocks/NUM2BOOL.h" };struct UTILSH5XX_API W_NUM2BOOL_P{#include "Blocks/NUM2BOOL_P.h"};struct UTILSH5XX_API W_NUM2BOOL : CAlarmBase, W_NUM2BOOL_W, W_NUM2BOOL_P{  static LPCSTR ClassName;  enum { TypeID = id_NUM2BOOL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_BOOL2NUM_W{#include "Blocks/BOOL2NUM.h" };struct UTILSH5XX_API W_BOOL2NUM_P{#include "Blocks/BOOL2NUM_P.h"};struct UTILSH5XX_API W_BOOL2NUM : CAlarmBase, W_BOOL2NUM_W, W_BOOL2NUM_P{  static LPCSTR ClassName;  enum { TypeID = id_BOOL2NUM };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_INTERLOCK_W{#include "Blocks/INTERLOCK.h" };struct UTILSH5XX_API W_INTERLOCK_P{#include "Blocks/INTERLOCK_P.h"};struct UTILSH5XX_API W_INTERLOCK : CAlarmBase, W_INTERLOCK_W, W_INTERLOCK_P{  static LPCSTR ClassName;  enum { TypeID = id_INTERLOCK };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_2OO3_W{#include "Blocks/2OO3.h" };struct UTILSH5XX_API W_2OO3_P{#include "Blocks/2OO3_P.h"};struct UTILSH5XX_API W_2OO3 : CAlarmBase, W_2OO3_W, W_2OO3_P{  static LPCSTR ClassName;  enum { TypeID = id_2OO3 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_QOR_W{#include "Blocks/QOR.h" };struct UTILSH5XX_API W_QOR_P{#include "Blocks/QOR_P.h"};struct UTILSH5XX_API W_QOR : CAlarmBase, W_QOR_W, W_QOR_P{  static LPCSTR ClassName;  enum { TypeID = id_QOR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FIRSTOUT_W{#include "Blocks/FIRSTOUT.h" };struct UTILSH5XX_API W_FIRSTOUT_P{#include "Blocks/FIRSTOUT_P.h"};struct UTILSH5XX_API W_FIRSTOUT : CAlarmBase, W_FIRSTOUT_W, W_FIRSTOUT_P{  static LPCSTR ClassName;  enum { TypeID = id_FIRSTOUT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ABS_W{#include "Blocks/ABS.h" };struct UTILSH5XX_API W_ABS_P{#include "Blocks/ABS_P.h"};struct UTILSH5XX_API W_ABS : CAlarmBase, W_ABS_W, W_ABS_P{  static LPCSTR ClassName;  enum { TypeID = id_ABS };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_GENLIN_W{#include "Blocks/GENLIN.h" };struct UTILSH5XX_API W_GENLIN_P{#include "Blocks/GENLIN_P.h"};struct UTILSH5XX_API W_GENLIN : CAlarmBase, W_GENLIN_W, W_GENLIN_P{  static LPCSTR ClassName;  enum { TypeID = id_GENLIN };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SCM_W{#include "Modules/SCM.h" };struct UTILSH5XX_API W_SCM_P{#include "Modules/SCM_P.h"};struct UTILSH5XX_API W_SCM : CAlarmBase, W_SCM_W, W_SCM_P{  static LPCSTR ClassName;  enum { TypeID = id_SCM };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_HANDLER_W{#include "Blocks/HANDLER.h" };struct UTILSH5XX_API W_HANDLER_P{#include "Blocks/HANDLER_P.h"};struct UTILSH5XX_API W_HANDLER : CAlarmBase, W_HANDLER_W, W_HANDLER_P{  static LPCSTR ClassName;  enum { TypeID = id_HANDLER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TRANSITION_W{#include "Blocks/TRANSITION.h" };struct UTILSH5XX_API W_TRANSITION_P{#include "Blocks/TRANSITION_P.h"};struct UTILSH5XX_API W_TRANSITION : CAlarmBase, W_TRANSITION_W, W_TRANSITION_P{  static LPCSTR ClassName;  enum { TypeID = id_TRANSITION };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_STEP_W{#include "Blocks/STEP.h" };struct UTILSH5XX_API W_STEP_P{#include "Blocks/STEP_P.h"};struct UTILSH5XX_API W_STEP : CAlarmBase, W_STEP_W, W_STEP_P{  static LPCSTR ClassName;  enum { TypeID = id_STEP };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NE_W{#include "Blocks/NE.h"};struct UTILSH5XX_API W_NE_P{#include "Blocks/NE_P.h"};struct UTILSH5XX_API W_NE : CAlarmBase, W_NE_W, W_NE_P{  static LPCSTR ClassName;  enum { TypeID = id_NE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MUXREAL_W{#include "Blocks/MUXREAL.h"};struct UTILSH5XX_API W_MUXREAL_P{#include "Blocks/MUXREAL_P.h"};struct UTILSH5XX_API W_MUXREAL : CAlarmBase, W_MUXREAL_W, W_MUXREAL_P{  static LPCSTR ClassName;  enum { TypeID = id_MUXREAL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MAX_W{#include "Blocks/MAX.h"};struct UTILSH5XX_API W_MAX_P{#include "Blocks/MAX_P.h"};struct UTILSH5XX_API W_MAX : CAlarmBase, W_MAX_W, W_MAX_P{  static LPCSTR ClassName;  enum { TypeID = id_MAX };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_CTUD_W{#include "Blocks/CTUD.h" };struct UTILSH5XX_API W_CTUD_P{#include "Blocks/CTUD_P.h"};struct UTILSH5XX_API W_CTUD : CAlarmBase, W_CTUD_W, W_CTUD_P{  static LPCSTR ClassName;  enum { TypeID = id_CTUD };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_HLAIHART_W{#include "Modules/HLAIHART.h" };struct UTILSH5XX_API W_HLAIHART_P{#include "Modules/HLAIHART_P.h"};struct UTILSH5XX_API W_HLAIHART : CAlarmBase, W_HLAIHART_W, W_HLAIHART_P{  static LPCSTR ClassName;  enum { TypeID = id_HLAIHART };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_HLAI_W{#include "Modules/HLAI.h" };struct UTILSH5XX_API W_HLAI_P{#include "Modules/HLAI_P.h"};struct UTILSH5XX_API W_HLAI : CAlarmBase, W_HLAI_W, W_HLAI_P{  static LPCSTR ClassName;  enum { TypeID = id_HLAI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AO16_W{#include "Modules/AO16.h" };struct UTILSH5XX_API W_AO16_P{#include "Modules/AO16_P.h"};struct UTILSH5XX_API W_AO16 : CAlarmBase, W_AO16_W, W_AO16_P{  static LPCSTR ClassName;  enum { TypeID = id_AO16 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DO32_W{#include "Modules/DO32.h" };struct UTILSH5XX_API W_DO32_P{#include "Modules/DO32_P.h"};struct UTILSH5XX_API W_DO32 : CAlarmBase, W_DO32_W, W_DO32_P{  static LPCSTR ClassName;  enum { TypeID = id_DO32 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DI_W{#include "Modules/DI.h" };struct UTILSH5XX_API W_DI_P{#include "Modules/DI_P.h"};struct UTILSH5XX_API W_DI : CAlarmBase, W_DI_W, W_DI_P{  static LPCSTR ClassName;  enum { TypeID = id_DI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_AUXSUMMER_W{#include "Blocks/AUXSUMMER.h" };struct UTILSH5XX_API W_AUXSUMMER_P{#include "Blocks/AUXSUMMER_P.h"};struct UTILSH5XX_API W_AUXSUMMER : CAlarmBase, W_AUXSUMMER_W, W_AUXSUMMER_P{  static LPCSTR ClassName;  enum { TypeID = id_AUXSUMMER };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_LIMIT_W{#include "Blocks/LIMIT.h" };struct UTILSH5XX_API W_LIMIT_P{#include "Blocks/LIMIT_P.h"};struct UTILSH5XX_API W_LIMIT : CAlarmBase, W_LIMIT_W, W_LIMIT_P{  static LPCSTR ClassName;  enum { TypeID = id_LIMIT };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MINPULSE_W{#include "Blocks/MINPULSE.h" };struct UTILSH5XX_API W_MINPULSE_P{#include "Blocks/MINPULSE_P.h"};struct UTILSH5XX_API W_MINPULSE : CAlarmBase, W_MINPULSE_W, W_MINPULSE_P{  static LPCSTR ClassName;  enum { TypeID = id_MINPULSE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DISOE_W{#include "Modules/DISOE.h" };struct UTILSH5XX_API W_DISOE_P{#include "Modules/DISOE_P.h"};struct UTILSH5XX_API W_DISOE : CAlarmBase, W_DISOE_W, W_DISOE_P{  static LPCSTR ClassName;  enum { TypeID = id_DISOE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_HAICHANNEL_W{#include "Blocks/HAICHANNEL.h" };struct UTILSH5XX_API W_HAICHANNEL_P{#include "Blocks/HAICHANNEL_P.h"};struct UTILSH5XX_API W_HAICHANNEL : CAlarmBase, W_HAICHANNEL_W, W_HAICHANNEL_P{  static LPCSTR ClassName;  enum { TypeID = id_HAICHANNEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_DI24V_W{#include "Modules/DI24V.h" };struct UTILSH5XX_API W_DI24V_P{#include "Modules/DI24V_P.h"};struct UTILSH5XX_API W_DI24V : CAlarmBase, W_DI24V_W, W_DI24V_P{  static LPCSTR ClassName;  enum { TypeID = id_DI24V };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_LLMUX_W{#include "Modules/LLMUX.h" };struct UTILSH5XX_API W_LLMUX_P{#include "Modules/LLMUX_P.h"};struct UTILSH5XX_API W_LLMUX : CAlarmBase, W_LLMUX_W, W_LLMUX_P{  static LPCSTR ClassName;  enum { TypeID = id_LLMUX };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_XOR_W{#include "Blocks/XOR.h" };struct UTILSH5XX_API W_XOR_P{#include "Blocks/XOR_P.h"};struct UTILSH5XX_API W_XOR : CAlarmBase, W_XOR_W, W_XOR_P{  static LPCSTR ClassName;  enum { TypeID = id_XOR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_WATCHDOG_W{#include "Blocks/WATCHDOG.h" };struct UTILSH5XX_API W_WATCHDOG_P{#include "Blocks/WATCHDOG_P.h"};struct UTILSH5XX_API W_WATCHDOG : CAlarmBase, W_WATCHDOG_W, W_WATCHDOG_P{  static LPCSTR ClassName;  enum { TypeID = id_WATCHDOG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_UIO_2_W{#include "Modules/UIO-2.h" };struct UTILSH5XX_API W_UIO_2_P{#include "Modules/UIO-2_P.h"};struct UTILSH5XX_API W_UIO_2 : CAlarmBase, W_UIO_2_W, W_UIO_2_P{  static LPCSTR ClassName;  enum { TypeID = id_UIO_2 };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_W{#include "Modules/SP.h" };struct UTILSH5XX_API W_SP_P{#include "Modules/SP_P.h"};struct UTILSH5XX_API W_SP : CAlarmBase, W_SP_W, W_SP_P{  static LPCSTR ClassName;  enum { TypeID = id_SP };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SEL_W{#include "Blocks/SEL.h" };struct UTILSH5XX_API W_SEL_P{#include "Blocks/SEL_P.h"};struct UTILSH5XX_API W_SEL : CAlarmBase, W_SEL_W, W_SEL_P{  static LPCSTR ClassName;  enum { TypeID = id_SEL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_ROR_W{#include "Blocks/ROR.h" };struct UTILSH5XX_API W_ROR_P{#include "Blocks/ROR_P.h"};struct UTILSH5XX_API W_ROR : CAlarmBase, W_ROR_W, W_ROR_P{  static LPCSTR ClassName;  enum { TypeID = id_ROR };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_STARTSIGNAL_W{#include "Blocks/STARTSIGNAL.h" };struct UTILSH5XX_API W_STARTSIGNAL_P{#include "Blocks/STARTSIGNAL_P.h"};struct UTILSH5XX_API W_STARTSIGNAL : CAlarmBase, W_STARTSIGNAL_W, W_STARTSIGNAL_P{  static LPCSTR ClassName;  enum { TypeID = id_STARTSIGNAL };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_SPDVOTE_W{#include "Blocks/SP_SPDVOTE.h" };struct UTILSH5XX_API W_SP_SPDVOTE_P{#include "Blocks/SP_SPDVOTE_P.h"};struct UTILSH5XX_API W_SP_SPDVOTE : CAlarmBase, W_SP_SPDVOTE_W, W_SP_SPDVOTE_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_SPDVOTE };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_AI_W{#include "Blocks/SP_AI.h" };struct UTILSH5XX_API W_SP_AI_P{#include "Blocks/SP_AI_P.h"};struct UTILSH5XX_API W_SP_AI : CAlarmBase, W_SP_AI_W, W_SP_AI_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_AI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_AO_W{#include "Blocks/SP_AO.h" };struct UTILSH5XX_API W_SP_AO_P{#include "Blocks/SP_AO_P.h"};struct UTILSH5XX_API W_SP_AO : CAlarmBase, W_SP_AO_W, W_SP_AO_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_AO };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_DI_W{#include "Blocks/SP_DI.h" };struct UTILSH5XX_API W_SP_DI_P{#include "Blocks/SP_DI_P.h"};struct UTILSH5XX_API W_SP_DI : CAlarmBase, W_SP_DI_W, W_SP_DI_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_DI };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_DO_W{#include "Blocks/SP_DO.h" };struct UTILSH5XX_API W_SP_DO_P{#include "Blocks/SP_DO_P.h"};struct UTILSH5XX_API W_SP_DO : CAlarmBase, W_SP_DO_W, W_SP_DO_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_DO };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_SP_SPEED_W{#include "Blocks/SP_SPEED.h" };struct UTILSH5XX_API W_SP_SPEED_P{#include "Blocks/SP_SPEED_P.h"};struct UTILSH5XX_API W_SP_SPEED : CAlarmBase, W_SP_SPEED_W, W_SP_SPEED_P{  static LPCSTR ClassName;  enum { TypeID = id_SP_SPEED };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NAND_W{#include "Blocks/NAND.h" };struct UTILSH5XX_API W_NAND_P{#include "Blocks/NAND_P.h"};struct UTILSH5XX_API W_NAND : CAlarmBase, W_NAND_W, W_NAND_P{  static LPCSTR ClassName;  enum { TypeID = id_NAND };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_UIO_W{#include "Modules/UIO.h" };struct UTILSH5XX_API W_UIO_P{#include "Modules/UIO_P.h"};struct UTILSH5XX_API W_UIO : CAlarmBase, W_UIO_W, W_UIO_P{  static LPCSTR ClassName;  enum { TypeID = id_UIO };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_FLAGARRAY_W{#include "Blocks/FLAGARRAY.h" };struct UTILSH5XX_API W_FLAGARRAY_P{#include "Blocks/FLAGARRAY_P.h"};struct UTILSH5XX_API W_FLAGARRAY : CAlarmBase, W_FLAGARRAY_W, W_FLAGARRAY_P{  static LPCSTR ClassName;  enum { TypeID = id_FLAGARRAY };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_TRIG_W{#include "Blocks/TRIG.h" };struct UTILSH5XX_API W_TRIG_P{#include "Blocks/TRIG_P.h"};struct UTILSH5XX_API W_TRIG : CAlarmBase, W_TRIG_W, W_TRIG_P{  static LPCSTR ClassName;  enum { TypeID = id_TRIG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_MIN_W{#include "Blocks/MIN.h" };struct UTILSH5XX_API W_MIN_P{#include "Blocks/MIN_P.h"};struct UTILSH5XX_API W_MIN : CAlarmBase, W_MIN_W, W_MIN_P{  static LPCSTR ClassName;  enum { TypeID = id_MIN };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_NEG_W{#include "Blocks/NEG.h" };struct UTILSH5XX_API W_NEG_P{#include "Blocks/NEG_P.h"};struct UTILSH5XX_API W_NEG : CAlarmBase, W_NEG_W, W_NEG_P{  static LPCSTR ClassName;  enum { TypeID = id_NEG };  static void BuildList();};//////////////////////////////////////////////////////////////////////////struct UTILSH5XX_API W_RATIOBIAS_W{#include "Blocks/RATIOBIAS.h" };struct UTILSH5XX_API W_RATIOBIAS_P{#include "Blocks/RATIOBIAS_P.h"};struct UTILSH5XX_API W_RATIOBIAS : CAlarmBase, W_RATIOBIAS_W, W_RATIOBIAS_P{  static LPCSTR ClassName;  enum { TypeID = id_RATIOBIAS };  static void BuildList();};///////////////////////////////////////////////////////////////////////////*struct UTILSH5XX_API W__W{#include "Blocks/.h" };struct UTILSH5XX_API W__P{#include "Blocks/_P.h"};struct UTILSH5XX_API W_ : CAlarmBase, W__W, W__P{  static LPCSTR ClassName;  enum { TypeID = id_ };  static void BuildList();};//////////////////////////////////////////////////////////////////////////*/
+﻿#pragma once
+#include "BaseType_.h"
+
+#include <WP_Declare.h>
+
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
+#ifdef IN
+#undef IN
+#endif
+
+#ifdef OUT
+#undef OUT
+#endif
+
+#include <HoneywellEnums.h>
+
+struct UTILSH5XX_API W_PCDIFLAGARRCH_W
+{
+  #include "Blocks/PCDIFLAGARRCH.h" 
+};
+struct UTILSH5XX_API W_PCDIFLAGARRCH_P
+{
+  #include "Blocks/PCDIFLAGARRCH_P.h"
+};
+struct UTILSH5XX_API W_PCDIFLAGARRCH : CAlarmBase, W_PCDIFLAGARRCH_P, W_PCDIFLAGARRCH_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PCDIFLAGARRCH };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PCDINUMARRCH_W
+{
+  #include "Blocks/PCDINUMARRCH.h" 
+};
+struct UTILSH5XX_API W_PCDINUMARRCH_P
+{
+  #include "Blocks/PCDINUMARRCH_P.h"
+};
+struct UTILSH5XX_API W_PCDINUMARRCH : CAlarmBase, W_PCDINUMARRCH_P, W_PCDINUMARRCH_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PCDINUMARRCH };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AICHANNEL_W
+{
+  #include "Blocks/AICHANNEL.h" 
+};
+struct UTILSH5XX_API W_AICHANNEL_P
+{
+  #include "Blocks/AICHANNEL_P.h"
+};
+struct UTILSH5XX_API W_AICHANNEL : CAlarmBase, W_AICHANNEL_P, W_AICHANNEL_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AICHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AOCHANNEL_W
+{
+  #include "Blocks/AOCHANNEL.h" 
+};
+struct UTILSH5XX_API W_AOCHANNEL_P
+{
+  #include "Blocks/AOCHANNEL_P.h"
+};
+struct UTILSH5XX_API W_AOCHANNEL : CAlarmBase, W_AOCHANNEL_P, W_AOCHANNEL_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AOCHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+#undef CONST
+struct UTILSH5XX_API W_AUXCALC_W
+{
+#include "Blocks/AUXCALC.h" 
+};
+struct UTILSH5XX_API W_AUXCALC_P
+{
+#include "Blocks/AUXCALC_P.h"
+};
+struct UTILSH5XX_API W_AUXCALC : CAlarmBase, W_AUXCALC_P, W_AUXCALC_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AUXCALC };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DATAACQ_W
+{
+#include "Blocks/DATAACQ.h" 
+};
+struct UTILSH5XX_API W_DATAACQ_P
+{
+#include "Blocks/DATAACQ_P.h"
+};
+struct UTILSH5XX_API W_DATAACQ : CAlarmBase, W_DATAACQ_W, W_DATAACQ_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DATAACQ };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DEVCTL_W
+{
+#include "Blocks/DEVCTL.h" 
+};
+struct UTILSH5XX_API W_DEVCTL_P
+{
+#include "Blocks/DEVCTL_P.h"
+};
+struct UTILSH5XX_API W_DEVCTL : CAlarmBase, W_DEVCTL_W, W_DEVCTL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DEVCTL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DICHANNEL_W
+{
+#include "Blocks/DICHANNEL.h" 
+};
+struct UTILSH5XX_API W_DICHANNEL_P
+{
+#include "Blocks/DICHANNEL_P.h"
+};
+struct UTILSH5XX_API W_DICHANNEL : CAlarmBase, W_DICHANNEL_W, W_DICHANNEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DICHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DOCHANNEL_W
+{
+#include "Blocks/DOCHANNEL.h" 
+};
+struct UTILSH5XX_API W_DOCHANNEL_P
+{
+#include "Blocks/DOCHANNEL_P.h"
+};
+struct UTILSH5XX_API W_DOCHANNEL : CAlarmBase, W_DOCHANNEL_W, W_DOCHANNEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DOCHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SPARE_W
+{
+#include "Blocks/SPARE.h" 
+};
+struct UTILSH5XX_API W_SPARE_P
+{
+#include "Blocks/SPARE_P.h"
+};
+struct UTILSH5XX_API W_SPARE : CAlarmBase, W_SPARE_W, W_SPARE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SPARE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FLAG_W
+{
+#include "Blocks/FLAG.h" 
+};
+struct UTILSH5XX_API W_FLAG_P
+{
+#include "Blocks/FLAG_P.h"
+};
+struct UTILSH5XX_API W_FLAG : CAlarmBase, W_FLAG_W, W_FLAG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FLAG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NUMERIC_W
+{
+#include "Blocks/NUMERIC.h" 
+};
+struct UTILSH5XX_API W_NUMERIC_P
+{
+#include "Blocks/NUMERIC_P.h"
+};
+struct UTILSH5XX_API W_NUMERIC : CAlarmBase, W_NUMERIC_W, W_NUMERIC_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NUMERIC };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PID_W
+{
+#include "Blocks/PID.h" 
+};
+struct UTILSH5XX_API W_PID_P
+{
+#include "Blocks/PID_P.h"
+};
+struct UTILSH5XX_API W_PID : CAlarmBase, W_PID_W, W_PID_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PID };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TOTALIZER_W
+{
+#include "Blocks/TOTALIZER.h" 
+};
+struct UTILSH5XX_API W_TOTALIZER_P
+{
+#include "Blocks/TOTALIZER_P.h"
+};
+struct UTILSH5XX_API W_TOTALIZER : CAlarmBase, W_TOTALIZER_W, W_TOTALIZER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TOTALIZER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TYPECONVERT_W
+{
+#include "Blocks/TYPECONVERT.h" 
+};
+struct UTILSH5XX_API W_TYPECONVERT_P
+{
+#include "Blocks/TYPECONVERT_P.h"
+};
+struct UTILSH5XX_API W_TYPECONVERT : CAlarmBase, W_TYPECONVERT_W, W_TYPECONVERT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TYPECONVERT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_OR_W
+{
+#include "Blocks/OR.h" 
+};
+struct UTILSH5XX_API W_OR_P
+{
+#include "Blocks/OR_P.h"
+};
+struct UTILSH5XX_API W_OR : CAlarmBase, W_OR_W, W_OR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_OR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AND_W
+{
+#include "Blocks/AND.h" 
+};
+struct UTILSH5XX_API W_AND_P
+{
+#include "Blocks/AND_P.h"
+};
+struct UTILSH5XX_API W_AND : CAlarmBase, W_AND_W, W_AND_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AND };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PULSE_W
+{
+#include "Blocks/PULSE.h" 
+};
+struct UTILSH5XX_API W_PULSE_P
+{
+#include "Blocks/PULSE_P.h"
+};
+struct UTILSH5XX_API W_PULSE : CAlarmBase, W_PULSE_W, W_PULSE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PULSE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_EQ_W
+{
+#include "Blocks/EQ.h" 
+};
+struct UTILSH5XX_API W_EQ_P
+{
+#include "Blocks/EQ_P.h"
+};
+struct UTILSH5XX_API W_EQ : CAlarmBase, W_EQ_W, W_EQ_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_EQ };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SELREAL_W
+{
+#include "Blocks/SELREAL.h" 
+};
+struct UTILSH5XX_API W_SELREAL_P
+{
+#include "Blocks/SELREAL_P.h"
+};
+struct UTILSH5XX_API W_SELREAL : CAlarmBase, W_SELREAL_W, W_SELREAL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SELREAL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ADD_W
+{
+#include "Blocks/ADD.h" 
+};
+struct UTILSH5XX_API W_ADD_P
+{
+#include "Blocks/ADD_P.h"
+};
+struct UTILSH5XX_API W_ADD : CAlarmBase, W_ADD_W, W_ADD_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ADD };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MUL_W
+{
+#include "Blocks/MUL.h" 
+};
+struct UTILSH5XX_API W_MUL_P
+{
+#include "Blocks/MUL_P.h"
+};
+struct UTILSH5XX_API W_MUL : CAlarmBase, W_MUL_W, W_MUL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MUL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DIV_W
+{
+#include "Blocks/DIV.h" 
+};
+struct UTILSH5XX_API W_DIV_P
+{
+#include "Blocks/DIV_P.h"
+};
+struct UTILSH5XX_API W_DIV : CAlarmBase, W_DIV_W, W_DIV_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DIV };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PCDI_MASTER_W
+{
+#include "Modules/PCDI_MASTER.h" 
+};
+struct UTILSH5XX_API W_PCDI_MASTER_P
+{
+#include "Modules/PCDI_MASTER_P.h"
+};
+struct UTILSH5XX_API W_PCDI_MASTER : CAlarmBase, W_PCDI_MASTER_W, W_PCDI_MASTER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PCDI_MASTER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CEEC300_W
+{
+#include "Modules/CEEC300.h" 
+};
+struct UTILSH5XX_API W_CEEC300_P
+{
+#include "Modules/CEEC300_P.h"
+};
+struct UTILSH5XX_API W_CEEC300 : CAlarmBase, W_CEEC300_W, W_CEEC300_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CEEC300 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_IOLINK_W
+{
+#include "Modules/IOLINK.h" 
+};
+struct UTILSH5XX_API W_IOLINK_P
+{
+#include "Modules/IOLINK_P.h"
+};
+struct UTILSH5XX_API W_IOLINK : CAlarmBase, W_IOLINK_W, W_IOLINK_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_IOLINK };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CONTROLMODULE_W
+{
+#include "Modules/CONTROLMODULE.h" 
+};
+struct UTILSH5XX_API W_CONTROLMODULE_P
+{
+#include "Modules/CONTROLMODULE_P.h"
+};
+struct UTILSH5XX_API W_CONTROLMODULE : CAlarmBase, W_CONTROLMODULE_W, W_CONTROLMODULE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CONTROLMODULE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_xHART_HL_W
+{
+#include "Modules/xHART_HL.h" 
+};
+struct UTILSH5XX_API W_xHART_HL_P
+{
+#include "Modules/xHART_HL_P.h"
+};
+struct UTILSH5XX_API W_xHART_HL : CAlarmBase, W_xHART_HL_W, W_xHART_HL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_xHART_HL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_Dx_24y_W
+{
+#include "Modules/Dx_24y.h" 
+};
+struct UTILSH5XX_API W_Dx_24y_P
+{
+#include "Modules/Dx_24y_P.h"
+};
+struct UTILSH5XX_API W_Dx_24y : CAlarmBase, W_Dx_24y_W, W_Dx_24y_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_Dx_24y };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_xC300_W
+{
+#include "Modules/xC300.h" 
+};
+struct UTILSH5XX_API W_xC300_P
+{
+#include "Modules/xC300_P.h"
+};
+struct UTILSH5XX_API W_xC300 : CAlarmBase, W_xC300_W, W_xC300_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_xC300 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TEXTCOMMENT_W
+{
+#include "Blocks/TEXTCOMMENT.h" 
+};
+struct UTILSH5XX_API W_TEXTCOMMENT_P
+{
+#include "Blocks/TEXTCOMMENT_P.h"
+};
+struct UTILSH5XX_API W_TEXTCOMMENT : CAlarmBase, W_TEXTCOMMENT_W, W_TEXTCOMMENT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TEXTCOMMENT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FANOUT_W
+{
+#include "Blocks/FANOUT.h" 
+};
+struct UTILSH5XX_API W_FANOUT_P
+{
+#include "Blocks/FANOUT_P.h"
+};
+struct UTILSH5XX_API W_FANOUT : CAlarmBase, W_FANOUT_W, W_FANOUT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FANOUT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AUTOMAN_W
+{
+#include "Blocks/AUTOMAN.h" 
+};
+struct UTILSH5XX_API W_AUTOMAN_P
+{
+#include "Blocks/AUTOMAN_P.h"
+};
+struct UTILSH5XX_API W_AUTOMAN : CAlarmBase, W_AUTOMAN_W, W_AUTOMAN_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AUTOMAN };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RBPERMISSION_W
+{
+#include "Blocks/RBPERMISSION.h" 
+};
+struct UTILSH5XX_API W_RBPERMISSION_P
+{
+#include "Blocks/RBPERMISSION_P.h"
+};
+struct UTILSH5XX_API W_RBPERMISSION : CAlarmBase, W_RBPERMISSION_W, W_RBPERMISSION_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RBPERMISSION };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DIGACQ_W
+{
+#include "Blocks/DIGACQ.h" 
+};
+struct UTILSH5XX_API W_DIGACQ_P
+{
+#include "Blocks/DIGACQ_P.h"
+};
+struct UTILSH5XX_API W_DIGACQ : CAlarmBase, W_DIGACQ_W, W_DIGACQ_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DIGACQ };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NOT_W
+{
+#include "Blocks/NOT.h" 
+};
+struct UTILSH5XX_API W_NOT_P
+{
+#include "Blocks/NOT_P.h"
+};
+struct UTILSH5XX_API W_NOT : CAlarmBase, W_NOT_W, W_NOT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NOT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ROOT_P
+{
+#include "Modules/ROOT_P.h"
+};
+struct UTILSH5XX_API W_ROOT : CAlarmBase, W_ROOT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ROOT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FIM4_W
+{
+#include "Modules/FIM4.h" 
+};
+struct UTILSH5XX_API W_FIM4_P
+{
+#include "Modules/FIM4_P.h"
+};
+struct UTILSH5XX_API W_FIM4 : CAlarmBase, W_FIM4_W, W_FIM4_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FIM4 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FFLINK_W
+{
+#include "Modules/FFLINK.h" 
+};
+struct UTILSH5XX_API W_FFLINK_P
+{
+#include "Modules/FFLINK_P.h"
+};
+struct UTILSH5XX_API W_FFLINK : CAlarmBase, W_FFLINK_W, W_FFLINK_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FFLINK };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_848_0601_W
+{
+#include "Blocks/848_0601.h" 
+};
+struct UTILSH5XX_API W_848_0601_P
+{
+#include "Blocks/848_0601_P.h"
+};
+struct UTILSH5XX_API W_848_0601 : CAlarmBase, W_848_0601_W, W_848_0601_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_848_0601 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FLOWCOMP_W
+{
+#include "Blocks/FLOWCOMP.h" 
+};
+struct UTILSH5XX_API W_FLOWCOMP_P
+{
+#include "Blocks/FLOWCOMP_P.h"
+};
+struct UTILSH5XX_API W_FLOWCOMP : CAlarmBase, W_FLOWCOMP_W, W_FLOWCOMP_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FLOWCOMP };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_OFFDELAY_W
+{
+#include "Blocks/OFFDELAY.h" 
+};
+struct UTILSH5XX_API W_OFFDELAY_P
+{
+#include "Blocks/OFFDELAY_P.h"
+};
+struct UTILSH5XX_API W_OFFDELAY : CAlarmBase, W_OFFDELAY_W, W_OFFDELAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_OFFDELAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ONDELAY_W
+{
+#include "Blocks/ONDELAY.h" 
+};
+struct UTILSH5XX_API W_ONDELAY_P
+{
+#include "Blocks/ONDELAY_P.h"
+};
+struct UTILSH5XX_API W_ONDELAY : CAlarmBase, W_ONDELAY_W, W_ONDELAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ONDELAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NOR_W
+{
+#include "Blocks/NOR.h" 
+};
+struct UTILSH5XX_API W_NOR_P
+{
+#include "Blocks/NOR_P.h"
+};
+struct UTILSH5XX_API W_NOR : CAlarmBase, W_NOR_W, W_NOR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NOR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DELAY_W
+{
+#include "Blocks/DELAY.h" 
+};
+struct UTILSH5XX_API W_DELAY_P
+{
+#include "Blocks/DELAY_P.h"
+};
+struct UTILSH5XX_API W_DELAY : CAlarmBase, W_DELAY_W, W_DELAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DELAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MAI_W
+{
+#include "Blocks/MAI.h" 
+};
+struct UTILSH5XX_API W_MAI_P
+{
+#include "Blocks/MAI_P.h"
+};
+struct UTILSH5XX_API W_MAI : CAlarmBase, W_MAI_W, W_MAI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MAI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MAXPULSE_W
+{
+#include "Blocks/MAXPULSE.h" 
+};
+struct UTILSH5XX_API W_MAXPULSE_P
+{
+#include "Blocks/MAXPULSE_P.h"
+};
+struct UTILSH5XX_API W_MAXPULSE : CAlarmBase, W_MAXPULSE_W, W_MAXPULSE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MAXPULSE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_Dx_SOE_W
+{
+#include "Modules/Dx_SOE.h" 
+};
+struct UTILSH5XX_API W_Dx_SOE_P
+{
+#include "Modules/Dx_SOE_P.h"
+};
+struct UTILSH5XX_API W_Dx_SOE : CAlarmBase, W_Dx_SOE_P, W_Dx_SOE_W
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_Dx_SOE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ROLLAVG_W
+{
+#include "Blocks/ROLLAVG.h" 
+};
+struct UTILSH5XX_API W_ROLLAVG_P
+{
+#include "Blocks/ROLLAVG_P.h"
+};
+struct UTILSH5XX_API W_ROLLAVG : CAlarmBase, W_ROLLAVG_W, W_ROLLAVG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ROLLAVG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_LT_W
+{
+#include "Blocks/LT.h" 
+};
+struct UTILSH5XX_API W_LT_P
+{
+#include "Blocks/LT_P.h"
+};
+struct UTILSH5XX_API W_LT : CAlarmBase, W_LT_W, W_LT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_LT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ENHAUXCALC_W
+{
+#include "Blocks/ENHAUXCALC.h" 
+};
+struct UTILSH5XX_API W_ENHAUXCALC_P
+{
+#include "Blocks/ENHAUXCALC_P.h"
+};
+struct UTILSH5XX_API W_ENHAUXCALC : CAlarmBase, W_ENHAUXCALC_W, W_ENHAUXCALC_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ENHAUXCALC };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SIGNALSEL_W
+{
+#include "Blocks/SIGNALSEL.h" 
+};
+struct UTILSH5XX_API W_SIGNALSEL_P
+{
+#include "Blocks/SIGNALSEL_P.h"
+};
+struct UTILSH5XX_API W_SIGNALSEL : CAlarmBase, W_SIGNALSEL_W, W_SIGNALSEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SIGNALSEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_W
+{
+#include "Modules/9413-DIGIT_0102.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_P
+{
+#include "Modules/9413-DIGIT_0102_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102 : CAlarmBase, W_9413_DIGIT_0102_W, W_9413_DIGIT_0102_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE_W
+{
+#include "Blocks/9413-DIGIT_0102.RESOURCE.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE_P
+{
+#include "Blocks/9413-DIGIT_0102.RESOURCE_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_RESOURCE : CAlarmBase, W_9413_DIGIT_0102_RESOURCE_W, W_9413_DIGIT_0102_RESOURCE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102_RESOURCE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB_W
+{
+#include "Blocks/9413-DIGIT_0102.DO1TB.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB_P
+{
+#include "Blocks/9413-DIGIT_0102.DO1TB_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_DO1TB : CAlarmBase, W_9413_DIGIT_0102_DO1TB_W, W_9413_DIGIT_0102_DO1TB_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102_DO1TB };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDO_W
+{
+#include "Blocks/9413-DIGIT_0102.MDO.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDO_P
+{
+#include "Blocks/9413-DIGIT_0102.MDO_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDO : CAlarmBase, W_9413_DIGIT_0102_MDO_W, W_9413_DIGIT_0102_MDO_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102_MDO };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_AI_W
+{
+#include "Blocks/9413-DIGIT_0102.AI.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_AI_P
+{
+#include "Blocks/9413-DIGIT_0102.AI_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_AI : CAlarmBase, W_9413_DIGIT_0102_AI_W, W_9413_DIGIT_0102_AI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102_AI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RS_W
+{
+#include "Blocks/RS.h" 
+};
+struct UTILSH5XX_API W_RS_P
+{
+#include "Blocks/RS_P.h"
+};
+struct UTILSH5XX_API W_RS : CAlarmBase, W_RS_W, W_RS_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RS };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SR_W
+{
+#include "Blocks/SR.h" 
+};
+struct UTILSH5XX_API W_SR_P
+{
+#include "Blocks/SR_P.h"
+};
+struct UTILSH5XX_API W_SR : CAlarmBase, W_SR_W, W_SR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_IAH161_W
+{
+#include "Modules/TC-IAH161.h" 
+};
+struct UTILSH5XX_API W_TC_IAH161_P
+{
+#include "Modules/TC-IAH161_P.h"
+};
+struct UTILSH5XX_API W_TC_IAH161 : CAlarmBase, W_TC_IAH161_W, W_TC_IAH161_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_IAH161 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PUSH_W
+{
+#include "Blocks/PUSH.h" 
+};
+struct UTILSH5XX_API W_PUSH_P
+{
+#include "Blocks/PUSH_P.h"
+};
+struct UTILSH5XX_API W_PUSH : CAlarmBase, W_PUSH_W, W_PUSH_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PUSH };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TIMER_W
+{
+#include "Blocks/TIMER.h" 
+};
+struct UTILSH5XX_API W_TIMER_P
+{
+#include "Blocks/TIMER_P.h"
+};
+struct UTILSH5XX_API W_TIMER : CAlarmBase, W_TIMER_W, W_TIMER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TIMER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CHECKBAD_W
+{
+#include "Blocks/CHECKBAD.h" 
+};
+struct UTILSH5XX_API W_CHECKBAD_P
+{
+#include "Blocks/CHECKBAD_P.h"
+};
+struct UTILSH5XX_API W_CHECKBAD : CAlarmBase, W_CHECKBAD_W, W_CHECKBAD_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CHECKBAD };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_GE_W
+{
+#include "Blocks/GE.h" 
+};
+struct UTILSH5XX_API W_GE_P
+{
+#include "Blocks/GE_P.h"
+};
+struct UTILSH5XX_API W_GE : CAlarmBase, W_GE_W, W_GE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_GE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_GT_W
+{
+#include "Blocks/GT.h" 
+};
+struct UTILSH5XX_API W_GT_P
+{
+#include "Blocks/GT_P.h"
+};
+struct UTILSH5XX_API W_GT : CAlarmBase, W_GT_W, W_GT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_GT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SWITCH_W
+{
+#include "Blocks/SWITCH.h" 
+};
+struct UTILSH5XX_API W_SWITCH_P
+{
+#include "Blocks/SWITCH_P.h"
+};
+struct UTILSH5XX_API W_SWITCH : CAlarmBase, W_SWITCH_W, W_SWITCH_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SWITCH };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_REGCALC_W
+{
+#include "Blocks/REGCALC.h" 
+};
+struct UTILSH5XX_API W_REGCALC_P
+{
+#include "Blocks/REGCALC_P.h"
+};
+struct UTILSH5XX_API W_REGCALC : CAlarmBase, W_REGCALC_W, W_REGCALC_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_REGCALC };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_OVRDSEL_W
+{
+#include "Blocks/OVRDSEL.h" 
+};
+struct UTILSH5XX_API W_OVRDSEL_P
+{
+#include "Blocks/OVRDSEL_P.h"
+};
+struct UTILSH5XX_API W_OVRDSEL : CAlarmBase, W_OVRDSEL_W, W_OVRDSEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_OVRDSEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RATIOCTL_W
+{
+#include "Blocks/RATIOCTL.h" 
+};
+struct UTILSH5XX_API W_RATIOCTL_P
+{
+#include "Blocks/RATIOCTL_P.h"
+};
+struct UTILSH5XX_API W_RATIOCTL : CAlarmBase, W_RATIOCTL_W, W_RATIOCTL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RATIOCTL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ENHREGCALC_W
+{
+#include "Blocks/ENHREGCALC.h" 
+};
+struct UTILSH5XX_API W_ENHREGCALC_P
+{
+#include "Blocks/ENHREGCALC_P.h"
+};
+struct UTILSH5XX_API W_ENHREGCALC : CAlarmBase, W_ENHREGCALC_W, W_ENHREGCALC_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ENHREGCALC };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_LE_W
+{
+#include "Blocks/LE.h"
+};
+struct UTILSH5XX_API W_LE_P
+{
+#include "Blocks/LE_P.h"
+};
+struct UTILSH5XX_API W_LE : CAlarmBase, W_LE_W, W_LE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_LE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CPM200_W
+{
+#include "Modules/CPM200.h" 
+};
+struct UTILSH5XX_API W_CPM200_P
+{
+#include "Modules/CPM200_P.h"
+};
+struct UTILSH5XX_API W_CPM200 : CAlarmBase, W_CPM200_W, W_CPM200_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CPM200 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CEEFB_W
+{
+#include "Modules/CEEFB.h" 
+};
+struct UTILSH5XX_API W_CEEFB_P
+{
+#include "Modules/CEEFB_P.h"
+};
+struct UTILSH5XX_API W_CEEFB : CAlarmBase, W_CEEFB_W, W_CEEFB_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CEEFB };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_IDD321_W
+{
+#include "Modules/TC-IDD321.h" 
+};
+struct UTILSH5XX_API W_TC_IDD321_P
+{
+#include "Modules/TC-IDD321_P.h"
+};
+struct UTILSH5XX_API W_TC_IDD321 : CAlarmBase, W_TC_IDD321_W, W_TC_IDD321_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_IDD321 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_ODD321_W
+{
+#include "Modules/TC-ODD321.h" 
+};
+struct UTILSH5XX_API W_TC_ODD321_P
+{
+#include "Modules/TC-ODD321_P.h"
+};
+struct UTILSH5XX_API W_TC_ODD321 : CAlarmBase, W_TC_ODD321_W, W_TC_ODD321_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_ODD321 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FTRIG_W
+{
+#include "Blocks/FTRIG.h" 
+};
+struct UTILSH5XX_API W_FTRIG_P
+{
+#include "Blocks/FTRIG_P.h"
+};
+struct UTILSH5XX_API W_FTRIG : CAlarmBase, W_FTRIG_W, W_FTRIG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FTRIG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RTRIG_W
+{
+#include "Blocks/RTRIG.h" 
+};
+struct UTILSH5XX_API W_RTRIG_P
+{
+#include "Blocks/RTRIG_P.h"
+};
+struct UTILSH5XX_API W_RTRIG : CAlarmBase, W_RTRIG_W, W_RTRIG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RTRIG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NUMERICARRAY_W
+{
+#include "Blocks/NUMERICARRAY.h" 
+};
+struct UTILSH5XX_API W_NUMERICARRAY_P
+{
+#include "Blocks/NUMERICARRAY_P.h"
+};
+struct UTILSH5XX_API W_NUMERICARRAY : CAlarmBase, W_NUMERICARRAY_W, W_NUMERICARRAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NUMERICARRAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SUB_W
+{
+#include "Blocks/SUB.h" 
+};
+struct UTILSH5XX_API W_SUB_P
+{
+#include "Blocks/SUB_P.h"
+};
+struct UTILSH5XX_API W_SUB : CAlarmBase, W_SUB_W, W_SUB_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SUB };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_REGSUMMER_W
+{
+#include "Blocks/REGSUMMER.h" 
+};
+struct UTILSH5XX_API W_REGSUMMER_P
+{
+#include "Blocks/REGSUMMER_P.h"
+};
+struct UTILSH5XX_API W_REGSUMMER : CAlarmBase, W_REGSUMMER_W, W_REGSUMMER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_REGSUMMER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDI_W
+{
+#include "Blocks/9413-DIGIT_0102.MDI.h" 
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDI_P
+{
+#include "Blocks/9413-DIGIT_0102.MDI_P.h"
+};
+struct UTILSH5XX_API W_9413_DIGIT_0102_MDI : CAlarmBase, W_9413_DIGIT_0102_MDI_W, W_9413_DIGIT_0102_MDI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_9413_DIGIT_0102_MDI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MESSAGE_W
+{
+#include "Blocks/MESSAGE.h" 
+};
+struct UTILSH5XX_API W_MESSAGE_P
+{
+#include "Blocks/MESSAGE_P.h"
+};
+struct UTILSH5XX_API W_MESSAGE : CAlarmBase, W_MESSAGE_W, W_MESSAGE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MESSAGE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FTEB_W
+{
+#include "Modules/FTEB.h" 
+};
+struct UTILSH5XX_API W_FTEB_P
+{
+#include "Modules/FTEB_P.h"
+};
+struct UTILSH5XX_API W_FTEB : CAlarmBase, W_FTEB_W, W_FTEB_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FTEB };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TEXTARRAY_W
+{
+#include "Blocks/TEXTARRAY.h" 
+};
+struct UTILSH5XX_API W_TEXTARRAY_P
+{
+#include "Blocks/TEXTARRAY_P.h"
+};
+struct UTILSH5XX_API W_TEXTARRAY : CAlarmBase, W_TEXTARRAY_W, W_TEXTARRAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TEXTARRAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RMFBCLASS_W
+{
+#include "Modules/RMFBCLASS.h" 
+};
+struct UTILSH5XX_API W_RMFBCLASS_P
+{
+#include "Modules/RMFBCLASS_P.h"
+};
+struct UTILSH5XX_API W_RMFBCLASS : CAlarmBase, W_RMFBCLASS_W, W_RMFBCLASS_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RMFBCLASS };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_IXL061_W
+{
+#include "Modules/TC-IXL061.h" 
+};
+struct UTILSH5XX_API W_TC_IXL061_P
+{
+#include "Modules/TC-IXL061_P.h"
+};
+struct UTILSH5XX_API W_TC_IXL061 : CAlarmBase, W_TC_IXL061_W, W_TC_IXL061_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_IXL061 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PITOTALIZER_W
+{
+#include "Blocks/PITOTALIZER.h" 
+};
+struct UTILSH5XX_API W_PITOTALIZER_P
+{
+#include "Blocks/PITOTALIZER_P.h"
+};
+struct UTILSH5XX_API W_PITOTALIZER : CAlarmBase, W_PITOTALIZER_W, W_PITOTALIZER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PITOTALIZER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PICHANNEL_W
+{
+#include "Blocks/PICHANNEL.h" 
+};
+struct UTILSH5XX_API W_PICHANNEL_P
+{
+#include "Blocks/PICHANNEL_P.h"
+};
+struct UTILSH5XX_API W_PICHANNEL : CAlarmBase, W_PICHANNEL_W, W_PICHANNEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PICHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_MDP081_W
+{
+#include "Modules/TC-MDP081.h" 
+};
+struct UTILSH5XX_API W_TC_MDP081_P
+{
+#include "Modules/TC-MDP081_P.h"
+};
+struct UTILSH5XX_API W_TC_MDP081 : CAlarmBase, W_TC_MDP081_W, W_TC_MDP081_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_MDP081 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_IXL062_W
+{
+#include "Modules/TC-IXL062.h" 
+};
+struct UTILSH5XX_API W_TC_IXL062_P
+{
+#include "Modules/TC-IXL062_P.h"
+};
+struct UTILSH5XX_API W_TC_IXL062 : CAlarmBase, W_TC_IXL062_W, W_TC_IXL062_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_IXL062 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_OAV081_W
+{
+#include "Modules/TC-OAV081.h" 
+};
+struct UTILSH5XX_API W_TC_OAV081_P
+{
+#include "Modules/TC-OAV081_P.h"
+};
+struct UTILSH5XX_API W_TC_OAV081 : CAlarmBase, W_TC_OAV081_W, W_TC_OAV081_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_OAV081 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_PIDFF_W
+{
+#include "Blocks/PIDFF.h" 
+};
+struct UTILSH5XX_API W_PIDFF_P
+{
+#include "Blocks/PIDFF_P.h"
+};
+struct UTILSH5XX_API W_PIDFF : CAlarmBase, W_PIDFF_W, W_PIDFF_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_PIDFF };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DEADTIME_W
+{
+#include "Blocks/DEADTIME.h" 
+};
+struct UTILSH5XX_API W_DEADTIME_P
+{
+#include "Blocks/DEADTIME_P.h"
+};
+struct UTILSH5XX_API W_DEADTIME : CAlarmBase, W_DEADTIME_W, W_DEADTIME_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DEADTIME };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AI_LLMUX_W
+{
+#include "Modules/AI-LLMUX.h" 
+};
+struct UTILSH5XX_API W_AI_LLMUX_P
+{
+#include "Modules/AI-LLMUX_P.h"
+};
+struct UTILSH5XX_API W_AI_LLMUX : CAlarmBase, W_AI_LLMUX_W, W_AI_LLMUX_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AI_LLMUX };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TC_IXR061_W
+{
+#include "Modules/TC-IXR061.h" 
+};
+struct UTILSH5XX_API W_TC_IXR061_P
+{
+#include "Modules/TC-IXR061_P.h"
+};
+struct UTILSH5XX_API W_TC_IXR061 : CAlarmBase, W_TC_IXR061_W, W_TC_IXR061_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TC_IXR061 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AIREF_W
+{
+#include "Blocks/AIREF.h" 
+};
+struct UTILSH5XX_API W_AIREF_P
+{
+#include "Blocks/AIREF_P.h"
+};
+struct UTILSH5XX_API W_AIREF : CAlarmBase, W_AIREF_W, W_AIREF_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AIREF };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AOREF_W
+{
+#include "Blocks/AOREF.h" 
+};
+struct UTILSH5XX_API W_AOREF_P
+{
+#include "Blocks/AOREF_P.h"
+};
+struct UTILSH5XX_API W_AOREF : CAlarmBase, W_AOREF_W, W_AOREF_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AOREF };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DIREF_W
+{
+#include "Blocks/DIREF.h" 
+};
+struct UTILSH5XX_API W_DIREF_P
+{
+#include "Blocks/DIREF_P.h"
+};
+struct UTILSH5XX_API W_DIREF : CAlarmBase, W_DIREF_W, W_DIREF_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DIREF };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DOREF_W
+{
+#include "Blocks/DOREF.h" 
+};
+struct UTILSH5XX_API W_DOREF_P
+{
+#include "Blocks/DOREF_P.h"
+};
+struct UTILSH5XX_API W_DOREF : CAlarmBase, W_DOREF_W, W_DOREF_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DOREF };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NUM2BOOL_W
+{
+#include "Blocks/NUM2BOOL.h" 
+};
+struct UTILSH5XX_API W_NUM2BOOL_P
+{
+#include "Blocks/NUM2BOOL_P.h"
+};
+struct UTILSH5XX_API W_NUM2BOOL : CAlarmBase, W_NUM2BOOL_W, W_NUM2BOOL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NUM2BOOL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_BOOL2NUM_W
+{
+#include "Blocks/BOOL2NUM.h" 
+};
+struct UTILSH5XX_API W_BOOL2NUM_P
+{
+#include "Blocks/BOOL2NUM_P.h"
+};
+struct UTILSH5XX_API W_BOOL2NUM : CAlarmBase, W_BOOL2NUM_W, W_BOOL2NUM_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_BOOL2NUM };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_INTERLOCK_W
+{
+#include "Blocks/INTERLOCK.h" 
+};
+struct UTILSH5XX_API W_INTERLOCK_P
+{
+#include "Blocks/INTERLOCK_P.h"
+};
+struct UTILSH5XX_API W_INTERLOCK : CAlarmBase, W_INTERLOCK_W, W_INTERLOCK_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_INTERLOCK };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_2OO3_W
+{
+#include "Blocks/2OO3.h" 
+};
+struct UTILSH5XX_API W_2OO3_P
+{
+#include "Blocks/2OO3_P.h"
+};
+struct UTILSH5XX_API W_2OO3 : CAlarmBase, W_2OO3_W, W_2OO3_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_2OO3 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_QOR_W
+{
+#include "Blocks/QOR.h" 
+};
+struct UTILSH5XX_API W_QOR_P
+{
+#include "Blocks/QOR_P.h"
+};
+struct UTILSH5XX_API W_QOR : CAlarmBase, W_QOR_W, W_QOR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_QOR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FIRSTOUT_W
+{
+#include "Blocks/FIRSTOUT.h" 
+};
+struct UTILSH5XX_API W_FIRSTOUT_P
+{
+#include "Blocks/FIRSTOUT_P.h"
+};
+struct UTILSH5XX_API W_FIRSTOUT : CAlarmBase, W_FIRSTOUT_W, W_FIRSTOUT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FIRSTOUT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ABS_W
+{
+#include "Blocks/ABS.h" 
+};
+struct UTILSH5XX_API W_ABS_P
+{
+#include "Blocks/ABS_P.h"
+};
+struct UTILSH5XX_API W_ABS : CAlarmBase, W_ABS_W, W_ABS_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ABS };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_GENLIN_W
+{
+#include "Blocks/GENLIN.h" 
+};
+struct UTILSH5XX_API W_GENLIN_P
+{
+#include "Blocks/GENLIN_P.h"
+};
+struct UTILSH5XX_API W_GENLIN : CAlarmBase, W_GENLIN_W, W_GENLIN_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_GENLIN };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SCM_W
+{
+#include "Modules/SCM.h" 
+};
+struct UTILSH5XX_API W_SCM_P
+{
+#include "Modules/SCM_P.h"
+};
+struct UTILSH5XX_API W_SCM : CAlarmBase, W_SCM_W, W_SCM_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SCM };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_HANDLER_W
+{
+#include "Blocks/HANDLER.h" 
+};
+struct UTILSH5XX_API W_HANDLER_P
+{
+#include "Blocks/HANDLER_P.h"
+};
+struct UTILSH5XX_API W_HANDLER : CAlarmBase, W_HANDLER_W, W_HANDLER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_HANDLER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TRANSITION_W
+{
+#include "Blocks/TRANSITION.h" 
+};
+struct UTILSH5XX_API W_TRANSITION_P
+{
+#include "Blocks/TRANSITION_P.h"
+};
+struct UTILSH5XX_API W_TRANSITION : CAlarmBase, W_TRANSITION_W, W_TRANSITION_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TRANSITION };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_STEP_W
+{
+#include "Blocks/STEP.h" 
+};
+struct UTILSH5XX_API W_STEP_P
+{
+#include "Blocks/STEP_P.h"
+};
+struct UTILSH5XX_API W_STEP : CAlarmBase, W_STEP_W, W_STEP_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_STEP };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NE_W
+{
+#include "Blocks/NE.h"
+};
+struct UTILSH5XX_API W_NE_P
+{
+#include "Blocks/NE_P.h"
+};
+struct UTILSH5XX_API W_NE : CAlarmBase, W_NE_W, W_NE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MUXREAL_W
+{
+#include "Blocks/MUXREAL.h"
+};
+struct UTILSH5XX_API W_MUXREAL_P
+{
+#include "Blocks/MUXREAL_P.h"
+};
+struct UTILSH5XX_API W_MUXREAL : CAlarmBase, W_MUXREAL_W, W_MUXREAL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MUXREAL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MAX_W
+{
+#include "Blocks/MAX.h"
+};
+struct UTILSH5XX_API W_MAX_P
+{
+#include "Blocks/MAX_P.h"
+};
+struct UTILSH5XX_API W_MAX : CAlarmBase, W_MAX_W, W_MAX_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MAX };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_CTUD_W
+{
+#include "Blocks/CTUD.h" 
+};
+struct UTILSH5XX_API W_CTUD_P
+{
+#include "Blocks/CTUD_P.h"
+};
+struct UTILSH5XX_API W_CTUD : CAlarmBase, W_CTUD_W, W_CTUD_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_CTUD };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_HLAIHART_W
+{
+#include "Modules/HLAIHART.h" 
+};
+struct UTILSH5XX_API W_HLAIHART_P
+{
+#include "Modules/HLAIHART_P.h"
+};
+struct UTILSH5XX_API W_HLAIHART : CAlarmBase, W_HLAIHART_W, W_HLAIHART_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_HLAIHART };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_HLAI_W
+{
+#include "Modules/HLAI.h" 
+};
+struct UTILSH5XX_API W_HLAI_P
+{
+#include "Modules/HLAI_P.h"
+};
+struct UTILSH5XX_API W_HLAI : CAlarmBase, W_HLAI_W, W_HLAI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_HLAI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AO16_W
+{
+#include "Modules/AO16.h" 
+};
+struct UTILSH5XX_API W_AO16_P
+{
+#include "Modules/AO16_P.h"
+};
+struct UTILSH5XX_API W_AO16 : CAlarmBase, W_AO16_W, W_AO16_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AO16 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DO32_W
+{
+#include "Modules/DO32.h" 
+};
+struct UTILSH5XX_API W_DO32_P
+{
+#include "Modules/DO32_P.h"
+};
+struct UTILSH5XX_API W_DO32 : CAlarmBase, W_DO32_W, W_DO32_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DO32 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DI_W
+{
+#include "Modules/DI.h" 
+};
+struct UTILSH5XX_API W_DI_P
+{
+#include "Modules/DI_P.h"
+};
+struct UTILSH5XX_API W_DI : CAlarmBase, W_DI_W, W_DI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_AUXSUMMER_W
+{
+#include "Blocks/AUXSUMMER.h" 
+};
+struct UTILSH5XX_API W_AUXSUMMER_P
+{
+#include "Blocks/AUXSUMMER_P.h"
+};
+struct UTILSH5XX_API W_AUXSUMMER : CAlarmBase, W_AUXSUMMER_W, W_AUXSUMMER_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_AUXSUMMER };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_LIMIT_W
+{
+#include "Blocks/LIMIT.h" 
+};
+struct UTILSH5XX_API W_LIMIT_P
+{
+#include "Blocks/LIMIT_P.h"
+};
+struct UTILSH5XX_API W_LIMIT : CAlarmBase, W_LIMIT_W, W_LIMIT_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_LIMIT };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MINPULSE_W
+{
+#include "Blocks/MINPULSE.h" 
+};
+struct UTILSH5XX_API W_MINPULSE_P
+{
+#include "Blocks/MINPULSE_P.h"
+};
+struct UTILSH5XX_API W_MINPULSE : CAlarmBase, W_MINPULSE_W, W_MINPULSE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MINPULSE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DISOE_W
+{
+#include "Modules/DISOE.h" 
+};
+struct UTILSH5XX_API W_DISOE_P
+{
+#include "Modules/DISOE_P.h"
+};
+struct UTILSH5XX_API W_DISOE : CAlarmBase, W_DISOE_W, W_DISOE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DISOE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_HAICHANNEL_W
+{
+#include "Blocks/HAICHANNEL.h" 
+};
+struct UTILSH5XX_API W_HAICHANNEL_P
+{
+#include "Blocks/HAICHANNEL_P.h"
+};
+struct UTILSH5XX_API W_HAICHANNEL : CAlarmBase, W_HAICHANNEL_W, W_HAICHANNEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_HAICHANNEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_DI24V_W
+{
+#include "Modules/DI24V.h" 
+};
+struct UTILSH5XX_API W_DI24V_P
+{
+#include "Modules/DI24V_P.h"
+};
+struct UTILSH5XX_API W_DI24V : CAlarmBase, W_DI24V_W, W_DI24V_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_DI24V };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_LLMUX_W
+{
+#include "Modules/LLMUX.h" 
+};
+struct UTILSH5XX_API W_LLMUX_P
+{
+#include "Modules/LLMUX_P.h"
+};
+struct UTILSH5XX_API W_LLMUX : CAlarmBase, W_LLMUX_W, W_LLMUX_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_LLMUX };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_XOR_W
+{
+#include "Blocks/XOR.h" 
+};
+struct UTILSH5XX_API W_XOR_P
+{
+#include "Blocks/XOR_P.h"
+};
+struct UTILSH5XX_API W_XOR : CAlarmBase, W_XOR_W, W_XOR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_XOR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_WATCHDOG_W
+{
+#include "Blocks/WATCHDOG.h" 
+};
+struct UTILSH5XX_API W_WATCHDOG_P
+{
+#include "Blocks/WATCHDOG_P.h"
+};
+struct UTILSH5XX_API W_WATCHDOG : CAlarmBase, W_WATCHDOG_W, W_WATCHDOG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_WATCHDOG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_UIO_2_W
+{
+#include "Modules/UIO-2.h" 
+};
+struct UTILSH5XX_API W_UIO_2_P
+{
+#include "Modules/UIO-2_P.h"
+};
+struct UTILSH5XX_API W_UIO_2 : CAlarmBase, W_UIO_2_W, W_UIO_2_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_UIO_2 };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_W
+{
+#include "Modules/SP.h" 
+};
+struct UTILSH5XX_API W_SP_P
+{
+#include "Modules/SP_P.h"
+};
+struct UTILSH5XX_API W_SP : CAlarmBase, W_SP_W, W_SP_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SEL_W
+{
+#include "Blocks/SEL.h" 
+};
+struct UTILSH5XX_API W_SEL_P
+{
+#include "Blocks/SEL_P.h"
+};
+struct UTILSH5XX_API W_SEL : CAlarmBase, W_SEL_W, W_SEL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SEL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_ROR_W
+{
+#include "Blocks/ROR.h" 
+};
+struct UTILSH5XX_API W_ROR_P
+{
+#include "Blocks/ROR_P.h"
+};
+struct UTILSH5XX_API W_ROR : CAlarmBase, W_ROR_W, W_ROR_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ROR };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_STARTSIGNAL_W
+{
+#include "Blocks/STARTSIGNAL.h" 
+};
+struct UTILSH5XX_API W_STARTSIGNAL_P
+{
+#include "Blocks/STARTSIGNAL_P.h"
+};
+struct UTILSH5XX_API W_STARTSIGNAL : CAlarmBase, W_STARTSIGNAL_W, W_STARTSIGNAL_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_STARTSIGNAL };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_SPDVOTE_W
+{
+#include "Blocks/SP_SPDVOTE.h" 
+};
+struct UTILSH5XX_API W_SP_SPDVOTE_P
+{
+#include "Blocks/SP_SPDVOTE_P.h"
+};
+struct UTILSH5XX_API W_SP_SPDVOTE : CAlarmBase, W_SP_SPDVOTE_W, W_SP_SPDVOTE_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_SPDVOTE };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_AI_W
+{
+#include "Blocks/SP_AI.h" 
+};
+struct UTILSH5XX_API W_SP_AI_P
+{
+#include "Blocks/SP_AI_P.h"
+};
+struct UTILSH5XX_API W_SP_AI : CAlarmBase, W_SP_AI_W, W_SP_AI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_AI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_AO_W
+{
+#include "Blocks/SP_AO.h" 
+};
+struct UTILSH5XX_API W_SP_AO_P
+{
+#include "Blocks/SP_AO_P.h"
+};
+struct UTILSH5XX_API W_SP_AO : CAlarmBase, W_SP_AO_W, W_SP_AO_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_AO };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_DI_W
+{
+#include "Blocks/SP_DI.h" 
+};
+struct UTILSH5XX_API W_SP_DI_P
+{
+#include "Blocks/SP_DI_P.h"
+};
+struct UTILSH5XX_API W_SP_DI : CAlarmBase, W_SP_DI_W, W_SP_DI_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_DI };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_DO_W
+{
+#include "Blocks/SP_DO.h" 
+};
+struct UTILSH5XX_API W_SP_DO_P
+{
+#include "Blocks/SP_DO_P.h"
+};
+struct UTILSH5XX_API W_SP_DO : CAlarmBase, W_SP_DO_W, W_SP_DO_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_DO };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_SP_SPEED_W
+{
+#include "Blocks/SP_SPEED.h" 
+};
+struct UTILSH5XX_API W_SP_SPEED_P
+{
+#include "Blocks/SP_SPEED_P.h"
+};
+struct UTILSH5XX_API W_SP_SPEED : CAlarmBase, W_SP_SPEED_W, W_SP_SPEED_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_SP_SPEED };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NAND_W
+{
+#include "Blocks/NAND.h" 
+};
+struct UTILSH5XX_API W_NAND_P
+{
+#include "Blocks/NAND_P.h"
+};
+struct UTILSH5XX_API W_NAND : CAlarmBase, W_NAND_W, W_NAND_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NAND };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_UIO_W
+{
+#include "Modules/UIO.h" 
+};
+struct UTILSH5XX_API W_UIO_P
+{
+#include "Modules/UIO_P.h"
+};
+struct UTILSH5XX_API W_UIO : CAlarmBase, W_UIO_W, W_UIO_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_UIO };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_FLAGARRAY_W
+{
+#include "Blocks/FLAGARRAY.h" 
+};
+struct UTILSH5XX_API W_FLAGARRAY_P
+{
+#include "Blocks/FLAGARRAY_P.h"
+};
+struct UTILSH5XX_API W_FLAGARRAY : CAlarmBase, W_FLAGARRAY_W, W_FLAGARRAY_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_FLAGARRAY };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_TRIG_W
+{
+#include "Blocks/TRIG.h" 
+};
+struct UTILSH5XX_API W_TRIG_P
+{
+#include "Blocks/TRIG_P.h"
+};
+struct UTILSH5XX_API W_TRIG : CAlarmBase, W_TRIG_W, W_TRIG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_TRIG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_MIN_W
+{
+#include "Blocks/MIN.h" 
+};
+struct UTILSH5XX_API W_MIN_P
+{
+#include "Blocks/MIN_P.h"
+};
+struct UTILSH5XX_API W_MIN : CAlarmBase, W_MIN_W, W_MIN_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_MIN };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_NEG_W
+{
+#include "Blocks/NEG.h" 
+};
+struct UTILSH5XX_API W_NEG_P
+{
+#include "Blocks/NEG_P.h"
+};
+struct UTILSH5XX_API W_NEG : CAlarmBase, W_NEG_W, W_NEG_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_NEG };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+struct UTILSH5XX_API W_RATIOBIAS_W
+{
+#include "Blocks/RATIOBIAS.h" 
+};
+struct UTILSH5XX_API W_RATIOBIAS_P
+{
+#include "Blocks/RATIOBIAS_P.h"
+};
+struct UTILSH5XX_API W_RATIOBIAS : CAlarmBase, W_RATIOBIAS_W, W_RATIOBIAS_P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_RATIOBIAS };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+/*struct UTILSH5XX_API W__W
+{
+#include "Blocks/.h" 
+};
+struct UTILSH5XX_API W__P
+{
+#include "Blocks/_P.h"
+};
+struct UTILSH5XX_API W_ : CAlarmBase, W__W, W__P
+{
+  static LPCSTR ClassName;
+  enum { TypeID = id_ };
+  static void BuildList();
+};
+//////////////////////////////////////////////////////////////////////////
+*/

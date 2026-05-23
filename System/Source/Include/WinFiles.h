@@ -1,7 +1,10 @@
 #ifndef WINFILES_H
 #define WINFILES_H
 
+#ifndef NO_CROSS
 #include "crossplatform.h"
+#endif
+
 //#include <QtCore/qglobal.h>
 #include <QFile>
 #include <QThread>
@@ -22,6 +25,7 @@
 #define CREATE_ALWAYS QIODeviceBase::Truncate
 #define FILE_ATTRIBUTE_ARCHIVE 0
 #define FILE_SHARE_READ 0
+#define FILE_SHARE_WRITE 0
 #define HMODULE void *
 #define NEW
 #define APIENTRY
@@ -56,6 +60,8 @@ IN_DLL void CloseHandle( QFile * hFile );
 #define WIN32_FIND_DATA QFindFile
 #define FILE_ATTRIBUTE_DIRECTORY 1
 #define INVALID_HANDLE_VALUE NULL
+#define FILE_FLAG_SEQUENTIAL_SCAN 2
+#define FILE_FLAG_DELETE_ON_CLOSE 4
 #define HANDLE void *
 #include <QDir>
 

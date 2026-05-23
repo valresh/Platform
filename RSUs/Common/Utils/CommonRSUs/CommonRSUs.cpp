@@ -6,9 +6,11 @@
 
 #include <macros/AutoCloser.h>
 #include <vector>
-#include <contrib/minizip/unzip.h>
-#include <contrib/minizip/zip.h>
-#include <zlibH.h>
+#include <../../../../System/Source/zlib/contrib/minizip/unzip.h>
+#include <../../../../System/Source/zlib/contrib/minizip/zip.h>
+#define NO_CROSS
+#include <../../../../System/Source/Include/WinFiles.h>
+//#include <zlibH.h>
 
 
 template<size_t _SIZE>
@@ -29,6 +31,7 @@ void RemoveUpDirPoints( char (&pszPath)[_SIZE] )
 
 bool IsThisModuleLoaded( LPCTSTR szClassName )
 {
+#if 0
   DWORD dwCount = 0;
   DWORD dwSize = 1024;  // for 256 processes
   LPDWORD id = new DWORD[dwSize];
@@ -93,6 +96,8 @@ bool IsThisModuleLoaded( LPCTSTR szClassName )
   }
   //
   return bReturn;
+#endif
+  return false;
 }
 
 LPCSTR GetModel2OperatorMessagesFilePath()
@@ -120,7 +125,7 @@ int RsuPackager( LPCSTR pszSrcFile, LPCSTR pszArchive, LPCSTR pszNamePackAs )
   zi.dosDate = 0;
   zi.internal_fa = 0;
   zi.external_fa = 0;
-  filetime( pszSrcFile,&zi.tmz_date,&zi.dosDate);
+  filetime( (char*)pszSrcFile, &zi.tmz_date, &zi.dosDate);
 
   int err = getFileCrc( pszSrcFile, &buf[0], size_buf, &crcFile);
 

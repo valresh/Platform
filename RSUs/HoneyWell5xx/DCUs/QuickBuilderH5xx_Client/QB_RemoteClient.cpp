@@ -1,1 +1,91 @@
-﻿#include "stdafx.h"#include "QB_RemoteClient.h"#include <ConnectQB.h>#include <SetDataTypes.h>#include <Connect.h>#include <RsuX.h>#pragma comment( lib, "ConnectQB5xx.lib")bool GetFirstACSObject( );bool GetNextACSObject( DWORD & Type, void ** pData, char Name[256], char Info[256] );bool ShowACSObject( void * pInfo, HWND hMainWnd, char * Name, void * pData );nRSUx::SParamInfo RsuConnectParamInfo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pSuffix );extern KNoName g_IOs;extern KQB_RemoteClient* g_Client;KQB_RemoteClient::KQB_RemoteClient( LPSTR _ObjName ) :	IBaseModel ( _ObjName ), m_nAcsFindStep( 0 ){  TypeObj = RSU_Obj;  g_Client = this;}LPCSTR KQB_RemoteClient::GetName(){  return ObjName;}int KQB_RemoteClient::Init( int ){  int r = KRsuSharedClient::InitializeServer( "QuickBuilderH5xx_Server", ObjName );  if( r )    return 1;  g_IOs = m_IOs = KNoName::Create( "QB5xx_IOs", false, 8000, 12000, 5*1024*1024 );  if( pRegisterFinderACSobj )    pRegisterFinderACSobj( ::GetFirstACSObject, ::GetNextACSObject, ::ShowACSObject);  if( !pRegisterQBstructs )    LoadLibrary("QB5xxRegisterInRSU.dll");  if( pRegisterQBstructs )    pRegisterQBstructs();  if( pRegisterRsuConnection )    pRegisterRsuConnection( "РСУ_QB_", RsuConnectParamInfo, NULL );  return 0;}int KQB_RemoteClient::Step0(){  return KRsuSharedClient::StepAfterInit();}int KQB_RemoteClient::Step1(){  return KRsuSharedClient::StepAfterRestored();}int KQB_RemoteClient::StepT(double dt){  int nStep = 0;  double dtMs = dt * 3600. * 1000;  return KRsuSharedClient::CalcStep( (int)dtMs );}int KQB_RemoteClient::SetData( int TypeData, void * pData ){  switch( TypeData )  {  case sd_SaveRSUParams:    return KRsuSharedClient::ParamsSave( (LPCSTR)pData );  case sd_RestoreRSUParams:    return KRsuSharedClient::ParamsRestore( (LPCSTR)pData );  case sd_SaveRSUState:    return KRsuSharedClient::StateSave( (LPCSTR)pData );  case sd_RestoreRSUState:    return KRsuSharedClient::StateRestore( (LPCSTR)pData );  default:    return -1;  }  return 0;}
+﻿#include "stdafx.h"
+#include "QB_RemoteClient.h"
+#include <ConnectQB.h>
+//#include <SetDataTypes.h>
+#include <Connect.h>
+#include <RsuX.h>
+
+#define sd_SaveRSUParams 8010
+#define sd_RestoreRSUParams 8011
+#define sd_SaveRSUState 8012
+#define sd_RestoreRSUState 8013
+
+#pragma comment( lib, "ConnectQB5xx.lib")
+
+bool GetFirstACSObject( );
+bool GetNextACSObject( DWORD & Type, void ** pData, char Name[256], char Info[256] );
+bool ShowACSObject( void * pInfo, HWND hMainWnd, char * Name, void * pData );
+
+nRSUx::SParamInfo RsuConnectParamInfo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pSuffix );
+
+extern KNoName g_IOs;
+extern KQB_RemoteClient* g_Client;
+
+KQB_RemoteClient::KQB_RemoteClient( LPSTR _ObjName ) 
+:	IBaseModel ( _ObjName )
+, m_nAcsFindStep( 0 )
+{
+  TypeObj = RSU_Obj;
+  g_Client = this;
+}
+
+LPCSTR KQB_RemoteClient::GetName()
+{
+  return ObjName;
+}
+
+int KQB_RemoteClient::Init( int )
+{
+  int r = KRsuSharedClient::InitializeServer( "QuickBuilderH5xx_Server", ObjName );
+  if( r )
+    return 1;
+
+  g_IOs = m_IOs = KNoName::Create( "QB5xx_IOs", false, 8000, 12000, 5*1024*1024 );
+
+  if( pRegisterFinderACSobj )
+    pRegisterFinderACSobj( ::GetFirstACSObject, ::GetNextACSObject, ::ShowACSObject);
+
+  if( !pRegisterQBstructs )
+    LoadLibrary("QB5xxRegisterInRSU.dll");
+  if( pRegisterQBstructs )
+    pRegisterQBstructs();
+
+  if( pRegisterRsuConnection )
+    pRegisterRsuConnection( "РСУ_QB_", RsuConnectParamInfo, NULL );
+
+  return 0;
+}
+
+int KQB_RemoteClient::Step0()
+{
+  return KRsuSharedClient::StepAfterInit();
+}
+
+int KQB_RemoteClient::Step1()
+{
+  return KRsuSharedClient::StepAfterRestored();
+}
+int KQB_RemoteClient::StepT(double dt)
+{
+  int nStep = 0;
+  double dtMs = dt * 3600. * 1000;
+  return KRsuSharedClient::CalcStep( (int)dtMs );
+}
+
+int KQB_RemoteClient::SetData( int TypeData, void * pData )
+{
+  switch( TypeData )
+  {
+  case sd_SaveRSUParams:
+    return KRsuSharedClient::ParamsSave( (LPCSTR)pData );
+  case sd_RestoreRSUParams:
+    return KRsuSharedClient::ParamsRestore( (LPCSTR)pData );
+  case sd_SaveRSUState:
+    return KRsuSharedClient::StateSave( (LPCSTR)pData );
+  case sd_RestoreRSUState:
+    return KRsuSharedClient::StateRestore( (LPCSTR)pData );
+  default:
+    return -1;
+  }
+  return 0;
+}

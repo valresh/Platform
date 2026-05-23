@@ -363,7 +363,7 @@ LPCSTR KNoName::Entry(SBuffOrd& _ord, DWORD& crc)
 
 typedef uint64_t UINT64;
 
-#include "HoneywellStruct.h"
+#include "../../../RSUs/HoneyWell5xx/Include/HoneywellStruct.h"
 
 
 struct SConnectionsCont

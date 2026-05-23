@@ -9,7 +9,7 @@
 
 typedef uint64_t UINT64;
 
-#include "HoneywellStruct.h"
+#include "../../../RSUs/HoneyWell5xx/Include/HoneywellStruct.h"
 
 
 #include "WP_Declare.h"
