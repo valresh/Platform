@@ -498,73 +498,10 @@ struct  IN_DLL CCSVData
   void Reset();
   };
 
-  struct IN_DLL CSortTree
-  {
-      CSortTree * pNext_Group_Pnt;
-      int Balance;
-      //
-      void * Key;
-      CSortTree * pL;
-      CSortTree * pR;
-      CSortTree( )
-      {
-        Key = NULL;
-        pL = NULL;
-        pR = NULL;
-        Balance = 0;
-        pNext_Group_Pnt = NULL;
-      }
-      void Init( )
-      {
-        Key = NULL;
-        pL = NULL;
-        pR = NULL;
-        Balance = 0;
-        pNext_Group_Pnt = NULL;
-      }
-  };
-
-  typedef
-    int (*tCompKey)( void * TestKey, void * NodeKey, int Type );
-
-  typedef
-    CSortTree * (*tNew)( void * Key, int Type );
-
-  struct IN_DLL CSortTreeInfo
-  {
-      CSortTree * Root;
-      CSortTree * FirstInGroup;
-      CSortTree * LastInGroup;
-      tCompKey pCompKey;
-      tNew pNew;
-      int Type;
-      CSortTreeInfo( )
-      {
-        Type = 0;
-        Root = NULL;
-        pCompKey = NULL;
-        pNew = NULL;
-        FirstInGroup = NULL;
-        LastInGroup = NULL;
-      };
-      CSortTreeInfo( CSortTree * _Root, tCompKey _pCompKey, tNew _pNew, int _Type )
-      {
-        Type = _Type;
-        Root = _Root;
-        pCompKey = _pCompKey;
-        pNew = _pNew;
-        FirstInGroup = NULL;
-        LastInGroup = NULL;
-      }
-      CSortTree * GetFirst( );
-      CSortTree * GetNext( CSortTree * pPrev );
-      void Add( CSortTree * pItem );
-  };
-
-  IN_DLL CSortTree * Find( CSortTreeInfo * Info, void * Key, bool AddNoFound = true, bool *pbAdded = NULL );
+  IN_DLL struct CSortTree * Find( struct CSortTreeInfo * Info, void * Key, bool AddNoFound = true, bool *pbAdded = NULL );
   IN_DLL bool Add( CSortTreeInfo * Info, void * Key, CSortTree * pNewItem );
-  IN_DLL CSortTree * GetFirst( CSortTreeInfo * Info );
-  IN_DLL CSortTree * GetNext( );
+  IN_DLL struct CSortTree * GetFirst( struct CSortTreeInfo * Info );
+  IN_DLL struct CSortTree * GetNext( );
 
 /*
 struct IN_DLL CTrendsItem : public CSortTree

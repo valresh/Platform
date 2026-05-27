@@ -36,6 +36,8 @@ int FindDll( const char * Dll, tCreateObject *pCreate, void ** handle )
   return -1;
   }
 
+#include "cxxabi.h"
+
 IBaseModel * Load_Obj ( const char * ObjName, const char * Model )
 {
   char * DLL = NULL;
@@ -121,8 +123,28 @@ IBaseModel * Load_Obj ( const char * ObjName, const char * Model )
       KKK();
     if ( !handle )
       {
-       const char * err = dlerror();
-      MsgErr( NULL, "DLL '%s' не загрузилась '%s'", DLL, err );
+      const char * err = dlerror();
+      char Txt[1024];
+      strcpy ( Txt, err );
+      char * P = strchr ( Txt, ':' );
+      if ( P )
+        {
+        char * P2 = strchr ( P + 1, ':' );
+        if ( P2 )
+          P = P2;
+        P++;
+        while ( *P == ' ' )
+          P++;
+        char * E = strchr ( P + 1, '\"' );
+        if ( E )
+          *E = 0;
+        Txt[0] = 0;
+        size_t L = 1024;
+        abi::__cxa_demangle( P, Txt, &L, NULL );
+        TxtToClp ( Txt );
+        MsgErr( NULL, "DLL '%s' не загрузилась '%s (%s)'", DLL, err, Txt );
+        }
+      // else
       handle = Modeles[0].handle;
       pCreate = Modeles[0].pCreate;
       Modeles[kModeles].ModelName = DLL;

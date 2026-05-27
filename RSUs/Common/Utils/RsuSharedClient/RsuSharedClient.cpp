@@ -1,1 +1,306 @@
-﻿#include "stdafx.h"#include <rsuSharedClient.h>#include <rsuIPC.h>#include <stdio.h>#ifdef LINUX#include "LogFile.h"#endif // LINUXnamespace ns_details{  static LPCSTR s_ServerWindow = "RSUSERVER";}KRsuSharedClient::KRsuSharedClient(): m_hwndServerImpl( 0 ), m_hCalcComplete( NULL ){}KRsuSharedClient::~KRsuSharedClient(){}#ifdef _DEBUG#include <comdef.h>HRESULT AutoWrap(int autoType, VARIANT *pvResult, IDispatch *pDisp, LPOLESTR ptName, int cArgs...) {  // Begin variable-argument list...  va_list marker;  va_start(marker, cArgs);  if(!pDisp)   {    //MessageBox(NULL, "NULL IDispatch passed to AutoWrap()", "Error", 0x10010);    return E_FAIL;  }  // Variables used...  DISPPARAMS dp = { NULL, NULL, 0, 0 };  DISPID dispidNamed = DISPID_PROPERTYPUT;  DISPID dispID;  HRESULT hr;  char buf[256];  char szName[256];  // Convert down to ANSI  WideCharToMultiByte(CP_ACP, 0, ptName, -1, szName, _countof(szName), NULL, NULL);  // Get DISPID for name passed...  hr = pDisp->GetIDsOfNames(IID_NULL, &ptName, 1, LOCALE_USER_DEFAULT, &dispID);  if( FAILED(hr) )  {    sprintf_s(buf, "IDispatch::GetIDsOfNames(\"%s\") failed w/err 0x%08lx", szName, hr);    //MessageBox(NULL, buf, "AutoWrap()", 0x10010);    return hr;  }  // Allocate memory for arguments...  VARIANT *pArgs = new VARIANT[cArgs+1]();  // Extract arguments...  for(int i=0; i<cArgs; i++)   {    pArgs[i] = va_arg(marker, VARIANT);  }  // Build DISPPARAMS  dp.cArgs = cArgs;  dp.rgvarg = pArgs;  // Handle special-case for property-puts!  if(autoType & DISPATCH_PROPERTYPUT)   {    dp.cNamedArgs = 1;    dp.rgdispidNamedArgs = &dispidNamed;  }  // Make the call!  hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, autoType, &dp, pvResult, NULL, NULL);  if(FAILED(hr))   {    sprintf_s(buf, "IDispatch::Invoke(\"%s\"=%08lx) failed w/err 0x%08lx", szName, dispID, hr);    //MessageBox(NULL, buf, "AutoWrap()", 0x10010);    //_exit(0);    return hr;  }  // End variable-argument section...  va_end(marker);  delete [] pArgs;  return hr;}bool AutoAttach(wchar_t* szProcessName){  // Initialize COM for this thread...  CoInitialize(NULL);  // Get CLSID for our server...  CLSID clsid;  HRESULT hr = CLSIDFromProgID(L"VisualStudio.DTE.8.0", &clsid);  if(FAILED(hr))   {    //::MessageBox(NULL, "CLSIDFromProgID() failed", "Error", 0x10010);    return false;  }  // Start server and get IDispatch...  IUnknown *pUnk = NULL;  IDispatch *pVs;  //hr = CoGetClassObject(clsid, CLSCTX_LOCAL_SERVER, NULL, IID_IDispatch, (void **)&pXlApp);    hr = GetActiveObject(clsid, NULL, (IUnknown**)&pUnk);  if( FAILED(hr) )	  return false;  pUnk->QueryInterface(IID_IDispatch, (void **)&pVs);  pUnk->Release();  //hr = CoCreateInstance(clsid, NULL, CLSCTX_LOCAL_SERVER, IID_IDispatch, (void **)&pXlApp);  if(FAILED(hr))   {    //::MessageBox(NULL, "VS2005 not registered properly", "Error", 0x10010);    return false;  }  VARIANT result;  VariantInit(&result);  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pVs, L"Debugger", 0);  if( FAILED(hr) )    return false;  pVs->Release();  IDispatch *pDebugger = result.pdispVal;  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pDebugger, L"LocalProcesses", 0);  if( FAILED(hr) )    return false;  pDebugger->Release();		  IDispatch *pLocalProcesses = result.pdispVal;  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pLocalProcesses, L"Count", 0);;  if( FAILED(hr) )    return false;  int nCount = result.iVal;  for(int i = 0; i < nCount; i++)  {    VARIANT parm;    parm.vt = VT_I4;    parm.lVal = i + 1;    AutoWrap(DISPATCH_METHOD, &result, pLocalProcesses, L"Item", 1, parm);    IDispatch* pProcess = result.pdispVal;    AutoWrap(DISPATCH_PROPERTYGET, &result, pProcess, L"Name", 0);    wchar_t* pStr = wcsstr(result.bstrVal, szProcessName);    if(pStr)    {      AutoWrap(DISPATCH_METHOD, &result, pProcess, L"Attach", 0);      pProcess->Release();      break;    }    pProcess->Release();  }  pLocalProcesses->Release();  CoUninitialize();  return true;}#endifint KRsuSharedClient::InitializeServer( LPCSTR pszImplName, LPCSTR pszObjName, bool bAttachStudio /*= false*/ ){  HWND hWnd = ::FindWindow( ns_details::s_ServerWindow, NULL );#ifdef LINUX  CLogFile::Log ("KRsuSharedClient::InitializeServer_1: hWnd %08lx, pszObjName %s", hWnd, pszObjName);#endif // LINUX  if( !::IsWindow( hWnd ) )  {    UINT uResult = ::WinExec( "RsuServer.exe", SW_SHOW );    hWnd = ::FindWindow( ns_details::s_ServerWindow, NULL );#ifdef LINUX  CLogFile::Log ("KRsuSharedClient::InitializeServer_2: uResult %d, hWnd %08lx, ns_details::s_ServerWindow %s", (int)uResult, hWnd, ns_details::s_ServerWindow);#endif // LINUX    if( !::IsWindow( hWnd ) )      return -1;  }#ifdef _DEBUG  if( bAttachStudio && IsDebuggerPresent() )    AutoAttach( L"RsuServer.exe");#endif#ifdef LINUX  char szWinName[256] = { 0 };	int nNameLen = GetWindowText(hWnd, szWinName, 255);  CLogFile::Log ("KRsuSharedClient::InitializeServer_3: pszImplName %s, szWinName %s", pszImplName, szWinName);#endif // LINUX  SInitialModel yModel;  strcpy_s( yModel.szImplementation, pszImplName);  strcpy_s( yModel.szName, pszObjName );  COPYDATASTRUCT cds;  cds.cbData = sizeof( yModel );  cds.lpData = &yModel;  cds.dwData = yModel.type;  LRESULT l = SendMessage( hWnd, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );  m_hwndServerImpl = (HWND)l;#ifdef LINUX  CLogFile::Log ("KRsuSharedClient::InitializeServer_4: m_hwndServerImpl %08lx", m_hwndServerImpl);#endif // LINUX  if( !::IsWindow( m_hwndServerImpl ) )  {    return -2;  }  char szBuf[_MAX_PATH];  sprintf_s( szBuf, "%s_CalcComplete", pszObjName );  m_hCalcComplete = OpenEvent( EVENT_ALL_ACCESS, FALSE, szBuf );  if( NULL==m_hCalcComplete )    return -3;  return 0;}int KRsuSharedClient::StepAfterInit(){  LRESULT l = SendMessage( m_hwndServerImpl, WM_USER+1, 0, epkAfterInit );  if( !l )    return 1;  return 0;}int KRsuSharedClient::StepAfterRestored(){  SetEvent( m_hCalcComplete );  LRESULT l = SendMessage( m_hwndServerImpl, WM_USER+1, 0, epkAfterRestored );  if( !l )    return 1;  return 0;}int KRsuSharedClient::CalcStep( int dtMs ){  if( !m_hwndServerImpl )    return 0;  DWORD r = WaitForSingleObject( m_hCalcComplete, 10000 );  if( WAIT_TIMEOUT==r )  {    if( !::IsWindow( m_hwndServerImpl ) )    {      m_hwndServerImpl = 0;      CloseHandle( m_hCalcComplete );      m_hCalcComplete = NULL;    }    return 0;  }  //ResetEvent( m_hCalcComplete );  LRESULT l = PostMessage( m_hwndServerImpl, WM_USER+1, dtMs, epkCalcStep );  if( !l )    return 1;  return 0;}bool KRsuSharedClient::IsCalcComplete( DWORD dwMilliseconds ){  if( !m_hwndServerImpl )    return true;  DWORD r = WaitForSingleObject( m_hCalcComplete, dwMilliseconds );  if( WAIT_TIMEOUT==r )    return false;  SetEvent( m_hCalcComplete );  return true;}int KRsuSharedClient::SaveRestoreCmd( LPCSTR pszPath, EPackageType type ){  SSaveRestoreSP yCmd;  strcpy_s( yCmd.szPath, pszPath );  yCmd.type = type;  COPYDATASTRUCT cds;  cds.cbData = sizeof( yCmd );  cds.lpData = &yCmd;  cds.dwData = yCmd.type;  LRESULT l = SendMessage( m_hwndServerImpl, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );  if( l==yCmd.type )    return 0;  return -1;}int KRsuSharedClient::ParamsSave( LPCSTR pszPath ){  return SaveRestoreCmd( pszPath, epkSaveRSUParams );}int KRsuSharedClient::ParamsRestore( LPCSTR pszPath ){  return SaveRestoreCmd( pszPath, epkRestoreRSUParams );}int KRsuSharedClient::StateSave( LPCSTR pszPath ){  return SaveRestoreCmd( pszPath, epkSaveRSUState );}int KRsuSharedClient::StateRestore( LPCSTR pszPath ){  return SaveRestoreCmd( pszPath, epkRestoreRSUState );}void KRsuSharedClient::ShowObject( LPCSTR pszName ){  SShowObject yCmd;  strcpy_s( yCmd.szName, pszName );  COPYDATASTRUCT cds;  cds.cbData = sizeof( yCmd );  cds.lpData = &yCmd;  cds.dwData = yCmd.type;  LRESULT l = SendMessage( m_hwndServerImpl, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );}
+﻿#include "stdafx.h"
+#include <rsuSharedClient.h>
+#include <rsuIPC.h>
+#include <stdio.h>
+
+// #ifdef LINUX
+// #include  LogFile.h"
+// #endif // LINUX
+
+namespace ns_details
+{
+  static LPCSTR s_ServerWindow = "RSUSERVER";
+}
+
+KRsuSharedClient::KRsuSharedClient()
+: m_hwndServerImpl( 0 )
+, m_hCalcComplete( NULL )
+{
+}
+
+KRsuSharedClient::~KRsuSharedClient()
+{
+}
+
+#ifdef _DEBUG
+#include <comdef.h>
+HRESULT AutoWrap(int autoType, VARIANT *pvResult, IDispatch *pDisp, LPOLESTR ptName, int cArgs...) 
+{
+  // Begin variable-argument list...
+  va_list marker;
+  va_start(marker, cArgs);
+
+  if(!pDisp) 
+  {
+    //MessageBox(NULL, "NULL IDispatch passed to AutoWrap()", "Error", 0x10010);
+    return E_FAIL;
+  }
+
+  // Variables used...
+  DISPPARAMS dp = { NULL, NULL, 0, 0 };
+  DISPID dispidNamed = DISPID_PROPERTYPUT;
+  DISPID dispID;
+  HRESULT hr;
+  char buf[256];
+  char szName[256];
+
+  // Convert down to ANSI
+  WideCharToMultiByte(CP_ACP, 0, ptName, -1, szName, _countof(szName), NULL, NULL);
+
+  // Get DISPID for name passed...
+  hr = pDisp->GetIDsOfNames(IID_NULL, &ptName, 1, LOCALE_USER_DEFAULT, &dispID);
+  if( FAILED(hr) )
+  {
+    sprintf_s(buf, "IDispatch::GetIDsOfNames(\"%s\") failed w/err 0x%08lx", szName, hr);
+    //MessageBox(NULL, buf, "AutoWrap()", 0x10010);
+    return hr;
+  }
+
+  // Allocate memory for arguments...
+  VARIANT *pArgs = new VARIANT[cArgs+1]();
+  // Extract arguments...
+  for(int i=0; i<cArgs; i++) 
+  {
+    pArgs[i] = va_arg(marker, VARIANT);
+  }
+
+  // Build DISPPARAMS
+  dp.cArgs = cArgs;
+  dp.rgvarg = pArgs;
+
+  // Handle special-case for property-puts!
+  if(autoType & DISPATCH_PROPERTYPUT) 
+  {
+    dp.cNamedArgs = 1;
+    dp.rgdispidNamedArgs = &dispidNamed;
+  }
+
+  // Make the call!
+  hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, autoType, &dp, pvResult, NULL, NULL);
+  if(FAILED(hr)) 
+  {
+    sprintf_s(buf, "IDispatch::Invoke(\"%s\"=%08lx) failed w/err 0x%08lx", szName, dispID, hr);
+    //MessageBox(NULL, buf, "AutoWrap()", 0x10010);
+    //_exit(0);
+    return hr;
+  }
+  // End variable-argument section...
+  va_end(marker);
+
+  delete [] pArgs;
+
+  return hr;
+}
+
+bool AutoAttach(wchar_t* szProcessName)
+{
+  // Initialize COM for this thread...
+  CoInitialize(NULL);
+
+  // Get CLSID for our server...
+  CLSID clsid;
+  HRESULT hr = CLSIDFromProgID(L"VisualStudio.DTE.8.0", &clsid);
+  if(FAILED(hr)) 
+  {
+
+    //::MessageBox(NULL, "CLSIDFromProgID() failed", "Error", 0x10010);
+    return false;
+  }
+
+  // Start server and get IDispatch...
+  IUnknown *pUnk = NULL;
+  IDispatch *pVs;
+
+  //hr = CoGetClassObject(clsid, CLSCTX_LOCAL_SERVER, NULL, IID_IDispatch, (void **)&pXlApp);
+  
+  hr = GetActiveObject(clsid, NULL, (IUnknown**)&pUnk);
+  if( FAILED(hr) )
+	  return false;
+  pUnk->QueryInterface(IID_IDispatch, (void **)&pVs);
+  pUnk->Release();
+
+  //hr = CoCreateInstance(clsid, NULL, CLSCTX_LOCAL_SERVER, IID_IDispatch, (void **)&pXlApp);
+  if(FAILED(hr)) 
+  {
+    //::MessageBox(NULL, "VS2005 not registered properly", "Error", 0x10010);
+    return false;
+  }
+
+  VARIANT result;
+  VariantInit(&result);
+
+  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pVs, L"Debugger", 0);
+  if( FAILED(hr) )
+    return false;
+  pVs->Release();
+  IDispatch *pDebugger = result.pdispVal;
+  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pDebugger, L"LocalProcesses", 0);
+  if( FAILED(hr) )
+    return false;
+  pDebugger->Release();		
+  IDispatch *pLocalProcesses = result.pdispVal;
+  hr = AutoWrap(DISPATCH_PROPERTYGET, &result, pLocalProcesses, L"Count", 0);;
+  if( FAILED(hr) )
+    return false;
+  int nCount = result.iVal;
+  for(int i = 0; i < nCount; i++)
+  {
+    VARIANT parm;
+    parm.vt = VT_I4;
+    parm.lVal = i + 1;
+    AutoWrap(DISPATCH_METHOD, &result, pLocalProcesses, L"Item", 1, parm);
+    IDispatch* pProcess = result.pdispVal;
+    AutoWrap(DISPATCH_PROPERTYGET, &result, pProcess, L"Name", 0);
+    wchar_t* pStr = wcsstr(result.bstrVal, szProcessName);
+    if(pStr)
+    {
+      AutoWrap(DISPATCH_METHOD, &result, pProcess, L"Attach", 0);
+      pProcess->Release();
+      break;
+    }
+    pProcess->Release();
+
+  }
+  pLocalProcesses->Release();
+  CoUninitialize();
+  return true;
+}
+#endif
+
+int KRsuSharedClient::InitializeServer( LPCSTR pszImplName, LPCSTR pszObjName, bool bAttachStudio /*= false*/ )
+{
+  HWND hWnd = ::FindWindow( ns_details::s_ServerWindow, NULL );
+
+  if( !::IsWindow( hWnd ) )
+  {
+    UINT uResult = ::WinExec( "RsuServer.exe", SW_SHOW );
+    hWnd = ::FindWindow( ns_details::s_ServerWindow, NULL );
+    if( !::IsWindow( hWnd ) )
+      return -1;
+  }
+
+#ifdef _DEBUG
+  if( bAttachStudio && IsDebuggerPresent() )
+    AutoAttach( L"RsuServer.exe");
+#endif
+
+  SInitialModel yModel;
+  strcpy_s( yModel.szImplementation, pszImplName);
+  strcpy_s( yModel.szName, pszObjName );
+  COPYDATASTRUCT cds;
+  cds.cbData = sizeof( yModel );
+  cds.lpData = &yModel;
+  cds.dwData = yModel.type;
+  LRESULT l = SendMessage( hWnd, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );
+  m_hwndServerImpl = (HWND)l;
+
+  if( !::IsWindow( m_hwndServerImpl ) )
+    {
+    return -2;
+    }
+  char szBuf[_MAX_PATH];
+  sprintf_s( szBuf, "%s_CalcComplete", pszObjName );
+  m_hCalcComplete = OpenEvent( EVENT_ALL_ACCESS, FALSE, szBuf );
+
+  if( NULL==m_hCalcComplete )
+    return -3;
+  return 0;
+}
+
+int KRsuSharedClient::StepAfterInit()
+{
+  LRESULT l = SendMessage( m_hwndServerImpl, WM_USER+1, 0, epkAfterInit );
+  if( !l )
+    return 1;
+  return 0;
+}
+
+int KRsuSharedClient::StepAfterRestored()
+{
+  SetEvent( m_hCalcComplete );
+  LRESULT l = SendMessage( m_hwndServerImpl, WM_USER+1, 0, epkAfterRestored );
+  if( !l )
+    return 1;
+  return 0;
+}
+
+int KRsuSharedClient::CalcStep( int dtMs )
+{
+  if( !m_hwndServerImpl )
+    return 0;
+  DWORD r = WaitForSingleObject( m_hCalcComplete, 10000 );
+  if( WAIT_TIMEOUT==r )
+  {
+    if( !::IsWindow( m_hwndServerImpl ) )
+    {
+      m_hwndServerImpl = 0;
+      CloseHandle( m_hCalcComplete );
+      m_hCalcComplete = NULL;
+    }
+    return 0;
+  }
+  //ResetEvent( m_hCalcComplete );
+  LRESULT l = PostMessage( m_hwndServerImpl, WM_USER+1, dtMs, epkCalcStep );
+  if( !l )
+    return 1;
+
+  return 0;
+}
+
+bool KRsuSharedClient::IsCalcComplete( DWORD dwMilliseconds )
+{
+  if( !m_hwndServerImpl )
+    return true;
+  DWORD r = WaitForSingleObject( m_hCalcComplete, dwMilliseconds );
+  if( WAIT_TIMEOUT==r )
+    return false;
+  SetEvent( m_hCalcComplete );
+  return true;
+}
+
+int KRsuSharedClient::SaveRestoreCmd( LPCSTR pszPath, EPackageType type )
+{
+  SSaveRestoreSP yCmd;
+  strcpy_s( yCmd.szPath, pszPath );
+  yCmd.type = type;
+  COPYDATASTRUCT cds;
+  cds.cbData = sizeof( yCmd );
+  cds.lpData = &yCmd;
+  cds.dwData = yCmd.type;
+  LRESULT l = SendMessage( m_hwndServerImpl, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );
+
+  if( l==yCmd.type )
+    return 0;
+  return -1;
+}
+
+int KRsuSharedClient::ParamsSave( LPCSTR pszPath )
+{
+  return SaveRestoreCmd( pszPath, epkSaveRSUParams );
+}
+
+int KRsuSharedClient::ParamsRestore( LPCSTR pszPath )
+{
+  return SaveRestoreCmd( pszPath, epkRestoreRSUParams );
+}
+
+int KRsuSharedClient::StateSave( LPCSTR pszPath )
+{
+  return SaveRestoreCmd( pszPath, epkSaveRSUState );
+}
+
+int KRsuSharedClient::StateRestore( LPCSTR pszPath )
+{
+  return SaveRestoreCmd( pszPath, epkRestoreRSUState );
+}
+
+void KRsuSharedClient::ShowObject( LPCSTR pszName )
+{
+  SShowObject yCmd;
+  strcpy_s( yCmd.szName, pszName );
+  COPYDATASTRUCT cds;
+  cds.cbData = sizeof( yCmd );
+  cds.lpData = &yCmd;
+  cds.dwData = yCmd.type;
+  LRESULT l = SendMessage( m_hwndServerImpl, WM_COPYDATA, 0, (LPARAM)(LPVOID)&cds );
+}

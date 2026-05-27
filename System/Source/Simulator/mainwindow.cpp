@@ -139,8 +139,12 @@ MainWindow::~MainWindow()
 //    HydroWork.wait();
 //    DCUWork.quit();
 //    DCUWork.wait();
-
+//    char Buf[256];
+//    int status;
+//  cxa_demangle("_Z10widetoutf8RKNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEE",
+//                      Buf, 256, &status );
 }
+//
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {

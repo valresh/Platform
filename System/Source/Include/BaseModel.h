@@ -48,6 +48,70 @@ struct IBaseModelInfo
     virtual int GetConnections(int & Cnt, struct CConnection Connections[/*100*/]);
 };
 
+struct IN_DLL CSortTree
+{
+  CSortTree * pNext_Group_Pnt;
+  int Balance;
+  //
+  void * Key;
+  CSortTree * pL;
+  CSortTree * pR;
+  CSortTree( )
+  {
+    Key = NULL;
+    pL = NULL;
+    pR = NULL;
+    Balance = 0;
+    pNext_Group_Pnt = NULL;
+  }
+  void Init( )
+  {
+    Key = NULL;
+    pL = NULL;
+    pR = NULL;
+    Balance = 0;
+    pNext_Group_Pnt = NULL;
+  }
+};
+
+typedef
+  int (*tCompKey)( void * TestKey, void * NodeKey, int Type );
+
+typedef
+  CSortTree * (*tNew)( void * Key, int Type );
+
+struct IN_DLL CSortTreeInfo
+{
+  CSortTree * Root;
+  CSortTree * FirstInGroup;
+  CSortTree * LastInGroup;
+  tCompKey pCompKey;
+  tNew pNew;
+  int Type;
+  CSortTreeInfo( )
+  {
+    Type = 0;
+    Root = NULL;
+    pCompKey = NULL;
+    pNew = NULL;
+    FirstInGroup = NULL;
+    LastInGroup = NULL;
+  };
+  CSortTreeInfo( CSortTree * _Root, tCompKey _pCompKey, tNew _pNew, int _Type )
+  {
+    Type = _Type;
+    Root = _Root;
+    pCompKey = _pCompKey;
+    pNew = _pNew;
+    FirstInGroup = NULL;
+    LastInGroup = NULL;
+  }
+  CSortTree * GetFirst( );
+  CSortTree * GetNext( CSortTree * pPrev );
+  void Add( CSortTree * pItem );
+};
+
+
 struct IN_DLL ISet
 {
     virtual bool IsOn() = 0;
@@ -114,7 +178,7 @@ struct IN_DLL IBaseModel
     struct CDef * pLastDefect;
     struct ISet * pFirstISet;
     struct ISet * pLastISet;
-    CExtern_Pnt * pModel_Pnt;
+    struct CExtern_Pnt * pModel_Pnt;
     bool PropsWasRead;
     //
     struct IUniModel * pUniModel;
@@ -166,7 +230,7 @@ struct IN_DLL IBaseModel
     virtual int SetProp ( struct CObjProps * pProp );
     virtual int GetProp( );
     virtual void DrawObj ( struct CDrawObjData * pDraw ){};
-    virtual void DrawObject ( struct CDrawObjData * pDraw, CGDIResourceMgr *pResMgr) {}
+    virtual void DrawObject ( struct CDrawObjData * pDraw, struct CGDIResourceMgr *pResMgr) {}
 #ifdef _WIN32
     virtual BOOL NeedDrawBefore() { return FALSE; }
     virtual void Render(IRenderer &);

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <BaseInt.h>
+#include <BaseModel.h>
 #include <string>
 #include <vector>
 #include <RsuX.h>

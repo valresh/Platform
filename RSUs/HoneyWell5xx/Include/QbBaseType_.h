@@ -1,1 +1,25 @@
-﻿#pragma once#include <BaseType_.h>#ifdef UTILSQB5XX_EXPORTS#define UTILSQB5XX_API Q_DECL_EXPORT        #else#define UTILSQB5XX_API Q_DECL_IMPORT        #endif//enum{  id_CQBSystem = 24996,  id_QBAcyMin = 24997,  // Специфика  #undef   QB_TYPE  #define  QB_TYPE( a, b, c ) id_##b = ##a,  #include "./QuickBuilderType.hpp"  id_QBAcyMax = 24999,};inline bool IsQBAcy( UINT nType ){  return id_QBAcyMin <= nType && nType <= id_QBAcyMax;}
+﻿#pragma once
+#include <BaseType_.h>
+
+#ifdef UTILSQB5XX_EXPORTS
+#define UTILSQB5XX_API Q_DECL_EXPORT        
+#else
+#define UTILSQB5XX_API Q_DECL_IMPORT        
+#endif
+
+//
+enum
+{
+  id_CQBSystem = 24996,
+  id_QBAcyMin = 24997,
+  // Специфика
+  #undef   QB_TYPE
+  #define  QB_TYPE( a, b, c ) id_##b = a,
+  #include "./QuickBuilderType.hpp"
+  id_QBAcyMax = 24999,
+};
+
+inline bool IsQBAcy( UINT nType )
+{
+  return id_QBAcyMin <= nType && nType <= id_QBAcyMax;
+}

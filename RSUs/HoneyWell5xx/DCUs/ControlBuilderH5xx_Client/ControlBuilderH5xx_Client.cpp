@@ -21,5 +21,7 @@
 
 extern "C" Q_DECL_EXPORT IBaseModel* CreateObject(LPCTSTR ObjName )
 {
-  return new KH_RemoteClient( (char*)ObjName);
+  IBaseModel* pClient = new KH_RemoteClient( (char*)ObjName);
+  pClient->Init ( 0 );
+  return pClient;
 }
