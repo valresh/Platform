@@ -52,9 +52,8 @@ struct CSplit
       memset(Str,0,sizeof(Str));
  //    char ansi[max_str];
       kCol = 0;
-      if ( fgets ( Str, max_str - 1, F ) == NULL )
+      if ( fgets ( Str, max_str - 1, F, true ) == NULL )
         return false;
-//       CharToUTF8( Str, max_str, ansi );
       kCol = Split( NULL );
       return true;
       }

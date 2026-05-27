@@ -791,6 +791,10 @@ int Q_DECL_EXPORT DllMain( int hModule,
 
 void ProcessData::SetCPU( int n0, int n1, int n2 )
   {
+  n0 = 0;
+  n1 = 0;
+  n2 = 0;
+  return;
     char Txt[1024];
     FILE * F = fopen ( "/proc/stat", "rt" );
     fgets ( Txt, 1024, F );
@@ -798,8 +802,8 @@ void ProcessData::SetCPU( int n0, int n1, int n2 )
     int64_t St = 0;
     for ( int p = 0; p < 10; p++ )
     {
-        TEG
-            St += atoi( P );
+    TEG
+    St += atoi( P );
     }
     int64_t dSt = St - S;
     S = St;

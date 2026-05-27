@@ -230,26 +230,17 @@ bool Start::Prepare()
     ////////////////////////////////////////
     kRuntimeModel = 0;
     if ( pMainWnd->Use_RSU())
-    {
-        SysMSG ( "#Загрузка РСУ" );
-        LoadRsuModelsCP( kRuntimeModel );
-        //pTrend->Init(0);
-        //
-        SysMSG ("#Инициализация РСУ");
-        for(int i=0; i<kRuntimeModel; i++)
+      {
+      SysMSG ( "#Загрузка РСУ" );
+      LoadRsuModelsCP( kRuntimeModel );
+      //pTrend->Init(0);
+      //
+      SysMSG ("#Инициализация РСУ");
+      for(int i=0; i<kRuntimeModel; i++)
         {
-            try
-            {
-                //            CLogFile::Log ("Start_30 i %d, ObjName %s", i, g_RuntimeModels[i]->ObjName);
-                g_RuntimeModels[i]->Init(0);
-            }
-            catch(...)
-            {
-                KKK();
-                //            CLogFile::Log ("Start_31 Error: i %d", i);
-            }
+        g_RuntimeModels[i]->Init(0);
         }
-    }
+      }
     SysMSG ("#Инициализация рабочих моделей");
     IBaseModel * pObj = IBaseModel::pFirst;
     int kIter = 0;
@@ -269,6 +260,14 @@ bool Start::Prepare()
     char Path[1024];
     sprintf ( Path, "%sDATA/STATES/%s.parm", PROJECT_ROOT, pMainWnd->ParamsRead());     int ResParm = RestoreParamsFromFile( Path );
     //
+   if ( pMainWnd->Use_RSU())
+      {
+      SysMSG ("#Инициализация РСУ");
+      for(int i=0; i<kRuntimeModel; i++)
+        {
+        g_RuntimeModels[i]->Step0();
+        }
+      }
     bool Err = false;
     SysMSG( "#Начальный шаг моделей объектов" );
     for ( int n = 0; n < IBaseModel::kObjects; n++ )
@@ -293,6 +292,14 @@ bool Start::Prepare()
     char PathState[1024];
     sprintf ( PathState, "%sDATA/STATES/%s.dat", PROJECT_ROOT, pMainWnd->StateRead() );
     int ResState = RestoreStateFromFile( PathState );
+    if ( pMainWnd->Use_RSU())
+      {
+      SysMSG ("#Первый шаг РСУ");
+      for(int i=0; i<kRuntimeModel; i++)
+        {
+        g_RuntimeModels[i]->Step1();
+        }
+      }
     SysMSG( "#Первый шаг моделей объектов" );
     for ( int n = 0; n < IBaseModel::kObjects; n++ )
         {
@@ -312,10 +319,10 @@ bool Start::Prepare()
         }
     if(Err) return false;
     if( SysErrors > 0 )
-        {
-        SysMSG(  "Загрузка остановлена из-за ошибок" );
-        return false;
-        }
+      {
+      SysMSG(  "Загрузка остановлена из-за ошибок" );
+      return false;
+      }
     SysMSG( "#Модель работает" );
 //
     pCtrlConn->SetData( sd_SetConnections, &pMainWnd->showRSU.pConn_Info );

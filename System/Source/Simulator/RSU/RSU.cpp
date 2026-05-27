@@ -48,10 +48,10 @@ IBaseModel * Load_ObjectEx ( const char * DllName, const char * ObjName );
 IBaseModel* Load_ObjectRSU( const char * DllName, const char * ObjName)
     {
     bool v_ValidLib = false;
-//    IBaseModel* ret = g_RsuHolder.create_client (DllName, "", ObjName, v_ValidLib );
-//    if ( !ret && !v_ValidLib)
-    IBaseModel * ret = Load_ObjectEx ( DllName, ObjName );
-    if (!ret)
+    IBaseModel* ret = g_RsuHolder.create_client (DllName, "", ObjName, v_ValidLib );
+    if ( !ret && !v_ValidLib)
+//    IBaseModel * ret = Load_ObjectEx ( DllName, ObjName );
+//    if (!ret)
         {
         std::string v_msg = "Load rsu library error: " + g_RsuHolder.get_last_error();
         SysMSG(v_msg.c_str());

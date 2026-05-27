@@ -193,6 +193,8 @@ void Models::Go()
         pCtrlConn->StepT(dt);
         for(int nModel = 0; nModel < IBaseModel::kObjects; nModel++)
         {
+              if ( nModel >= 2772 )
+              KKK();
             IBaseModel * pModel = IBaseModel::AllObjects[nModel];
             if(pModel->TypeObj == IBaseModel::RSU_Obj || pModel->TypeObj == IBaseModel::Y_Obj)
                 continue;
