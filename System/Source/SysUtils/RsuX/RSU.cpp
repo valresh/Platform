@@ -744,7 +744,7 @@ void Obr_RSU( const char * Path, const char * Name)
     {
     int size = fs::file_size( Path);
     int fd = open( Path,O_RDWR );
-    void* addr = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
+    void* addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0);
     nn.pHeader = (KNoName::SNoNameHeader*)addr;
     BYTE* pMem = (BYTE*)nn.pHeader;
     if ( pMem == NULL )

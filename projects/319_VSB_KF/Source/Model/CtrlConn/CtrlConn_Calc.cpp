@@ -175,7 +175,9 @@ void CCtrlConn::Calc( double dt )
         {
             if ( Conn.Type[0] == ' ' )
                 Conn.Type[0] = Conn.pDst->GetType();
-            BOOL bIO = FALSE;
+              if ( strstr ( Conn.RefTo, "301_11_AI01.30PC020.30PT020.PV" ))
+                    KKK();
+              BOOL bIO = FALSE;
             if ( Conn.Type[0] == 'A' )
             {
                 CACSPnt* pPnt = NULL;
@@ -253,7 +255,7 @@ void CCtrlConn::Calc( double dt )
                     }
                 }
                 Conn.pSrc->GetValue( SrcType, pVal );
-                if ( strstr ( Conn.RefTo, "301_11_AI02.30TC037.30TT037"))
+                if ( strstr ( Conn.RefTo, "101_11_AI05.10FI002.10FT002"))
                     KKK();
                 if ( Conn.kOP > 0 )
                 {
