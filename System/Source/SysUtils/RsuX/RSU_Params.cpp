@@ -9,7 +9,7 @@
 
 typedef uint64_t UINT64;
 
-#include "../../../RSUs/HoneyWell5xx/Include/HoneywellStruct.h"
+#include "/home/resh/QtRSU/RSUs/HoneyWell5xx/Include/HoneywellStruct.h"
 
 
 #include "WP_Declare.h"
@@ -46,6 +46,8 @@ void AICHANNEL( void * pBase, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16
 {
     BYTE * pB = (BYTE*)pBase;
     W_AICHANNEL * pW = (W_AICHANNEL*)(pB-8);
+    int s = sizeof ( W_AICHANNEL );
+    int d = (BYTE*)&pW->PV - (BYTE*)pW;
 //////////////////////////////
     CMem<CParams, 16, 16> * pList = pParamsP;
     String_K(DESC,"Block Descriptor",132*4)

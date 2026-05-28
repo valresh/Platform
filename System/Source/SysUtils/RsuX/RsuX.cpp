@@ -51,6 +51,9 @@ int KRsuX::LinkTo( LPCSTR pszPointName, LPSTR pszIOtype, LPCSTR pszFile )
     char * E = strchr ( P, '.' );
     if ( E )
         *E = 0;
+    int KKK;
+    if ( strstr ( pszPointName, "301_11_AI01.30PC020.30PT020.PV" ))
+      KKK = 0;
     nRSUx::SParamInfo info = GetInfo( pszPointName, pszIOtype, P );
     if( info.pMem )
     {

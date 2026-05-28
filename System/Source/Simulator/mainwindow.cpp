@@ -555,16 +555,14 @@ void MainWindow::on_FindObj_clicked()
     KKK();
 }
 
+void Draw_RSU_Obj();
 
 void MainWindow::on_RSU_clicked()
 {
-  // minitrend * pTrend = new minitrend( NULL );
-  // pTrend->AddVar( 0 );
-  // pTrend->show();
-
-    Init_RSU();
-    showRSU.Init();
-    showRSU.Go();
+  Draw_RSU_Obj();
+    // Init_RSU();
+    // showRSU.Init();
+    // showRSU.Go();
 
 }
 

@@ -740,12 +740,21 @@ void AddClass  ( LPCSTR pClass )
      Models[kModels++] = pClass;
 }
 
-void Obr_RSU( const char * Path, const char * Name)
+#define MAX_DATA 64
+struct MapData
+{
+  char FileName[32];
+  int Size;
+  BYTE * Addr;
+};
+
+extern MapData mapdata[MAX_DATA];
+extern int k_mapdata;
+
+
+void Obr_RSU( MapData & data )
     {
-    int size = fs::file_size( Path);
-    int fd = open( Path,O_RDWR );
-    void* addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0);
-    nn.pHeader = (KNoName::SNoNameHeader*)addr;
+    nn.pHeader = (KNoName::SNoNameHeader*)data.Addr;
     BYTE* pMem = (BYTE*)nn.pHeader;
     if ( pMem == NULL )
         return;
@@ -755,11 +764,11 @@ void Obr_RSU( const char * Path, const char * Name)
     nn.pszObjects = pMem + header.shiftObjects;
     if ( nn.pHeader->nCount <= 0 )
         return;
-    Files[kFiles++] = Name;
+    Files[kFiles++] = data.FileName;
     DWORD crc = 0;
     const char * pOldClass = "";
     for ( int n = 0; n < nn.pHeader->nCount; n++)
-    {
+      {
         LPCSTR pClass = nn.Class(nn.pOrd[n],crc);
         if ( strcmp ( pClass, pOldClass ))
             AddClass( pClass );
@@ -777,23 +786,13 @@ void Obr_RSU( const char * Path, const char * Name)
 }
 
 void Init_RSU()
-{
-    if ( WasInit )
-        return;
-    WasInit = true;
-    char Path[1024];
-    sprintf_s ( Path, 1024, "%s/Memory/", PROJECT_ROOT );
-    QDir DirList( Path );
-    QFileInfoList L = DirList.entryInfoList(  QDir::NoFilter, QDir::Name);
-    foreach (QFileInfo f, L)
-        {
-        QString Path = f.absoluteFilePath();
-        QString Name = f.baseName();
-        if ( strstr (Path.toStdString().c_str(), ".noname"))
-            {
-            Obr_RSU( Path.toStdString().c_str(), Name.toStdString().c_str());
-            }
-        KKK();
-        }
-    KKK();
+  {
+  if ( WasInit )
+    return;
+  WasInit = true;
+  for ( int n = 0; n < k_mapdata; n++ )
+    {
+    Obr_RSU( mapdata[n]);
     }
+  KKK();
+  }
