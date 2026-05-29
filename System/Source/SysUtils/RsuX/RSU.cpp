@@ -521,7 +521,7 @@ void TestMem()
 
 //    char * path = "/home/resh/Platform/projects/319_VSB_KF/Memory/H5xx_Mem.mem";
  //   char * path = "/home/resh/Platform/projects/319_VSB_KF/Memory/H5xx_Mem.mem";
-   char * path = "/home/resh/Platform/projects/319_VSB_KF/Memory/H5xx_IOs.noname";
+    char * path = "/home/resh/Platform/projects/319_VSB_KF/Memory/H5xx_IOs.noname";
     int size = fs::file_size( path);
     int fd = open( path,O_RDWR );
     void* addr = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);

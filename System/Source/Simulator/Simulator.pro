@@ -6,7 +6,7 @@ CONFIG += c++20
 
 DESTDIR= "$$PWD/../../../EXE"
 
-LIBS += -L$$DESTDIR$$ -lSysUtils -lEMFReader -lzlib -lCommonRSUs -lControlBuilderH5xxDebug
+LIBS += -L$$DESTDIR$$ -lSysUtils -lEMFReader -lzlib -lCommonRSUs -lControlBuilderH5xxDebug -lUtils
 
 INCLUDEPATH +=  $$PWD/../Include
 
