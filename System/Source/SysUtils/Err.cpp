@@ -29,7 +29,7 @@ void SysAssert( char * File, int Line, int* pNumbAssert )
     if ( (*pNumbAssert)++ < 5 )
     {
         FILE * F;
-        time_t T = time(NULL);
+				time_t T = time(NULL);
         struct tm* Tm = localtime(&T );
         char Time[256];
         strftime( Time, 255, "%d.%m %H:%M:%S", Tm );
@@ -56,17 +56,17 @@ void SysAssert( char * File, int Line, int* pNumbAssert )
 static char Msg[1024];
 void MsgErr ( void *rezerv, LPCSTR Fmt, ... )
 {
-    va_list arg;
-    va_start(arg,Fmt);
-    vsnprintf ( Msg, sizeof(Msg), Fmt, arg );
-    va_end(arg);
-    int Res = 0;
-    SysErrors++;
-    Sender.SysOutMsg( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
-    if ( Res == QMessageBox::Abort )
-    {
-        QCoreApplication::exit(0);
-    }
+		va_list arg;
+		va_start(arg,Fmt);
+		vsnprintf ( Msg, sizeof(Msg), Fmt, arg );
+		va_end(arg);
+		int Res = 0;
+		SysErrors++;
+		Sender.SysOutMsg( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
+		if ( Res == QMessageBox::Abort )
+		{
+				QCoreApplication::exit(0);
+		}
 }
 
 void LogMsg( char * Fmt, ... )
