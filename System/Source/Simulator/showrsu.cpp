@@ -8,9 +8,10 @@ ShowRSU::ShowRSU(QWidget *parent)
     , ui(new Ui::ShowRSU)
 {
     WasInit = false;
+		setWindowTitle( "Параметры блоков" );
     ui->setupUi(this);
     connect( ui->ListObj, &ObjListTab::ShowObject, this, &ShowRSU::ShowObject );
-    pConn_Info = NULL;
+		pConn_Info = NULL;
 }
 
 
@@ -145,7 +146,13 @@ void ObjListTab::mousePressEvent(QMouseEvent* event)
         emit ShowObject ( pObj->ObjName.Str, pObj->Model, pObj->pBase );
         }
     //   void show(CParams * pParams, int kParams);
-};
+}
+
+void ObjListTab::sectionResized( int logicalIndex, int oldSize, int newSize )
+{
+	resizeRowsToContents();
+}
+
 
 ObjListModel::ObjListModel(QObject *parent)
 {
@@ -220,9 +227,13 @@ QVariant ObjListModel::data(const QModelIndex &index, int role) const
         RSU_Obj * pObj =  RSU_Pnt.Get( r );
         if ( c == 0 )
         {
-       return QString( pObj->ObjName );
+				return QString( pObj->ObjName );
         }
-     if ( pObj->Ref )
+				if ( c == 1 )
+				{
+					return QString( pObj->Model );
+				}
+		 if ( pObj->Ref )
         return QString ( pObj->Ref );
      break;
     }

@@ -42,18 +42,22 @@ public:
         {
         QHeaderView * headerV =  verticalHeader();
         headerV->setVisible(false);
-        horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch );
-        resizeColumnToContents( 1 );
+				QHeaderView * headerH =  horizontalHeader();//->setSectionResizeMode(QHeaderView::Interactive );
+				connect( headerH, &QHeaderView::sectionResized, this, &ObjListTab::sectionResized);
+				headerH->setStretchLastSection(true);
+//				resizeColumnToContents( 0 );
         setModel( &Model );
         }
     void Refresh()
         {
-            Model.Refresh();
+				Model.Refresh();
         }
   void mousePressEvent(QMouseEvent* event) override;
  //   void show(CParams * pParams, int kParams);
   signals:
   void ShowObject ( LPCSTR ObjName, LPCSTR Model, void * pBase );
+	private slots:
+	void sectionResized( int logicalIndex, int oldSize, int newSize);
 };
 
 class List_W_Model : public QAbstractTableModel
@@ -90,15 +94,21 @@ public:
         kParams = 0;
         QHeaderView * headerV =  verticalHeader();
         headerV->setVisible(false);
-        horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch );
-        resizeColumnToContents( 1 );
-        setModel( &Model );
+				QHeaderView * headerH =  horizontalHeader();//->setSectionResizeMode(QHeaderView::Interactive );
+				connect( headerH, &QHeaderView::sectionResized, this, &List_W_Tab::sectionResized);
+				headerH->setStretchLastSection(true);
+				setModel( &Model );
         setEditTriggers(QAbstractItemView::DoubleClicked);
     }
     void Refresh()
     {
         Model.Refresh();
     }
+private slots:
+		void sectionResized( int logicalIndex, int oldSize, int newSize)
+		{
+		resizeRowsToContents();
+		}
 //    void contextMenuEvent(QContextMenuEvent *e);
 //   void show(CParams * pParams, int kParams);
 };
@@ -137,9 +147,10 @@ public:
         kParams = 0;
         QHeaderView * headerV =  verticalHeader();
         headerV->setVisible(false);
-        horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch );
-        resizeColumnToContents( 1 );
-        setModel( &Model );
+				QHeaderView * headerH =  horizontalHeader();
+				headerH->setStretchLastSection(true);
+				connect( headerH, &QHeaderView::sectionResized, this, &List_P_Tab::sectionResized);
+				setModel( &Model );
         setEditTriggers(QAbstractItemView::DoubleClicked);
     }
     void Refresh()
@@ -148,6 +159,11 @@ public:
     }
 //    void contextMenuEvent(QContextMenuEvent *e);
  //   void show(CParams * pParams, int kParams);
+private slots:
+		void sectionResized( int logicalIndex, int oldSize, int newSize)
+		{
+			resizeRowsToContents();
+		}
 };
 
 #include <QTableWidgetItem>
