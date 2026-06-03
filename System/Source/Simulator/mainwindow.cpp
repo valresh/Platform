@@ -559,10 +559,10 @@ void Draw_RSU_Obj();
 
 void MainWindow::on_RSU_clicked()
 {
-  Init_RSU();
-  Draw_RSU_Obj();
-    // showRSU.Init();
-    // showRSU.Go();
+	//Init_RSU();
+	//Draw_RSU_Obj();
+		 showRSU.Init();
+		 showRSU.Go();
 
 }
 
