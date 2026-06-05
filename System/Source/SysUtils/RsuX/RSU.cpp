@@ -780,7 +780,7 @@ void Obr_RSU( MapData & data )
         pOldClass = pClass;
         LPCSTR pEntry = nn.Entry(nn.pOrd[n],crc);
         CBase* pBase = nn.GetNameData(n+1);
-        W_AICHANNEL * pAI = (W_AICHANNEL*)pBase;
+//        W_AICHANNEL * pAI = (W_AICHANNEL*)pBase;
         RSU_Obj & Obj = RSU_Pnt.push_back();
         Obj.ObjName = pEntry;
         Obj.Model = pClass;
@@ -788,6 +788,30 @@ void Obr_RSU( MapData & data )
         Obj.File = Files[kFiles-1].Str;
         Obj.Ref = NULL;
     }
+}
+
+RSU_Obj * SortObj[50000];
+
+int CompRSUObj ( const void * p1, const void * p2 )
+{
+	RSU_Obj * o1 = *(RSU_Obj**)p1;
+	RSU_Obj * o2 = *(RSU_Obj**)p2;
+	return strcmp ( o1->ObjName.Str, o2->ObjName.Str );
+}
+
+int TestRSUObj ( const void * p1, const void * p2 )
+{
+	const char * Name = (const char *)p1;
+	RSU_Obj * o2 =*(RSU_Obj**)p2;
+	return strcmp ( Name, o2->ObjName.Str );
+}
+
+RSU_Obj * Find_RSU( const char * Name )
+{
+	RSU_Obj ** pO = (RSU_Obj**)bsearch ( Name, SortObj, RSU_Pnt.L, sizeof(RSU_Obj*), TestRSUObj );
+	if ( pO )
+		return *pO;
+	return NULL;
 }
 
 void Init_RSU()
@@ -799,7 +823,14 @@ void Init_RSU()
     {
     Obr_RSU( mapdata[n]);
     }
-  KKK();
+	for ( int n = 0; n < RSU_Pnt.L; n++ )
+		{
+			RSU_Obj * pO = RSU_Pnt.Get( n );
+			SortObj[n] = pO;
+		}
+	qsort ( SortObj, RSU_Pnt.L, sizeof(RSU_Obj*), CompRSUObj );
+	RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
+	KKK();
   }
 
 void Q_DECL_EXPORT Load_RSU()

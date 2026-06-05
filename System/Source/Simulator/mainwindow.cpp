@@ -155,7 +155,7 @@ extern char TrendsName[256];
 
 void MainWindow::updateTime()
 {
-    if ( TrendsName[0])
+	if ( TrendsName[0])
     {
     ShowTrend ( TrendsName );
     }
