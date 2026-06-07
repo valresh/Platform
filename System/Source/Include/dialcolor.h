@@ -4,21 +4,21 @@
 #include <QWidget>
 #include <QPaintEvent>
 
-#ifdef UTILS_EXPORTS
-#define INDLL Q_DECL_EXPORT
-#else
-#define INDLL Q_DECL_IMPORT
-#endif
+// #ifdef UTILS_EXPORTS
+// #define INDLL Q_DECL_EXPORT
+// #else
+// #define INDLL Q_DECL_IMPORT
+// #endif
 
-class INDLL DialColor : public QWidget
+class DialColor : public QWidget
 {
-    Q_OBJECT
-  public:
-    QColor color;
-    explicit DialColor( QWidget *parent = nullptr);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void paintEvent(QPaintEvent *event);
-  signals:
+		Q_OBJECT
+	public:
+		QColor color;
+		explicit DialColor( QWidget *parent = nullptr);
+		virtual void mousePressEvent(QMouseEvent *event);
+		virtual void paintEvent(QPaintEvent *event);
+	signals:
 };
 
 #endif // DIALCOLOR_H

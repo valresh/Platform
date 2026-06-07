@@ -111,12 +111,12 @@ public slots:
     void on_Start_clicked();
     void started();
     void stopped();
-    void loaded();
+		void loaded();
     void Show_Sheme ( const char * Sheme,  const char * Selected );
     void ClosedShema( ShowSheme * I );
-    void OutTxt( const char * Txt );
-//    void OutMsg( const char * Title, const char * Txt, QMessageBox::StandardButtons flags, QMessageBox::StandardButton def, int * Res );
-    void OutMsg( const char * Title, const char * Txt, DWORD flags, DWORD def, int * Res );
+		void Out_Txt( const char * Txt );
+//		void Out_Msg( const char * Title, const char * Txt, QMessageBox::StandardButtons flags, QMessageBox::StandardButton def, int * Res );
+		void Out_Msg( const char * Title, const char * Txt, DWORD flags, DWORD def, int * Res );
     void ShowSteps ( int kSteps );
     void ShowAccel ( double Accel );
     void ShowData_1 ( double ProcUser, int Mem );

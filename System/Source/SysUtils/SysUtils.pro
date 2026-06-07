@@ -51,7 +51,6 @@ SOURCES += \
     WinFiles.cpp \
     WriteParams.cpp \
     WriteState.cpp \
-    dialcolor.cpp \
     sysutils.cpp
 
 HEADERS += \

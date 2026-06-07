@@ -428,7 +428,7 @@ public:
         blockVar_States,
         blockVar_All
     };
-protected:
+public:
     BYTE* pObjAddr;
     BYTE* pThisAddr;
     SVarInfo * ClassVarInfo;
@@ -808,10 +808,22 @@ int TestRSUObj ( const void * p1, const void * p2 )
 
 RSU_Obj * Find_RSU( const char * Name )
 {
+	Init_RSU();
 	RSU_Obj ** pO = (RSU_Obj**)bsearch ( Name, SortObj, RSU_Pnt.L, sizeof(RSU_Obj*), TestRSUObj );
 	if ( pO )
 		return *pO;
 	return NULL;
+}
+bool  Q_DECL_EXPORT GetRSUVar( const char * Name, const char * Field, BYTE **Addr, eVarType & Type)
+{
+	RSU_Obj * pObj = Find_RSU( Name );
+	if ( pObj == NULL )
+		return false;
+	KBmBase * blk = (KBmBase*)pObj->pBase;
+	USHORT VarSize /*= NULL*/;
+	LPCSTR Enum;
+	int k = blk->kClassVarInfo;
+	return true;
 }
 
 void Init_RSU()
@@ -819,10 +831,10 @@ void Init_RSU()
   if ( WasInit )
     return;
   WasInit = true;
-  for ( int n = 0; n < k_mapdata; n++ )
-    {
-    Obr_RSU( mapdata[n]);
-    }
+	 for ( int n = 0; n < k_mapdata; n++ )
+		 {
+		 Obr_RSU( mapdata[n]);
+		 }
 	for ( int n = 0; n < RSU_Pnt.L; n++ )
 		{
 			RSU_Obj * pO = RSU_Pnt.Get( n );

@@ -109,8 +109,6 @@ struct SendMsg // : public QObject
       void SysOutMsg( const char * Title, const char * Txt, DWORD flags,
                        DWORD def,int * Res );
       signals:
-//        void OutTxt( const char * Txt );
-//        void OutMsg( const char * Title, const char * Txt, DWORD flags, DWORD def, int * Res );
     };
 
 extern IN_DLL SendMsg Sender;

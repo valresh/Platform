@@ -43,6 +43,7 @@ SOURCES += \
     qtableviewmouse.cpp \
     showrsu.cpp \
     winlist.cpp \
+    dialcolor.cpp \
   wtrends.cpp
 
 HEADERS += \

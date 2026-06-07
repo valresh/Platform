@@ -99,22 +99,30 @@ struct IN_DLL C_BP
 	}
 #define  BreakPoint bp
 
-struct Q_DECL_EXPORT SendMsg : public QObject
-    {
-    Q_OBJECT;
-    public:
-      SendMsg();
-      void Init();
-      void SysOutTxt( const char * Txt );
-      void SysOutMsg( const char * Title, const char * Txt, DWORD flags,
-                       DWORD def,int * Res );
-      signals:
-        void OutTxt( const char * Txt );
-        void OutMsg( const char * Title, const char * Txt, DWORD flags, DWORD def, int * Res );
-    };
+// struct Q_DECL_EXPORT SendMsg : public QObject
+//     {
+//     Q_OBJECT;
+//     public:
+//       SendMsg();
+//       void Init();
+//       void SysOutTxt( const char * Txt );
+//       void SysOutMsg( const char * Title, const char * Txt, DWORD flags,
+//                        DWORD def,int * Res );
+//       signals:
+//         void OutTxt( const char * Txt );
+//         void OutMsg( const char * Title, const char * Txt, DWORD flags, DWORD def, int * Res );
+//     };
 
-extern IN_DLL SendMsg Sender;
+//extern IN_DLL SendMsg Sender;
 extern IN_DLL PosErrInFile PosErr;
 #define THROW { PosErr.File = __FILE_NAME__; PosErr.Line = __LINE__; throw "Критическая ошибка"; }
+
+typedef
+	void (*tSysOutTxt)(const char *Txt);
+extern IN_DLL tSysOutTxt pSysOutTxt;
+
+typedef
+	void (*tSysOutMsg)(const char *Title, const char *Txt, DWORD flags, DWORD def, int *Res);
+extern IN_DLL tSysOutMsg pSysOutMsg;
 
 //using MsgPtr = void (mainwindow::*)(const char * Txt);

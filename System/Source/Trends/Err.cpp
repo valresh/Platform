@@ -16,6 +16,9 @@ class MainWindow * pMainWindow = NULL;
 PosErrInFile PosErr;
 int SysErrors;
 
+tSysOutTxt pSysOutTxt = NULL;
+tSysOutMsg pSysOutMsg = NULL;
+
 int iKKK = 0;
 void KKK()
 {
@@ -23,7 +26,6 @@ void KKK()
 }
 
 
-//SendMsg Sender;
 ////////////////////////////////////////////////////////////
 void SysAssert( char * File, int Line, int* pNumbAssert )
 {
@@ -42,7 +44,8 @@ void SysAssert( char * File, int Line, int* pNumbAssert )
         char Msg[1024];
         snprintf ( Msg, 1024, "%s ASS в '%s' : File '%s' Line %d", Time, CURR_PROJECT, File, Line );
         int Res = 0;
-        //Sender.SysOutMsg( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
+				if ( pSysOutMsg )
+					(*pSysOutMsg)( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
         if ( Res == QMessageBox::Abort)
             if ( Res == QMessageBox::Abort )
             {
@@ -63,7 +66,8 @@ void MsgErr ( void *rezerv, LPCSTR Fmt, ... )
     va_end(arg);
     int Res = 0;
     SysErrors++;
-    //Sender.SysOutMsg( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
+		if ( pSysOutMsg )
+			(*pSysOutMsg)( "Ошибка", Msg, (DWORD)(QMessageBox::Abort|QMessageBox::Ignore),(DWORD)QMessageBox::Ignore, &Res );
     if ( Res == QMessageBox::Abort )
     {
         QCoreApplication::exit(0);
@@ -87,7 +91,8 @@ void SysMsgErr ( LPCSTR Fmt, ... )
     vsnprintf ( Msg, sizeof(Msg), Fmt, arg );
     if ( Msg[0] != '#' )
         SysErrors++;
-    //Sender.SysOutTxt( Msg );
+		if( pSysOutTxt)
+			(*SysOutTxt)( Msg );
     va_end(arg);
 }
 
@@ -129,13 +134,10 @@ void InitErr(MainWindow * _pMainWindow )
 
 // void SendMsg::Init()
 // {
-// //    connect (this, &SendMsg::OutTxt, pMainWindow, &MainWindow::OutTxt, Qt::DirectConnection );// Qt::QueuedConnection );
-// //    connect (this, &SendMsg::OutMsg, pMainWindow, &MainWindow::OutMsg, Qt::BlockingQueuedConnection );
 // }
 
 // void SendMsg::SysOutTxt(const char *Txt)
 // {
-//     //emit OutTxt( Txt );
 // }
 
 // void SendMsg::SysOutMsg(const char *Title, const char *Txt, DWORD flags, DWORD def, int *Res)

@@ -1,9 +1,7 @@
 #include "RsuX.h"
 #include <cstring>
 //#include <err.h>
-#ifdef LINUX
-//#include "LogFile.h"
-#endif // LINUX
+
 
 template < typename T, size_t N >
 constexpr size_t countof(const T(&arr)[N])

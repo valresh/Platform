@@ -474,7 +474,7 @@ void MainWindow::on_exit_triggered()
     QCoreApplication::exit(0);
 }
 
-void MainWindow::OutTxt( const char * Txt )
+void MainWindow::Out_Txt( const char * Txt )
 {
     if ( Txt[0] == '#' )
         ui->Msg->setText( Txt + 1 );
@@ -484,7 +484,7 @@ void MainWindow::OutTxt( const char * Txt )
     Msgs.Add ( Txt );
 }
 
-void MainWindow::OutMsg( const char * Title, const char * Txt,
+void MainWindow::Out_Msg( const char * Title, const char * Txt,
                         DWORD flags,
                         DWORD def,
                         int * Res )

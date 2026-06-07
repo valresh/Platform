@@ -98,7 +98,7 @@ void Models::Go()
     connect ( this, &Models::ShowSteps, pMainWnd, &MainWindow::ShowSteps,Qt::QueuedConnection );
     connect ( this, &Models::ShowAccel, pMainWnd, &MainWindow::ShowAccel,Qt::QueuedConnection );
     connect ( this, &Models::ShowData, pMainWnd, &MainWindow::ShowData_1,Qt::QueuedConnection );
-    connect ( this, &Models::OutTxt, pMainWnd, &MainWindow::OutTxt,Qt::QueuedConnection );
+		connect ( this, &Models::OutTxt, pMainWnd, &MainWindow::Out_Txt,Qt::QueuedConnection );
     double TimeModel = 0., TimeReal = 0.;
     int Steps = 0;
     QElapsedTimer timer;
