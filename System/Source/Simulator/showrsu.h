@@ -21,8 +21,8 @@ public:
     Q_OBJECT
 public:
     static bool NoRefresh;
-    CMem<RSU_Obj, 1024, 1024> RSU_Pnt;
-    explicit ObjListModel(QObject *parent = nullptr);
+		CMem<RSU_Obj*,256,256>Select_Obj;
+		explicit ObjListModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -190,7 +190,7 @@ public:
     void Refresh();
 private slots:
     void on_Find_clicked();
-    void ShowObject ( LPCSTR ObjName, LPCSTR Model, void * pBase );
+		void ShowObject ( LPCSTR ObjName, LPCSTR Model );
     void SetRSURef( );
 private:
     Ui::ShowRSU *ui;

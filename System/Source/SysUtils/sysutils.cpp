@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <stdio.h>
+BYTE * MMAP( const char * File, int Size );
 
 char PROJECT[32];
 char EXE_PATH[1024];
@@ -111,10 +112,8 @@ int MemUsed( )
   M.lock();
   if ( pMem == NULL )
     {
-    int fd = open ( "/home/resh/Platform/DATA/mem.dat", O_RDWR );
-    pMem = (BYTE*)mmap(0, MAX_MEM, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0 );
-    close ( fd );
-    PosMem = 0;
+		pMem = MMAP( "/home/resh/Platform/DATA/mem.dat", MAX_MEM );
+		PosMem = 0;
     }
 //  assert(PosMem + size < MAX_MEM );
     PosMem = (( PosMem >> 4 ) + 1 ) << 4;
@@ -1149,3 +1148,41 @@ void TxtFromClp( int MaxLen, char * Txt )
     strcat ( Txt, s3 );
     return Txt;
   }
+#include <sys/stat.h>
+
+
+BYTE * MMAP( const char * File, int Size )
+	{
+	int res = access ( File, 4 );
+	int fd;
+	if ( res == 0 )
+		{
+		fd = open ( File, O_RDWR );
+		if ( fd < 0 )
+			fd = open ( File, O_RDWR|O_CREAT,S_IRWXU);
+		if ( fd < 0 )
+			return NULL;
+		struct stat st;
+		int res_s = stat(File, &st);
+		if ( res_s == 0 && st.st_size < Size )
+			{
+#define S 10000
+			char Buf[S];
+			memset (Buf,0,S);
+			int L = 0;
+			while ( L < Size )
+				{
+				write ( fd, Buf, S );
+				L += S;
+				}
+			}
+		}
+	else
+		{
+		fd = open ( File, O_RDWR|O_CREAT,S_IRWXU);
+		}
+	BYTE * pMem = (BYTE*)mmap(0, Size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0 );
+	memset ( pMem, 0, Size);
+	close ( fd );
+	return pMem;
+	}

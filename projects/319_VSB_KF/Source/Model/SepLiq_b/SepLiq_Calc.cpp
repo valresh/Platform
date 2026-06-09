@@ -579,11 +579,13 @@ void CSepLiq::CalcLiq( double dt )
     }
   FINITE(M_Liq);
   if(To_m3 == 0.0)
-	To_m3 = 0.018;
+		To_m3 = 0.018;
   double To_L = To_m3 / Volume;
   double To_M = 1. / To_L;
   Level = M_Liq * To_L;
   _Level = Level * 100.;
+	if ( !_finite(_Level))
+		KKK();
   if ( Level > Lev_max )
     {
     Level = Lev_max;

@@ -31,7 +31,7 @@ class FindObjModel : public QAbstractTableModel
     Q_OBJECT
 public:
     class FindObj * pDial;
-    CMem<FindData,32,32> List;
+		CMem<FindData,32,64> List;
     explicit FindObjModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;

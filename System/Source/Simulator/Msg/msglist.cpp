@@ -17,6 +17,15 @@ MsgList::~MsgList()
 
 void MsgList::Add ( const char * Txt )
 {
+	if ( Model.Msg.L >= 1000 )
+		{
+		if ( Model.Msg.L == 1000 )
+			{
+			CStr & S = Model.Msg.push_back();
+			S = "Слишком много сообщений";
+			}
+		return;
+		}
   CStr & S = Model.Msg.push_back();
   S = Txt;
   int row = Model.columnCount();

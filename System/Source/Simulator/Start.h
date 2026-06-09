@@ -12,7 +12,7 @@ class Start : public QObject
     explicit Start(QObject* parent = nullptr);
     virtual ~Start();
     bool Load();
-    bool Prepare();
+		int Prepare();
     void InitWork();
   public slots:
 

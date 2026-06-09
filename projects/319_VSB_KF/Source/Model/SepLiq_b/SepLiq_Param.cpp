@@ -112,6 +112,8 @@ void CSepLiq::DrawObj ( struct CDrawObjData * pDraw )
 		h = 20;
 	int x0 = pDraw->rc.right + W / 10;//+ w * pDraw->rc.right / 1000 ;
 	int y0 = pDraw->rc.top + H / 10;//+ pDraw->rc.top / 5 ;
+	if ( !_finite(_Level))
+		_Level = 0.;
 	double dL = 1. - _Level * 0.01;
 	if ( dL < 0. )
 	  dL = 0.;

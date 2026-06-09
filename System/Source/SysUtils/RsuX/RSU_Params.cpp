@@ -10,9 +10,11 @@
 typedef uint64_t UINT64;
 
 #include "/home/resh/QtRSU/RSUs/HoneyWell5xx/Include/HoneywellStruct.h"
-
-
 #include "WP_Declare.h"
+
+extern RSU_Obj * RSU_Pnt;
+extern int kRSU;
+extern BYTE * pszObjects;
 
 #undef String_K
 #define String_K(Var,Comm,Len) \
@@ -117,11 +119,14 @@ void PID( void * pBase, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> 
         Boolean(SPLOFL,"SP < Low",false)//Indicates if SP has exceeded its lower limit, as specified by the Set Point Low Limit (SPLOLM).
 }
 
+RSU_Obj * Find_RSU( const char * Name );
 
-void GetObjParams( void * pBase, LPCSTR Model, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW )
+void Q_DECL_EXPORT GetObjParams( LPCSTR ObjName, LPCSTR Model, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW )
 {
     pParamsP->L = 0;
     pParamsW->L = 0;
+		RSU_Obj * pObj = Find_RSU( ObjName );
+		void * pBase = pszObjects + pObj->pBase;
     if ( strcmp ( Model, "AICHANNEL") == 0 )
     {
         AICHANNEL( pBase, pParamsP, pParamsW ) ;

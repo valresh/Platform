@@ -412,15 +412,15 @@ struct CShowData
 
 struct RSU_Obj
 {
-    CStr ObjName;
-    void * pBase;
-    const char * Model;
-    const char * File;
-    const char * Ref;
+	DWORD pBase;
+	char ObjName[64];
+	char Model[32];
+	char File[32];
+	char Ref[64];
 };
 
-IN_DLL void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
-                      CMem<RSU_Obj, 1024, 1024> * pRSU_Pnt);
-IN_DLL void GetObjParams( void * pBase, LPCSTR Model, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW );
+// IN_DLL void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
+//                       CMem<RSU_Obj, 1024, 1024> * pRSU_Pnt);
+IN_DLL void GetObjParams( LPCSTR ObjName, LPCSTR Model, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW );
 
 #endif // PARAMS_H

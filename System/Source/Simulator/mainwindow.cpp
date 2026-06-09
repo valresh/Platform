@@ -18,6 +18,17 @@
 
 //extern Q_DECL_IMPORT PosErrInFile PosErr;
 
+Connect Conn;
+void SysOutTxt(const char *Txt)
+{
+	Conn.SysOutTxt( Txt );
+}
+void SysOutMsg(const char *Title, const char *Txt, DWORD flags, DWORD def, int *Res)
+{
+	Conn.SysOutMsg( Title, Txt, flags, def, Res );
+}
+
+
 void Test();
 const char * MainWindow::StateRead()
 {
@@ -53,7 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
     try
     {
       pMainWnd = this;
-      CLEAR(main_cpu);
+			pSysOutMsg = SysOutMsg;
+			pSysOutTxt = SysOutTxt;
+			CLEAR(main_cpu);
       CLEAR(Set_cpu);
       CLEAR(PD.SysProc)
         // Установка значения
@@ -94,7 +107,9 @@ MainWindow::MainWindow(QWidget *parent)
       connect(&listshem, &ListShem::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
       connect(&Find, &FindObj::ShowSheme, this, &MainWindow::Show_Sheme, Qt::DirectConnection);
       connect(&listtrends, &ListTrends::ShowTrend, this, &MainWindow::ShowTrend, Qt::DirectConnection );
-      InitMes( );
+			connect(&Conn, &Connect::sigSysOutTxt, this, &MainWindow::Out_Txt );
+			connect(&Conn, &Connect::sigSysOutMsg, this, &MainWindow::Out_Msg );
+			InitMes( );
       timer->start( 1000 );
       pHydro = NULL;
       set_thread_affinity( 0 );

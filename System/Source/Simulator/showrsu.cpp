@@ -3,6 +3,10 @@
 #include "Err.h"
 #include "Param.h"
 
+BYTE * pObjBase = NULL;
+
+void GetRSUData( RSU_Obj ** ppRSU_Pnt, int * pkRSU, BYTE ** pObjBase );
+
 ShowRSU::ShowRSU(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShowRSU)
@@ -15,9 +19,11 @@ ShowRSU::ShowRSU(QWidget *parent)
 }
 
 
-void ShowRSU::ShowObject ( LPCSTR ObjName, LPCSTR Model, void * pBase )
+void Q_DECL_IMPORT GetObjParams( LPCSTR ObjName, LPCSTR Model, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW );
+
+void ShowRSU::ShowObject ( LPCSTR ObjName, LPCSTR Model )
 {
-   GetObjParams( pBase, Model, &ui->List_P->Model.Params, &ui->List_W->Model.Params );
+	 GetObjParams( ObjName, Model, &ui->List_P->Model.Params, &ui->List_W->Model.Params );
    Refresh();
 }
 
@@ -33,31 +39,31 @@ void ShowRSU::Refresh()
     ui->List_P->Refresh();
 }
 
-CMem<RSU_Obj, 1024, 1024> * pRSU = NULL;
+CMem<RSU_Obj*,256,256> * pSel;
 
 int CompRSU_Pnt ( const void * p1, const void * p2 )
     {
     int n1 = *(int*)p1;
     int n2 = *(int*)p2;
-    RSU_Obj * pO1 = pRSU->Get( n1 );
-    RSU_Obj * pO2 = pRSU->Get( n2 );
-    return strcmp ( pO1->ObjName, pO2->ObjName );
+		RSU_Obj ** pO1 = pSel->Get(n1);
+		RSU_Obj ** pO2 = pSel->Get(n2);
+		return strcmp ( (*pO1)->ObjName, (*pO2)->ObjName );
     }
 
  int TestRSU_Pnt ( const void * p1, const void * p2 )
     {
-        const char * s1 = (const char *)p1;
-        int n2 = *(int*)p2;
-        RSU_Obj * pO2 = pRSU->Get( n2 );
-        return strcmp ( s1, pO2->ObjName );
+		const char * s1 = (const char *)p1;
+		int n2 = *(int*)p2;
+		RSU_Obj ** pO2 = pSel->Get(n2);
+		return strcmp ( s1, (*pO2)->ObjName );
     }
 
 void ShowRSU::SetRSURef( )
     {
     if ( pConn_Info == NULL )
         return;
-    pRSU = &ui->ListObj->Model.RSU_Pnt;
-    int L = pRSU->L;
+		pSel = &ui->ListObj->Model.Select_Obj;
+		int L = pSel->L;
     if ( L <= 0 )
         return;
     int * O = NewArr ( int, L );
@@ -65,26 +71,26 @@ void ShowRSU::SetRSURef( )
         O[n] = n;
     std::qsort ( O,  L, sizeof(int), CompRSU_Pnt );
     for ( int n = 0; n < pConn_Info->L; n++ )
-    {
-        ConnInfo * pC = pConn_Info->Get ( n );
-        char Name[1024];
-        strcpy ( Name,pC->RSU);
-        int L = strlen ( Name )-1;
-        while ( L >= 0 )
+			{
+			ConnInfo * pC = pConn_Info->Get ( n );
+			char Name[1024];
+			strcpy ( Name,pC->RSU);
+			int L = strlen ( Name )-1;
+			while ( L >= 0 )
         {
-            if ( Name[L] == '.' )
-            {
-                Name[L] = 0;
-                break;
-            }
-            L--;
+				if ( Name[L] == '.' )
+					{
+					Name[L] = 0;
+					break;
+					}
+				L--;
         }
-        int * pN = (int*)std::bsearch ( Name, O, L, sizeof(int), TestRSU_Pnt );
-        if ( pN )
+			int * pN = (int*)std::bsearch ( Name, O, L, sizeof(int), TestRSU_Pnt );
+			if ( pN )
         {
-            int n = *pN;
-            RSU_Obj * pO = pRSU->Get( n );
-            pO->Ref = pC->Model;
+				int n = *pN;
+				RSU_Obj ** pO = pSel->Get(n);
+				strcpy((*pO)->Ref,pC->Model);
         }
     }
     //
@@ -92,14 +98,15 @@ void ShowRSU::SetRSURef( )
 
  void ShowRSU::Init()
    {
-    if (WasInit)
+//	 GetRSUData( &RSU_Pnt, &kRSU, &pObjBase );
+		if (WasInit)
     {
     ObjListModel::NoRefresh = true;
     List_W_Model::NoRefresh = true;
     List_P_Model::NoRefresh = true;
     return;
     }
-    WasInit = true;
+		WasInit = true;
     const char * Files[16];
     int kFiles = 0;
     const char * Models[256];
@@ -140,10 +147,10 @@ void ObjListTab::mousePressEvent(QMouseEvent* event)
             return;
         QModelIndex I =  Ind[0];
         int r = I.row();
-        if ( r < 0 || r >= Model.RSU_Pnt.L )
+				if ( r < 0 || r >= Model.Select_Obj.L )
             return;
-        RSU_Obj * pObj = Model.RSU_Pnt.Get(r);
-        emit ShowObject ( pObj->ObjName.Str, pObj->Model, pObj->pBase );
+				RSU_Obj ** pObj = Model.Select_Obj.Get(r);
+				emit ShowObject ( (*pObj)->ObjName, (*pObj)->Model, (*pObj)->pBase + pObjBase );
         }
     //   void show(CParams * pParams, int kParams);
 }
@@ -166,7 +173,7 @@ ObjListModel::ObjListModel(QObject *parent)
 void ObjListModel::Refresh()
 {
     QModelIndex item_idx_s = index(0,0);
-    QModelIndex item_idx_e = index(RSU_Pnt.L-1,1);
+		QModelIndex item_idx_e = index( Select_Obj.L-1,1);
     emit dataChanged(item_idx_s ,item_idx_e );
 }
 
@@ -217,24 +224,24 @@ QVariant ObjListModel::data(const QModelIndex &index, int role) const
     if ( NoRefresh )
         return QVariant();
     int r = index.row();
-    if ( r >= RSU_Pnt.L )
+		if ( r >= Select_Obj.L )
         return QVariant();
     int c = index.column();
     switch (role)
     {
     case Qt::DisplayRole:
     {
-        RSU_Obj * pObj =  RSU_Pnt.Get( r );
+				RSU_Obj ** pObj = Select_Obj.Get(r);// (*pObj)[r];
         if ( c == 0 )
         {
-				return QString( pObj->ObjName );
+				return QString( (*pObj)->ObjName );
         }
 				if ( c == 1 )
 				{
-					return QString( pObj->Model );
+					return QString( (*pObj)->Model );
 				}
-		 if ( pObj->Ref )
-        return QString ( pObj->Ref );
+		 if ( (*pObj)->Ref[0] )
+				return QString ( (*pObj)->Ref );
      break;
     }
     case Qt::EditRole:
@@ -592,14 +599,15 @@ QVariant List_P_Model::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
+								CMem<RSU_Obj*,256,256> & Select_Obj );
 
 void ShowRSU::on_Find_clicked()
     {
-//    CMem<RSU_Obj, 1024, 1024> RSU_Pnt;
     QString  Filtr = ui->Filtr->currentText();
     QString  File = ui->File->currentText();
     QString  TypeObj = ui->TypeObj->currentText();
-    GetRSUPnt ( STR(Filtr), STR(File), STR(TypeObj), &ui->ListObj->Model.RSU_Pnt );
+		GetRSUPnt ( STR(Filtr), STR(File), STR(TypeObj), ui->ListObj->Model.Select_Obj);
     SetRSURef( );
     ObjListModel::NoRefresh = false;
 //    List_W_Model::NoRefresh = true;

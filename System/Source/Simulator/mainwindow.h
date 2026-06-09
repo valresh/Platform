@@ -28,7 +28,23 @@ class MainWindow;
 QT_END_NAMESPACE
 
 #define MAX_SHEME 50
+class Connect : public QObject
+{
+	Q_OBJECT
+	public:
+	void SysOutMsg(const char *Title, const char *Txt, DWORD flags, DWORD def, int *Res)
+		{
+		emit sigSysOutMsg ( Title, Txt, flags, def, Res );
+		}
+	void SysOutTxt(const char *Txt)
+		{
+		emit sigSysOutTxt( Txt );
+		}
 
+	signals:
+	void sigSysOutTxt(const char *Txt);
+	void sigSysOutMsg(const char *Title, const char *Txt, DWORD flags, DWORD def, int *Res);
+};
 
 class MainWindow : public QMainWindow
 {

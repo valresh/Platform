@@ -7,207 +7,6 @@
 #include "RSU/rsu_basemodel.h"
 
 #define fs std::filesystem
-#if 0
-class  KRsuMemoryManager
-{
-public:
-    struct SWorkingKvant
-    {
-        SWorkingKvant()
-        {
-            memset(this, 0, sizeof(*this));
-        }
-        ~SWorkingKvant()
-        {
-        }
-        BYTE* pMem;
-        mio::mmap_sink* hVarMapping;
-        DWORD Size;
-        DWORD Pos;
-        SWorkingKvant* pNext;
-        BYTE* GetMemory(DWORD count);
-        DWORD LeftFree();
-    };
-    SWorkingKvant* m_pFirstBlock, * m_pActiveBlock;
-    DWORD m_addMBytes;
-public:
-    KRsuMemoryManager();
-    ~KRsuMemoryManager();
-protected:
-    KRsuMemoryManager(KRsuMemoryManager& src);
-    KRsuMemoryManager& operator = (KRsuMemoryManager& src);
-public:
-    size_t Create(LPCSTR pszName, DWORD nInitialMBytes, DWORD addMBytes = 20);
-    BYTE* AllocMemory(DWORD size);
-    void Clear();
-};
-
-BYTE* OnDiskAllocator(mio::mmap_sink*& mapper, bool& isNew, DWORD requestedSeze, LPCSTR fileName, LPCSTR fileExtension, bool forceCreate);
-
-BYTE* KRsuMemoryManager::SWorkingKvant::GetMemory(DWORD count)
-{
-    if ((Pos + count) > Size)
-        return NULL;
-    BYTE* p = &pMem[Pos];
-    memset(p, 0, count);
-    Pos += count;
-    return p;
-}
-
-DWORD KRsuMemoryManager::SWorkingKvant::LeftFree()
-{
-    return Size - Pos;
-}
-
-//////////////////////////////////////////////////////////////////////////
-static LPCSTR s_szMemExt = "mem";
-KRsuMemoryManager::KRsuMemoryManager()
-    : m_pFirstBlock(NULL)
-    , m_pActiveBlock(NULL)
-    , m_addMBytes(10)
-{
-}
-
-KRsuMemoryManager::~KRsuMemoryManager()
-{
-}
-
-KRsuMemoryManager::KRsuMemoryManager(KRsuMemoryManager& src)
-{
-}
-
-KRsuMemoryManager& KRsuMemoryManager::operator = (KRsuMemoryManager& src)
-{
-    return *this;
-}
-
-static DWORD toBytes(DWORD mb)
-{
-    return mb * 1024 * 1024;
-}
-
-size_t KRsuMemoryManager::Create(LPCSTR pszName, DWORD nInitialMBytes, DWORD addMBytes /*= 20*/)
-{
-
-    if (m_pActiveBlock)
-        return m_pActiveBlock->LeftFree();
-    m_addMBytes = addMBytes;
-    SWorkingKvant kvant;
-    bool bNewMem;
-
-    DWORD lenName = (DWORD)strlen(pszName) + 1;
-
-    DWORD realSize = toBytes(nInitialMBytes) + sizeof(kvant) + lenName;
-
-    kvant.pMem = OnDiskAllocator(kvant.hVarMapping, bNewMem, realSize, pszName, s_szMemExt, true);
-
-    if (!kvant.pMem)
-        return 0;
-
-    kvant.Size = toBytes(nInitialMBytes);
-
-#ifndef LINUX
-    memset(kvant.pMem, 0, realSize);
-#endif // NOT LINUX
-
-    memcpy(kvant.GetMemory(sizeof(kvant)), &kvant, sizeof(kvant));
-
-    m_pFirstBlock = m_pActiveBlock = (SWorkingKvant*)kvant.pMem;
-
-    LPSTR psz4Name = (LPSTR)m_pActiveBlock->GetMemory(lenName);
-    strncpy(psz4Name, pszName, lenName);
-    return m_pActiveBlock->Size;
-}
-
-BYTE* KRsuMemoryManager::AllocMemory(DWORD size)
-{
-
-    if (!size)
-        return NULL;
-    if (!m_pActiveBlock)
-        return NULL;
-    DWORD needSize = size;
-    size += sizeof(DWORD);
-
-    BYTE* p = NULL;
-    if (m_pActiveBlock->LeftFree() >= size)
-        p = m_pActiveBlock->GetMemory(size);
-    else
-    {
-        for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext)
-        {
-            if (pb->LeftFree() >= size)
-            {
-                p = pb->GetMemory(size);
-                break;
-            }
-        }
-    }
-    if (!p)
-    {
-        int n = 0;
-        for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext, ++n)
-        {
-        }
-        SWorkingKvant kvant;
-
-        DWORD bytes = std::max(size, toBytes(m_addMBytes)) + sizeof(kvant);
-        LPCSTR pName = (LPCSTR)m_pFirstBlock->pMem + sizeof(kvant);
-        char szName[512];
-        snprintf(szName, sizeof(szName), "%s_%d", pName, n);
-
-        bool bNewMem;
-        kvant.pMem = OnDiskAllocator(kvant.hVarMapping, bNewMem, bytes, szName, s_szMemExt, true);
-
-        if (!kvant.pMem)
-            return NULL;
-        kvant.Size = bytes;// - sizeof(kvant);
-#ifndef LINUX
-        memset(kvant.pMem, 0, bytes);
-#endif // NOT LINUX
-        memcpy(kvant.GetMemory(sizeof(kvant)), &kvant, sizeof(kvant));
-        m_pActiveBlock->pNext = (SWorkingKvant*)kvant.pMem;
-        m_pActiveBlock = m_pActiveBlock->pNext;
-        p = m_pActiveBlock->GetMemory(size);
-    }
-
-    *(DWORD*)p = needSize;
-    p += sizeof(DWORD);
-
-    return p;
-}
-
-void KRsuMemoryManager::Clear()
-{
-    for (SWorkingKvant* pb = m_pFirstBlock; pb; pb = pb->pNext)
-    {
-        pb->Pos = sizeof(SWorkingKvant);
-    }
-    m_pActiveBlock = m_pFirstBlock;
-}
-//264566856 "H5xx_Objs""noname"
-
-BYTE* OnDiskAllocator(mio::mmap_sink*& mapper, bool& isNew, DWORD requestedSeze, LPCSTR fileName, LPCSTR fileExtension, bool forceCreate)
-{
-    isNew = false;
-    auto filePath = fs::path(fileName);
-    if (!fs::exists(filePath))
-    {
-        auto fullFileName = std::string(fileName) + "." + std::string(fileExtension);
-        auto folderPath = "/home/resh/Platform/projects/319_VSB_KF/Memory/";//rsuGetMemoryPath();
-        filePath = (fs::path(folderPath) / fullFileName).generic_string();
-    }
-
-    // if (!MapFile(mapper, filePath, requestedSeze, forceCreate, isNew))
-    // {
-    //     return nullptr;
-    // }
-
-    isNew = forceCreate;
-    return (BYTE*)mapper->data();
-}
-#endif
-//////////////////////////////////////////////////////////////////////////////////////////////
 
 class  KNoName
 {
@@ -628,7 +427,14 @@ void TestMem2()
 //    const char * File;
 //};
 
-CMem<RSU_Obj, 1024, 1024> RSU_Pnt;
+#define MAX_RSU 50000
+
+RSU_Obj * RSU_Pnt = NULL;
+int kRSU = 0;
+BYTE * pszObjects = NULL;
+
+
+
 #define MAX_FILES 16
 #define MAX_MODELS 256
 CStr Files[MAX_FILES];
@@ -696,25 +502,25 @@ bool FiltrName( char * szFilter, const char * Name )
 }
 
 void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
-                            CMem<RSU_Obj, 1024, 1024> * pRSU_Pnt)
+								 CMem<RSU_Obj*,256,256> & Select_Obj )
 {
-    pRSU_Pnt->Reset();
     char F[1024];
     strcpy ( F, Filtr );
-    for ( int n = 0; n < RSU_Pnt.L; n++ )
-    {
-        RSU_Obj * Obj =  RSU_Pnt.Get( n );
+		for ( int n = 0; n < kRSU; n++ )
+			{
+				RSU_Obj * Obj =  &RSU_Pnt[n];
         if ( TypeObj[0] != '*' && strcmp ( Obj->Model, TypeObj ))
             continue;
         if ( File[0] != '*' && strcmp ( Obj->File, File ))
             continue;
-        if ( !FiltrName( F, Obj->ObjName.Str ))
-            continue;
-        RSU_Obj & SEL = pRSU_Pnt->push_back();
-        SEL.ObjName.Str = Obj->ObjName.Str;
-        SEL.File = Obj->File;
-        SEL.Model = Obj->Model;
-        SEL.pBase = Obj->pBase;
+				if ( !FiltrName( F, Obj->ObjName ))
+					continue;
+				RSU_Obj *& pSel = Select_Obj.push_back();
+				pSel = &RSU_Pnt[n];
+				// strcpy( SEL.ObjName, Obj->ObjName );
+				// strcpy( SEL.File, Obj->File );
+				// strcpy( SEL.Model, Obj->Model );
+		//     SEL.pBase = Obj->pBase;
     }
 }
 
@@ -767,6 +573,7 @@ void Obr_RSU( MapData & data )
     nn.pOrd = (KNoName::SBuffOrd*)(pMem + header.shiftOrds);
     nn.pszString4Ords = pMem + header.shiftBuff4Ords;
     nn.pszObjects = pMem + header.shiftObjects;
+		pszObjects = nn.pszObjects;
     if ( nn.pHeader->nCount <= 0 )
         return;
     Files[kFiles++] = data.FileName;
@@ -781,35 +588,35 @@ void Obr_RSU( MapData & data )
         LPCSTR pEntry = nn.Entry(nn.pOrd[n],crc);
         CBase* pBase = nn.GetNameData(n+1);
 //        W_AICHANNEL * pAI = (W_AICHANNEL*)pBase;
-        RSU_Obj & Obj = RSU_Pnt.push_back();
-        Obj.ObjName = pEntry;
-        Obj.Model = pClass;
-        Obj.pBase = pBase;
-        Obj.File = Files[kFiles-1].Str;
-        Obj.Ref = NULL;
+				RSU_Obj & Obj = RSU_Pnt[kRSU++];
+				strcpy( Obj.ObjName, pEntry );
+				strcpy( Obj.Model, pClass );
+				Obj.pBase = (BYTE*)pBase - pszObjects;
+				strcpy( Obj.File, Files[kFiles-1].Str);
+				Obj.Ref[0] = 0;
     }
 }
 
-RSU_Obj * SortObj[50000];
+RSU_Obj ** SortObj;
 
 int CompRSUObj ( const void * p1, const void * p2 )
 {
 	RSU_Obj * o1 = *(RSU_Obj**)p1;
 	RSU_Obj * o2 = *(RSU_Obj**)p2;
-	return strcmp ( o1->ObjName.Str, o2->ObjName.Str );
+	return strcmp ( o1->ObjName, o2->ObjName );
 }
 
 int TestRSUObj ( const void * p1, const void * p2 )
 {
 	const char * Name = (const char *)p1;
 	RSU_Obj * o2 =*(RSU_Obj**)p2;
-	return strcmp ( Name, o2->ObjName.Str );
+	return strcmp ( Name, o2->ObjName );
 }
 
 RSU_Obj * Find_RSU( const char * Name )
 {
 	Init_RSU();
-	RSU_Obj ** pO = (RSU_Obj**)bsearch ( Name, SortObj, RSU_Pnt.L, sizeof(RSU_Obj*), TestRSUObj );
+	RSU_Obj ** pO = (RSU_Obj**)bsearch ( Name, SortObj, kRSU, sizeof(RSU_Obj*), TestRSUObj );
 	if ( pO )
 		return *pO;
 	return NULL;
@@ -825,23 +632,31 @@ bool  Q_DECL_EXPORT GetRSUVar( const char * Name, const char * Field, BYTE **Add
 	int k = blk->kClassVarInfo;
 	return true;
 }
+BYTE * MMAP( const char * File, int Size );
 
 void Init_RSU()
   {
   if ( WasInit )
     return;
   WasInit = true;
-	 for ( int n = 0; n < k_mapdata; n++ )
-		 {
-		 Obr_RSU( mapdata[n]);
-		 }
-	for ( int n = 0; n < RSU_Pnt.L; n++ )
+	int size = 16 + ( sizeof ( RSU_Obj ) + sizeof ( RSU_Obj*) )*MAX_RSU;
+	BYTE * pMem = MMAP( "/home/resh/Platform/DATA/RSU.dat", size );
+	RSU_Pnt = (RSU_Obj*)(pMem+16);
+	RSU_Pnt[0];
+	SortObj = (RSU_Obj**)(pMem+16+sizeof ( RSU_Obj )*MAX_RSU);
+	kRSU = 0;
+	for ( int n = 0; n < k_mapdata; n++ )
 		{
-			RSU_Obj * pO = RSU_Pnt.Get( n );
-			SortObj[n] = pO;
+		Obr_RSU( mapdata[n]);
 		}
-	qsort ( SortObj, RSU_Pnt.L, sizeof(RSU_Obj*), CompRSUObj );
+	for ( int n = 0; n < kRSU; n++ )
+		{
+		RSU_Obj * pO = &RSU_Pnt[n];
+		SortObj[n] = pO;
+		}
+	qsort ( SortObj, kRSU, sizeof(RSU_Obj*), CompRSUObj );
 	RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
+	*(int*)pMem = kRSU;
 	KKK();
   }
 
@@ -900,3 +715,9 @@ void LoadRsuModelsCP( )
 		return ret;
 	}
 
+void GetRSUData( RSU_Obj ** ppRSU_Pnt, int * pkRSU, BYTE ** pObjBase )
+	{
+		*ppRSU_Pnt = RSU_Pnt;
+		*pkRSU = kRSU;
+		*pObjBase = nn.pszObjects;
+	}

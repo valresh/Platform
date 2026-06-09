@@ -79,18 +79,19 @@ void DCU::start()
 bool WasStarted = false;
 void Start::start()
 {
-    if ( WasStarted )
+	if ( WasStarted )
     {
         sleep(1);
         return;
     }
     WasStarted = true;
     emit started();
-    if ( !Prepare())
-    {
+		int Res = Prepare();
+		if ( Res != 0 )
+			{
         //  emit stopped();
         return;
-    }
+			}
     //
     emit loaded();
     // while ( !Stop )
@@ -106,7 +107,7 @@ void Start::start()
     Sem_Model.release(2);
     pMainWnd->StartWork.quit();
     KKK();
-}
+	}
 
 
 
@@ -150,7 +151,7 @@ IBaseModel * LoadStdLib ( const char * Dll, const char * Name )
     return pLib;
 }
 
-bool Start::Prepare()
+int Start::Prepare()
 {
     if ( !PROPS.ReadProp())
     {
