@@ -54,7 +54,7 @@ const char * MainWindow::ParamsWrite()
   strcpy( Txt, ui->ParamsWrite->text().toStdString().c_str() );
   return Txt;
 }
-
+#include <dlfcn.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , Find(this)
@@ -114,8 +114,14 @@ MainWindow::MainWindow(QWidget *parent)
       pHydro = NULL;
       set_thread_affinity( 0 );
       time = QTime::currentTime();
-      //        on_Start_clicked();
-      }
+			void * m_handle = dlopen( "/home/resh/Platform/EXE/libH5xxServerMemCtrl.so",  RTLD_NOW);//open((final_path + final_name).c_str());
+			if (!m_handle)
+				{
+				const char * err = dlerror();
+				err = NULL;
+				}
+			on_Start_clicked();
+			}
     catch ( const char * error )
     {
         KKK();

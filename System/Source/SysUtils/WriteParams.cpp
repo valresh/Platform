@@ -66,7 +66,7 @@ int SaveParamsToFile( LPCTSTR FilePath )
   zi.dosDate = 0;
   zi.internal_fa = 0;
   zi.external_fa = 0;
-  filetime( TmpFile, &zi.tmz_date,&zi.dosDate);
+//	filetime( TmpFile, &zi.tmz_date,&zi.dosDate);
   //
   int err = getFileCrc( TmpFile, buf, size_buf, &crcFile);
   //

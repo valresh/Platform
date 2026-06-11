@@ -85,3 +85,5 @@ HEADERS += \
     dialcolor.h \
     sysutils.h
 
+LIBS += ~/Platform/EXE/libzlib.so
+

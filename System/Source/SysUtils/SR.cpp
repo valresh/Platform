@@ -465,7 +465,7 @@ DWORD CSRFile::Close()
     zi.dosDate = 0;
     zi.internal_fa = 0;
     zi.external_fa = 0;
-    filetime(szTmpFile, &zi.tmz_date,&zi.dosDate);
+//		filetime(szTmpFile, &zi.tmz_date,&zi.dosDate);
     char filenameinzip[_MAX_FNAME];
     sprintf( filenameinzip, "%s/TEMP/ZipFile.dat", PROJECT_ROOT );
     QFile::remove( filenameinzip );

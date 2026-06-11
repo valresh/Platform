@@ -240,6 +240,7 @@ int Start::Prepare()
       for(int i=0; i<kRuntimeModel; i++)
         {
         g_RuntimeModels[i]->Init(0);
+				g_RuntimeModels[i]->ModelFlags |= Flag_NoInit;
         }
       }
     SysMSG ("#Инициализация рабочих моделей");
@@ -273,12 +274,14 @@ int Start::Prepare()
     SysMSG( "#Начальный шаг моделей объектов" );
     for ( int n = 0; n < IBaseModel::kObjects; n++ )
         {
+			if ( n >= 25201 )
+				KKK();
         IBaseModel * pModel = IBaseModel::AllObjects[n];
         if ( pModel == NULL )
             continue;
         if ( pModel->ModelFlags & Flag_NoStep0 )
             continue;
-        if ( pModel->Step0( ))
+				if ( pModel->Step0( ))
             {
             SysMSG( "Ошибка на начальном шаге объекта '%s'('%s')",
                    (char*)pModel->ObjName, (char*)pModel->Model );
@@ -318,17 +321,18 @@ int Start::Prepare()
             Err = true;
             }
         }
-    if(Err) return false;
+		if(Err)
+					return __LINE__;
     if( SysErrors > 0 )
       {
       SysMSG(  "Загрузка остановлена из-за ошибок" );
-      return false;
+			return __LINE__;
       }
     SysMSG( "#Модель работает" );
 //
     pCtrlConn->SetData( sd_SetConnections, &pMainWnd->showRSU.pConn_Info );
     KKK();
-    return true;
+		return 0;
     }
 
 IBaseModel * Load_ObjectEx ( const char * DllName, const char * ObjName )

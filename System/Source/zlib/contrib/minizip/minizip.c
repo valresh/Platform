@@ -59,11 +59,8 @@ uLong filetime(f, tmzip, dt)
 }
 #else
 #ifdef unix
-uLong filetime(f, tmzip, dt)
-    char *f;               /* name of file to get info on */
-    tm_zip *tmzip;         /* return value: access, modific. and creation times */
-    uLong *dt;             /* dostime */
-{
+uLong filetime(char *f, tm_zip *tmzip, uLong *dt)
+	{
   int ret=0;
   struct stat s;        /* results of stat() */
   struct tm* filedate;
@@ -112,10 +109,7 @@ uLong filetime(f, tmzip, dt)
 #endif
 
 
-
-
-int check_exist_file(filename)
-    const char* filename;
+int check_exist_file(const char* filename)
 {
     FILE* ftestexist;
     int ret = 1;
