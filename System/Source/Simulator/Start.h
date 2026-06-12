@@ -31,8 +31,9 @@ class Models : public QObject
     Q_OBJECT
 public:
     ProcessData PD;
-
-    explicit Models(QObject* parent = nullptr);
+		qint64 total_tm;
+		qint64 total_step;
+		explicit Models(QObject* parent = nullptr);
     virtual ~Models();
     void Go();
     void OutMsg( const char * Fmt, ... );
@@ -57,8 +58,9 @@ class Hydro : public QObject
     Q_OBJECT
   public:
     ProcessData PD;
-
-    explicit Hydro(QObject* parent = nullptr);
+		qint64 total_tm;
+		qint64 total_step;
+		explicit Hydro(QObject* parent = nullptr);
     virtual ~Hydro();
     void Go();
   public slots:
@@ -72,7 +74,8 @@ class DCU : public QObject
     Q_OBJECT
 public:
     ProcessData PD;
-
+		qint64 total_tm;
+		qint64 total_step;
     explicit DCU(QObject* parent = nullptr);
     virtual ~DCU();
     void Go();

@@ -348,8 +348,6 @@ int Q_DECL_EXPORT RestoreStateFromFile ( LPCTSTR File_Path )
     {
       nRestCnt++;
       nCnt++;
-      if ( nRestCnt >= 77512 )
-        KKK();
       DWORD Key = 0;
       RD_VAR(Key)
       if ( Key == 0x27000000 )// Признак модели

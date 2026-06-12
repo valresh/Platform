@@ -101,7 +101,8 @@ void Models::Go()
 		connect ( this, &Models::OutTxt, pMainWnd, &MainWindow::Out_Txt,Qt::QueuedConnection );
     double TimeModel = 0., TimeReal = 0.;
     int Steps = 0;
-    QElapsedTimer timer;
+		QElapsedTimer workTime;
+		QElapsedTimer timer;
     timer.start();
     while ( !Stop )
     {
@@ -168,13 +169,14 @@ void Models::Go()
         if ( kStep % 50 == 0 )
         {
             //      PD.Set();
-            Step100( timer.elapsed(), TimeModel, TimeReal, Steps );
+						Step100( timer.elapsed(), TimeModel, TimeReal, Steps );
             emit ShowAccel ( pSys->Accel );
             //      emit ShowData( PD.ProcUer, PD.Mem );
         }
         //////////////////////////////////////////////////
         Sem_Model.acquire(2);
         try {
+				workTime.start();
         double dt = pSys->dt;
         pSys->dModelT += dt;
         for ( int n = 0; n < kGroups; n++)
@@ -192,20 +194,21 @@ void Models::Go()
         pCtrlConn->SetData(sd_SetConnTypy, &bIn);
         pCtrlConn->StepT(dt);
         for(int nModel = 0; nModel < IBaseModel::kObjects; nModel++)
-        {
-              if ( nModel >= 2772 )
-              KKK();
+					{
             IBaseModel * pModel = IBaseModel::AllObjects[nModel];
             if(pModel->TypeObj == IBaseModel::RSU_Obj || pModel->TypeObj == IBaseModel::Y_Obj)
                 continue;
             if( pModel == pCtrlConn )
                 continue;
             int Res = pModel->StepT( dt );
-        }
+					}
         bIn = true;
         pCtrlConn->SetData(sd_SetConnTypy, &bIn);
         pCtrlConn->StepT(dt);
-        } catch (...)
+				qint64 tm = workTime.elapsed();
+				total_tm += tm;
+				total_step++;
+				} catch (...)
         {
             SysMSG ( "Работа моделей закончилась аварийно" );
         }
@@ -220,7 +223,8 @@ void Hydro::Go()
     ptrace(PTRACE_TRACEME, getpid(), 0, 0);
     connect ( this, &Hydro::ShowData, pMainWnd, &MainWindow::ShowData_2,Qt::QueuedConnection );
     try {
-    while ( !Stop )
+		QElapsedTimer workTime;
+		while ( !Stop )
     {
         if ( Pause )
         {
@@ -234,13 +238,17 @@ void Hydro::Go()
         }
         //////////////////////////////////////////////////
         Sem_Hydro.acquire();
-        double dt = 1e-4;
+				workTime.start();
+				double dt = 1e-4;
         bool SetVarInHydro = true;
         for ( int n = 0; n < kGroups; n++)
         {
             HydroGroups->HydroCalc(n, dt, SetVarInHydro );
         }
-        Sem_Model.release();
+				qint64 tm = workTime.elapsed();
+				total_tm += tm;
+				total_step++;
+				Sem_Model.release();
         if ( kStep % 50 == 0 )
         {
             //      PD.Set();
@@ -270,7 +278,8 @@ void DCU::Go()
         }
  //
     try {
-    while ( !Stop )
+		QElapsedTimer workTime;
+		while ( !Stop )
     {
        if ( Pause )
         {
@@ -279,13 +288,17 @@ void DCU::Go()
         }
        Sem_DCU.acquire();
        double dt = pSys->dt;
-       for (int i = 0; i < kRuntimeModel; i++)
+			 workTime.start();
+			 for (int i = 0; i < kRuntimeModel; i++)
            {
                if (!g_RuntimeModels[i])
                    continue;
                g_RuntimeModels[i]->StepT(dt);
            }
-        Sem_Model.release();
+			 qint64 tm = workTime.elapsed();
+			 total_tm += tm;
+			 total_step++;
+				Sem_Model.release();
     }
     } catch (...)
     {

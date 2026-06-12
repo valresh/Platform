@@ -157,6 +157,8 @@ void FindObj::SetList ( char *szFilter)
                 pName = pObj->Model;
             else
                 pName = pObj->ObjName;
+						if ( pName == NULL )
+							return;
             char * pModelName = pObj->Model;
             Res = FiltrName( szFilter, pName );
             }

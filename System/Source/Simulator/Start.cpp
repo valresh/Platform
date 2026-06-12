@@ -30,6 +30,8 @@ Start::~Start()
 
 Models::Models(QObject* parent )
 {
+	total_tm = 0;
+	total_step = 0;
 
 }
 
@@ -45,6 +47,8 @@ void Models::start()
 
 Hydro::Hydro(QObject* parent )
 {
+	total_tm = 0;
+	total_step = 0;
 
 }
 
@@ -61,6 +65,8 @@ void Hydro::start()
 
 DCU::DCU(QObject* parent )
 {
+	total_tm = 0;
+	total_step = 0;
 
 }
 
@@ -236,10 +242,10 @@ int Start::Prepare()
       LoadRsuModelsCP( kRuntimeModel );
       //pTrend->Init(0);
       //
-      SysMSG ("#Инициализация РСУ");
       for(int i=0; i<kRuntimeModel; i++)
         {
-        g_RuntimeModels[i]->Init(0);
+				SysMSG ("#Инициализация '%s'", g_RuntimeModels[i]->ObjName.Str );
+				g_RuntimeModels[i]->Init(0);
 				g_RuntimeModels[i]->ModelFlags |= Flag_NoInit;
         }
       }
@@ -247,8 +253,8 @@ int Start::Prepare()
     IBaseModel * pObj = IBaseModel::pFirst;
     int kIter = 0;
     while ( pObj )
-    {
-        if ( pObj->ModelFlags & Flag_NoInit )
+			{
+			if ( pObj->ModelFlags & Flag_NoInit )
         {
             pObj = pObj->pNext;
             continue;
@@ -256,26 +262,35 @@ int Start::Prepare()
         kIter++;
         pObj->Init( 3 );
         pObj = pObj->pNext;
-    }
+			}
     IBaseModel::SetObjectsList();
     SysMSG ("#Чтение параметров");
     char Path[1024];
-    sprintf ( Path, "%sDATA/STATES/%s.parm", PROJECT_ROOT, pMainWnd->ParamsRead());     int ResParm = RestoreParamsFromFile( Path );
+		sprintf ( Path, "%sDATA/STATES/%s.parm", PROJECT_ROOT, pMainWnd->ParamsRead());
+		int ResParm = RestoreParamsFromFile( Path );
     //
    if ( pMainWnd->Use_RSU())
       {
-      SysMSG ("#Инициализация РСУ");
-      for(int i=0; i<kRuntimeModel; i++)
-        {
-        g_RuntimeModels[i]->Step0();
-        }
-      }
+			for( int i=0; i<kRuntimeModel; i++ )
+				{
+				if( !g_RuntimeModels[i] )
+					continue;
+				char RSUPath[1024];
+				sprintf_s ( RSUPath, 1024, "%sDATA/STATES/RSU/%s_%s.parm", PROJECT_ROOT, g_RuntimeModels[i]->ObjName, pMainWnd->ParamsRead() );
+				SysMSG ("#Чтение параметров '%s'", g_RuntimeModels[i]->ObjName.Str );
+				if(g_RuntimeModels[i]->SetData(sd_RestoreRSUParams, RSUPath) && g_RuntimeModels[i]->TypeObj != IBaseModel::MainModel)
+					SysMSG("Ошибка чтения параметров '%s'", g_RuntimeModels[i]->ObjName.Str);
+				}
+			for(int i=0; i<kRuntimeModel; i++)
+				{
+				SysMSG ("#Начальный шаг '%s'", g_RuntimeModels[i]->ObjName.Str );
+				int Res = g_RuntimeModels[i]->Step0();
+				}
+			}
     bool Err = false;
     SysMSG( "#Начальный шаг моделей объектов" );
     for ( int n = 0; n < IBaseModel::kObjects; n++ )
         {
-			if ( n >= 25201 )
-				KKK();
         IBaseModel * pModel = IBaseModel::AllObjects[n];
         if ( pModel == NULL )
             continue;
@@ -296,12 +311,22 @@ int Start::Prepare()
     char PathState[1024];
     sprintf ( PathState, "%sDATA/STATES/%s.dat", PROJECT_ROOT, pMainWnd->StateRead() );
     int ResState = RestoreStateFromFile( PathState );
-    if ( pMainWnd->Use_RSU())
+		if ( pMainWnd->Use_RSU())
       {
-      SysMSG ("#Первый шаг РСУ");
+			for( int i=0; i<kRuntimeModel; i++ )
+				{
+				if( !g_RuntimeModels[i] )
+					continue;
+				char RSUPath[1024];
+				sprintf_s ( RSUPath, 1024, "%sDATA/STATES/RSU/%s_%s.dat", PROJECT_ROOT, g_RuntimeModels[i]->ObjName, pMainWnd->StateRead() );
+				SysMSG ("#Чтение состояния '%s'", g_RuntimeModels[i]->ObjName.Str );
+				if(g_RuntimeModels[i]->SetData(sd_RestoreRSUState, RSUPath) && g_RuntimeModels[i]->TypeObj != IBaseModel::MainModel)
+					SysMSG("Ошибка чтения состояния '%s'", g_RuntimeModels[i]->ObjName.Str);
+				}
       for(int i=0; i<kRuntimeModel; i++)
         {
-        g_RuntimeModels[i]->Step1();
+				SysMSG ("#Первый шаг '%s'", g_RuntimeModels[i]->ObjName.Str );
+				g_RuntimeModels[i]->Step1();
         }
       }
     SysMSG( "#Первый шаг моделей объектов" );
@@ -322,12 +347,12 @@ int Start::Prepare()
             }
         }
 		if(Err)
-					return __LINE__;
-    if( SysErrors > 0 )
-      {
-      SysMSG(  "Загрузка остановлена из-за ошибок" );
 			return __LINE__;
-      }
+	 //  if( SysErrors > 0 )
+	 //    {
+	 //    SysMSG(  "Загрузка остановлена из-за ошибок" );
+			// return __LINE__;
+	 //    }
     SysMSG( "#Модель работает" );
 //
     pCtrlConn->SetData( sd_SetConnections, &pMainWnd->showRSU.pConn_Info );

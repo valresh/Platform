@@ -441,7 +441,7 @@ CStr Files[MAX_FILES];
 int kFiles = 0;
 CStr Models[MAX_MODELS];
 int kModels = 0;
-bool WasInit = false;
+int WasInitRSU = 0;
 
 bool CompName ( int Level, int lN, const char * Name, int lS, char * S )
 {
@@ -610,6 +610,8 @@ int TestRSUObj ( const void * p1, const void * p2 )
 {
 	const char * Name = (const char *)p1;
 	RSU_Obj * o2 =*(RSU_Obj**)p2;
+	if ( o2 == NULL )
+		return 1;
 	return strcmp ( Name, o2->ObjName );
 }
 
@@ -636,9 +638,9 @@ BYTE * MMAP( const char * File, int Size );
 
 void Init_RSU()
   {
-  if ( WasInit )
+	if ( WasInitRSU > 0 )
     return;
-  WasInit = true;
+	WasInitRSU = 1;
 	int size = 16 + ( sizeof ( RSU_Obj ) + sizeof ( RSU_Obj*) )*MAX_RSU;
 	BYTE * pMem = MMAP( "/home/resh/Platform/DATA/RSU.dat", size );
 	RSU_Pnt = (RSU_Obj*)(pMem+16);
@@ -657,8 +659,7 @@ void Init_RSU()
 	qsort ( SortObj, kRSU, sizeof(RSU_Obj*), CompRSUObj );
 	RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
 	*(int*)pMem = kRSU;
-	KKK();
-  }
+	}
 
 void Q_DECL_EXPORT Load_RSU()
 	{

@@ -114,12 +114,12 @@ MainWindow::MainWindow(QWidget *parent)
       pHydro = NULL;
       set_thread_affinity( 0 );
       time = QTime::currentTime();
-			void * m_handle = dlopen( "/home/resh/Platform/EXE/libH5xxServerMemCtrl.so",  RTLD_NOW);//open((final_path + final_name).c_str());
-			if (!m_handle)
-				{
-				const char * err = dlerror();
-				err = NULL;
-				}
+			// void * m_handle = dlopen( "/home/resh/Platform/EXE/libH5xxServerMemCtrl.so",  RTLD_NOW);//open((final_path + final_name).c_str());
+			// if (!m_handle)
+			// 	{
+			// 	const char * err = dlerror();
+			// 	err = NULL;
+			// 	}
 			on_Start_clicked();
 			}
     catch ( const char * error )
@@ -180,7 +180,28 @@ void MainWindow::updateTime()
     {
     ShowTrend ( TrendsName );
     }
-    // for ( int n = 0; n < kSH; n++ )
+	if ( pModels->total_step > 0 )
+		{
+		double Tm = ((double)pModels->total_tm/(double)pModels->total_step);
+		char Txt[128];
+		sprintf( Txt, "%4.2lf", Tm );
+		ui->modes_ms->setText( Txt );
+		}
+	if ( pHydro->total_step > 0 )
+	{
+		double Tm = ((double)pHydro->total_tm/(double)pHydro->total_step);
+		char Txt[128];
+		sprintf( Txt, "%4.2lf", Tm );
+		ui->hydro_ms->setText( Txt );
+	}
+	if ( pDCU->total_step > 0 )
+	{
+		double  Tm = ((double)pDCU->total_tm/(double)pDCU->total_step);
+		char Txt[128];
+		sprintf( Txt, "%4.2lf", Tm );
+		ui->RSU_ms->setText( Txt );
+	}
+		// for ( int n = 0; n < kSH; n++ )
     // {
     //   pSHm[n]->updateTime();
     // }
