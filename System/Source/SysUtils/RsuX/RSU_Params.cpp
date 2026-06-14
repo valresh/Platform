@@ -84,7 +84,7 @@ void AOCHANNEL( void * pBase, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16
 void PID( void * pBase, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> * pParamsW )
 {
     BYTE * pB = (BYTE*)pBase;
-    W_PID * pW = (W_PID*)(pB-8);
+		W_PID * pW = (W_PID*)(pB-8);
     CMem<CParams, 16, 16> * pList = pParamsP;
     String_K(DESC,"Block Descriptor",132*4)
     String_K(EUDESC,"Block Engineering Units Descriptor",24*4)
@@ -104,19 +104,19 @@ void PID( void * pBase, CMem<QParams, 16, 16> * pParamsP, CMem<QParams, 16, 16> 
     Real(OPHILM,"OPHILM",105.)
     ///////////////////////////////////////////////////////////////
      pList = pParamsW;
-        Real(PV,"PV",NaN)
-        Real(PVP,"PV %",NaN)
-        Real(SP,"SP",0)
-        Real(SPP,"SP %",NaN)
-        Real(SPTV,"SP Target Value (in Engineering Units)",0)//Contains the target SP value when SP ramping is being used
-        Real(DEV,"PV-SP",NaN)//- The difference between the Process Variable (PV) and Set Point (SP).
-        Real(OP,"OP %",0)
-        Real(OPEU,"OP in Engineering Units",0)
-        Enumeration(MODE,"(MODE=Man(0),Auto(1),Cas(2),...",Man,Auto,Cas,BCas,Normal,None,Def=Man)//
-        Real(CV,"CV",NaN)//The result (calculated value) of the function blocks. The value may be in Percent or Engineering Units, depending on the function block
-        Real(DELCV,"Delta CV",NaN)//in Percent.
-        Boolean(SPHIFL,"SP > High",false)//Indicates if SP has exceeded its upper limit, as specified by the Set Point High Limit (SPHILM).
-        Boolean(SPLOFL,"SP < Low",false)//Indicates if SP has exceeded its lower limit, as specified by the Set Point Low Limit (SPLOLM).
+		Real(PV,"PV",NaN)
+		Real(PVP,"PV %",NaN)
+		Real(SP,"SP",0)
+		Real(SPP,"SP %",NaN)
+		Real(SPTV,"SP Target Value (in Engineering Units)",0)//Contains the target SP value when SP ramping is being used
+		Real(DEV,"PV-SP",NaN)//- The difference between the Process Variable (PV) and Set Point (SP).
+		Real(OP,"OP %",0)
+		Real(OPEU,"OP in Engineering Units",0)
+		Enumeration(MODE,"(MODE=Man(0),Auto(1),Cas(2),...",Man,Auto,Cas,BCas,Normal,None,Def=Man)//
+		Real(CV,"CV",NaN)//The result (calculated value) of the function blocks. The value may be in Percent or Engineering Units, depending on the function block
+		Real(DELCV,"Delta CV",NaN)//in Percent.
+		Boolean(SPHIFL,"SP > High",false)//Indicates if SP has exceeded its upper limit, as specified by the Set Point High Limit (SPHILM).
+		Boolean(SPLOFL,"SP < Low",false)//Indicates if SP has exceeded its lower limit, as specified by the Set Point Low Limit (SPLOLM).
 }
 
 RSU_Obj * Find_RSU( const char * Name );
@@ -126,7 +126,9 @@ void Q_DECL_EXPORT GetObjParams( LPCSTR ObjName, LPCSTR Model, CMem<QParams, 16,
     pParamsP->L = 0;
     pParamsW->L = 0;
 		RSU_Obj * pObj = Find_RSU( ObjName );
-		void * pBase = pszObjects + pObj->pBase;
+		int n = pObj->nMap;
+		BYTE * pM = Map[n].Addr;
+		void * pBase = pM + pObj->pBase;
     if ( strcmp ( Model, "AICHANNEL") == 0 )
     {
         AICHANNEL( pBase, pParamsP, pParamsW ) ;
@@ -144,6 +146,16 @@ void Q_DECL_EXPORT GetObjParams( LPCSTR ObjName, LPCSTR Model, CMem<QParams, 16,
     }
 }
 
+void * Q_DECL_EXPORT GetObj( const char *  ObjName )
+{
+	RSU_Obj * pObj = Find_RSU( ObjName );
+	if ( pObj == NULL )
+		return NULL;
+	int n = pObj->nMap;
+	BYTE * pM = Map[n].Addr;
+	void * pBase = (pM + pObj->pBase - 8 );
+	return pBase;
+}
 
 
 

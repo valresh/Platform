@@ -8,7 +8,7 @@ static double dy_0 = 0;
 static double M_0 = 1.001;
 
 static double dx_p = 0.;
-static double dy_p = -65.;
+static double dy_p = -43.;
 static double M_p = 1.;
 
 void P_to_P( SS * pSS, QPointF Pos, double & X, double & Y )

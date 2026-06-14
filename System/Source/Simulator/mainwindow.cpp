@@ -55,6 +55,7 @@ const char * MainWindow::ParamsWrite()
   return Txt;
 }
 #include <dlfcn.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , Find(this)

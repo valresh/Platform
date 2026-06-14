@@ -12,7 +12,7 @@ ShowRSU::ShowRSU(QWidget *parent)
     , ui(new Ui::ShowRSU)
 {
     WasInit = false;
-		setWindowTitle( "Параметры блоков" );
+		setWindowTitle( "РСУ" );
     ui->setupUi(this);
     connect( ui->ListObj, &ObjListTab::ShowObject, this, &ShowRSU::ShowObject );
 		pConn_Info = NULL;
@@ -99,7 +99,8 @@ void ShowRSU::SetRSURef( )
  void ShowRSU::Init()
    {
 //	 GetRSUData( &RSU_Pnt, &kRSU, &pObjBase );
-		if (WasInit)
+	 setWindowTitle( "РСУ" );
+	if ( WasInit )
     {
     ObjListModel::NoRefresh = true;
     List_W_Model::NoRefresh = true;
@@ -124,6 +125,21 @@ void ShowRSU::SetRSURef( )
     TypeObj->addItem( "AICHANNEL" );
     TypeObj->addItem( "AOCHANNEL" );
     TypeObj->addItem( "PID" );
+//
+		QComboBox * Filtr = ui->Filtr;
+		Filtr->setInsertPolicy(QComboBox::InsertPolicy::InsertAtBottom);
+		Char<1024>Path;
+		Path.Prt( "%sTEMP/ShowRSU.txt", PROJECT_ROOT);
+		FILE * F = fopen ( Path, "rt");
+		if ( F )
+		{
+			char Str[128];
+			while ( fgets ( Str, 127, F ))
+			{
+				Filtr->addItem( Str );
+			}
+			fclose ( F );
+		}
 }
 
 ShowRSU::~ShowRSU()
@@ -603,8 +619,28 @@ void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
 								CMem<RSU_Obj*,256,256> & Select_Obj );
 
 void ShowRSU::on_Find_clicked()
-    {
-    QString  Filtr = ui->Filtr->currentText();
+	{
+	QComboBox * ComboFiltr = ui->Filtr;
+	Char<1024>Path;
+	Path.Prt( "%sTEMP/ShowRSU.txt", PROJECT_ROOT);
+	FILE * F = fopen ( Path, "wt");
+	if ( F )
+		{
+		QString  Curr = ui->Filtr->currentText();
+		int i = ui->Filtr->findText( Curr );
+		if ( i < 0 )
+			{
+			ui->Filtr->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
+			ui->Filtr->addItem( Curr );
+			}
+		int k = ComboFiltr->count();
+		for ( int n = 0; n <k; n++ )
+		{
+			fprintf ( F, "%s\n", STR(ComboFiltr->itemText(n)));
+		}
+		fclose ( F );
+		}
+		QString  Filtr = ui->Filtr->currentText();
     QString  File = ui->File->currentText();
     QString  TypeObj = ui->TypeObj->currentText();
 		GetRSUPnt ( STR(Filtr), STR(File), STR(TypeObj), ui->ListObj->Model.Select_Obj);

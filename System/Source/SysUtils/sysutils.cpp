@@ -1164,6 +1164,10 @@ BYTE * MMAP( const char * File, int Size )
 			return NULL;
 		struct stat st;
 		int res_s = stat(File, &st);
+		if ( Size == 0 )
+			{
+			Size = st.st_size;
+			}
 		if ( res_s == 0 && st.st_size < Size )
 			{
 #define S 10000
@@ -1182,7 +1186,13 @@ BYTE * MMAP( const char * File, int Size )
 		fd = open ( File, O_RDWR|O_CREAT,S_IRWXU);
 		}
 	BYTE * pMem = (BYTE*)mmap(0, Size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0 );
-	memset ( pMem, 0, Size);
+	if ( pMem == (void*)(-1))
+	{
+		EACCES;
+		int err = errno;
+		return NULL;
+	}
+//		memset ( pMem, 0, Size);
 	close ( fd );
 	return pMem;
 	}

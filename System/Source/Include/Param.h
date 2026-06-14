@@ -413,11 +413,26 @@ struct CShowData
 struct RSU_Obj
 {
 	DWORD pBase;
+	int nMap;
 	char ObjName[64];
 	char Model[32];
 	char File[32];
 	char Ref[64];
 };
+
+#define MAX_DATA 64
+struct MapData
+{
+	char FileName[32];
+	int Size;
+	BYTE * Addr;
+};
+
+extern MapData mapdata[MAX_DATA];
+extern int k_mapdata;
+
+extern MapData Map[MAX_DATA];
+extern int k_Map;
 
 // IN_DLL void GetRSUPnt ( const char * Filtr, const char * File, const char * TypeObj,
 //                       CMem<RSU_Obj, 1024, 1024> * pRSU_Pnt);

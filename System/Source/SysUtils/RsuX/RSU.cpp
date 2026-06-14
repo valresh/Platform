@@ -6,7 +6,10 @@
 #include <Split.h>
 #include "RSU/rsu_basemodel.h"
 
+
 #define fs std::filesystem
+MapData Map[MAX_DATA];
+int k_Map;
 
 class  KNoName
 {
@@ -548,22 +551,12 @@ void AddClass  ( LPCSTR pClass )
      Models[kModels++] = pClass;
 }
 
-#define MAX_DATA 64
-struct MapData
-{
-  char FileName[32];
-  int Size;
-  BYTE * Addr;
-};
-
-extern MapData mapdata[MAX_DATA];
-extern int k_mapdata;
 #define countof(array) (sizeof(array)/sizeof(array[0]))
 static rsu_cp::RsuClientsHolder g_RsuHolder;
 static IBaseModel * RuntimeModels[eRM_COUNT];
 int iRuntimeModel = 0;
 
-void Obr_RSU( MapData & data )
+void Obr_RSU( int nMap, MapData & data )
     {
     nn.pHeader = (KNoName::SNoNameHeader*)data.Addr;
     BYTE* pMem = (BYTE*)nn.pHeader;
@@ -591,11 +584,12 @@ void Obr_RSU( MapData & data )
 				RSU_Obj & Obj = RSU_Pnt[kRSU++];
 				strcpy( Obj.ObjName, pEntry );
 				strcpy( Obj.Model, pClass );
-				Obj.pBase = (BYTE*)pBase - pszObjects;
+				Obj.pBase = (BYTE*)pBase - data.Addr;
 				strcpy( Obj.File, Files[kFiles-1].Str);
 				Obj.Ref[0] = 0;
-    }
-}
+				Obj.nMap = nMap;
+			}
+	}
 
 RSU_Obj ** SortObj;
 
@@ -634,31 +628,55 @@ bool  Q_DECL_EXPORT GetRSUVar( const char * Name, const char * Field, BYTE **Add
 	int k = blk->kClassVarInfo;
 	return true;
 }
+
 BYTE * MMAP( const char * File, int Size );
+#include <QDirIterator>
 
 void Init_RSU()
   {
 	if ( WasInitRSU > 0 )
-    return;
+		return;
 	WasInitRSU = 1;
 	int size = 16 + ( sizeof ( RSU_Obj ) + sizeof ( RSU_Obj*) )*MAX_RSU;
 	BYTE * pMem = MMAP( "/home/resh/Platform/DATA/RSU.dat", size );
 	RSU_Pnt = (RSU_Obj*)(pMem+16);
 	RSU_Pnt[0];
 	SortObj = (RSU_Obj**)(pMem+16+sizeof ( RSU_Obj )*MAX_RSU);
-	kRSU = 0;
-	for ( int n = 0; n < k_mapdata; n++ )
+	if ( *(int*)pMem == 0 )
 		{
-		Obr_RSU( mapdata[n]);
-		}
-	for ( int n = 0; n < kRSU; n++ )
-		{
-		RSU_Obj * pO = &RSU_Pnt[n];
-		SortObj[n] = pO;
-		}
-	qsort ( SortObj, kRSU, sizeof(RSU_Obj*), CompRSUObj );
-	RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
-	*(int*)pMem = kRSU;
+		Char<1024>Path;
+		Path.Prt ( "%sMemory/", PROJECT_ROOT );
+		QDir Dir ( Path.Str);
+		kRSU = 0;
+		int n = 0;
+//		Dir.setNameFilters(QStringList("*.noname"));
+//		Dir.setFilter( QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+		QStringList fileList = Dir.entryList();
+		int k = fileList.count();
+		for (int i = 0; i < k; i++)
+			{
+			char File[256];
+			strcpy( File,	STR(fileList[i]));
+			if ( strstr ( File, ".noname") == NULL )
+				continue;
+			Path.Prt ( "%sMemory/%s", PROJECT_ROOT, File );
+			char * P = strchr ( File, '.' );
+			*P = 0;
+			strcpy( Map[i].FileName,	File );
+			Map[i].Addr = MMAP( Path.Str, 0 );
+			k_Map++;
+			Obr_RSU( i, Map[i] );
+			KKK();
+			}
+		for ( int n = 0; n < kRSU; n++ )
+			{
+			RSU_Obj * pO = &RSU_Pnt[n];
+			SortObj[n] = pO;
+			}
+		qsort ( SortObj, kRSU, sizeof(RSU_Obj*), CompRSUObj );
+		RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
+		*(int*)pMem = kRSU;
+	}
 	}
 
 void Q_DECL_EXPORT Load_RSU()
