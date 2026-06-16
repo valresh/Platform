@@ -165,6 +165,8 @@ IBaseModel::IBaseModel( bool )
 IBaseModel::IBaseModel( char * _Name ) :
   Points ( &RootPoint, ComparePoints, NULL, 0 )
 {
+	if ( strstr ( _Name, "XXX"))
+		KKK();
   ClearAndConnect( );
   TypeObj = MainModel;
   ObjName = _Name;
@@ -173,7 +175,9 @@ IBaseModel::IBaseModel( char * _Name ) :
 IBaseModel::IBaseModel( char * _Name, IBaseModel * _pMain ) :
   Points ( &RootPoint, ComparePoints, NULL, 0 )
 {
-  ClearAndConnect( );
+	if ( strstr ( _Name, "XXX"))
+		KKK();
+	ClearAndConnect( );
   pMain = _pMain;
   if ( pMain )
   {
@@ -188,7 +192,9 @@ IBaseModel::IBaseModel( char * _Name, IBaseModel * _pMain ) :
 
 void IBaseModel::SetName( char * _Name, IBaseModel * _pMain )
 {
-  pMain = _pMain;
+	if ( strstr ( _Name, "XXX"))
+		KKK();
+	pMain = _pMain;
   TypeObj = SubModel;
   ObjName = _Name;
 }

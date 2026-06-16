@@ -2,13 +2,13 @@
 #include <basemodel.h>
 #include "ICBsPool.h"
 
-class KClientModel
+class KClientModelXXX
   : public IBaseModel
   , protected ICBsPool
 {
   DWORD m_nAcsFindStep;
 public:
-  KClientModel( LPSTR ObjName );
+	KClientModelXXX( LPSTR ObjName );
   // Интерфейс IBaseModel
   virtual int Init( int );
   virtual int Step0();

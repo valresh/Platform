@@ -153,7 +153,7 @@ void * Q_DECL_EXPORT GetObj( const char *  ObjName )
 		return NULL;
 	int n = pObj->nMap;
 	BYTE * pM = Map[n].Addr;
-	void * pBase = (pM + pObj->pBase - 8 );
+	void * pBase = (pM + pObj->pBase );
 	return pBase;
 }
 

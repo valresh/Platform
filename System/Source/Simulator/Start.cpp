@@ -254,6 +254,8 @@ int Start::Prepare()
     int kIter = 0;
     while ( pObj )
 			{
+			if ( pObj->ObjName.Str && strstr( pObj->ObjName.Str, "XXX" ))
+				KKK();
 			if ( pObj->ModelFlags & Flag_NoInit )
         {
             pObj = pObj->pNext;
@@ -280,17 +282,39 @@ int Start::Prepare()
 				SysMSG ("#Чтение параметров '%s'", g_RuntimeModels[i]->ObjName.Str );
 				if(g_RuntimeModels[i]->SetData(sd_RestoreRSUParams, RSUPath) && g_RuntimeModels[i]->TypeObj != IBaseModel::MainModel)
 					SysMSG("Ошибка чтения параметров '%s'", g_RuntimeModels[i]->ObjName.Str);
+				IBaseModel * pObj = IBaseModel::pFirst;
+				while ( pObj )
+				{
+					if ( pObj->ObjName.Str && strstr( pObj->ObjName.Str, "XXX" ))
+						KKK();
+					pObj = pObj->pNext;
+				}
 				}
 			for(int i=0; i<kRuntimeModel; i++)
 				{
 				SysMSG ("#Начальный шаг '%s'", g_RuntimeModels[i]->ObjName.Str );
 				int Res = g_RuntimeModels[i]->Step0();
+				IBaseModel * pObj = IBaseModel::pFirst;
+				while ( pObj )
+				{
+					if ( pObj->ObjName.Str && strstr( pObj->ObjName.Str, "XXX" ))
+						KKK();
+					pObj = pObj->pNext;
+				}
 				}
 			}
     bool Err = false;
     SysMSG( "#Начальный шаг моделей объектов" );
-    for ( int n = 0; n < IBaseModel::kObjects; n++ )
+		while ( pObj )
+		{
+			if ( pObj->ObjName.Str && strstr( pObj->ObjName.Str, "XXX" ))
+				KKK();
+			pObj = pObj->pNext;
+		}
+		for ( int n = 0; n < IBaseModel::kObjects; n++ )
         {
+			if ( n == 25201 )
+				KKK();
         IBaseModel * pModel = IBaseModel::AllObjects[n];
         if ( pModel == NULL )
             continue;
@@ -298,11 +322,11 @@ int Start::Prepare()
             continue;
 				if ( pModel->Step0( ))
             {
-            SysMSG( "Ошибка на начальном шаге объекта '%s'('%s')",
+						SysMSG( "#Ошибка на начальном шаге объекта '%s'('%s')",
                    (char*)pModel->ObjName, (char*)pModel->Model );
             //      Critical( "Ошибка на начальном шаге объекта '%s'('%s')",
             //               (char*)pModel->ObjName, (char*)pModel->Model );
-            Err = true;
+						//??Err = true;
             }
         }
     if(Err)
@@ -343,7 +367,7 @@ int Start::Prepare()
                    (char*)pModel->ObjName, (char*)pModel->Model );
             //      Critical( "Ошибка на первом шагe объекта '%s'('%s')",
             //               (char*)pModel->ObjName, (char*)pModel->Model );
-            Err = true;
+//??            Err = true;
             }
         }
 		if(Err)

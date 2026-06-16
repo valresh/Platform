@@ -137,6 +137,8 @@ CBase* KNoName::GetNameData(int ID)
 
     return nullptr;
 }
+
+
 LPCSTR KNoName::Class(SBuffOrd& _ord, DWORD& crc)
 {
     if (!pszString4Ords)
@@ -146,6 +148,10 @@ LPCSTR KNoName::Class(SBuffOrd& _ord, DWORD& crc)
 
     SBuffRecSeparator* buf = (SBuffRecSeparator*)(pszString4Ords + _ord.nClass);
     crc = buf->crc32;
+		if ( strstr(buf->str, "Pnt") )
+		{
+			int k = 0;
+		}
     return buf->str;
 }
 
@@ -356,6 +362,7 @@ void TestMem()
     LPCSTR pClass = nn.Class(nn.pOrd[n],crc);
     LPCSTR pEntry = nn.Entry(nn.pOrd[n],crc);
     CBase* pBase = nn.GetNameData(n);
+		LPCSTR pClass2 = nn.s_ClassNames[pBase->ID_CLASS];
     W_AICHANNEL * pAI = (W_AICHANNEL*)pBase;
     BYTE * pW = (BYTE*)static_cast<W_AICHANNEL_W*>(pAI);
     pW -= 20;
@@ -555,9 +562,23 @@ void AddClass  ( LPCSTR pClass )
 static rsu_cp::RsuClientsHolder g_RsuHolder;
 static IBaseModel * RuntimeModels[eRM_COUNT];
 int iRuntimeModel = 0;
+bool InitNames = true;
+typedef struct CBaseH
+{
+	DWORD size;// размер структуры в байтах
+	DWORD ID_CLASS;// идентификатор класса
+	DWORD ID_PNT_NAME;// идентификатор конкретной точки связи
+} CBaseH;
 
 void Obr_RSU( int nMap, MapData & data )
     {
+	 if ( InitNames )
+			{
+#undef HONEY_TYPE
+#define HONEY_TYPE(ID,Var,Name) nn.s_ClassNames[ID] = Name;
+#include </home/resh/QtRSU/RSUs/HoneyWell5xx/Include/HoneywellType.hpp>
+			InitNames = false;
+			}
     nn.pHeader = (KNoName::SNoNameHeader*)data.Addr;
     BYTE* pMem = (BYTE*)nn.pHeader;
     if ( pMem == NULL )
@@ -569,6 +590,16 @@ void Obr_RSU( int nMap, MapData & data )
 		pszObjects = nn.pszObjects;
     if ( nn.pHeader->nCount <= 0 )
         return;
+///////////////////////////////////
+		// int P = 0;
+		// int n = 0;
+		// while ( n < nn.pHeader->nCount )
+		// {
+		// 	CBaseH * pBase = (CBaseH*)(pszObjects+P);
+		// 	P += pBase->size;
+		// 	LPCSTR pClass2 = nn.s_ClassNames[pBase->ID_CLASS];
+		// 	n++;
+		// }
     Files[kFiles++] = data.FileName;
     DWORD crc = 0;
     const char * pOldClass = "";
@@ -580,10 +611,13 @@ void Obr_RSU( int nMap, MapData & data )
         pOldClass = pClass;
         LPCSTR pEntry = nn.Entry(nn.pOrd[n],crc);
         CBase* pBase = nn.GetNameData(n+1);
+				LPCSTR pClass2 = nn.s_ClassNames[pBase->ID_CLASS];
 //        W_AICHANNEL * pAI = (W_AICHANNEL*)pBase;
 				RSU_Obj & Obj = RSU_Pnt[kRSU++];
 				strcpy( Obj.ObjName, pEntry );
 				strcpy( Obj.Model, pClass );
+				if ( strstr (Obj.Model,"PntTypeInfo"))
+					KKK();
 				Obj.pBase = (BYTE*)pBase - data.Addr;
 				strcpy( Obj.File, Files[kFiles-1].Str);
 				Obj.Ref[0] = 0;
@@ -617,16 +651,13 @@ RSU_Obj * Find_RSU( const char * Name )
 		return *pO;
 	return NULL;
 }
+
 bool  Q_DECL_EXPORT GetRSUVar( const char * Name, const char * Field, BYTE **Addr, eVarType & Type)
 {
-	RSU_Obj * pObj = Find_RSU( Name );
-	if ( pObj == NULL )
-		return false;
-	KBmBase * blk = (KBmBase*)pObj->pBase;
-	USHORT VarSize /*= NULL*/;
-	LPCSTR Enum;
-	int k = blk->kClassVarInfo;
-	return true;
+	// RSU_Obj * pObj = Find_RSU( Name );
+	// if ( pObj == NULL )
+	// 	return false;
+	return false;
 }
 
 BYTE * MMAP( const char * File, int Size );
@@ -642,12 +673,11 @@ void Init_RSU()
 	RSU_Pnt = (RSU_Obj*)(pMem+16);
 	RSU_Pnt[0];
 	SortObj = (RSU_Obj**)(pMem+16+sizeof ( RSU_Obj )*MAX_RSU);
-	if ( *(int*)pMem == 0 )
-		{
 		Char<1024>Path;
 		Path.Prt ( "%sMemory/", PROJECT_ROOT );
 		QDir Dir ( Path.Str);
 		kRSU = 0;
+		k_Map = 0;
 		int n = 0;
 //		Dir.setNameFilters(QStringList("*.noname"));
 //		Dir.setFilter( QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
@@ -658,6 +688,8 @@ void Init_RSU()
 			char File[256];
 			strcpy( File,	STR(fileList[i]));
 			if ( strstr ( File, ".noname") == NULL )
+				continue;
+			if ( strstr ( File, "H5xx_Info"))
 				continue;
 			Path.Prt ( "%sMemory/%s", PROJECT_ROOT, File );
 			char * P = strchr ( File, '.' );
@@ -676,7 +708,6 @@ void Init_RSU()
 		qsort ( SortObj, kRSU, sizeof(RSU_Obj*), CompRSUObj );
 		RSU_Obj * pO = Find_RSU( "43FI401.43FT401" );
 		*(int*)pMem = kRSU;
-	}
 	}
 
 void Q_DECL_EXPORT Load_RSU()

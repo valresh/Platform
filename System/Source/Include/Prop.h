@@ -15,14 +15,14 @@ struct IN_DLL CPropInfo
   CStr Val;
 };
 
-struct IN_DLL CProperties
+struct IN_DLL CPropertiesM
 {
 	CMem<CPropInfo,16,16>Props;
 	bool FromProject;
     bool m_bWasLoad;
 
-	CProperties();
-	~CProperties();
+	CPropertiesM();
+	~CPropertiesM();
 	bool LoadProp();
 	bool ReadProp();
 	bool ReadProjectProps();
@@ -39,6 +39,6 @@ struct IN_DLL CProperties
 };
 
 
-extern IN_DLL CProperties PROPS;
+extern IN_DLL CPropertiesM PROPS;
 
 

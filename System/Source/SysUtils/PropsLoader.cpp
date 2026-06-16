@@ -6,16 +6,16 @@
 
 #define PROJECTS_DIR	"projects"
 
-CPropsLoader::CPropsLoader ()
+CPropsLoaderM::CPropsLoaderM ()
 {
   m_errorMsg[0] = '\0';
 }
 
-CPropsLoader::~CPropsLoader ()
+CPropsLoaderM::~CPropsLoaderM ()
 {
 }
 
-void CPropsLoader::GetTokenValue (char *szToken, char *szValue, bool bSecond, int nLen)
+void CPropsLoaderM::GetTokenValue (char *szToken, char *szValue, bool bSecond, int nLen)
 {
   szValue[0] = '\0';
   char *ptr = strchr (szToken, ';');
@@ -36,7 +36,7 @@ g_bServerTCP
 g_nServerPort
 */
 
-bool CPropsLoader::DoLoad (bool bSystem)
+bool CPropsLoaderM::DoLoad (bool bSystem)
 {
   // Открываем системный (bSystem == true) или локальный (bSystem == false) файл настроек
   std::filesystem::path szPath(bSystem ? ROOT_PATH : PROJECT_ROOT);
@@ -64,8 +64,8 @@ bool CPropsLoader::DoLoad (bool bSystem)
         break;
       if ( nCol == 1 )
       {
-        key = szValue;
-        for (propsMap_it_type iterator = m_map.begin(); iterator != m_map.end(); iterator++)
+				key = szValue;
+				for (propsMap_it_type iterator = m_map.begin(); iterator != m_map.end(); iterator++)
         {
           if (lstrcmp(szValue, iterator->first.c_str()) == 0)
           {
@@ -90,7 +90,7 @@ bool CPropsLoader::DoLoad (bool bSystem)
   return true;
 }
 
-bool CPropsLoader::Load ()
+bool CPropsLoaderM::Load ()
 {
   bool bResult = DoLoad (false);
   return bResult; //##//
@@ -147,7 +147,7 @@ bool CPropsLoader::Load ()
   return bResult;
 }
 
-bool CPropsLoader::GetBool (const char *szKeyName, bool& bValue)
+bool CPropsLoaderM::GetBool (const char *szKeyName, bool& bValue)
 {
   char szValue[_MAX_PATH] = "\0";
   if ( !GetString (szKeyName, szValue) )
@@ -157,7 +157,7 @@ bool CPropsLoader::GetBool (const char *szKeyName, bool& bValue)
   return true;
 }
 
-bool CPropsLoader::GetInt (const char *szKeyName, int& nValue)
+bool CPropsLoaderM::GetInt (const char *szKeyName, int& nValue)
 {
   char szValue[_MAX_PATH] = "\0";
   if ( !GetString (szKeyName, szValue) )
@@ -166,7 +166,7 @@ bool CPropsLoader::GetInt (const char *szKeyName, int& nValue)
   return true;
 }
 
-bool CPropsLoader::GetDouble (const char *szKeyName, double& dValue)
+bool CPropsLoaderM::GetDouble (const char *szKeyName, double& dValue)
 {
   char szValue[_MAX_PATH] = "\0";
   if ( !GetString (szKeyName, szValue) )
@@ -180,7 +180,7 @@ bool CPropsLoader::GetDouble (const char *szKeyName, double& dValue)
   return true;
 }
 
-bool CPropsLoader::GetString (const char *szKeyName, char *szValue, int nLen)
+bool CPropsLoaderM::GetString (const char *szKeyName, char *szValue, int nLen)
 {
   propsMap_it_type iterator = m_map.find (szKeyName);
   if ( iterator == m_map.end() )
@@ -193,7 +193,7 @@ bool CPropsLoader::GetString (const char *szKeyName, char *szValue, int nLen)
   return true;
 }
 
-void CPropsLoader::LogInfoDirs ()
+void CPropsLoaderM::LogInfoDirs ()
 {
   // CLogFile::Log ("CPropsLoader: PROJECT_ROOT %s", PROJECT_ROOT);
   // CLogFile::Log ("CPropsLoader: CURR_PROJECT %s", CURR_PROJECT);

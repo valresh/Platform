@@ -1,7 +1,5 @@
 #ifndef DB_H
 #define DB_H
-#include "CommProc.h"
-#include <QSettings>
 
 #undef IN_DLL
 #include <QtCore/qglobal.h>
@@ -11,14 +9,6 @@
 #define IN_DLL Q_DECL_IMPORT
 #endif
 
-struct ObjData
-{
-  CStr Class;
-  CStr Name;
-  char Type;
-  int L;
-  void * pData;
-};
 
 struct IN_DLL DB
 {
@@ -26,7 +16,7 @@ struct IN_DLL DB
   static bool Changet;
   static void Read ( );
   static void Write ( );
-  static ObjData * Find ( const char * Class, const char * Name );
+	static struct ObjData * Find ( const char * Class, const char * Name );
   static void Set( const char * Class, const char * Name,  int L, void * Data );
   static bool Get( const char * Class, const char * Name,  int L_data, void * Data );
   static void Set( const char * Class, const char * Name, const char * Value );

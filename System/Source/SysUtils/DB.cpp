@@ -1,3 +1,4 @@
+#include "CommProc.h"
 #include "DB.h"
 #include <fcntl.h>
 #include <stdlib.h>
@@ -5,6 +6,14 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "Err.h"
+struct ObjData
+{
+	CStr Class;
+	CStr Name;
+	char Type;
+	int L;
+	void * pData;
+};
 
 #define MAX_DATA 10000
 
@@ -65,7 +74,9 @@ void DB::Read ( )
 
 void DB::Write ( )
 {
-  QFile F(Path(SYSTEM_PATH,"DATA/Prop.dat"));
+	if ( !Changet )
+		return;
+	QFile F(Path(SYSTEM_PATH,"DATA/Prop.dat"));
   bool Res = F.exists();
     if ( !F.open( QIODeviceBase::WriteOnly|QIODeviceBase::Truncate ))
     {

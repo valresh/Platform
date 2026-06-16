@@ -13,11 +13,11 @@ typedef std::map<std::string, std::string> propsMap;
 typedef propsMap::iterator propsMap_it_type;
 typedef std::pair <std::string, std::string> char_pair;
 
-class CPropsLoader
+class CPropsLoaderM
 {
   public:
-    CPropsLoader ();
-    ~CPropsLoader ();
+		CPropsLoaderM ();
+		~CPropsLoaderM ();
 
     bool Load ();
     char *GetErrorMsg() { return m_errorMsg; }

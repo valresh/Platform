@@ -1,22 +1,22 @@
 #include "Prop.h"
 #include "PropsLoader.h"
 
-CProperties PROPS;
+CPropertiesM PROPS;
 CModelInfo Info;
 bool UseAlt_CompNames = false;
 
-static CPropsLoader PropLoader;
+static CPropsLoaderM PropLoader;
 
-CProperties::CProperties()
+CPropertiesM::CPropertiesM()
 {
   WasLoad = false;
 }
 
-CProperties::~CProperties()
+CPropertiesM::~CPropertiesM()
 {
 }
 
-bool CProperties::ReadProp()
+bool CPropertiesM::ReadProp()
   {
   if ( WasLoad )
     return true;
@@ -24,27 +24,27 @@ bool CProperties::ReadProp()
   return bResult;
   }
 
-bool CProperties::Get ( const char * Name, double & Val )
+bool CPropertiesM::Get ( const char * Name, double & Val )
   {
   return PropLoader.GetDouble (Name, Val) ? true : false;
   }
 
-bool CProperties::Get ( const char * Name, int & Val )
+bool CPropertiesM::Get ( const char * Name, int & Val )
   {
   return PropLoader.GetInt (Name, Val) ? true : false;
   }
 
-bool CProperties::Get ( const char * Name, bool & Val )
+bool CPropertiesM::Get ( const char * Name, bool & Val )
   {
   return PropLoader.GetBool (Name, Val);
   }
 
-bool CProperties::Get ( const char * Name, char Val[256] )
+bool CPropertiesM::Get ( const char * Name, char Val[256] )
   {
   return PropLoader.GetString (Name, Val);
   }
 
-bool CProperties::LoadProp()
+bool CPropertiesM::LoadProp()
   {
   if ( WasLoad )
     return true;
@@ -54,7 +54,7 @@ bool CProperties::LoadProp()
   return true;
   }
 
-char * CProperties::GetErrorMsg ()
+char * CPropertiesM::GetErrorMsg ()
   {
   return PropLoader.GetErrorMsg ();
   }
